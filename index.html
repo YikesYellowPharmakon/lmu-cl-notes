@@ -20,21 +20,24 @@
 
   /* ---------- 背景: 漂移色块 + 透视网格地板 + 噪点 ---------- */
   .sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-  .blob { position: absolute; width: 46vmax; height: 46vmax; border-radius: 50%; filter: blur(90px); opacity: .42; mix-blend-mode: screen; }
-  .b1 { background: var(--mag); top: -18vmax; left: -12vmax; animation: drift1 26s ease-in-out infinite alternate; }
-  .b2 { background: var(--blu); top: 10vmax; right: -16vmax; animation: drift2 32s ease-in-out infinite alternate; }
-  .b3 { background: var(--red); bottom: -22vmax; left: 18vmax; opacity: .32; animation: drift3 28s ease-in-out infinite alternate; }
-  .b4 { background: var(--cyan); bottom: -10vmax; right: 10vmax; opacity: .22; animation: drift1 36s ease-in-out infinite alternate-reverse; }
+  /* 性能: 色块用径向渐变画柔边 (不用 filter: blur / mix-blend-mode), 只动画 transform, 交给 GPU 合成 */
+  .blob { position: absolute; width: 60vmax; height: 60vmax; border-radius: 50%; opacity: .5; will-change: transform; }
+  .b1 { background: radial-gradient(circle, rgba(199,40,184,.9), rgba(199,40,184,0) 65%); top: -18vmax; left: -12vmax; animation: drift1 26s ease-in-out infinite alternate; }
+  .b2 { background: radial-gradient(circle, rgba(90,169,240,.9), rgba(90,169,240,0) 65%); top: 10vmax; right: -16vmax; animation: drift2 32s ease-in-out infinite alternate; }
+  .b3 { background: radial-gradient(circle, rgba(229,40,26,.9), rgba(229,40,26,0) 65%); bottom: -22vmax; left: 18vmax; opacity: .32; animation: drift3 28s ease-in-out infinite alternate; }
+  .b4 { background: radial-gradient(circle, rgba(79,214,232,.9), rgba(79,214,232,0) 65%); bottom: -10vmax; right: 10vmax; opacity: .22; animation: drift1 36s ease-in-out infinite alternate-reverse; }
   @keyframes drift1 { to { transform: translate(14vmax, 10vmax) scale(1.15); } }
   @keyframes drift2 { to { transform: translate(-12vmax, 14vmax) scale(.9); } }
   @keyframes drift3 { to { transform: translate(10vmax, -12vmax) scale(1.2); } }
-  .floor { position: absolute; left: -50%; right: -50%; bottom: -10vh; height: 60vh; transform-origin: 50% 0;
+  .floor { position: absolute; left: -50%; right: -50%; bottom: -10vh; height: 60vh; transform-origin: 50% 0; overflow: hidden;
            transform: perspective(420px) rotateX(64deg);
-           background-image: linear-gradient(rgba(79,214,232,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(199,40,184,.35) 1px, transparent 1px);
-           background-size: 64px 64px; animation: floor 6s linear infinite;
            -webkit-mask-image: linear-gradient(to bottom, transparent, #000 60%); mask-image: linear-gradient(to bottom, transparent, #000 60%); }
-  @keyframes floor { to { background-position: 0 64px, 0 0; } }
-  .grain { position: absolute; inset: 0; opacity: .09; mix-blend-mode: overlay;
+  /* 网格本身不重绘, 只把整层平移一格 (transform 动画) */
+  .floor::before { content: ""; position: absolute; left: 0; right: 0; top: -64px; bottom: 0; will-change: transform;
+           background-image: linear-gradient(rgba(79,214,232,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(199,40,184,.35) 1px, transparent 1px);
+           background-size: 64px 64px; animation: floor 6s linear infinite; }
+  @keyframes floor { to { transform: translateY(64px); } }
+  .grain { position: absolute; inset: 0; opacity: .05;
            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
   #spark { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
 
@@ -47,14 +50,14 @@
             box-shadow: 3px 3px 0 var(--red); }
   h1 { margin: 18px 0 8px; font-size: clamp(40px, 8.5vw, 80px); line-height: 1.05; font-weight: 900; letter-spacing: -.01em;
        background: var(--holo); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
-       animation: holo 8s linear infinite; filter: drop-shadow(0 0 18px rgba(229,40,26,.35)); word-break: keep-all; }
+       animation: holo 12s linear infinite; word-break: keep-all; }
   @keyframes holo { to { background-position: 300% 0; } }
   .sub { font: 500 14px/1.5 "JetBrains Mono", "SF Mono", Menlo, monospace; color: var(--muted); letter-spacing: .06em; }
 
   /* ---------- 磁带条 ---------- */
   .tapes { position: relative; z-index: 1; margin: 34px 0 6px; }
   .tape { overflow: hidden; white-space: nowrap; padding: 9px 0; font: 800 15px/1 "JetBrains Mono", "SF Mono", Menlo, monospace; letter-spacing: .14em; }
-  .tape span { display: inline-block; animation: tape 60s linear infinite; }
+  .tape span { display: inline-block; will-change: transform; animation: tape 60s linear infinite; }
   .t1 { background: var(--red); color: var(--ink); transform: rotate(-1.6deg); box-shadow: 0 6px 30px rgba(229,40,26,.45); }
   .t2 { background: var(--cyan); color: var(--bg); transform: rotate(1.2deg); margin-top: -4px; }
   .t2 span { animation-direction: reverse; animation-duration: 75s; }
@@ -63,7 +66,7 @@
   /* ---------- 课程跳转 ---------- */
   nav.wrap { display: flex; flex-wrap: wrap; gap: 10px; margin: 30px auto 10px; }
   nav a { --c: var(--red); color: var(--c); text-decoration: none; font: 700 14px/1 "JetBrains Mono", "SF Mono", Menlo, monospace;
-          padding: 9px 14px; border: 2px solid var(--c); border-radius: 999px; background: rgba(27,16,53,.6); backdrop-filter: blur(6px);
+          padding: 9px 14px; border: 2px solid var(--c); border-radius: 999px; background: rgba(27,16,53,.85);
           transition: transform .2s, background .2s, color .2s, box-shadow .2s; }
   nav a:hover { background: var(--c); color: var(--bg); transform: translateY(-3px) rotate(-2deg); box-shadow: 0 8px 24px -6px var(--c); }
 
@@ -71,12 +74,12 @@
   main { padding-bottom: 120px; }
   .course { --c: var(--red); position: relative; margin: 46px 0 0; padding: 22px 22px 10px; border-radius: 22px;
             border: 2px solid transparent;
-            background: linear-gradient(rgba(37,22,64,.86), rgba(27,16,53,.92)) padding-box,
+            background: linear-gradient(rgba(37,22,64,.95), rgba(27,16,53,.97)) padding-box,
                         conic-gradient(from var(--a), var(--c), #C728B8, #4FD6E8, #F5DF4A, var(--c)) border-box;
-            animation: spin 9s linear infinite; backdrop-filter: blur(10px);
+            /* 性能: 不用 backdrop-filter; 全息边框只在鼠标悬停的那张卡片上旋转 */
             box-shadow: 0 20px 60px -30px var(--c); transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
   @keyframes spin { to { --a: 360deg; } }
-  .course:hover { box-shadow: 0 26px 80px -26px var(--c); }
+  .course:hover { box-shadow: 0 26px 80px -26px var(--c); animation: spin 4s linear infinite; }
   .head { display: flex; align-items: center; gap: 18px; margin-bottom: 8px; }
   .num { font: 900 54px/1 "JetBrains Mono", "SF Mono", Menlo, monospace; color: transparent; -webkit-text-stroke: 2px var(--c);
          text-shadow: 4px 4px 0 rgba(229,40,26,.25); flex: none; }
@@ -105,6 +108,7 @@
   /* 进场动画 (只有 JS 生效时才先隐藏) */
   .js .course { opacity: 0; transform: translateY(40px) scale(.98); }
   .js .course.in { opacity: 1; transform: none; transition: opacity .7s, transform .7s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
+  .js .course.in:hover { transition: transform .12s ease-out, box-shadow .35s; }   /* 倾斜跟手, 不拖 0.7s 的过渡 */
 
   @media (max-width: 560px) {
     header.wrap { padding-top: 48px; }
@@ -166,7 +170,7 @@
   <ul class="notes"><li><a href="HP11%20IE/IE-01-课程介绍与信息抽取导论.html"><span class="t">IE 01 · 课程介绍与信息抽取导论</span><span class="s">信息抽取 · 第 1 周: 课程介绍与信息抽取导论</span><span class="go">↗</span></a></li><li><a href="HP11%20IE/IE-02-研讨课与评分标准.html"><span class="t">IE 02 · 研讨课与评分标准</span><span class="s">信息抽取 · 第 2 周研讨课</span><span class="go">↗</span></a></li><li><a href="HP11%20IE/IE-03-基础与传统信息抽取.html"><span class="t">IE 03 · 基础与传统信息抽取</span><span class="s">信息抽取 · 第 2 周: 基础与传统信息抽取</span><span class="go">↗</span></a></li><li><a href="HP11%20IE/IE-合集-文献阅读.html"><span class="t">IE 合集 · 文献阅读</span><span class="s">信息抽取 · 文献阅读合集</span><span class="go">↗</span></a></li></ul>
 </section>
 <section class="course" id="np1eips" style="--c:#4FD6E8">
-  <div class="head"><span class="num">09</span><div class="name"><h2>第 5 章: 函数, 对象与类</h2><span class="tag">NP1 EIPS</span><span class="cnt">17</span></div></div>
+  <div class="head"><span class="num">09</span><div class="name"><h2>第 3 章: 基本数据类型, 表达式与变量</h2><span class="tag">NP1 EIPS</span><span class="cnt">17</span></div></div>
   <ul class="notes"><li><a href="NP1%20EIPS/EIPS-00-欢迎与组织.html"><span class="t">EIPS 00 · 欢迎与组织</span><span class="s">欢迎与组织</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-01-导论与基本概念.html"><span class="t">EIPS 01 · 导论与基本概念</span><span class="s">第 1 章: 导论与基本概念</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-02-描述语法的方法.html"><span class="t">EIPS 02 · 描述语法的方法</span><span class="s">第 2 章: 描述语法的方法</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-03-基本数据类型表达式与变量.html"><span class="t">EIPS 03 · 基本数据类型表达式与变量</span><span class="s">第 3 章: 基本数据类型, 表达式与变量</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-04-语句与控制结构.html"><span class="t">EIPS 04 · 语句与控制结构</span><span class="s">第 4 章: 语句与控制结构</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-05-函数对象与类.html"><span class="t">EIPS 05 · 函数对象与类</span><span class="s">第 5 章: 函数, 对象与类</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-06-类与对象中的控制结构.html"><span class="t">EIPS 06 · 类与对象中的控制结构</span><span class="s">第 6 章: 类与对象中的控制结构</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-07-类之间的关联与继承.html"><span class="t">EIPS 07 · 类之间的关联与继承</span><span class="s">第 7 章: 类之间的关联与继承</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-08-数据结构I序列类型.html"><span class="t">EIPS 08 · 数据结构 I 序列类型</span><span class="s">第 8 章: 数据结构 I – 序列类型</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-09-数据结构II集合与字典.html"><span class="t">EIPS 09 · 数据结构 II 集合与字典</span><span class="s">第 9 章: 数据结构 II – 集合与字典</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-10-算法复杂度与排序方法.html"><span class="t">EIPS 10 · 算法复杂度与排序方法</span><span class="s">第 10 章: 算法复杂度与排序方法</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-11-质量保证.html"><span class="t">EIPS 11 · 质量保证</span><span class="s">第 11 章: 质量保证</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-12-递归.html"><span class="t">EIPS 12 · 递归</span><span class="s">第 12 章: 递归</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-13-树.html"><span class="t">EIPS 13 · 树</span><span class="s">第 13 章: 树</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-14-异常与异常处理.html"><span class="t">EIPS 14 · 异常与异常处理</span><span class="s">第 14 章: 异常与异常处理</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-15-软件开发.html"><span class="t">EIPS 15 · 软件开发</span><span class="s">第 15 章: 软件开发</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-合集-练习单.html"><span class="t">EIPS 合集 · 练习单</span><span class="s">信息学导论: 编程与软件开发 · 练习单合集</span><span class="go">↗</span></a></li></ul>
 </section>
 <section class="course" id="np2mgtn" style="--c:#F5DF4A">
@@ -194,11 +198,17 @@
   // 卡片随鼠标轻微倾斜
   if (!reduce && window.matchMedia('(hover: hover)').matches) {
     cards.forEach(function (c) {
-      c.addEventListener('mousemove', function (ev) {
-        var r = c.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width - .5, y = (ev.clientY - r.top) / r.height - .5;
-        c.style.transform = 'perspective(900px) rotateX(' + (-y * 3) + 'deg) rotateY(' + (x * 4) + 'deg)';
+      var raf = 0, ev = null;
+      c.addEventListener('mousemove', function (e) {
+        ev = e;
+        if (raf) return;   // 每帧最多算一次
+        raf = requestAnimationFrame(function () {
+          raf = 0;
+          var r = c.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width - .5, y = (ev.clientY - r.top) / r.height - .5;
+          c.style.transform = 'perspective(900px) rotateX(' + (-y * 3) + 'deg) rotateY(' + (x * 4) + 'deg)';
+        });
       });
-      c.addEventListener('mouseleave', function () { c.style.transform = ''; });
+      c.addEventListener('mouseleave', function () { if (raf) { cancelAnimationFrame(raf); raf = 0; } c.style.transform = ''; });
     });
   }
   // 彩虹火花光标拖尾 (仿主题的 cursor-sparks-rainbow)
@@ -208,11 +218,11 @@
   function size() { cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
   size(); addEventListener('resize', size);
   addEventListener('mousemove', function (e) {
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 2; i++) {
       hue = (hue + 7) % 360;
       ps.push({ x: e.clientX, y: e.clientY, vx: (Math.random() - .5) * 2.4, vy: (Math.random() - .5) * 2.4 - .6, life: 1, h: hue, r: 1.5 + Math.random() * 2.5 });
     }
-    if (ps.length > 220) ps.splice(0, ps.length - 220);
+    if (ps.length > 120) ps.splice(0, ps.length - 120);
     if (!running) { running = true; requestAnimationFrame(tick); }
   });
   function tick() {
@@ -221,9 +231,11 @@
     for (var i = ps.length - 1; i >= 0; i--) {
       var p = ps[i]; p.x += p.vx; p.y += p.vy; p.vy += .05; p.life -= .025;
       if (p.life <= 0) { ps.splice(i, 1); continue; }
-      ctx.beginPath(); ctx.fillStyle = 'hsla(' + p.h + ',95%,62%,' + p.life + ')';
-      ctx.shadowColor = 'hsl(' + p.h + ',95%,60%)'; ctx.shadowBlur = 12;
-      ctx.arc(p.x, p.y, p.r * p.life, 0, 6.283); ctx.fill();
+      // 不用 shadowBlur (很慢): 先画一圈半透明大圆当光晕, 再画实心小圆
+      ctx.fillStyle = 'hsla(' + p.h + ',95%,62%,' + (p.life * .25) + ')';
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r * p.life * 3, 0, 6.283); ctx.fill();
+      ctx.fillStyle = 'hsla(' + p.h + ',95%,66%,' + p.life + ')';
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r * p.life, 0, 6.283); ctx.fill();
     }
     if (ps.length) requestAnimationFrame(tick); else { running = false; ctx.clearRect(0, 0, innerWidth, innerHeight); }
   }
