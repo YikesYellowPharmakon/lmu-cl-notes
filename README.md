@@ -2,11 +2,21 @@
 
 每门课一个文件夹, 里面是单文件 HTML 笔记 (中文讲解 + 原文卡片, 深色主题与动效视觉层都内嵌在文件中).
 
-**在线阅读 (无需下载): https://yikesyellowpharmakon.github.io/lmu-cl-notes/**
+在线阅读: https://yikesyellowpharmakon.github.io/lmu-cl-notes/
 
-## 下载到本地离线看
-1. 第一次: `git clone` 这个仓库 (或在 GitHub 网页上 Code → Download ZIP).
-2. 用浏览器打开根目录的 `index.html`, 从总目录点进各份笔记. 不需要联网, 不需要安装任何东西.
-3. 以后获取最新进度: 在仓库文件夹里运行 `git pull` (或用 GitHub Desktop 点 Fetch/Pull).
+## 推荐: 下载到本地看
+
+笔记里的图片都直接嵌在 HTML 文件中, 有的笔记有 2–4 MB. 在线打开时每份都要先完整下载, 网速慢时要等好几秒; 下载到本地后:
+
+- 打开每份笔记都是瞬间的, 也不需要联网;
+- 用 `git pull` 一条命令就能拿到最新进度.
+
+(笔记打开以后, 滚动和动效在本地和在线是一样流畅的, 差别只在打开速度.)
+
+## 怎么下载和更新
+1. 第一次: `git clone https://github.com/YikesYellowPharmakon/lmu-cl-notes.git`
+   (或用 GitHub Desktop 克隆; 也可以在 GitHub 网页上 Code → Download ZIP, 但 ZIP 不能用 git pull 更新).
+2. 用浏览器打开根目录的 `index.html`, 从总目录点进各份笔记.
+3. 以后获取最新进度: 在仓库文件夹里运行 `git pull` (Mac 用终端, Windows 用 Git Bash 或 PowerShell; 或在 GitHub Desktop 里点 Fetch origin → Pull).
 
 SMIS 和 MGTN 的公式用到同文件夹下的 `katex/`, 请保持文件夹结构不变.
