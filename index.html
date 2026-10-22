@@ -6,809 +6,227 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LMU 计算语言学 · 笔记总目录</title>
 <style>
-  :root { --bg:#13151e; --ink:#e6e8f0; --muted:#9aa1b8; --line:#2f3448; --card:#1b1e2b; --code:#10121a;
-          --accent:#a9b6ff; --chip:#262a3c; --zh:#181b27; --add:#171a25; --add-line:#8f9ad6; --warn:#2a1a1c; --warn-line:#ff7b72; }
+  /* 配色取自 omacosy 主题「no-bad-memories」(~/.config/omarchy/current/theme/colors.toml) */
+  @property --a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+  :root { --bg:#1B1035; --bg2:#251640; --ink:#F4EEF8; --muted:#C5B3CD; --dim:#6E5C8C;
+          --red:#E5281A; --mag:#C728B8; --cyan:#4FD6E8; --yel:#F5DF4A; --grn:#8FD94A; --blu:#5AA9F0;
+          --holo: linear-gradient(90deg,#E5281A,#F5DF4A,#8FD94A,#4FD6E8,#5AA9F0,#C728B8,#E5281A); }
   * { box-sizing: border-box; }
-  html { background: var(--bg); }
-  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.7 "PingFang SC", "Songti SC", sans-serif; }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
-  header .wrap { padding-top: 48px; }
-  h1 { font: 600 28px/1.35 "Iowan Old Style", Palatino, "Songti SC", serif; margin: 0 0 6px; }
-  h2 { font: 600 22px/1.4 "Iowan Old Style", Palatino, "Songti SC", serif; margin: 40px 0 12px; word-break: keep-all; }
-  .de-title { display: block; font-size: .62em; font-weight: 400; color: var(--muted); }
-  h1 .de-title { font-size: 15px; }
-  nav { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 18px 0 8px; }
-  nav a { color: var(--accent); text-decoration: none; font-size: 14px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 6px 18px; }
-  .notes { list-style: none; margin: 0; padding: 0; }
-  .notes li + li { border-top: 1px solid var(--line); }
-  .notes a { display: block; padding: 10px 0; color: var(--ink); text-decoration: none; }
-  .notes a:hover .t { color: var(--accent); }
-  .notes .t { display: block; font-weight: 600; }
-  .notes .s { display: block; font-size: 13.5px; color: var(--muted); }
-  .zh { background: var(--zh); border-left: 3px solid var(--accent); border-radius: 8px; padding: 10px 16px; color: var(--ink); font-size: 15px; }
-  footer { color: var(--muted); font-size: 13px; padding: 40px 0 60px; }
-</style>
-<style id="glass">
-  /* ===== 玻璃霓虹层 (Glass / Neon) v13 · 只管视觉特效, 由 scripts/apply_glass.py 插在 </head> 前; 不改字号、版心、间距 ===== */
-  :root {
-    --glow: var(--accent);
-    --glow2: #7fd3ff;
-    --tint: color-mix(in srgb, var(--glow) 55%, #ffffff);          /* 课程色的亮色调, 进度条/色条/标题波动都用它, 跟着课程走 */
-    --glass: color-mix(in srgb, var(--card) 62%, transparent);
-    --glass-strong: color-mix(in srgb, var(--card) 80%, transparent);
-    --edge: color-mix(in srgb, #ffffff 9%, transparent);
-    --mono: "JetBrainsMono Nerd Font", "JetBrainsMono NF", "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  html { background: var(--bg); scroll-behavior: smooth; }
+  body { margin: 0; color: var(--ink); background: var(--bg); overflow-x: hidden;
+         font: 16px/1.6 "PingFang SC", "Helvetica Neue", sans-serif; }
+  ::selection { background: #8E1C17; color: var(--ink); }
+  .mono { font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace; }
+
+  /* ---------- 背景: 漂移色块 + 透视网格地板 + 噪点 ---------- */
+  .sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .blob { position: absolute; width: 46vmax; height: 46vmax; border-radius: 50%; filter: blur(90px); opacity: .42; mix-blend-mode: screen; }
+  .b1 { background: var(--mag); top: -18vmax; left: -12vmax; animation: drift1 26s ease-in-out infinite alternate; }
+  .b2 { background: var(--blu); top: 10vmax; right: -16vmax; animation: drift2 32s ease-in-out infinite alternate; }
+  .b3 { background: var(--red); bottom: -22vmax; left: 18vmax; opacity: .32; animation: drift3 28s ease-in-out infinite alternate; }
+  .b4 { background: var(--cyan); bottom: -10vmax; right: 10vmax; opacity: .22; animation: drift1 36s ease-in-out infinite alternate-reverse; }
+  @keyframes drift1 { to { transform: translate(14vmax, 10vmax) scale(1.15); } }
+  @keyframes drift2 { to { transform: translate(-12vmax, 14vmax) scale(.9); } }
+  @keyframes drift3 { to { transform: translate(10vmax, -12vmax) scale(1.2); } }
+  .floor { position: absolute; left: -50%; right: -50%; bottom: -10vh; height: 60vh; transform-origin: 50% 0;
+           transform: perspective(420px) rotateX(64deg);
+           background-image: linear-gradient(rgba(79,214,232,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(199,40,184,.35) 1px, transparent 1px);
+           background-size: 64px 64px; animation: floor 6s linear infinite;
+           -webkit-mask-image: linear-gradient(to bottom, transparent, #000 60%); mask-image: linear-gradient(to bottom, transparent, #000 60%); }
+  @keyframes floor { to { background-position: 0 64px, 0 0; } }
+  .grain { position: absolute; inset: 0; opacity: .09; mix-blend-mode: overlay;
+           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  #spark { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
+
+  .wrap { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- 页首 ---------- */
+  header { padding: 72px 20px 26px; }
+  .kicker { display: inline-block; font: 600 12px/1 "JetBrains Mono", "SF Mono", Menlo, monospace; letter-spacing: .22em; text-transform: uppercase;
+            color: var(--bg); background: var(--yel); padding: 6px 10px; border-radius: 4px; transform: rotate(-2deg);
+            box-shadow: 3px 3px 0 var(--red); }
+  h1 { margin: 18px 0 8px; font-size: clamp(40px, 8.5vw, 80px); line-height: 1.05; font-weight: 900; letter-spacing: -.01em;
+       background: var(--holo); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+       animation: holo 8s linear infinite; filter: drop-shadow(0 0 18px rgba(229,40,26,.35)); word-break: keep-all; }
+  @keyframes holo { to { background-position: 300% 0; } }
+  .sub { font: 500 14px/1.5 "JetBrains Mono", "SF Mono", Menlo, monospace; color: var(--muted); letter-spacing: .06em; }
+
+  /* ---------- 磁带条 ---------- */
+  .tapes { position: relative; z-index: 1; margin: 34px 0 6px; }
+  .tape { overflow: hidden; white-space: nowrap; padding: 9px 0; font: 800 15px/1 "JetBrains Mono", "SF Mono", Menlo, monospace; letter-spacing: .14em; }
+  .tape span { display: inline-block; animation: tape 60s linear infinite; }
+  .t1 { background: var(--red); color: var(--ink); transform: rotate(-1.6deg); box-shadow: 0 6px 30px rgba(229,40,26,.45); }
+  .t2 { background: var(--cyan); color: var(--bg); transform: rotate(1.2deg); margin-top: -4px; }
+  .t2 span { animation-direction: reverse; animation-duration: 75s; }
+  @keyframes tape { to { transform: translateX(-50%); } }
+
+  /* ---------- 课程跳转 ---------- */
+  nav { display: flex; flex-wrap: wrap; gap: 10px; margin: 30px auto 10px; }
+  nav a { --c: var(--red); color: var(--c); text-decoration: none; font: 700 14px/1 "JetBrains Mono", "SF Mono", Menlo, monospace;
+          padding: 9px 14px; border: 2px solid var(--c); border-radius: 999px; background: rgba(27,16,53,.6); backdrop-filter: blur(6px);
+          transition: transform .2s, background .2s, color .2s, box-shadow .2s; }
+  nav a:hover { background: var(--c); color: var(--bg); transform: translateY(-3px) rotate(-2deg); box-shadow: 0 8px 24px -6px var(--c); }
+
+  /* ---------- 课程卡片: 旋转的全息边框 ---------- */
+  main { padding-bottom: 120px; }
+  .course { --c: var(--red); position: relative; margin: 46px 0 0; padding: 22px 22px 10px; border-radius: 22px;
+            border: 2px solid transparent;
+            background: linear-gradient(rgba(37,22,64,.86), rgba(27,16,53,.92)) padding-box,
+                        conic-gradient(from var(--a), var(--c), #C728B8, #4FD6E8, #F5DF4A, var(--c)) border-box;
+            animation: spin 9s linear infinite; backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px -30px var(--c); transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
+  @keyframes spin { to { --a: 360deg; } }
+  .course:hover { box-shadow: 0 26px 80px -26px var(--c); }
+  .head { display: flex; align-items: center; gap: 18px; margin-bottom: 8px; }
+  .num { font: 900 54px/1 "JetBrains Mono", "SF Mono", Menlo, monospace; color: transparent; -webkit-text-stroke: 2px var(--c);
+         text-shadow: 4px 4px 0 rgba(229,40,26,.25); flex: none; }
+  .name { min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
+  h2 { margin: 0; font-size: clamp(20px, 3.4vw, 27px); line-height: 1.25; word-break: keep-all; width: 100%; }
+  .tag { font: 700 12px/1 "JetBrains Mono", "SF Mono", Menlo, monospace; color: var(--bg); background: var(--c); padding: 5px 8px; border-radius: 5px; }
+  .cnt { font: 600 12px/1 "JetBrains Mono", "SF Mono", Menlo, monospace; color: var(--c); border: 1px solid var(--c); padding: 4px 7px; border-radius: 5px; }
+  .cnt::after { content: " 份笔记"; }
+
+  .notes { list-style: none; margin: 6px 0 0; padding: 0; }
+  .notes li + li { border-top: 1px dashed rgba(197,179,205,.18); }
+  .notes a { position: relative; display: block; padding: 13px 40px 13px 16px; color: var(--ink); text-decoration: none; border-radius: 12px;
+             transition: transform .22s, background .22s; }
+  .notes a::before { content: ""; position: absolute; left: 0; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%;
+                     background: var(--c); box-shadow: 0 0 10px var(--c); transition: height .22s, margin-top .22s, top .22s, border-radius .22s; }
+  .notes a:hover { background: linear-gradient(90deg, color-mix(in srgb, var(--c) 22%, transparent), transparent 80%); transform: translateX(6px); }
+  .notes a:hover::before { height: 70%; margin-top: 0; top: 15%; border-radius: 3px; }
+  .notes .t { display: block; font-weight: 700; font-size: 16.5px; }
+  .notes .s { display: block; font-size: 13.5px; color: var(--muted); margin-top: 2px; }
+  .notes .go { position: absolute; right: 12px; top: 50%; transform: translate(-6px, -50%); opacity: 0; color: var(--c);
+               font-weight: 900; transition: opacity .2s, transform .2s; }
+  .notes a:hover .go { opacity: 1; transform: translate(0, -50%); }
+  .notes a:hover .t { background: var(--holo); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+                      animation: holo 3s linear infinite; }
+
+  /* 进场动画 (只有 JS 生效时才先隐藏) */
+  .js .course { opacity: 0; transform: translateY(40px) scale(.98); }
+  .js .course.in { opacity: 1; transform: none; transition: opacity .7s, transform .7s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
+
+  @media (max-width: 560px) {
+    header { padding-top: 48px; }
+    .course { padding: 18px 14px 6px; border-radius: 18px; }
+    .head { gap: 12px; }
+    .num { font-size: 40px; }
+    .notes a { padding-right: 28px; }
   }
-  html { background: var(--bg); }
-  body {
-    background:
-      radial-gradient(1100px 600px at 50% -15%, color-mix(in srgb, var(--glow) 9%, transparent), transparent 65%),
-      var(--bg);
-    background-attachment: fixed;
-  }
-  ::selection { background: color-mix(in srgb, var(--glow) 38%, transparent); color: #fff; }
-
-  /* 背景等高线: 固定画布上一张缓慢呼吸的地形图, 鼠标处隆起山丘 (由脚本绘制) */
-  #contour { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-  /* 光标拖影: 覆盖全屏的透明画布, 不拦截鼠标 */
-  #trail { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 60; pointer-events: none; }
-
-  /* 顶部阅读进度条: 一条极淡的轨道 + 课程色渐变的进度 + 末端一颗发光的光点; 颜色全部来自课程主色 */
-  @property --p { syntax: "<number>"; inherits: true; initial-value: 0; }
-  #progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 50; pointer-events: none;
-    background: color-mix(in srgb, var(--glow) 10%, transparent); }
-  #progress::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p) * 100%);
-    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 15%, transparent), color-mix(in srgb, var(--glow) 75%, transparent) 60%, var(--glow) 88%, var(--tint));
-    box-shadow: 0 0 6px color-mix(in srgb, var(--glow) 70%, transparent), 0 0 14px color-mix(in srgb, var(--glow) 35%, transparent); border-radius: 0 2px 2px 0; }
-  #progress::after { content: ""; position: absolute; top: 50%; left: calc(var(--p) * 100%); width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%;
-    background: var(--tint); opacity: min(1, calc(var(--p) * 60));
-    box-shadow: 0 0 6px 1px var(--glow), 0 0 16px 4px color-mix(in srgb, var(--glow) 45%, transparent); }
-  @supports (animation-timeline: scroll()) {
-    #progress { animation: prog linear both; animation-timeline: scroll(root); }
-    @keyframes prog { from { --p: 0; } to { --p: 1; } }
-  }
-
-  /* 标题 */
-  h1 { background: linear-gradient(100deg, #fff 0%, var(--glow) 55%, var(--glow2) 100%);
-    -webkit-background-clip: text; background-clip: text; color: transparent; }
-  h1 .de-title { -webkit-text-fill-color: var(--muted); color: var(--muted); }
-  h2 { border-top: 0 !important; position: relative; }
-  .part:has(> h2) { border-top-color: transparent !important; }   /* 练习单的分节线由 h2 的渐变线代替, 不出现两条线 */
-  h2::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px;
-    background: linear-gradient(90deg, var(--glow), color-mix(in srgb, var(--glow2) 50%, transparent) 40%, transparent); opacity: .7; }
-
-  /* 小节标题 h2 / 三级标题 h3 的中文主标题: 脚本在运行时把它包进 .ht (文件本身不变).
-     h2 的 .ht 从一开始就用「文字裁切渐变」绘制 (起始是纯正文色), 解密后只是让渐变里的光带开始流动;
-     渲染方式前后不变, 所以结束时不会闪、德语副标题也不会跟着变. */
-  h2 .ht { background: linear-gradient(90deg, var(--ink) 0 100%); background-size: 200% 100%;
-    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  h2.wave .ht { background-image: linear-gradient(90deg, var(--ink) 0%, var(--ink) 18%, var(--glow) 34%, var(--tint) 42%, var(--glow) 50%, var(--ink) 66%, var(--ink) 100%);
-    animation: hwave 9s linear infinite; }
-  @keyframes hwave { from { background-position: 0% 0; } to { background-position: -200% 0; } }
-
-  /* 解密 / 信号干扰: 原字隐藏但仍占原位, 乱码画在 ::after 叠层里, 居中压在原字上, 不参与排版 */
-  .ch { position: relative; }
-  .ch.x { visibility: hidden; }
-  .ch.x::after { content: attr(data-g); visibility: visible; position: absolute; left: 50%; top: 0; transform: translateX(-50%);
-    white-space: pre; color: var(--glow); -webkit-text-fill-color: var(--glow); opacity: .85; pointer-events: none; }
-
-  /* ===== 页首目录: 和卡片同一套玻璃面板, 每项带两位编号 (CSS 计数, 不改文件) ===== */
-  header nav, body > nav { counter-reset: toc; display: flex; flex-wrap: wrap; gap: 2px 4px; margin-top: 14px; padding: 30px 10px 10px;
-    position: relative; border-radius: 14px; background: var(--glass); border: 1px solid var(--edge);
-    -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
-    box-shadow: 0 10px 30px -14px rgba(0,0,0,.6), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent); }
-  body > nav { width: calc(min(760px, 100%) - 44px) !important; max-width: none !important; margin: 14px auto 0 !important; padding: 30px 10px 10px !important; box-sizing: border-box; }
-  @media (max-width: 560px) { body > nav { width: calc(100% - 32px) !important; } }
-  header nav::before, body > nav::before { content: "目录"; position: absolute; left: 14px; top: 9px;
-    font: 600 11px/1 var(--mono); letter-spacing: .12em; color: color-mix(in srgb, var(--glow) 75%, var(--muted)); }
-  header nav::after, body > nav::after { content: ""; position: absolute; left: 14px; right: 14px; top: 23px; height: 1px;
-    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 45%, transparent), transparent 70%); }
-  header nav a, body > nav a { counter-increment: toc; display: inline-flex; align-items: baseline; gap: 6px;
-    background: transparent !important; border: 0 !important; border-radius: 8px; padding: 4px 9px !important;
-    color: var(--ink) !important; text-decoration: none; position: relative; transition: background-color .2s, color .2s; }
-  header nav a::before, body > nav a::before { content: counter(toc, decimal-leading-zero);
-    font: 500 10.5px/1 var(--mono); color: color-mix(in srgb, var(--glow) 60%, var(--muted)); }
-  header nav a:hover, body > nav a:hover { background: color-mix(in srgb, var(--glow) 10%, transparent) !important; }
-  header nav a.active, body > nav a.active { color: var(--glow) !important; background: color-mix(in srgb, var(--glow) 12%, transparent) !important; }
-  header nav a.active::after, body > nav a.active::after { content: ""; position: absolute; left: 9px; right: 9px; bottom: 0; height: 1.5px; border-radius: 2px;
-    background: var(--glow); box-shadow: 0 0 8px var(--glow); }
-
-  /* ===== 浮动胶囊目录 ===== */
-  #toc-pill { position: fixed; top: 12px; left: 50%; z-index: 45; transform: translate(-50%, -150%);
-    transition: transform .4s cubic-bezier(.2,.8,.2,1), opacity .3s; opacity: 0; width: min(92vw, 440px); font: 13px/1.4 "PingFang SC", sans-serif; }
-  #toc-pill.show { transform: translate(-50%, 0); opacity: 1; }
-  #toc-pill .cap { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; margin: 0 auto; width: fit-content; max-width: 100%;
-    padding: 6px 14px 6px 8px; border-radius: 999px; color: var(--ink); white-space: nowrap;
-    background: color-mix(in srgb, var(--card) 90%, #000); border: 1px solid color-mix(in srgb, var(--glow) 30%, var(--edge));
-    -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
-    box-shadow: 0 10px 28px -10px rgba(0,0,0,.8), 0 0 20px -8px color-mix(in srgb, var(--glow) 60%, transparent); }
-  #toc-pill .ring { width: 20px; height: 20px; border-radius: 50%; flex: none; position: relative;
-    background: conic-gradient(var(--glow) calc(var(--rp, 0) * 360deg), color-mix(in srgb, var(--glow) 16%, transparent) 0); }
-  #toc-pill .ring::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--card); box-shadow: inset 0 0 6px color-mix(in srgb, var(--glow) 35%, transparent); }
-  #toc-pill .idx { font: 600 11.5px/1 var(--mono); color: var(--glow); }
-  #toc-pill .cur { overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
-  #toc-pill .chev { opacity: .55; font-size: 10px; transition: transform .25s; }
-  #toc-pill.open .chev { transform: rotate(180deg); }
-  #toc-pill .panel { counter-reset: tp; margin-top: 8px; padding: 34px 8px 8px; border-radius: 16px; display: none; position: relative;
-    background: color-mix(in srgb, var(--card) 94%, #000); border: 1px solid color-mix(in srgb, var(--glow) 18%, var(--edge));
-    -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%);
-    box-shadow: 0 22px 50px -14px rgba(0,0,0,.85), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent); max-height: 62vh; overflow-y: auto; }
-  #toc-pill .panel::before { content: "目录 · " attr(data-pct); position: absolute; left: 16px; top: 12px;
-    font: 600 11px/1 var(--mono); letter-spacing: .1em; color: color-mix(in srgb, var(--glow) 75%, var(--muted)); }
-  #toc-pill .panel::after { content: ""; position: absolute; left: 16px; right: 16px; top: 27px; height: 1px;
-    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 45%, transparent), transparent 75%); }
-  #toc-pill.open .panel { display: block; animation: panel-in .22s ease-out; }
-  @keyframes panel-in { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: none; } }
-  #toc-pill .panel a { counter-increment: tp; display: flex; align-items: baseline; gap: 10px; padding: 7px 12px 7px 14px; border-radius: 10px;
-    color: var(--ink); text-decoration: none; position: relative; transition: background-color .15s; }
-  #toc-pill .panel a::before { content: counter(tp, decimal-leading-zero); font: 500 11px/1 var(--mono); color: var(--muted); min-width: 18px; }
-  #toc-pill .panel a:hover { background: color-mix(in srgb, var(--glow) 10%, transparent); }
-  #toc-pill .panel a.active { color: var(--glow); background: color-mix(in srgb, var(--glow) 13%, transparent); }
-  #toc-pill .panel a.active::before { color: var(--glow); }
-  #toc-pill .panel a.active::after { content: ""; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 2px; border-radius: 2px; background: var(--glow); box-shadow: 0 0 8px var(--glow); }
-
-  /* 卡片层次: 原文 = 明亮玻璃, 讲解 = 带色玻璃, 补充 = 虚光, 红框 = 红色辉光 */
-  .card { background: var(--glass); border: 1px solid var(--edge);
-    -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
-    box-shadow: 0 10px 30px -12px rgba(0,0,0,.6), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
-    position: relative; isolation: isolate; }
-  .zh { background: color-mix(in srgb, var(--zh) 70%, transparent);
-    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-left-color: transparent !important; }
-  .add { background: color-mix(in srgb, var(--add) 55%, transparent);
-    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-  .warn { background: color-mix(in srgb, #3a1518 65%, transparent);
-    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-left-color: transparent !important; }
-  /* ===== 左侧色条 v2: 讲解框、红框、补充框、原文卡片里的定义框统一 =====
-     由三部分组成: 顶端一个发光的节点, 一根两端渐隐的细线, 一段沿线缓慢往下流动的亮光 (像数据在线路里传输);
-     框的左边缘还有一层淡淡的同色光晕, 让色条「照亮」框内. 颜色由 --bar / --bar-tint 决定, 默认是课程色. */
-  .zh, .def { --bar: var(--glow); --bar-tint: var(--tint); }
-  .warn { --bar: var(--warn-line); --bar-tint: color-mix(in srgb, var(--warn-line) 55%, #fff); }
-  .add { --bar: var(--add-line); --bar-tint: color-mix(in srgb, var(--add-line) 55%, #fff); }
-  .zh, .warn, .add, .def { border-left-color: transparent !important; }
-  .def { position: relative; isolation: isolate; border-left-width: 3px !important; border-left-style: solid !important;
-    background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 10%, transparent), transparent 90px), color-mix(in srgb, var(--chip) 80%, transparent) !important; }
-  .zh { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 9%, transparent), transparent 110px), color-mix(in srgb, var(--zh) 70%, transparent); }
-  .warn { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 10%, transparent), transparent 110px), color-mix(in srgb, #3a1518 65%, transparent); }
-  .add { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 6%, transparent), transparent 90px), color-mix(in srgb, var(--add) 55%, transparent); }
-  .zh::before, .warn::before, .def::before{
-    content: ""; position: absolute; left: -6px; top: 6px; bottom: 6px; width: 9px; pointer-events: none; z-index: 1;
-    background:
-      radial-gradient(circle at 50% 5px, var(--bar-tint) 0 1.6px, color-mix(in srgb, var(--bar) 70%, transparent) 2.4px, transparent 4.5px) no-repeat,
-      linear-gradient(180deg, transparent, var(--bar-tint) 45%, #fff 50%, var(--bar-tint) 55%, transparent) 50% -60% / 2px 34% no-repeat,
-      linear-gradient(180deg, transparent 6px, color-mix(in srgb, var(--bar) 85%, transparent) 14px, color-mix(in srgb, var(--bar) 75%, transparent) 80%, transparent) 50% 0 / 2px 100% no-repeat;
-    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bar) 70%, transparent)) drop-shadow(0 0 8px color-mix(in srgb, var(--bar) 30%, transparent));
-    animation: bar-flow 5.5s cubic-bezier(.45,0,.25,1) infinite; animation-delay: var(--bar-delay, 0s);
-    transition: filter .3s; }
-  /* 补充框: ::before 已用来显示「补充」小标题, 色条改用 ::after 画成虚线 + 空心节点 */
-  .add::after {
-    content: ""; position: absolute; left: -6px; top: 6px; bottom: 6px; width: 9px; pointer-events: none; z-index: 1; border-radius: 0;
-    inset: 6px auto 6px -6px; opacity: .85;
-    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bar) 60%, transparent));
-    background:
-      radial-gradient(circle at 50% 5px, var(--bar-tint) 0 1.4px, transparent 2.2px, transparent 3px, color-mix(in srgb, var(--bar) 60%, transparent) 3.4px, transparent 4.4px) no-repeat,
-      linear-gradient(transparent, transparent) 50% 0 / 2px 0 no-repeat,
-      repeating-linear-gradient(180deg, color-mix(in srgb, var(--bar) 80%, transparent) 0 5px, transparent 5px 10px) 50% 12px / 2px calc(100% - 18px) no-repeat;
-    -webkit-mask: none; mask: none;
-    animation: none; }
-  @keyframes bar-flow {
-    0%   { background-position: 0 0, 50% -60%, 50% 0; }
-    70%  { background-position: 0 0, 50% 160%, 50% 0; }
-    100% { background-position: 0 0, 50% 160%, 50% 0; } }
-  .zh.lit::before, .warn.lit::before, .add.lit::after, .def:hover::before {
-    filter: drop-shadow(0 0 4px var(--bar)) drop-shadow(0 0 12px color-mix(in srgb, var(--bar) 45%, transparent)); animation-duration: 2.6s; }
-
-  /* 卡片聚光灯: 鼠标所在的卡片里, 以光标为中心亮起柔光, 边框离光标近的一段也变亮 (位置由脚本写进 --mx / --my) */
-  .zh, .add, .warn { position: relative; isolation: isolate; }
-  .card::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; z-index: -1; pointer-events: none;
-    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--glow) 85%, #fff), transparent 70%);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    opacity: 0; transition: opacity .3s; }
-  .card::after, .zh::after, .warn::after { content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; pointer-events: none;
-    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--glow) 11%, transparent), transparent 65%);
-    opacity: 0; transition: opacity .3s; }
-  .warn::after { background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--warn-line) 10%, transparent), transparent 65%); }
-  .card.lit::before, .card.lit::after, .zh.lit::after, .warn.lit::after { opacity: 1; }
-  .add.lit::after { opacity: 1; filter: drop-shadow(0 0 5px var(--bar)); }
-
-  /* ===== 代码块: 脚本在运行时把每个 <pre> 包进 .codebox (文件不变): 顶部标题栏 = 三个圆点 + 语言 + 复制按钮 ===== */
-  pre, code, .folie, .slide { font-family: var(--mono) !important; }
-  pre, code { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
-  .folie { color: color-mix(in srgb, var(--glow) 70%, var(--muted)) !important; }
-  .codebox { position: relative; margin: 12px 0; border-radius: 12px; overflow: hidden; min-width: 0;
-    background: color-mix(in srgb, var(--code) 90%, transparent);
-    border: 1px solid color-mix(in srgb, var(--glow) 20%, var(--edge));
-    box-shadow: 0 14px 30px -16px rgba(0,0,0,.85), inset 0 1px 0 color-mix(in srgb, #fff 5%, transparent); }
-  .codebox::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: 1;
-    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--glow) 55%, transparent), transparent); }
-  .cb-head { display: flex; align-items: center; gap: 10px; height: 28px; padding: 0 10px 0 12px;
-    background: color-mix(in srgb, var(--glow) 5%, color-mix(in srgb, #000 30%, transparent));
-    border-bottom: 1px solid color-mix(in srgb, var(--glow) 12%, var(--edge)); font: 600 10.5px/1 var(--mono); letter-spacing: .08em; }
-  .cb-dots { display: inline-flex; gap: 6px; }
-  .cb-dots i { width: 9px; height: 9px; border-radius: 50%; background: #ff5f57; opacity: .8; }
-  .cb-dots i:nth-child(2) { background: #febc2e; } .cb-dots i:nth-child(3) { background: #28c840; }
-  .cb-lang { color: color-mix(in srgb, var(--glow) 80%, var(--muted)); text-transform: uppercase; }
-  .cb-copy { all: unset; margin-left: auto; cursor: pointer; color: var(--muted); padding: 3px 8px; border-radius: 6px;
-    font: 500 10.5px/1 var(--mono); letter-spacing: .04em; opacity: 0; transition: opacity .2s, background-color .2s, color .2s; }
-  .codebox:hover .cb-copy, .cb-copy:focus-visible { opacity: 1; }
-  .cb-copy:hover { background: color-mix(in srgb, var(--glow) 14%, transparent); color: var(--glow); }
-  .cb-copy.ok { color: var(--glow); opacity: 1; }
-  .codebox pre { margin: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
-    background: transparent !important; }
-  /* 没有脚本时 (或打印) 的普通样式 */
-  pre { background: color-mix(in srgb, var(--code) 90%, transparent) !important; border: 1px solid color-mix(in srgb, var(--glow) 20%, var(--edge)) !important; }
-
-  /* ===== 原图 (所有笔记统一): 玻璃相框 + 白色底板 + 编号图注; .src-fig 和 MGTN 的普通 <figure> 同一套 =====
-     图注: 有 figcaption 用它; MGTN 没有图注, 脚本运行时用图片的 alt 补一个 .fig-cap (文件不变).
-     编号用 CSS 计数 (图 01, 图 02 …). 内嵌 SVG 的排版图 figure.rr / .tri 不受影响. */
-  main { counter-reset: fig; }
-  .src-fig, main figure:not([class]) { counter-increment: fig; position: relative; display: block; text-align: center;
-    width: fit-content; max-width: 100%; box-sizing: border-box; margin: 16px auto !important; padding: 10px 10px 0 !important;
-    background: var(--glass) !important; border: 1px solid var(--edge); border-radius: 14px !important;
-    box-shadow: 0 14px 34px -18px rgba(0,0,0,.8), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
-    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-    transition: border-color .35s ease, box-shadow .35s ease; }
-  .src-fig img, main figure:not([class]) img { display: block; margin: 0 auto; width: auto !important; max-width: 100% !important; max-height: 380px; height: auto;
-    box-sizing: border-box; padding: 10px; background: #fff; border: 0 !important; border-radius: 9px !important;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); cursor: zoom-in;
-    transition: transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease; transform-origin: 50% 50%; }
-  .src-fig.wide img { max-height: 520px; }
-  .src-fig figcaption, main figure:not([class]) figcaption, .fig-cap {
-    display: block; text-align: left !important; color: var(--muted) !important; margin: 0 !important; padding: 9px 4px 10px !important;
-    font: 12.5px/1.6 "PingFang SC", sans-serif !important; }
-  .src-fig figcaption::before, main figure:not([class]) figcaption::before, .fig-cap::before {
-    content: "图 " counter(fig, decimal-leading-zero); display: inline-block; margin-right: 8px; padding: 1px 7px; border-radius: 6px; vertical-align: 1px;
-    font: 600 10px/1.5 var(--mono); letter-spacing: .06em; color: var(--glow);
-    background: color-mix(in srgb, var(--glow) 12%, transparent); border: 1px solid color-mix(in srgb, var(--glow) 28%, transparent); }
-  /* 悬停: 相框描边发光, 图片轻微浮起, 右上角出现「放大」提示 */
-  .src-fig::after, main figure:not([class])::after { content: "⤢ 放大"; position: absolute; top: 16px; right: 16px; z-index: 2; pointer-events: none;
-    padding: 3px 8px; border-radius: 999px; font: 600 10.5px/1.4 "PingFang SC", sans-serif; color: #fff;
-    background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid color-mix(in srgb, var(--glow) 40%, transparent);
-    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-    opacity: 0; transform: translateY(-4px); transition: opacity .3s ease, transform .3s ease; }
-  .src-fig:hover, main figure:not([class]):hover { border-color: color-mix(in srgb, var(--glow) 38%, var(--edge));
-    box-shadow: 0 20px 44px -18px rgba(0,0,0,.85), 0 0 26px -12px var(--glow), inset 0 1px 0 color-mix(in srgb, #fff 8%, transparent); }
-  .src-fig:hover img, main figure:not([class]):hover img { transform: scale(1.012); box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), 0 10px 26px -14px rgba(0,0,0,.6); }
-  .src-fig:hover::after, main figure:not([class]):hover::after { opacity: 1; transform: none; }
-  @media (pointer: coarse) { .src-fig::after, main figure:not([class])::after { display: none; } }
-  /* 出现: 相框淡入上浮, 图片底板随后自上而下展开 */
-  html.fx .src-fig.reveal img, html.fx main figure:not([class]).reveal img { clip-path: inset(0 0 100% 0 round 9px); transition: clip-path .9s cubic-bezier(.65,0,.35,1) .15s, transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
-  html.fx .src-fig.reveal.in img, html.fx main figure:not([class]).reveal.in img { clip-path: inset(0 0 0 0 round 9px); }
-
-  /* 放大: 图片从原位置平滑放大到屏幕中央 (FLIP), 关闭时缩回原位; 背景暗色毛玻璃淡入淡出 */
-  #lightbox { position: fixed; inset: 0; z-index: 90; visibility: hidden; cursor: zoom-out;
-    background: color-mix(in srgb, var(--bg) 0%, transparent); -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0);
-    transition: background-color .4s ease, backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, visibility 0s linear .4s; }
-  #lightbox.on { visibility: visible; background: color-mix(in srgb, var(--bg) 84%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-    transition: background-color .4s ease, backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, visibility 0s; }
-  #lightbox img { position: fixed; left: 0; top: 0; transform-origin: 0 0; background: #fff; border-radius: 12px; padding: 14px; box-sizing: border-box;
-    box-shadow: 0 30px 80px -20px rgba(0,0,0,.9), 0 0 0 1px color-mix(in srgb, var(--glow) 35%, transparent);
-    transition: transform .48s cubic-bezier(.2,.8,.2,1); will-change: transform; }
-  #lightbox .lb-cap { position: fixed; left: 50%; bottom: 3vh; transform: translateX(-50%); max-width: min(90vw, 760px); text-align: center;
-    font: 13px/1.6 "PingFang SC", sans-serif; color: var(--ink); opacity: 0; transition: opacity .3s ease .15s; }
-  #lightbox.on .lb-cap { opacity: .9; }
-
-  /* ===== 表格: 和卡片同一套玻璃质感 ===== */
-  main .tablewrap { border-radius: 12px; }
-  main table { background: color-mix(in srgb, var(--card) 70%, transparent) !important; border: 1px solid var(--edge); border-radius: 12px; overflow: hidden; }
-  main th { background: color-mix(in srgb, var(--glow) 9%, var(--chip)) !important; border-bottom: 1px solid color-mix(in srgb, var(--glow) 30%, var(--line)) !important; }
-  main tr:hover td { background: color-mix(in srgb, var(--glow) 5%, transparent); }
-
-  /* 折叠答案的展开动画 */
-  details.answer > summary { transition: color .2s; }
-  details.answer .dbody { overflow: hidden; transition: height .35s ease; }
-
-  /* 滚动淡入 (只有 JS 生效时才隐藏, 无 JS 时直接显示) */
-  html.fx .reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
-  html.fx .reveal.in { opacity: 1; transform: none; }
-
-  main, header { position: relative; z-index: 1; }
-
   @media (prefers-reduced-motion: reduce) {
-    #contour, #trail { display: none; }
-    h2.wave .ht { animation: none; }
-    #toc-pill.open .panel { animation: none; }
-    #lightbox, #lightbox img { transition: none !important; }
-    .src-fig img, main figure img { transition: none !important; clip-path: none !important; }
-    .zh::before, .warn::before, .def::before { animation: none; }
-    html.fx .reveal { opacity: 1; transform: none; transition: none; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .js .course { opacity: 1; transform: none; }
   }
-  @media print {
-    #contour, #trail, #progress, #toc-pill { display: none !important; }
-    body { background: #fff !important; }
-    .card, .zh, .add, .warn, pre, nav { backdrop-filter: none !important; box-shadow: none !important; }
-    h1 { color: #000 !important; -webkit-text-fill-color: #000; background: none; }
-    h2 .ht { -webkit-text-fill-color: #000; background: none !important; animation: none; }
-    .cb-head, #lightbox { display: none !important; }
-  }
-  /* ===== /玻璃霓虹层 ===== */
 </style>
 </head>
 <body>
-<div id="progress" aria-hidden="true"></div>
-<span hidden data-glyphs="#%&amp;*+=&lt;&gt;/|01"></span>
-<header><div class="wrap">
-<h1>LMU 计算语言学 · 笔记总目录<br><span class="de-title">Computerlinguistik (Nebenfach, KI) · Vorlesungsnotizen</span></h1>
-</div></header>
-<nav class="wrap"><a href="#hp1eip">EIP</a><a href="#hp2eicl">EICL</a><a href="#hp3aeal">AEAL</a><a href="#hp5sp">SP</a><a href="#hp6sns">SNS</a><a href="#hp7fs">FS</a><a href="#hp10smis">SMIS</a><a href="#hp11ie">IE</a><a href="#np1eips">EIPS</a><a href="#np2mgtn">MGTN</a><a href="#nwp2dbs">DBS</a></nav>
+<div class="sky" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div><div class="floor"></div><div class="grain"></div></div>
+<canvas id="spark" aria-hidden="true"></canvas>
+<header class="wrap">
+  <span class="kicker">LMU · Computerlinguistik</span>
+  <h1>计算语言学<br>笔记总目录</h1>
+  <div class="sub">Nebenfach KI · Vorlesungsnotizen</div>
+</header>
+<div class="tapes" aria-hidden="true">
+  <div class="tape t1"><span>EIP ✦ EICL ✦ AEAL ✦ SP ✦ SNS ✦ FS ✦ SMIS ✦ IE ✦ EIPS ✦ MGTN ✦ DBS ✦ EIP ✦ EICL ✦ AEAL ✦ SP ✦ SNS ✦ FS ✦ SMIS ✦ IE ✦ EIPS ✦ MGTN ✦ DBS ✦ EIP ✦ EICL ✦ AEAL ✦ SP ✦ SNS ✦ FS ✦ SMIS ✦ IE ✦ EIPS ✦ MGTN ✦ DBS ✦ EIP ✦ EICL ✦ AEAL ✦ SP ✦ SNS ✦ FS ✦ SMIS ✦ IE ✦ EIPS ✦ MGTN ✦ DBS ✦ EIP ✦ EICL ✦ AEAL ✦ SP ✦ SNS ✦ FS ✦ SMIS ✦ IE ✦ EIPS ✦ MGTN ✦ DBS ✦ EIP ✦ EICL ✦ AEAL ✦ SP ✦ SNS ✦ FS ✦ SMIS ✦ IE ✦ EIPS ✦ MGTN ✦ DBS ✦ </span></div>
+  <div class="tape t2"><span>EIP ✦ EICL ✦ AEAL ✦ SP ✦ SNS ✦ FS ✦ SMIS ✦ IE ✦ EIPS ✦ MGTN ✦ DBS ✦ EIP ✦ EICL ✦ AEAL ✦ SP ✦ SNS ✦ FS ✦ SMIS ✦ IE ✦ EIPS ✦ MGTN ✦ DBS ✦ EIP ✦ EICL ✦ AEAL ✦ SP ✦ SNS ✦ FS ✦ SMIS ✦ IE ✦ EIPS ✦ MGTN ✦ DBS ✦ EIP ✦ EICL ✦ AEAL ✦ SP ✦ SNS ✦ FS ✦ SMIS ✦ IE ✦ EIPS ✦ MGTN ✦ DBS ✦ EIP ✦ EICL ✦ AEAL ✦ SP ✦ SNS ✦ FS ✦ SMIS ✦ IE ✦ EIPS ✦ MGTN ✦ DBS ✦ EIP ✦ EICL ✦ AEAL ✦ SP ✦ SNS ✦ FS ✦ SMIS ✦ IE ✦ EIPS ✦ MGTN ✦ DBS ✦ </span></div>
+</div>
+<nav class="wrap"><a href="#hp1eip" style="--c:#E5281A">EIP</a><a href="#hp2eicl" style="--c:#C728B8">EICL</a><a href="#hp3aeal" style="--c:#4FD6E8">AEAL</a><a href="#hp5sp" style="--c:#F5DF4A">SP</a><a href="#hp6sns" style="--c:#8FD94A">SNS</a><a href="#hp7fs" style="--c:#5AA9F0">FS</a><a href="#hp10smis" style="--c:#E5281A">SMIS</a><a href="#hp11ie" style="--c:#C728B8">IE</a><a href="#np1eips" style="--c:#4FD6E8">EIPS</a><a href="#np2mgtn" style="--c:#F5DF4A">MGTN</a><a href="#nwp2dbs" style="--c:#8FD94A">DBS</a></nav>
 <main class="wrap">
-<div class="zh"><p>共 11 门课、49 份笔记, 最后同步于 2026-10-22 13:08. 点击标题打开笔记; 笔记之间的链接在本地离线也能用. 在线地址 <a href="https://yikesyellowpharmakon.github.io/lmu-cl-notes/">yikesyellowpharmakon.github.io/lmu-cl-notes</a> 总是最新版; 下载到本地的用 <code>git pull</code> (或 GitHub Desktop 的 Pull) 获取最新进度.</p></div>
-<h2 id="hp1eip">计算语言学编程导论<br><span class="de-title">HP1 EIP · 3 份笔记</span></h2>
-<div class="card"><ul class="notes"><li><a href="HP1%20EIP/EIP-合集-Linux命令行.html"><span class="t">EIP 合集 · Linux 命令行</span><span class="s">Linux 命令行 (第 2 版) · 第 1 部分: 学会 Shell</span></a></li><li><a href="HP1%20EIP/EIP-合集-练习单.html"><span class="t">EIP 合集 · 练习单</span><span class="s">计算语言学编程导论 · 练习单合集</span></a></li><li><a href="HP1%20EIP/EIP-合集-计算语言学编程导论.html"><span class="t">EIP 合集 · 计算语言学编程导论</span><span class="s">计算语言学编程导论</span></a></li></ul></div>
-<h2 id="hp2eicl">计算语言学导论<br><span class="de-title">HP2 EICL · 5 份笔记</span></h2>
-<div class="card"><ul class="notes"><li><a href="HP2%20EICL/EICL-01-课程概览.html"><span class="t">EICL 01 · 课程概览</span><span class="s">计算语言学导论 · 概览</span></a></li><li><a href="HP2%20EICL/EICL-02-基本概念.html"><span class="t">EICL 02 · 基本概念</span><span class="s">计算语言学导论 · 基本概念</span></a></li><li><a href="HP2%20EICL/EICL-03-形态学.html"><span class="t">EICL 03 · 形态学</span><span class="s">计算语言学导论 · 形态学</span></a></li><li><a href="HP2%20EICL/EICL-合集-文献阅读.html"><span class="t">EICL 合集 · 文献阅读</span><span class="s">计算语言学导论 · 文献阅读合集</span></a></li><li><a href="HP2%20EICL/EICL-合集-练习单.html"><span class="t">EICL 合集 · 练习单</span><span class="s">计算语言学导论 · 练习单合集</span></a></li></ul></div>
-<h2 id="hp3aeal">LMU 语言中心英语课程<br><span class="de-title">HP3 AEAL · 1 份笔记</span></h2>
-<div class="card"><ul class="notes"><li><a href="HP3%20AEAL/AEAL-01-学期组织信息.html"><span class="t">AEAL 01 · 学期组织信息</span><span class="s">LMU 语言中心英语课程 · 学期组织信息</span></a></li></ul></div>
-<h2 id="hp5sp">符号程序设计语言<br><span class="de-title">HP5 SP · 4 份笔记</span></h2>
-<div class="card"><ul class="notes"><li><a href="HP5%20SP/SP-01-Python基础与测试.html"><span class="t">SP 01 · Python 基础与测试</span><span class="s">符号程序设计语言 · 第 1 讲: Python 基础与测试</span></a></li><li><a href="HP5%20SP/SP-02-Git版本控制.html"><span class="t">SP 02 · Git 版本控制</span><span class="s">符号程序设计语言 · Git 版本控制入门</span></a></li><li><a href="HP5%20SP/SP-03-可变性作用域与面向对象.html"><span class="t">SP 03 · 可变性、作用域与面向对象</span><span class="s">符号程序设计语言 · 第 2 讲: 可变性、列表、作用域与面向对象编程</span></a></li><li><a href="HP5%20SP/SP-合集-练习单.html"><span class="t">SP 合集 · 练习单</span><span class="s">符号程序设计语言 · 练习单合集</span></a></li></ul></div>
-<h2 id="hp6sns">自然语言句法<br><span class="de-title">HP6 SNS · 4 份笔记</span></h2>
-<div class="card"><ul class="notes"><li><a href="HP6%20SNS/SNS-00-导论.html"><span class="t">SNS 00 · 导论</span><span class="s">自然语言句法: 导论</span></a></li><li><a href="HP6%20SNS/SNS-01-句法分析与句法测试.html"><span class="t">SNS 01 · 句法分析与句法测试</span><span class="s">自然语言句法 · 第 1 讲: 句法分析与句法测试</span></a></li><li><a href="HP6%20SNS/SNS-02-短语结构文法.html"><span class="t">SNS 02 · 短语结构文法</span><span class="s">自然语言句法 · 第 2 讲: 短语结构文法</span></a></li><li><a href="HP6%20SNS/SNS-合集-练习单.html"><span class="t">SNS 合集 · 练习单</span><span class="s">自然语言句法 · 练习单合集</span></a></li></ul></div>
-<h2 id="hp7fs">形式语言<br><span class="de-title">HP7 FS · 3 份笔记</span></h2>
-<div class="card"><ul class="notes"><li><a href="HP7%20FS/FS-01-导论.html"><span class="t">FS 01 · 导论</span><span class="s">形式语言: 导论</span></a></li><li><a href="HP7%20FS/FS-合集-文献阅读.html"><span class="t">FS 合集 · 文献阅读</span><span class="s">形式语言 · 文献阅读合集</span></a></li><li><a href="HP7%20FS/FS-合集-练习单.html"><span class="t">FS 合集 · 练习单</span><span class="s">形式语言 · 练习单合集</span></a></li></ul></div>
-<h2 id="hp10smis">语言处理中的统计方法<br><span class="de-title">HP10 SMIS · 2 份笔记</span></h2>
-<div class="card"><ul class="notes"><li><a href="HP10%20SMIS/SMIS-合集-练习单.html"><span class="t">SMIS 合集 · 练习单</span><span class="s">语言处理中的统计方法 · 练习单合集</span></a></li><li><a href="HP10%20SMIS/SMIS-合集-语言处理中的统计方法.html"><span class="t">SMIS 合集 · 语言处理中的统计方法</span><span class="s">语言处理中的统计方法</span></a></li></ul></div>
-<h2 id="hp11ie">信息抽取<br><span class="de-title">HP11 IE · 4 份笔记</span></h2>
-<div class="card"><ul class="notes"><li><a href="HP11%20IE/IE-01-课程介绍与信息抽取导论.html"><span class="t">IE 01 · 课程介绍与信息抽取导论</span><span class="s">信息抽取 · 第 1 周: 课程介绍与信息抽取导论</span></a></li><li><a href="HP11%20IE/IE-02-研讨课与评分标准.html"><span class="t">IE 02 · 研讨课与评分标准</span><span class="s">信息抽取 · 第 2 周研讨课</span></a></li><li><a href="HP11%20IE/IE-03-基础与传统信息抽取.html"><span class="t">IE 03 · 基础与传统信息抽取</span><span class="s">信息抽取 · 第 2 周: 基础与传统信息抽取</span></a></li><li><a href="HP11%20IE/IE-合集-文献阅读.html"><span class="t">IE 合集 · 文献阅读</span><span class="s">信息抽取 · 文献阅读合集</span></a></li></ul></div>
-<h2 id="np1eips">第 5 章: 函数, 对象与类<br><span class="de-title">NP1 EIPS · 17 份笔记</span></h2>
-<div class="card"><ul class="notes"><li><a href="NP1%20EIPS/EIPS-00-欢迎与组织.html"><span class="t">EIPS 00 · 欢迎与组织</span><span class="s">欢迎与组织</span></a></li><li><a href="NP1%20EIPS/EIPS-01-导论与基本概念.html"><span class="t">EIPS 01 · 导论与基本概念</span><span class="s">第 1 章: 导论与基本概念</span></a></li><li><a href="NP1%20EIPS/EIPS-02-描述语法的方法.html"><span class="t">EIPS 02 · 描述语法的方法</span><span class="s">第 2 章: 描述语法的方法</span></a></li><li><a href="NP1%20EIPS/EIPS-03-基本数据类型表达式与变量.html"><span class="t">EIPS 03 · 基本数据类型表达式与变量</span><span class="s">第 3 章: 基本数据类型, 表达式与变量</span></a></li><li><a href="NP1%20EIPS/EIPS-04-语句与控制结构.html"><span class="t">EIPS 04 · 语句与控制结构</span><span class="s">第 4 章: 语句与控制结构</span></a></li><li><a href="NP1%20EIPS/EIPS-05-函数对象与类.html"><span class="t">EIPS 05 · 函数对象与类</span><span class="s">第 5 章: 函数, 对象与类</span></a></li><li><a href="NP1%20EIPS/EIPS-06-类与对象中的控制结构.html"><span class="t">EIPS 06 · 类与对象中的控制结构</span><span class="s">第 6 章: 类与对象中的控制结构</span></a></li><li><a href="NP1%20EIPS/EIPS-07-类之间的关联与继承.html"><span class="t">EIPS 07 · 类之间的关联与继承</span><span class="s">第 7 章: 类之间的关联与继承</span></a></li><li><a href="NP1%20EIPS/EIPS-08-数据结构I序列类型.html"><span class="t">EIPS 08 · 数据结构 I 序列类型</span><span class="s">第 8 章: 数据结构 I – 序列类型</span></a></li><li><a href="NP1%20EIPS/EIPS-09-数据结构II集合与字典.html"><span class="t">EIPS 09 · 数据结构 II 集合与字典</span><span class="s">第 9 章: 数据结构 II – 集合与字典</span></a></li><li><a href="NP1%20EIPS/EIPS-10-算法复杂度与排序方法.html"><span class="t">EIPS 10 · 算法复杂度与排序方法</span><span class="s">第 10 章: 算法复杂度与排序方法</span></a></li><li><a href="NP1%20EIPS/EIPS-11-质量保证.html"><span class="t">EIPS 11 · 质量保证</span><span class="s">第 11 章: 质量保证</span></a></li><li><a href="NP1%20EIPS/EIPS-12-递归.html"><span class="t">EIPS 12 · 递归</span><span class="s">第 12 章: 递归</span></a></li><li><a href="NP1%20EIPS/EIPS-13-树.html"><span class="t">EIPS 13 · 树</span><span class="s">第 13 章: 树</span></a></li><li><a href="NP1%20EIPS/EIPS-14-异常与异常处理.html"><span class="t">EIPS 14 · 异常与异常处理</span><span class="s">第 14 章: 异常与异常处理</span></a></li><li><a href="NP1%20EIPS/EIPS-15-软件开发.html"><span class="t">EIPS 15 · 软件开发</span><span class="s">第 15 章: 软件开发</span></a></li><li><a href="NP1%20EIPS/EIPS-合集-练习单.html"><span class="t">EIPS 合集 · 练习单</span><span class="s">信息学导论: 编程与软件开发 · 练习单合集</span></a></li></ul></div>
-<h2 id="np2mgtn">数学 I: 面向辅修学生的基础技术<br><span class="de-title">NP2 MGTN · 2 份笔记</span></h2>
-<div class="card"><ul class="notes"><li><a href="NP2%20MGTN/MGTN-合集-数学I基础技术.html"><span class="t">MGTN 合集 · 数学 I 基础技术</span><span class="s">数学 I: 面向辅修学生的基础技术</span></a></li><li><a href="NP2%20MGTN/MGTN-合集-练习单.html"><span class="t">MGTN 合集 · 练习单</span><span class="s">数学 I · 练习单合集</span></a></li></ul></div>
-<h2 id="nwp2dbs">数据库系统<br><span class="de-title">NWP2 DBS · 4 份笔记</span></h2>
-<div class="card"><ul class="notes"><li><a href="NWP2%20DBS/DBS-00-课程组织.html"><span class="t">DBS 00 · 课程组织</span><span class="s">数据库系统 · 第 0 章: 课程组织</span></a></li><li><a href="NWP2%20DBS/DBS-01-数据库系统基础.html"><span class="t">DBS 01 · 数据库系统基础</span><span class="s">数据库系统 · 第 1 章: 数据库系统基础</span></a></li><li><a href="NWP2%20DBS/DBS-02-关系模型.html"><span class="t">DBS 02 · 关系模型</span><span class="s">数据库系统 · 第 2 章: 关系模型</span></a></li><li><a href="NWP2%20DBS/DBS-合集-练习单.html"><span class="t">DBS 合集 · 练习单</span><span class="s">数据库系统 · 练习单合集</span></a></li></ul></div>
+<section class="course" id="hp1eip" style="--c:#E5281A">
+  <div class="head"><span class="num">01</span><div class="name"><h2>计算语言学编程导论</h2><span class="tag">HP1 EIP</span><span class="cnt">3</span></div></div>
+  <ul class="notes"><li><a href="HP1%20EIP/EIP-合集-Linux命令行.html"><span class="t">EIP 合集 · Linux 命令行</span><span class="s">Linux 命令行 (第 2 版) · 第 1 部分: 学会 Shell</span><span class="go">↗</span></a></li><li><a href="HP1%20EIP/EIP-合集-练习单.html"><span class="t">EIP 合集 · 练习单</span><span class="s">计算语言学编程导论 · 练习单合集</span><span class="go">↗</span></a></li><li><a href="HP1%20EIP/EIP-合集-计算语言学编程导论.html"><span class="t">EIP 合集 · 计算语言学编程导论</span><span class="s">计算语言学编程导论</span><span class="go">↗</span></a></li></ul>
+</section>
+<section class="course" id="hp2eicl" style="--c:#C728B8">
+  <div class="head"><span class="num">02</span><div class="name"><h2>计算语言学导论</h2><span class="tag">HP2 EICL</span><span class="cnt">5</span></div></div>
+  <ul class="notes"><li><a href="HP2%20EICL/EICL-01-课程概览.html"><span class="t">EICL 01 · 课程概览</span><span class="s">计算语言学导论 · 概览</span><span class="go">↗</span></a></li><li><a href="HP2%20EICL/EICL-02-基本概念.html"><span class="t">EICL 02 · 基本概念</span><span class="s">计算语言学导论 · 基本概念</span><span class="go">↗</span></a></li><li><a href="HP2%20EICL/EICL-03-形态学.html"><span class="t">EICL 03 · 形态学</span><span class="s">计算语言学导论 · 形态学</span><span class="go">↗</span></a></li><li><a href="HP2%20EICL/EICL-合集-文献阅读.html"><span class="t">EICL 合集 · 文献阅读</span><span class="s">计算语言学导论 · 文献阅读合集</span><span class="go">↗</span></a></li><li><a href="HP2%20EICL/EICL-合集-练习单.html"><span class="t">EICL 合集 · 练习单</span><span class="s">计算语言学导论 · 练习单合集</span><span class="go">↗</span></a></li></ul>
+</section>
+<section class="course" id="hp3aeal" style="--c:#4FD6E8">
+  <div class="head"><span class="num">03</span><div class="name"><h2>LMU 语言中心英语课程</h2><span class="tag">HP3 AEAL</span><span class="cnt">1</span></div></div>
+  <ul class="notes"><li><a href="HP3%20AEAL/AEAL-01-学期组织信息.html"><span class="t">AEAL 01 · 学期组织信息</span><span class="s">LMU 语言中心英语课程 · 学期组织信息</span><span class="go">↗</span></a></li></ul>
+</section>
+<section class="course" id="hp5sp" style="--c:#F5DF4A">
+  <div class="head"><span class="num">04</span><div class="name"><h2>符号程序设计语言</h2><span class="tag">HP5 SP</span><span class="cnt">4</span></div></div>
+  <ul class="notes"><li><a href="HP5%20SP/SP-01-Python基础与测试.html"><span class="t">SP 01 · Python 基础与测试</span><span class="s">符号程序设计语言 · 第 1 讲: Python 基础与测试</span><span class="go">↗</span></a></li><li><a href="HP5%20SP/SP-02-Git版本控制.html"><span class="t">SP 02 · Git 版本控制</span><span class="s">符号程序设计语言 · Git 版本控制入门</span><span class="go">↗</span></a></li><li><a href="HP5%20SP/SP-03-可变性作用域与面向对象.html"><span class="t">SP 03 · 可变性、作用域与面向对象</span><span class="s">符号程序设计语言 · 第 2 讲: 可变性、列表、作用域与面向对象编程</span><span class="go">↗</span></a></li><li><a href="HP5%20SP/SP-合集-练习单.html"><span class="t">SP 合集 · 练习单</span><span class="s">符号程序设计语言 · 练习单合集</span><span class="go">↗</span></a></li></ul>
+</section>
+<section class="course" id="hp6sns" style="--c:#8FD94A">
+  <div class="head"><span class="num">05</span><div class="name"><h2>自然语言句法</h2><span class="tag">HP6 SNS</span><span class="cnt">4</span></div></div>
+  <ul class="notes"><li><a href="HP6%20SNS/SNS-00-导论.html"><span class="t">SNS 00 · 导论</span><span class="s">自然语言句法: 导论</span><span class="go">↗</span></a></li><li><a href="HP6%20SNS/SNS-01-句法分析与句法测试.html"><span class="t">SNS 01 · 句法分析与句法测试</span><span class="s">自然语言句法 · 第 1 讲: 句法分析与句法测试</span><span class="go">↗</span></a></li><li><a href="HP6%20SNS/SNS-02-短语结构文法.html"><span class="t">SNS 02 · 短语结构文法</span><span class="s">自然语言句法 · 第 2 讲: 短语结构文法</span><span class="go">↗</span></a></li><li><a href="HP6%20SNS/SNS-合集-练习单.html"><span class="t">SNS 合集 · 练习单</span><span class="s">自然语言句法 · 练习单合集</span><span class="go">↗</span></a></li></ul>
+</section>
+<section class="course" id="hp7fs" style="--c:#5AA9F0">
+  <div class="head"><span class="num">06</span><div class="name"><h2>形式语言</h2><span class="tag">HP7 FS</span><span class="cnt">3</span></div></div>
+  <ul class="notes"><li><a href="HP7%20FS/FS-01-导论.html"><span class="t">FS 01 · 导论</span><span class="s">形式语言: 导论</span><span class="go">↗</span></a></li><li><a href="HP7%20FS/FS-合集-文献阅读.html"><span class="t">FS 合集 · 文献阅读</span><span class="s">形式语言 · 文献阅读合集</span><span class="go">↗</span></a></li><li><a href="HP7%20FS/FS-合集-练习单.html"><span class="t">FS 合集 · 练习单</span><span class="s">形式语言 · 练习单合集</span><span class="go">↗</span></a></li></ul>
+</section>
+<section class="course" id="hp10smis" style="--c:#E5281A">
+  <div class="head"><span class="num">07</span><div class="name"><h2>语言处理中的统计方法</h2><span class="tag">HP10 SMIS</span><span class="cnt">2</span></div></div>
+  <ul class="notes"><li><a href="HP10%20SMIS/SMIS-合集-练习单.html"><span class="t">SMIS 合集 · 练习单</span><span class="s">语言处理中的统计方法 · 练习单合集</span><span class="go">↗</span></a></li><li><a href="HP10%20SMIS/SMIS-合集-语言处理中的统计方法.html"><span class="t">SMIS 合集 · 语言处理中的统计方法</span><span class="s">语言处理中的统计方法</span><span class="go">↗</span></a></li></ul>
+</section>
+<section class="course" id="hp11ie" style="--c:#C728B8">
+  <div class="head"><span class="num">08</span><div class="name"><h2>信息抽取</h2><span class="tag">HP11 IE</span><span class="cnt">4</span></div></div>
+  <ul class="notes"><li><a href="HP11%20IE/IE-01-课程介绍与信息抽取导论.html"><span class="t">IE 01 · 课程介绍与信息抽取导论</span><span class="s">信息抽取 · 第 1 周: 课程介绍与信息抽取导论</span><span class="go">↗</span></a></li><li><a href="HP11%20IE/IE-02-研讨课与评分标准.html"><span class="t">IE 02 · 研讨课与评分标准</span><span class="s">信息抽取 · 第 2 周研讨课</span><span class="go">↗</span></a></li><li><a href="HP11%20IE/IE-03-基础与传统信息抽取.html"><span class="t">IE 03 · 基础与传统信息抽取</span><span class="s">信息抽取 · 第 2 周: 基础与传统信息抽取</span><span class="go">↗</span></a></li><li><a href="HP11%20IE/IE-合集-文献阅读.html"><span class="t">IE 合集 · 文献阅读</span><span class="s">信息抽取 · 文献阅读合集</span><span class="go">↗</span></a></li></ul>
+</section>
+<section class="course" id="np1eips" style="--c:#4FD6E8">
+  <div class="head"><span class="num">09</span><div class="name"><h2>第 2 章: 描述语法的方法</h2><span class="tag">NP1 EIPS</span><span class="cnt">17</span></div></div>
+  <ul class="notes"><li><a href="NP1%20EIPS/EIPS-00-欢迎与组织.html"><span class="t">EIPS 00 · 欢迎与组织</span><span class="s">欢迎与组织</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-01-导论与基本概念.html"><span class="t">EIPS 01 · 导论与基本概念</span><span class="s">第 1 章: 导论与基本概念</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-02-描述语法的方法.html"><span class="t">EIPS 02 · 描述语法的方法</span><span class="s">第 2 章: 描述语法的方法</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-03-基本数据类型表达式与变量.html"><span class="t">EIPS 03 · 基本数据类型表达式与变量</span><span class="s">第 3 章: 基本数据类型, 表达式与变量</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-04-语句与控制结构.html"><span class="t">EIPS 04 · 语句与控制结构</span><span class="s">第 4 章: 语句与控制结构</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-05-函数对象与类.html"><span class="t">EIPS 05 · 函数对象与类</span><span class="s">第 5 章: 函数, 对象与类</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-06-类与对象中的控制结构.html"><span class="t">EIPS 06 · 类与对象中的控制结构</span><span class="s">第 6 章: 类与对象中的控制结构</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-07-类之间的关联与继承.html"><span class="t">EIPS 07 · 类之间的关联与继承</span><span class="s">第 7 章: 类之间的关联与继承</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-08-数据结构I序列类型.html"><span class="t">EIPS 08 · 数据结构 I 序列类型</span><span class="s">第 8 章: 数据结构 I – 序列类型</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-09-数据结构II集合与字典.html"><span class="t">EIPS 09 · 数据结构 II 集合与字典</span><span class="s">第 9 章: 数据结构 II – 集合与字典</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-10-算法复杂度与排序方法.html"><span class="t">EIPS 10 · 算法复杂度与排序方法</span><span class="s">第 10 章: 算法复杂度与排序方法</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-11-质量保证.html"><span class="t">EIPS 11 · 质量保证</span><span class="s">第 11 章: 质量保证</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-12-递归.html"><span class="t">EIPS 12 · 递归</span><span class="s">第 12 章: 递归</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-13-树.html"><span class="t">EIPS 13 · 树</span><span class="s">第 13 章: 树</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-14-异常与异常处理.html"><span class="t">EIPS 14 · 异常与异常处理</span><span class="s">第 14 章: 异常与异常处理</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-15-软件开发.html"><span class="t">EIPS 15 · 软件开发</span><span class="s">第 15 章: 软件开发</span><span class="go">↗</span></a></li><li><a href="NP1%20EIPS/EIPS-合集-练习单.html"><span class="t">EIPS 合集 · 练习单</span><span class="s">信息学导论: 编程与软件开发 · 练习单合集</span><span class="go">↗</span></a></li></ul>
+</section>
+<section class="course" id="np2mgtn" style="--c:#F5DF4A">
+  <div class="head"><span class="num">10</span><div class="name"><h2>数学 I: 面向辅修学生的基础技术</h2><span class="tag">NP2 MGTN</span><span class="cnt">2</span></div></div>
+  <ul class="notes"><li><a href="NP2%20MGTN/MGTN-合集-数学I基础技术.html"><span class="t">MGTN 合集 · 数学 I 基础技术</span><span class="s">数学 I: 面向辅修学生的基础技术</span><span class="go">↗</span></a></li><li><a href="NP2%20MGTN/MGTN-合集-练习单.html"><span class="t">MGTN 合集 · 练习单</span><span class="s">数学 I · 练习单合集</span><span class="go">↗</span></a></li></ul>
+</section>
+<section class="course" id="nwp2dbs" style="--c:#8FD94A">
+  <div class="head"><span class="num">11</span><div class="name"><h2>数据库系统</h2><span class="tag">NWP2 DBS</span><span class="cnt">4</span></div></div>
+  <ul class="notes"><li><a href="NWP2%20DBS/DBS-00-课程组织.html"><span class="t">DBS 00 · 课程组织</span><span class="s">数据库系统 · 第 0 章: 课程组织</span><span class="go">↗</span></a></li><li><a href="NWP2%20DBS/DBS-01-数据库系统基础.html"><span class="t">DBS 01 · 数据库系统基础</span><span class="s">数据库系统 · 第 1 章: 数据库系统基础</span><span class="go">↗</span></a></li><li><a href="NWP2%20DBS/DBS-02-关系模型.html"><span class="t">DBS 02 · 关系模型</span><span class="s">数据库系统 · 第 2 章: 关系模型</span><span class="go">↗</span></a></li><li><a href="NWP2%20DBS/DBS-合集-练习单.html"><span class="t">DBS 合集 · 练习单</span><span class="s">数据库系统 · 练习单合集</span><span class="go">↗</span></a></li></ul>
+</section>
 </main>
-<footer class="wrap">原课件不在本仓库中.</footer>
-<script id="glass-js">
-/* 玻璃霓虹层 v11 的交互: 进度条后备、滚动淡入、浮动胶囊目录、背景等高线、解密标题、卡片聚光灯、光标拖影、折叠动画.
-   全部是本地代码, 不加载任何外部资源; 任何一步出错都不影响正文显示. */
+<script>
 (function () {
-  try {
-    var doc = document.documentElement;
-    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var auto = navigator.webdriver || /HeadlessChrome/.test(navigator.userAgent); // 自动化截图时关掉动效, 保证截图完整
-    if (!reduce && !auto && 'IntersectionObserver' in window) doc.classList.add('fx');
-
-    /* 第二强调色跟着课程色走: 课程主色的色相 +40°, 写进 --glow2 (等高线低处、拖影尾端、标题波动用) */
-    (function () {
-      var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((getComputedStyle(doc).getPropertyValue('--accent') || '').trim());
-      if (!m) return;
-      var r = parseInt(m[1], 16) / 255, g = parseInt(m[2], 16) / 255, b = parseInt(m[3], 16) / 255;
-      var mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn, h = 0, s = 0;
-      if (d) { s = d / (1 - Math.abs(2 * l - 1)); h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
-      h = (h + 40 + 360) % 360;
-      var c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), o = l - c / 2, rgb;
-      rgb = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
-      doc.style.setProperty('--glow2', '#' + rgb.map(function (v) { return ('0' + Math.round((v + o) * 255).toString(16)).slice(-2); }).join(''));
-    })();
-
-    /* 1. 进度条: 浏览器不支持 CSS 滚动动画时用脚本更新 */
-    var bar = document.getElementById('progress');
-    if (bar && !(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'))) {
-      var upd = function () {
-        var h = doc.scrollHeight - innerHeight;
-        bar.style.setProperty('--p', h > 0 ? Math.min(1, scrollY / h) : 0);
-      };
-      addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd); upd();
-    }
-
-    /* 0. 运行时整理结构 (文件本身不变):
-       a) 小节标题 h2、三级标题 h3 的中文主标题 (第一个 <br> / 德语副标题 / small 之前的部分) 包进 <span class="ht">;
-       b) 每个 <pre> 包进 .codebox, 加标题栏 (三个圆点 + 语言 + 复制按钮); 语言优先取 data-lang, 否则按内容猜. */
-    Array.prototype.forEach.call(document.querySelectorAll('main h2, main h3'), function (h) {
-      if (h.querySelector(':scope > .ht')) return;
-      var ht = document.createElement('span'); ht.className = 'ht';
-      var n = h.firstChild;
-      while (n && !(n.nodeType === 1 && (n.tagName === 'BR' || n.tagName === 'SMALL' || n.classList.contains('de-title')))) {
-        var nx = n.nextSibling; ht.appendChild(n); n = nx;
-      }
-      if (ht.textContent.trim()) h.insertBefore(ht, h.firstChild);
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var headless = /HeadlessChrome/.test(navigator.userAgent);
+  document.documentElement.classList.add('js');
+  // 卡片进场
+  var cards = document.querySelectorAll('.course');
+  if ('IntersectionObserver' in window && !reduce && !headless) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    cards.forEach(function (c) { io.observe(c); });
+  } else { cards.forEach(function (c) { c.classList.add('in'); }); }
+  // 卡片随鼠标轻微倾斜
+  if (!reduce && window.matchMedia('(hover: hover)').matches) {
+    cards.forEach(function (c) {
+      c.addEventListener('mousemove', function (ev) {
+        var r = c.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width - .5, y = (ev.clientY - r.top) / r.height - .5;
+        c.style.transform = 'perspective(900px) rotateX(' + (-y * 3) + 'deg) rotateY(' + (x * 4) + 'deg)';
+      });
+      c.addEventListener('mouseleave', function () { c.style.transform = ''; });
     });
-    /* c) 没有图注的普通 <figure> (MGTN): 用图片的 alt 补一个图注, 和其他笔记的原图一致 */
-    Array.prototype.forEach.call(document.querySelectorAll('main figure:not([class])'), function (f) {
-      var im = f.querySelector(':scope > img');
-      if (!im || f.querySelector('figcaption, .fig-cap') || !(im.alt || '').trim()) return;
-      var c = document.createElement('div'); c.className = 'fig-cap'; c.textContent = im.alt; f.appendChild(c);
-    });
-    var guessLang = function (t) {
-      if (/^\s*>>>/m.test(t)) return 'python repl';
-      if (/^\s*\$ /m.test(t)) return 'shell';
-      if (/^\s*(SELECT|CREATE|INSERT|UPDATE|DELETE|WITH)\b/m.test(t)) return 'sql';
-      if (/^\s*(def |class |import |from \S+ import|for .+ in .+:|if .+:|while .+:|print\()/m.test(t)) return 'python';
-      if (/^\s*(git|cd|ls|pip|python3?|mkdir|cat|grep|echo)\b/m.test(t)) return 'shell';
-      if (/^\s*\(\w+ \(/.test(t)) return 'tree';
-      return 'text';
-    };
-    Array.prototype.forEach.call(document.querySelectorAll('main pre'), function (pre) {
-      if (pre.parentElement.classList.contains('codebox')) return;
-      var box = document.createElement('div'); box.className = 'codebox';
-      var head = document.createElement('div'); head.className = 'cb-head';
-      head.innerHTML = '<span class="cb-dots"><i></i><i></i><i></i></span><span class="cb-lang"></span><button class="cb-copy" type="button">复制</button>';
-      head.querySelector('.cb-lang').textContent = pre.getAttribute('data-lang') || guessLang(pre.textContent);
-      pre.parentNode.insertBefore(box, pre); box.appendChild(head); box.appendChild(pre);
-      var btn = head.querySelector('.cb-copy');
-      btn.addEventListener('click', function () {
-        var txt = pre.innerText, ok = function () { btn.textContent = '已复制'; btn.classList.add('ok'); setTimeout(function () { btn.textContent = '复制'; btn.classList.remove('ok'); }, 1400); };
-        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, function () {});
-        else { var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); ok(); } catch (e) {} ta.remove(); }
-      });
-    });
-
-    /* 2. 滚动淡入 */
-    if (doc.classList.contains('fx')) {
-      var els = document.querySelectorAll('main .card, main .zh, main .add, main .warn, main .codebox, main .src-fig, main figure:not([class]), main .tablewrap, main details');
-      var io = new IntersectionObserver(function (es) {
-        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-      }, { rootMargin: '0px 0px -8% 0px' });
-      els.forEach(function (el) {
-        if (el.parentElement && el.parentElement.closest('.reveal')) return;
-        var r = el.getBoundingClientRect();
-        el.classList.add('reveal');
-        if (r.top < innerHeight) el.classList.add('in'); else io.observe(el);
-      });
+  }
+  // 彩虹火花光标拖尾 (仿主题的 cursor-sparks-rainbow)
+  var cv = document.getElementById('spark');
+  if (reduce || headless || !window.matchMedia('(hover: hover)').matches) { cv.remove(); return; }
+  var ctx = cv.getContext('2d'), ps = [], hue = 0, dpr = Math.min(window.devicePixelRatio || 1, 2), running = false;
+  function size() { cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+  size(); addEventListener('resize', size);
+  addEventListener('mousemove', function (e) {
+    for (var i = 0; i < 3; i++) {
+      hue = (hue + 7) % 360;
+      ps.push({ x: e.clientX, y: e.clientY, vx: (Math.random() - .5) * 2.4, vy: (Math.random() - .5) * 2.4 - .6, life: 1, h: hue, r: 1.5 + Math.random() * 2.5 });
     }
-
-    /* 解密动画 (小节标题、胶囊目录共用): 先显示乱码, 再从左到右逐字恢复; 德语副标题不动; 无论如何最后都恢复原文 */
-    var gsrc = document.querySelector('[data-glyphs]');
-    var GL = Array.from((gsrc && gsrc.getAttribute('data-glyphs')) || '#%&*+=<>/|01');
-    var GW = Array.from('＃％＆＊＋＝＜＞／｜０１');                 /* 中文位置用全角字符占位, 宽度不跳 */
-    var isWide = function (ch) { return /[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF\u3000-\u303F]/.test(ch); };
-    var rndG = function (ch) { var g = isWide(ch) ? GW : GL; return g[(Math.random() * g.length) | 0]; };
-    var textNodes = function (el) {
-      var out = [], tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
-      while (tw.nextNode()) { var tn = tw.currentNode; if (!tn.parentElement.closest('.de-title, small, .katex') && tn.nodeValue.trim()) out.push(tn); }
-      return out;
-    };
-    /* 把元素里的文字拆成逐字的 <span class="ch"> (行内元素, 不改变排版); 乱码画在 ::after 叠层里,
-       原字只是暂时隐藏、仍占原来的位置, 所以解密和信号干扰时标题和下面的内容都不会移动 */
-    var splitChars = function (el) {
-      var groups = textNodes(el).map(function (tn) {
-        var frag = document.createDocumentFragment(), spans = [];
-        Array.from(tn.nodeValue).forEach(function (ch) {
-          if (/\s/.test(ch)) { frag.appendChild(document.createTextNode(ch)); return; }
-          var sp = document.createElement('span'); sp.className = 'ch'; sp.textContent = ch; frag.appendChild(sp); spans.push(sp);
-        });
-        var first = frag.firstChild; tn.parentNode.replaceChild(frag, tn);
-        return { tn: tn, first: first, spans: spans, count: Array.from(tn.nodeValue).length };
-      });
-      return groups;
-    };
-    var joinChars = function (groups) {
-      groups.forEach(function (g) {
-        var n = g.first; if (!n || !n.parentNode) return;
-        var parent = n.parentNode; parent.insertBefore(g.tn, n);
-        for (var k = 0; k < g.count && g.tn.nextSibling; k++) parent.removeChild(g.tn.nextSibling);
-      });
-    };
-    var setX = function (sp, on) {
-      if (on) { sp.setAttribute('data-g', rndG(sp.textContent)); sp.classList.add('x'); } else sp.classList.remove('x');
-    };
-    var decrypt = function (h, DUR) {
-      DUR = DUR || 800;
-      if (h._dtok) return;
-      var groups = splitChars(h); if (!groups.length) return;
-      var tok = h._dtok = {};
-      var hd = h.classList.contains('ht') ? h.parentElement : null;
-      if (hd) hd.classList.remove('wave');
-      var spans = [].concat.apply([], groups.map(function (g) { return g.spans; })), total = spans.length, t0 = performance.now();
-      h.classList.add('decrypting');
-      var finish = function () {
-        if (h._dtok !== tok) return;
-        h._dtok = null; joinChars(groups); h.classList.remove('decrypting');
-        if (hd && hd.tagName === 'H2') hd.classList.add('wave');   /* 解密完成后, h2 开始颜色波动 */
-      };
-      var tick = function (now) {
-        if (h._dtok !== tok) return;
-        var k = Math.floor(Math.min(1, (now - t0) / DUR) * total);
-        for (var q = 0; q < total; q++) setX(spans[q], q >= k);
-        if (now - t0 < DUR) requestAnimationFrame(tick); else finish();
-      };
-      requestAnimationFrame(tick);
-      setTimeout(finish, DUR + 600);
-    };
-    /* 信号干扰: 随机一两个字瞬间变乱码, 150 毫秒后恢复; 同样不改变排版 */
-    var glitchOnce = function (ht) {
-      if (ht._dtok) return;
-      var groups = splitChars(ht); if (!groups.length) return;
-      var tok = ht._dtok = {}, spans = [].concat.apply([], groups.map(function (g) { return g.spans; }));
-      for (var q = 0, n = Math.random() < .5 ? 1 : 2; q < n && spans.length; q++) setX(spans[(Math.random() * spans.length) | 0], true);
-      setTimeout(function () { if (ht._dtok === tok) { ht._dtok = null; joinChars(groups); } }, 150);
-    };
-    var fx = doc.classList.contains('fx');
-
-    /* 3. 浮动胶囊目录 + 当前小节高亮 */
-    var nav = document.querySelector('nav');
-    var links = nav ? Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]')) : [];
-    var targets = links.map(function (a) { return document.getElementById(decodeURIComponent(a.hash.slice(1))); });
-    var pill = null, cur = null, pLinks = [], curIdx = -1;
-    if (links.length) {
-      pill = document.createElement('div'); pill.id = 'toc-pill';
-      pill.innerHTML = '<div class="cap" role="button" tabindex="0" aria-expanded="false"><span class="ring"></span><span class="idx"></span><span class="cur"></span><span class="chev">▾</span></div><div class="panel"></div>';
-      var panel = pill.querySelector('.panel'); cur = pill.querySelector('.cur');
-      links.forEach(function (a) { var b = a.cloneNode(true); panel.appendChild(b); pLinks.push(b); });
-      document.body.appendChild(pill);
-      var cap = pill.querySelector('.cap');
-      var toggle = function (open) {
-        pill.classList.toggle('open', open);
-        cap.setAttribute('aria-expanded', open ? 'true' : 'false');
-      };
-      cap.addEventListener('click', function () { toggle(!pill.classList.contains('open')); });
-      cap.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(!pill.classList.contains('open')); } });
-      panel.addEventListener('click', function (e) { if (e.target.closest('a')) toggle(false); });
-      document.addEventListener('click', function (e) { if (!pill.contains(e.target)) toggle(false); });
-      var lastY = scrollY;
-      addEventListener('scroll', function () { if (Math.abs(scrollY - lastY) > 40) { toggle(false); lastY = scrollY; } }, { passive: true });
+    if (ps.length > 220) ps.splice(0, ps.length - 220);
+    if (!running) { running = true; requestAnimationFrame(tick); }
+  });
+  function tick() {
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    ctx.globalCompositeOperation = 'lighter';
+    for (var i = ps.length - 1; i >= 0; i--) {
+      var p = ps[i]; p.x += p.vx; p.y += p.vy; p.vy += .05; p.life -= .025;
+      if (p.life <= 0) { ps.splice(i, 1); continue; }
+      ctx.beginPath(); ctx.fillStyle = 'hsla(' + p.h + ',95%,62%,' + p.life + ')';
+      ctx.shadowColor = 'hsl(' + p.h + ',95%,60%)'; ctx.shadowBlur = 12;
+      ctx.arc(p.x, p.y, p.r * p.life, 0, 6.283); ctx.fill();
     }
-    var mark = function () {
-      var y = 140, idx = -1, hgt = doc.scrollHeight - innerHeight, rp = hgt > 0 ? Math.min(1, scrollY / hgt) : 0;
-      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top < y) idx = i; });
-      curIdx = idx;
-      links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
-      pLinks.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
-      if (pill) {
-        var past = nav.getBoundingClientRect().bottom < 0;
-        pill.classList.toggle('show', past);
-        if (!past) pill.classList.remove('open');
-        pill.style.setProperty('--rp', rp.toFixed(3));
-        pill.querySelector('.panel').setAttribute('data-pct', Math.round(rp * 100) + '%');
-        pill.querySelector('.idx').textContent = ('0' + Math.max(1, idx + 1)).slice(-2) + '/' + ('0' + links.length).slice(-2);
-        var name = idx >= 0 ? links[idx].textContent : links[0].textContent;
-        if (cur.getAttribute('data-name') !== name) {
-          cur.setAttribute('data-name', name);
-          cur._dtok = null; cur.classList.remove('decrypting'); cur.textContent = name;   /* 直接重写文字, 旧的逐字 span 一并清掉 */
-          if (fx && past) decrypt(cur, 420);               /* 进入新小节时, 胶囊里的节名解密切换 */
-        }
-      }
-    };
-    addEventListener('scroll', mark, { passive: true }); addEventListener('resize', mark); mark();
-
-    /* 4. 背景等高线: 地形图式的等高线 (每 5 条一条较粗的计曲线), 按高度从青到绿着色;
-       地形缓慢呼吸变形, 鼠标所在处隆起一个小山丘; 正文一栏用羽化的遮罩压淡 */
-    if (!reduce) {
-      var cv = document.createElement('canvas'); cv.id = 'contour'; cv.setAttribute('aria-hidden', 'true');
-      document.body.insertBefore(cv, document.body.firstChild);
-      var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, C = 7, NX = 0, NY = 0, F = null, narrow = false, mL = 0, mR = 0;
-      var cs0 = getComputedStyle(doc);
-      function rgbOf(h, d) { var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((h || '').trim());
-        return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : d; }
-      var A = rgbOf(cs0.getPropertyValue('--accent'), [129, 228, 141]);
-      var B = rgbOf(cs0.getPropertyValue('--glow2'), [127, 211, 255]);
-      var mainEl = document.querySelector('main');
-      var P = new Uint8Array(512), sd = 2468013;
-      for (var q = 0; q < 256; q++) P[q] = q;
-      for (q = 255; q > 0; q--) { sd = (sd * 16807) % 2147483647; var r = sd % (q + 1), tmp = P[q]; P[q] = P[r]; P[r] = tmp; }
-      for (q = 0; q < 256; q++) P[q + 256] = P[q];
-      function sm(t) { return t * t * (3 - 2 * t); }
-      function vn(x, y) {
-        var xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi; xi &= 255; yi &= 255;
-        var a = P[P[xi] + yi] / 255, b = P[P[xi + 1] + yi] / 255, c = P[P[xi] + yi + 1] / 255, d = P[P[xi + 1] + yi + 1] / 255;
-        var u = sm(xf), v = sm(yf);
-        return (a + (b - a) * u) * (1 - v) + (c + (d - c) * u) * v;
-      }
-      var mx = -9999, my = -9999, hx = -9999, hy = -9999, amp = 0, ampT = 0, lastMove = 0;
-      addEventListener('pointermove', function (e) { if (e.pointerType !== 'mouse') return; mx = e.clientX; my = e.clientY; ampT = 1; lastMove = performance.now(); }, { passive: true });
-      document.addEventListener('pointerleave', function () { ampT = 0; });
-      var LV = []; for (var lv = .18, li = 0; lv < .95; lv += .033, li++) LV.push({ v: lv, idx: li % 5 === 0 });
-      function size() {
-        dpr = Math.min(2, window.devicePixelRatio || 1);
-        W = innerWidth; H = innerHeight; narrow = W < 700;
-        cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        NX = Math.ceil(W / C) + 2; NY = Math.ceil(H / C) + 2; F = new Float32Array(NX * NY);
-        var rr = mainEl ? mainEl.getBoundingClientRect() : { left: 0, right: 0 }; mL = rr.left; mR = rr.right;
-      }
-      function field(t) {
-        var ts = t / 1000, br = 1 + .06 * Math.sin(ts * Math.PI * 2 / 20), sy = scrollY * .0011;
-        var ox = .3 * Math.sin(ts * .045), oy = .3 * Math.cos(ts * .038);
-        /* 鼠标山丘: 位置和高度都平滑跟随 */
-        if (hx < -999) { hx = mx; hy = my; }
-        hx += (mx - hx) * .18; hy += (my - hy) * .18;
-        if (performance.now() - lastMove > 2500) ampT = 0;
-        amp += (ampT * .22 - amp) * .06;
-        var s2 = 2 * 85 * 85, cx = W / 2, cy = H / 2;
-        for (var y = 0; y < NY; y++) {
-          var py = y * C, ny0 = ((py - cy) / br + cy) * .0042;
-          for (var x = 0; x < NX; x++) {
-            var px = x * C, nx0 = ((px - cx) / br + cx) * .0042;
-            var v = .68 * vn(nx0 + ox, ny0 + oy + sy) + .32 * vn(nx0 * 2.6 - ts * .02, ny0 * 2.6 + ts * .015 + sy * 2.6);
-            if (amp > .002) { var dx = px - hx, dy = py - hy; v += amp * Math.exp(-(dx * dx + dy * dy) / s2); }
-            F[y * NX + x] = v;
-          }
-        }
-      }
-      function draw(t) {
-        field(t);
-        ctx.clearRect(0, 0, W, H);
-        ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-        var k = narrow ? .55 : 1;
-        for (var l = 0; l < LV.length; l++) {
-          var lev = LV[l].v, f = Math.min(1, Math.max(0, (lev - .25) / .6));
-          var c = [Math.round(B[0] + (A[0] - B[0]) * f), Math.round(B[1] + (A[1] - B[1]) * f), Math.round(B[2] + (A[2] - B[2]) * f)];
-          ctx.strokeStyle = 'rgba(' + c.join(',') + ',' + ((LV[l].idx ? .34 : .15) * k).toFixed(3) + ')';
-          ctx.lineWidth = LV[l].idx ? 1.35 : .8;
-          ctx.beginPath();
-          for (var y = 0; y < NY - 1; y++) for (var x = 0; x < NX - 1; x++) {
-            var a = F[y * NX + x], b = F[y * NX + x + 1], cc = F[(y + 1) * NX + x + 1], d = F[(y + 1) * NX + x];
-            var id = (a > lev ? 8 : 0) | (b > lev ? 4 : 0) | (cc > lev ? 2 : 0) | (d > lev ? 1 : 0);
-            if (id === 0 || id === 15) continue;
-            var X = x * C, Y = y * C;
-            var T = [X + C * (lev - a) / (b - a), Y], Rt = [X + C, Y + C * (lev - b) / (cc - b)], Bt = [X + C * (lev - d) / (cc - d), Y + C], Lf = [X, Y + C * (lev - a) / (d - a)];
-            var sg;
-            switch (id) {
-              case 1: case 14: sg = [Lf, Bt]; break;  case 2: case 13: sg = [Bt, Rt]; break;
-              case 3: case 12: sg = [Lf, Rt]; break;  case 4: case 11: sg = [T, Rt]; break;
-              case 6: case 9: sg = [T, Bt]; break;    case 7: case 8: sg = [Lf, T]; break;
-              case 5: sg = [Lf, T, Bt, Rt]; break;    case 10: sg = [T, Rt, Lf, Bt]; break;
-            }
-            for (var g = 0; g < sg.length; g += 2) { ctx.moveTo(sg[g][0], sg[g][1]); ctx.lineTo(sg[g + 1][0], sg[g + 1][1]); }
-          }
-          ctx.stroke();
-        }
-        /* 羽化遮罩: 正文一栏中心最淡, 向两侧平滑过渡 */
-        if (!narrow && mR > mL) {
-          var gw = 140, g2 = ctx.createLinearGradient(mL - gw, 0, mR + gw, 0), fl = gw / (mR - mL + 2 * gw);
-          g2.addColorStop(0, 'rgba(0,0,0,0)'); g2.addColorStop(Math.min(.49, fl * 1.6), 'rgba(0,0,0,.72)');
-          g2.addColorStop(Math.max(.51, 1 - fl * 1.6), 'rgba(0,0,0,.72)'); g2.addColorStop(1, 'rgba(0,0,0,0)');
-          ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = g2; ctx.fillRect(mL - gw, 0, mR - mL + 2 * gw, H);
-          ctx.globalCompositeOperation = 'source-over';
-        }
-      }
-      size(); addEventListener('resize', function () { size(); draw(performance.now()); });
-      if (auto) draw(0);
-      else {
-        var lastT = 0;
-        (function loop(t) { if (!document.hidden && t - lastT > 66) { lastT = t; draw(t); } requestAnimationFrame(loop); })(0);
-      }
-    }
-
-    /* 解密标题 (h2 小节标题和 h3 三级标题; 页首大标题 h1 不加):
-       ① 第一次滚进视野时解密 (解密的是中文主标题 .ht, 德语副标题不动); h2 解密完开始颜色波动;
-       ② 之后鼠标悬停 (手机上点一下) 再解密, 1.2 秒内不重复;
-       ③ 正在读的那一节, 它的 h2 每隔 6–10 秒有一两个字瞬间变乱码再恢复 (信号干扰) */
-    if (fx) {
-      var heads = Array.prototype.slice.call(document.querySelectorAll('main h2, main h3')).filter(function (h) { return h.querySelector(':scope > .ht'); });
-      var hio = new IntersectionObserver(function (es) {
-        es.forEach(function (e) { if (e.isIntersecting) { decrypt(e.target.querySelector(':scope > .ht'), e.target.tagName === 'H3' ? 600 : 800); hio.unobserve(e.target); } });
-      }, { rootMargin: '0px 0px -12% 0px' });
-      heads.forEach(function (h) {
-        var ht = h.querySelector(':scope > .ht'), short = h.tagName === 'H3' ? 520 : 650;
-        if (h.getBoundingClientRect().top < innerHeight * .88) decrypt(ht, h.tagName === 'H3' ? 600 : 800); else hio.observe(h);
-        var lastHover = 0;
-        var again = function () { var now = performance.now(); if (now - lastHover > 1200) { lastHover = now; decrypt(ht, short); } };
-        ht.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') again(); });
-        h.addEventListener('click', function (e) { if (e.pointerType !== 'mouse' && !e.target.closest('a')) again(); });
-      });
-      var headOf = function (t) {
-        if (!t) return null;
-        var h = /^H2$/.test(t.tagName) ? t : t.querySelector('h2');
-        return h ? h.querySelector(':scope > .ht') : null;
-      };
-      var glitch = function () {
-        var ht = curIdx >= 0 ? headOf(targets[curIdx]) : null;
-        if (ht && !ht._dtok && !document.hidden) {
-          var r = ht.getBoundingClientRect();
-          if (r.bottom > 0 && r.top < innerHeight) glitchOnce(ht);
-        }
-        setTimeout(glitch, 6000 + Math.random() * 4000);
-      };
-      setTimeout(glitch, 7000);
-    }
-
-    /* 图片点击放大: 从原位置平滑放大到屏幕中央 (FLIP), 点击 / Esc 时缩回原位 */
-    var lb = document.createElement('div'); lb.id = 'lightbox'; document.body.appendChild(lb);   /* 图片在打开时才放进去, 页面里没有空的 <img> */
-    var lbSrc = null, lbBusy = false;
-    var rectFit = function (nw, nh) {
-      var mw = innerWidth * .92, mh = innerHeight * .84, k = Math.min(mw / nw, mh / nh, 2.2);
-      var w = nw * k, h = nh * k; return { left: (innerWidth - w) / 2, top: (innerHeight - h) / 2 - innerHeight * .03, width: w, height: h };
-    };
-    var place = function (el, r, to) {
-      var sx = r.width / to.width, sy = r.height / to.height;
-      el.style.transform = 'translate(' + r.left + 'px,' + r.top + 'px) scale(' + sx + ',' + sy + ')';
-    };
-    var lbOpen = function (im) {
-      if (lbBusy) return; lbBusy = true; lbSrc = im;
-      var b = document.createElement('img'); b.src = im.src; b.alt = im.alt;
-      var cap = document.createElement('div'); cap.className = 'lb-cap';
-      var fc = im.closest('figure') && im.closest('figure').querySelector('figcaption, .fig-cap');
-      cap.textContent = fc ? fc.textContent : (im.alt || '');
-      lb.textContent = ''; lb.appendChild(b); lb.appendChild(cap);
-      var to = rectFit(im.naturalWidth || im.width, im.naturalHeight || im.height);
-      b.style.width = to.width + 'px'; b.style.height = to.height + 'px';
-      b.style.transition = 'none'; place(b, im.getBoundingClientRect(), to);
-      im.style.visibility = 'hidden';
-      b.getBoundingClientRect();
-      b.style.transition = ''; lb.classList.add('on');
-      requestAnimationFrame(function () { b.style.transform = 'translate(' + to.left + 'px,' + to.top + 'px)'; });
-      setTimeout(function () { lbBusy = false; }, reduce ? 0 : 480);
-    };
-    var lbClose = function () {
-      if (!lb.classList.contains('on') || lbBusy) return;
-      var b = lb.querySelector('img'), im = lbSrc;
-      lb.classList.remove('on');
-      if (b && im && !reduce) {
-        lbBusy = true;
-        var to = { width: parseFloat(b.style.width), height: parseFloat(b.style.height) };
-        place(b, im.getBoundingClientRect(), to);
-        setTimeout(function () { im.style.visibility = ''; lb.textContent = ''; lbBusy = false; }, 480);
-      } else { if (im) im.style.visibility = ''; lb.textContent = ''; }
-    };
-    lb.addEventListener('click', lbClose);
-    addEventListener('keydown', function (e) { if (e.key === 'Escape') lbClose(); });
-    addEventListener('scroll', function () { if (lb.classList.contains('on')) lbClose(); }, { passive: true });
-    Array.prototype.forEach.call(document.querySelectorAll('main .src-fig img, main figure:not([class]) img'), function (im) {
-      im.addEventListener('click', function () { lbOpen(im); });
-    });
-
-    /* 左侧色条里的流光: 每个框随机错开起点, 不会整页同时闪 */
-    document.querySelectorAll('.zh, .warn, .def').forEach(function (el) { el.style.setProperty('--bar-delay', (-Math.random() * 5.5).toFixed(2) + 's'); });
-
-    /* 5. 卡片聚光灯: 只在鼠标所在的那张卡片里亮 */
-    if (!reduce && matchMedia('(pointer: fine)').matches) {
-      var boxes = document.querySelectorAll('main .card, main .zh, main .add, main .warn');
-      boxes.forEach(function (el) {
-        el.addEventListener('pointermove', function (e) {
-          if (e.target.closest('.card, .zh, .add, .warn') !== el) { el.classList.remove('lit'); return; }
-          var r = el.getBoundingClientRect();
-          el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-          el.style.setProperty('--my', (e.clientY - r.top) + 'px');
-          el.classList.add('lit');
-        });
-        el.addEventListener('pointerleave', function () { el.classList.remove('lit'); });
-      });
-    }
-
-    /* 7. 光标拖影: 鼠标移动时拖一条由粗到细、逐渐变淡的光带, 停下就收拢消失 */
-    if (!reduce && !auto && matchMedia('(pointer: fine)').matches) {
-      var tc = document.createElement('canvas'); tc.id = 'trail'; tc.setAttribute('aria-hidden', 'true');
-      document.body.appendChild(tc);
-      var tx = tc.getContext('2d'), TW = 0, TH = 0, tdpr = 1, pts = [], running = false, LIFE = 160;
-      var g1 = (getComputedStyle(doc).getPropertyValue('--accent') || '#81e48d').trim();
-      var g2 = (getComputedStyle(doc).getPropertyValue('--glow2') || '#7fd3ff').trim();
-      function tsize() { tdpr = Math.min(2, window.devicePixelRatio || 1); TW = innerWidth; TH = innerHeight;
-        tc.width = TW * tdpr; tc.height = TH * tdpr; tx.setTransform(tdpr, 0, 0, tdpr, 0, 0); }
-      tsize(); addEventListener('resize', tsize);
-      addEventListener('pointermove', function (e) {
-        pts.push({ x: e.clientX, y: e.clientY, t: performance.now() });
-        if (!running) { running = true; requestAnimationFrame(tdraw); }
-      }, { passive: true });
-      function tdraw(now) {
-        while (pts.length && now - pts[0].t > LIFE) pts.shift();
-        tx.clearRect(0, 0, TW, TH);
-        if (pts.length > 1) {
-          tx.lineCap = 'round'; tx.lineJoin = 'round';
-          for (var i = 1; i < pts.length; i++) {
-            var a = pts[i - 1], b = pts[i], f = i / (pts.length - 1), age = 1 - (now - b.t) / LIFE;
-            tx.strokeStyle = f > .5 ? g1 : g2;
-            tx.globalAlpha = Math.max(0, .75 * f * age);
-            tx.lineWidth = 1 + 5 * f * age;
-            tx.shadowColor = g1; tx.shadowBlur = 12 * f;
-            tx.beginPath(); tx.moveTo(a.x, a.y); tx.lineTo(b.x, b.y); tx.stroke();
-          }
-          tx.globalAlpha = 1; tx.shadowBlur = 0;
-        }
-        if (pts.length) requestAnimationFrame(tdraw); else { running = false; tx.clearRect(0, 0, TW, TH); }
-      }
-    }
-
-    /* 6. 折叠答案的展开动画 */
-    document.querySelectorAll('details.answer').forEach(function (d) {
-      var s = d.querySelector('summary'); if (!s) return;
-      var body = document.createElement('div'); body.className = 'dbody';
-      while (s.nextSibling) body.appendChild(s.nextSibling);
-      d.appendChild(body);
-      s.addEventListener('click', function (ev) {
-        if (reduce) return;
-        ev.preventDefault();
-        if (d.open) {
-          body.style.height = body.scrollHeight + 'px';
-          requestAnimationFrame(function () { body.style.height = '0px'; });
-          setTimeout(function () { d.open = false; body.style.height = ''; }, 350);
-        } else {
-          d.open = true; var h = body.scrollHeight; body.style.height = '0px';
-          requestAnimationFrame(function () { body.style.height = h + 'px'; });
-          setTimeout(function () { body.style.height = ''; }, 360);
-        }
-      });
-    });
-  } catch (err) { document.documentElement.classList.remove('fx'); }
+    if (ps.length) requestAnimationFrame(tick); else { running = false; ctx.clearRect(0, 0, innerWidth, innerHeight); }
+  }
 })();
 </script>
 </body>
