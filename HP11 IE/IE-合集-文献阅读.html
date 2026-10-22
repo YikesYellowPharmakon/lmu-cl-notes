@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IE 合集 · 文献阅读</title>
+<style>
+  /* 同一门课沿用同目录已有笔记的整段 <style>；新课只改下面的颜色 token。 */
+  :root {
+    --bg: #1d121e;
+    --ink: #ece3ed;
+    --muted: #b39bb5;
+    --line: #49304b;
+    --card: #2a1a2b;
+    --code: #170e18;
+    --accent: #dd81e4;
+    --chip: #3c233e;
+    --zh: #2a172b;
+    --add: #221823;
+    --add-line: #b386b6;
+    --warn: #2a1a1c;
+    --warn-line: #ff7b72;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16.5px/1.6 "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif;
+  }
+  header { position: static; background: transparent; border: 0; }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 18px 22px 72px; }
+  header .wrap { padding-top: 18px; padding-bottom: 8px; }
+  h1 { font-size: 28px; line-height: 1.25; margin: 0 0 6px; font-weight: 650; }
+  h2 { font-size: 22px; margin: 44px 0 8px; padding-top: 10px; border-top: 1px solid var(--line); }
+  h3 { font-size: 17px; margin: 24px 0 6px; }
+  h1 .de-title, h2 .de-title, h3 .de-title {
+    display: block; margin-top: 2px; color: var(--muted);
+    font-weight: 500; font-size: 0.92em; line-height: 1.35;
+  }
+  h1 .de-title { font-size: 0.62em; }
+  p { margin: 8px 0; }
+  .lede { color: var(--muted); margin: 0; }
+  nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+  nav a {
+    color: var(--accent); text-decoration: none; background: var(--chip);
+    border-radius: 999px; padding: 3px 10px;
+    font: 13px/1.4 "PingFang SC", sans-serif;
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px 16px; margin: 12px 0;
+  }
+  .card p, .card li { margin: 4px 0; }
+  .de { position: relative; padding-top: 26px; }
+  .folie {
+    position: absolute; top: 7px; left: 16px;
+    font: 11.5px/1.3 "PingFang SC", sans-serif; color: var(--muted); letter-spacing: .02em;
+  }
+  .de .def {
+    border-left: 3px solid var(--accent); padding: 4px 10px; margin: 6px 0;
+    background: var(--chip); border-radius: 0 8px 8px 0;
+  }
+  .zh {
+    background: var(--zh); border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .zh p { margin: 0 0 8px; }
+  .zh p:last-child, .zh ul:last-child, .zh ol:last-child { margin-bottom: 0; }
+  .add {
+    background: var(--add); border-left: 3px dashed var(--add-line);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .add::before { content: "补充 (幻灯片之外)"; display: block; font-size: 12px; color: var(--add-line); font-weight: 600; margin-bottom: 4px; }
+  .add p { margin: 0 0 8px; }
+  .add p:last-child { margin-bottom: 0; }
+  .warn {
+    background: var(--warn); border-left: 3px solid var(--warn-line);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .vocab { font-family: "PingFang SC", sans-serif; font-size: 14px; color: var(--muted); margin: 6px 0 2px; }
+  .vocab b { color: var(--ink); font-weight: 600; }
+  ul, ol { margin: 8px 0; padding-left: 1.3em; }
+  li { margin: 4px 0; }
+  ul ul { margin: 2px 0; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; margin: 12px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 7px 10px; border-bottom: 1px solid var(--line); }
+  th { font: 12px/1.3 "PingFang SC", sans-serif; color: var(--muted); font-weight: 600; background: var(--chip); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tablewrap { overflow-x: auto; }
+  pre {
+    background: var(--code); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px; overflow: auto; margin: 12px 0;
+    font: 13.5px/1.5 "SF Mono", ui-monospace, Menlo, monospace;
+  }
+  code {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 0.86em;
+    background: var(--chip); padding: 1px 5px; border-radius: 5px;
+  }
+  pre code { background: none; padding: 0; }
+  .c { color: #8fbf98; }
+  .s { color: #f2a27f; }
+  .k { color: #8ab4f8; font-weight: 600; }
+  a { color: var(--accent); }
+  .src { color: var(--muted); font-size: 14px; }
+  blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin: 8px 0; }
+  details summary { cursor: pointer; font-weight: 600; }
+  details[open] summary { margin-bottom: 6px; }
+  .diagram { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+  .diagram > div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font-family: "PingFang SC", sans-serif; font-size: 14.5px; }
+  .diagram h4 { margin: 0 0 6px; font-size: 15px; }
+  @media (max-width: 560px) { .diagram { grid-template-columns: 1fr; } }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cols pre { margin: 0; }
+  @media (max-width: 620px) { .cols { grid-template-columns: 1fr; } }
+  /* ===== 前端细节优化 2026-10-16：只调排版与交互，不改内容和颜色 token ===== */
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  h1, h2, h3, h4 { text-wrap: balance; }
+  p, li { text-wrap: pretty; }
+  p, li, a, code { overflow-wrap: break-word; }
+  [id] { scroll-margin-top: 16px; }
+  :focus-visible { outline: 2px solid var(--accent, var(--link)); outline-offset: 2px; border-radius: 4px; }
+  pre, .tablewrap { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  pre { tab-size: 4; }
+  .tablewrap { overflow-x: auto; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  @media print { pre, table, details, figure { break-inside: avoid; } h2, h3 { break-after: avoid; } }
+  ::selection { background: color-mix(in srgb, var(--accent, var(--link)) 35%, transparent); }
+  nav a { transition: background-color .15s ease, color .15s ease; }
+  nav a:hover { background: color-mix(in srgb, var(--accent, var(--link)) 22%, var(--chip, var(--paper))); }
+  details summary:hover { color: var(--accent, var(--link)); }
+  @media print { .card, .zh, .add, .warn, .de, .later, .vocab { break-inside: avoid; } }
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .wrap, header .wrap, main { padding-left: 16px; padding-right: 16px; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; }
+    .card { padding-left: 12px; padding-right: 12px; }
+    .folie, .slide { left: 12px; }
+    .zh, .add, .warn { padding: 9px 12px; }
+    .part > h2, article { padding-left: 14px; padding-right: 14px; }
+    pre { padding: 10px 12px; font-size: 13px; }
+  }
+
+  .src-fig { background:#fff; border-radius:8px; padding:8px; margin:12px auto; }
+  .src-fig img { max-width:100%; max-height:360px; width:auto; }
+  .src-fig figcaption { color:#444; font:12.5px/1.5 "PingFang SC", sans-serif; margin-top:6px; }
+  .src-fig.wide img { max-height:520px; }
+  .card .strike, s { text-decoration: line-through; }
+  .ex { font-style: italic; }
+  .math-block { display: block; overflow-x: auto; overflow-y: hidden; max-width: 100%; margin: 10px 0; }
+  .math-block .katex-display { margin: 0.4em 0; }
+  /* ===== 排版统一层 v9（所有笔记共用；只管字体、尺寸、间距、对齐，不改颜色 token） ===== */
+  :root { --measure: 760px; --gutter: 24px; --serif: "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif; --sans: "PingFang SC", "Hiragino Sans GB", "Songti SC", sans-serif; --mono: "SF Mono", ui-monospace, Menlo, monospace; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { font: 16.5px/1.65 var(--serif); font-kerning: normal; }
+  /* 换行：中文按标点避头尾（strict），不用 balance / pretty（它们会在宽屏和手机上把中文行拆成一长一短、在词中间断开） */
+  body { line-break: strict; word-break: normal; overflow-wrap: break-word; font-feature-settings: "halt" 1; }
+  /* 中文讲解用英文标点（, . : ; ! ? ( )，由 scripts/zh_punct.py 转换）；剩下的「」、《》用 halt 压成半宽，不留大空白 */
+  pre, code, kbd, .katex { font-feature-settings: normal; }
+  /* 页首说明和副标题按「 · 」分段，只在段与段之间换行，不在一个段落中间断开 */
+  .seg, h1 .seg, h2 .seg, h3 .seg, .lede .seg { display: inline-block; margin: 0; font-size: inherit; font-weight: inherit; color: inherit; letter-spacing: inherit; }
+  p, li, td, th, dd, figcaption, summary, .lede { text-wrap: wrap; }
+  h1, h2, h3, h4 { text-wrap: wrap; word-break: keep-all; overflow-wrap: anywhere; }
+  /* 行内代码整体不拆行（bark() 不会断成 bark( / )）；只有页首、出处说明里的长文件名允许在放不下时断开 */
+  code { white-space: nowrap; }
+  .lede code, .src code, h1 code, h2 code, h3 code { white-space: normal; overflow-wrap: anywhere; }
+  td:first-child, th:first-child { min-width: 5em; }
+  /* 单元格内容不能断开的表（莫尔斯码之类）给 table 加 class="nowrap"，放不下就横向滚动（注释里不要写带尖括号的标签，wrap_tables.py 曾把它当成真表格） */
+  table.nowrap td, table.nowrap th { white-space: nowrap; text-wrap: nowrap; }
+  /* 代码块里的 code 跟随 pre 保留换行（上面的 nowrap 只给行内代码；漏了这条，多行代码会挤成一行） */
+  pre code { white-space: inherit; overflow-wrap: normal; word-break: normal; }
+  /* 长的行内代码（apply_typography.py 标 .lc，超过 24 个字符）在手机上放不下，允许在空格处换行，必要时任意处断开 */
+  code.lc { white-space: normal; overflow-wrap: anywhere; }
+  /* 版心：页首和正文同一列，左右对齐、整体居中 */
+  header .wrap, main.wrap, main { box-sizing: border-box; max-width: var(--measure); margin-left: auto; margin-right: auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+  header .wrap { padding-top: 40px; padding-bottom: 8px; }
+  main.wrap, main { padding-top: 8px; padding-bottom: 96px; }
+  /* 标题层级 */
+  h1 { font-size: 28px; line-height: 1.3; font-weight: 650; margin: 0 0 4px; }
+  h1 .de-title, h1 > span { display: block; margin-top: 6px; font-size: 15px; line-height: 1.45; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+  h2 { font-size: 22px; line-height: 1.35; font-weight: 650; margin: 56px 0 10px; padding-top: 16px; }
+  h2 .de-title { display: block; margin-top: 4px; font-size: 15px; font-weight: 500; color: var(--muted); }
+  h3 { font-size: 17.5px; line-height: 1.45; font-weight: 650; margin: 32px 0 8px; }
+  h3 .de-title { display: block; margin-top: 2px; font-size: 14px; font-weight: 500; color: var(--muted); }
+  h4 { font-size: 16px; margin: 24px 0 8px; }
+  /* 页首说明与导航 */
+  .lede { margin: 12px 0 0; font: 15.5px/1.65 var(--serif); color: var(--muted); }
+  nav { display: flex; flex-wrap: wrap; gap: 6px 6px; margin: 18px 0 0; }
+  nav a { font: 12.5px/1.5 var(--sans); padding: 3px 11px; border-radius: 999px; text-decoration: none; }
+  /* 正文段落 */
+  p { margin: 10px 0; }
+  ul, ol { padding-left: 1.4em; margin: 8px 0; }
+  li { margin: 4px 0; }
+  /* 原文卡片与各类框：统一宽度、圆角、内边距 */
+  .card { box-sizing: border-box; width: 100%; border-radius: 12px; padding: 14px 18px; margin: 14px 0; }
+  .card.de, .card.orig { padding-top: 30px; }
+  .folie, .slide { top: 9px; left: 18px; font: 11.5px/1.3 var(--sans); letter-spacing: .03em; }
+  .zh, .add, .warn, details.answer, .later { box-sizing: border-box; font: 15px/1.75 var(--sans); padding: 12px 16px; margin: 10px 0 6px; }
+  .zh p, .add p, .warn p, details.answer p { margin: 0 0 10px; }
+  .zh p:last-child, .add p:last-child, .warn p:last-child { margin-bottom: 0; }
+  .src { font: 14px/1.7 var(--sans); }
+  /* 居中元素：公式行、图、表格统一处理 */
+  p[style*="text-align:center"], p[style*="text-align: center"], .math-block { margin: 14px auto; text-align: center; font-size: 1.05em; }
+  figure, .src-fig { margin: 14px auto; text-align: center; }
+  /* 图注左对齐: 居中的两行图注第二行会孤零零缩在中间 */
+  figure figcaption, .src-fig figcaption { text-align: left; }
+  /* 图注按标点分句 (span.cs)，每行都在一个标点后结束，不在半句中间换行 */
+  figcaption .cs { display: inline-block; max-width: 100%; }
+  figure img, .src-fig img { display: block; margin: 0 auto; }
+  figure svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .tablewrap { width: 100%; overflow-x: auto; margin: 12px 0; }
+  table { width: 100%; font: 14.5px/1.6 var(--sans); }
+  .card table, .tablewrap table { margin: 0; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 11px; }
+  td.num, th.num { text-align: right; }
+  /* 代码 */
+  pre { font: 13.5px/1.55 var(--mono); padding: 12px 16px; border-radius: 10px; margin: 12px 0; overflow-x: auto; tab-size: 4; }
+  code { font-family: var(--mono); font-size: .86em; }
+  pre code { font-size: inherit; }
+  .cols { gap: 12px; }
+  .cols > *, .pair > *, .card > *, .zh > *, details.answer > * { min-width: 0; }
+  img, video { max-width: 100%; height: auto; }
+  .katex svg { max-width: none; }
+  /* 折叠框 */
+  details > summary { font: 600 15px/1.5 var(--sans); }
+  /* 窄屏 */
+  @media (max-width: 600px) {
+    :root { --gutter: 16px; }
+    body { font-size: 16px; line-height: 1.65; }
+    header .wrap { padding-top: 24px; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; margin-top: 44px; }
+    h3 { font-size: 17px; }
+    .card { padding-left: 13px; padding-right: 13px; }
+    .folie, .slide { left: 13px; }
+    .zh, .add, .warn, details.answer { padding: 10px 13px; font-size: 15px; line-height: 1.75; }
+    nav a { font-size: 12px; padding: 2px 9px; }
+    .cols { grid-template-columns: 1fr; }
+    /* 手机上表格列太窄时中文会一字一行（「需求分析」竖着排）：给单元格最小宽度，放不下就在 .tablewrap 里横向滚动 */
+    th, td { min-width: 4.5em; }
+    td.wide, th.wide { min-width: 9em; }
+  }
+  /* ===== /排版统一层 ===== */
+</style>
+<style id="glass">
+  /* ===== 玻璃霓虹层 (Glass / Neon) v13 · 只管视觉特效, 由 scripts/apply_glass.py 插在 </head> 前; 不改字号、版心、间距 ===== */
+  :root {
+    --glow: var(--accent);
+    --glow2: #7fd3ff;
+    --tint: color-mix(in srgb, var(--glow) 55%, #ffffff);          /* 课程色的亮色调, 进度条/色条/标题波动都用它, 跟着课程走 */
+    --glass: color-mix(in srgb, var(--card) 62%, transparent);
+    --glass-strong: color-mix(in srgb, var(--card) 80%, transparent);
+    --edge: color-mix(in srgb, #ffffff 9%, transparent);
+    --mono: "JetBrainsMono Nerd Font", "JetBrainsMono NF", "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  }
+  html { background: var(--bg); }
+  body {
+    background:
+      radial-gradient(1100px 600px at 50% -15%, color-mix(in srgb, var(--glow) 9%, transparent), transparent 65%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+  ::selection { background: color-mix(in srgb, var(--glow) 38%, transparent); color: #fff; }
+
+  /* 背景等高线: 固定画布上一张缓慢呼吸的地形图, 鼠标处隆起山丘 (由脚本绘制) */
+  #contour { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  /* 光标拖影: 覆盖全屏的透明画布, 不拦截鼠标 */
+  #trail { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 60; pointer-events: none; }
+
+  /* 顶部阅读进度条: 一条极淡的轨道 + 课程色渐变的进度 + 末端一颗发光的光点; 颜色全部来自课程主色 */
+  @property --p { syntax: "<number>"; inherits: true; initial-value: 0; }
+  #progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 50; pointer-events: none;
+    background: color-mix(in srgb, var(--glow) 10%, transparent); }
+  #progress::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p) * 100%);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 15%, transparent), color-mix(in srgb, var(--glow) 75%, transparent) 60%, var(--glow) 88%, var(--tint));
+    box-shadow: 0 0 6px color-mix(in srgb, var(--glow) 70%, transparent), 0 0 14px color-mix(in srgb, var(--glow) 35%, transparent); border-radius: 0 2px 2px 0; }
+  #progress::after { content: ""; position: absolute; top: 50%; left: calc(var(--p) * 100%); width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%;
+    background: var(--tint); opacity: min(1, calc(var(--p) * 60));
+    box-shadow: 0 0 6px 1px var(--glow), 0 0 16px 4px color-mix(in srgb, var(--glow) 45%, transparent); }
+  @supports (animation-timeline: scroll()) {
+    #progress { animation: prog linear both; animation-timeline: scroll(root); }
+    @keyframes prog { from { --p: 0; } to { --p: 1; } }
+  }
+
+  /* 标题 */
+  h1 { background: linear-gradient(100deg, #fff 0%, var(--glow) 55%, var(--glow2) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  h1 .de-title { -webkit-text-fill-color: var(--muted); color: var(--muted); }
+  h2 { border-top: 0 !important; position: relative; }
+  .part:has(> h2) { border-top-color: transparent !important; }   /* 练习单的分节线由 h2 的渐变线代替, 不出现两条线 */
+  h2::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px;
+    background: linear-gradient(90deg, var(--glow), color-mix(in srgb, var(--glow2) 50%, transparent) 40%, transparent); opacity: .7; }
+
+  /* 小节标题 h2 / 三级标题 h3 的中文主标题: 脚本在运行时把它包进 .ht (文件本身不变).
+     h2 的 .ht 从一开始就用「文字裁切渐变」绘制 (起始是纯正文色), 解密后只是让渐变里的光带开始流动;
+     渲染方式前后不变, 所以结束时不会闪、德语副标题也不会跟着变. */
+  h2 .ht { background: linear-gradient(90deg, var(--ink) 0 100%); background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  h2.wave .ht { background-image: linear-gradient(90deg, var(--ink) 0%, var(--ink) 18%, var(--glow) 34%, var(--tint) 42%, var(--glow) 50%, var(--ink) 66%, var(--ink) 100%);
+    animation: hwave 9s linear infinite; }
+  @keyframes hwave { from { background-position: 0% 0; } to { background-position: -200% 0; } }
+
+  /* 解密 / 信号干扰: 原字隐藏但仍占原位, 乱码画在 ::after 叠层里, 居中压在原字上, 不参与排版 */
+  .ch { position: relative; }
+  .ch.x { visibility: hidden; }
+  .ch.x::after { content: attr(data-g); visibility: visible; position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+    white-space: pre; color: var(--glow); -webkit-text-fill-color: var(--glow); opacity: .85; pointer-events: none; }
+
+  /* ===== 页首目录: 和卡片同一套玻璃面板, 每项带两位编号 (CSS 计数, 不改文件) ===== */
+  header nav, body > nav { counter-reset: toc; display: flex; flex-wrap: wrap; gap: 2px 4px; margin-top: 14px; padding: 30px 10px 10px;
+    position: relative; border-radius: 14px; background: var(--glass); border: 1px solid var(--edge);
+    -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+    box-shadow: 0 10px 30px -14px rgba(0,0,0,.6), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent); }
+  body > nav { width: calc(min(760px, 100%) - 44px) !important; max-width: none !important; margin: 14px auto 0 !important; padding: 30px 10px 10px !important; box-sizing: border-box; }
+  @media (max-width: 560px) { body > nav { width: calc(100% - 32px) !important; } }
+  header nav::before, body > nav::before { content: "目录"; position: absolute; left: 14px; top: 9px;
+    font: 600 11px/1 var(--mono); letter-spacing: .12em; color: color-mix(in srgb, var(--glow) 75%, var(--muted)); }
+  header nav::after, body > nav::after { content: ""; position: absolute; left: 14px; right: 14px; top: 23px; height: 1px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 45%, transparent), transparent 70%); }
+  header nav a, body > nav a { counter-increment: toc; display: inline-flex; align-items: baseline; gap: 6px;
+    background: transparent !important; border: 0 !important; border-radius: 8px; padding: 4px 9px !important;
+    color: var(--ink) !important; text-decoration: none; position: relative; transition: background-color .2s, color .2s; }
+  header nav a::before, body > nav a::before { content: counter(toc, decimal-leading-zero);
+    font: 500 10.5px/1 var(--mono); color: color-mix(in srgb, var(--glow) 60%, var(--muted)); }
+  header nav a:hover, body > nav a:hover { background: color-mix(in srgb, var(--glow) 10%, transparent) !important; }
+  header nav a.active, body > nav a.active { color: var(--glow) !important; background: color-mix(in srgb, var(--glow) 12%, transparent) !important; }
+  header nav a.active::after, body > nav a.active::after { content: ""; position: absolute; left: 9px; right: 9px; bottom: 0; height: 1.5px; border-radius: 2px;
+    background: var(--glow); box-shadow: 0 0 8px var(--glow); }
+
+  /* ===== 浮动胶囊目录 ===== */
+  #toc-pill { position: fixed; top: 12px; left: 50%; z-index: 45; transform: translate(-50%, -150%);
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), opacity .3s; opacity: 0; width: min(92vw, 440px); font: 13px/1.4 "PingFang SC", sans-serif; }
+  #toc-pill.show { transform: translate(-50%, 0); opacity: 1; }
+  #toc-pill .cap { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; margin: 0 auto; width: fit-content; max-width: 100%;
+    padding: 6px 14px 6px 8px; border-radius: 999px; color: var(--ink); white-space: nowrap;
+    background: color-mix(in srgb, var(--card) 90%, #000); border: 1px solid color-mix(in srgb, var(--glow) 30%, var(--edge));
+    -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: 0 10px 28px -10px rgba(0,0,0,.8), 0 0 20px -8px color-mix(in srgb, var(--glow) 60%, transparent); }
+  #toc-pill .ring { width: 20px; height: 20px; border-radius: 50%; flex: none; position: relative;
+    background: conic-gradient(var(--glow) calc(var(--rp, 0) * 360deg), color-mix(in srgb, var(--glow) 16%, transparent) 0); }
+  #toc-pill .ring::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--card); box-shadow: inset 0 0 6px color-mix(in srgb, var(--glow) 35%, transparent); }
+  #toc-pill .idx { font: 600 11.5px/1 var(--mono); color: var(--glow); }
+  #toc-pill .cur { overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+  #toc-pill .chev { opacity: .55; font-size: 10px; transition: transform .25s; }
+  #toc-pill.open .chev { transform: rotate(180deg); }
+  #toc-pill .panel { counter-reset: tp; margin-top: 8px; padding: 34px 8px 8px; border-radius: 16px; display: none; position: relative;
+    background: color-mix(in srgb, var(--card) 94%, #000); border: 1px solid color-mix(in srgb, var(--glow) 18%, var(--edge));
+    -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: 0 22px 50px -14px rgba(0,0,0,.85), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent); max-height: 62vh; overflow-y: auto; }
+  #toc-pill .panel::before { content: "目录 · " attr(data-pct); position: absolute; left: 16px; top: 12px;
+    font: 600 11px/1 var(--mono); letter-spacing: .1em; color: color-mix(in srgb, var(--glow) 75%, var(--muted)); }
+  #toc-pill .panel::after { content: ""; position: absolute; left: 16px; right: 16px; top: 27px; height: 1px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 45%, transparent), transparent 75%); }
+  #toc-pill.open .panel { display: block; animation: panel-in .22s ease-out; }
+  @keyframes panel-in { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: none; } }
+  #toc-pill .panel a { counter-increment: tp; display: flex; align-items: baseline; gap: 10px; padding: 7px 12px 7px 14px; border-radius: 10px;
+    color: var(--ink); text-decoration: none; position: relative; transition: background-color .15s; }
+  #toc-pill .panel a::before { content: counter(tp, decimal-leading-zero); font: 500 11px/1 var(--mono); color: var(--muted); min-width: 18px; }
+  #toc-pill .panel a:hover { background: color-mix(in srgb, var(--glow) 10%, transparent); }
+  #toc-pill .panel a.active { color: var(--glow); background: color-mix(in srgb, var(--glow) 13%, transparent); }
+  #toc-pill .panel a.active::before { color: var(--glow); }
+  #toc-pill .panel a.active::after { content: ""; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 2px; border-radius: 2px; background: var(--glow); box-shadow: 0 0 8px var(--glow); }
+
+  /* 卡片层次: 原文 = 明亮玻璃, 讲解 = 带色玻璃, 补充 = 虚光, 红框 = 红色辉光 */
+  .card { background: var(--glass); border: 1px solid var(--edge);
+    -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: 0 10px 30px -12px rgba(0,0,0,.6), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+    position: relative; isolation: isolate; }
+  .zh { background: color-mix(in srgb, var(--zh) 70%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-left-color: transparent !important; }
+  .add { background: color-mix(in srgb, var(--add) 55%, transparent);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  .warn { background: color-mix(in srgb, #3a1518 65%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-left-color: transparent !important; }
+  /* ===== 左侧色条 v2: 讲解框、红框、补充框、原文卡片里的定义框统一 =====
+     由三部分组成: 顶端一个发光的节点, 一根两端渐隐的细线, 一段沿线缓慢往下流动的亮光 (像数据在线路里传输);
+     框的左边缘还有一层淡淡的同色光晕, 让色条「照亮」框内. 颜色由 --bar / --bar-tint 决定, 默认是课程色. */
+  .zh, .def { --bar: var(--glow); --bar-tint: var(--tint); }
+  .warn { --bar: var(--warn-line); --bar-tint: color-mix(in srgb, var(--warn-line) 55%, #fff); }
+  .add { --bar: var(--add-line); --bar-tint: color-mix(in srgb, var(--add-line) 55%, #fff); }
+  .zh, .warn, .add, .def { border-left-color: transparent !important; }
+  .def { position: relative; isolation: isolate; border-left-width: 3px !important; border-left-style: solid !important;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 10%, transparent), transparent 90px), color-mix(in srgb, var(--chip) 80%, transparent) !important; }
+  .zh { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 9%, transparent), transparent 110px), color-mix(in srgb, var(--zh) 70%, transparent); }
+  .warn { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 10%, transparent), transparent 110px), color-mix(in srgb, #3a1518 65%, transparent); }
+  .add { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 6%, transparent), transparent 90px), color-mix(in srgb, var(--add) 55%, transparent); }
+  .zh::before, .warn::before, .def::before{
+    content: ""; position: absolute; left: -6px; top: 6px; bottom: 6px; width: 9px; pointer-events: none; z-index: 1;
+    background:
+      radial-gradient(circle at 50% 5px, var(--bar-tint) 0 1.6px, color-mix(in srgb, var(--bar) 70%, transparent) 2.4px, transparent 4.5px) no-repeat,
+      linear-gradient(180deg, transparent, var(--bar-tint) 45%, #fff 50%, var(--bar-tint) 55%, transparent) 50% -60% / 2px 34% no-repeat,
+      linear-gradient(180deg, transparent 6px, color-mix(in srgb, var(--bar) 85%, transparent) 14px, color-mix(in srgb, var(--bar) 75%, transparent) 80%, transparent) 50% 0 / 2px 100% no-repeat;
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bar) 70%, transparent)) drop-shadow(0 0 8px color-mix(in srgb, var(--bar) 30%, transparent));
+    animation: bar-flow 5.5s cubic-bezier(.45,0,.25,1) infinite; animation-delay: var(--bar-delay, 0s);
+    transition: filter .3s; }
+  /* 补充框: ::before 已用来显示「补充」小标题, 色条改用 ::after 画成虚线 + 空心节点 */
+  .add::after {
+    content: ""; position: absolute; left: -6px; top: 6px; bottom: 6px; width: 9px; pointer-events: none; z-index: 1; border-radius: 0;
+    inset: 6px auto 6px -6px; opacity: .85;
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bar) 60%, transparent));
+    background:
+      radial-gradient(circle at 50% 5px, var(--bar-tint) 0 1.4px, transparent 2.2px, transparent 3px, color-mix(in srgb, var(--bar) 60%, transparent) 3.4px, transparent 4.4px) no-repeat,
+      linear-gradient(transparent, transparent) 50% 0 / 2px 0 no-repeat,
+      repeating-linear-gradient(180deg, color-mix(in srgb, var(--bar) 80%, transparent) 0 5px, transparent 5px 10px) 50% 12px / 2px calc(100% - 18px) no-repeat;
+    -webkit-mask: none; mask: none;
+    animation: none; }
+  @keyframes bar-flow {
+    0%   { background-position: 0 0, 50% -60%, 50% 0; }
+    70%  { background-position: 0 0, 50% 160%, 50% 0; }
+    100% { background-position: 0 0, 50% 160%, 50% 0; } }
+  .zh.lit::before, .warn.lit::before, .add.lit::after, .def:hover::before {
+    filter: drop-shadow(0 0 4px var(--bar)) drop-shadow(0 0 12px color-mix(in srgb, var(--bar) 45%, transparent)); animation-duration: 2.6s; }
+
+  /* 卡片聚光灯: 鼠标所在的卡片里, 以光标为中心亮起柔光, 边框离光标近的一段也变亮 (位置由脚本写进 --mx / --my) */
+  .zh, .add, .warn { position: relative; isolation: isolate; }
+  .card::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; z-index: -1; pointer-events: none;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--glow) 85%, #fff), transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity .3s; }
+  .card::after, .zh::after, .warn::after { content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; pointer-events: none;
+    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--glow) 11%, transparent), transparent 65%);
+    opacity: 0; transition: opacity .3s; }
+  .warn::after { background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--warn-line) 10%, transparent), transparent 65%); }
+  .card.lit::before, .card.lit::after, .zh.lit::after, .warn.lit::after { opacity: 1; }
+  .add.lit::after { opacity: 1; filter: drop-shadow(0 0 5px var(--bar)); }
+
+  /* ===== 代码块: 脚本在运行时把每个 <pre> 包进 .codebox (文件不变): 顶部标题栏 = 三个圆点 + 语言 + 复制按钮 ===== */
+  pre, code, .folie, .slide { font-family: var(--mono) !important; }
+  pre, code { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+  .folie { color: color-mix(in srgb, var(--glow) 70%, var(--muted)) !important; }
+  .codebox { position: relative; margin: 12px 0; border-radius: 12px; overflow: hidden; min-width: 0;
+    background: color-mix(in srgb, var(--code) 90%, transparent);
+    border: 1px solid color-mix(in srgb, var(--glow) 20%, var(--edge));
+    box-shadow: 0 14px 30px -16px rgba(0,0,0,.85), inset 0 1px 0 color-mix(in srgb, #fff 5%, transparent); }
+  .codebox::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: 1;
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--glow) 55%, transparent), transparent); }
+  .cb-head { display: flex; align-items: center; gap: 10px; height: 28px; padding: 0 10px 0 12px;
+    background: color-mix(in srgb, var(--glow) 5%, color-mix(in srgb, #000 30%, transparent));
+    border-bottom: 1px solid color-mix(in srgb, var(--glow) 12%, var(--edge)); font: 600 10.5px/1 var(--mono); letter-spacing: .08em; }
+  .cb-dots { display: inline-flex; gap: 6px; }
+  .cb-dots i { width: 9px; height: 9px; border-radius: 50%; background: #ff5f57; opacity: .8; }
+  .cb-dots i:nth-child(2) { background: #febc2e; } .cb-dots i:nth-child(3) { background: #28c840; }
+  .cb-lang { color: color-mix(in srgb, var(--glow) 80%, var(--muted)); text-transform: uppercase; }
+  .cb-copy { all: unset; margin-left: auto; cursor: pointer; color: var(--muted); padding: 3px 8px; border-radius: 6px;
+    font: 500 10.5px/1 var(--mono); letter-spacing: .04em; opacity: 0; transition: opacity .2s, background-color .2s, color .2s; }
+  .codebox:hover .cb-copy, .cb-copy:focus-visible { opacity: 1; }
+  .cb-copy:hover { background: color-mix(in srgb, var(--glow) 14%, transparent); color: var(--glow); }
+  .cb-copy.ok { color: var(--glow); opacity: 1; }
+  .codebox pre { margin: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+    background: transparent !important; }
+  /* 没有脚本时 (或打印) 的普通样式 */
+  pre { background: color-mix(in srgb, var(--code) 90%, transparent) !important; border: 1px solid color-mix(in srgb, var(--glow) 20%, var(--edge)) !important; }
+
+  /* ===== 原图 (所有笔记统一): 玻璃相框 + 白色底板 + 编号图注; .src-fig 和 MGTN 的普通 <figure> 同一套 =====
+     图注: 有 figcaption 用它; MGTN 没有图注, 脚本运行时用图片的 alt 补一个 .fig-cap (文件不变).
+     编号用 CSS 计数 (图 01, 图 02 …). 内嵌 SVG 的排版图 figure.rr / .tri 不受影响. */
+  main { counter-reset: fig; }
+  .src-fig, main figure:not([class]) { counter-increment: fig; position: relative; display: block; text-align: center;
+    width: fit-content; max-width: 100%; box-sizing: border-box; margin: 16px auto !important; padding: 10px 10px 0 !important;
+    background: var(--glass) !important; border: 1px solid var(--edge); border-radius: 14px !important;
+    box-shadow: 0 14px 34px -18px rgba(0,0,0,.8), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    transition: border-color .35s ease, box-shadow .35s ease; }
+  .src-fig img, main figure:not([class]) img { display: block; margin: 0 auto; width: auto !important; max-width: 100% !important; max-height: 380px; height: auto;
+    box-sizing: border-box; padding: 10px; background: #fff; border: 0 !important; border-radius: 9px !important;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); cursor: zoom-in;
+    transition: transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease; transform-origin: 50% 50%; }
+  .src-fig.wide img { max-height: 520px; }
+  .src-fig figcaption, main figure:not([class]) figcaption, .fig-cap {
+    display: block; text-align: left !important; color: var(--muted) !important; margin: 0 !important; padding: 9px 4px 10px !important;
+    font: 12.5px/1.6 "PingFang SC", sans-serif !important; }
+  .src-fig figcaption::before, main figure:not([class]) figcaption::before, .fig-cap::before {
+    content: "图 " counter(fig, decimal-leading-zero); display: inline-block; margin-right: 8px; padding: 1px 7px; border-radius: 6px; vertical-align: 1px;
+    font: 600 10px/1.5 var(--mono); letter-spacing: .06em; color: var(--glow);
+    background: color-mix(in srgb, var(--glow) 12%, transparent); border: 1px solid color-mix(in srgb, var(--glow) 28%, transparent); }
+  /* 悬停: 相框描边发光, 图片轻微浮起, 右上角出现「放大」提示 */
+  .src-fig::after, main figure:not([class])::after { content: "⤢ 放大"; position: absolute; top: 16px; right: 16px; z-index: 2; pointer-events: none;
+    padding: 3px 8px; border-radius: 999px; font: 600 10.5px/1.4 "PingFang SC", sans-serif; color: #fff;
+    background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid color-mix(in srgb, var(--glow) 40%, transparent);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    opacity: 0; transform: translateY(-4px); transition: opacity .3s ease, transform .3s ease; }
+  .src-fig:hover, main figure:not([class]):hover { border-color: color-mix(in srgb, var(--glow) 38%, var(--edge));
+    box-shadow: 0 20px 44px -18px rgba(0,0,0,.85), 0 0 26px -12px var(--glow), inset 0 1px 0 color-mix(in srgb, #fff 8%, transparent); }
+  .src-fig:hover img, main figure:not([class]):hover img { transform: scale(1.012); box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), 0 10px 26px -14px rgba(0,0,0,.6); }
+  .src-fig:hover::after, main figure:not([class]):hover::after { opacity: 1; transform: none; }
+  @media (pointer: coarse) { .src-fig::after, main figure:not([class])::after { display: none; } }
+  /* 出现: 相框淡入上浮, 图片底板随后自上而下展开 */
+  html.fx .src-fig.reveal img, html.fx main figure:not([class]).reveal img { clip-path: inset(0 0 100% 0 round 9px); transition: clip-path .9s cubic-bezier(.65,0,.35,1) .15s, transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
+  html.fx .src-fig.reveal.in img, html.fx main figure:not([class]).reveal.in img { clip-path: inset(0 0 0 0 round 9px); }
+
+  /* 放大: 图片从原位置平滑放大到屏幕中央 (FLIP), 关闭时缩回原位; 背景暗色毛玻璃淡入淡出 */
+  #lightbox { position: fixed; inset: 0; z-index: 90; visibility: hidden; cursor: zoom-out;
+    background: color-mix(in srgb, var(--bg) 0%, transparent); -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0);
+    transition: background-color .4s ease, backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, visibility 0s linear .4s; }
+  #lightbox.on { visibility: visible; background: color-mix(in srgb, var(--bg) 84%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    transition: background-color .4s ease, backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, visibility 0s; }
+  #lightbox img { position: fixed; left: 0; top: 0; transform-origin: 0 0; background: #fff; border-radius: 12px; padding: 14px; box-sizing: border-box;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,.9), 0 0 0 1px color-mix(in srgb, var(--glow) 35%, transparent);
+    transition: transform .48s cubic-bezier(.2,.8,.2,1); will-change: transform; }
+  #lightbox .lb-cap { position: fixed; left: 50%; bottom: 3vh; transform: translateX(-50%); max-width: min(90vw, 760px); text-align: center;
+    font: 13px/1.6 "PingFang SC", sans-serif; color: var(--ink); opacity: 0; transition: opacity .3s ease .15s; }
+  #lightbox.on .lb-cap { opacity: .9; }
+
+  /* ===== 表格: 和卡片同一套玻璃质感 ===== */
+  main .tablewrap { border-radius: 12px; }
+  main table { background: color-mix(in srgb, var(--card) 70%, transparent) !important; border: 1px solid var(--edge); border-radius: 12px; overflow: hidden; }
+  main th { background: color-mix(in srgb, var(--glow) 9%, var(--chip)) !important; border-bottom: 1px solid color-mix(in srgb, var(--glow) 30%, var(--line)) !important; }
+  main tr:hover td { background: color-mix(in srgb, var(--glow) 5%, transparent); }
+
+  /* 折叠答案的展开动画 */
+  details.answer > summary { transition: color .2s; }
+  details.answer .dbody { overflow: hidden; transition: height .35s ease; }
+
+  /* 滚动淡入 (只有 JS 生效时才隐藏, 无 JS 时直接显示) */
+  html.fx .reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  html.fx .reveal.in { opacity: 1; transform: none; }
+
+  main, header { position: relative; z-index: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #contour, #trail { display: none; }
+    h2.wave .ht { animation: none; }
+    #toc-pill.open .panel { animation: none; }
+    #lightbox, #lightbox img { transition: none !important; }
+    .src-fig img, main figure img { transition: none !important; clip-path: none !important; }
+    .zh::before, .warn::before, .def::before { animation: none; }
+    html.fx .reveal { opacity: 1; transform: none; transition: none; }
+  }
+  @media print {
+    #contour, #trail, #progress, #toc-pill { display: none !important; }
+    body { background: #fff !important; }
+    .card, .zh, .add, .warn, pre, nav { backdrop-filter: none !important; box-shadow: none !important; }
+    h1 { color: #000 !important; -webkit-text-fill-color: #000; background: none; }
+    h2 .ht { -webkit-text-fill-color: #000; background: none !important; animation: none; }
+    .cb-head, #lightbox { display: none !important; }
+  }
+  /* ===== /玻璃霓虹层 ===== */
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<span hidden data-glyphs="&lt;&gt;{}[]#@%*=01"></span>
+<header>
+  <div class="wrap">
+    <h1>信息抽取 · 文献阅读合集<br><span class="de-title"><span class="seg">Information Extraction ·</span> <span class="seg">Readings</span></span></h1>
+    <nav>
+      <a href="#uebersicht">文献一览</a>
+      <a href="#s1">Sarawagi 第 1 章</a>
+      <a href="#s-app">应用</a>
+      <a href="#s-tax">五个维度</a>
+      <a href="#s-struct">抽取的结构</a>
+      <a href="#s-src">来源</a>
+      <a href="#s-res">输入资源</a>
+      <a href="#s-meth">方法与输出</a>
+      <a href="#s-chall">挑战</a>
+      <a href="#s-rest">后面各章</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<div class="zh">
+  <p><b>读法说明. </b>带边框的卡片是文献的原文摘录 (关键句子、定义、例子), 左上角标的是期刊上印的页码. 左侧有色竖线的框是中文讲解, 左侧虚线的框是文献之外的补充, 红框标出原文的错误或前后不一致. 这份合集按文献分节; 以后有新的阅读材料, 按同样格式续写在后面.</p>
+</div>
+
+<!-- ======================= ÜBERSICHT ======================= -->
+<h2 id="uebersicht">文献一览<br><span class="de-title">Overview</span></h2>
+<div class="tablewrap"><table>
+  <tr><th>文献</th><th>范围</th><th>主题</th><th>对应课程内容</th></tr>
+  <tr><td class="wide">Sarawagi, S. (2008): Information Extraction. <i>Foundations and Trends in Databases</i> 1 (3), 261–377.</td><td class="wide">第 1 章 Introduction (S. 263–281) 精读; 第 2–6 章只列结构</td><td class="wide">IE 的应用、分类维度 (抽取什么、从哪里抽、用什么资源、什么方法、输出什么) 和挑战</td><td class="wide"><a href="IE-01-课程介绍与信息抽取导论.html#lit">IE 01</a> Slide 16 的必读文献; Slide 48 要求第 2 周研讨课前读引言</td></tr>
+</table></div>
+
+<!-- ======================= SARAWAGI ======================= -->
+<h2 id="s1">Sarawagi: 信息抽取 (2008), 第 1 章 引言<br><span class="de-title">Information Extraction, Chapter 1: Introduction</span></h2>
+<div class="zh"><p>这是一篇长达 117 页的综述, 作者来自印度理工学院孟买分校, 视角偏<b>数据库</b>: 关心的是怎样把非结构化数据变成可以查询的结构化数据. 课上要求研讨课前读<b>引言</b>, 它给出了整个领域的分类框架, 后面各章是具体方法. 这份综述写于 2008 年, 所以方法部分止于条件随机场等统计模型, 没有深度学习和大语言模型 (课程第一部分会补上).</p></div>
+
+<h3>摘要<br><span class="de-title">Abstract</span></h3>
+<div class="card de">
+  <span class="folie">S. 261</span>
+  <p>The automatic extraction of information from unstructured sources has opened up new avenues for querying, organizing, and analyzing data by drawing upon the clean semantics of structured databases and the abundance of unstructured data. The field of information extraction has its genesis in the natural language processing community where the primary impetus came from competitions centered around the recognition of named entities like people names and organization from news articles. As society became more data oriented with easy online access to both structured and unstructured data, new applications of structure extraction came around. … Consequently, there are many different communities of researchers bringing in techniques from machine learning, databases, information retrieval, and computational linguistics for various aspects of the information extraction problem.</p>
+  <p>This review is a survey of information extraction research of over two decades from these diverse communities. We create a taxonomy of the field along various dimensions derived from the nature of the extraction task, the techniques used for extraction, the variety of input resources exploited, and the type of output produced. We elaborate on rule-based and statistical methods for entity and relationship extraction. …</p>
+</div>
+<div class="zh">
+  <p>从非结构化来源中自动抽取信息, 把结构化数据库<b>干净的语义</b>和非结构化数据的<b>海量</b>结合起来, 为查询、组织和分析数据开辟了新途径. 这个领域起源于自然语言处理, 最初的推动力来自识别新闻中人名、机构名的<b>评测比赛</b>. 随着社会越来越以数据为中心, 新的应用不断出现, 机器学习、数据库、信息检索、计算语言学等多个研究群体都参与进来.</p>
+  <p>本综述覆盖二十多年的研究, 按抽取任务的性质、所用技术、可用的输入资源和输出类型建立<b>分类体系</b>, 重点讲实体和关系抽取的<b>基于规则</b>和<b>统计</b>方法.</p>
+</div>
+
+<h3>引言: 定义与发展脉络<br><span class="de-title">Introduction</span></h3>
+<div class="card de">
+  <span class="folie">S. 263–264</span>
+  <p>Information Extraction refers to the automatic extraction of structured information such as entities, relationships between entities, and attributes describing entities from unstructured sources. This enables much richer forms of queries on the abundant unstructured sources than possible with keyword searches alone. When structured and unstructured data co-exist, information extraction makes it possible to integrate the two types of sources and pose queries spanning them.</p>
+  <p>… Early extraction tasks were concentrated around the identification of named entities, like people and company names and relationship among them from natural language text. The scope of this research was strongly influenced by two competitions, the Message Understanding Conference (MUC) and Automatic Content Extraction (ACE) program. The advent of the Internet considerably increased the extent and diversity of applications depending on various forms of information extraction. Applications such as comparison shopping, and other automatic portal creation applications, lead to a frenzy of research and commercial activity on the topic. …</p>
+  <p>To address the needs of these diverse applications, the techniques of structure extraction have evolved considerably over the last two decades. Early systems were rule-based with manually coded rules. As manual coding of rules became tedious, algorithms for automatically learning rules from examples were developed. As extraction systems were targeted on more noisy unstructured sources, rules were found to be too brittle. Then came the age of statistical learning, where in parallel two kinds of techniques were deployed: generative models based on Hidden Markov Models and conditional models based on maximum entropy. Both were superseded by global conditional models, popularly called Conditional Random Fields. As the scope of extraction systems widened to require a more holistic analysis of a document’s structure, techniques from grammar construction were developed. In spite of this journey of varied techniques, there is no clear winner. Rule-based methods and statistical methods continue to be used in parallel depending on the nature of the extraction task. There also exist hybrid models that attempt to reap the benefits of both statistical and rule-based methods.</p>
+</div>
+<div class="zh">
+  <p><b>定义:</b> 信息抽取指从<b>非结构化来源</b>中自动抽取<b>结构化信息</b>, 如<b>实体</b>、实体之间的<b>关系</b>、描述实体的<b>属性</b>. 好处: 可以对大量非结构化数据做比关键词搜索丰富得多的查询; 结构化和非结构化数据并存时, 能把两者整合起来, 做跨越两类来源的查询.</p>
+  <p><b>历史:</b> 早期任务集中在识别自然语言文本中的命名实体 (人名、公司名) 及其关系, 研究范围深受两个评测项目影响: <b>MUC</b> (Message Understanding Conference) 和 <b>ACE</b> (Automatic Content Extraction). 互联网出现后, 比价购物、自动生成门户网站等应用掀起了研究和商业热潮.</p>
+  <p><b>方法的演变</b> (课上 Slide 29–30 的「Rules → ML → …」的前半段):</p>
+  <ol>
+    <li>人工编写规则;</li>
+    <li>手写规则太繁琐 → 从例子中<b>自动学习规则</b>;</li>
+    <li>面对更嘈杂的来源, 规则太<b>脆弱 (brittle)</b> → <b>统计学习</b>时代, 两类模型并行: 基于 <b>HMM</b> 的<b>生成式</b>模型和基于<b>最大熵</b>的<b>条件</b>模型;</li>
+    <li>两者都被<b>全局条件模型</b>, 即<b>条件随机场 (CRF)</b> 取代;</li>
+    <li>需要整体分析文档结构时, 引入了<b>文法构造</b>的技术.</li>
+  </ol>
+  <p>结论: <b>没有明确的赢家</b>, 规则方法和统计方法按任务性质并行使用, 也有结合两者的<b>混合模型</b>.</p>
+</div>
+<div class="add"><p>HMM、最大熵 (对数线性) 模型和 CRF 在本系课程 <a href="../HP10%20SMIS/SMIS-合集-语言处理中的统计方法.html">SMIS</a> 里有详细推导: HMM 对 p(词, 标签) 建模 (生成式), 最大熵和 CRF 直接对 p(标签 | 词) 建模 (判别式/条件式); CRF 相对逐位置的最大熵模型 (MEMM) 的优点是对整个标签序列做全局归一化.</p></div>
+<div class="warn"><p><b>原文笔误:</b> S. 264「Applications … <b>lead</b> to a frenzy of research」, 过去时应为 <b>led</b>. 另外期刊页眉印的是「Vol. 1, No. 3 (2007)」, 版权行和课件 (Slide 16) 写的是 2008; 引用这篇综述时两种年份都能见到.</p></div>
+
+<h3 id="s-app">1.1 应用<br><span class="de-title">Applications</span></h3>
+<div class="card de">
+  <span class="folie">S. 264–268</span>
+  <p>Structure extraction is useful in a diverse set of applications. We list a representative subset of these, categorized along whether the applications are enterprise, personal, scientific, or Web-oriented.</p>
+  <p><b>News Tracking:</b> A classical application of information extraction, which has spurred a lot of the early research in the NLP community, is automatically tracking specific event types from news sources. …</p>
+  <p><b>Customer Care:</b> … the identification of product names and product attributes from customer emails, linking of customer emails to a specific transaction in a sales database, the extraction of merchant name and addresses from sales invoices, …</p>
+  <p><b>Data Cleaning:</b> An essential step in all data warehouse cleaning processes is converting addresses that are stored as flat strings into their structured forms such as road name, city, and state. … An address record broken into its structured fields not only enables better querying, it also provides a more robust way of doing deduplication and householding — a process that identifies all addresses belonging to the same household.</p>
+  <p><b>Classified Ads:</b> Classified ads and other listings such as restaurant lists is another domain with implicit structure that when exposed can be invaluable for querying.</p>
+  <p>1.1.2 <b>Personal Information Management</b> … for example we should be able to automatically extract from a PowerPoint file, the author of a talk and link the person to the presenter of a talk announced in an email.</p>
+  <p>1.1.3 <b>Scientific Applications</b> … A central problem is extracting from paper repositories such as Pubmed, protein names, and their interaction. Since the form of entities like Gene and Protein names is very different from classical named entities like people and companies, this task has helped to broaden the techniques used for extraction.</p>
+  <p>1.1.4 <b>Web Oriented Applications</b>: Citation Databases … Opinion Databases … Community Websites … Comparison Shopping … Ad Placement on Webpages …</p>
+  <p><b>Structured Web Searches:</b> Finally, a grand challenge problem for information extraction is allowing structured search queries involving entities and their relationships on the World Wide Web. Keyword searches are adequate for getting information about entities, which are typically nouns or noun phrases. They fail on queries that are looking for relationships between entities. For example, if one wants to retrieve documents containing text of the form “Company X acquired Company Y”, then keywords alone are extremely inadequate. The only obvious keyword is “acquired”, and one has to work hard to introduce related words like “Corp” etc. to get the required documents.</p>
+</div>
+<div class="zh">
+  <p>应用分四类:</p>
+  <div class="tablewrap"><table>
+    <tr><th>类别</th><th>例子</th></tr>
+    <tr><td>企业</td><td class="wide"><b>新闻跟踪</b> (经典应用, MUC 和 ACE 的任务: 人名、公司名、「是…的 CEO」这类关系; 疾病暴发、恐怖事件); <b>客户服务</b> (从客户邮件中认出产品名和属性, 把邮件关联到销售数据库里的某笔交易, 从发票中抽取商户名和地址, 从电话录音转写中抽取客户情绪); <b>数据清洗</b> (把存成一整串的地址拆成街道、城市、州, 便于查询和<b>去重</b>, 以及「householding」: 找出属于同一户人家的所有地址); <b>分类广告</b></td></tr>
+    <tr><td>个人信息管理</td><td class="wide">把文档、邮件、项目、人整理成互相链接的结构, 例如从 PPT 中抽出演讲人, 并和邮件里通知的报告人关联起来</td></tr>
+    <tr><td>科学</td><td class="wide">生物信息学: 从 PubMed 论文中抽取蛋白质名及其相互作用; 基因、蛋白质名的形式和人名、公司名很不一样, 推动了抽取技术的扩展</td></tr>
+    <tr><td>Web</td><td class="wide">引文数据库 (CiteSeer、Google Scholar), 观点数据库, 社区网站 (DBLife), 比价购物, 网页广告投放 (找到既提到产品、又表达正面观点的文字), <b>结构化的 Web 搜索</b></td></tr>
+  </table></div>
+  <p>最后一项是「大挑战」: 关键词搜索适合找<b>实体</b> (名词), 却找不到实体之间的<b>关系</b>. 想找「X 公司收购了 Y 公司」的文档, 唯一明显的关键词只有 acquired, 公司名本身是未知的. 这正是课上「Baker 职位」例子 (IE 01 Slide 22) 说明的问题.</p>
+</div>
+
+<h3 id="s-tax">1.2 本综述的组织: 五个维度<br><span class="de-title">Organization of the Survey</span></h3>
+<div class="card de">
+  <span class="folie">S. 268–269</span>
+  <p>We layout the field of information extraction along the following five dimensions.</p>
+  <ol>
+    <li>The type of structure extracted (entities, relationships, lists, tables, attributes, etc.).</li>
+    <li>The type of unstructured source (short strings or documents, templatized or open-ended).</li>
+    <li>The type of input resources available for extraction (structured databases, labeled unstructured data, linguistic tags, etc.).</li>
+    <li>The method used for extraction (rule-based or statistical, manually coded or trained from examples).</li>
+    <li>The output of extraction (annotated unstructured text, or a database).</li>
+  </ol>
+  <p>These are discussed in Sections 1.3 through 1.7.</p>
+</div>
+<div class="zh">
+  <p>整个引言的骨架就是这五个维度, 1.3–1.7 节各讲一个. 描述任何一个 IE 系统都可以回答这五个问题: <b>抽取什么</b> (实体、关系、列表、表格、属性)? <b>从什么来源</b> (短字符串还是文档, 模板化的还是开放的)? <b>有什么可用资源</b> (结构化数据库、标注数据、语言学标注)? <b>用什么方法</b> (规则还是统计, 手写还是从例子学)? <b>输出什么</b> (标注后的文本还是数据库)?</p>
+</div>
+
+<h3 id="s-struct">1.3 抽取的结构类型<br><span class="de-title">Types of Structure Extracted</span></h3>
+<div class="card de">
+  <span class="folie">S. 269–270</span>
+  <p>We categorize the type of structure extracted from an unstructured source into four types: entities, relationships between entities, adjectives describing entities, and higher-order structures such as tables and lists.</p>
+  <p><b>1.3.1 Entities</b> — Entities are typically noun phrases and comprise of one to a few tokens in the unstructured text. The most popular form of entities is named entities like names of persons, locations, and companies as popularized in the MUC, ACE, and CoNLL competitions. Named entity recognition was first introduced in the sixth MUC and consisted of three subtasks: proper names and acronyms of persons, locations, and organizations (ENAMEX), absolute temporal terms (TIMEX) and monetary and other numeric expressions (NUMEX). Now the term entities is expanded to also include generics like disease names, protein names, paper titles, and journal names. The ACE competition for entity relationship extraction from natural language text lists more than 100 different entity types.</p>
+  <p><b>Fig. 1.1</b> (S. 270):</p>
+  <div class="tablewrap"><table>
+    <tr><td class="wide">According to Robert Callahan, president of Eastern’s flight attendants union, the past practice of Eastern’s parent, Houston-based Texas Air Corp., has involved ultimatums to unions to accept the carrier’s terms</td><td class="wide">The unstructured source</td></tr>
+    <tr><td class="wide">According to ⟨Per⟩ <b>Robert Callahan</b> ⟨/Per⟩, president of ⟨Org⟩ <b>Eastern’s</b> ⟨/Org⟩ igh t attendants union, the past practice of ⟨Org⟩ <b>Eastern’s</b> ⟨/Org⟩ parent, ⟨Loc⟩ <b>Houston</b> ⟨/Loc⟩-based ⟨Org⟩ <b>Texas Air Corp.</b> ⟨/Org⟩, has involved ultimatums to unions to accept the carrier’s terms</td><td class="wide">Annotated entities</td></tr>
+    <tr><td class="wide">Robert Callahan ⟨Employee_Of⟩ Eastern’s<br>Texas Air Corp. ⟨Located_In⟩ Houston</td><td>Relationships</td></tr>
+  </table></div>
+  <p class="src">Fig. 1.1 Traditionally named entity and relationship extraction from plain text (in this case a news article). The extracted entities are bold-faced with the entity type surrounding it.</p>
+  <p><b>Fig. 1.2</b> (S. 270): <code class="lc">4089 | Whispering Pines | Nobel Drive | San Diego | CA | 92122</code> segmentiert als House number | Building | Road | City | State | Zip.</p>
+  <p class="src">Fig. 1.2 Text segmentation as an example of entity extraction from address records.</p>
+</div>
+<div class="zh">
+  <p>抽取的结构分四类: <b>实体</b>、实体间的<b>关系</b>、描述实体的<b>形容性属性</b>、更高阶的结构 (表格、列表).</p>
+  <p><b>实体</b>通常是名词短语, 占一到几个词符. 最常见的是<b>命名实体</b>, 经 MUC、ACE、CoNLL 评测推广. NER 最早出现在<b>第六届 MUC</b> (MUC-6, 1995), 有三个子任务: <b>ENAMEX</b> (人、地点、机构的专名和缩写)、<b>TIMEX</b> (绝对时间表达)、<b>NUMEX</b> (金额和其他数字表达). 现在「实体」还包括疾病名、蛋白质名、论文标题、期刊名这类非专名; ACE 列出了 100 多种实体类型.</p>
+  <p>Fig. 1.1 是经典任务: 新闻句子 → 标出实体 (人 Robert Callahan; 机构 Eastern’s、Texas Air Corp.; 地点 Houston) → 抽出关系 (Callahan <i>受雇于</i> Eastern’s; Texas Air Corp. <i>位于</i> Houston). Fig. 1.2 把实体抽取看成<b>切分</b>问题: 一条地址被切成门牌号、楼名、道路、城市、州、邮编六个字段. 第 1.4 节会说明: 对这种「记录」, <b>每个词都属于某个字段</b>, 只需找边界; 而在句子里很多词不属于任何实体.</p>
+</div>
+<div class="warn"><p><b>原文排版错误:</b> Fig. 1.1 的标注句里「Eastern’s ⟨/Org⟩ <b>igh t</b> attendants union」, 应为 <b>flight</b> (排版时 fl 连字丢失, 第一行未标注的原句里是对的).</p></div>
+
+<div class="card de">
+  <span class="folie">S. 270–272</span>
+  <p><b>Table 1.1</b> Sample addresses from different countries. The first line shows the unformatted address and the second line shows the address broken into its elements.</p>
+  <div class="tablewrap"><table>
+    <tr><th>#</th><th class="wide">Address text [Segmented address]</th></tr>
+    <tr><td>0</td><td class="wide">M. J. Muller, 71, route de Longwy L-4750 PETANGE<br>[recipient: M. J. Muller] [House#: 71] [Street: route de Longwy] [Zip: L-4750] [city:PETANGE]</td></tr>
+    <tr><td>1</td><td class="wide">Viale Europa, 22 00144-ROMA RM<br>[Street: Viale Europa] [House#: 22] [City: ROMA] [Province: RM] [Zip: 00144-]</td></tr>
+    <tr><td>2</td><td class="wide">7D-Brijdham Bangur Nagar Goregaon (W) Bombay 400 090<br>[House#: 7D-] [Building: Brijdham] [Colony: Bangur Nagar] [Area: Goregaon (W)] [City: Bombay] [Zip: 400 090]</td></tr>
+    <tr><td>3</td><td class="wide">18100 New Hamshire Ave. Silver Spring, MD 20861<br>[House#: 18100], [Street: New Hamshire Ave.], [City: Silver Spring,], [State: MD], [Zip: 20861]</td></tr>
+  </table></div>
+  <p><b>1.3.2 Relationships</b> — Relationships are defined over two or more entities related in a predefined way. Examples are “is employee of” relationship between a person and an organization, “is acquired by” relationship between pairs of companies, “location of outbreak” relationship between a disease and a location, and “is price of” relationship between a product name and a currency amount on a web-page. … The extraction of relationships differs from the extraction of entities in one significant way. Whereas entities refer to a sequence of words in the source and can be expressed as annotations on the source, relationships are not annotations on a subset of words. Instead they express the associations between two separate text snippets representing the entities.</p>
+  <p>The extraction of multi-way relationships is often referred to as record extraction. A popular subtype of record extraction is even extraction. For example, for an event such as a disease outbreak we extract a multi-way relationship involving the “disease name”, “location of the outbreak”, “number of people affected”, “number of people killed”, and “date of outbreak.” …</p>
+  <p>Another form of multi-way relationship popular in the natural language community is Semantic Role Labeling, where given a predicate in a sentence, the goal is to identify various semantic arguments of the predicate. For example, given a predicate accept in the sentence “He accepted the manuscript from his dying father with trembling hands” the extraction task is to find the role-sets of the predicate consisting of the “acceptor”, “thing accepted”, and “accepted-from”. …</p>
+  <p><b>1.3.3 Adjectives Describing Entities</b> — In many applications we need to associate a given entity with the value of an adjective describing the entity. The value of this adjective typically needs to be derived by combining soft clues spread over many different words around the entity. … Then, we would like to infer if the critique is positive or negative. This is also called opinion extraction …</p>
+  <p><b>1.3.4 Structures such as Lists, Tables, and Ontologies</b> — The scope of extraction systems has now expanded to include the extraction of not such atomic entities and flat records but also richer structures such as tables, lists, and trees from various types of documents. …</p>
+</div>
+<div class="zh">
+  <p><b>Table 1.1</b> 说明地址的格式因国家而异 (卢森堡、意大利、印度、美国): 字段的种类 (印度地址有 Colony 小区、Area 片区) 和顺序 (门牌号在街道前或后, 邮编在城市前或后) 都不同, 所以不能用一条固定规则切分.</p>
+  <p><b>关系</b>定义在两个或多个实体之上 (受雇于、被收购、疫情发生地、价格). 和实体的<b>关键区别</b>: 实体是原文中的一串词, 可以作为<b>标注</b>直接标在原文上; 关系不是对某些词的标注, 而是两段分开的文本 (两个实体) 之间的<b>关联</b>.</p>
+  <p>多元关系的抽取叫<b>记录抽取</b>; 它的一个常见子类是<b>事件抽取</b> (如疫情: 疾病名、地点、感染人数、死亡人数、日期, 对应课上 Slide 28 的「N-ary record」). <b>语义角色标注</b> (Semantic Role Labeling) 也是多元关系: 给定句中的谓词 accept, 找出「接受者 He」「被接受物 the manuscript」「从谁那里接受 his dying father」. 本综述不讲语义角色标注.</p>
+  <p><b>描述实体的形容性属性</b>: 例如判断一段博客对某家餐厅的评论是正面还是负面 (<b>观点抽取</b>), 需要综合实体周围许多词的<b>软线索</b>; 本综述不讲. <b>列表、表格、本体</b>等更复杂的结构也不讲.</p>
+</div>
+<div class="warn"><p><b>原文笔误:</b> S. 271「A popular subtype of record extraction is <b>even</b> extraction」应为 <b>event</b> extraction (课件 Slide 4 有同样的笔误 Relation/Even/Fact). Table 1.1 第 3 条「New <b>Hamshire</b> Ave.」应为 New <b>Hampshire</b> Avenue. S. 272「the extraction of <b>not such</b> atomic entities and flat records but also richer structures」语序乱了, 应为 not <b>only</b> such atomic entities …</p></div>
+
+<h3 id="s-src">1.4 非结构化来源的类型<br><span class="de-title">Types of Unstructured Sources</span></h3>
+<div class="card de">
+  <span class="folie">S. 273–274</span>
+  <p>We classify the type of unstructured source along two dimensions: the basic unit of granularity on which an extractor is run, and the heterogeneity in style and format across unstructured documents.</p>
+  <p><b>1.4.1 Granularity of Extraction</b> — <b>Record or Sentences:</b> The most popular form of extraction is from small text snippets that are either unstructured records like addresses, citations and classified ads or sentences extracted from a natural language paragraph. In the case of unstructured records, the data can be treated as a set of structured fields concatenated together, possibly with a limited reordering of the fields. Thus, each word is a part of such structured field and during extraction we just need to segment the text at the entity boundaries. In contrast, in sentences there are many words that do not form part of any entity of interest. <b>Paragraphs and Documents:</b> Many other extraction tasks make it necessary to consider the context of multiple sentences or an entire document for meaningful extractions. …</p>
+  <p><b>1.4.2 Heterogeneity of Unstructured Sources</b> — <b>Machine Generated Pages:</b> On the easy end of the spectrum we have highly templatized machine generated pages. A popular source in this space is HTML documents dynamically generated via database backed sites. The extractors for such documents are popularly known as wrappers. … <b>Partially Structured Domain Specific Sources:</b> The most studied setting for information extraction is where the input source is from within a well-defined scope, say news articles, or classified ads, or citations, or resumes. … <b>Open Ended Sources:</b> Recently, there is interest in extracting instances of relationships and entities from open domains such as the web where there is little that can be expected in terms of homogeneity or consistency. In such situations, one important factor is to exploit the redundancy of the extracted information across many different sources.</p>
+</div>
+<div class="zh">
+  <p>来源按两个维度分类:</p>
+  <ul>
+    <li><b>粒度</b>: ① <b>记录或句子</b> (最常见). 记录 (地址、引文、分类广告) 可以看成若干字段拼在一起, 顺序可能略有变化, 每个词都属于某个字段, 只需在实体边界处切开; 句子里则有很多词不属于任何实体. ② <b>段落和文档</b>: 需要多句甚至整篇的语境, 如新闻事件、帮助中心邮件里的零件号和问题描述、Word 简历、讲座通知 (题目、地点、时间)、论文的标题和参考文献. 难点主要是先过滤出长文档里相关的那一小部分.</li>
+    <li><b>异质性</b> (从易到难): ① <b>机器生成的页面</b>: 由数据库支撑的网站动态生成的 HTML, 模板固定, 针对它们的抽取器叫 <b>wrapper 包装器</b>, 主要利用 HTML 标签的规律; ② <b>部分结构化的特定领域来源</b>: 新闻、分类广告、引文、简历, 有大致固定的非正式格式, 有足够标注数据就能训练出不错的模型, 本综述的大部分技术针对这一类; ③ <b>开放来源</b>: 整个 Web, 几乎没有一致性可言, 关键是利用同一信息在许多来源中重复出现的<b>冗余</b>.</li>
+  </ul>
+  <p>对照课件 Slide 23「Not all documents are created equal」的三分法 (非结构化 / 部分结构化 / 高度结构化), 讲的是同一件事.</p>
+</div>
+
+<h3 id="s-res">1.5 抽取可用的输入资源<br><span class="de-title">Input Resources for Extraction</span></h3>
+<div class="card de">
+  <span class="folie">S. 274–278</span>
+  <p><b>1.5.1 Structured Databases</b> — Existing structured databases of known entities and relationships are a valuable resource to improve extraction accuracy. … the use of a postal database to identify entities in address records.</p>
+  <p><b>1.5.2 Labeled Unstructured Text</b> — Many extraction systems are seeded via labeled unstructured text. The collection of labeled unstructured text requires tedious labeling effort. However, this effort is not totally avoidable because even when an extraction system is manually coded, a ground truth is necessary for evaluating its accuracy. A labeled unstructured source is significantly more valuable than a structured database because it provides contextual information about an entity and also because the form in which an entity appears in the unstructured data is often a very noisy form of its occurrence in the database.</p>
+  <p><b>1.5.3 Preprocessing Libraries for Unstructured Text</b> — Natural language documents are often analyzed by a deep pipeline of preprocessing libraries, including,</p>
+  <ul>
+    <li>Sentence analyzer and tokenizer that identifies the boundaries of sentences in a document and decomposes each sentence into tokens. …</li>
+    <li>Part of speech tagger that assigns to each word a grammatical category coming from a fixed set. … Examples of well-known tag sets are the Brown tag set which has 179 total tags, and the Penn treebank tag set that has 45 tags. An example of POS tags attached to a sentence appears below:<br><code class="lc">The/DT University/NNP of/IN Helsinki/NNP hosts/VBZ ICML/NNP this/DT year/NN</code></li>
+    <li>Parser that groups words in a sentence into prominent phrase types such as noun phrases, prepositional phrases, and verb phrases. … Parse trees are useful in entity extraction because typically named entities are noun phrases. …</li>
+    <li>Dependency analyzer that identifies the words in a sentence that form arguments of other words in the sentence. For example, in the sentence “Apple is located in Cupertino”, the word “Apple” and “Cupertino” are dependent on the word “located”. …</li>
+  </ul>
+  <p>Many of the above preprocessing steps are expensive. … Also, some of these preprocessing steps, example parsing, are often erroneous. The extraction system needs to be robust to errors in the preprocessing steps to avoid cascading of errors. …</p>
+  <p><b>Formatted Text:</b> For formatted text such as a pdf document and a web-page, there is often a need for understanding the overall structure and layout of the source before entity extraction. …</p>
+</div>
+<div class="zh">
+  <p>除了「抽什么、从哪里抽」, 实际还有三类辅助资源:</p>
+  <ul>
+    <li><b>已有的结构化数据库</b>: 已知的实体和关系, 可以提高准确率 (例如用邮政数据库识别地址里的城市名, 用 DBLP 帮助抽取论文作者).</li>
+    <li><b>标注过的非结构化文本</b>: 标注很费力, 但无法完全省掉, 因为即使是手写规则的系统也需要<b>标准答案 (ground truth)</b> 来评估准确率. 标注文本比数据库<b>更有价值</b>: 它提供实体出现的<b>语境</b>, 而且实体在文本中的写法常常是数据库里写法的嘈杂变体 (缩写、拼错、换顺序).</li>
+    <li><b>预处理工具</b>: 自然语言文本通常要经过一条处理流水线: 分句与切分 → <b>词性标注</b> (Penn Treebank 标签集 45 个标签, 例句: The/DT 冠词 University/NNP 专有名词 …) → <b>句法分析</b> (成分树; 命名实体通常是名词短语) → <b>依存分析</b> (「Apple is located in Cupertino」里 Apple 和 Cupertino 都依存于 located, 分别是主语和宾语论元; 这对关系抽取非常有用). 这些步骤代价高, 而且会出错 (尤其是邮件、语音转写里不规范的句子), 抽取系统要能容忍前面步骤的错误, 避免<b>错误级联</b>. PDF、网页这类有格式的文本则需要先分析版面结构.</li>
+  </ul>
+</div>
+<div class="warn"><p><b>原文说法存疑:</b> S. 276 说 Brown 标签集有 <b>179</b> 个标签. 通常引用的 Brown 语料库标签集是 <b>87</b> 个基本标签 (Jurafsky &amp; Martin 等教材都这样写); 179 只有把复合标签 (如带否定、所有格的组合形式) 全算上才可能得到, 文中没有说明计数方法. Penn Treebank 的 45 个标签与通常的说法一致.</p></div>
+
+<h3 id="s-meth">1.6–1.7 抽取方法与输出<br><span class="de-title"><span class="seg">Methods of Extraction ·</span> <span class="seg">Output of Extraction Systems</span></span></h3>
+<div class="card de">
+  <span class="folie">S. 278–279</span>
+  <p><b>1.6.1 Hand-coded or Learning-based</b> — A hand-coded system requires human experts to define rules or regular expressions or program snippets for performing the extraction. That person needs to be a domain expert and a programmer, and possess descent linguistic understanding to be able to develop robust extraction rules. In contrast, learning-based systems require manually labeled unstructured examples to train machine learning models of extraction. Even in the learning-based systems, domain expertise is needed in identifying and labeling examples that will be representative of the actual deployment setting. …</p>
+  <p><b>1.6.2 Rule-based or Statistical</b> — Rule-based extraction methods are driven by hard predicates, whereas statistical methods make decisions based on a weighted sum of predicate firings. Rule-based methods are easier to interpret and develop, whereas statistical methods are more robust to noise in the unstructured data. Therefore, rule-based systems are more useful in closed domains where human involvement is both essential and available. In open-ended domains like fact extraction from speech transcripts, or opinion extraction from Blogs, the soft logic of statistical methods is more appropriate.</p>
+  <p><b>1.7 Output of Extraction Systems</b> — There are two primary modes in which an extraction system is deployed. First, where the goal is to identify all mentions of the structured information in the unstructured text. Second, where the goal is to populate a database of structured entities. In this case, the end user does not care about the unstructured text after the structured entities are extracted from it. The core extraction techniques remain the same irrespective of the form of the output. …</p>
+</div>
+<div class="zh">
+  <p>方法沿<b>两个独立的维度</b>分类:</p>
+  <div class="tablewrap"><table>
+    <tr><th>维度</th><th>一端</th><th>另一端</th></tr>
+    <tr><td>谁来写</td><td class="wide"><b>手写</b>: 专家写规则、正则表达式或程序片段; 这个人要同时懂领域、会编程、有相当的语言学知识</td><td class="wide"><b>基于学习</b>: 用人工标注的例子训练模型; 仍需领域知识 (选出有代表性的例子) 和机器学习知识 (选模型、设计在新数据上稳健的特征)</td></tr>
+    <tr><td>怎么判断</td><td class="wide"><b>基于规则</b>: 由<b>硬谓词</b>驱动 (条件满足就成立); 容易解释和开发; 适合<b>封闭领域</b>, 那里人的参与既必要也可得</td><td class="wide"><b>统计</b>: 对许多谓词 (特征) 的触发做<b>加权求和</b>; 对噪声更稳健; 适合<b>开放领域</b>, 如从语音转写中抽事实、从博客中抽观点</td></tr>
+  </table></div>
+  <p>注意两个维度是交叉的: 规则也可以从例子中<b>学出来</b> (第 2.3 节), 统计模型的特征也常常是手工设计的.</p>
+  <p><b>输出</b>有两种用法: 标出文本中结构化信息的<b>所有提及</b> (mentions); 或者<b>填充数据库</b>, 抽完之后用户不再关心原文. 核心技术相同, 只在利用冗余的开放抽取中区别才重要.</p>
+</div>
+<div class="warn"><p><b>原文笔误:</b> S. 278「possess <b>descent</b> linguistic understanding」应为 <b>decent</b> (descent 是「下降、血统」).</p></div>
+
+<h3 id="s-chall">1.8 挑战<br><span class="de-title">Challenges</span></h3>
+<div class="card de">
+  <span class="folie">S. 279–281</span>
+  <p><b>1.8.1 Accuracy</b> — <b>Diversity of Clues:</b> The inherent complexity of the recognition task makes it crucial to combine evidence from a diverse set of clues, each of which could individually be very weak. Even the simplest and the most well-explored of tasks, Named Entity recognition, depends on a myriad set of clues including orthographic property of the words, their part of speech, similarity with an existing database of entities, presence of specific signature words and so on. …</p>
+  <p><b>Difficulty of Detecting Missed Extractions:</b> The accuracy of extraction comprises of two components: precision, that measures the percent of extracted entries that are correct, and recall, that measures the percent of actual entities that were extracted correctly. In many cases, precision is high because it is easy to manually detect mistakes in extractions and then tune the models until those mistakes disappear. The bigger challenge is achieving high recall, because without extensive labeled data it is not even possible to detect what was missed in the large mass of unstructured information.</p>
+  <p><b>Increased Complexity of the Structures Extracted:</b> … One of the challenges in such tasks is that the boundary of the entity is not clearly defined.</p>
+  <p><b>1.8.2 Running Time</b> — … First, we need mechanisms to efficiently filter the right subset of documents that are likely to contain the structured information of interest. Second, we need to find means of efficiently zooming into the (typically small) portion of the document that contains the relevant information. Finally, we need to worry about the many expensive processing steps that the selected portion might need to go through. …</p>
+  <p><b>1.8.3 Other Systems Issues</b> — <b>Dynamically Changing Sources</b> … <b>Data Integration</b> … <b>Extraction Errors:</b> It is impossible to guarantee perfect extraction accuracy in real-life deployment settings even with the latest extraction tools. … One method of surmounting the problem of extraction errors is to require that each extracted entity be attached with confidence scores that correlate with the probability that the extracted entities are correct. …</p>
+</div>
+<div class="zh">
+  <p><b>准确率</b>的三个难点:</p>
+  <ul>
+    <li><b>线索多样</b>: 要组合许多各自很弱的证据. 即使是最简单、研究最多的 NER, 也要用词的<b>拼写形态</b> (首字母大写、含数字)、词性、与已知实体库的相似度、特定的标志词 (如 Inc.、Dr.) 等等.</li>
+    <li><b>漏掉的很难发现</b>: <b>Precision 精确率</b> = 抽出的结果中正确的比例; <b>Recall 召回率</b> = 真实存在的实体中被正确抽出的比例. 精确率往往容易做高: 抽错的人工一看就能发现, 改模型直到错误消失. 召回率才是难题: 没有大量标注数据, 根本不知道在海量文本里漏了什么.</li>
+    <li><b>要抽的结构越来越复杂</b>: 例如博客中评论某家餐厅的那一段, 实体的<b>边界本身就不清楚</b>.</li>
+  </ul>
+  <p><b>运行时间</b>: 先高效地筛出可能含有目标信息的文档, 再定位到文档中 (通常很小的) 相关部分, 最后才对这部分做代价高的处理.</p>
+  <p><b>其他系统问题</b>: 来源会变化 (网站改版后抽取器失效, 要能发现并自动适应); 抽取结果要和已有数据<b>整合</b> (去重、对齐同一实体); 抽取<b>一定会出错</b>, 所以应给每个结果附上与「正确概率」相符的<b>置信度</b>, 并在数据库里表示这种不确定性.</p>
+  <p>最后一段 (Section Layout) 给出后面各章: 第 2 章基于规则的实体抽取, 第 3 章统计实体抽取, 第 4 章关系抽取, 第 5 章性能和系统问题.</p>
+</div>
+<div class="add"><p>精确率和召回率常合成 F1 = 2PR / (P + R). 例: 文中实际有 10 个人名, 系统抽出 8 个, 其中 6 个正确: P = 6/8 = 0.75, R = 6/10 = 0.6, F1 = 2 · 0.75 · 0.6 / 1.35 ≈ 0.667.</p></div>
+
+<h3 id="s-rest">后面各章的结构<br><span class="de-title">Chapters 2–6</span></h3>
+<div class="zh">
+  <p>课程只要求读引言. 后面各章的内容 (按目录), 课程第一、二部分讲到相应主题时可以回来查:</p>
+  <div class="tablewrap"><table>
+    <tr><th>章</th><th>页码</th><th>内容</th><th>对应课程</th></tr>
+    <tr><td>2 基于规则的实体抽取</td><td>S. 282–</td><td class="wide">规则的形式 (词符的特征, 识别单个实体、标记实体边界、多个实体的规则); 规则集的组织 (无序规则加冲突消解策略, 有序规则, 合并成有限状态机); 规则学习算法 (自底向上、自顶向下)</td><td>Slide 29 方法 1</td></tr>
+    <tr><td>3 统计实体抽取</td><td>—</td><td class="wide">词符级模型 (特征, 序列标注模型); 片段级模型; 基于文法的模型; 训练算法 (似然训练, 最大间隔训练); 推断算法 (序列标注、切分、句法树的 MAP 解, 特征期望值)</td><td class="wide">第 2–3 周 Traditional ML; 第 7 周 NER</td></tr>
+    <tr><td>4 关系抽取</td><td>—</td><td class="wide">给定实体对预测关系 (基于特征的方法, 基于核的方法); 给定关系类型抽取实体对 (从种子三元组学模式, 抽取候选实体对, 验证抽取出的关系)</td><td class="wide">Slide 29 方法 2 的「种子」自举; 第 8 周关系抽取</td></tr>
+    <tr><td>5 管理信息抽取</td><td>—</td><td class="wide">性能优化 (文档选择, 高效查询实体库); 处理变化 (增量抽取, 检测抽取器失效); 抽取信息的整合 (去重); 抽取的不精确性 (置信度, 多属性抽取, 冗余抽取)</td><td>第 1.8 节挑战的展开</td></tr>
+    <tr><td>6 结语</td><td>—</td><td class="wide">Concluding Remarks</td><td></td></tr>
+  </table></div>
+</div>
+
+</main>
+<script id="glass-js">
+/* 玻璃霓虹层 v11 的交互: 进度条后备、滚动淡入、浮动胶囊目录、背景等高线、解密标题、卡片聚光灯、光标拖影、折叠动画.
+   全部是本地代码, 不加载任何外部资源; 任何一步出错都不影响正文显示. */
+(function () {
+  try {
+    var doc = document.documentElement;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var auto = navigator.webdriver || /HeadlessChrome/.test(navigator.userAgent); // 自动化截图时关掉动效, 保证截图完整
+    if (!reduce && !auto && 'IntersectionObserver' in window) doc.classList.add('fx');
+
+    /* 第二强调色跟着课程色走: 课程主色的色相 +40°, 写进 --glow2 (等高线低处、拖影尾端、标题波动用) */
+    (function () {
+      var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((getComputedStyle(doc).getPropertyValue('--accent') || '').trim());
+      if (!m) return;
+      var r = parseInt(m[1], 16) / 255, g = parseInt(m[2], 16) / 255, b = parseInt(m[3], 16) / 255;
+      var mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn, h = 0, s = 0;
+      if (d) { s = d / (1 - Math.abs(2 * l - 1)); h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
+      h = (h + 40 + 360) % 360;
+      var c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), o = l - c / 2, rgb;
+      rgb = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
+      doc.style.setProperty('--glow2', '#' + rgb.map(function (v) { return ('0' + Math.round((v + o) * 255).toString(16)).slice(-2); }).join(''));
+    })();
+
+    /* 1. 进度条: 浏览器不支持 CSS 滚动动画时用脚本更新 */
+    var bar = document.getElementById('progress');
+    if (bar && !(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'))) {
+      var upd = function () {
+        var h = doc.scrollHeight - innerHeight;
+        bar.style.setProperty('--p', h > 0 ? Math.min(1, scrollY / h) : 0);
+      };
+      addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd); upd();
+    }
+
+    /* 0. 运行时整理结构 (文件本身不变):
+       a) 小节标题 h2、三级标题 h3 的中文主标题 (第一个 <br> / 德语副标题 / small 之前的部分) 包进 <span class="ht">;
+       b) 每个 <pre> 包进 .codebox, 加标题栏 (三个圆点 + 语言 + 复制按钮); 语言优先取 data-lang, 否则按内容猜. */
+    Array.prototype.forEach.call(document.querySelectorAll('main h2, main h3'), function (h) {
+      if (h.querySelector(':scope > .ht')) return;
+      var ht = document.createElement('span'); ht.className = 'ht';
+      var n = h.firstChild;
+      while (n && !(n.nodeType === 1 && (n.tagName === 'BR' || n.tagName === 'SMALL' || n.classList.contains('de-title')))) {
+        var nx = n.nextSibling; ht.appendChild(n); n = nx;
+      }
+      if (ht.textContent.trim()) h.insertBefore(ht, h.firstChild);
+    });
+    /* c) 没有图注的普通 <figure> (MGTN): 用图片的 alt 补一个图注, 和其他笔记的原图一致 */
+    Array.prototype.forEach.call(document.querySelectorAll('main figure:not([class])'), function (f) {
+      var im = f.querySelector(':scope > img');
+      if (!im || f.querySelector('figcaption, .fig-cap') || !(im.alt || '').trim()) return;
+      var c = document.createElement('div'); c.className = 'fig-cap'; c.textContent = im.alt; f.appendChild(c);
+    });
+    var guessLang = function (t) {
+      if (/^\s*>>>/m.test(t)) return 'python repl';
+      if (/^\s*\$ /m.test(t)) return 'shell';
+      if (/^\s*(SELECT|CREATE|INSERT|UPDATE|DELETE|WITH)\b/m.test(t)) return 'sql';
+      if (/^\s*(def |class |import |from \S+ import|for .+ in .+:|if .+:|while .+:|print\()/m.test(t)) return 'python';
+      if (/^\s*(git|cd|ls|pip|python3?|mkdir|cat|grep|echo)\b/m.test(t)) return 'shell';
+      if (/^\s*\(\w+ \(/.test(t)) return 'tree';
+      return 'text';
+    };
+    Array.prototype.forEach.call(document.querySelectorAll('main pre'), function (pre) {
+      if (pre.parentElement.classList.contains('codebox')) return;
+      var box = document.createElement('div'); box.className = 'codebox';
+      var head = document.createElement('div'); head.className = 'cb-head';
+      head.innerHTML = '<span class="cb-dots"><i></i><i></i><i></i></span><span class="cb-lang"></span><button class="cb-copy" type="button">复制</button>';
+      head.querySelector('.cb-lang').textContent = pre.getAttribute('data-lang') || guessLang(pre.textContent);
+      pre.parentNode.insertBefore(box, pre); box.appendChild(head); box.appendChild(pre);
+      var btn = head.querySelector('.cb-copy');
+      btn.addEventListener('click', function () {
+        var txt = pre.innerText, ok = function () { btn.textContent = '已复制'; btn.classList.add('ok'); setTimeout(function () { btn.textContent = '复制'; btn.classList.remove('ok'); }, 1400); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, function () {});
+        else { var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); ok(); } catch (e) {} ta.remove(); }
+      });
+    });
+
+    /* 2. 滚动淡入 */
+    if (doc.classList.contains('fx')) {
+      var els = document.querySelectorAll('main .card, main .zh, main .add, main .warn, main .codebox, main .src-fig, main figure:not([class]), main .tablewrap, main details');
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -8% 0px' });
+      els.forEach(function (el) {
+        if (el.parentElement && el.parentElement.closest('.reveal')) return;
+        var r = el.getBoundingClientRect();
+        el.classList.add('reveal');
+        if (r.top < innerHeight) el.classList.add('in'); else io.observe(el);
+      });
+    }
+
+    /* 解密动画 (小节标题、胶囊目录共用): 先显示乱码, 再从左到右逐字恢复; 德语副标题不动; 无论如何最后都恢复原文 */
+    var gsrc = document.querySelector('[data-glyphs]');
+    var GL = Array.from((gsrc && gsrc.getAttribute('data-glyphs')) || '#%&*+=<>/|01');
+    var GW = Array.from('＃％＆＊＋＝＜＞／｜０１');                 /* 中文位置用全角字符占位, 宽度不跳 */
+    var isWide = function (ch) { return /[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF\u3000-\u303F]/.test(ch); };
+    var rndG = function (ch) { var g = isWide(ch) ? GW : GL; return g[(Math.random() * g.length) | 0]; };
+    var textNodes = function (el) {
+      var out = [], tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+      while (tw.nextNode()) { var tn = tw.currentNode; if (!tn.parentElement.closest('.de-title, small, .katex') && tn.nodeValue.trim()) out.push(tn); }
+      return out;
+    };
+    /* 把元素里的文字拆成逐字的 <span class="ch"> (行内元素, 不改变排版); 乱码画在 ::after 叠层里,
+       原字只是暂时隐藏、仍占原来的位置, 所以解密和信号干扰时标题和下面的内容都不会移动 */
+    var splitChars = function (el) {
+      var groups = textNodes(el).map(function (tn) {
+        var frag = document.createDocumentFragment(), spans = [];
+        Array.from(tn.nodeValue).forEach(function (ch) {
+          if (/\s/.test(ch)) { frag.appendChild(document.createTextNode(ch)); return; }
+          var sp = document.createElement('span'); sp.className = 'ch'; sp.textContent = ch; frag.appendChild(sp); spans.push(sp);
+        });
+        var first = frag.firstChild; tn.parentNode.replaceChild(frag, tn);
+        return { tn: tn, first: first, spans: spans, count: Array.from(tn.nodeValue).length };
+      });
+      return groups;
+    };
+    var joinChars = function (groups) {
+      groups.forEach(function (g) {
+        var n = g.first; if (!n || !n.parentNode) return;
+        var parent = n.parentNode; parent.insertBefore(g.tn, n);
+        for (var k = 0; k < g.count && g.tn.nextSibling; k++) parent.removeChild(g.tn.nextSibling);
+      });
+    };
+    var setX = function (sp, on) {
+      if (on) { sp.setAttribute('data-g', rndG(sp.textContent)); sp.classList.add('x'); } else sp.classList.remove('x');
+    };
+    var decrypt = function (h, DUR) {
+      DUR = DUR || 800;
+      if (h._dtok) return;
+      var groups = splitChars(h); if (!groups.length) return;
+      var tok = h._dtok = {};
+      var hd = h.classList.contains('ht') ? h.parentElement : null;
+      if (hd) hd.classList.remove('wave');
+      var spans = [].concat.apply([], groups.map(function (g) { return g.spans; })), total = spans.length, t0 = performance.now();
+      h.classList.add('decrypting');
+      var finish = function () {
+        if (h._dtok !== tok) return;
+        h._dtok = null; joinChars(groups); h.classList.remove('decrypting');
+        if (hd && hd.tagName === 'H2') hd.classList.add('wave');   /* 解密完成后, h2 开始颜色波动 */
+      };
+      var tick = function (now) {
+        if (h._dtok !== tok) return;
+        var k = Math.floor(Math.min(1, (now - t0) / DUR) * total);
+        for (var q = 0; q < total; q++) setX(spans[q], q >= k);
+        if (now - t0 < DUR) requestAnimationFrame(tick); else finish();
+      };
+      requestAnimationFrame(tick);
+      setTimeout(finish, DUR + 600);
+    };
+    /* 信号干扰: 随机一两个字瞬间变乱码, 150 毫秒后恢复; 同样不改变排版 */
+    var glitchOnce = function (ht) {
+      if (ht._dtok) return;
+      var groups = splitChars(ht); if (!groups.length) return;
+      var tok = ht._dtok = {}, spans = [].concat.apply([], groups.map(function (g) { return g.spans; }));
+      for (var q = 0, n = Math.random() < .5 ? 1 : 2; q < n && spans.length; q++) setX(spans[(Math.random() * spans.length) | 0], true);
+      setTimeout(function () { if (ht._dtok === tok) { ht._dtok = null; joinChars(groups); } }, 150);
+    };
+    var fx = doc.classList.contains('fx');
+
+    /* 3. 浮动胶囊目录 + 当前小节高亮 */
+    var nav = document.querySelector('nav');
+    var links = nav ? Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]')) : [];
+    var targets = links.map(function (a) { return document.getElementById(decodeURIComponent(a.hash.slice(1))); });
+    var pill = null, cur = null, pLinks = [], curIdx = -1;
+    if (links.length) {
+      pill = document.createElement('div'); pill.id = 'toc-pill';
+      pill.innerHTML = '<div class="cap" role="button" tabindex="0" aria-expanded="false"><span class="ring"></span><span class="idx"></span><span class="cur"></span><span class="chev">▾</span></div><div class="panel"></div>';
+      var panel = pill.querySelector('.panel'); cur = pill.querySelector('.cur');
+      links.forEach(function (a) { var b = a.cloneNode(true); panel.appendChild(b); pLinks.push(b); });
+      document.body.appendChild(pill);
+      var cap = pill.querySelector('.cap');
+      var toggle = function (open) {
+        pill.classList.toggle('open', open);
+        cap.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+      cap.addEventListener('click', function () { toggle(!pill.classList.contains('open')); });
+      cap.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(!pill.classList.contains('open')); } });
+      panel.addEventListener('click', function (e) { if (e.target.closest('a')) toggle(false); });
+      document.addEventListener('click', function (e) { if (!pill.contains(e.target)) toggle(false); });
+      var lastY = scrollY;
+      addEventListener('scroll', function () { if (Math.abs(scrollY - lastY) > 40) { toggle(false); lastY = scrollY; } }, { passive: true });
+    }
+    var mark = function () {
+      var y = 140, idx = -1, hgt = doc.scrollHeight - innerHeight, rp = hgt > 0 ? Math.min(1, scrollY / hgt) : 0;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top < y) idx = i; });
+      curIdx = idx;
+      links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+      pLinks.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+      if (pill) {
+        var past = nav.getBoundingClientRect().bottom < 0;
+        pill.classList.toggle('show', past);
+        if (!past) pill.classList.remove('open');
+        pill.style.setProperty('--rp', rp.toFixed(3));
+        pill.querySelector('.panel').setAttribute('data-pct', Math.round(rp * 100) + '%');
+        pill.querySelector('.idx').textContent = ('0' + Math.max(1, idx + 1)).slice(-2) + '/' + ('0' + links.length).slice(-2);
+        var name = idx >= 0 ? links[idx].textContent : links[0].textContent;
+        if (cur.getAttribute('data-name') !== name) {
+          cur.setAttribute('data-name', name);
+          cur._dtok = null; cur.classList.remove('decrypting'); cur.textContent = name;   /* 直接重写文字, 旧的逐字 span 一并清掉 */
+          if (fx && past) decrypt(cur, 420);               /* 进入新小节时, 胶囊里的节名解密切换 */
+        }
+      }
+    };
+    addEventListener('scroll', mark, { passive: true }); addEventListener('resize', mark); mark();
+
+    /* 4. 背景等高线: 地形图式的等高线 (每 5 条一条较粗的计曲线), 按高度从青到绿着色;
+       地形缓慢呼吸变形, 鼠标所在处隆起一个小山丘; 正文一栏用羽化的遮罩压淡 */
+    if (!reduce) {
+      var cv = document.createElement('canvas'); cv.id = 'contour'; cv.setAttribute('aria-hidden', 'true');
+      document.body.insertBefore(cv, document.body.firstChild);
+      var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, C = 7, NX = 0, NY = 0, F = null, narrow = false, mL = 0, mR = 0;
+      var cs0 = getComputedStyle(doc);
+      function rgbOf(h, d) { var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((h || '').trim());
+        return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : d; }
+      var A = rgbOf(cs0.getPropertyValue('--accent'), [129, 228, 141]);
+      var B = rgbOf(cs0.getPropertyValue('--glow2'), [127, 211, 255]);
+      var mainEl = document.querySelector('main');
+      var P = new Uint8Array(512), sd = 2468013;
+      for (var q = 0; q < 256; q++) P[q] = q;
+      for (q = 255; q > 0; q--) { sd = (sd * 16807) % 2147483647; var r = sd % (q + 1), tmp = P[q]; P[q] = P[r]; P[r] = tmp; }
+      for (q = 0; q < 256; q++) P[q + 256] = P[q];
+      function sm(t) { return t * t * (3 - 2 * t); }
+      function vn(x, y) {
+        var xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi; xi &= 255; yi &= 255;
+        var a = P[P[xi] + yi] / 255, b = P[P[xi + 1] + yi] / 255, c = P[P[xi] + yi + 1] / 255, d = P[P[xi + 1] + yi + 1] / 255;
+        var u = sm(xf), v = sm(yf);
+        return (a + (b - a) * u) * (1 - v) + (c + (d - c) * u) * v;
+      }
+      var mx = -9999, my = -9999, hx = -9999, hy = -9999, amp = 0, ampT = 0, lastMove = 0;
+      addEventListener('pointermove', function (e) { if (e.pointerType !== 'mouse') return; mx = e.clientX; my = e.clientY; ampT = 1; lastMove = performance.now(); }, { passive: true });
+      document.addEventListener('pointerleave', function () { ampT = 0; });
+      var LV = []; for (var lv = .18, li = 0; lv < .95; lv += .033, li++) LV.push({ v: lv, idx: li % 5 === 0 });
+      function size() {
+        dpr = Math.min(2, window.devicePixelRatio || 1);
+        W = innerWidth; H = innerHeight; narrow = W < 700;
+        cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        NX = Math.ceil(W / C) + 2; NY = Math.ceil(H / C) + 2; F = new Float32Array(NX * NY);
+        var rr = mainEl ? mainEl.getBoundingClientRect() : { left: 0, right: 0 }; mL = rr.left; mR = rr.right;
+      }
+      function field(t) {
+        var ts = t / 1000, br = 1 + .06 * Math.sin(ts * Math.PI * 2 / 20), sy = scrollY * .0011;
+        var ox = .3 * Math.sin(ts * .045), oy = .3 * Math.cos(ts * .038);
+        /* 鼠标山丘: 位置和高度都平滑跟随 */
+        if (hx < -999) { hx = mx; hy = my; }
+        hx += (mx - hx) * .18; hy += (my - hy) * .18;
+        if (performance.now() - lastMove > 2500) ampT = 0;
+        amp += (ampT * .22 - amp) * .06;
+        var s2 = 2 * 85 * 85, cx = W / 2, cy = H / 2;
+        for (var y = 0; y < NY; y++) {
+          var py = y * C, ny0 = ((py - cy) / br + cy) * .0042;
+          for (var x = 0; x < NX; x++) {
+            var px = x * C, nx0 = ((px - cx) / br + cx) * .0042;
+            var v = .68 * vn(nx0 + ox, ny0 + oy + sy) + .32 * vn(nx0 * 2.6 - ts * .02, ny0 * 2.6 + ts * .015 + sy * 2.6);
+            if (amp > .002) { var dx = px - hx, dy = py - hy; v += amp * Math.exp(-(dx * dx + dy * dy) / s2); }
+            F[y * NX + x] = v;
+          }
+        }
+      }
+      function draw(t) {
+        field(t);
+        ctx.clearRect(0, 0, W, H);
+        ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+        var k = narrow ? .55 : 1;
+        for (var l = 0; l < LV.length; l++) {
+          var lev = LV[l].v, f = Math.min(1, Math.max(0, (lev - .25) / .6));
+          var c = [Math.round(B[0] + (A[0] - B[0]) * f), Math.round(B[1] + (A[1] - B[1]) * f), Math.round(B[2] + (A[2] - B[2]) * f)];
+          ctx.strokeStyle = 'rgba(' + c.join(',') + ',' + ((LV[l].idx ? .34 : .15) * k).toFixed(3) + ')';
+          ctx.lineWidth = LV[l].idx ? 1.35 : .8;
+          ctx.beginPath();
+          for (var y = 0; y < NY - 1; y++) for (var x = 0; x < NX - 1; x++) {
+            var a = F[y * NX + x], b = F[y * NX + x + 1], cc = F[(y + 1) * NX + x + 1], d = F[(y + 1) * NX + x];
+            var id = (a > lev ? 8 : 0) | (b > lev ? 4 : 0) | (cc > lev ? 2 : 0) | (d > lev ? 1 : 0);
+            if (id === 0 || id === 15) continue;
+            var X = x * C, Y = y * C;
+            var T = [X + C * (lev - a) / (b - a), Y], Rt = [X + C, Y + C * (lev - b) / (cc - b)], Bt = [X + C * (lev - d) / (cc - d), Y + C], Lf = [X, Y + C * (lev - a) / (d - a)];
+            var sg;
+            switch (id) {
+              case 1: case 14: sg = [Lf, Bt]; break;  case 2: case 13: sg = [Bt, Rt]; break;
+              case 3: case 12: sg = [Lf, Rt]; break;  case 4: case 11: sg = [T, Rt]; break;
+              case 6: case 9: sg = [T, Bt]; break;    case 7: case 8: sg = [Lf, T]; break;
+              case 5: sg = [Lf, T, Bt, Rt]; break;    case 10: sg = [T, Rt, Lf, Bt]; break;
+            }
+            for (var g = 0; g < sg.length; g += 2) { ctx.moveTo(sg[g][0], sg[g][1]); ctx.lineTo(sg[g + 1][0], sg[g + 1][1]); }
+          }
+          ctx.stroke();
+        }
+        /* 羽化遮罩: 正文一栏中心最淡, 向两侧平滑过渡 */
+        if (!narrow && mR > mL) {
+          var gw = 140, g2 = ctx.createLinearGradient(mL - gw, 0, mR + gw, 0), fl = gw / (mR - mL + 2 * gw);
+          g2.addColorStop(0, 'rgba(0,0,0,0)'); g2.addColorStop(Math.min(.49, fl * 1.6), 'rgba(0,0,0,.72)');
+          g2.addColorStop(Math.max(.51, 1 - fl * 1.6), 'rgba(0,0,0,.72)'); g2.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = g2; ctx.fillRect(mL - gw, 0, mR - mL + 2 * gw, H);
+          ctx.globalCompositeOperation = 'source-over';
+        }
+      }
+      size(); addEventListener('resize', function () { size(); draw(performance.now()); });
+      if (auto) draw(0);
+      else {
+        var lastT = 0;
+        (function loop(t) { if (!document.hidden && t - lastT > 66) { lastT = t; draw(t); } requestAnimationFrame(loop); })(0);
+      }
+    }
+
+    /* 解密标题 (h2 小节标题和 h3 三级标题; 页首大标题 h1 不加):
+       ① 第一次滚进视野时解密 (解密的是中文主标题 .ht, 德语副标题不动); h2 解密完开始颜色波动;
+       ② 之后鼠标悬停 (手机上点一下) 再解密, 1.2 秒内不重复;
+       ③ 正在读的那一节, 它的 h2 每隔 6–10 秒有一两个字瞬间变乱码再恢复 (信号干扰) */
+    if (fx) {
+      var heads = Array.prototype.slice.call(document.querySelectorAll('main h2, main h3')).filter(function (h) { return h.querySelector(':scope > .ht'); });
+      var hio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { decrypt(e.target.querySelector(':scope > .ht'), e.target.tagName === 'H3' ? 600 : 800); hio.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -12% 0px' });
+      heads.forEach(function (h) {
+        var ht = h.querySelector(':scope > .ht'), short = h.tagName === 'H3' ? 520 : 650;
+        if (h.getBoundingClientRect().top < innerHeight * .88) decrypt(ht, h.tagName === 'H3' ? 600 : 800); else hio.observe(h);
+        var lastHover = 0;
+        var again = function () { var now = performance.now(); if (now - lastHover > 1200) { lastHover = now; decrypt(ht, short); } };
+        ht.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') again(); });
+        h.addEventListener('click', function (e) { if (e.pointerType !== 'mouse' && !e.target.closest('a')) again(); });
+      });
+      var headOf = function (t) {
+        if (!t) return null;
+        var h = /^H2$/.test(t.tagName) ? t : t.querySelector('h2');
+        return h ? h.querySelector(':scope > .ht') : null;
+      };
+      var glitch = function () {
+        var ht = curIdx >= 0 ? headOf(targets[curIdx]) : null;
+        if (ht && !ht._dtok && !document.hidden) {
+          var r = ht.getBoundingClientRect();
+          if (r.bottom > 0 && r.top < innerHeight) glitchOnce(ht);
+        }
+        setTimeout(glitch, 6000 + Math.random() * 4000);
+      };
+      setTimeout(glitch, 7000);
+    }
+
+    /* 图片点击放大: 从原位置平滑放大到屏幕中央 (FLIP), 点击 / Esc 时缩回原位 */
+    var lb = document.createElement('div'); lb.id = 'lightbox'; document.body.appendChild(lb);   /* 图片在打开时才放进去, 页面里没有空的 <img> */
+    var lbSrc = null, lbBusy = false;
+    var rectFit = function (nw, nh) {
+      var mw = innerWidth * .92, mh = innerHeight * .84, k = Math.min(mw / nw, mh / nh, 2.2);
+      var w = nw * k, h = nh * k; return { left: (innerWidth - w) / 2, top: (innerHeight - h) / 2 - innerHeight * .03, width: w, height: h };
+    };
+    var place = function (el, r, to) {
+      var sx = r.width / to.width, sy = r.height / to.height;
+      el.style.transform = 'translate(' + r.left + 'px,' + r.top + 'px) scale(' + sx + ',' + sy + ')';
+    };
+    var lbOpen = function (im) {
+      if (lbBusy) return; lbBusy = true; lbSrc = im;
+      var b = document.createElement('img'); b.src = im.src; b.alt = im.alt;
+      var cap = document.createElement('div'); cap.className = 'lb-cap';
+      var fc = im.closest('figure') && im.closest('figure').querySelector('figcaption, .fig-cap');
+      cap.textContent = fc ? fc.textContent : (im.alt || '');
+      lb.textContent = ''; lb.appendChild(b); lb.appendChild(cap);
+      var to = rectFit(im.naturalWidth || im.width, im.naturalHeight || im.height);
+      b.style.width = to.width + 'px'; b.style.height = to.height + 'px';
+      b.style.transition = 'none'; place(b, im.getBoundingClientRect(), to);
+      im.style.visibility = 'hidden';
+      b.getBoundingClientRect();
+      b.style.transition = ''; lb.classList.add('on');
+      requestAnimationFrame(function () { b.style.transform = 'translate(' + to.left + 'px,' + to.top + 'px)'; });
+      setTimeout(function () { lbBusy = false; }, reduce ? 0 : 480);
+    };
+    var lbClose = function () {
+      if (!lb.classList.contains('on') || lbBusy) return;
+      var b = lb.querySelector('img'), im = lbSrc;
+      lb.classList.remove('on');
+      if (b && im && !reduce) {
+        lbBusy = true;
+        var to = { width: parseFloat(b.style.width), height: parseFloat(b.style.height) };
+        place(b, im.getBoundingClientRect(), to);
+        setTimeout(function () { im.style.visibility = ''; lb.textContent = ''; lbBusy = false; }, 480);
+      } else { if (im) im.style.visibility = ''; lb.textContent = ''; }
+    };
+    lb.addEventListener('click', lbClose);
+    addEventListener('keydown', function (e) { if (e.key === 'Escape') lbClose(); });
+    addEventListener('scroll', function () { if (lb.classList.contains('on')) lbClose(); }, { passive: true });
+    Array.prototype.forEach.call(document.querySelectorAll('main .src-fig img, main figure:not([class]) img'), function (im) {
+      im.addEventListener('click', function () { lbOpen(im); });
+    });
+
+    /* 左侧色条里的流光: 每个框随机错开起点, 不会整页同时闪 */
+    document.querySelectorAll('.zh, .warn, .def').forEach(function (el) { el.style.setProperty('--bar-delay', (-Math.random() * 5.5).toFixed(2) + 's'); });
+
+    /* 5. 卡片聚光灯: 只在鼠标所在的那张卡片里亮 */
+    if (!reduce && matchMedia('(pointer: fine)').matches) {
+      var boxes = document.querySelectorAll('main .card, main .zh, main .add, main .warn');
+      boxes.forEach(function (el) {
+        el.addEventListener('pointermove', function (e) {
+          if (e.target.closest('.card, .zh, .add, .warn') !== el) { el.classList.remove('lit'); return; }
+          var r = el.getBoundingClientRect();
+          el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+          el.classList.add('lit');
+        });
+        el.addEventListener('pointerleave', function () { el.classList.remove('lit'); });
+      });
+    }
+
+    /* 7. 光标拖影: 鼠标移动时拖一条由粗到细、逐渐变淡的光带, 停下就收拢消失 */
+    if (!reduce && !auto && matchMedia('(pointer: fine)').matches) {
+      var tc = document.createElement('canvas'); tc.id = 'trail'; tc.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(tc);
+      var tx = tc.getContext('2d'), TW = 0, TH = 0, tdpr = 1, pts = [], running = false, LIFE = 160;
+      var g1 = (getComputedStyle(doc).getPropertyValue('--accent') || '#81e48d').trim();
+      var g2 = (getComputedStyle(doc).getPropertyValue('--glow2') || '#7fd3ff').trim();
+      function tsize() { tdpr = Math.min(2, window.devicePixelRatio || 1); TW = innerWidth; TH = innerHeight;
+        tc.width = TW * tdpr; tc.height = TH * tdpr; tx.setTransform(tdpr, 0, 0, tdpr, 0, 0); }
+      tsize(); addEventListener('resize', tsize);
+      addEventListener('pointermove', function (e) {
+        pts.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+        if (!running) { running = true; requestAnimationFrame(tdraw); }
+      }, { passive: true });
+      function tdraw(now) {
+        while (pts.length && now - pts[0].t > LIFE) pts.shift();
+        tx.clearRect(0, 0, TW, TH);
+        if (pts.length > 1) {
+          tx.lineCap = 'round'; tx.lineJoin = 'round';
+          for (var i = 1; i < pts.length; i++) {
+            var a = pts[i - 1], b = pts[i], f = i / (pts.length - 1), age = 1 - (now - b.t) / LIFE;
+            tx.strokeStyle = f > .5 ? g1 : g2;
+            tx.globalAlpha = Math.max(0, .75 * f * age);
+            tx.lineWidth = 1 + 5 * f * age;
+            tx.shadowColor = g1; tx.shadowBlur = 12 * f;
+            tx.beginPath(); tx.moveTo(a.x, a.y); tx.lineTo(b.x, b.y); tx.stroke();
+          }
+          tx.globalAlpha = 1; tx.shadowBlur = 0;
+        }
+        if (pts.length) requestAnimationFrame(tdraw); else { running = false; tx.clearRect(0, 0, TW, TH); }
+      }
+    }
+
+    /* 6. 折叠答案的展开动画 */
+    document.querySelectorAll('details.answer').forEach(function (d) {
+      var s = d.querySelector('summary'); if (!s) return;
+      var body = document.createElement('div'); body.className = 'dbody';
+      while (s.nextSibling) body.appendChild(s.nextSibling);
+      d.appendChild(body);
+      s.addEventListener('click', function (ev) {
+        if (reduce) return;
+        ev.preventDefault();
+        if (d.open) {
+          body.style.height = body.scrollHeight + 'px';
+          requestAnimationFrame(function () { body.style.height = '0px'; });
+          setTimeout(function () { d.open = false; body.style.height = ''; }, 350);
+        } else {
+          d.open = true; var h = body.scrollHeight; body.style.height = '0px';
+          requestAnimationFrame(function () { body.style.height = h + 'px'; });
+          setTimeout(function () { body.style.height = ''; }, 360);
+        }
+      });
+    });
+  } catch (err) { document.documentElement.classList.remove('fx'); }
+})();
+</script>
+</body>
+</html>

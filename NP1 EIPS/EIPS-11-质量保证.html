@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#121c1e">
+<title>EIPS 11 · 质量保证</title>
+<style>
+  :root {
+    --bg: #121c1e;
+    --ink: #e3ebed;
+    --muted: #9bafb5;
+    --line: #30454b;
+    --card: #1a272b;
+    --code: #0e1618;
+    --accent: #81cee4;
+    --chip: #23383e;
+    --zh: #17272b;
+    --add: #182023;
+    --add-line: #86abb6;
+    --warn: #2a1a1c;
+    --warn-line: #ff7b72;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16.5px/1.6 "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif;
+  }
+  header { position: static; background: transparent; border: 0; }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 18px 22px 72px; }
+  header .wrap { padding-top: 18px; padding-bottom: 8px; }
+  h1 { font-size: 28px; line-height: 1.25; margin: 0 0 6px; font-weight: 650; }
+  h2 { font-size: 22px; margin: 44px 0 8px; padding-top: 10px; border-top: 1px solid var(--line); }
+  h3 { font-size: 17px; margin: 24px 0 6px; }
+  h1 .de-title, h2 .de-title, h3 .de-title {
+    display: block; margin-top: 2px; color: var(--muted);
+    font-weight: 500; font-size: 0.92em; line-height: 1.35;
+  }
+  h1 .de-title { font-size: 0.62em; }
+  p { margin: 8px 0; }
+  .lede { color: var(--muted); margin: 0; }
+  nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+  nav a {
+    color: var(--accent); text-decoration: none; background: var(--chip);
+    border-radius: 999px; padding: 3px 10px;
+    font: 13px/1.4 "PingFang SC", sans-serif;
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px 16px; margin: 12px 0;
+  }
+  .card p, .card li { margin: 4px 0; }
+  .de { position: relative; padding-top: 26px; }
+  .folie {
+    position: absolute; top: 7px; left: 16px;
+    font: 11.5px/1.3 "PingFang SC", sans-serif; color: var(--muted); letter-spacing: .02em;
+  }
+  .de .def {
+    border-left: 3px solid var(--accent); padding: 4px 10px; margin: 6px 0;
+    background: var(--chip); border-radius: 0 8px 8px 0;
+  }
+  .zh {
+    background: var(--zh); border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .zh p { margin: 0 0 8px; }
+  .zh p:last-child, .zh ul:last-child, .zh ol:last-child { margin-bottom: 0; }
+  .add {
+    background: var(--add); border-left: 3px dashed var(--add-line);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .add::before { content: "补充 (幻灯片之外)"; display: block; font-size: 12px; color: var(--add-line); font-weight: 600; margin-bottom: 4px; }
+  .add p { margin: 0 0 8px; }
+  .add p:last-child { margin-bottom: 0; }
+  .warn {
+    background: var(--warn); border-left: 3px solid var(--warn-line);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .vocab { font-family: "PingFang SC", sans-serif; font-size: 14px; color: var(--muted); margin: 6px 0 2px; }
+  .vocab b { color: var(--ink); font-weight: 600; }
+  ul, ol { margin: 8px 0; padding-left: 1.3em; }
+  li { margin: 4px 0; }
+  ul ul { margin: 2px 0; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; margin: 12px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 7px 10px; border-bottom: 1px solid var(--line); }
+  th { font: 12px/1.3 "PingFang SC", sans-serif; color: var(--muted); font-weight: 600; background: var(--chip); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tablewrap { overflow-x: auto; }
+  pre {
+    background: var(--code); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px; overflow: auto; margin: 12px 0;
+    font: 13.5px/1.5 "SF Mono", ui-monospace, Menlo, monospace;
+  }
+  code {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 0.86em;
+    background: var(--chip); padding: 1px 5px; border-radius: 5px;
+  }
+  pre code { background: none; padding: 0; }
+  .c { color: #8fbf98; }
+  .s { color: #f2a27f; }
+  .k { color: #8ab4f8; font-weight: 600; }
+  a { color: var(--accent); }
+  .src { color: var(--muted); font-size: 14px; }
+  blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin: 8px 0; }
+  details summary { cursor: pointer; font-weight: 600; }
+  details[open] summary { margin-bottom: 6px; }
+  .diagram { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+  .diagram > div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font-family: "PingFang SC", sans-serif; font-size: 14.5px; }
+  .diagram h4 { margin: 0 0 6px; font-size: 15px; }
+  @media (max-width: 560px) { .diagram { grid-template-columns: 1fr; } }
+  /* ===== 前端细节优化 2026-10-16：只调排版与交互，不改内容和颜色 token ===== */
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  h1, h2, h3, h4 { text-wrap: balance; }
+  p, li { text-wrap: pretty; }
+  p, li, a, code { overflow-wrap: break-word; }
+  [id] { scroll-margin-top: 16px; }
+  :focus-visible { outline: 2px solid var(--accent, var(--link)); outline-offset: 2px; border-radius: 4px; }
+  pre, .tablewrap { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  pre { tab-size: 4; }
+  .tablewrap { overflow-x: auto; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  @media print { pre, table, details, figure { break-inside: avoid; } h2, h3 { break-after: avoid; } }
+  ::selection { background: color-mix(in srgb, var(--accent, var(--link)) 35%, transparent); }
+  nav a { transition: background-color .15s ease, color .15s ease; }
+  nav a:hover { background: color-mix(in srgb, var(--accent, var(--link)) 22%, var(--chip, var(--paper))); }
+  details summary:hover { color: var(--accent, var(--link)); }
+  @media print { .card, .zh, .add, .warn, .de, .later, .vocab { break-inside: avoid; } }
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .wrap, header .wrap, main { padding-left: 16px; padding-right: 16px; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; }
+    .card { padding-left: 12px; padding-right: 12px; }
+    .folie, .slide { left: 12px; }
+    .zh, .add, .warn { padding: 9px 12px; }
+    .part > h2, article { padding-left: 14px; padding-right: 14px; }
+    pre { padding: 10px 12px; font-size: 13px; }
+  }
+  .src-fig { margin: 10px 0 6px; background: #fff; border-radius: 8px; padding: 8px; }
+  .src-fig img { display: block; max-width: 100%; max-height: 360px; width: auto; height: auto; margin: 0 auto; }
+  .src-fig figcaption { margin-top: 6px; font: 12px/1.4 "PingFang SC", sans-serif; color: #555; text-align: center; }
+  /* ===== 排版统一层 v9（所有笔记共用；只管字体、尺寸、间距、对齐，不改颜色 token） ===== */
+  :root { --measure: 760px; --gutter: 24px; --serif: "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif; --sans: "PingFang SC", "Hiragino Sans GB", "Songti SC", sans-serif; --mono: "SF Mono", ui-monospace, Menlo, monospace; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { font: 16.5px/1.65 var(--serif); font-kerning: normal; }
+  /* 换行：中文按标点避头尾（strict），不用 balance / pretty（它们会在宽屏和手机上把中文行拆成一长一短、在词中间断开） */
+  body { line-break: strict; word-break: normal; overflow-wrap: break-word; font-feature-settings: "halt" 1; }
+  /* 中文讲解用英文标点（, . : ; ! ? ( )，由 scripts/zh_punct.py 转换）；剩下的「」、《》用 halt 压成半宽，不留大空白 */
+  pre, code, kbd, .katex { font-feature-settings: normal; }
+  /* 页首说明和副标题按「 · 」分段，只在段与段之间换行，不在一个段落中间断开 */
+  .seg, h1 .seg, h2 .seg, h3 .seg, .lede .seg { display: inline-block; margin: 0; font-size: inherit; font-weight: inherit; color: inherit; letter-spacing: inherit; }
+  p, li, td, th, dd, figcaption, summary, .lede { text-wrap: wrap; }
+  h1, h2, h3, h4 { text-wrap: wrap; word-break: keep-all; overflow-wrap: anywhere; }
+  /* 行内代码整体不拆行（bark() 不会断成 bark( / )）；只有页首、出处说明里的长文件名允许在放不下时断开 */
+  code { white-space: nowrap; }
+  .lede code, .src code, h1 code, h2 code, h3 code { white-space: normal; overflow-wrap: anywhere; }
+  td:first-child, th:first-child { min-width: 5em; }
+  /* 单元格内容不能断开的表（莫尔斯码之类）给 table 加 class="nowrap"，放不下就横向滚动（注释里不要写带尖括号的标签，wrap_tables.py 曾把它当成真表格） */
+  table.nowrap td, table.nowrap th { white-space: nowrap; text-wrap: nowrap; }
+  /* 代码块里的 code 跟随 pre 保留换行（上面的 nowrap 只给行内代码；漏了这条，多行代码会挤成一行） */
+  pre code { white-space: inherit; overflow-wrap: normal; word-break: normal; }
+  /* 长的行内代码（apply_typography.py 标 .lc，超过 24 个字符）在手机上放不下，允许在空格处换行，必要时任意处断开 */
+  code.lc { white-space: normal; overflow-wrap: anywhere; }
+  /* 版心：页首和正文同一列，左右对齐、整体居中 */
+  header .wrap, main.wrap, main { box-sizing: border-box; max-width: var(--measure); margin-left: auto; margin-right: auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+  header .wrap { padding-top: 40px; padding-bottom: 8px; }
+  main.wrap, main { padding-top: 8px; padding-bottom: 96px; }
+  /* 标题层级 */
+  h1 { font-size: 28px; line-height: 1.3; font-weight: 650; margin: 0 0 4px; }
+  h1 .de-title, h1 > span { display: block; margin-top: 6px; font-size: 15px; line-height: 1.45; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+  h2 { font-size: 22px; line-height: 1.35; font-weight: 650; margin: 56px 0 10px; padding-top: 16px; }
+  h2 .de-title { display: block; margin-top: 4px; font-size: 15px; font-weight: 500; color: var(--muted); }
+  h3 { font-size: 17.5px; line-height: 1.45; font-weight: 650; margin: 32px 0 8px; }
+  h3 .de-title { display: block; margin-top: 2px; font-size: 14px; font-weight: 500; color: var(--muted); }
+  h4 { font-size: 16px; margin: 24px 0 8px; }
+  /* 页首说明与导航 */
+  .lede { margin: 12px 0 0; font: 15.5px/1.65 var(--serif); color: var(--muted); }
+  nav { display: flex; flex-wrap: wrap; gap: 6px 6px; margin: 18px 0 0; }
+  nav a { font: 12.5px/1.5 var(--sans); padding: 3px 11px; border-radius: 999px; text-decoration: none; }
+  /* 正文段落 */
+  p { margin: 10px 0; }
+  ul, ol { padding-left: 1.4em; margin: 8px 0; }
+  li { margin: 4px 0; }
+  /* 原文卡片与各类框：统一宽度、圆角、内边距 */
+  .card { box-sizing: border-box; width: 100%; border-radius: 12px; padding: 14px 18px; margin: 14px 0; }
+  .card.de, .card.orig { padding-top: 30px; }
+  .folie, .slide { top: 9px; left: 18px; font: 11.5px/1.3 var(--sans); letter-spacing: .03em; }
+  .zh, .add, .warn, details.answer, .later { box-sizing: border-box; font: 15px/1.75 var(--sans); padding: 12px 16px; margin: 10px 0 6px; }
+  .zh p, .add p, .warn p, details.answer p { margin: 0 0 10px; }
+  .zh p:last-child, .add p:last-child, .warn p:last-child { margin-bottom: 0; }
+  .src { font: 14px/1.7 var(--sans); }
+  /* 居中元素：公式行、图、表格统一处理 */
+  p[style*="text-align:center"], p[style*="text-align: center"], .math-block { margin: 14px auto; text-align: center; font-size: 1.05em; }
+  figure, .src-fig { margin: 14px auto; text-align: center; }
+  /* 图注左对齐: 居中的两行图注第二行会孤零零缩在中间 */
+  figure figcaption, .src-fig figcaption { text-align: left; }
+  /* 图注按标点分句 (span.cs)，每行都在一个标点后结束，不在半句中间换行 */
+  figcaption .cs { display: inline-block; max-width: 100%; }
+  figure img, .src-fig img { display: block; margin: 0 auto; }
+  figure svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .tablewrap { width: 100%; overflow-x: auto; margin: 12px 0; }
+  table { width: 100%; font: 14.5px/1.6 var(--sans); }
+  .card table, .tablewrap table { margin: 0; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 11px; }
+  td.num, th.num { text-align: right; }
+  /* 代码 */
+  pre { font: 13.5px/1.55 var(--mono); padding: 12px 16px; border-radius: 10px; margin: 12px 0; overflow-x: auto; tab-size: 4; }
+  code { font-family: var(--mono); font-size: .86em; }
+  pre code { font-size: inherit; }
+  .cols { gap: 12px; }
+  .cols > *, .pair > *, .card > *, .zh > *, details.answer > * { min-width: 0; }
+  img, video { max-width: 100%; height: auto; }
+  .katex svg { max-width: none; }
+  /* 折叠框 */
+  details > summary { font: 600 15px/1.5 var(--sans); }
+  /* 窄屏 */
+  @media (max-width: 600px) {
+    :root { --gutter: 16px; }
+    body { font-size: 16px; line-height: 1.65; }
+    header .wrap { padding-top: 24px; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; margin-top: 44px; }
+    h3 { font-size: 17px; }
+    .card { padding-left: 13px; padding-right: 13px; }
+    .folie, .slide { left: 13px; }
+    .zh, .add, .warn, details.answer { padding: 10px 13px; font-size: 15px; line-height: 1.75; }
+    nav a { font-size: 12px; padding: 2px 9px; }
+    .cols { grid-template-columns: 1fr; }
+    /* 手机上表格列太窄时中文会一字一行（「需求分析」竖着排）：给单元格最小宽度，放不下就在 .tablewrap 里横向滚动 */
+    th, td { min-width: 4.5em; }
+    td.wide, th.wide { min-width: 9em; }
+  }
+  /* ===== /排版统一层 ===== */
+</style>
+<style id="glass">
+  /* ===== 玻璃霓虹层 (Glass / Neon) v13 · 只管视觉特效, 由 scripts/apply_glass.py 插在 </head> 前; 不改字号、版心、间距 ===== */
+  :root {
+    --glow: var(--accent);
+    --glow2: #7fd3ff;
+    --tint: color-mix(in srgb, var(--glow) 55%, #ffffff);          /* 课程色的亮色调, 进度条/色条/标题波动都用它, 跟着课程走 */
+    --glass: color-mix(in srgb, var(--card) 62%, transparent);
+    --glass-strong: color-mix(in srgb, var(--card) 80%, transparent);
+    --edge: color-mix(in srgb, #ffffff 9%, transparent);
+    --mono: "JetBrainsMono Nerd Font", "JetBrainsMono NF", "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  }
+  html { background: var(--bg); }
+  body {
+    background:
+      radial-gradient(1100px 600px at 50% -15%, color-mix(in srgb, var(--glow) 9%, transparent), transparent 65%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+  ::selection { background: color-mix(in srgb, var(--glow) 38%, transparent); color: #fff; }
+
+  /* 背景等高线: 固定画布上一张缓慢呼吸的地形图, 鼠标处隆起山丘 (由脚本绘制) */
+  #contour { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  /* 光标拖影: 覆盖全屏的透明画布, 不拦截鼠标 */
+  #trail { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 60; pointer-events: none; }
+
+  /* 顶部阅读进度条: 一条极淡的轨道 + 课程色渐变的进度 + 末端一颗发光的光点; 颜色全部来自课程主色 */
+  @property --p { syntax: "<number>"; inherits: true; initial-value: 0; }
+  #progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 50; pointer-events: none;
+    background: color-mix(in srgb, var(--glow) 10%, transparent); }
+  #progress::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p) * 100%);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 15%, transparent), color-mix(in srgb, var(--glow) 75%, transparent) 60%, var(--glow) 88%, var(--tint));
+    box-shadow: 0 0 6px color-mix(in srgb, var(--glow) 70%, transparent), 0 0 14px color-mix(in srgb, var(--glow) 35%, transparent); border-radius: 0 2px 2px 0; }
+  #progress::after { content: ""; position: absolute; top: 50%; left: calc(var(--p) * 100%); width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%;
+    background: var(--tint); opacity: min(1, calc(var(--p) * 60));
+    box-shadow: 0 0 6px 1px var(--glow), 0 0 16px 4px color-mix(in srgb, var(--glow) 45%, transparent); }
+  @supports (animation-timeline: scroll()) {
+    #progress { animation: prog linear both; animation-timeline: scroll(root); }
+    @keyframes prog { from { --p: 0; } to { --p: 1; } }
+  }
+
+  /* 标题 */
+  h1 { background: linear-gradient(100deg, #fff 0%, var(--glow) 55%, var(--glow2) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  h1 .de-title { -webkit-text-fill-color: var(--muted); color: var(--muted); }
+  h2 { border-top: 0 !important; position: relative; }
+  .part:has(> h2) { border-top-color: transparent !important; }   /* 练习单的分节线由 h2 的渐变线代替, 不出现两条线 */
+  h2::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px;
+    background: linear-gradient(90deg, var(--glow), color-mix(in srgb, var(--glow2) 50%, transparent) 40%, transparent); opacity: .7; }
+
+  /* 小节标题 h2 / 三级标题 h3 的中文主标题: 脚本在运行时把它包进 .ht (文件本身不变).
+     h2 的 .ht 从一开始就用「文字裁切渐变」绘制 (起始是纯正文色), 解密后只是让渐变里的光带开始流动;
+     渲染方式前后不变, 所以结束时不会闪、德语副标题也不会跟着变. */
+  h2 .ht { background: linear-gradient(90deg, var(--ink) 0 100%); background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  h2.wave .ht { background-image: linear-gradient(90deg, var(--ink) 0%, var(--ink) 18%, var(--glow) 34%, var(--tint) 42%, var(--glow) 50%, var(--ink) 66%, var(--ink) 100%);
+    animation: hwave 9s linear infinite; }
+  @keyframes hwave { from { background-position: 0% 0; } to { background-position: -200% 0; } }
+
+  /* 解密 / 信号干扰: 原字隐藏但仍占原位, 乱码画在 ::after 叠层里, 居中压在原字上, 不参与排版 */
+  .ch { position: relative; }
+  .ch.x { visibility: hidden; }
+  .ch.x::after { content: attr(data-g); visibility: visible; position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+    white-space: pre; color: var(--glow); -webkit-text-fill-color: var(--glow); opacity: .85; pointer-events: none; }
+
+  /* ===== 页首目录: 和卡片同一套玻璃面板, 每项带两位编号 (CSS 计数, 不改文件) ===== */
+  header nav, body > nav { counter-reset: toc; display: flex; flex-wrap: wrap; gap: 2px 4px; margin-top: 14px; padding: 30px 10px 10px;
+    position: relative; border-radius: 14px; background: var(--glass); border: 1px solid var(--edge);
+    -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+    box-shadow: 0 10px 30px -14px rgba(0,0,0,.6), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent); }
+  body > nav { width: calc(min(760px, 100%) - 44px) !important; max-width: none !important; margin: 14px auto 0 !important; padding: 30px 10px 10px !important; box-sizing: border-box; }
+  @media (max-width: 560px) { body > nav { width: calc(100% - 32px) !important; } }
+  header nav::before, body > nav::before { content: "目录"; position: absolute; left: 14px; top: 9px;
+    font: 600 11px/1 var(--mono); letter-spacing: .12em; color: color-mix(in srgb, var(--glow) 75%, var(--muted)); }
+  header nav::after, body > nav::after { content: ""; position: absolute; left: 14px; right: 14px; top: 23px; height: 1px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 45%, transparent), transparent 70%); }
+  header nav a, body > nav a { counter-increment: toc; display: inline-flex; align-items: baseline; gap: 6px;
+    background: transparent !important; border: 0 !important; border-radius: 8px; padding: 4px 9px !important;
+    color: var(--ink) !important; text-decoration: none; position: relative; transition: background-color .2s, color .2s; }
+  header nav a::before, body > nav a::before { content: counter(toc, decimal-leading-zero);
+    font: 500 10.5px/1 var(--mono); color: color-mix(in srgb, var(--glow) 60%, var(--muted)); }
+  header nav a:hover, body > nav a:hover { background: color-mix(in srgb, var(--glow) 10%, transparent) !important; }
+  header nav a.active, body > nav a.active { color: var(--glow) !important; background: color-mix(in srgb, var(--glow) 12%, transparent) !important; }
+  header nav a.active::after, body > nav a.active::after { content: ""; position: absolute; left: 9px; right: 9px; bottom: 0; height: 1.5px; border-radius: 2px;
+    background: var(--glow); box-shadow: 0 0 8px var(--glow); }
+
+  /* ===== 浮动胶囊目录 ===== */
+  #toc-pill { position: fixed; top: 12px; left: 50%; z-index: 45; transform: translate(-50%, -150%);
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), opacity .3s; opacity: 0; width: min(92vw, 440px); font: 13px/1.4 "PingFang SC", sans-serif; }
+  #toc-pill.show { transform: translate(-50%, 0); opacity: 1; }
+  #toc-pill .cap { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; margin: 0 auto; width: fit-content; max-width: 100%;
+    padding: 6px 14px 6px 8px; border-radius: 999px; color: var(--ink); white-space: nowrap;
+    background: color-mix(in srgb, var(--card) 90%, #000); border: 1px solid color-mix(in srgb, var(--glow) 30%, var(--edge));
+    -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: 0 10px 28px -10px rgba(0,0,0,.8), 0 0 20px -8px color-mix(in srgb, var(--glow) 60%, transparent); }
+  #toc-pill .ring { width: 20px; height: 20px; border-radius: 50%; flex: none; position: relative;
+    background: conic-gradient(var(--glow) calc(var(--rp, 0) * 360deg), color-mix(in srgb, var(--glow) 16%, transparent) 0); }
+  #toc-pill .ring::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--card); box-shadow: inset 0 0 6px color-mix(in srgb, var(--glow) 35%, transparent); }
+  #toc-pill .idx { font: 600 11.5px/1 var(--mono); color: var(--glow); }
+  #toc-pill .cur { overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+  #toc-pill .chev { opacity: .55; font-size: 10px; transition: transform .25s; }
+  #toc-pill.open .chev { transform: rotate(180deg); }
+  #toc-pill .panel { counter-reset: tp; margin-top: 8px; padding: 34px 8px 8px; border-radius: 16px; display: none; position: relative;
+    background: color-mix(in srgb, var(--card) 94%, #000); border: 1px solid color-mix(in srgb, var(--glow) 18%, var(--edge));
+    -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: 0 22px 50px -14px rgba(0,0,0,.85), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent); max-height: 62vh; overflow-y: auto; }
+  #toc-pill .panel::before { content: "目录 · " attr(data-pct); position: absolute; left: 16px; top: 12px;
+    font: 600 11px/1 var(--mono); letter-spacing: .1em; color: color-mix(in srgb, var(--glow) 75%, var(--muted)); }
+  #toc-pill .panel::after { content: ""; position: absolute; left: 16px; right: 16px; top: 27px; height: 1px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 45%, transparent), transparent 75%); }
+  #toc-pill.open .panel { display: block; animation: panel-in .22s ease-out; }
+  @keyframes panel-in { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: none; } }
+  #toc-pill .panel a { counter-increment: tp; display: flex; align-items: baseline; gap: 10px; padding: 7px 12px 7px 14px; border-radius: 10px;
+    color: var(--ink); text-decoration: none; position: relative; transition: background-color .15s; }
+  #toc-pill .panel a::before { content: counter(tp, decimal-leading-zero); font: 500 11px/1 var(--mono); color: var(--muted); min-width: 18px; }
+  #toc-pill .panel a:hover { background: color-mix(in srgb, var(--glow) 10%, transparent); }
+  #toc-pill .panel a.active { color: var(--glow); background: color-mix(in srgb, var(--glow) 13%, transparent); }
+  #toc-pill .panel a.active::before { color: var(--glow); }
+  #toc-pill .panel a.active::after { content: ""; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 2px; border-radius: 2px; background: var(--glow); box-shadow: 0 0 8px var(--glow); }
+
+  /* 卡片层次: 原文 = 明亮玻璃, 讲解 = 带色玻璃, 补充 = 虚光, 红框 = 红色辉光 */
+  .card { background: var(--glass); border: 1px solid var(--edge);
+    -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: 0 10px 30px -12px rgba(0,0,0,.6), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+    position: relative; isolation: isolate; }
+  .zh { background: color-mix(in srgb, var(--zh) 70%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-left-color: transparent !important; }
+  .add { background: color-mix(in srgb, var(--add) 55%, transparent);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  .warn { background: color-mix(in srgb, #3a1518 65%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-left-color: transparent !important; }
+  /* ===== 左侧色条 v2: 讲解框、红框、补充框、原文卡片里的定义框统一 =====
+     由三部分组成: 顶端一个发光的节点, 一根两端渐隐的细线, 一段沿线缓慢往下流动的亮光 (像数据在线路里传输);
+     框的左边缘还有一层淡淡的同色光晕, 让色条「照亮」框内. 颜色由 --bar / --bar-tint 决定, 默认是课程色. */
+  .zh, .def { --bar: var(--glow); --bar-tint: var(--tint); }
+  .warn { --bar: var(--warn-line); --bar-tint: color-mix(in srgb, var(--warn-line) 55%, #fff); }
+  .add { --bar: var(--add-line); --bar-tint: color-mix(in srgb, var(--add-line) 55%, #fff); }
+  .zh, .warn, .add, .def { border-left-color: transparent !important; }
+  .def { position: relative; isolation: isolate; border-left-width: 3px !important; border-left-style: solid !important;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 10%, transparent), transparent 90px), color-mix(in srgb, var(--chip) 80%, transparent) !important; }
+  .zh { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 9%, transparent), transparent 110px), color-mix(in srgb, var(--zh) 70%, transparent); }
+  .warn { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 10%, transparent), transparent 110px), color-mix(in srgb, #3a1518 65%, transparent); }
+  .add { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 6%, transparent), transparent 90px), color-mix(in srgb, var(--add) 55%, transparent); }
+  .zh::before, .warn::before, .def::before{
+    content: ""; position: absolute; left: -6px; top: 6px; bottom: 6px; width: 9px; pointer-events: none; z-index: 1;
+    background:
+      radial-gradient(circle at 50% 5px, var(--bar-tint) 0 1.6px, color-mix(in srgb, var(--bar) 70%, transparent) 2.4px, transparent 4.5px) no-repeat,
+      linear-gradient(180deg, transparent, var(--bar-tint) 45%, #fff 50%, var(--bar-tint) 55%, transparent) 50% -60% / 2px 34% no-repeat,
+      linear-gradient(180deg, transparent 6px, color-mix(in srgb, var(--bar) 85%, transparent) 14px, color-mix(in srgb, var(--bar) 75%, transparent) 80%, transparent) 50% 0 / 2px 100% no-repeat;
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bar) 70%, transparent)) drop-shadow(0 0 8px color-mix(in srgb, var(--bar) 30%, transparent));
+    animation: bar-flow 5.5s cubic-bezier(.45,0,.25,1) infinite; animation-delay: var(--bar-delay, 0s);
+    transition: filter .3s; }
+  /* 补充框: ::before 已用来显示「补充」小标题, 色条改用 ::after 画成虚线 + 空心节点 */
+  .add::after {
+    content: ""; position: absolute; left: -6px; top: 6px; bottom: 6px; width: 9px; pointer-events: none; z-index: 1; border-radius: 0;
+    inset: 6px auto 6px -6px; opacity: .85;
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bar) 60%, transparent));
+    background:
+      radial-gradient(circle at 50% 5px, var(--bar-tint) 0 1.4px, transparent 2.2px, transparent 3px, color-mix(in srgb, var(--bar) 60%, transparent) 3.4px, transparent 4.4px) no-repeat,
+      linear-gradient(transparent, transparent) 50% 0 / 2px 0 no-repeat,
+      repeating-linear-gradient(180deg, color-mix(in srgb, var(--bar) 80%, transparent) 0 5px, transparent 5px 10px) 50% 12px / 2px calc(100% - 18px) no-repeat;
+    -webkit-mask: none; mask: none;
+    animation: none; }
+  @keyframes bar-flow {
+    0%   { background-position: 0 0, 50% -60%, 50% 0; }
+    70%  { background-position: 0 0, 50% 160%, 50% 0; }
+    100% { background-position: 0 0, 50% 160%, 50% 0; } }
+  .zh.lit::before, .warn.lit::before, .add.lit::after, .def:hover::before {
+    filter: drop-shadow(0 0 4px var(--bar)) drop-shadow(0 0 12px color-mix(in srgb, var(--bar) 45%, transparent)); animation-duration: 2.6s; }
+
+  /* 卡片聚光灯: 鼠标所在的卡片里, 以光标为中心亮起柔光, 边框离光标近的一段也变亮 (位置由脚本写进 --mx / --my) */
+  .zh, .add, .warn { position: relative; isolation: isolate; }
+  .card::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; z-index: -1; pointer-events: none;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--glow) 85%, #fff), transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity .3s; }
+  .card::after, .zh::after, .warn::after { content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; pointer-events: none;
+    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--glow) 11%, transparent), transparent 65%);
+    opacity: 0; transition: opacity .3s; }
+  .warn::after { background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--warn-line) 10%, transparent), transparent 65%); }
+  .card.lit::before, .card.lit::after, .zh.lit::after, .warn.lit::after { opacity: 1; }
+  .add.lit::after { opacity: 1; filter: drop-shadow(0 0 5px var(--bar)); }
+
+  /* ===== 代码块: 脚本在运行时把每个 <pre> 包进 .codebox (文件不变): 顶部标题栏 = 三个圆点 + 语言 + 复制按钮 ===== */
+  pre, code, .folie, .slide { font-family: var(--mono) !important; }
+  pre, code { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+  .folie { color: color-mix(in srgb, var(--glow) 70%, var(--muted)) !important; }
+  .codebox { position: relative; margin: 12px 0; border-radius: 12px; overflow: hidden; min-width: 0;
+    background: color-mix(in srgb, var(--code) 90%, transparent);
+    border: 1px solid color-mix(in srgb, var(--glow) 20%, var(--edge));
+    box-shadow: 0 14px 30px -16px rgba(0,0,0,.85), inset 0 1px 0 color-mix(in srgb, #fff 5%, transparent); }
+  .codebox::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: 1;
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--glow) 55%, transparent), transparent); }
+  .cb-head { display: flex; align-items: center; gap: 10px; height: 28px; padding: 0 10px 0 12px;
+    background: color-mix(in srgb, var(--glow) 5%, color-mix(in srgb, #000 30%, transparent));
+    border-bottom: 1px solid color-mix(in srgb, var(--glow) 12%, var(--edge)); font: 600 10.5px/1 var(--mono); letter-spacing: .08em; }
+  .cb-dots { display: inline-flex; gap: 6px; }
+  .cb-dots i { width: 9px; height: 9px; border-radius: 50%; background: #ff5f57; opacity: .8; }
+  .cb-dots i:nth-child(2) { background: #febc2e; } .cb-dots i:nth-child(3) { background: #28c840; }
+  .cb-lang { color: color-mix(in srgb, var(--glow) 80%, var(--muted)); text-transform: uppercase; }
+  .cb-copy { all: unset; margin-left: auto; cursor: pointer; color: var(--muted); padding: 3px 8px; border-radius: 6px;
+    font: 500 10.5px/1 var(--mono); letter-spacing: .04em; opacity: 0; transition: opacity .2s, background-color .2s, color .2s; }
+  .codebox:hover .cb-copy, .cb-copy:focus-visible { opacity: 1; }
+  .cb-copy:hover { background: color-mix(in srgb, var(--glow) 14%, transparent); color: var(--glow); }
+  .cb-copy.ok { color: var(--glow); opacity: 1; }
+  .codebox pre { margin: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+    background: transparent !important; }
+  /* 没有脚本时 (或打印) 的普通样式 */
+  pre { background: color-mix(in srgb, var(--code) 90%, transparent) !important; border: 1px solid color-mix(in srgb, var(--glow) 20%, var(--edge)) !important; }
+
+  /* ===== 原图 (所有笔记统一): 玻璃相框 + 白色底板 + 编号图注; .src-fig 和 MGTN 的普通 <figure> 同一套 =====
+     图注: 有 figcaption 用它; MGTN 没有图注, 脚本运行时用图片的 alt 补一个 .fig-cap (文件不变).
+     编号用 CSS 计数 (图 01, 图 02 …). 内嵌 SVG 的排版图 figure.rr / .tri 不受影响. */
+  main { counter-reset: fig; }
+  .src-fig, main figure:not([class]) { counter-increment: fig; position: relative; display: block; text-align: center;
+    width: fit-content; max-width: 100%; box-sizing: border-box; margin: 16px auto !important; padding: 10px 10px 0 !important;
+    background: var(--glass) !important; border: 1px solid var(--edge); border-radius: 14px !important;
+    box-shadow: 0 14px 34px -18px rgba(0,0,0,.8), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    transition: border-color .35s ease, box-shadow .35s ease; }
+  .src-fig img, main figure:not([class]) img { display: block; margin: 0 auto; width: auto !important; max-width: 100% !important; max-height: 380px; height: auto;
+    box-sizing: border-box; padding: 10px; background: #fff; border: 0 !important; border-radius: 9px !important;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); cursor: zoom-in;
+    transition: transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease; transform-origin: 50% 50%; }
+  .src-fig.wide img { max-height: 520px; }
+  .src-fig figcaption, main figure:not([class]) figcaption, .fig-cap {
+    display: block; text-align: left !important; color: var(--muted) !important; margin: 0 !important; padding: 9px 4px 10px !important;
+    font: 12.5px/1.6 "PingFang SC", sans-serif !important; }
+  .src-fig figcaption::before, main figure:not([class]) figcaption::before, .fig-cap::before {
+    content: "图 " counter(fig, decimal-leading-zero); display: inline-block; margin-right: 8px; padding: 1px 7px; border-radius: 6px; vertical-align: 1px;
+    font: 600 10px/1.5 var(--mono); letter-spacing: .06em; color: var(--glow);
+    background: color-mix(in srgb, var(--glow) 12%, transparent); border: 1px solid color-mix(in srgb, var(--glow) 28%, transparent); }
+  /* 悬停: 相框描边发光, 图片轻微浮起, 右上角出现「放大」提示 */
+  .src-fig::after, main figure:not([class])::after { content: "⤢ 放大"; position: absolute; top: 16px; right: 16px; z-index: 2; pointer-events: none;
+    padding: 3px 8px; border-radius: 999px; font: 600 10.5px/1.4 "PingFang SC", sans-serif; color: #fff;
+    background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid color-mix(in srgb, var(--glow) 40%, transparent);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    opacity: 0; transform: translateY(-4px); transition: opacity .3s ease, transform .3s ease; }
+  .src-fig:hover, main figure:not([class]):hover { border-color: color-mix(in srgb, var(--glow) 38%, var(--edge));
+    box-shadow: 0 20px 44px -18px rgba(0,0,0,.85), 0 0 26px -12px var(--glow), inset 0 1px 0 color-mix(in srgb, #fff 8%, transparent); }
+  .src-fig:hover img, main figure:not([class]):hover img { transform: scale(1.012); box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), 0 10px 26px -14px rgba(0,0,0,.6); }
+  .src-fig:hover::after, main figure:not([class]):hover::after { opacity: 1; transform: none; }
+  @media (pointer: coarse) { .src-fig::after, main figure:not([class])::after { display: none; } }
+  /* 出现: 相框淡入上浮, 图片底板随后自上而下展开 */
+  html.fx .src-fig.reveal img, html.fx main figure:not([class]).reveal img { clip-path: inset(0 0 100% 0 round 9px); transition: clip-path .9s cubic-bezier(.65,0,.35,1) .15s, transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
+  html.fx .src-fig.reveal.in img, html.fx main figure:not([class]).reveal.in img { clip-path: inset(0 0 0 0 round 9px); }
+
+  /* 放大: 图片从原位置平滑放大到屏幕中央 (FLIP), 关闭时缩回原位; 背景暗色毛玻璃淡入淡出 */
+  #lightbox { position: fixed; inset: 0; z-index: 90; visibility: hidden; cursor: zoom-out;
+    background: color-mix(in srgb, var(--bg) 0%, transparent); -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0);
+    transition: background-color .4s ease, backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, visibility 0s linear .4s; }
+  #lightbox.on { visibility: visible; background: color-mix(in srgb, var(--bg) 84%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    transition: background-color .4s ease, backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, visibility 0s; }
+  #lightbox img { position: fixed; left: 0; top: 0; transform-origin: 0 0; background: #fff; border-radius: 12px; padding: 14px; box-sizing: border-box;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,.9), 0 0 0 1px color-mix(in srgb, var(--glow) 35%, transparent);
+    transition: transform .48s cubic-bezier(.2,.8,.2,1); will-change: transform; }
+  #lightbox .lb-cap { position: fixed; left: 50%; bottom: 3vh; transform: translateX(-50%); max-width: min(90vw, 760px); text-align: center;
+    font: 13px/1.6 "PingFang SC", sans-serif; color: var(--ink); opacity: 0; transition: opacity .3s ease .15s; }
+  #lightbox.on .lb-cap { opacity: .9; }
+
+  /* ===== 表格: 和卡片同一套玻璃质感 ===== */
+  main .tablewrap { border-radius: 12px; }
+  main table { background: color-mix(in srgb, var(--card) 70%, transparent) !important; border: 1px solid var(--edge); border-radius: 12px; overflow: hidden; }
+  main th { background: color-mix(in srgb, var(--glow) 9%, var(--chip)) !important; border-bottom: 1px solid color-mix(in srgb, var(--glow) 30%, var(--line)) !important; }
+  main tr:hover td { background: color-mix(in srgb, var(--glow) 5%, transparent); }
+
+  /* 折叠答案的展开动画 */
+  details.answer > summary { transition: color .2s; }
+  details.answer .dbody { overflow: hidden; transition: height .35s ease; }
+
+  /* 滚动淡入 (只有 JS 生效时才隐藏, 无 JS 时直接显示) */
+  html.fx .reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  html.fx .reveal.in { opacity: 1; transform: none; }
+
+  main, header { position: relative; z-index: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #contour, #trail { display: none; }
+    h2.wave .ht { animation: none; }
+    #toc-pill.open .panel { animation: none; }
+    #lightbox, #lightbox img { transition: none !important; }
+    .src-fig img, main figure img { transition: none !important; clip-path: none !important; }
+    .zh::before, .warn::before, .def::before { animation: none; }
+    html.fx .reveal { opacity: 1; transform: none; transition: none; }
+  }
+  @media print {
+    #contour, #trail, #progress, #toc-pill { display: none !important; }
+    body { background: #fff !important; }
+    .card, .zh, .add, .warn, pre, nav { backdrop-filter: none !important; box-shadow: none !important; }
+    h1 { color: #000 !important; -webkit-text-fill-color: #000; background: none; }
+    h2 .ht { -webkit-text-fill-color: #000; background: none !important; animation: none; }
+    .cb-head, #lightbox { display: none !important; }
+  }
+  /* ===== /玻璃霓虹层 ===== */
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<span hidden data-glyphs="{}[]()&lt;&gt;=+*/#;:01"></span>
+<header>
+  <div class="wrap">
+    <h1>第 11 章: 质量保证<br><span class="de-title">Kapitel 11: Qualitätssicherung</span></h1>
+    <nav>
+      <a href="#warum">为什么</a>
+      <a href="#begriffe">错误术语</a>
+      <a href="#testen">测试</a>
+      <a href="#risiko">风险导向</a>
+      <a href="#ebenen">测试层次</a>
+      <a href="#testfall">测试用例</a>
+      <a href="#assert">断言</a>
+      <a href="#tdd">测试驱动</a>
+      <a href="#maximum">maximum 例子</a>
+      <a href="#systematisch">系统地设计用例</a>
+      <a href="#pytest">pytest</a>
+      <a href="#coverage">覆盖率</a>
+      <a href="#ziele">学习目标</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<div class="zh">
+  <p><b>读法说明. </b>带边框的卡片是幻灯片的<b>德语原文</b>, 左上角标了对应的幻灯片编号 (Folie); 有动画分步的幻灯片只记最完整的那一页. 左侧有色竖线的框是<b>中文讲解</b>: 先翻译, 再解释为什么、举例子. 左侧虚线的框是<b>补充</b>, 写的是幻灯片上没有、但有助于理解的背景知识; 考试以幻灯片为准. 红框标出幻灯片原文里的错误、笔误或前后不一致. 文中所有代码和输出都已在 Python 3.15 上实际运行核对过; pytest (9.1) 和 coverage (7.16) 的例子也实际运行过, 版本比幻灯片截图新, 输出格式略有不同. </p>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 1</span>
+  <p>Die Inhalte dieser Folien basieren – mit freundlicher Genehmigung – auf Folien von Prof. Dr. Gidon Ernst aus dem WS 2022/23</p>
+</div>
+
+<h2>本章内容<br><span class="de-title">Lerninhalte</span></h2>
+<div class="card de">
+  <span class="folie">Folie 2</span>
+  <ul>
+    <li>Testbegriffe</li>
+    <li>Einordnung von Testen in Qualitätssicherung</li>
+    <li>Erstellung von (Unit-)Tests</li>
+    <li>Testgetriebene Entwicklung</li>
+    <li>Automatisierte Tests anhand vom Framework Pytest<br>https://docs.pytest.org</li>
+    <li>Messung von Codeabdeckung mit coverage.py</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>测试的基本术语; 测试在<b>Qualitätssicherung 质量保证</b>中的位置; 编写 (单元) 测试; <b>testgetriebene Entwicklung 测试驱动开发</b>; 用 <b>pytest</b> 框架做自动化测试; 用 coverage.py 测量<b>Codeabdeckung 代码覆盖率</b>. </p>
+</div>
+
+<!-- ======================= WARUM ======================= -->
+
+<h2 id="warum">为什么需要质量保证<br><span class="de-title">Warum Qualitätssicherung?</span></h2>
+<div class="card de">
+  <span class="folie">Folie 3</span>
+  <ul>
+    <li>Schreiben von korrektem Quelltext ist schwierig
+      <ul><li>Softwaresysteme sind häufig groß und komplex</li></ul></li>
+  </ul>
+  <div class="tablewrap"><table>
+    <tr><th>System</th><th>Größe</th></tr>
+    <tr><td>Windows 95</td><td>10 Mio LoC</td></tr>
+    <tr><td>Windows XP</td><td>40 Mio LoC</td></tr>
+    <tr><td>Mac OS X 2004</td><td>86 Mio LoC</td></tr>
+    <tr><td class="wide">SAP NetWeaver 2007</td><td>238 Mio LoC</td></tr>
+  </table></div>
+  <p class="src">(Auf der Folie als Balkendiagramm dargestellt.)</p>
+  <p>SAP NetWeaver: Plattform für Geschäftsanwendungen mit zahlreichen Komponenten</p>
+</div>
+<div class="zh">
+  <p>写出正确的代码很难, 首先因为软件<b>规模巨大</b>: LoC = Lines of Code (代码行数). Windows 95 约 1000 万行, SAP NetWeaver (企业应用平台) 2.38 亿行. 没有人能完全看懂这么多代码. </p>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 4</span>
+  <ul>
+    <li>Schreiben von korrektem Quelltext ist schwierig
+      <ul>
+        <li>Softwaresysteme sind häufig groß und komplex</li>
+        <li>Vorgesehene Funktionalität ist uneindeutig, z.B. nicht präzise dokumentiert</li>
+      </ul></li>
+  </ul>
+  <p>Beispiel:<br>Die Funktion mittel soll den Durchschnitt einer Eingabefolge aus Zahlen berechnen.</p>
+  <ul>
+    <li>arithmetisches, geometrisches oder quadratisches Mittel?</li>
+    <li>Durchschnitt von leerer Folge?</li>
+    <li>Eingabeformat: Liste oder Tupel, Datentyp für Zahlen?</li>
+    <li>Anforderung an den Rückgabewert (Runden?)</li>
+    <li>Umgang mit Negativeingaben (z.B. None)</li>
+    <li>…</li>
+  </ul>
+  <p>⟹ Software enthält Fehlerzustände (engl. faults, bugs)</p>
+</div>
+<div class="zh">
+  <p>第二个原因: <b>需求不明确</b>. 「求一列数的平均值」看似简单, 实际有很多没说清的地方: 算术平均、几何平均还是平方平均? 空序列怎么办? 输入是列表还是元组, 数是 int 还是 float? 结果要不要取整? 怎么处理「负面」输入 (如 None)? 规格不清, 写出来的程序就很可能和期望不符. 结论: 软件<b>一定</b>含有错误. </p>
+</div>
+<div class="warn"><p><b>原文用词不准: </b>「Umgang mit <b>Negativ</b>eingaben (z.B. None)」: None 不是「负数」, 这里指的是无效或异常的输入 (德语常说 ungültige Eingaben). </p></div>
+
+<div class="card de">
+  <span class="folie">Folie 5</span>
+  <p><b>Bedrohliche Auswirkungen von Fehlerzuständen</b></p>
+  <p>Konsequenzen von Fehlerwirkungen (engl. failure)</p>
+  <ul>
+    <li>Reputationseinbußen
+      <ul><li>Google klassifiziert alle Webseiten als bösartig in 2009</li><li>…</li></ul></li>
+    <li>Hohe Kosten
+      <ul><li>Ariane V Rakete (zerstört durch Overflow in Software)</li></ul></li>
+    <li>(Gesundheitlicher) Schaden, lebensbedrohliche Gefährdung
+      <ul><li>Therac-25 verursacht (tödliche) Strahlenüberdosis</li><li>…</li></ul></li>
+  </ul>
+  <p>Quelle: https://de.wikipedia.org/wiki/Liste_von_Programmfehlerbeispielen</p>
+</div>
+<div class="zh">
+  <p>软件错误的后果: </p>
+  <ul>
+    <li><b>名誉损失</b>: 2009 年 Google 的恶意网站黑名单配置出错, 一时把<b>所有</b>网站都标成了危险网站. </li>
+    <li><b>巨额损失</b>: 1996 年阿丽亚娜 5 号火箭首飞失败, 原因是一个 64 位浮点数转 16 位整数时<b>溢出</b> (第 3 章: 定长整数表示范围有限). </li>
+    <li><b>人身伤害</b>: 1980 年代 Therac-25 放射治疗机因软件的竞态错误, 给病人照射了致命剂量. </li>
+  </ul>
+</div>
+
+<h3 id="begriffe">错误相关的术语<br><span class="de-title">Begriffe Fehlerzustand, Fehlerwirkung und Fehlhandlung</span></h3>
+<div class="card de">
+  <span class="folie">Folie 6</span>
+  <div class="def"><b>Fehlerwirkung</b> (engl. failure)<br>Abweichung des Systems, der Komponente, der Funktion, etc. vom erwarteten Verhalten oder Ergebnis</div>
+  <div class="def"><b>Fehlerzustand</b> (engl. fault, defect, bug)<br>Inkorrekte Anweisung, Schritt, Prozess, etc., die Fehlerwirkung verursachen können</div>
+  <div class="def"><b>Fehlhandlung</b> (engl. mistake, error)<br>Menschliche Aktion, die Fehlerzustand verursacht</div>
+</div>
+<div class="card de">
+  <span class="folie">Folie 7</span>
+  <p><b>Beispiel Fehlerzustand, Fehlerwirkung und Fehlhandlung</b></p>
+<pre><code><span class="k">def</span> mittel(liste):
+  summe = 0;
+  <span class="k">for</span> eintrag <span class="k">in</span> liste:
+    summe += eintrag
+  <span class="k">return</span> summe // len(liste)</code></pre>
+  <div class="tablewrap"><table>
+    <tr><td><b>Fehlerwirkung</b></td><td class="wide">Aufruf von mittel auf [1,2] gibt 1 statt 1.5 zurück</td></tr>
+    <tr><td><b>Fehlerzustand</b></td><td class="wide">Ganzzahldivision //</td></tr>
+    <tr><td><b>Fehlhandlung</b></td><td class="wide">Verwendung des falschen Divisionsoperators</td></tr>
+  </table></div>
+</div>
+<div class="zh">
+  <p>三个容易混的术语, 按因果顺序: </p>
+  <div class="tablewrap"><table>
+    <tr><th>术语</th><th>英语</th><th>是什么</th><th>例子</th></tr>
+    <tr><td class="wide"><b>Fehlhandlung 错误行为</b></td><td>mistake, error</td><td>人做错的事</td><td>程序员用错了除法运算符</td></tr>
+    <tr><td class="wide"><b>Fehlerzustand 缺陷</b></td><td class="wide">fault, defect, bug</td><td>代码里错误的那个地方</td><td>写成了整除 //</td></tr>
+    <tr><td class="wide"><b>Fehlerwirkung 失效</b></td><td>failure</td><td>运行时观察到的偏差</td><td class="wide">mittel([1, 2]) 返回 1 而不是 1.5</td></tr>
+  </table></div>
+  <p>人的<b>错误行为</b>在代码里留下<b>缺陷</b>, 缺陷在运行时 (可能) 导致<b>失效</b>. 注意「可能」: 缺陷不一定每次都显现, 例如 mittel([2, 4]) 用 // 也得到正确的 3. 实际运行确认 mittel([1, 2]) 是 1. 行末的分号 <code>summe = 0;</code> 在 Python 里多余但合法. </p>
+</div>
+
+<!-- ======================= TESTEN ======================= -->
+
+<h2 id="testen">质量保证中的测试<br><span class="de-title">Testen im Rahmen von Qualitätssicherung</span></h2>
+<div class="card de">
+  <span class="folie">Folie 9</span>
+  <p>Testen ist eine (übliche) Maßnahme zur Qualitätssicherung</p>
+  <div class="tablewrap"><table>
+    <tr><td><b>Testen</b></td><td class="wide">Aufdecken von Fehlerwirkungen (Abweichungen vom erwarteten Verhalten)</td></tr>
+    <tr><td><b>Debugging</b></td><td class="wide">Bestimmung des Fehlerzustands (Gründe für Fehlerwirkung)</td></tr>
+    <tr><td><b>Fix</b></td><td class="wide">Behebung des Fehlerzustands im Quelltext</td></tr>
+  </table></div>
+  <p>Softwarequalität erhöht sich nach dem Fix</p>
+</div>
+<div class="zh">
+  <p>三步分工: <b>测试</b>发现失效 (程序表现不对); <b>调试</b>找出缺陷在哪里 (为什么不对); <b>修复</b>改正代码. 只有修复之后软件质量才真正提高, 测试本身只负责「发现」. </p>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 10</span>
+  <p><b>Testen als dynamische Überprüfung</b></p>
+  <blockquote><p>Program testing can be used to show the presence of bugs, but never to show their absence! (Edsger W. Dijkstra)</p></blockquote>
+  <blockquote><p>Beware of bugs in the above code; I have only proved it correct, not tried it. (Donald Knuth)</p></blockquote>
+</div>
+<div class="zh">
+  <p>两句名言: </p>
+  <ul>
+    <li>Dijkstra: 「测试能证明 bug <b>存在</b>, 但永远不能证明 bug <b>不存在</b>.」测试只检查了一部分输入, 没出错不代表其他输入不出错. </li>
+    <li>Knuth: 「小心上面代码里的 bug; 我只证明了它是正确的, 还没试运行过.」反过来, 数学证明也可能遗漏实际问题 (证明的模型和真实程序不一样). </li>
+  </ul>
+  <p>结论: 测试和证明 (Verifikation) 互相补充. </p>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 11</span>
+  <p><b>Testen als dynamische Überprüfung</b></p>
+  <ul>
+    <li>✓ Ausführen des tatsächlichen Systems<br>→ gefundene Fehler lassen sich konkret nachvollziehen<br>z.B.: Absturz, Nichtterminierung, falsche Ausgaben, Performanzprobleme</li>
+    <li>✓ Einfach umzusetzen &amp; gut automatisierbar<br>→ in der Praxis etabliert (z.B. Test-Driven Dev.)</li>
+    <li>✓ Erzeugt ein ziemlich gutes Grundvertrauen<br>→ keine “offensichtlichen” Fehler</li>
+    <li>× Deckt nur (fast) immer einen Teil des System-Verhaltens ab<br>→ evtl. nicht ausreichend für teure und sicherheitskritische Systeme</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>测试是<b>动态</b>检查 (真的运行程序). 优点: 运行的是真实系统, 找到的错误 (崩溃、不终止、输出错误、性能问题) 可以具体复现; 容易实现、容易自动化, 实践中广泛使用; 能建立基本的信心 (没有明显错误). 缺点: 几乎总是只覆盖<b>一部分</b>行为, 对昂贵或安全攸关的系统 (飞机、医疗设备) 可能不够. </p>
+</div>
+
+<h3 id="risiko">测什么, 测多少<br><span class="de-title">Was und wie viel testen?</span></h3>
+<div class="card de">
+  <span class="folie">Folie 12</span>
+  <figure class="src-fig"><img src="data:image/png;base64,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ajNhBjzl+edVmTJq1iy3xwEUhDYbJKXNhBnwoGnTVKlS8hx3exxAXLTZoOhtJsyAZy1erMqXV6+95vY4gNhos0ER20yYAY9bt04dPuz2IIDYaLNBUdpMmAEARUSbDRJuM2EGABQdbTZIrM2EGQCQFLTZIIE2E2YAQLLQZoPCtpkwAwEwdapasMDtQQD5aLNBodpMmIFgmDUr79yqv//d7XEAtNnIfpsJMxAkX3yR972eI0e6PQ6kPdpsYLPNhBkIno0bVa1aqmdPdeqU20NBGqPNBnbaTJiBoNq1SzVsqK6/Xh075vZQkK5os0GBbSbMQLAdPKhat1bNmqmff3Z7KEhLtNkgfpsJM5AOTpxQb73l9iCQrmizQZw2E2YAPrKmkNauXZuCUR05cmTKlCmzZ89OwbJ8ijYbxGozYQbgL6FCKlmyZApG9c0338iyLr744hQsy6dos4GxzYQZgO/cfUb37t179+59X77q1atLGs8991z947333iuX6tl69eqVglHR5gLRZoPoNhNmAIHRunVrSeM111zj1gBoc4Fos0FEmwkzAC07W40alfd/X0tNmzMyMqpUqTJ16tToi1Lf5szMTBlM06ZNU7bEIqLNBuFtJswALHv25J36fN116uhRt4dSBKlp84ABA2QpkydPjr4o9W0+duyYLLFOnTopW2IR0WYDq82EGUCEQ4dU27bq8svV3r0Fz3zPPffs2rXL+UEVDm32PtpsoNtMmAEYZWerrl3VhReqLVsKmFN6UKJEiV69em3cuDElQ7PFTpu///77vn37Nm/evFGjRt27d1+3bl30DIMGDbrqqqsuueSSli1bdu3a9Z133vk5/7tapMcTJ0687rrrZCk9evSYeMaOHTv078Zq88KFC2W2d999N3zi0aNHn3rqqTZt2jRo0EDG/Nxzz2VlGbbJb731VufOnS+99NLLLrtMFj1s2DC9zteuXSvXOW7cOFlilSpVrMHMnDkz4hrefvvtDh06yFJkWWPGjDl58mT4pdu3b5e9Dbke+ffevXufeeaZu+66S9bMa6+9lpubG2dNJoY2G0ib23fqSJgBxCJb4yFDVNWqatWqeLOFn57Url07qZexKylWYJsXL1589tlnyzxlypTR/yhevPg//vEPa4ZPP/20cuXKMv38889v0qRJ1apV9W2UiMqlJUuWNJ6g9d577+lfN7b5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" alt="Kosten unentdeckter Fehler über Testkosten"><figcaption><span class="cs">幻灯片原图 (Folie 12):</span> <span class="cs">横轴是测试成本,</span> <span class="cs">纵轴是未发现缺陷的成本.</span></figcaption></figure>
+  <ul>
+    <li>(Praktisch) nicht möglich jede Eingabe zu testen
+      <ul><li>Zu viele Eingaben</li><li>Begrenzte Zeit und Budget</li><li>Nicht wirtschaftlich</li></ul></li>
+  </ul>
+  <p>⟹ <b>Risikoorientiertes Testen</b></p>
+  <ul>
+    <li>Risiko: Eintrittswahrscheinlichkeit kombiniert mit Kosten</li>
+    <li>Priorisierung von Softwareteilen mit höherem Risiko</li>
+    <li>Intensiveres Testen von Softwareteilen mit höherem Risiko</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>不可能测试所有输入: 输入太多 (一个接收两个 int 的函数就有无穷多组输入)、时间和预算有限、不划算. 图里: 测试投入越多 (横轴向右), 遗留缺陷造成的损失 (蓝色虚线) 越小, 但测试本身的成本 (绿色斜线) 越大; 两条线的交点附近是性价比最好的投入. </p>
+  <p><b>风险导向测试</b>: 风险 = 发生概率 × 损失. 先测风险高的部分, 而且测得更仔细. </p>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 13</span>
+  <p><b>Risikobestimmung – Eintrittswahrscheinlichkeit</b></p>
+  <p>Berücksichtigung verschiedener Aspekte wie</p>
+  <ul>
+    <li>Nutzungshäufigkeit der Funktionalität</li>
+    <li>Wahrscheinlichkeit eines Fehlerzustandes, einer Fehlerwirkung
+      <ul><li>Vorherige Erfahrung mit Qualität der Komponente</li><li>Performanz der Entwickler</li><li>Komplexität der Funktionalität</li></ul></li>
+    <li>Wahrscheinlichkeit, dass Fehlerwirkung nicht von aktuellen Tests erfasst wird</li>
+    <li>…</li>
+  </ul>
+</div>
+<div class="card de">
+  <span class="folie">Folie 14</span>
+  <p><b>Risikobestimmung – Kosten</b></p>
+  <p>Berücksichtigung verschiedener Aspekte wie</p>
+  <ul>
+    <li>Vertragsstrafen</li>
+    <li>Rechtliche Konsequenzen</li>
+    <li>Auswirkung auf die eigene Reputation, zukünftiger Verkauf von Produkten</li>
+    <li>Kosten der Fehlerbehebung
+      <ul><li>Wie viele Kunden sind von der Fehlerwirkung betroffen?</li><li>Wie kompliziert, teuer ist es eine neue Softwareversion zu verteilen?</li></ul></li>
+    <li>…</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>评估风险的两部分: </p>
+  <ul>
+    <li><b>发生概率</b>: 这个功能多常用; 出错的可能性 (这个组件过去的质量、开发者的水平、功能的复杂程度); 现有测试漏掉它的可能性. </li>
+    <li><b>损失</b>: 合同违约金、法律后果、声誉和今后的销售; 修复成本: 影响多少客户、发布新版本有多难多贵 (网页应用改一下就行, 汽车或卫星里的软件就很难更新). </li>
+  </ul>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 16</span>
+  <p><b>Testen: Was möchte man wissen? (Beispiele)</b></p>
+  <p>Fragestellungen</p>
+  <ul>
+    <li>Systemverhalten bei ungültigen Eingaben</li>
+    <li>Kompatibilität zwischen Systemteilen</li>
+    <li>Verhalten bei externen Fehlern (z.B. Verbindungsunterbrechung)</li>
+    <li>Verhalten unter hoher Last (viele Anfragen, große Daten)</li>
+    <li>Dokumentation des Ist-Verhaltens → Regressionen erkennen</li>
+    <li>Zuverlässigkeit (z.B. Fehlerrate in der Entwicklungsphase)</li>
+  </ul>
+  <p>Kenngrößen</p>
+  <ul>
+    <li>Welche Anforderungen wurden berücksichtigt?</li>
+    <li>Codeabdeckung (Coverage)</li>
+    <li>Abdeckung der Wertebereiche von Eingaben</li>
+    <li>Systemabdeckung (für welche Teile gibt es Tests)</li>
+    <li>Automatisierung der Testausführung</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>测试要回答的问题: 无效输入时系统怎样表现; 各部分能否配合; 外部故障 (断网) 时怎样; 高负载下怎样; 记录当前行为以发现<b>Regression 回归</b> (改代码后原来好的功能坏了); 可靠性. </p>
+  <p>衡量测试的<b>指标</b>: 覆盖了哪些需求; <b>代码覆盖率</b> (多少代码被执行过); 输入取值范围的覆盖; 系统哪些部分有测试; 测试执行是否自动化. </p>
+</div>
+
+<h3 id="ebenen">测试层次<br><span class="de-title">Verschiedene Testebenen</span></h3>
+<div class="card de">
+  <span class="folie">Folie 17</span>
+  <div class="tablewrap"><table>
+    <tr><td class="wide"><b>Komponententests/Modultests</b></td><td class="wide">Testen einzelner Softwareeinheiten (z.B., Klassen, Module)</td></tr>
+    <tr><td class="wide"><b>Integrationstests</b></td><td class="wide">Testen der Schnittstellen (Intefaces) zwischen Komponenten</td></tr>
+    <tr><td><b>Systemtests</b></td><td class="wide">Testen, ob Gesamtsystem die Anforderungen erfüllt</td></tr>
+  </table></div>
+</div>
+<div class="zh">
+  <ul>
+    <li><b>Modultest / Komponententest 单元测试</b> (unit test): 单独测试一个函数、类、模块. </li>
+    <li><b>Integrationstest 集成测试</b>: 测试组件之间的<b>接口</b>, 看它们组合起来能否正确协作. </li>
+    <li><b>Systemtest 系统测试</b>: 测整个系统是否满足需求. </li>
+  </ul>
+  <p>从小到大: 先单元, 再集成, 最后系统. 本章主要讲单元测试. 「Intefaces」少了 r, 应为 Interfaces. </p>
+</div>
+
+<!-- ======================= TESTFALL ======================= -->
+
+<h2 id="testfall">测试用例<br><span class="de-title">Beispiel Primzahl</span></h2>
+<div class="card de">
+  <span class="folie">Folie 18</span>
+  <p><b>Beipspiel Primzahl</b></p>
+<pre><code><span class="k">def</span> ist_primzahl(n):
+    <span class="s">"""
+    Testet ob eine Zahl eine Primzahl ist.
+    """</span>
+    <span class="k">for</span> i <span class="k">in</span> range(3, n):
+        <span class="k">if</span> n % i == 0:
+            <span class="k">return</span> False
+    <span class="k">return</span> True</code></pre>
+</div>
+<div class="zh">
+  <p>一个要测试的素数函数: 试除 3 到 n−1, 有能整除的就不是素数. </p>
+  <p>它其实有 bug (下面几张幻灯片用测试来找): 从 <b>3</b> 开始试除, 漏掉了 2. 用脚本对 −3 到 29 实际运行, 返回 True 的是: <code class="lc">[-3, -2, -1, 0, 1, 2, 3, 4, 5, 7, 11, …]</code>. 也就是 <b>4</b> 被当成了素数 (range(3, 4) 只试 3), 0、1 和所有负数也被当成了素数. 其他偶数恰好能被某个 ≥ 3 的数整除 (6 被 3、8 被 4……), 所以没暴露. </p>
+</div>
+<div class="warn"><p><b>原文笔误: </b>标题「Bei<b>p</b>spiel」应为「Beispiel」. </p></div>
+
+<div class="card de">
+  <span class="folie">Folie 19</span>
+  <p><b>Testfälle</b></p>
+<pre><code>print(ist_primzahl(6))   <span class="c"># Ergebnis: False</span>
+
+print(ist_primzahl(2))   <span class="c"># Ergebnis: True</span>
+
+print(ist_Primzahl(-6))  <span class="c"># Ergebnis: True</span></code></pre>
+  <p>Für negative ganze Zahlen liefert die Funktion immer True zurück.</p>
+<pre><code>print(ist_Primzahl(0.5))
+<span class="c"># Ergebnis: range() integer end argument expected, got float.</span></code></pre>
+  <p>Ruft man die Funktionen mit Float-Zahlen auf, gibt es einen TypeError, weil range nicht für Float-Werte definiert ist.</p>
+</div>
+<div class="zh">
+  <p>手工测试: 6 → False (对), 2 → True (对), −6 → True (错! 负数不是素数): range(3, −6) 是空的, 循环不执行, 直接返回 True. 0.5 → TypeError: range 的参数必须是整数. 这些测试暴露了函数对「非正整数」输入的问题. </p>
+</div>
+<div class="warn"><p><b>幻灯片错误和版本差异: </b>后两行调用的是 <code>ist_<b>P</b>rimzahl</code> (大写 P), 而函数名是 <code>ist_primzahl</code>; Python 区分大小写, 实际运行报 <code class="lc">NameError: name 'ist_Primzahl' is not defined</code>, 得不到注释里的结果. 另外 range 收到 float 时, Python 3.15 的报错是 <code class="lc">TypeError: 'float' object cannot be interpreted as an integer</code>; 幻灯片里那句「range() integer end argument expected, got float」是 Python 2 的旧信息. </p></div>
+
+<div class="card de">
+  <span class="folie">Folie 20</span>
+  <p><b>Explizite Überprüfung der Primzahl-Funktion</b></p>
+<pre><code><span class="k">if</span> ist_primzahl(3) == True <span class="k">and</span> ist_primzahl(6) ==
+    False <span class="k">and</span> ist_primzahl(10) == False:
+     print(<span class="s">"Test für Primzahl-Funktion erfolgreich"</span>)
+<span class="k">else</span>:
+     print(<span class="s">"Primzahl-Funktion liefert fehlerhafte
+         Werte"</span>)
+
+<span class="c"># Ergebnis: Test für Primzahl-Funktion erfolgreich</span></code></pre>
+</div>
+<div class="zh">
+  <p>把几个「输入 → 期望结果」写成一个条件, 自动判断是否全部通过. 实际运行: 条件为 True, 输出「erfolgreich 成功」. </p>
+  <p>这正好印证了 Dijkstra 的话: 三个测试都通过了, 函数却仍然有 bug (4、负数、0、1 都判错). 测试用例选得不好, 就发现不了缺陷. 后面的 Folie 34、35 讲怎样系统地选用例. </p>
+</div>
+<div class="warn"><p><b>幻灯片排版问题: </b>if 条件在 <code>==</code> 后换行而没有括号, 字符串 <code class="lc">"Primzahl-Funktion liefert fehlerhafte</code> 也在引号内折行, 照抄都是 SyntaxError; 只是幻灯片宽度不够. 实际要把条件包进括号或写在一行. 另外和 True/False 比较可以省掉: <code class="lc">if ist_primzahl(3) and not ist_primzahl(6) …</code>. </p></div>
+
+<div class="card de">
+  <span class="folie">Folie 21</span>
+  <p><b>Bestandteile eines Testfalls</b></p>
+  <div class="tablewrap"><table>
+    <tr><th>Bestandteile</th><th class="wide">Beispiel ist_primzahl</th></tr>
+    <tr><td>Vorbedingung</td><td>keine</td></tr>
+    <tr><td>Eingaben</td><td>6</td></tr>
+    <tr><td class="wide">erwartetes Ergebnis</td><td>False</td></tr>
+    <tr><td>Nachbedingung</td><td>keine</td></tr>
+    <tr><td class="wide">Testanweisungen</td><td class="wide">Aufruf der Funktion ist_primzahl mit Eingabe 6</td></tr>
+    <tr><td>Testauswertung</td><td class="wide">bestanden oder fehlgeschlagen als Ergebnis des Vergleichs des erwarteten Ergebnisses mit beobachtetem Ergebnis (häufig automatisch)</td></tr>
+  </table></div>
+</div>
+<div class="card de">
+  <span class="folie">Folie 22</span>
+  <p><b>Bestandteile eines Testfalls (2)</b></p>
+  <div class="tablewrap"><table>
+    <tr><th>Bestandteile</th><th class="wide">Beispiel os.remove</th></tr>
+    <tr><td>Vorbedingung</td><td class="wide">Datei test.txt existiert</td></tr>
+    <tr><td>Eingaben</td><td>"test.txt"</td></tr>
+    <tr><td class="wide">erwartetes Ergebnis</td><td>None</td></tr>
+    <tr><td>Nachbedingung</td><td class="wide">Datei test.txt existiert nicht mehr</td></tr>
+    <tr><td class="wide">Testanweisungen</td><td class="wide">Aufruf der Funktion os.remove mit Eingabe "test.txt"</td></tr>
+    <tr><td>Testauswertung</td><td class="wide">bestanden oder fehlgeschlagen als Ergebnis des Vergleichs des erwarteten Ergebnisses mit beobachtetem Ergebnis (häufig automatisch)</td></tr>
+  </table></div>
+</div>
+<div class="zh">
+  <p>一个完整的<b>Testfall 测试用例</b>包括: </p>
+  <ul>
+    <li><b>Vorbedingung 前置条件</b>: 测试前环境要满足什么 (文件存在); </li>
+    <li><b>Eingaben 输入</b>; </li>
+    <li><b>erwartetes Ergebnis 期望结果</b> (返回值); </li>
+    <li><b>Nachbedingung 后置条件</b>: 执行后环境应处于什么状态 (文件被删除了); </li>
+    <li><b>Testanweisungen 测试步骤</b>: 具体怎么调用; </li>
+    <li><b>Testauswertung 测试评估</b>: 比较期望结果和实际结果, 判定「通过」或「失败», 通常自动完成. </li>
+  </ul>
+  <p>纯函数 (ist_primzahl) 没有前置/后置条件, 只看返回值; 有副作用的函数 (os.remove 删除文件, 返回 None) 的真正效果要通过后置条件检查. </p>
+</div>
+
+<h3 id="assert">断言<br><span class="de-title">Testen: Code Assertions</span></h3>
+<div class="card de">
+  <span class="folie">Folie 23</span>
+  <ul>
+    <li>Fokus: ungültige Programmzustände, Debugging</li>
+    <li>Spezifikationen: Assertions &amp; Ausnahmen, z.B.:
+      <ul>
+        <li>Gegen eigene Programmierfehler absichern<br><code class="lc">assert y &gt;= 0, "unexcepted result of sqrt"</code></li>
+        <li>Vor fremdem Code schützen (z.B. Vorbedingungen):<br>⇒ Kapitel 14: Ausnahmen</li>
+      </ul></li>
+    <li>Überprüfung zur Laufzeit (oft nur während der Entwicklung)</li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>Assertion 断言</b>: <code>assert 条件, "说明"</code>. 运行到这里时检查条件; 为假就抛出 <code>AssertionError</code> 并带上说明文字; 为真什么都不做. 用途: 检查程序<b>不应出现</b>的状态, 防止自己的编程错误 (例: 平方根的结果一定 ≥ 0). 防范<b>别人</b>传进来的错误输入 (前置条件) 则用异常 (第 14 章). </p>
+<pre><code>&gt;&gt;&gt; y = -1
+&gt;&gt;&gt; assert y &gt;= 0, "unexpected result of sqrt"
+Traceback (most recent call last):
+  ...
+AssertionError: unexpected result of sqrt</code></pre>
+  <p>运行时检查通常只在开发阶段用: 用 <code>python -O</code> 运行时所有 assert 都会被跳过. </p>
+</div>
+<div class="warn"><p><b>原文笔误: </b>「un<b>excepted</b> result」应为「unexpected」. </p></div>
+
+<div class="card de">
+  <span class="folie">Folie 24</span>
+  <p><b>Verwendung von Absicherungen</b></p>
+  <ul>
+    <li>als erwartetes Ergebnis: keine Verletzung, Ausnahme
+      <ul><li>Assertions für Modultests</li><li>Ausnahme bzgl. Vorbedingung für Integrationstests</li></ul></li>
+    <li>Assertions zum automatischen Abgleich von berechnetem Ergebnis und erwartetem Ergebnis</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>两种用法: 程序里的断言和异常本身就是一种检查 (测试时期望它们不被触发, 或者期望某个异常被正确抛出); 在测试代码里用 assert <b>自动比较</b>实际结果和期望结果, 这正是 pytest 的写法 (Folie 39). </p>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 25</span>
+  <p><b>Testen: Modultests (Unit-Tests)</b></p>
+  <ul>
+    <li>Um zu überpüfen, das die Einzelteile eines Systesm funktionieren, werden sogenannte Modultests verwendet</li>
+    <li>Fokus: Korrektheit von Funktionen Klassen, Methoden, Paketen</li>
+    <li>Spezifikationen: Test-Suites, Testvorbereitung + konkrete Eingabe + erwartete Ausgabe bzw. Ergebnis + Testnachbereitung</li>
+    <li>Überprüfung typischerweise mit Assertions</li>
+    <li>Automatisierung: Integration in Entwicklungsprozesse</li>
+    <li>Tools: PyTest, Unittest, DocTest, Robot …</li>
+    <li>Mehr dazu später</li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>Modultest 单元测试</b>: 检查系统的各个部分 (函数、类、方法、包) 是否正确. 写成 <b>Test-Suite 测试套件</b> (一组测试), 每个测试 = 准备 + 具体输入 + 期望结果 + 收尾. 通常用 assert 检查, 并集成到开发流程中自动运行. Python 的工具: pytest、unittest (标准库)、doctest (把 Docstring 里的 &gt;&gt;&gt; 例子当测试)、Robot Framework. </p>
+</div>
+<div class="warn"><p><b>原文笔误: </b>「über<b>p</b>üfen」少了 r (überprüfen); 「<b>das</b> die Einzelteile」应为「dass」; 「Syste<b>sm</b>」应为「Systems»; 「Funktionen<b>,</b> Klassen」漏了逗号. </p></div>
+
+<h3>系统地创建测试用例<br><span class="de-title">Testfälle erzeugen</span></h3>
+<div class="card de">
+  <span class="folie">Folie 26</span>
+  <ul>
+    <li>Testen eines Programms heißt, gezielt nach fehlerhaftem Verhalten zu suchen</li>
+    <li>Ein Testfall besteht aus einer Eingabe und dem erwarteten Ergebnis. Die Testfälle bilden eine Testsuite.</li>
+    <li>Schon vor dem Programmieren: systematisch Testfälle erstellen:
+      <ul>
+        <li>Basisfälle und Grenzfälle (z.B. erstes bzw. letztes Element in einer Datenstruktur)</li>
+        <li>Jede Anweisung im Code soll durch einen Testfall abgedeckt (d.h. ausgeführt) werden</li>
+        <li>Versuche eingaben zu finden, die die Bedingungen im Programm unabhängig voneinander wahr bzw. falsch machen (soweit möglich).</li>
+      </ul></li>
+    <li>Tests, die zur Entdeckung eines Fehlers geführt haben, sollten aufbewahrt werden!</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>测试 = <b>有目的地寻找</b>错误行为 (不是为了证明程序对). 系统地设计用例: </p>
+  <ul>
+    <li><b>Basisfälle 基本情况</b>和 <b>Grenzfälle 边界情况</b>: 例如数据结构的第一个和最后一个元素、空列表、0、负数; </li>
+    <li><b>每条语句</b>至少被一个用例执行到 (语句覆盖, Folie 33); </li>
+    <li>让程序里的每个条件分别为真和为假 (分支覆盖). </li>
+  </ul>
+  <p>发现过 bug 的测试要<b>保留</b>下来, 作为回归测试 (防止这个 bug 以后又出现). </p>
+</div>
+
+<h3 id="tdd">开发过程中的测试<br><span class="de-title">Testen während der Entwicklung</span></h3>
+<div class="card de">
+  <span class="folie">Folie 27</span>
+  <ul>
+    <li><b>Testgetriebene Entwicklung</b>
+      <ul><li>Eine Möglichkeit, die Entwicklung eines Systems voran zu treiben, besteht darin zu Beginn Testfälle zu formulieren, die dann nach und nach erfüllt werden.</li>
+      <li>Der Fortschritt der Entwicklung des Systems kann dann mit Hilfe der Anzahl der bestandenen Tests gemessen werden.</li></ul></li>
+    <li><b>Regressionstest</b><br>Wiederholung von Tests um sicher zu stellen, dass nach Änderungen der Software keine neuen (oder alten) Fehler eingeschleppt wurden.</li>
+  </ul>
+</div>
+<div class="zh">
+  <ul>
+    <li><b>Testgetriebene Entwicklung 测试驱动开发</b> (TDD): <b>先写测试</b>, 再写代码让测试逐个通过. 已通过的测试数量就是开发进度的量度. 好处: 写测试时就不得不想清楚需求 (Folie 4 的问题). </li>
+    <li><b>Regressionstest 回归测试</b>: 每次修改代码后<b>重新运行</b>所有测试, 确保没有引入新错误, 也没有让旧错误复活. 自动化测试让这件事几乎不花功夫. </li>
+  </ul>
+</div>
+
+<!-- ======================= MAXIMUM ======================= -->
+
+<h2 id="maximum">例子: 列表的最大值<br><span class="de-title">Beispiel: Maximum einer Liste</span></h2>
+<div class="card de">
+  <span class="folie">Folie 28</span>
+  <p>Aufgabe: Testen dieser Methode</p>
+<pre><code><span class="s">""" Sucht das größte Element in einer Liste a
+    zwischen den Grenzen links und rechts
+"""</span>
+<span class="k">def</span> maximum(a, links, rechts):
+    <span class="k">pass</span></code></pre>
+  <p>Natürlichsprachige Spezifikation! Unvollständig und unpräzise:</p>
+  <ul>
+    <li>Was passiert bei a == None</li>
+    <li>… bei ungültigen Indizes, z.B. links == -1 oder links &gt; rechts</li>
+    <li>Wird a[rechts] berücksichtigt?</li>
+  </ul>
+  <p>Ausprobieren → Demo</p>
+</div>
+<div class="zh">
+  <p>只有一句自然语言的说明: 「在列表 a 的 links 到 rechts 之间找最大元素」. 函数体只有 <code>pass</code> (什么都不做, 先占位), 正是 TDD 的起点: 先想测试. 这个说明不完整也不精确: a 是 None 怎么办? 下标无效 (−1、links &gt; rechts) 怎么办? <b>rechts 本身包不包括在内?</b> </p>
+  <p>(Docstring 应写在 def <b>下面</b>才会被 help 识别, 这里写在了上面.) </p>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 29</span>
+  <p><b>Aus der Demo</b></p>
+  <p>Mögliche Testfälle für maximum(a, links, rechts)<br>Beachte: maximum ist für eine leere Liste/Interval nicht definiert</p>
+  <div class="tablewrap"><table>
+    <tr><th>a</th><th>links</th><th>rechts</th><th>Ergebnis</th><th>Kommentar</th></tr>
+    <tr><td>None</td><td>0</td><td>0</td><td>TypeError</td><td>Keine Liste</td></tr>
+    <tr><td>[]</td><td>0</td><td>0</td><td>ValueError</td><td rowspan="2" class="wide">Maximum für den leeren Bereich nicht definiert</td></tr>
+    <tr><td>[1,2,3]</td><td>0</td><td>0</td><td>ValueError</td></tr>
+    <tr><td>[1,2,3]</td><td>-1</td><td>5</td><td>IndexError</td><td class="wide">Grenzwerte ungültig</td></tr>
+    <tr><td>[7]</td><td>0</td><td>1</td><td>7</td><td></td></tr>
+    <tr><td>[2,7]</td><td>0</td><td>1</td><td>2</td><td></td></tr>
+    <tr><td>[2,7]</td><td>0</td><td>2</td><td>7</td><td></td></tr>
+    <tr><td>…</td><td></td><td></td><td></td><td></td></tr>
+  </table></div>
+</div>
+<div class="zh">
+  <p>演示中商定的规格, 用测试用例表达出来: </p>
+  <ul>
+    <li>a 不是列表 → TypeError; </li>
+    <li>空范围 (空列表, 或 links = rechts) → ValueError; </li>
+    <li>下标越界 → IndexError; </li>
+    <li>范围是<b>左闭右开</b>的 [links, rechts), 和 Python 的切片、range 一样: [7], 0, 1 → 只含 a[0], 结果 7; [2, 7], 0, 1 → 只看 2; [2, 7], 0, 2 → 看 2 和 7, 结果 7. </li>
+  </ul>
+  <p>写测试用例的过程, 就把 Folie 28 里含糊的地方都定了下来. 「Interval」德语应写 Intervall. </p>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 30</span>
+  <p><b>Boundary Values</b></p>
+  <p class="src">(Foto: ein Toilettenpapierhalter mit zwei Rollen – eine Rolle leer („0“), bei der anderen fehlt die Rolle ganz („None“))</p>
+  <p>0 vs None</p>
+</div>
+<div class="zh">
+  <p><b>Boundary Values 边界值</b>的玩笑图: 「0」(卷纸用完了, 还有空纸芯) 和「None」(连纸芯都没有) 是两种不同的边界情况. 程序里也一样: 空列表 [] (有列表, 但没有元素) 和 None (根本没有列表) 要分别测试, 处理方式也不同 (ValueError 和 TypeError). </p>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 31</span>
+  <p><b>Qualität von Test-Suites</b></p>
+  <p>Tests sind Code!</p>
+  <ul>
+    <li>oft entwickelt durch separates Test-Team</li>
+    <li>alternativ: Testgetriebene Entwicklung (siehe SWT)</li>
+    <li>gegebenenfalls Dokumentation notwendig</li>
+    <li>“test before you commit” → schnelle Testausführung</li>
+  </ul>
+  <p>Kriterien</p>
+  <ul>
+    <li><b>Effektiv</b>: Tests sollen so viele Fehler wie möglich finden</li>
+    <li><b>Effizient</b>: größte Anzahl an Fehlern mit der geringsten Anzahl an möglichst einfachen Tests finden</li>
+    <li>Randwerte (“boundary values”), z.B. None, 0, -1, und Partitionen, z.B positiv, negativ, … (siehe SWT)</li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>测试也是代码</b>: 需要维护, 必要时要写文档; 常由独立的测试团队写, 或者用 TDD. 「提交前先测试」要求测试运行得快. </p>
+  <p>好测试套件的标准: <b>effektiv 有效</b> (找出尽可能多的错误); <b>effizient 高效</b> (用尽可能少、尽可能简单的测试找出最多的错误). 方法: 测<b>边界值</b> (None、0、−1) 和每个<b>等价类</b> (Partition: 正数、负数……, 每类选一个代表). SWT = Softwaretechnik 软件工程课程. </p>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 32</span>
+  <p><b>Beispiel: Maximum durch “Elimination” (1)</b></p>
+<pre><code><span class="c"># Nicht optimaler Code</span>
+<span class="k">def</span> maximum(a, links, rechts):
+
+    <span class="k">while</span> links &lt; rechts:
+        <span class="k">if</span> a[links] &lt; a[rechts]:
+            links += 1
+        <span class="k">else</span>:
+            rechts -= 1
+
+    <span class="k">return</span> a[links]</code></pre>
+  <ol>
+    <li>Anne Kaldewaij and Berry Schoenmakebs: Searching by elimination, 1990</li>
+    <li>Edsger W. Dijkstra: Why numbering should start at zero, 1982 https://www.cs.utexas.edu/users/EWD/transcriptions/EWD08xx/EWD831.html</li>
+  </ol>
+</div>
+<div class="zh">
+  <p>「淘汰法」求最大值: 两个指针 links、rechts 从两端向中间走; 每次比较两端的元素, <b>较小的那个不可能是最大值</b>, 把它淘汰 (对应的指针向内移一步). 两个指针相遇时, 剩下的那个就是最大值. </p>
+  <p>这个实现把 rechts 当作<b>包含</b>在范围内 (会访问 a[rechts]), 和 Folie 29 约定的左闭右开不一致, 所以 Folie 29 的测试会失败 (Folie 40). 参考文献 2 是 Dijkstra 论证「下标应从 0 开始、区间应左闭右开」的著名短文, 正好对应这个问题. </p>
+  <p>实际运行 (rechts 包含在内的理解): maximum([3, 9, 4], 0, 2) = 9. </p>
+</div>
+<div class="warn"><p><b>原文笔误: </b>第一作者名「Schoenmake<b>bs</b>」应为「Schoenmakers」(Berry Schoenmakers). </p></div>
+
+<h3 id="systematisch">系统地设计测试用例<br><span class="de-title">Systematische Testfallerzeugung</span></h3>
+<div class="card de">
+  <span class="folie">Folie 33</span>
+  <p><b>Beispiel für implementierungsorientierte, systematische Testfallerzeugung</b></p>
+  <p>Ziel (in diesem Fall): Abdeckung jeder Anweisung</p>
+  <p class="src">(Code wie Folie 32)</p>
+  <div class="tablewrap"><table>
+    <tr><th>Testfall</th><th>a</th><th>links</th><th>rechts</th><th class="wide">erwartetes Ergebnis</th></tr>
+    <tr><td>1</td><td>[0]</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>2</td><td>[0, 1]</td><td>0</td><td>1</td><td>1</td></tr>
+    <tr><td>3</td><td>[1, 0]</td><td>0</td><td>1</td><td>1</td></tr>
+  </table></div>
+</div>
+<div class="zh">
+  <p><b>面向实现</b>的设计 (白盒): 看着代码选用例, 让<b>每一条语句</b>都至少被执行一次: </p>
+  <ul>
+    <li>用例 1: 循环一次都不进, 只执行 return; </li>
+    <li>用例 2: 进循环, 走 if 分支 (links += 1); </li>
+    <li>用例 3: 进循环, 走 else 分支 (rechts −= 1). </li>
+  </ul>
+  <p>三个用例合起来覆盖了所有语句. 实际运行: 按 Folie 32 的代码 (rechts 包含), 三个结果分别是 0、1、1, 全部符合期望. 注意这里的期望结果是按「rechts 包含在内」写的, 和 Folie 29 的约定 (rechts 不包含) 不同: 这正说明了 Folie 28 的规格不清晰会导致前后矛盾. </p>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 34</span>
+  <p><b>Beispiel für anforderungsorientierte, systematische Testfallerzeugung</b></p>
+  <p>Anforderung</p>
+<pre><code><span class="k">def</span> ist_primzahl(n):
+    <span class="s">"""
+    Testet ob eine Zahl eine Primzahl ist.
+    """</span></code></pre>
+  <div class="tablewrap"><table>
+    <tr><th>Testfall</th><th>Eingabe n</th><th class="wide">erwartetes Ergebnis</th><th></th></tr>
+    <tr><td>1</td><td>13</td><td>True</td><td class="wide">positive, ganze Zahl, Primzahl</td></tr>
+    <tr><td>2</td><td>9</td><td>False</td><td class="wide">positive, ganze Zahl, keine Primzahl</td></tr>
+    <tr><td>3</td><td>-5</td><td>ValueError</td><td class="wide">nicht positive, ganze Zahl</td></tr>
+    <tr><td>4</td><td>2.3</td><td>TypeError</td><td class="wide">(positive) Zahl, die keine ganze Zahl ist</td></tr>
+    <tr><td>5</td><td>None</td><td>TypeError</td><td class="wide">Objekt, das keine Zahl ist</td></tr>
+  </table></div>
+</div>
+<div class="card de">
+  <span class="folie">Folie 35</span>
+  <p><b>Beispiel für anforderungsorientierte, systematische Testfallerzeugung – Grenzfälle</b></p>
+  <div class="tablewrap"><table>
+    <tr><th>Testfall</th><th>Grenzwert n</th><th class="wide">erwartetes Ergebnis</th><th></th></tr>
+    <tr><td>1</td><td>2</td><td>True</td><td class="wide">positive, ganze Zahl, Primzahl</td></tr>
+    <tr><td>2</td><td>1</td><td>False</td><td class="wide">positive, ganze Zahl, keine Primzahl</td></tr>
+    <tr><td>3</td><td>0</td><td>ValueError</td><td class="wide">nicht positive, ganze Zahl</td></tr>
+  </table></div>
+</div>
+<div class="zh">
+  <p><b>面向需求</b>的设计 (黑盒): 不看代码, 只看需求 (Docstring). 把所有可能的输入分成<b>等价类</b>, 每类选一个代表: 正整数且是素数 (13)、正整数非素数 (9)、非正整数 (−5)、非整数 (2.3)、不是数 (None). 再加上类与类之间的<b>边界值</b>: 2 (最小的素数)、1 (最小的正整数, 不是素数)、0 (第一个非正数). </p>
+  <p>用这些用例测 Folie 18 的函数: 13 → True ✓, 9 → False ✓, −5 → 期望 ValueError, 实际返回 True ✗, 2.3 → TypeError ✓ (碰巧), None → TypeError ✓, 2 → True ✓, <b>1 → 期望 False, 实际 True ✗</b>, 0 → 期望 ValueError, 实际 True ✗. 系统设计的用例立即发现了 Folie 20 漏掉的 bug. (要发现 4 这个 bug, 还需要「最小的偶合数」这个边界值.) </p>
+</div>
+
+<!-- ======================= PYTEST ======================= -->
+
+<h2 id="pytest">pytest 模块<br><span class="de-title">pytest-Modul</span></h2>
+<div class="card de">
+  <span class="folie">Folie 37</span>
+  <p><b>pytest-Modul (1)</b></p>
+  <ul>
+    <li>pytest-Modul ist ein umfassendes Framework, um automatisierte Tests zu schreiben</li>
+    <li>In Thonny: Unter Werkzeuge (Menüleiste) → Verwalte Pakete<br>→ pytest im Suchfeld eingeben (Suche im PyPI)<br>→ pytest auswählen und installieren</li>
+    <li>Idee: Für jede Funktion im Test werden eine oder mehrere Testfunktionen geschrieben. Der Name einer Testfunktion beginnt immer mit test_.</li>
+  </ul>
+</div>
+<div class="card de">
+  <span class="folie">Folie 38</span>
+  <p><b>pytest-Modul (2)</b></p>
+  <ul>
+    <li>In der Testfunktion werden die erwarteten Rückgabewerte der Funktion im Test als Assertions formuliert.</li>
+    <li>assert-Anweisung:<br>assert sichert zu, dass die Bedingung wahr ist. Wenn das nicht der Fall ist, wird eine Ausnahme ausgelöst und der String ausgegeben.</li>
+    <li>Um Assertions über ausgelöste Ausnahmen zu schreiben, kann pytest.raises() verwendet werden.</li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>pytest</b>: 第三方测试框架, 要先安装 (Thonny: 工具 → 管理包 → 搜 pytest → 安装; 命令行: <code>pip install pytest</code>). 用法: </p>
+  <ul>
+    <li>为每个要测的函数写一个或几个<b>测试函数</b>, 名字必须以 <code>test_</code> 开头, pytest 才会自动找到并运行它; </li>
+    <li>测试函数里用 <code>assert 实际 == 期望</code> 写期望结果; 断言失败, 这个测试就算失败, pytest 会报告实际值和期望值; </li>
+    <li>期望<b>抛出异常</b>时用 <code class="lc">with pytest.raises(异常类型):</code>, 里面的代码<b>必须</b>抛出这种异常测试才算通过. </li>
+  </ul>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 39</span>
+  <p><b>pytest-modul: Maximum durch “Elimination”</b></p>
+<pre><code><span class="k">import</span> pytest
+
+<span class="k">def</span> test_maximum_ok():
+    <span class="s">"""Teste Beispiele"""</span>
+    <span class="k">assert</span> maximum([7],0,1) == 7
+    <span class="k">assert</span> maximum([2,7],0,1) == 2
+    <span class="k">assert</span> maximum([2,7],0,2) == 7
+
+<span class="k">def</span> test_maximum_boundary_conditions():
+    <span class="s">"""Teste Grenzwerte"""</span>
+    <span class="k">with</span> pytest.raises(TypeError):
+        maximum(None,0,0)
+    <span class="k">with</span> pytest.raises(ValueError):
+        maximum([],0,0)
+    <span class="k">with</span> pytest.raises(ValueError):
+        maximum([1,2,3],0,0)
+    <span class="k">with</span> pytest.raises(IndexError):
+        maximum([1,2,3],-1,5)
+
+pytest.main([__file__]) <span class="c"># alle Tests in der aktuellen Datei</span></code></pre>
+</div>
+<div class="zh">
+  <p>Folie 29 的表格直接写成 pytest 测试: 正常例子一个测试函数, 边界/异常情况一个测试函数. 最后一行 <code>pytest.main([__file__])</code> 让 pytest 运行当前文件里的所有测试 (<code>__file__</code> 是当前文件的路径), 在 Thonny 里点「运行」就能执行; 命令行里也可以直接 <code>python -m pytest 文件名</code>. </p>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 40</span>
+  <p><b>pytest-modul (1): Maximum durch “Elimination”</b></p>
+  <p>Ergebnis der Testausfürung:</p>
+<pre>======================== short test summary info ========================
+FAILED test_max.py::test_max1 - TypeError: 'NoneType' object is not subscriptable
+FAILED test_max.py::test_max2 - IndexError: list index out of range
+========================== 2 failed in 0.24s ===========================</pre>
+</div>
+<div class="zh">
+  <p>对 Folie 32 的原始代码运行测试: 两个测试都失败. 我们用 pytest 9.1 实际运行 Folie 32 + Folie 39 的代码, 结果也是 <b>2 failed</b>, 两个都因 <code class="lc">IndexError: list index out of range</code> 失败: </p>
+  <ul>
+    <li>test_maximum_ok: <code>maximum([7], 0, 1)</code> 访问了 a[1], 越界 (代码把 rechts 当作包含在内); </li>
+    <li>test_maximum_boundary_conditions: <code>maximum(None, 0, 0)</code> 碰巧抛出了 TypeError (None[0] 不能取下标), 这一项通过; 下一项 <code>maximum([], 0, 0)</code> 期望 ValueError, 实际是 [][0] 的 IndexError, 失败. </li>
+  </ul>
+</div>
+<div class="warn"><p><b>截图和代码对不上: </b>截图里的测试文件和函数名是 <code>test_max.py::test_max1</code>、<code>test_max2</code>, 而 Folie 39 的测试函数叫 test_maximum_ok 和 test_maximum_boundary_conditions; 而且按 Folie 39 的测试顺序, 不会出现截图里第一行那个以 TypeError 失败的测试 (pytest.raises(TypeError) 会把它接住). 截图应来自另一版测试代码. 两次都是「2 failed」这一点一致. 另外「Testausf<b>ü</b>rung」应为「Testausführung». </p></div>
+
+<div class="card de">
+  <span class="folie">Folie 41</span>
+  <p><b>pytest-modul (2): Maximum durch “Elimination”</b></p>
+  <p>1. Anpassung am Code:</p>
+<pre><code><span class="k">def</span> maximum(a, links, rechts):
+    <span class="k">if</span> a <span class="k">is</span> None:
+        <span class="k">raise</span> TypeError(<span class="s">"Keine Liste"</span>)
+    <span class="k">if</span> links &gt;= rechts:
+        <span class="k">raise</span> ValueError(<span class="s">"Maximum für den leeren
+             Bereich nicht definiert"</span>)
+    <span class="k">if</span> links &lt; 0 <span class="k">and</span> rechts &gt; len(a):
+        <span class="k">raise</span> IndexError(<span class="s">"Grenzwerte ungültig"</span>)
+
+    <span class="k">while</span> links &lt; rechts:
+        <span class="k">if</span> a[links] &lt; a[rechts]:
+            links += 1
+        <span class="k">else</span>:
+            rechts -= 1
+    <span class="k">assert</span> links == rechts
+    <span class="k">return</span> a[links]</code></pre>
+</div>
+<div class="card de">
+  <span class="folie">Folie 42</span>
+  <p><b>pytest-modul (3): Maximum durch “Elimination”</b></p>
+  <p>Ergebnis der Testausführung nach der ersten Anpassung:</p>
+<pre>======================== short test summary info ========================
+FAILED test_max.py::test_max2 - IndexError: list index out of range
+================== 1 failed, 1 passed in 0.15s ==================</pre>
+</div>
+<div class="zh">
+  <p>第一次修改: 在函数开头检查无效输入, 用 <code>raise</code> 抛出相应的异常 (第 14 章细讲): None → TypeError; 空范围 → ValueError; 越界 → IndexError. 循环后加了一个断言 <code>assert links == rechts</code> (循环结束时两指针应相遇), 这是 Folie 23 讲的「防自己的错误」. </p>
+  <p>实际运行: <b>1 failed, 1 passed</b> (和截图一致). 边界测试全部通过了; test_maximum_ok 仍然失败, 因为循环里 a[rechts] 仍然越界 (逻辑错误还没改). </p>
+</div>
+
+<div class="card de">
+  <span class="folie">Folie 43</span>
+  <p><b>pytest-modul (4): Maximum durch “Elimination”</b></p>
+  <p>2. Anpassung am Code:</p>
+<pre><code><span class="k">def</span> maximum(a, links, rechts):
+    <span class="k">if</span> a <span class="k">is</span> None:
+        <span class="k">raise</span> TypeError(<span class="s">"Keine Liste"</span>)
+    <span class="k">if</span> links &gt;= rechts:
+        <span class="k">raise</span> ValueError(<span class="s">"Maximum für den leeren
+             Bereich nicht definiert"</span>)
+    <span class="k">if</span> links &lt; 0 <span class="k">or</span> rechts &gt; len(a):
+        <span class="k">raise</span> IndexError(<span class="s">"Grenzwerte ungültig"</span>)
+
+    rechts -= 1 <span class="c"># angepasst Logik Fehler</span>
+
+    <span class="k">while</span> links &lt; rechts:
+        <span class="k">if</span> a[links] &lt; a[rechts]:
+            links += 1
+        <span class="k">else</span>:
+            rechts -= 1
+    <span class="k">assert</span> links == rechts
+    <span class="k">return</span> a[links]</code></pre>
+</div>
+<div class="card de">
+  <span class="folie">Folie 44</span>
+  <p><b>pytest-modul (3): Maximum durch “Elimination”</b></p>
+  <p>Ergebnis der Testausführung nach der zweiten Anpassung:</p>
+<pre>========================== test session starts ==========================
+platform win32 -- Python 3.10.6, pytest-7.2.1, pluggy-1.0.0
+rootdir: C:\Users\
+collected 2 items
+
+test_max.py ..                                                    [100%]
+
+=========================== 2 passed in 0.07s ===========================</pre>
+</div>
+<div class="zh">
+  <p>第二次修改, 两处: </p>
+  <ol>
+    <li>越界检查里的 <code>and</code> 改成 <code>or</code>: 下界越界<b>或</b>上界越界都无效. 原来要两者<b>同时</b>越界才报错, 只有一端越界时会漏掉. </li>
+    <li>循环前加 <code>rechts -= 1</code>: 把左闭右开的 rechts 转成「最后一个包含的下标」, 修正了逻辑错误. </li>
+  </ol>
+  <p>实际运行: <b>2 passed</b>. 截图是在 Windows、Python 3.10、pytest 7.2 上运行的; 每个通过的测试显示一个点 <code>.</code>. 这个过程就是「测试 → 发现失效 → 调试找缺陷 → 修复 → 重新运行 (回归测试)」. </p>
+</div>
+<div class="warn"><p><b>幻灯片小错: </b>Folie 41 的越界检查用了 <code>and</code> (Folie 43 才改成 or), 但两张幻灯片都没有指出这一处修改, 只注释了 <code>rechts -= 1</code>. 另外 raise 里的提示字符串在引号内折行, 照抄是 SyntaxError (排版问题). Folie 44 的标题应为「(5)」, 和 Folie 42 的「(3)」重复了. </p></div>
+
+<div class="card de">
+  <span class="folie">Folie 45</span>
+  <p><b>Modultests: Diskussion</b></p>
+  <ul>
+    <li>✓ Source-Code nicht notwendig</li>
+    <li>✓ Komplexe Szenarien möglich: genaue Beschreibung der erwarteten Ergebnisse</li>
+    <li>✓ Einfach umzusetzen &amp; zu automatisieren</li>
+    <li>✓ Fängt Regressionen ab (neue Fehler)</li>
+    <li>× unklar, wie viel Code überprüft wurde → Abdeckungsmaße</li>
+    <li>× Manueller Aufwand → Testfallgenerierung</li>
+    <li>× unklar, wie viel Verhalten überprüft wurde → Verifikation</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>单元测试的优点: 写测试不一定需要源代码 (只要知道接口和需求); 可以精确描述复杂场景的期望结果; 容易实现和自动化; 能捕获回归. </p>
+  <p>缺点和对应的补救: 不清楚测了多少代码 → <b>覆盖率</b> (下一节); 要手工写用例 → <b>自动生成测试用例</b>; 不清楚检查了多少行为 → <b>形式化验证</b>. </p>
+</div>
+
+<!-- ======================= COVERAGE ======================= -->
+
+<h2 id="coverage">测量代码覆盖率<br><span class="de-title">Messung von Codeabdeckung</span></h2>
+<div class="card de">
+  <span class="folie">Folie 46</span>
+  <ul>
+    <li>Codeabdeckung als ein Bewertungskriterium für die Angemessenheit von Test Suites</li>
+    <li>Unterstützung bei Risikobewertung</li>
+    <li>Unterstützung bei systematischer, implementierungsorientierter Testfallgenerierung
+      <ul><li>Welche Anweisungen werden bereits abgedeckt, für welche Anweisungen fehlt noch ein Testfall?</li><li>Welche Zweige werden bereits vollständig abgedeckt, für welche Zweige fehlen noch ein Testfälle?</li></ul></li>
+    <li>Werkzeuge: coverage, pytest-cov, nose-cov, …</li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>代码覆盖率</b>: 测试运行时, 代码中有多大比例被执行过. 用来评价测试套件是否充分, 辅助风险评估, 并指导白盒用例设计: 哪些<b>语句</b>还没被执行过? 哪些<b>分支</b> (if 的真/假两个方向) 还没走过? 工具: coverage.py、pytest-cov (pytest 插件) 等. </p>
+  <p>注意: 覆盖率高不等于没有 bug (语句执行过, 不代表在所有输入下都对); 但覆盖率低一定说明有代码<b>根本没测过</b>. </p>
+</div>
+<div class="warn"><p><b>原文笔误: </b>「fehlen noch <b>ein</b> Testfälle」应为「fehlen noch Testfälle」. </p></div>
+
+<div class="card de">
+  <span class="folie">Folie 47</span>
+  <p><b>Coverage-Modul</b></p>
+  <ul>
+    <li>coverage-Modul ist ein Framework zur Messung von Codeabdeckung insbesondere
+      <ul><li>Anweisungsabdeckung und</li><li>Zweigabdeckung</li></ul></li>
+    <li>In Thonny: Unter Werkzeuge (Menüleiste) → Verwalte Pakete<br>→ coverage im Suchfeld eingeben (Suche im PyPI)<br>→ coverage auswählen und installieren</li>
+  </ul>
+</div>
+<div class="card de">
+  <span class="folie">Folie 48</span>
+  <p><b>Durchführung von Abdeckungsmessung</b></p>
+  <ul>
+    <li>Ausführen der Abdeckungsmessung mit Systemterminal
+      <ul><li>Werkzeuge (Menüleiste) → System Terminal öffnen</li><li>Ausführung des Pythonprogramms &lt;datei&gt; mit Coverage Modul
+<pre>python -m coverage run [--branch] &lt;datei&gt;</pre></li></ul></li>
+    <li>Standard: Messung von Anweisungsabdeckung</li>
+    <li>Option branch aktiviert zusätzlich Messung von Zweigabedeckung</li>
+    <li>Erzeugt .coverage Datei mit Messergebnissen für Abdeckung</li>
+  </ul>
+</div>
+<div class="card de">
+  <span class="folie">Folie 49</span>
+  <p><b>Ausgabe der Abdeckungsmessung auf Terminal</b></p>
+  <p>nach durchgeführter Abdeckungsmessung mittels Systemterminals</p>
+<pre>python -m coverage report</pre>
+<pre>Name                                Stmts   Miss Branch BrPart  Cover
+---------------------------------------------------------------------
+11-primzahl-partial-branches.py        10      1      4      1    86%
+---------------------------------------------------------------------
+TOTAL                                  10      1      4      1    86%</pre>
+</div>
+<div class="card de">
+  <span class="folie">Folie 50</span>
+  <p><b>Erzeugung des HTML Berichts</b></p>
+  <p>nach durchgeführter Abdeckungsmessung mittels Systemterminals</p>
+<pre>python -m coverage html</pre>
+  <ul>
+    <li>Übersicht gruppiert nach Dateien, Klassen, Funktionen</li>
+    <li>Pro Datei Code basierte Visualisierung der Abdeckung</li>
+  </ul>
+  <p class="src">(Screenshot des HTML-Berichts)</p>
+</div>
+<div class="zh">
+  <p>coverage.py 的三步 (在系统终端里): </p>
+  <ol>
+    <li><code class="lc">python -m coverage run [--branch] 文件.py</code>: 运行程序并记录哪些代码被执行, 结果存到 .coverage 文件. 默认测<b>Anweisungsabdeckung 语句覆盖</b>; 加 <code>--branch</code> 再测<b>Zweigabdeckung 分支覆盖</b>. </li>
+    <li><code class="lc">python -m coverage report</code>: 在终端打印表格. </li>
+    <li><code>python -m coverage html</code>: 生成 HTML 报告 (htmlcov 文件夹), 在浏览器里逐行用颜色标出哪些代码执行过、哪些没有. </li>
+  </ol>
+  <p>表格各列: Stmts 语句数、Miss 没执行的语句数、Branch 分支数、BrPart 只走了一个方向的分支数、Cover 覆盖率. </p>
+  <p>自己做的例子: 对 Folie 18 的 ist_primzahl 加两行调用 <code>print(ist_primzahl(6))</code>、<code>print(ist_primzahl(2))</code>, 实际运行 <code>coverage run --branch</code> 和 <code>coverage report -m</code>: </p>
+<pre>Name      Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------
+prim.py       7      0      4      1    91%   6-&gt;5</pre>
+  <p>所有语句都执行过 (Miss 0), 但有一个分支只走了一个方向: <code>6-&gt;5</code> 表示第 6 行的 if 从来没有「条件为假后回到第 5 行的 for 继续循环」. 因为 6 在 i = 3 时就整除了, 2 则根本不进循环. 加一个像 9 或 4 这样的输入就能补上这个分支. 这说明语句覆盖 100% 不等于分支覆盖 100%. </p>
+</div>
+<div class="warn"><p><b>原文笔误: </b>Folie 48「Zweigab<b>e</b>deckung」多了一个 e, 应为「Zweigabdeckung」. </p></div>
+
+<!-- ======================= LERNZIELE ======================= -->
+
+<h2 id="ziele">学习目标<br><span class="de-title">Lernziele</span></h2>
+<div class="card de">
+  <span class="folie">Folie 51</span>
+  <ul>
+    <li>Testfälle und Test Suites zur Prüfung von Anforderungen und Code Abdeckung entwickeln können</li>
+    <li>Automatisierte Tests im Framework Pytest entwickeln können<br>https://docs.pytest.org</li>
+    <li>Abdeckungsmessung mit Coverage Modul durchführen können</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>学完这一章, 应当能够: </p>
+  <ol>
+    <li><b>设计</b>测试用例和测试套件: 面向需求 (等价类 + 边界值) 和面向代码覆盖 (每条语句、每个分支); 知道测试用例的组成部分; 分清 Fehlhandlung / Fehlerzustand / Fehlerwirkung. </li>
+    <li>用 pytest <b>编写</b>自动化测试: <code>test_</code> 开头的函数、<code>assert</code>、<code>pytest.raises</code>、<code>pytest.main</code>. </li>
+    <li>用 coverage 模块<b>测量</b>覆盖率: <code>coverage run [--branch]</code>、<code>coverage report</code>、<code>coverage html</code>, 并能读懂报告. </li>
+  </ol>
+</div>
+
+</main>
+<script id="glass-js">
+/* 玻璃霓虹层 v11 的交互: 进度条后备、滚动淡入、浮动胶囊目录、背景等高线、解密标题、卡片聚光灯、光标拖影、折叠动画.
+   全部是本地代码, 不加载任何外部资源; 任何一步出错都不影响正文显示. */
+(function () {
+  try {
+    var doc = document.documentElement;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var auto = navigator.webdriver || /HeadlessChrome/.test(navigator.userAgent); // 自动化截图时关掉动效, 保证截图完整
+    if (!reduce && !auto && 'IntersectionObserver' in window) doc.classList.add('fx');
+
+    /* 第二强调色跟着课程色走: 课程主色的色相 +40°, 写进 --glow2 (等高线低处、拖影尾端、标题波动用) */
+    (function () {
+      var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((getComputedStyle(doc).getPropertyValue('--accent') || '').trim());
+      if (!m) return;
+      var r = parseInt(m[1], 16) / 255, g = parseInt(m[2], 16) / 255, b = parseInt(m[3], 16) / 255;
+      var mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn, h = 0, s = 0;
+      if (d) { s = d / (1 - Math.abs(2 * l - 1)); h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
+      h = (h + 40 + 360) % 360;
+      var c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), o = l - c / 2, rgb;
+      rgb = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
+      doc.style.setProperty('--glow2', '#' + rgb.map(function (v) { return ('0' + Math.round((v + o) * 255).toString(16)).slice(-2); }).join(''));
+    })();
+
+    /* 1. 进度条: 浏览器不支持 CSS 滚动动画时用脚本更新 */
+    var bar = document.getElementById('progress');
+    if (bar && !(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'))) {
+      var upd = function () {
+        var h = doc.scrollHeight - innerHeight;
+        bar.style.setProperty('--p', h > 0 ? Math.min(1, scrollY / h) : 0);
+      };
+      addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd); upd();
+    }
+
+    /* 0. 运行时整理结构 (文件本身不变):
+       a) 小节标题 h2、三级标题 h3 的中文主标题 (第一个 <br> / 德语副标题 / small 之前的部分) 包进 <span class="ht">;
+       b) 每个 <pre> 包进 .codebox, 加标题栏 (三个圆点 + 语言 + 复制按钮); 语言优先取 data-lang, 否则按内容猜. */
+    Array.prototype.forEach.call(document.querySelectorAll('main h2, main h3'), function (h) {
+      if (h.querySelector(':scope > .ht')) return;
+      var ht = document.createElement('span'); ht.className = 'ht';
+      var n = h.firstChild;
+      while (n && !(n.nodeType === 1 && (n.tagName === 'BR' || n.tagName === 'SMALL' || n.classList.contains('de-title')))) {
+        var nx = n.nextSibling; ht.appendChild(n); n = nx;
+      }
+      if (ht.textContent.trim()) h.insertBefore(ht, h.firstChild);
+    });
+    /* c) 没有图注的普通 <figure> (MGTN): 用图片的 alt 补一个图注, 和其他笔记的原图一致 */
+    Array.prototype.forEach.call(document.querySelectorAll('main figure:not([class])'), function (f) {
+      var im = f.querySelector(':scope > img');
+      if (!im || f.querySelector('figcaption, .fig-cap') || !(im.alt || '').trim()) return;
+      var c = document.createElement('div'); c.className = 'fig-cap'; c.textContent = im.alt; f.appendChild(c);
+    });
+    var guessLang = function (t) {
+      if (/^\s*>>>/m.test(t)) return 'python repl';
+      if (/^\s*\$ /m.test(t)) return 'shell';
+      if (/^\s*(SELECT|CREATE|INSERT|UPDATE|DELETE|WITH)\b/m.test(t)) return 'sql';
+      if (/^\s*(def |class |import |from \S+ import|for .+ in .+:|if .+:|while .+:|print\()/m.test(t)) return 'python';
+      if (/^\s*(git|cd|ls|pip|python3?|mkdir|cat|grep|echo)\b/m.test(t)) return 'shell';
+      if (/^\s*\(\w+ \(/.test(t)) return 'tree';
+      return 'text';
+    };
+    Array.prototype.forEach.call(document.querySelectorAll('main pre'), function (pre) {
+      if (pre.parentElement.classList.contains('codebox')) return;
+      var box = document.createElement('div'); box.className = 'codebox';
+      var head = document.createElement('div'); head.className = 'cb-head';
+      head.innerHTML = '<span class="cb-dots"><i></i><i></i><i></i></span><span class="cb-lang"></span><button class="cb-copy" type="button">复制</button>';
+      head.querySelector('.cb-lang').textContent = pre.getAttribute('data-lang') || guessLang(pre.textContent);
+      pre.parentNode.insertBefore(box, pre); box.appendChild(head); box.appendChild(pre);
+      var btn = head.querySelector('.cb-copy');
+      btn.addEventListener('click', function () {
+        var txt = pre.innerText, ok = function () { btn.textContent = '已复制'; btn.classList.add('ok'); setTimeout(function () { btn.textContent = '复制'; btn.classList.remove('ok'); }, 1400); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, function () {});
+        else { var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); ok(); } catch (e) {} ta.remove(); }
+      });
+    });
+
+    /* 2. 滚动淡入 */
+    if (doc.classList.contains('fx')) {
+      var els = document.querySelectorAll('main .card, main .zh, main .add, main .warn, main .codebox, main .src-fig, main figure:not([class]), main .tablewrap, main details');
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -8% 0px' });
+      els.forEach(function (el) {
+        if (el.parentElement && el.parentElement.closest('.reveal')) return;
+        var r = el.getBoundingClientRect();
+        el.classList.add('reveal');
+        if (r.top < innerHeight) el.classList.add('in'); else io.observe(el);
+      });
+    }
+
+    /* 解密动画 (小节标题、胶囊目录共用): 先显示乱码, 再从左到右逐字恢复; 德语副标题不动; 无论如何最后都恢复原文 */
+    var gsrc = document.querySelector('[data-glyphs]');
+    var GL = Array.from((gsrc && gsrc.getAttribute('data-glyphs')) || '#%&*+=<>/|01');
+    var GW = Array.from('＃％＆＊＋＝＜＞／｜０１');                 /* 中文位置用全角字符占位, 宽度不跳 */
+    var isWide = function (ch) { return /[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF\u3000-\u303F]/.test(ch); };
+    var rndG = function (ch) { var g = isWide(ch) ? GW : GL; return g[(Math.random() * g.length) | 0]; };
+    var textNodes = function (el) {
+      var out = [], tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+      while (tw.nextNode()) { var tn = tw.currentNode; if (!tn.parentElement.closest('.de-title, small, .katex') && tn.nodeValue.trim()) out.push(tn); }
+      return out;
+    };
+    /* 把元素里的文字拆成逐字的 <span class="ch"> (行内元素, 不改变排版); 乱码画在 ::after 叠层里,
+       原字只是暂时隐藏、仍占原来的位置, 所以解密和信号干扰时标题和下面的内容都不会移动 */
+    var splitChars = function (el) {
+      var groups = textNodes(el).map(function (tn) {
+        var frag = document.createDocumentFragment(), spans = [];
+        Array.from(tn.nodeValue).forEach(function (ch) {
+          if (/\s/.test(ch)) { frag.appendChild(document.createTextNode(ch)); return; }
+          var sp = document.createElement('span'); sp.className = 'ch'; sp.textContent = ch; frag.appendChild(sp); spans.push(sp);
+        });
+        var first = frag.firstChild; tn.parentNode.replaceChild(frag, tn);
+        return { tn: tn, first: first, spans: spans, count: Array.from(tn.nodeValue).length };
+      });
+      return groups;
+    };
+    var joinChars = function (groups) {
+      groups.forEach(function (g) {
+        var n = g.first; if (!n || !n.parentNode) return;
+        var parent = n.parentNode; parent.insertBefore(g.tn, n);
+        for (var k = 0; k < g.count && g.tn.nextSibling; k++) parent.removeChild(g.tn.nextSibling);
+      });
+    };
+    var setX = function (sp, on) {
+      if (on) { sp.setAttribute('data-g', rndG(sp.textContent)); sp.classList.add('x'); } else sp.classList.remove('x');
+    };
+    var decrypt = function (h, DUR) {
+      DUR = DUR || 800;
+      if (h._dtok) return;
+      var groups = splitChars(h); if (!groups.length) return;
+      var tok = h._dtok = {};
+      var hd = h.classList.contains('ht') ? h.parentElement : null;
+      if (hd) hd.classList.remove('wave');
+      var spans = [].concat.apply([], groups.map(function (g) { return g.spans; })), total = spans.length, t0 = performance.now();
+      h.classList.add('decrypting');
+      var finish = function () {
+        if (h._dtok !== tok) return;
+        h._dtok = null; joinChars(groups); h.classList.remove('decrypting');
+        if (hd && hd.tagName === 'H2') hd.classList.add('wave');   /* 解密完成后, h2 开始颜色波动 */
+      };
+      var tick = function (now) {
+        if (h._dtok !== tok) return;
+        var k = Math.floor(Math.min(1, (now - t0) / DUR) * total);
+        for (var q = 0; q < total; q++) setX(spans[q], q >= k);
+        if (now - t0 < DUR) requestAnimationFrame(tick); else finish();
+      };
+      requestAnimationFrame(tick);
+      setTimeout(finish, DUR + 600);
+    };
+    /* 信号干扰: 随机一两个字瞬间变乱码, 150 毫秒后恢复; 同样不改变排版 */
+    var glitchOnce = function (ht) {
+      if (ht._dtok) return;
+      var groups = splitChars(ht); if (!groups.length) return;
+      var tok = ht._dtok = {}, spans = [].concat.apply([], groups.map(function (g) { return g.spans; }));
+      for (var q = 0, n = Math.random() < .5 ? 1 : 2; q < n && spans.length; q++) setX(spans[(Math.random() * spans.length) | 0], true);
+      setTimeout(function () { if (ht._dtok === tok) { ht._dtok = null; joinChars(groups); } }, 150);
+    };
+    var fx = doc.classList.contains('fx');
+
+    /* 3. 浮动胶囊目录 + 当前小节高亮 */
+    var nav = document.querySelector('nav');
+    var links = nav ? Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]')) : [];
+    var targets = links.map(function (a) { return document.getElementById(decodeURIComponent(a.hash.slice(1))); });
+    var pill = null, cur = null, pLinks = [], curIdx = -1;
+    if (links.length) {
+      pill = document.createElement('div'); pill.id = 'toc-pill';
+      pill.innerHTML = '<div class="cap" role="button" tabindex="0" aria-expanded="false"><span class="ring"></span><span class="idx"></span><span class="cur"></span><span class="chev">▾</span></div><div class="panel"></div>';
+      var panel = pill.querySelector('.panel'); cur = pill.querySelector('.cur');
+      links.forEach(function (a) { var b = a.cloneNode(true); panel.appendChild(b); pLinks.push(b); });
+      document.body.appendChild(pill);
+      var cap = pill.querySelector('.cap');
+      var toggle = function (open) {
+        pill.classList.toggle('open', open);
+        cap.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+      cap.addEventListener('click', function () { toggle(!pill.classList.contains('open')); });
+      cap.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(!pill.classList.contains('open')); } });
+      panel.addEventListener('click', function (e) { if (e.target.closest('a')) toggle(false); });
+      document.addEventListener('click', function (e) { if (!pill.contains(e.target)) toggle(false); });
+      var lastY = scrollY;
+      addEventListener('scroll', function () { if (Math.abs(scrollY - lastY) > 40) { toggle(false); lastY = scrollY; } }, { passive: true });
+    }
+    var mark = function () {
+      var y = 140, idx = -1, hgt = doc.scrollHeight - innerHeight, rp = hgt > 0 ? Math.min(1, scrollY / hgt) : 0;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top < y) idx = i; });
+      curIdx = idx;
+      links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+      pLinks.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+      if (pill) {
+        var past = nav.getBoundingClientRect().bottom < 0;
+        pill.classList.toggle('show', past);
+        if (!past) pill.classList.remove('open');
+        pill.style.setProperty('--rp', rp.toFixed(3));
+        pill.querySelector('.panel').setAttribute('data-pct', Math.round(rp * 100) + '%');
+        pill.querySelector('.idx').textContent = ('0' + Math.max(1, idx + 1)).slice(-2) + '/' + ('0' + links.length).slice(-2);
+        var name = idx >= 0 ? links[idx].textContent : links[0].textContent;
+        if (cur.getAttribute('data-name') !== name) {
+          cur.setAttribute('data-name', name);
+          cur._dtok = null; cur.classList.remove('decrypting'); cur.textContent = name;   /* 直接重写文字, 旧的逐字 span 一并清掉 */
+          if (fx && past) decrypt(cur, 420);               /* 进入新小节时, 胶囊里的节名解密切换 */
+        }
+      }
+    };
+    addEventListener('scroll', mark, { passive: true }); addEventListener('resize', mark); mark();
+
+    /* 4. 背景等高线: 地形图式的等高线 (每 5 条一条较粗的计曲线), 按高度从青到绿着色;
+       地形缓慢呼吸变形, 鼠标所在处隆起一个小山丘; 正文一栏用羽化的遮罩压淡 */
+    if (!reduce) {
+      var cv = document.createElement('canvas'); cv.id = 'contour'; cv.setAttribute('aria-hidden', 'true');
+      document.body.insertBefore(cv, document.body.firstChild);
+      var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, C = 7, NX = 0, NY = 0, F = null, narrow = false, mL = 0, mR = 0;
+      var cs0 = getComputedStyle(doc);
+      function rgbOf(h, d) { var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((h || '').trim());
+        return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : d; }
+      var A = rgbOf(cs0.getPropertyValue('--accent'), [129, 228, 141]);
+      var B = rgbOf(cs0.getPropertyValue('--glow2'), [127, 211, 255]);
+      var mainEl = document.querySelector('main');
+      var P = new Uint8Array(512), sd = 2468013;
+      for (var q = 0; q < 256; q++) P[q] = q;
+      for (q = 255; q > 0; q--) { sd = (sd * 16807) % 2147483647; var r = sd % (q + 1), tmp = P[q]; P[q] = P[r]; P[r] = tmp; }
+      for (q = 0; q < 256; q++) P[q + 256] = P[q];
+      function sm(t) { return t * t * (3 - 2 * t); }
+      function vn(x, y) {
+        var xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi; xi &= 255; yi &= 255;
+        var a = P[P[xi] + yi] / 255, b = P[P[xi + 1] + yi] / 255, c = P[P[xi] + yi + 1] / 255, d = P[P[xi + 1] + yi + 1] / 255;
+        var u = sm(xf), v = sm(yf);
+        return (a + (b - a) * u) * (1 - v) + (c + (d - c) * u) * v;
+      }
+      var mx = -9999, my = -9999, hx = -9999, hy = -9999, amp = 0, ampT = 0, lastMove = 0;
+      addEventListener('pointermove', function (e) { if (e.pointerType !== 'mouse') return; mx = e.clientX; my = e.clientY; ampT = 1; lastMove = performance.now(); }, { passive: true });
+      document.addEventListener('pointerleave', function () { ampT = 0; });
+      var LV = []; for (var lv = .18, li = 0; lv < .95; lv += .033, li++) LV.push({ v: lv, idx: li % 5 === 0 });
+      function size() {
+        dpr = Math.min(2, window.devicePixelRatio || 1);
+        W = innerWidth; H = innerHeight; narrow = W < 700;
+        cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        NX = Math.ceil(W / C) + 2; NY = Math.ceil(H / C) + 2; F = new Float32Array(NX * NY);
+        var rr = mainEl ? mainEl.getBoundingClientRect() : { left: 0, right: 0 }; mL = rr.left; mR = rr.right;
+      }
+      function field(t) {
+        var ts = t / 1000, br = 1 + .06 * Math.sin(ts * Math.PI * 2 / 20), sy = scrollY * .0011;
+        var ox = .3 * Math.sin(ts * .045), oy = .3 * Math.cos(ts * .038);
+        /* 鼠标山丘: 位置和高度都平滑跟随 */
+        if (hx < -999) { hx = mx; hy = my; }
+        hx += (mx - hx) * .18; hy += (my - hy) * .18;
+        if (performance.now() - lastMove > 2500) ampT = 0;
+        amp += (ampT * .22 - amp) * .06;
+        var s2 = 2 * 85 * 85, cx = W / 2, cy = H / 2;
+        for (var y = 0; y < NY; y++) {
+          var py = y * C, ny0 = ((py - cy) / br + cy) * .0042;
+          for (var x = 0; x < NX; x++) {
+            var px = x * C, nx0 = ((px - cx) / br + cx) * .0042;
+            var v = .68 * vn(nx0 + ox, ny0 + oy + sy) + .32 * vn(nx0 * 2.6 - ts * .02, ny0 * 2.6 + ts * .015 + sy * 2.6);
+            if (amp > .002) { var dx = px - hx, dy = py - hy; v += amp * Math.exp(-(dx * dx + dy * dy) / s2); }
+            F[y * NX + x] = v;
+          }
+        }
+      }
+      function draw(t) {
+        field(t);
+        ctx.clearRect(0, 0, W, H);
+        ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+        var k = narrow ? .55 : 1;
+        for (var l = 0; l < LV.length; l++) {
+          var lev = LV[l].v, f = Math.min(1, Math.max(0, (lev - .25) / .6));
+          var c = [Math.round(B[0] + (A[0] - B[0]) * f), Math.round(B[1] + (A[1] - B[1]) * f), Math.round(B[2] + (A[2] - B[2]) * f)];
+          ctx.strokeStyle = 'rgba(' + c.join(',') + ',' + ((LV[l].idx ? .34 : .15) * k).toFixed(3) + ')';
+          ctx.lineWidth = LV[l].idx ? 1.35 : .8;
+          ctx.beginPath();
+          for (var y = 0; y < NY - 1; y++) for (var x = 0; x < NX - 1; x++) {
+            var a = F[y * NX + x], b = F[y * NX + x + 1], cc = F[(y + 1) * NX + x + 1], d = F[(y + 1) * NX + x];
+            var id = (a > lev ? 8 : 0) | (b > lev ? 4 : 0) | (cc > lev ? 2 : 0) | (d > lev ? 1 : 0);
+            if (id === 0 || id === 15) continue;
+            var X = x * C, Y = y * C;
+            var T = [X + C * (lev - a) / (b - a), Y], Rt = [X + C, Y + C * (lev - b) / (cc - b)], Bt = [X + C * (lev - d) / (cc - d), Y + C], Lf = [X, Y + C * (lev - a) / (d - a)];
+            var sg;
+            switch (id) {
+              case 1: case 14: sg = [Lf, Bt]; break;  case 2: case 13: sg = [Bt, Rt]; break;
+              case 3: case 12: sg = [Lf, Rt]; break;  case 4: case 11: sg = [T, Rt]; break;
+              case 6: case 9: sg = [T, Bt]; break;    case 7: case 8: sg = [Lf, T]; break;
+              case 5: sg = [Lf, T, Bt, Rt]; break;    case 10: sg = [T, Rt, Lf, Bt]; break;
+            }
+            for (var g = 0; g < sg.length; g += 2) { ctx.moveTo(sg[g][0], sg[g][1]); ctx.lineTo(sg[g + 1][0], sg[g + 1][1]); }
+          }
+          ctx.stroke();
+        }
+        /* 羽化遮罩: 正文一栏中心最淡, 向两侧平滑过渡 */
+        if (!narrow && mR > mL) {
+          var gw = 140, g2 = ctx.createLinearGradient(mL - gw, 0, mR + gw, 0), fl = gw / (mR - mL + 2 * gw);
+          g2.addColorStop(0, 'rgba(0,0,0,0)'); g2.addColorStop(Math.min(.49, fl * 1.6), 'rgba(0,0,0,.72)');
+          g2.addColorStop(Math.max(.51, 1 - fl * 1.6), 'rgba(0,0,0,.72)'); g2.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = g2; ctx.fillRect(mL - gw, 0, mR - mL + 2 * gw, H);
+          ctx.globalCompositeOperation = 'source-over';
+        }
+      }
+      size(); addEventListener('resize', function () { size(); draw(performance.now()); });
+      if (auto) draw(0);
+      else {
+        var lastT = 0;
+        (function loop(t) { if (!document.hidden && t - lastT > 66) { lastT = t; draw(t); } requestAnimationFrame(loop); })(0);
+      }
+    }
+
+    /* 解密标题 (h2 小节标题和 h3 三级标题; 页首大标题 h1 不加):
+       ① 第一次滚进视野时解密 (解密的是中文主标题 .ht, 德语副标题不动); h2 解密完开始颜色波动;
+       ② 之后鼠标悬停 (手机上点一下) 再解密, 1.2 秒内不重复;
+       ③ 正在读的那一节, 它的 h2 每隔 6–10 秒有一两个字瞬间变乱码再恢复 (信号干扰) */
+    if (fx) {
+      var heads = Array.prototype.slice.call(document.querySelectorAll('main h2, main h3')).filter(function (h) { return h.querySelector(':scope > .ht'); });
+      var hio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { decrypt(e.target.querySelector(':scope > .ht'), e.target.tagName === 'H3' ? 600 : 800); hio.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -12% 0px' });
+      heads.forEach(function (h) {
+        var ht = h.querySelector(':scope > .ht'), short = h.tagName === 'H3' ? 520 : 650;
+        if (h.getBoundingClientRect().top < innerHeight * .88) decrypt(ht, h.tagName === 'H3' ? 600 : 800); else hio.observe(h);
+        var lastHover = 0;
+        var again = function () { var now = performance.now(); if (now - lastHover > 1200) { lastHover = now; decrypt(ht, short); } };
+        ht.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') again(); });
+        h.addEventListener('click', function (e) { if (e.pointerType !== 'mouse' && !e.target.closest('a')) again(); });
+      });
+      var headOf = function (t) {
+        if (!t) return null;
+        var h = /^H2$/.test(t.tagName) ? t : t.querySelector('h2');
+        return h ? h.querySelector(':scope > .ht') : null;
+      };
+      var glitch = function () {
+        var ht = curIdx >= 0 ? headOf(targets[curIdx]) : null;
+        if (ht && !ht._dtok && !document.hidden) {
+          var r = ht.getBoundingClientRect();
+          if (r.bottom > 0 && r.top < innerHeight) glitchOnce(ht);
+        }
+        setTimeout(glitch, 6000 + Math.random() * 4000);
+      };
+      setTimeout(glitch, 7000);
+    }
+
+    /* 图片点击放大: 从原位置平滑放大到屏幕中央 (FLIP), 点击 / Esc 时缩回原位 */
+    var lb = document.createElement('div'); lb.id = 'lightbox'; document.body.appendChild(lb);   /* 图片在打开时才放进去, 页面里没有空的 <img> */
+    var lbSrc = null, lbBusy = false;
+    var rectFit = function (nw, nh) {
+      var mw = innerWidth * .92, mh = innerHeight * .84, k = Math.min(mw / nw, mh / nh, 2.2);
+      var w = nw * k, h = nh * k; return { left: (innerWidth - w) / 2, top: (innerHeight - h) / 2 - innerHeight * .03, width: w, height: h };
+    };
+    var place = function (el, r, to) {
+      var sx = r.width / to.width, sy = r.height / to.height;
+      el.style.transform = 'translate(' + r.left + 'px,' + r.top + 'px) scale(' + sx + ',' + sy + ')';
+    };
+    var lbOpen = function (im) {
+      if (lbBusy) return; lbBusy = true; lbSrc = im;
+      var b = document.createElement('img'); b.src = im.src; b.alt = im.alt;
+      var cap = document.createElement('div'); cap.className = 'lb-cap';
+      var fc = im.closest('figure') && im.closest('figure').querySelector('figcaption, .fig-cap');
+      cap.textContent = fc ? fc.textContent : (im.alt || '');
+      lb.textContent = ''; lb.appendChild(b); lb.appendChild(cap);
+      var to = rectFit(im.naturalWidth || im.width, im.naturalHeight || im.height);
+      b.style.width = to.width + 'px'; b.style.height = to.height + 'px';
+      b.style.transition = 'none'; place(b, im.getBoundingClientRect(), to);
+      im.style.visibility = 'hidden';
+      b.getBoundingClientRect();
+      b.style.transition = ''; lb.classList.add('on');
+      requestAnimationFrame(function () { b.style.transform = 'translate(' + to.left + 'px,' + to.top + 'px)'; });
+      setTimeout(function () { lbBusy = false; }, reduce ? 0 : 480);
+    };
+    var lbClose = function () {
+      if (!lb.classList.contains('on') || lbBusy) return;
+      var b = lb.querySelector('img'), im = lbSrc;
+      lb.classList.remove('on');
+      if (b && im && !reduce) {
+        lbBusy = true;
+        var to = { width: parseFloat(b.style.width), height: parseFloat(b.style.height) };
+        place(b, im.getBoundingClientRect(), to);
+        setTimeout(function () { im.style.visibility = ''; lb.textContent = ''; lbBusy = false; }, 480);
+      } else { if (im) im.style.visibility = ''; lb.textContent = ''; }
+    };
+    lb.addEventListener('click', lbClose);
+    addEventListener('keydown', function (e) { if (e.key === 'Escape') lbClose(); });
+    addEventListener('scroll', function () { if (lb.classList.contains('on')) lbClose(); }, { passive: true });
+    Array.prototype.forEach.call(document.querySelectorAll('main .src-fig img, main figure:not([class]) img'), function (im) {
+      im.addEventListener('click', function () { lbOpen(im); });
+    });
+
+    /* 左侧色条里的流光: 每个框随机错开起点, 不会整页同时闪 */
+    document.querySelectorAll('.zh, .warn, .def').forEach(function (el) { el.style.setProperty('--bar-delay', (-Math.random() * 5.5).toFixed(2) + 's'); });
+
+    /* 5. 卡片聚光灯: 只在鼠标所在的那张卡片里亮 */
+    if (!reduce && matchMedia('(pointer: fine)').matches) {
+      var boxes = document.querySelectorAll('main .card, main .zh, main .add, main .warn');
+      boxes.forEach(function (el) {
+        el.addEventListener('pointermove', function (e) {
+          if (e.target.closest('.card, .zh, .add, .warn') !== el) { el.classList.remove('lit'); return; }
+          var r = el.getBoundingClientRect();
+          el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+          el.classList.add('lit');
+        });
+        el.addEventListener('pointerleave', function () { el.classList.remove('lit'); });
+      });
+    }
+
+    /* 7. 光标拖影: 鼠标移动时拖一条由粗到细、逐渐变淡的光带, 停下就收拢消失 */
+    if (!reduce && !auto && matchMedia('(pointer: fine)').matches) {
+      var tc = document.createElement('canvas'); tc.id = 'trail'; tc.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(tc);
+      var tx = tc.getContext('2d'), TW = 0, TH = 0, tdpr = 1, pts = [], running = false, LIFE = 160;
+      var g1 = (getComputedStyle(doc).getPropertyValue('--accent') || '#81e48d').trim();
+      var g2 = (getComputedStyle(doc).getPropertyValue('--glow2') || '#7fd3ff').trim();
+      function tsize() { tdpr = Math.min(2, window.devicePixelRatio || 1); TW = innerWidth; TH = innerHeight;
+        tc.width = TW * tdpr; tc.height = TH * tdpr; tx.setTransform(tdpr, 0, 0, tdpr, 0, 0); }
+      tsize(); addEventListener('resize', tsize);
+      addEventListener('pointermove', function (e) {
+        pts.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+        if (!running) { running = true; requestAnimationFrame(tdraw); }
+      }, { passive: true });
+      function tdraw(now) {
+        while (pts.length && now - pts[0].t > LIFE) pts.shift();
+        tx.clearRect(0, 0, TW, TH);
+        if (pts.length > 1) {
+          tx.lineCap = 'round'; tx.lineJoin = 'round';
+          for (var i = 1; i < pts.length; i++) {
+            var a = pts[i - 1], b = pts[i], f = i / (pts.length - 1), age = 1 - (now - b.t) / LIFE;
+            tx.strokeStyle = f > .5 ? g1 : g2;
+            tx.globalAlpha = Math.max(0, .75 * f * age);
+            tx.lineWidth = 1 + 5 * f * age;
+            tx.shadowColor = g1; tx.shadowBlur = 12 * f;
+            tx.beginPath(); tx.moveTo(a.x, a.y); tx.lineTo(b.x, b.y); tx.stroke();
+          }
+          tx.globalAlpha = 1; tx.shadowBlur = 0;
+        }
+        if (pts.length) requestAnimationFrame(tdraw); else { running = false; tx.clearRect(0, 0, TW, TH); }
+      }
+    }
+
+    /* 6. 折叠答案的展开动画 */
+    document.querySelectorAll('details.answer').forEach(function (d) {
+      var s = d.querySelector('summary'); if (!s) return;
+      var body = document.createElement('div'); body.className = 'dbody';
+      while (s.nextSibling) body.appendChild(s.nextSibling);
+      d.appendChild(body);
+      s.addEventListener('click', function (ev) {
+        if (reduce) return;
+        ev.preventDefault();
+        if (d.open) {
+          body.style.height = body.scrollHeight + 'px';
+          requestAnimationFrame(function () { body.style.height = '0px'; });
+          setTimeout(function () { d.open = false; body.style.height = ''; }, 350);
+        } else {
+          d.open = true; var h = body.scrollHeight; body.style.height = '0px';
+          requestAnimationFrame(function () { body.style.height = h + 'px'; });
+          setTimeout(function () { body.style.height = ''; }, 360);
+        }
+      });
+    });
+  } catch (err) { document.documentElement.classList.remove('fx'); }
+})();
+</script>
+</body>
+</html>

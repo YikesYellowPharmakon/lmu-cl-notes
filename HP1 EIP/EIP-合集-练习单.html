@@ -1,0 +1,2831 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#12181f">
+<title>EIP 合集 · 练习单</title>
+<style>
+  :root {
+    --bg: #12181f;
+    --ink: #e6eef4;
+    --muted: #93a4b5;
+    --line: #2c3c4c;
+    --card: #1b2631;
+    --code: #0c1218;
+    --accent: #79c0ff;
+    --chip: #243444;
+    --zh: #17242c;
+    --add: #161f28;
+    --add-line: #86a0b6;
+    --warn: #2a1a1c;
+    --warn-line: #ff7b72;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16.5px/1.65 "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif;
+  }
+  header { position: static; background: transparent; border: 0; }
+  .wrap { max-width: 800px; margin: 0 auto; padding: 18px 22px 80px; }
+  header .wrap { padding-top: 18px; padding-bottom: 8px; }
+  h1 { font-size: 26px; line-height: 1.25; margin: 0 0 6px; font-weight: 650; }
+  h2 { font-size: 22px; margin: 48px 0 8px; padding-top: 12px; border-top: 1px solid var(--line); }
+  h3 { font-size: 17px; margin: 28px 0 6px; }
+  h1 .de-title, h2 .de-title, h3 .de-title {
+    display: block; margin-top: 2px; color: var(--muted);
+    font-weight: 500; font-size: 0.92em; line-height: 1.35;
+  }
+  h1 .de-title { font-size: 0.62em; }
+  p { margin: 8px 0; }
+  .lede { color: var(--muted); margin: 0; }
+  nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+  nav a {
+    color: var(--accent); text-decoration: none; background: var(--chip);
+    border-radius: 999px; padding: 3px 10px;
+    font: 13px/1.4 "PingFang SC", sans-serif;
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px 16px; margin: 12px 0;
+  }
+  .card p, .card li { margin: 4px 0; }
+  .de { position: relative; padding-top: 26px; }
+  .folie {
+    position: absolute; top: 7px; left: 16px;
+    font: 11.5px/1.3 "PingFang SC", sans-serif; color: var(--muted); letter-spacing: .02em;
+  }
+  .de pre { margin: 8px 0; }
+  .zh {
+    background: var(--zh); border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .zh p { margin: 0 0 8px; }
+  .zh p:last-child, .zh ul:last-child, .zh ol:last-child { margin-bottom: 0; }
+  .add {
+    background: var(--add); border-left: 3px dashed var(--add-line);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .add::before { content: "补充 (幻灯片之外)"; display: block; font-size: 12px; color: var(--add-line); font-weight: 600; margin-bottom: 4px; }
+  .add p { margin: 0 0 8px; }
+  .add p:last-child { margin-bottom: 0; }
+  .warn {
+    background: var(--warn); border-left: 3px solid var(--warn-line);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .warn p { margin: 0 0 8px; }
+  .warn p:last-child { margin-bottom: 0; }
+  .vocab { font-family: "PingFang SC", sans-serif; font-size: 14px; color: var(--muted); margin: 8px 0 2px; }
+  .vocab b { color: var(--ink); font-weight: 600; }
+  ul, ol { margin: 8px 0; padding-left: 1.3em; }
+  li { margin: 4px 0; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; margin: 12px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 7px 10px; border-bottom: 1px solid var(--line); }
+  th { font: 12px/1.3 "PingFang SC", sans-serif; color: var(--muted); font-weight: 600; background: var(--chip); }
+  .tablewrap { overflow-x: auto; }
+  pre {
+    background: var(--code); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px; overflow: auto; margin: 12px 0;
+    font: 13.5px/1.5 "SF Mono", ui-monospace, Menlo, monospace;
+  }
+  code {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 0.86em;
+    background: var(--chip); padding: 1px 5px; border-radius: 5px;
+  }
+  pre code { background: none; padding: 0; }
+  a { color: var(--accent); }
+  .src { color: var(--muted); font-size: 14px; }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin: 8px 0; }
+  details summary { cursor: pointer; font-weight: 600; }
+  details[open] summary { margin-bottom: 6px; }
+  details p { font-family: "PingFang SC", sans-serif; font-size: 15px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cols pre { margin: 0; }
+  @media (max-width: 620px) { .cols { grid-template-columns: 1fr; } }
+  /* ===== 前端细节优化 2026-10-16：只调排版与交互，不改内容和颜色 token ===== */
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  h1, h2, h3, h4 { text-wrap: balance; }
+  p, li { text-wrap: pretty; }
+  p, li, a, code { overflow-wrap: break-word; }
+  [id] { scroll-margin-top: 16px; }
+  :focus-visible { outline: 2px solid var(--accent, var(--link)); outline-offset: 2px; border-radius: 4px; }
+  pre, .tablewrap { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  pre { tab-size: 4; }
+  .tablewrap { overflow-x: auto; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  @media print { pre, table, details, figure { break-inside: avoid; } h2, h3 { break-after: avoid; } }
+  ::selection { background: color-mix(in srgb, var(--accent, var(--link)) 35%, transparent); }
+  nav a { transition: background-color .15s ease, color .15s ease; }
+  nav a:hover { background: color-mix(in srgb, var(--accent, var(--link)) 22%, var(--chip, var(--paper))); }
+  details summary:hover { color: var(--accent, var(--link)); }
+  @media print { .card, .zh, .add, .warn, .de, .later, .vocab { break-inside: avoid; } }
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .wrap, header .wrap, main { padding-left: 16px; padding-right: 16px; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; }
+    .card { padding-left: 12px; padding-right: 12px; }
+    .folie, .slide { left: 12px; }
+    .zh, .add, .warn { padding: 9px 12px; }
+    .part > h2, article { padding-left: 14px; padding-right: 14px; }
+    pre { padding: 10px 12px; font-size: 13px; }
+  }
+  .part { border-top: 1px solid var(--line); margin-top: 40px; }
+  .part > h2 { border-top: 0; margin-top: 16px; }
+  .part > h2 small { display: block; margin-top: 4px; font: 13px/1.5 "PingFang SC", sans-serif; color: var(--muted); font-weight: 400; }
+  article + article { margin-top: 30px; }
+  .themen { font-style: italic; color: var(--muted); }
+  /* ===== 练习单统一样式（各课程只换颜色 token） ===== */
+  .part { border-top: 1px solid var(--line); margin-top: 40px; }
+  .part > h2 { border-top: 0; margin-top: 16px; }
+  .part > h2 small { display: block; margin-top: 4px; font: 13px/1.5 "PingFang SC", sans-serif; color: var(--muted); font-weight: 400; }
+  article + article { margin-top: 30px; }
+  .themen { font-style: italic; color: var(--muted); }
+  details.answer { background: var(--card, var(--paper)); border: 1px solid var(--line); border-left: 3px solid var(--accent, var(--mint)); border-radius: 0 10px 10px 0; padding: 8px 14px; margin: 8px 0 4px; font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px; }
+  details.answer > summary { cursor: pointer; font-weight: 600; color: var(--accent, var(--mint)); }
+  details.answer[open] > summary { margin-bottom: 8px; }
+  details.answer p { margin: 0 0 8px; }
+  .src-fig { margin: 10px 0 6px; background: #fff; border-radius: 8px; padding: 8px; }
+  .src-fig img { display: block; max-width: 100%; max-height: 360px; width: auto; height: auto; margin: 0 auto; }
+  .src-fig figcaption { margin-top: 6px; font: 12px/1.4 "PingFang SC", sans-serif; color: #555; text-align: center; }
+  /* ===== 排版统一层 v9（所有笔记共用；只管字体、尺寸、间距、对齐，不改颜色 token） ===== */
+  :root { --measure: 760px; --gutter: 24px; --serif: "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif; --sans: "PingFang SC", "Hiragino Sans GB", "Songti SC", sans-serif; --mono: "SF Mono", ui-monospace, Menlo, monospace; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { font: 16.5px/1.65 var(--serif); font-kerning: normal; }
+  /* 换行：中文按标点避头尾（strict），不用 balance / pretty（它们会在宽屏和手机上把中文行拆成一长一短、在词中间断开） */
+  body { line-break: strict; word-break: normal; overflow-wrap: break-word; font-feature-settings: "halt" 1; }
+  /* 中文讲解用英文标点（, . : ; ! ? ( )，由 scripts/zh_punct.py 转换）；剩下的「」、《》用 halt 压成半宽，不留大空白 */
+  pre, code, kbd, .katex { font-feature-settings: normal; }
+  /* 页首说明和副标题按「 · 」分段，只在段与段之间换行，不在一个段落中间断开 */
+  .seg, h1 .seg, h2 .seg, h3 .seg, .lede .seg { display: inline-block; margin: 0; font-size: inherit; font-weight: inherit; color: inherit; letter-spacing: inherit; }
+  p, li, td, th, dd, figcaption, summary, .lede { text-wrap: wrap; }
+  h1, h2, h3, h4 { text-wrap: wrap; word-break: keep-all; overflow-wrap: anywhere; }
+  /* 行内代码整体不拆行（bark() 不会断成 bark( / )）；只有页首、出处说明里的长文件名允许在放不下时断开 */
+  code { white-space: nowrap; }
+  .lede code, .src code, h1 code, h2 code, h3 code { white-space: normal; overflow-wrap: anywhere; }
+  td:first-child, th:first-child { min-width: 5em; }
+  /* 单元格内容不能断开的表（莫尔斯码之类）给 table 加 class="nowrap"，放不下就横向滚动（注释里不要写带尖括号的标签，wrap_tables.py 曾把它当成真表格） */
+  table.nowrap td, table.nowrap th { white-space: nowrap; text-wrap: nowrap; }
+  /* 代码块里的 code 跟随 pre 保留换行（上面的 nowrap 只给行内代码；漏了这条，多行代码会挤成一行） */
+  pre code { white-space: inherit; overflow-wrap: normal; word-break: normal; }
+  /* 长的行内代码（apply_typography.py 标 .lc，超过 24 个字符）在手机上放不下，允许在空格处换行，必要时任意处断开 */
+  code.lc { white-space: normal; overflow-wrap: anywhere; }
+  /* 版心：页首和正文同一列，左右对齐、整体居中 */
+  header .wrap, main.wrap, main { box-sizing: border-box; max-width: var(--measure); margin-left: auto; margin-right: auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+  header .wrap { padding-top: 40px; padding-bottom: 8px; }
+  main.wrap, main { padding-top: 8px; padding-bottom: 96px; }
+  /* 标题层级 */
+  h1 { font-size: 28px; line-height: 1.3; font-weight: 650; margin: 0 0 4px; }
+  h1 .de-title, h1 > span { display: block; margin-top: 6px; font-size: 15px; line-height: 1.45; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+  h2 { font-size: 22px; line-height: 1.35; font-weight: 650; margin: 56px 0 10px; padding-top: 16px; }
+  h2 .de-title { display: block; margin-top: 4px; font-size: 15px; font-weight: 500; color: var(--muted); }
+  h3 { font-size: 17.5px; line-height: 1.45; font-weight: 650; margin: 32px 0 8px; }
+  h3 .de-title { display: block; margin-top: 2px; font-size: 14px; font-weight: 500; color: var(--muted); }
+  h4 { font-size: 16px; margin: 24px 0 8px; }
+  /* 页首说明与导航 */
+  .lede { margin: 12px 0 0; font: 15.5px/1.65 var(--serif); color: var(--muted); }
+  nav { display: flex; flex-wrap: wrap; gap: 6px 6px; margin: 18px 0 0; }
+  nav a { font: 12.5px/1.5 var(--sans); padding: 3px 11px; border-radius: 999px; text-decoration: none; }
+  /* 正文段落 */
+  p { margin: 10px 0; }
+  ul, ol { padding-left: 1.4em; margin: 8px 0; }
+  li { margin: 4px 0; }
+  /* 原文卡片与各类框：统一宽度、圆角、内边距 */
+  .card { box-sizing: border-box; width: 100%; border-radius: 12px; padding: 14px 18px; margin: 14px 0; }
+  .card.de, .card.orig { padding-top: 30px; }
+  .folie, .slide { top: 9px; left: 18px; font: 11.5px/1.3 var(--sans); letter-spacing: .03em; }
+  .zh, .add, .warn, details.answer, .later { box-sizing: border-box; font: 15px/1.75 var(--sans); padding: 12px 16px; margin: 10px 0 6px; }
+  .zh p, .add p, .warn p, details.answer p { margin: 0 0 10px; }
+  .zh p:last-child, .add p:last-child, .warn p:last-child { margin-bottom: 0; }
+  .src { font: 14px/1.7 var(--sans); }
+  /* 居中元素：公式行、图、表格统一处理 */
+  p[style*="text-align:center"], p[style*="text-align: center"], .math-block { margin: 14px auto; text-align: center; font-size: 1.05em; }
+  figure, .src-fig { margin: 14px auto; text-align: center; }
+  /* 图注左对齐: 居中的两行图注第二行会孤零零缩在中间 */
+  figure figcaption, .src-fig figcaption { text-align: left; }
+  /* 图注按标点分句 (span.cs)，每行都在一个标点后结束，不在半句中间换行 */
+  figcaption .cs { display: inline-block; max-width: 100%; }
+  figure img, .src-fig img { display: block; margin: 0 auto; }
+  figure svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .tablewrap { width: 100%; overflow-x: auto; margin: 12px 0; }
+  table { width: 100%; font: 14.5px/1.6 var(--sans); }
+  .card table, .tablewrap table { margin: 0; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 11px; }
+  td.num, th.num { text-align: right; }
+  /* 代码 */
+  pre { font: 13.5px/1.55 var(--mono); padding: 12px 16px; border-radius: 10px; margin: 12px 0; overflow-x: auto; tab-size: 4; }
+  code { font-family: var(--mono); font-size: .86em; }
+  pre code { font-size: inherit; }
+  .cols { gap: 12px; }
+  .cols > *, .pair > *, .card > *, .zh > *, details.answer > * { min-width: 0; }
+  img, video { max-width: 100%; height: auto; }
+  .katex svg { max-width: none; }
+  /* 折叠框 */
+  details > summary { font: 600 15px/1.5 var(--sans); }
+  /* 窄屏 */
+  @media (max-width: 600px) {
+    :root { --gutter: 16px; }
+    body { font-size: 16px; line-height: 1.65; }
+    header .wrap { padding-top: 24px; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; margin-top: 44px; }
+    h3 { font-size: 17px; }
+    .card { padding-left: 13px; padding-right: 13px; }
+    .folie, .slide { left: 13px; }
+    .zh, .add, .warn, details.answer { padding: 10px 13px; font-size: 15px; line-height: 1.75; }
+    nav a { font-size: 12px; padding: 2px 9px; }
+    .cols { grid-template-columns: 1fr; }
+    /* 手机上表格列太窄时中文会一字一行（「需求分析」竖着排）：给单元格最小宽度，放不下就在 .tablewrap 里横向滚动 */
+    th, td { min-width: 4.5em; }
+    td.wide, th.wide { min-width: 9em; }
+  }
+  /* ===== /排版统一层 ===== */
+</style>
+<style id="glass">
+  /* ===== 玻璃霓虹层 (Glass / Neon) v13 · 只管视觉特效, 由 scripts/apply_glass.py 插在 </head> 前; 不改字号、版心、间距 ===== */
+  :root {
+    --glow: var(--accent);
+    --glow2: #7fd3ff;
+    --tint: color-mix(in srgb, var(--glow) 55%, #ffffff);          /* 课程色的亮色调, 进度条/色条/标题波动都用它, 跟着课程走 */
+    --glass: color-mix(in srgb, var(--card) 62%, transparent);
+    --glass-strong: color-mix(in srgb, var(--card) 80%, transparent);
+    --edge: color-mix(in srgb, #ffffff 9%, transparent);
+    --mono: "JetBrainsMono Nerd Font", "JetBrainsMono NF", "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  }
+  html { background: var(--bg); }
+  body {
+    background:
+      radial-gradient(1100px 600px at 50% -15%, color-mix(in srgb, var(--glow) 9%, transparent), transparent 65%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+  ::selection { background: color-mix(in srgb, var(--glow) 38%, transparent); color: #fff; }
+
+  /* 背景等高线: 固定画布上一张缓慢呼吸的地形图, 鼠标处隆起山丘 (由脚本绘制) */
+  #contour { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  /* 光标拖影: 覆盖全屏的透明画布, 不拦截鼠标 */
+  #trail { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 60; pointer-events: none; }
+
+  /* 顶部阅读进度条: 一条极淡的轨道 + 课程色渐变的进度 + 末端一颗发光的光点; 颜色全部来自课程主色 */
+  @property --p { syntax: "<number>"; inherits: true; initial-value: 0; }
+  #progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 50; pointer-events: none;
+    background: color-mix(in srgb, var(--glow) 10%, transparent); }
+  #progress::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p) * 100%);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 15%, transparent), color-mix(in srgb, var(--glow) 75%, transparent) 60%, var(--glow) 88%, var(--tint));
+    box-shadow: 0 0 6px color-mix(in srgb, var(--glow) 70%, transparent), 0 0 14px color-mix(in srgb, var(--glow) 35%, transparent); border-radius: 0 2px 2px 0; }
+  #progress::after { content: ""; position: absolute; top: 50%; left: calc(var(--p) * 100%); width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%;
+    background: var(--tint); opacity: min(1, calc(var(--p) * 60));
+    box-shadow: 0 0 6px 1px var(--glow), 0 0 16px 4px color-mix(in srgb, var(--glow) 45%, transparent); }
+  @supports (animation-timeline: scroll()) {
+    #progress { animation: prog linear both; animation-timeline: scroll(root); }
+    @keyframes prog { from { --p: 0; } to { --p: 1; } }
+  }
+
+  /* 标题 */
+  h1 { background: linear-gradient(100deg, #fff 0%, var(--glow) 55%, var(--glow2) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  h1 .de-title { -webkit-text-fill-color: var(--muted); color: var(--muted); }
+  h2 { border-top: 0 !important; position: relative; }
+  .part:has(> h2) { border-top-color: transparent !important; }   /* 练习单的分节线由 h2 的渐变线代替, 不出现两条线 */
+  h2::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px;
+    background: linear-gradient(90deg, var(--glow), color-mix(in srgb, var(--glow2) 50%, transparent) 40%, transparent); opacity: .7; }
+
+  /* 小节标题 h2 / 三级标题 h3 的中文主标题: 脚本在运行时把它包进 .ht (文件本身不变).
+     h2 的 .ht 从一开始就用「文字裁切渐变」绘制 (起始是纯正文色), 解密后只是让渐变里的光带开始流动;
+     渲染方式前后不变, 所以结束时不会闪、德语副标题也不会跟着变. */
+  h2 .ht { background: linear-gradient(90deg, var(--ink) 0 100%); background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  h2.wave .ht { background-image: linear-gradient(90deg, var(--ink) 0%, var(--ink) 18%, var(--glow) 34%, var(--tint) 42%, var(--glow) 50%, var(--ink) 66%, var(--ink) 100%);
+    animation: hwave 9s linear infinite; }
+  @keyframes hwave { from { background-position: 0% 0; } to { background-position: -200% 0; } }
+
+  /* 解密 / 信号干扰: 原字隐藏但仍占原位, 乱码画在 ::after 叠层里, 居中压在原字上, 不参与排版 */
+  .ch { position: relative; }
+  .ch.x { visibility: hidden; }
+  .ch.x::after { content: attr(data-g); visibility: visible; position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+    white-space: pre; color: var(--glow); -webkit-text-fill-color: var(--glow); opacity: .85; pointer-events: none; }
+
+  /* ===== 页首目录: 和卡片同一套玻璃面板, 每项带两位编号 (CSS 计数, 不改文件) ===== */
+  header nav, body > nav { counter-reset: toc; display: flex; flex-wrap: wrap; gap: 2px 4px; margin-top: 14px; padding: 30px 10px 10px;
+    position: relative; border-radius: 14px; background: var(--glass); border: 1px solid var(--edge);
+    -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+    box-shadow: 0 10px 30px -14px rgba(0,0,0,.6), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent); }
+  body > nav { width: calc(min(760px, 100%) - 44px) !important; max-width: none !important; margin: 14px auto 0 !important; padding: 30px 10px 10px !important; box-sizing: border-box; }
+  @media (max-width: 560px) { body > nav { width: calc(100% - 32px) !important; } }
+  header nav::before, body > nav::before { content: "目录"; position: absolute; left: 14px; top: 9px;
+    font: 600 11px/1 var(--mono); letter-spacing: .12em; color: color-mix(in srgb, var(--glow) 75%, var(--muted)); }
+  header nav::after, body > nav::after { content: ""; position: absolute; left: 14px; right: 14px; top: 23px; height: 1px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 45%, transparent), transparent 70%); }
+  header nav a, body > nav a { counter-increment: toc; display: inline-flex; align-items: baseline; gap: 6px;
+    background: transparent !important; border: 0 !important; border-radius: 8px; padding: 4px 9px !important;
+    color: var(--ink) !important; text-decoration: none; position: relative; transition: background-color .2s, color .2s; }
+  header nav a::before, body > nav a::before { content: counter(toc, decimal-leading-zero);
+    font: 500 10.5px/1 var(--mono); color: color-mix(in srgb, var(--glow) 60%, var(--muted)); }
+  header nav a:hover, body > nav a:hover { background: color-mix(in srgb, var(--glow) 10%, transparent) !important; }
+  header nav a.active, body > nav a.active { color: var(--glow) !important; background: color-mix(in srgb, var(--glow) 12%, transparent) !important; }
+  header nav a.active::after, body > nav a.active::after { content: ""; position: absolute; left: 9px; right: 9px; bottom: 0; height: 1.5px; border-radius: 2px;
+    background: var(--glow); box-shadow: 0 0 8px var(--glow); }
+
+  /* ===== 浮动胶囊目录 ===== */
+  #toc-pill { position: fixed; top: 12px; left: 50%; z-index: 45; transform: translate(-50%, -150%);
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), opacity .3s; opacity: 0; width: min(92vw, 440px); font: 13px/1.4 "PingFang SC", sans-serif; }
+  #toc-pill.show { transform: translate(-50%, 0); opacity: 1; }
+  #toc-pill .cap { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; margin: 0 auto; width: fit-content; max-width: 100%;
+    padding: 6px 14px 6px 8px; border-radius: 999px; color: var(--ink); white-space: nowrap;
+    background: color-mix(in srgb, var(--card) 90%, #000); border: 1px solid color-mix(in srgb, var(--glow) 30%, var(--edge));
+    -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: 0 10px 28px -10px rgba(0,0,0,.8), 0 0 20px -8px color-mix(in srgb, var(--glow) 60%, transparent); }
+  #toc-pill .ring { width: 20px; height: 20px; border-radius: 50%; flex: none; position: relative;
+    background: conic-gradient(var(--glow) calc(var(--rp, 0) * 360deg), color-mix(in srgb, var(--glow) 16%, transparent) 0); }
+  #toc-pill .ring::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--card); box-shadow: inset 0 0 6px color-mix(in srgb, var(--glow) 35%, transparent); }
+  #toc-pill .idx { font: 600 11.5px/1 var(--mono); color: var(--glow); }
+  #toc-pill .cur { overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+  #toc-pill .chev { opacity: .55; font-size: 10px; transition: transform .25s; }
+  #toc-pill.open .chev { transform: rotate(180deg); }
+  #toc-pill .panel { counter-reset: tp; margin-top: 8px; padding: 34px 8px 8px; border-radius: 16px; display: none; position: relative;
+    background: color-mix(in srgb, var(--card) 94%, #000); border: 1px solid color-mix(in srgb, var(--glow) 18%, var(--edge));
+    -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: 0 22px 50px -14px rgba(0,0,0,.85), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent); max-height: 62vh; overflow-y: auto; }
+  #toc-pill .panel::before { content: "目录 · " attr(data-pct); position: absolute; left: 16px; top: 12px;
+    font: 600 11px/1 var(--mono); letter-spacing: .1em; color: color-mix(in srgb, var(--glow) 75%, var(--muted)); }
+  #toc-pill .panel::after { content: ""; position: absolute; left: 16px; right: 16px; top: 27px; height: 1px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 45%, transparent), transparent 75%); }
+  #toc-pill.open .panel { display: block; animation: panel-in .22s ease-out; }
+  @keyframes panel-in { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: none; } }
+  #toc-pill .panel a { counter-increment: tp; display: flex; align-items: baseline; gap: 10px; padding: 7px 12px 7px 14px; border-radius: 10px;
+    color: var(--ink); text-decoration: none; position: relative; transition: background-color .15s; }
+  #toc-pill .panel a::before { content: counter(tp, decimal-leading-zero); font: 500 11px/1 var(--mono); color: var(--muted); min-width: 18px; }
+  #toc-pill .panel a:hover { background: color-mix(in srgb, var(--glow) 10%, transparent); }
+  #toc-pill .panel a.active { color: var(--glow); background: color-mix(in srgb, var(--glow) 13%, transparent); }
+  #toc-pill .panel a.active::before { color: var(--glow); }
+  #toc-pill .panel a.active::after { content: ""; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 2px; border-radius: 2px; background: var(--glow); box-shadow: 0 0 8px var(--glow); }
+
+  /* 卡片层次: 原文 = 明亮玻璃, 讲解 = 带色玻璃, 补充 = 虚光, 红框 = 红色辉光 */
+  .card { background: var(--glass); border: 1px solid var(--edge);
+    -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: 0 10px 30px -12px rgba(0,0,0,.6), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+    position: relative; isolation: isolate; }
+  .zh { background: color-mix(in srgb, var(--zh) 70%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-left-color: transparent !important; }
+  .add { background: color-mix(in srgb, var(--add) 55%, transparent);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  .warn { background: color-mix(in srgb, #3a1518 65%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-left-color: transparent !important; }
+  /* ===== 左侧色条 v2: 讲解框、红框、补充框、原文卡片里的定义框统一 =====
+     由三部分组成: 顶端一个发光的节点, 一根两端渐隐的细线, 一段沿线缓慢往下流动的亮光 (像数据在线路里传输);
+     框的左边缘还有一层淡淡的同色光晕, 让色条「照亮」框内. 颜色由 --bar / --bar-tint 决定, 默认是课程色. */
+  .zh, .def { --bar: var(--glow); --bar-tint: var(--tint); }
+  .warn { --bar: var(--warn-line); --bar-tint: color-mix(in srgb, var(--warn-line) 55%, #fff); }
+  .add { --bar: var(--add-line); --bar-tint: color-mix(in srgb, var(--add-line) 55%, #fff); }
+  .zh, .warn, .add, .def { border-left-color: transparent !important; }
+  .def { position: relative; isolation: isolate; border-left-width: 3px !important; border-left-style: solid !important;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 10%, transparent), transparent 90px), color-mix(in srgb, var(--chip) 80%, transparent) !important; }
+  .zh { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 9%, transparent), transparent 110px), color-mix(in srgb, var(--zh) 70%, transparent); }
+  .warn { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 10%, transparent), transparent 110px), color-mix(in srgb, #3a1518 65%, transparent); }
+  .add { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 6%, transparent), transparent 90px), color-mix(in srgb, var(--add) 55%, transparent); }
+  .zh::before, .warn::before, .def::before{
+    content: ""; position: absolute; left: -6px; top: 6px; bottom: 6px; width: 9px; pointer-events: none; z-index: 1;
+    background:
+      radial-gradient(circle at 50% 5px, var(--bar-tint) 0 1.6px, color-mix(in srgb, var(--bar) 70%, transparent) 2.4px, transparent 4.5px) no-repeat,
+      linear-gradient(180deg, transparent, var(--bar-tint) 45%, #fff 50%, var(--bar-tint) 55%, transparent) 50% -60% / 2px 34% no-repeat,
+      linear-gradient(180deg, transparent 6px, color-mix(in srgb, var(--bar) 85%, transparent) 14px, color-mix(in srgb, var(--bar) 75%, transparent) 80%, transparent) 50% 0 / 2px 100% no-repeat;
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bar) 70%, transparent)) drop-shadow(0 0 8px color-mix(in srgb, var(--bar) 30%, transparent));
+    animation: bar-flow 5.5s cubic-bezier(.45,0,.25,1) infinite; animation-delay: var(--bar-delay, 0s);
+    transition: filter .3s; }
+  /* 补充框: ::before 已用来显示「补充」小标题, 色条改用 ::after 画成虚线 + 空心节点 */
+  .add::after {
+    content: ""; position: absolute; left: -6px; top: 6px; bottom: 6px; width: 9px; pointer-events: none; z-index: 1; border-radius: 0;
+    inset: 6px auto 6px -6px; opacity: .85;
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bar) 60%, transparent));
+    background:
+      radial-gradient(circle at 50% 5px, var(--bar-tint) 0 1.4px, transparent 2.2px, transparent 3px, color-mix(in srgb, var(--bar) 60%, transparent) 3.4px, transparent 4.4px) no-repeat,
+      linear-gradient(transparent, transparent) 50% 0 / 2px 0 no-repeat,
+      repeating-linear-gradient(180deg, color-mix(in srgb, var(--bar) 80%, transparent) 0 5px, transparent 5px 10px) 50% 12px / 2px calc(100% - 18px) no-repeat;
+    -webkit-mask: none; mask: none;
+    animation: none; }
+  @keyframes bar-flow {
+    0%   { background-position: 0 0, 50% -60%, 50% 0; }
+    70%  { background-position: 0 0, 50% 160%, 50% 0; }
+    100% { background-position: 0 0, 50% 160%, 50% 0; } }
+  .zh.lit::before, .warn.lit::before, .add.lit::after, .def:hover::before {
+    filter: drop-shadow(0 0 4px var(--bar)) drop-shadow(0 0 12px color-mix(in srgb, var(--bar) 45%, transparent)); animation-duration: 2.6s; }
+
+  /* 卡片聚光灯: 鼠标所在的卡片里, 以光标为中心亮起柔光, 边框离光标近的一段也变亮 (位置由脚本写进 --mx / --my) */
+  .zh, .add, .warn { position: relative; isolation: isolate; }
+  .card::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; z-index: -1; pointer-events: none;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--glow) 85%, #fff), transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity .3s; }
+  .card::after, .zh::after, .warn::after { content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; pointer-events: none;
+    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--glow) 11%, transparent), transparent 65%);
+    opacity: 0; transition: opacity .3s; }
+  .warn::after { background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--warn-line) 10%, transparent), transparent 65%); }
+  .card.lit::before, .card.lit::after, .zh.lit::after, .warn.lit::after { opacity: 1; }
+  .add.lit::after { opacity: 1; filter: drop-shadow(0 0 5px var(--bar)); }
+
+  /* ===== 代码块: 脚本在运行时把每个 <pre> 包进 .codebox (文件不变): 顶部标题栏 = 三个圆点 + 语言 + 复制按钮 ===== */
+  pre, code, .folie, .slide { font-family: var(--mono) !important; }
+  pre, code { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+  .folie { color: color-mix(in srgb, var(--glow) 70%, var(--muted)) !important; }
+  .codebox { position: relative; margin: 12px 0; border-radius: 12px; overflow: hidden; min-width: 0;
+    background: color-mix(in srgb, var(--code) 90%, transparent);
+    border: 1px solid color-mix(in srgb, var(--glow) 20%, var(--edge));
+    box-shadow: 0 14px 30px -16px rgba(0,0,0,.85), inset 0 1px 0 color-mix(in srgb, #fff 5%, transparent); }
+  .codebox::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: 1;
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--glow) 55%, transparent), transparent); }
+  .cb-head { display: flex; align-items: center; gap: 10px; height: 28px; padding: 0 10px 0 12px;
+    background: color-mix(in srgb, var(--glow) 5%, color-mix(in srgb, #000 30%, transparent));
+    border-bottom: 1px solid color-mix(in srgb, var(--glow) 12%, var(--edge)); font: 600 10.5px/1 var(--mono); letter-spacing: .08em; }
+  .cb-dots { display: inline-flex; gap: 6px; }
+  .cb-dots i { width: 9px; height: 9px; border-radius: 50%; background: #ff5f57; opacity: .8; }
+  .cb-dots i:nth-child(2) { background: #febc2e; } .cb-dots i:nth-child(3) { background: #28c840; }
+  .cb-lang { color: color-mix(in srgb, var(--glow) 80%, var(--muted)); text-transform: uppercase; }
+  .cb-copy { all: unset; margin-left: auto; cursor: pointer; color: var(--muted); padding: 3px 8px; border-radius: 6px;
+    font: 500 10.5px/1 var(--mono); letter-spacing: .04em; opacity: 0; transition: opacity .2s, background-color .2s, color .2s; }
+  .codebox:hover .cb-copy, .cb-copy:focus-visible { opacity: 1; }
+  .cb-copy:hover { background: color-mix(in srgb, var(--glow) 14%, transparent); color: var(--glow); }
+  .cb-copy.ok { color: var(--glow); opacity: 1; }
+  .codebox pre { margin: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+    background: transparent !important; }
+  /* 没有脚本时 (或打印) 的普通样式 */
+  pre { background: color-mix(in srgb, var(--code) 90%, transparent) !important; border: 1px solid color-mix(in srgb, var(--glow) 20%, var(--edge)) !important; }
+
+  /* ===== 原图 (所有笔记统一): 玻璃相框 + 白色底板 + 编号图注; .src-fig 和 MGTN 的普通 <figure> 同一套 =====
+     图注: 有 figcaption 用它; MGTN 没有图注, 脚本运行时用图片的 alt 补一个 .fig-cap (文件不变).
+     编号用 CSS 计数 (图 01, 图 02 …). 内嵌 SVG 的排版图 figure.rr / .tri 不受影响. */
+  main { counter-reset: fig; }
+  .src-fig, main figure:not([class]) { counter-increment: fig; position: relative; display: block; text-align: center;
+    width: fit-content; max-width: 100%; box-sizing: border-box; margin: 16px auto !important; padding: 10px 10px 0 !important;
+    background: var(--glass) !important; border: 1px solid var(--edge); border-radius: 14px !important;
+    box-shadow: 0 14px 34px -18px rgba(0,0,0,.8), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    transition: border-color .35s ease, box-shadow .35s ease; }
+  .src-fig img, main figure:not([class]) img { display: block; margin: 0 auto; width: auto !important; max-width: 100% !important; max-height: 380px; height: auto;
+    box-sizing: border-box; padding: 10px; background: #fff; border: 0 !important; border-radius: 9px !important;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); cursor: zoom-in;
+    transition: transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease; transform-origin: 50% 50%; }
+  .src-fig.wide img { max-height: 520px; }
+  .src-fig figcaption, main figure:not([class]) figcaption, .fig-cap {
+    display: block; text-align: left !important; color: var(--muted) !important; margin: 0 !important; padding: 9px 4px 10px !important;
+    font: 12.5px/1.6 "PingFang SC", sans-serif !important; }
+  .src-fig figcaption::before, main figure:not([class]) figcaption::before, .fig-cap::before {
+    content: "图 " counter(fig, decimal-leading-zero); display: inline-block; margin-right: 8px; padding: 1px 7px; border-radius: 6px; vertical-align: 1px;
+    font: 600 10px/1.5 var(--mono); letter-spacing: .06em; color: var(--glow);
+    background: color-mix(in srgb, var(--glow) 12%, transparent); border: 1px solid color-mix(in srgb, var(--glow) 28%, transparent); }
+  /* 悬停: 相框描边发光, 图片轻微浮起, 右上角出现「放大」提示 */
+  .src-fig::after, main figure:not([class])::after { content: "⤢ 放大"; position: absolute; top: 16px; right: 16px; z-index: 2; pointer-events: none;
+    padding: 3px 8px; border-radius: 999px; font: 600 10.5px/1.4 "PingFang SC", sans-serif; color: #fff;
+    background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid color-mix(in srgb, var(--glow) 40%, transparent);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    opacity: 0; transform: translateY(-4px); transition: opacity .3s ease, transform .3s ease; }
+  .src-fig:hover, main figure:not([class]):hover { border-color: color-mix(in srgb, var(--glow) 38%, var(--edge));
+    box-shadow: 0 20px 44px -18px rgba(0,0,0,.85), 0 0 26px -12px var(--glow), inset 0 1px 0 color-mix(in srgb, #fff 8%, transparent); }
+  .src-fig:hover img, main figure:not([class]):hover img { transform: scale(1.012); box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), 0 10px 26px -14px rgba(0,0,0,.6); }
+  .src-fig:hover::after, main figure:not([class]):hover::after { opacity: 1; transform: none; }
+  @media (pointer: coarse) { .src-fig::after, main figure:not([class])::after { display: none; } }
+  /* 出现: 相框淡入上浮, 图片底板随后自上而下展开 */
+  html.fx .src-fig.reveal img, html.fx main figure:not([class]).reveal img { clip-path: inset(0 0 100% 0 round 9px); transition: clip-path .9s cubic-bezier(.65,0,.35,1) .15s, transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
+  html.fx .src-fig.reveal.in img, html.fx main figure:not([class]).reveal.in img { clip-path: inset(0 0 0 0 round 9px); }
+
+  /* 放大: 图片从原位置平滑放大到屏幕中央 (FLIP), 关闭时缩回原位; 背景暗色毛玻璃淡入淡出 */
+  #lightbox { position: fixed; inset: 0; z-index: 90; visibility: hidden; cursor: zoom-out;
+    background: color-mix(in srgb, var(--bg) 0%, transparent); -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0);
+    transition: background-color .4s ease, backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, visibility 0s linear .4s; }
+  #lightbox.on { visibility: visible; background: color-mix(in srgb, var(--bg) 84%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    transition: background-color .4s ease, backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, visibility 0s; }
+  #lightbox img { position: fixed; left: 0; top: 0; transform-origin: 0 0; background: #fff; border-radius: 12px; padding: 14px; box-sizing: border-box;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,.9), 0 0 0 1px color-mix(in srgb, var(--glow) 35%, transparent);
+    transition: transform .48s cubic-bezier(.2,.8,.2,1); will-change: transform; }
+  #lightbox .lb-cap { position: fixed; left: 50%; bottom: 3vh; transform: translateX(-50%); max-width: min(90vw, 760px); text-align: center;
+    font: 13px/1.6 "PingFang SC", sans-serif; color: var(--ink); opacity: 0; transition: opacity .3s ease .15s; }
+  #lightbox.on .lb-cap { opacity: .9; }
+
+  /* ===== 表格: 和卡片同一套玻璃质感 ===== */
+  main .tablewrap { border-radius: 12px; }
+  main table { background: color-mix(in srgb, var(--card) 70%, transparent) !important; border: 1px solid var(--edge); border-radius: 12px; overflow: hidden; }
+  main th { background: color-mix(in srgb, var(--glow) 9%, var(--chip)) !important; border-bottom: 1px solid color-mix(in srgb, var(--glow) 30%, var(--line)) !important; }
+  main tr:hover td { background: color-mix(in srgb, var(--glow) 5%, transparent); }
+
+  /* 折叠答案的展开动画 */
+  details.answer > summary { transition: color .2s; }
+  details.answer .dbody { overflow: hidden; transition: height .35s ease; }
+
+  /* 滚动淡入 (只有 JS 生效时才隐藏, 无 JS 时直接显示) */
+  html.fx .reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  html.fx .reveal.in { opacity: 1; transform: none; }
+
+  main, header { position: relative; z-index: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #contour, #trail { display: none; }
+    h2.wave .ht { animation: none; }
+    #toc-pill.open .panel { animation: none; }
+    #lightbox, #lightbox img { transition: none !important; }
+    .src-fig img, main figure img { transition: none !important; clip-path: none !important; }
+    .zh::before, .warn::before, .def::before { animation: none; }
+    html.fx .reveal { opacity: 1; transform: none; transition: none; }
+  }
+  @media print {
+    #contour, #trail, #progress, #toc-pill { display: none !important; }
+    body { background: #fff !important; }
+    .card, .zh, .add, .warn, pre, nav { backdrop-filter: none !important; box-shadow: none !important; }
+    h1 { color: #000 !important; -webkit-text-fill-color: #000; background: none; }
+    h2 .ht { -webkit-text-fill-color: #000; background: none !important; animation: none; }
+    .cb-head, #lightbox { display: none !important; }
+  }
+  /* ===== /玻璃霓虹层 ===== */
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<span hidden data-glyphs="{}[]()&lt;&gt;=+*/#;:01"></span>
+<header>
+  <div class="wrap">
+    <h1>计算语言学编程导论 · 练习单合集<br><span class="de-title"><span class="seg">Einführung in die Programmierung für CL ·</span> <span class="seg">Übungen</span></span></h1>
+    <nav>
+      <a href="#u1">Übung 1</a>
+      <a href="#u2">Übung 2</a>
+      <a href="#u3">Übung 3</a>
+      <a href="#u4">Übung 4</a>
+      <a href="#u5">Übung 5</a>
+      <a href="#u6">Übung 6</a>
+      <a href="#u7">Übung 7</a>
+      <a href="#u8">Übung 8</a>
+      <a href="#u9">Übung 9</a>
+      <a href="#u10">Übung 10</a>
+      <a href="#u11">Übung 11</a>
+      <a href="#u12">Übung 12</a>
+      <a href="#u13">Übung 13</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<div class="zh">
+  <p><b>读法. </b>带边框的卡片是原题 (逐字照录); 左侧有色竖线的框是中文翻译和解题思路; 标着「答案 (先自己做再看)」的折叠框里是参考答案、讲解和易错点, 建议先自己做, 再点开对照. 左侧虚线的框是题外补充, 红框标出原题本身的问题. 每张练习单一个大节, 按发布顺序连续编号, 以后的新练习接在后面. </p>
+  <p>参考答案只用到讲义里已经讲过的写法. 所有程序都在 Python 3.15 上实际运行过, 终端输出就是实际结果; 需要外部数据的题 (Übung 11 的 XML 数据、Übung 10 的示例数独在课程网页上, 拿不到) 另行说明了用的测试数据. </p>
+</div>
+
+<!-- ======================= ÜBUNG 1 ======================= -->
+
+<section class="part" id="u1">
+<h2>Übung 1<br><span class="de-title"><span class="seg">Funktionen ·</span> <span class="seg">input ·</span> <span class="seg">Schleifen ·</span> <span class="seg">Listen</span></span><small>对应合集 <a href="EIP-合集-计算语言学编程导论.html#ausdruck">表达式与变量</a> (float、round)、<a href="EIP-合集-计算语言学编程导论.html#ctrl">if 与函数</a>、<a href="EIP-合集-计算语言学编程导论.html#loop">循环</a>、<a href="EIP-合集-计算语言学编程导论.html#fstr">格式化字符串</a>、<a href="EIP-合集-计算语言学编程导论.html#listen">列表</a>. </small></h2>
+
+<div class="zh">
+  <p>四道题共用一个骨架: <b>定义函数 → 读入 → 转换类型 → 调用函数 → 输出</b>. 后三题还要加「反复读入, 直到输入空行」的循环. 先把这个骨架写熟, 四题就只差函数里那一两行计算. </p>
+</div>
+
+<!-- ===== U1-1 ===== -->
+<article id="u1-1">
+<h3>米换算成英尺<br><span class="de-title">Umrechnung von Metern in Fuß</span></h3>
+<div class="card de">
+  <span class="folie">Übung 1 · Aufgabe 1</span>
+  <p class="themen">Themen: Funktionen, input, float, round</p>
+  <p>Schreiben Sie ein Python-Programm mit einer Python-Funktion <code>in_fuss</code>, welche Meter-Längenangaben in Fuß umrechnet. Das Pythonprogramm liest eine Zahl ein, welche der Benutzer mit der Tastatur eingibt, rechnet sie mit der Funktion <code>in_fuss</code> in Fuß um und gibt sie auf 2 Stellen gerundet aus. Danach endet das Programm.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写一个 Python 程序, 其中有一个函数 <code>in_fuss</code>, 把以米为单位的长度换算成英尺 (<b>Fuß 英尺</b>). 程序读入用户用键盘输入的一个数, 用 <code>in_fuss</code> 换算成英尺, <b>四舍五入到 2 位小数</b>后输出, 然后结束. </p>
+  <p><b>换算关系</b>: 1 英尺 = 0.3048 米 (这是精确的定义值). 所以 米 ÷ 0.3048 = 英尺. 也可以写成 米 × 3.28084, 但那是近似值, 除以 0.3048 更准. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>def in_fuss(meter):
+    return meter / 0.3048
+
+meter = float(input('Länge in Metern: '))
+print(round(in_fuss(meter), 2))</pre>
+<pre>$ python3 fuss.py
+Länge in Metern: 1
+3.28
+$ python3 fuss.py
+Länge in Metern: 1.75
+5.74</pre>
+  <p><b>逐行</b>: </p>
+  <ul>
+    <li><code>def in_fuss(meter):</code> 定义函数, 参数 <code>meter</code> 是一个数. 函数用 <code>return</code> <b>交回</b>结果, 自己不打印. 打印留给主程序做, 这样函数在别处也能复用. </li>
+    <li><code>input(...)</code> 显示提示并读入一行, 结果<b>永远是字符串</b>. <code>'1.75' / 0.3048</code> 会报 <code>TypeError</code>, 所以必须先 <code>float(...)</code>. 用 <code>float</code> 而不是 <code>int</code>, 是因为长度可以带小数 (输入 <code>1.75</code> 时 <code>int</code> 会报 <code>ValueError</code>). </li>
+    <li><code>round(x, 2)</code> 保留 2 位小数. 题目说的「auf 2 Stellen gerundet」就是这个. </li>
+  </ul>
+  <p><b>易错</b>: </p>
+  <ul>
+    <li>忘了 <code>float</code>, 直接拿字符串做除法. </li>
+    <li>函数里写 <code>print</code> 而不是 <code>return</code>: 那样 <code>round(in_fuss(meter), 2)</code> 拿到的是 <code>None</code>, 会报 <code>TypeError</code>. </li>
+    <li><code>round</code> 只对数有用. 先把数变成字符串再 round 不行; 如果只想<b>显示</b>两位, 也可以用 <code>f'{x:.2f}'</code> (见第 2 题), 区别是 f-string 结果是字符串, 会补零 (<code>3.20</code>), <code>round</code> 结果是数 (<code>3.2</code>). </li>
+  </ul>
+</details>
+<div class="add"><p><code>round</code> 用「四舍六入五成双」, 并受浮点误差影响: <code>round(2.675, 2)</code> 得 <code>2.67</code> 而不是 2.68, 因为 2.675 在二进制里实际存成略小于 2.675 的数. 练习里一般不影响结果, 但别以为 <code>round</code> 就是小学的四舍五入. </p></div>
+</article>
+
+<!-- ===== U1-2 ===== -->
+<article id="u1-2">
+<h3>摄氏度换算成华氏度<br><span class="de-title">Umrechnung von Grad in Fahrenheit</span></h3>
+<div class="card de">
+  <span class="folie">Übung 1 · Aufgabe 2</span>
+  <p class="themen">Themen: Funktionen, input, float, while, break, String-Formatierung</p>
+  <p>Schreiben Sie ein Programm, welches Temperaturangaben in Grad Celsius in Grad Fahrenheit umrechnet, indem es die Celsius-Temperatur mit 1.8 multipliziert und 32 addiert. Das Programm soll so lange eine Zahl vom Benutzer einlesen umrechnen und das Ergebnis verständlich ausgeben, bis der Benutzer eine Leerzeile eingibt.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写一个程序, 把摄氏温度换算成华氏温度: 摄氏温度乘以 1.8 再加 32. 程序要<b>反复</b>读入用户输入的数、换算、把结果<b>以看得懂的方式</b> (verständlich) 输出, 直到用户输入一个<b>空行</b> (<b>Leerzeile 空行</b>) 为止. </p>
+  <p><b>思路</b>: 「不知道要重复几次, 直到某个条件才停」就用 <code>while True</code> + <code>break</code>, 和讲义 S. 198–200 的 <code>quit</code> 例子 (二进制输出) 是同一个模式. 空行就是 <code>input</code> 返回空字符串 <code>''</code>. 「verständlich ausgeben」是在要求用格式化字符串写一句完整的话, 而不是只打印一个裸数字. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>def in_fahrenheit(celsius):
+    return celsius * 1.8 + 32
+
+while True:
+    eingabe = input('Temperatur in Grad Celsius: ')
+    if eingabe == '':
+        break
+    celsius = float(eingabe)
+    print(f'{celsius} °C sind {in_fahrenheit(celsius):.1f} °F')</pre>
+<pre>$ python3 fahrenheit.py
+Temperatur in Grad Celsius: 0
+0.0 °C sind 32.0 °F
+Temperatur in Grad Celsius: 100
+100.0 °C sind 212.0 °F
+Temperatur in Grad Celsius: -40
+-40.0 °C sind -40.0 °F
+Temperatur in Grad Celsius: 36.6
+36.6 °C sind 97.9 °F
+Temperatur in Grad Celsius:
+$</pre>
+  <p><b>逐行</b>: </p>
+  <ul>
+    <li>先判断空行, <b>再</b>转 <code>float</code>. 顺序反过来的话, <code>float('')</code> 会报 <code>ValueError</code>, 程序在该正常结束的地方崩掉. </li>
+    <li><code>{…:.1f}</code> 保留 1 位小数显示. 不加的话 36.6 °C 会显示成 <code>97.88000000000001</code>, 这就是浮点误差, 正是「verständlich」要避免的. </li>
+    <li>−40 °C = −40 °F, 是两种温标唯一的交点, 适合拿来自测. </li>
+  </ul>
+  <p><b>易错</b>: 用 <code>if eingabe == ' '</code> (中间有空格) 判断空行, 那只有输入一个空格才停. 如果想让「只敲了几个空格」也算空行, 写 <code class="lc">if eingabe.strip() == '':</code>. </p>
+</details>
+<div class="warn"><p><b>原文笔误: </b>「so lange eine Zahl vom Benutzer einlesen umrechnen und das Ergebnis … ausgeben」中 <i>einlesen</i> 和 <i>umrechnen</i> 之间缺了逗号或 <i>und</i>, 应为「einlesen, umrechnen und … ausgeben」. 另外标题「Grad in Fahrenheit」不严格: Fahrenheit 也是「Grad」, 应是「Grad Celsius in Grad Fahrenheit」, 正文写的就是这个. 不影响题意. </p></div>
+</article>
+
+<!-- ===== U1-3 ===== -->
+<article id="u1-3">
+<h3>计算调和平均数<br><span class="de-title">Berechnung des harmonischen Mittels</span></h3>
+<div class="card de">
+  <span class="folie">Übung 1 · Aufgabe 3</span>
+  <p class="themen">Themen: Listen, for-Schleifen</p>
+  <p>Schreiben Sie eine Funktion, welche eine Liste mit Zahlen als Argument erhält und deren harmonisches Mittel berechnet. Lassen Sie den Benutzer Zahlen eingeben, speichern Sie die Zahlen in einer Liste, rufen Sie die Funktion auf und geben Sie das Ergebnis aus. Das Einlesen der Zahlen endet, wenn eine leere Zeile eingegeben wurde.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写一个函数, 参数是一个数字列表, 计算这些数的<b>harmonisches Mittel 调和平均数</b>. 让用户输入数字, 存进一个列表, 调用函数并输出结果. 输入空行时停止读入. </p>
+  <p><b>调和平均数是什么</b>: n 个数的个数除以它们倒数之和: </p>
+  <p style="text-align:center">H = n / (1/x₁ + 1/x₂ + … + 1/xₙ)</p>
+  <p>例: 1、2、4 → 3 / (1 + 0.5 + 0.25) = 3 / 1.75 ≈ 1.714. 它适合求「平均速率」: 去程 40 km/h、回程 60 km/h (路程相同), 平均速度是调和平均 48 km/h, 不是算术平均 50. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>def harmonisches_mittel(zahlen):
+    summe = 0
+    for x in zahlen:
+        summe += 1 / x
+    return len(zahlen) / summe
+
+zahlen = []
+while True:
+    eingabe = input('Zahl: ')
+    if eingabe == '':
+        break
+    zahlen.append(float(eingabe))
+
+print('Harmonisches Mittel:', harmonisches_mittel(zahlen))</pre>
+<pre>$ python3 harmonisch.py
+Zahl: 1
+Zahl: 2
+Zahl: 4
+Zahl:
+Harmonisches Mittel: 1.7142857142857142
+$ python3 harmonisch.py
+Zahl: 40
+Zahl: 60
+Zahl:
+Harmonisches Mittel: 47.99999999999999</pre>
+  <p><b>逐行</b>: </p>
+  <ul>
+    <li>函数里用 <code>for</code> 遍历列表, 把每个数的倒数累加进 <code>summe</code> (这就是 Themen 里的 for-Schleife). <code>summe</code> 必须在循环<b>之前</b>设为 0. </li>
+    <li><code>len(zahlen)</code> 就是公式里的 n. </li>
+    <li>读入部分和第 2 题同一个模式, 只是把 <code>print</code> 换成 <code>zahlen.append(...)</code>: 每读到一个数就追加到列表末尾. 列表 <code>zahlen = []</code> 要在循环外创建, 否则每轮都被清空. </li>
+    <li>第二个例子打印 <code>47.99999999999999</code> 而不是 48: <code>1/40 + 1/60</code> 在二进制浮点里不精确. 要好看就用 <code>round(…, 2)</code> 或 <code>f'{h:.2f}'</code>. </li>
+  </ul>
+  <p><b>易错</b>: </p>
+  <ul>
+    <li>把 <code>return</code> 缩进到 <code>for</code> 里面: 那样第一轮就返回, 只算了第一个数. </li>
+    <li>和算术平均搞混, 写成 <code class="lc">sum(zahlen) / len(zahlen)</code>. </li>
+  </ul>
+</details>
+<div class="warn"><p><b>题目没说清的边界情况: </b>第一次就输入空行时, 列表为空, <code>summe</code> 是 0, <code>len(zahlen) / summe</code> 报 <code>ZeroDivisionError</code>; 输入 0 时 <code>1 / 0</code> 也报同样的错 (两种情况都实际运行确认过). 调和平均本来就只对正数有定义, 题目没要求处理, 但写上一个判断更完整, 例如函数开头加 <code class="lc">if len(zahlen) == 0: return None</code>, 或在读入时拒绝 ≤ 0 的数. </p></div>
+<div class="add"><p>标准库里有现成的 <code class="lc">statistics.harmonic_mean([1, 2, 4])</code>, 结果同样是 <code>1.7142857142857142</code>; 对 <code>[40, 60]</code> 它给出精确的 <code>48.0</code>. 练习的目的是自己写循环, 交作业时别直接用它. </p></div>
+</article>
+
+<!-- ===== U1-4 ===== -->
+<article id="u1-4">
+<h3>斐波那契数<br><span class="de-title">Fibonacci-Zahlen</span></h3>
+<div class="card de">
+  <span class="folie">Übung 1 · Aufgabe 4</span>
+  <p class="themen">Themen: input, int, for, range, Listen</p>
+  <p>Schreiben Sie eine Funktion, welche die n-te Fibonacci-Zahl a<sub>n</sub> berechnet und ausgibt. Die Zahl n gibt der Benutzer ein.</p>
+  <p>Es gilt: &nbsp; a<sub>0</sub> = 0, &nbsp; a<sub>1</sub> = 1 und a<sub>n</sub> = a<sub>n−2</sub> + a<sub>n−1</sub></p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写一个函数, 计算并<b>输出</b>第 n 个斐波那契数 a<sub>n</sub>. n 由用户输入. 已知: a<sub>0</sub> = 0, a<sub>1</sub> = 1, 之后每一项是前两项之和. </p>
+  <p><b>数列</b>: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, … (a<sub>10</sub> = 55). 注意从 a<sub>0</sub> 开始数. </p>
+  <p><b>思路</b> (按 Themen 用列表): 列表 <code>a</code> 先放 a<sub>0</sub> 和 a<sub>1</sub>, 然后用 <code>for i in range(2, n + 1)</code> 依次算出 a<sub>2</sub> … a<sub>n</sub> 追加进去. 这样列表下标正好等于数列下标, <code>a[i - 2] + a[i - 1]</code> 和公式 a<sub>n−2</sub> + a<sub>n−1</sub> 一一对应. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>def fibonacci(n):
+    a = [0, 1]
+    for i in range(2, n + 1):
+        a.append(a[i - 2] + a[i - 1])
+    print(f'a_{n} = {a[n]}')
+
+n = int(input('n: '))
+fibonacci(n)</pre>
+<pre>$ python3 fibonacci.py
+n: 10
+a_10 = 55
+$ python3 fibonacci.py
+n: 0
+a_0 = 0
+$ python3 fibonacci.py
+n: 20
+a_20 = 6765</pre>
+  <p><b>逐行</b>: </p>
+  <ul>
+    <li>这里用 <code>int</code> 而不是 <code>float</code>: n 是项数, 必须是整数. <code>range</code> 也只接受整数, 传 float 会报 <code>TypeError</code>. </li>
+    <li><code>range(2, n + 1)</code> 产生 2, 3, …, n. <b>上界不包含</b>, 所以要写 <code>n + 1</code>, 否则少算最后一项. </li>
+    <li>n = 0 或 1 时 <code>range(2, 1)</code>、<code>range(2, 2)</code> 是空的, 循环一次都不执行, 直接输出 <code>a[0]</code> 或 <code>a[1]</code>, 结果也对, 不用特判. </li>
+    <li>题目说函数要「berechnet und ausgibt」, 所以这里在函数里 <code>print</code>. 和第 1 题对比: 那里要求函数只换算, 输出在主程序里. </li>
+  </ul>
+  <p><b>易错</b>: 写成 <code>range(n)</code> 或 <code>range(2, n)</code>, 差一位 (off-by-one); 用 1, 1 开头而不是 0, 1, 结果整体错一位. 负数 n 时 <code>a[n]</code> 变成负下标: n = −1、−2 会悄悄输出列表末尾的 1 和 0 (错误结果却不报错), n ≤ −3 才报 <code>IndexError</code>. 可以加 <code>if n &lt; 0</code> 的检查. </p>
+</details>
+<div class="add"><p>不用列表也行: 只保留最后两项, <code>x, y = 0, 1</code>, 循环 n 次做 <code>x, y = y, x + y</code>, 最后 <code>x</code> 就是 a<sub>n</sub>. 它更省内存, 用的是讲义里的元组解包. 列表版本的好处是保留了整个数列, 便于检查. </p></div>
+</article>
+
+</section>
+
+<!-- ======================= ÜBUNG 2 ======================= -->
+
+<section class="part" id="u2">
+<h2>Übung 2<br><span class="de-title"><span class="seg">int, float, for ·</span> <span class="seg">if/elif/else ·</span> <span class="seg">Listen, math.sqrt</span></span><small>对应合集 <a href="EIP-合集-计算语言学编程导论.html#ausdruck">表达式与变量</a>、<a href="EIP-合集-计算语言学编程导论.html#ctrl">if 与函数</a>、<a href="EIP-合集-计算语言学编程导论.html#loop">循环</a>、<a href="EIP-合集-计算语言学编程导论.html#listen">列表</a>. </small></h2>
+
+<article id="u2-1">
+<h3>复利计算器<br><span class="de-title">Zinseszins-Rechner</span></h3>
+<div class="card de">
+  <span class="folie">Übung 2 · Aufgabe 1</span>
+  <p class="themen">Themen: int, float, for-Schleifen</p>
+  <p>Schreiben Sie ein Programm, welches den Benutzer nach dem Startkapital, dem Zinssatz und der Laufzeit einer Geldanlage fragt und die Höhe des verzinsten Kapitals am Ende der Laufzeit ausgibt.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写一个程序, 问用户一笔投资的<b>本金</b> (Startkapital)、<b>利率</b> (Zinssatz) 和<b>期限</b> (Laufzeit), 输出到期时连本带利的金额. </p>
+  <p><b>思路</b>: <b>Zinseszins 复利</b>就是「利滚利」: 每年的利息加进本金, 下一年按新本金计息. 所以用 <code>for</code> 循环跑「年数」次, 每次把本金乘以 (1 + 利率/100). 本金和利率可以有小数, 用 <code>float</code>; 年数是整数, 用 <code>int</code>, 因为 <code>range</code> 只接受整数. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>kapital = float(input('Startkapital in Euro: '))
+zinssatz = float(input('Zinssatz in Prozent: '))
+jahre = int(input('Laufzeit in Jahren: '))
+
+for jahr in range(jahre):
+    kapital = kapital * (1 + zinssatz / 100)
+
+print(f'Kapital nach {jahre} Jahren: {kapital:.2f} Euro')</pre>
+<pre>$ python3 zins.py
+Startkapital in Euro: 1000
+Zinssatz in Prozent: 5
+Laufzeit in Jahren: 10
+Kapital nach 10 Jahren: 1628.89 Euro</pre>
+  <p><b>核对</b>: 复利公式 K = K₀ · (1 + p/100)ⁿ = 1000 · 1.05¹⁰ ≈ 1628.89, 和循环结果一致. 循环写法正是这个公式的「展开」: 乘 n 次 1.05. </p>
+  <p><b>易错</b>: ① 利率输入的是百分数 (5), 要除以 100; ② 写成 <code class="lc">kapital + kapital * zinssatz</code> 但忘了除以 100, 结果会大得离谱; ③ 每年只加「初始本金」的利息, 那是<b>单利</b>, 不是复利. </p>
+</details>
+</article>
+
+<article id="u2-2">
+<h3>BMI 计算器<br><span class="de-title">BMI-Rechner</span></h3>
+<div class="card de">
+  <span class="folie">Übung 2 · Aufgabe 2</span>
+  <p class="themen">Themen: if, elif, else</p>
+  <p>Schreiben Sie ein Programm, welches den Body-Mass-Index berechnet und ausgibt. Die Formel lautet:</p>
+  <p style="text-align:center">BMI = Körpergewicht in Kilogramm / (Körpergröße in Metern)²</p>
+  <p>Das Programm soll außerdem die Gewichtsklasse ausgeben. Die Gewichtklassen sind folgendermaßen definiert:</p>
+  <div class="tablewrap"><table>
+    <tr><th>Gewichtsklasse</th><th>Wertebereich</th></tr>
+    <tr><td>Untergewicht</td><td><i>BMI</i> &lt; 18.5</td></tr>
+    <tr><td>Normalgewicht</td><td class="wide">18.5 &lt; <i>BMI</i> &lt; 25</td></tr>
+    <tr><td>Übergewicht</td><td class="wide">25 &lt; <i>BMI</i> &lt; 30</td></tr>
+    <tr><td>Adipositas</td><td><i>BMI</i> &gt; 30</td></tr>
+  </table></div>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写一个程序, 计算并输出身体质量指数 BMI = 体重 (kg) ÷ 身高 (m) ², 还要输出体重等级: 偏瘦、正常、超重、肥胖, 范围见表. </p>
+  <p><b>思路</b>: 几个区间首尾相接, 用 <code>if … elif … elif … else</code> 从小到大判断. 因为 <code>elif</code> 只在前面条件都不成立时才检查, 所以第二个分支只需写 <code>bmi &lt; 25</code>, 不必再写 <code>18.5 &lt;= bmi</code>. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>gewicht = float(input('Körpergewicht in kg: '))
+groesse = float(input('Körpergröße in m: '))
+
+bmi = gewicht / groesse ** 2
+print(f'BMI: {bmi:.1f}')
+
+if bmi &lt; 18.5:
+    print('Untergewicht')
+elif bmi &lt; 25:
+    print('Normalgewicht')
+elif bmi &lt; 30:
+    print('Übergewicht')
+else:
+    print('Adipositas')</pre>
+<pre>$ python3 bmi.py          $ python3 bmi.py          $ python3 bmi.py
+Körpergewicht in kg: 70   Körpergewicht in kg: 50   Körpergewicht in kg: 100
+Körpergröße in m: 1.80    Körpergröße in m: 1.80    Körpergröße in m: 1.80
+BMI: 21.6                 BMI: 15.4                 BMI: 30.9
+Normalgewicht             Untergewicht              Adipositas</pre>
+  <p><b>易错</b>: ① 身高要用<b>米</b>, 输入 180 (厘米) 会得到 0.002 左右; ② <code>groesse ** 2</code> 别写成 <code>groesse * 2</code>; ③ 用一串独立的 <code>if</code> 而不是 <code>elif</code>: 比如 BMI 15 时 <code>bmi &lt; 25</code> 也成立, 会同时打印两个等级. </p>
+</details>
+<div class="warn"><p><b>练习单问题: </b>表格的区间全用了严格不等号, <b>正好等于</b> 18.5、25 或 30 的值不属于任何一类 (比如 BMI 正好 25). 通常的定义 (WHO) 是: 正常 18.5 ≤ BMI &lt; 25, 超重 25 ≤ BMI &lt; 30, 肥胖 BMI ≥ 30, 参考答案按这个写. 另有笔误: 「Die Gewicht<b>klassen</b>」少了 s, 应为「Gewicht<b>s</b>klassen」 (表头写的就是 Gewichtsklasse). </p></div>
+</article>
+
+<article id="u2-3">
+<h3>求素数<br><span class="de-title">Primzahlsuche</span></h3>
+<div class="card de">
+  <span class="folie">Übung 2 · Aufgabe 3</span>
+  <p class="themen">Themen: Listen, range, math.sqrt, %, input</p>
+  <p>Schreiben Sie eine Funktion <code>primzahlen_bis(n)</code>, welche alle Primzahlen die kleiner als n sind, ermittelt und als Liste zurückgibt. Das Programm fragt den Benutzer nach der Zahl n, berechnet sie Primzahlen bis n, und gibt die Liste aus.</p>
+  <p>Vorüberlegungen:</p>
+  <ul>
+    <li>Wie wird geprüft, ob eine Zahl eine Primzahl ist?</li>
+    <li>Wie kann die Berechnung der Primzahlen optimiert werden?</li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写函数 <code>primzahlen_bis(n)</code>, 找出所有<b>小于 n</b> 的素数, 以列表返回. 程序问用户 n, 算出素数并输出列表. 事先想想: 怎样判断一个数是不是素数? 怎样加快计算? </p>
+  <p><b>思路</b>: </p>
+  <ul>
+    <li><b>判断</b>: 素数是大于 1、只能被 1 和自身整除的数. 逐个试除, <code>zahl % teiler == 0</code> 就说明能整除. </li>
+    <li><b>优化 1</b>: 只需试到 √zahl. 如果 zahl = a · b 且 a ≤ b, 那么 a ≤ √zahl, 所以 √zahl 以内没有因子, 后面也不会有. 这就是 Themen 里的 <code>math.sqrt</code>. </li>
+    <li><b>优化 2</b>: 只用<b>已经找到的素数</b>去试除, 不用试所有数: 能被 4 整除的数一定能被 2 整除. 这些素数正好就在我们正在构建的列表里. </li>
+  </ul>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>import math
+
+def primzahlen_bis(n):
+    primzahlen = []
+    for zahl in range(2, n):
+        grenze = math.sqrt(zahl)
+        for p in primzahlen:
+            if p &gt; grenze:
+                primzahlen.append(zahl)
+                break
+            if zahl % p == 0:
+                break
+        else:
+            primzahlen.append(zahl)
+    return primzahlen
+
+n = int(input('n: '))
+print(primzahlen_bis(n))</pre>
+<pre>$ python3 prim.py
+n: 30
+[2, 3, 5, 7, 11, 13, 17, 19, 23, 29]</pre>
+  <p><b>讲解</b>: 内层循环用已找到的素数 p 试除 zahl. p 超过 √zahl 还没有找到因子, zahl 就是素数, 加进列表并 <code>break</code>; 能整除就 <code>break</code> 跳过. 循环如果<b>没被 break 打断</b> (列表里所有素数都试完了), 会执行 <code>for … else</code> 的 <code>else</code>, 此时 zahl 也是素数: 这只发生在 2、3 这样列表还很短的开头. </p>
+  <p><b>核对</b>: 对 n = 0 … 399 和最笨的「试除所有数」方法逐一比较, 结果完全相同; 10⁵ 以内共 9592 个素数, 与已知值一致. </p>
+  <p><b>易错</b>: ① <code>range(2, n)</code> 从 2 开始, 0 和 1 不是素数; ② 试除到 √zahl 时边界要包含 √zahl 本身 (25 = 5 · 5), 上面的写法用 <code>p &gt; grenze</code> 才停, 正好包含; ③ <code>for … else</code> 的 else 属于 for, 不属于 if, 缩进要和 for 对齐. </p>
+</details>
+<div class="add"><p>更快的经典方法是<b>埃拉托斯特尼筛法</b> (Sieb des Eratosthenes): 先建一个 n 个 True 的列表, 从 2 开始把每个素数的倍数都标成 False, 剩下的就是素数. 它不做除法, 只做标记, n 很大时快得多. </p></div>
+<div class="warn"><p><b>原文前后不一致与笔误: </b>前一句说「小于 n」 (kleiner als n), 后一句又说「bis n」 (到 n 为止), n 本身是素数时两种理解结果不同. 函数名 <code>primzahlen_bis</code> 和后一句都暗示「到 n」, 但明确的定义是前一句, 参考答案按「小于 n」写 (n 本身不含). 另外「berechnet <b>sie</b> Primzahlen」应为「berechnet <b>die</b> Primzahlen」; 「alle Primzahlen<b>,</b> die kleiner als n sind」关系从句前缺逗号. </p></div>
+</article>
+</section>
+
+<!-- ======================= ÜBUNG 3 ======================= -->
+
+<section class="part" id="u3">
+<h2>Übung 3<br><span class="de-title"><span class="seg">isdigit ·</span> <span class="seg">divmod ·</span> <span class="seg">while ·</span> <span class="seg">Listen ·</span> <span class="seg">formatierte Ausgabe</span></span><small>对应合集 <a href="EIP-合集-计算语言学编程导论.html#ctrl">if 与函数</a>、<a href="EIP-合集-计算语言学编程导论.html#loop">循环</a>、<a href="EIP-合集-计算语言学编程导论.html#fstr">格式化字符串</a>. </small></h2>
+
+<article id="u3-1">
+<h3>闰年<br><span class="de-title">Schaltjahr</span></h3>
+<div class="card de">
+  <span class="folie">Übung 3 · Aufgabe 1</span>
+  <p class="themen">Themen: input, if, isdigit, int, String-Formatierung</p>
+  <p>Schreiben Sie eine Funktion für die folgende Schaltjahr-Regel:</p>
+  <p>Das Jahr ist kein Schaltjahr<br>außer die Jahreszahl ist durch 4 teilbar, dann ist es ein Schaltjahr,<br>außer die Zahl ist durch 100 teilbar, dann ist es kein Schaltjahr,<br>außer die Zahl ist durch 400 teilbar, dann ist es doch ein Schaltjahr.</p>
+  <p>Schreiben Sie dann noch Code, welcher Jahreszahlen vom Benutzer einliest und prüft, ob es sich um ein Schaltjahr handelt. Das Programm endet, wenn die Benutzer-Eingabe keine Zahl ist.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 按下面的闰年规则写一个函数: 一年不是闰年; 例外: 能被 4 整除就是闰年; 再例外: 能被 100 整除就不是; 再例外: 能被 400 整除又是闰年. 再写一段代码反复读入年份并判断; 输入<b>不是数字</b>时程序结束. </p>
+  <p><b>思路</b>: 规则是「例外套例外」, 越靠后的例外越优先. 所以判断顺序要<b>倒过来</b>: 先看 400, 再看 100, 最后看 4. 「输入不是数字就结束」用字符串方法 <code>isdigit()</code> 检查: 全是数字字符才返回 True. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>def ist_schaltjahr(jahr):
+    if jahr % 400 == 0:
+        return True
+    if jahr % 100 == 0:
+        return False
+    return jahr % 4 == 0
+
+while True:
+    eingabe = input('Jahr: ')
+    if not eingabe.isdigit():
+        break
+    jahr = int(eingabe)
+    if ist_schaltjahr(jahr):
+        print(f'{jahr} ist ein Schaltjahr.')
+    else:
+        print(f'{jahr} ist kein Schaltjahr.')</pre>
+<pre>$ python3 schalt.py
+Jahr: 2024
+2024 ist ein Schaltjahr.
+Jahr: 1900
+1900 ist kein Schaltjahr.
+Jahr: 2000
+2000 ist ein Schaltjahr.
+Jahr: 2023
+2023 ist kein Schaltjahr.
+Jahr: ende</pre>
+  <p><b>核对</b>: 对公元 1–2999 年逐年和 Python 标准库 <code>calendar.isleap</code> 比较, 全部一致. </p>
+  <p><b>易错</b>: ① 顺序写反 (先查 4 就 return True), 1900 会被误判为闰年; ② 先 <code>int(eingabe)</code> 再查 <code>isdigit</code>: 遇到「ende」时 <code>int</code> 已经报 <code>ValueError</code>; ③ <code>isdigit</code> 对负数 (<code>'-5'</code>) 和空串都返回 False, 这里正好当作「结束」. </p>
+</details>
+<div class="add"><p>一行写法: <code class="lc">return jahr % 4 == 0 and (jahr % 100 != 0 or jahr % 400 == 0)</code>. 和上面的三步写法等价, 但练习单的「例外套例外」用 if 写更直接. </p></div>
+</article>
+
+<article id="u3-2">
+<h3>考试成绩换算<br><span class="de-title">Klausurnoten</span></h3>
+<div class="card de">
+  <span class="folie">Übung 3 · Aufgabe 2</span>
+  <p class="themen">Themen: if, else, divmod, int, input, while, Listen, formatierte Ausgabe</p>
+  <p>Schreiben Sie ein Programm, welches den Benutzer zuerst nach der Mindestpunktezahl und Maximalpunktezahl einer Klausur und dann nach den Punktezahlen der einzelnen Studierenden fragt. Die Eingabe endet, wenn eine Leerzeile eingegeben wird.</p>
+  <p>Das Programm rechnet dann die Punktezahlen in Noten um. Wenn die Mindestpunktezahl nicht erreicht wurde, wird die Note 5.0 vergeben. Andernfalls wird die Punktezahl mit folgender Formel in eine Note umgerechnet:</p>
+  <p style="text-align:center">note = 1.0 + 3.3 · (maxpunkte − punkte) / (maxpunkte − minpunkte)</p>
+  <p>Diese Noten werden noch zur nächstbesseren Note gerundet. Mögliche Noten sind 1.0, 1.3, 1.7 2.0, 2.3, ..., 4.0.</p>
+  <p>Geben Sie die Noten und den Durchschnitt der Noten aus.</p>
+  <p>Vorüberlegung:</p>
+  <ul><li>Wie implementieren Sie die Rundung am besten?</li></ul>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 程序先问及格分 (最低分) 和满分, 再逐个问每个学生的分数, 输入空行结束. 然后把分数换成德国成绩: 没达到及格分记 5.0; 否则用公式换算, 再<b>取到最近的更好的成绩</b> (德国成绩数字越小越好, 所以是往小的方向取). 可能的成绩有 1.0、1.3、1.7、2.0、2.3 … 4.0. 最后输出每人成绩和平均成绩. </p>
+  <p><b>思路</b>: </p>
+  <ul>
+    <li>公式: 满分得 1.0, 刚好及格得 1.0 + 3.3 = 4.3. 中间线性变化. </li>
+    <li><b>取整</b>: 把允许的成绩放进列表, 从差到好找<b>第一个不大于</b>计算值的成绩. 例如 1.66 介于 1.3 和 1.7 之间, 「更好」的是 1.3. </li>
+    <li>及格分时公式给出 4.3, 没有 4.3 这个成绩, 往更好取就是 4.0: 及格的人至少 4.0, 正好符合德国「4.0 及格」的规定. </li>
+  </ul>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>NOTEN = [1.0, 1.3, 1.7, 2.0, 2.3, 2.7, 3.0, 3.3, 3.7, 4.0]
+
+def runde(note):
+    """Rundet auf die nächstbessere zulässige Note."""
+    for erlaubt in reversed(NOTEN):
+        if erlaubt &lt;= note + 1e-9:
+            return erlaubt
+    return 1.0
+
+def note_berechnen(punkte, minp, maxp):
+    if punkte &lt; minp:
+        return 5.0
+    note = 1.0 + 3.3 * (maxp - punkte) / (maxp - minp)
+    return runde(note)
+
+minp = int(input('Mindestpunktzahl: '))
+maxp = int(input('Maximalpunktzahl: '))
+noten = []
+while True:
+    eingabe = input('Punkte: ')
+    if eingabe == '':
+        break
+    noten.append(note_berechnen(int(eingabe), minp, maxp))
+
+for i, note in enumerate(noten, 1):
+    print(f'{i:3}: {note:.1f}')
+if noten:
+    print(f'Durchschnitt: {sum(noten) / len(noten):.2f}')</pre>
+<pre>$ python3 noten.py
+Mindestpunktzahl: 20
+Maximalpunktzahl: 40
+Punkte: 40
+Punkte: 35
+Punkte: 30
+Punkte: 25
+Punkte: 20
+Punkte: 19
+Punkte:
+  1: 1.0
+  2: 1.7
+  3: 2.3
+  4: 3.3
+  5: 4.0
+  6: 5.0
+Durchschnitt: 2.88</pre>
+  <p><b>核对</b> (及格 20、满分 40, 公式值 → 取整后): 40 → 1.0 → 1.0; 38 → 1.33 → 1.3; 36 → 1.66 → 1.3; 35 → 1.825 → 1.7; 30 → 2.65 → 2.3; 25 → 3.475 → 3.3; 21 → 4.135 → 4.0; 20 → 4.3 → 4.0. </p>
+  <p><b>讲解</b>: <code>runde</code> 里的 <code>+ 1e-9</code> 是为了抵消浮点误差: 公式算出「正好 2.0」时, 浮点数可能存成 1.9999999999999998, 不加这个小量就会被取成更好的 1.7. </p>
+  <p><b>易错</b>: ① 「nächstbessere Note」是往<b>小</b>取, 不是四舍五入; ② 没有空行判断就 <code>int('')</code> 会报错; ③ 平均值算的是<b>成绩</b>的平均, 不是分数的平均; ④ 一个学生都没输入时不要除以 0. </p>
+</details>
+<div class="add"><p>Themen 里的 <code>divmod</code> 提示了另一种取整法: 把成绩乘以 10 再按 10 拆成整数部分和小数部分 (<code class="lc">divmod(round(note * 10), 10)</code>), 小数部分 ≥ 7 取 .7, ≥ 3 取 .3, 否则取 .0. 效果相同, 但列表查找法更直观, 也不容易出错. </p></div>
+<div class="warn"><p><b>原文笔误: </b>「Mögliche Noten sind 1.0, 1.3, 1.7 2.0, …」中 1.7 后缺逗号. 「Mindest<b>punkte</b>zahl」在德语里通常写作「Mindest<b>punkt</b>zahl」, 不影响理解. </p></div>
+</article>
+</section>
+
+<!-- ======================= ÜBUNG 4 ======================= -->
+
+<section class="part" id="u4">
+<h2>Übung 4<br><span class="de-title"><span class="seg">random ·</span> <span class="seg">while ·</span> <span class="seg">divmod</span></span><small>对应合集 <a href="EIP-合集-计算语言学编程导论.html#loop">循环</a>、<a href="EIP-合集-计算语言学编程导论.html#datei">模块</a>. </small></h2>
+
+<article id="u4-1">
+<h3>密码生成器<br><span class="de-title">Passwort-Generator</span></h3>
+<div class="card de">
+  <span class="folie">Übung 4 · Aufgabe 1</span>
+  <p class="themen">Themen: random.int, random.choice, random.shuffle</p>
+  <p>Schreiben Sie ein Programm, welches ein zufälliges Passwort generiert, das</p>
+  <ul>
+    <li>mindestens 8 Zeichen und maximal 12 Zeichen lang ist</li>
+    <li>je mindestens einen Kleinbuchstaben, einen Großbuchstaben, eine Ziffer und ein Sonderzeichen</li>
+  </ul>
+  <p>enthält.</p>
+  <p>Vorüberlegungen:</p>
+  <ul>
+    <li>Welches Zeicheninventar soll verwendet werden?</li>
+    <li>Wie können zufällige Passwörter zufälliger Länge generiert werden?</li>
+    <li>Wie können die Zusatzbedingungen sichergestellt werden?</li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写一个程序生成随机密码: 长度 8–12 个字符; 小写字母、大写字母、数字、特殊字符<b>各至少一个</b>. 想想: 用哪些字符? 怎样生成随机长度的随机密码? 怎样保证附加条件一定满足? </p>
+  <p><b>思路</b>: </p>
+  <ul>
+    <li><b>字符集</b>: 模块 <code>string</code> 现成提供 <code>ascii_lowercase</code>、<code>ascii_uppercase</code>、<code>digits</code>, 特殊字符自己定一串. </li>
+    <li><b>随机长度</b>: <code>random.randint(8, 12)</code>, 两端都包含. </li>
+    <li><b>保证条件</b>: 与其生成后检查、不合格再重来, 不如<b>先从四组里各取一个</b>, 剩下的位置从全部字符里随便取, 最后用 <code>random.shuffle</code> 打乱顺序, 否则这四个必有字符总在开头. </li>
+  </ul>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>import random
+import string
+
+SONDERZEICHEN = '!#$%&amp;*+-=?@_'
+GRUPPEN = [string.ascii_lowercase, string.ascii_uppercase,
+           string.digits, SONDERZEICHEN]
+ALLE = ''.join(GRUPPEN)
+
+def passwort():
+    laenge = random.randint(8, 12)
+    # aus jeder Gruppe ein Zeichen, damit die Bedingungen sicher erfüllt sind
+    zeichen = [random.choice(gruppe) for gruppe in GRUPPEN]
+    # der Rest beliebig aus dem ganzen Inventar
+    zeichen += [random.choice(ALLE) for _ in range(laenge - len(zeichen))]
+    random.shuffle(zeichen)   # sonst stünden die vier Pflichtzeichen immer vorne
+    return ''.join(zeichen)
+
+print(passwort())</pre>
+<pre>$ python3 passwort.py
+A7xR9E!&amp;r@M6
+$ python3 passwort.py
+dV%nD_09V=mE
+$ python3 passwort.py
+wW38LwC@1o</pre>
+  <p><b>核对</b>: 生成 20000 个密码逐一检查, 长度都在 8–12 之间, 四类字符都至少有一个. </p>
+  <p><b>易错</b>: ① <code>random.choice</code> 作用于字符串时每次取一个字符; ② <code>random.shuffle</code> 只能打乱<b>列表</b> (字符串不可变), 所以先放进列表, 最后用 <code>''.join</code> 拼回字符串; ③ <code>shuffle</code> 直接修改列表、返回 <code>None</code>, 不要写 <code class="lc">zeichen = random.shuffle(zeichen)</code>. </p>
+</details>
+<div class="add"><p><code>random</code> 模块的随机数是为模拟设计的, <b>可以被预测</b>. 真正生成密码应该用 <code>secrets</code> 模块 (<code>secrets.choice</code>、<code>secrets.randbelow</code>), 用法几乎一样. </p></div>
+<div class="warn"><p><b>原文笔误: </b>Themen 里的「random.<b>int</b>」不存在, 应为「random.<b>randint</b>」. </p></div>
+</article>
+
+<article id="u4-2">
+<h3>考拉兹猜想<br><span class="de-title">Collatz-Vermutung</span></h3>
+<div class="card de">
+  <span class="folie">Übung 4 · Aufgabe 2</span>
+  <p class="themen">Themen: input, int, while, divmod</p>
+  <p>Collatz-Algorithmus:</p>
+<pre>Starte mit einer beliebigen ganzen Zahl n.
+Wiederhole
+   Falls die Zahl gerade ist:   n := n/2
+   Falls die Zahl ungerade ist: n := n*3+1
+bis die Zahl gleich 1 ist.</pre>
+  <p>Vermutung: Der Algorithmus terminiert immer.</p>
+  <p>Schreiben Sie ein Programm, welches immer wieder eine Zahl einliest und prüft, ob der Collatz-Algorithmus damit terminiert. Das Programm endet, wenn die Eingabe keine Zahl ist.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 考拉兹算法: 从任意整数 n 开始, 重复: 偶数就除以 2, 奇数就乘 3 加 1, 直到 n 等于 1. 猜想: 这个算法总会停. 写程序反复读入一个数, 检验算法是否停止; 输入不是数字时结束. </p>
+  <p><b>思路</b>: 外层 <code>while True</code> 负责反复读入 (和上一张练习单的闰年题同一个模式); 内层 <code>while n != 1</code> 就是算法本身. 用 <code>divmod(n, 2)</code> 一次得到商和余数: 余数 0 是偶数, 商就是 n/2. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>while True:
+    eingabe = input('Zahl: ')
+    if not eingabe.isdigit() or int(eingabe) &lt; 1:
+        break
+    n = int(eingabe)
+    schritte = 0
+    while n != 1:
+        quotient, rest = divmod(n, 2)
+        if rest == 0:
+            n = quotient
+        else:
+            n = 3 * n + 1
+        schritte += 1
+    print(f'terminiert nach {schritte} Schritten')</pre>
+<pre>$ python3 collatz.py
+Zahl: 6
+terminiert nach 8 Schritten
+Zahl: 27
+terminiert nach 111 Schritten
+Zahl: 1
+terminiert nach 0 Schritten
+Zahl: x</pre>
+  <p><b>讲解</b>: 6 → 3 → 10 → 5 → 16 → 8 → 4 → 2 → 1, 正好 8 步. 27 是有名的例子: 中间最高涨到 9232, 要 111 步才回到 1. 程序其实<b>不能证明</b>算法会停: 它只是把算法跑一遍, 如果真有不停的数, 程序就会一直跑下去. 考拉兹猜想至今未被证明. </p>
+  <p><b>易错</b>: ① 用 <code>n / 2</code> 会得到 float (3.0), 继续算下去虽然也能停, 但数大了会有精度问题, 要用整数除法 <code>//</code> 或 <code>divmod</code>; ② 见下面红框: 0 和负数会让程序死循环. </p>
+</details>
+<div class="warn"><p><b>题目漏洞: </b>「eine beliebige ganze Zahl」说任意整数都行, 但实际运行: <b>0</b> 是偶数, 0/2 = 0, 永远到不了 1 (0, 0, 0, …); <b>负数</b>会陷入别的循环, 例如 −1 → −2 → −1 → …, −5 → −14 → −7 → −20 → −10 → −5 → …. 考拉兹猜想只针对<b>正整数</b>. 所以参考答案把小于 1 的输入也当作结束 (<code>isdigit</code> 本身已经挡住了负号). </p></div>
+</article>
+</section>
+
+<!-- ======================= ÜBUNG 5 ======================= -->
+
+<section class="part" id="u5">
+<h2>Übung 5<br><span class="de-title"><span class="seg">sys.argv ·</span> <span class="seg">Endlosschleife ·</span> <span class="seg">Klassen</span></span><small>对应合集 <a href="EIP-合集-计算语言学编程导论.html#cli">命令行</a>、<a href="EIP-合集-计算语言学编程导论.html#loop">循环</a>、<a href="EIP-合集-计算语言学编程导论.html#klassen">类</a>、<a href="EIP-合集-计算语言学编程导论.html#sort">排序与推导式</a>. </small></h2>
+
+<article id="u5-1">
+<h3>求和的四种方法<br><span class="de-title">Summen</span></h3>
+<div class="card de">
+  <span class="folie">Übung 5 · Aufgabe 1</span>
+  <p class="themen">Themen: sys.argv, int, while, for, range, sum</p>
+  <p>Schreiben Sie ein Programm, welches eine Zahl n als Kommandozeilen-Argument erwartet und die Summe von 0 bis n auf vier Arten berechnet:</p>
+  <ul>
+    <li>mit einer while-Schleife</li>
+    <li>mit einer for-Schleife</li>
+    <li>mit der Python-Funktion sum</li>
+    <li>mit der Formel n(n + 1)/2</li>
+  </ul>
+  <p>Die vier Werte werden auf dem Bildschirm ausgegeben.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写一个程序, 把数 n 作为<b>命令行参数</b>接收, 用四种方法算 0 到 n 的和: while 循环、for 循环、内置函数 <code>sum</code>、公式 n(n+1)/2, 四个结果都输出. </p>
+  <p><b>思路</b>: 命令行参数在列表 <code>sys.argv</code> 里: <code>sys.argv[0]</code> 是脚本名, <code>sys.argv[1]</code> 是第一个参数, 而且是<b>字符串</b>, 要 <code>int(...)</code>. 「0 到 n」包含 n, 所以 <code>range(n + 1)</code>, while 条件是 <code>i &lt;= n</code>. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>import sys
+
+n = int(sys.argv[1])
+
+summe = 0
+i = 0
+while i &lt;= n:
+    summe += i
+    i += 1
+print('while:', summe)
+
+summe = 0
+for i in range(n + 1):
+    summe += i
+print('for:  ', summe)
+
+print('sum:  ', sum(range(n + 1)))
+print('Formel:', n * (n + 1) // 2)</pre>
+<pre>$ python3 summen.py 100
+while: 5050
+for:   5050
+sum:   5050
+Formel: 5050</pre>
+  <p><b>讲解</b>: 公式里用 <code>//</code> 而不是 <code>/</code>: n(n+1) 总是偶数, 整数除法结果精确, 而 <code>/</code> 会得到 5050.0 (float). </p>
+  <p><b>易错</b>: ① 不带参数运行时 <code>sys.argv[1]</code> 报 <code>IndexError</code>; ② <code>range(n)</code> 少加了 n; ③ while 循环里忘了 <code>i += 1</code> 会死循环. </p>
+</details>
+<div class="add"><p>公式来自高斯的小故事: 1 + 100、2 + 99、… 共 50 对, 每对 101, 和为 50 · 101 = 5050. 四种方法里公式最快, 耗时和 n 无关; 其余三种都要把 n 个数加一遍. </p></div>
+</article>
+
+<article id="u5-2">
+<h3>电影院售票<br><span class="de-title">Kinokasse</span></h3>
+<div class="card de">
+  <span class="folie">Übung 5 · Aufgabe 2</span>
+  <p class="themen">Themen: input, int, Vergleiche, Endlosschleife, STRG-c</p>
+  <p>Sie sollen eine Kinokasse programmieren.</p>
+  <p>Das Kino hat folgende Eintrittspreise:</p>
+  <div class="tablewrap"><table>
+    <tr><td class="wide">Kinder bis 5 Jahre:</td><td>kostenlos</td></tr>
+    <tr><td class="wide">Kinder von 6 bis 17 Jahre:</td><td>8€</td></tr>
+    <tr><td class="wide">Erwachsene über 65 Jahren:</td><td>8 €</td></tr>
+    <tr><td class="wide">Studenten unter 28 Jahren:</td><td>10 €</td></tr>
+    <tr><td class="wide">übrige Erwachsene:</td><td>12 €</td></tr>
+  </table></div>
+  <p>Es können mehrere Karten für unterschiedliche Personen zusammen gekauft werden. Der Gesamtpreis wird ausgegeben. Das Programm arbeitet in einer Endlosschleife und soll jedem Kunden möglichst wenige Fragen stellen.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 编写一个电影院售票程序. 票价: 5 岁及以下免费; 6–17 岁儿童 8 欧; 65 岁以上 8 欧; 28 岁以下的大学生 10 欧; 其他成年人 12 欧. 一次可以为不同的人买好几张票, 输出总价. 程序在<b>死循环</b> (Endlosschleife) 里运行, 并且对每位顾客<b>问的问题尽量少</b>. </p>
+  <p><b>思路</b>: </p>
+  <ul>
+    <li>「问题尽量少」: 只有年龄是必须问的. 「是不是学生」只在 18–27 岁时才影响票价, 所以只在这个年龄段才问. </li>
+    <li>判断顺序: 先排除免费和 8 欧的情况, 剩下的成年人里再区分学生. </li>
+    <li>「Endlosschleife, STRG-c」: 用 <code>while True</code> 一直卖票, 营业结束时按 Ctrl-C 停止. Ctrl-C 在 Python 里会引发 <code>KeyboardInterrupt</code>, 用 <code>try … except</code> 接住, 就能体面地结束, 而不是打出一大段报错. </li>
+  </ul>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>def preis(alter):
+    if alter &lt;= 5:
+        return 0
+    if alter &lt;= 17 or alter &gt; 65:
+        return 8
+    if alter &lt; 28:
+        student = input('  Student? (j/n): ')
+        if student == 'j':
+            return 10
+    return 12
+
+try:
+    while True:                                   # Endlosschleife: ein Kunde pro Durchlauf
+        summe = 0
+        anzahl = int(input('Wie viele Karten? '))
+        for i in range(1, anzahl + 1):
+            alter = int(input(f'Alter von Person {i}: '))
+            summe += preis(alter)
+        print(f'Gesamtpreis: {summe} €\n')
+except KeyboardInterrupt:                         # STRG-c beendet die Kasse
+    print('\nKasse geschlossen.')</pre>
+<pre>$ python3 kino.py
+Wie viele Karten? 3
+Alter von Person 1: 4
+Alter von Person 2: 20
+  Student? (j/n): j
+Alter von Person 3: 70
+Gesamtpreis: 18 €
+
+Wie viele Karten? 2
+Alter von Person 1: 30
+Alter von Person 2: 16
+Gesamtpreis: 20 €
+
+Wie viele Karten? ^C
+Kasse geschlossen.</pre>
+  <p><b>核对</b>: 4 岁 0 + 20 岁学生 10 + 70 岁 8 = 18; 30 岁 12 + 16 岁 8 = 20. 按 Ctrl-C 时程序输出「Kasse geschlossen.」后正常结束 (用 SIGINT 信号实际测试过). 30 岁的人没有被问「是不是学生」, 因为 28 岁以上不影响票价. </p>
+  <p><b>易错</b>: ① 每个顾客的 <code>summe</code> 要在循环<b>里面</b>归零, 否则会把上一位顾客的钱也算进去; ② 判断顺序错了, 比如先查「学生」, 就会给 10 岁的小学生收 10 欧. </p>
+</details>
+<div class="warn"><p><b>题目没说清的地方: </b>① 65 岁本人: 表上是「über 65」 (65 岁以上), 所以正好 65 岁付 12 欧; ② 学生「unter 28」, 正好 28 岁的学生付 12 欧; ③ 17 岁以下的学生按儿童价 8 欧 (更便宜), 参考答案先判断年龄所以自然如此. 另外表中「8€」和「8 €」写法不统一 (德语规范是数字和 € 之间空一格). </p></div>
+</article>
+
+<article id="u5-3">
+<h3>日期类<br><span class="de-title">Datum</span></h3>
+<div class="card de">
+  <span class="folie">Übung 5 · Aufgabe 3</span>
+  <p class="themen">Themen: class, Klassenattribute, dict, enumerate, Dictionary Comprehension</p>
+  <p>Schreiben Sie eine Klasse <code>Datum</code>, deren init-Methode die Argumente Tag, Monat und Jahr erhält. Die Monatsbezeichnungen können ein deutscher oder englischer String oder eine Zahl sein. Gespeichert wird der Monat als Zahl. Die Methoden “deutsch” und “englisch” geben das Datum nach deutschen bzw. englischen Regeln aus.</p>
+  <p>Nutzen Sie Klassen-Attribute, um Daten zu speichern, welche allen Instanzen der Klasse gemeinsam sind.</p>
+  <p>Schreiben Sie zusätzlichen Code zum Testen, der nicht ausgeführt wird, wenn die Datei in andere Programme importiert wird.</p>
+  <p>Vorüberlegungen:</p>
+  <ul>
+    <li>Wie bilden Sie die Monatsbezeichnungen auf Zahlen ab?</li>
+    <li>Wie bilden Sie die Zahlen wieder auf die Monatsnamen ab?</li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写一个类 <code>Datum</code>, <code>__init__</code> 接收日、月、年. 月份可以是德语或英语的月份名, 也可以是数字; 内部一律存成数字. 方法 <code>deutsch</code> 和 <code>englisch</code> 分别按德语和英语的习惯输出日期. 所有实例共用的数据 (月份名表) 放在<b>类属性</b>里. 再写测试代码, 但这段代码在文件被别的程序 <code>import</code> 时不执行. 想想: 月份名怎样对应到数字? 数字怎样对应回月份名? </p>
+  <p><b>思路</b>: </p>
+  <ul>
+    <li><b>数字 → 名称</b>: 列表 <code>MONATE_DE[monat - 1]</code> (列表从 0 开始, 月份从 1 开始). </li>
+    <li><b>名称 → 数字</b>: 字典. 用 <code>enumerate(MONATE_DE, 1)</code> 从 1 开始编号, 配合<b>字典推导式</b>一行建好. 键统一小写, 这样输入「Oktober」「oktober」都能查到. </li>
+    <li><b>只在直接运行时测试</b>: <code class="lc">if __name__ == '__main__':</code>. </li>
+  </ul>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>class Datum:
+    MONATE_DE = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli',
+                 'August', 'September', 'Oktober', 'November', 'Dezember']
+    MONATE_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                 'August', 'September', 'October', 'November', 'December']
+    # Monatsname (klein geschrieben) -&gt; Nummer, für beide Sprachen
+    NUMMER = {name.lower(): i for i, name in enumerate(MONATE_DE, 1)}
+    NUMMER.update({name.lower(): i for i, name in enumerate(MONATE_EN, 1)})
+
+    def __init__(self, tag, monat, jahr):
+        if isinstance(monat, str):
+            monat = self.NUMMER[monat.lower()]
+        self.tag = tag
+        self.monat = monat
+        self.jahr = jahr
+
+    def deutsch(self):
+        return f'{self.tag}. {self.MONATE_DE[self.monat - 1]} {self.jahr}'
+
+    def englisch(self):
+        return f'{self.MONATE_EN[self.monat - 1]} {self.tag}, {self.jahr}'
+
+
+if __name__ == '__main__':
+    for d in [Datum(19, 'Oktober', 2026), Datum(3, 'march', 2027), Datum(24, 12, 2026)]:
+        print(d.deutsch(), '|', d.englisch())</pre>
+<pre>$ python3 datum.py
+19. Oktober 2026 | October 19, 2026
+3. März 2027 | March 3, 2027
+24. Dezember 2026 | December 24, 2026
+$ python3 -c "import datum"
+$</pre>
+  <p><b>讲解</b>: <code>MONATE_DE</code>、<code>NUMMER</code> 写在类体里、方法外面, 属于<b>类</b>而不是某个实例, 所有 Datum 对象共用一份. 方法里通过 <code>self.NUMMER</code> 访问时, Python 先在实例上找, 找不到再去类上找. <code>import datum</code> 时没有任何输出, 说明测试代码没有执行. </p>
+  <p><b>易错</b>: ① 月份数字 10 对应下标 9, 要减 1; ② 字典推导式里 <code>enumerate</code> 不加起始值 1, 十月会被存成 9; ③ 把月份表写进 <code>__init__</code> (<code>self.MONATE = …</code>) 就变成每个实例各存一份, 违背题目要求. </p>
+</details>
+<div class="add"><p>英语日期格式有两种: 美式「October 19, 2026」, 英式「19 October 2026」. 德语格式是「19. Oktober 2026」, 日后有一个点 (表示序数). 参考答案用美式. </p></div>
+</article>
+</section>
+
+<!-- ======================= ÜBUNG 6 ======================= -->
+
+<section class="part" id="u6">
+<h2>Übung 6<br><span class="de-title"><span class="seg">Rekursion ·</span> <span class="seg">match … case ·</span> <span class="seg">__call__</span></span><small>对应合集 <a href="EIP-合集-计算语言学编程导论.html#exc">异常与 match</a>、<a href="EIP-合集-计算语言学编程导论.html#klassen">类</a>. </small></h2>
+
+<article id="u6-1">
+<h3>整数转字符串 (递归) <br><span class="de-title">Ausgabe von ganzen Zahlen</span></h3>
+<div class="card de">
+  <span class="folie">Übung 6 · Aufgabe 1</span>
+  <p class="themen">Themen: Rekursion, divmod, String-Konkatenation</p>
+  <p>Schreiben Sie eine Funktion <code>integer_als_string</code>, welche eine positive oder negative ganze Zahl als String ausgibt.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写函数 <code>integer_als_string</code>, 把一个正或负的整数转成字符串 (不许直接用 <code>str()</code>). </p>
+  <p><b>思路 (递归)</b>: <code>divmod(n, 10)</code> 把 n 拆成「去掉最后一位的数」和「最后一位数字」: 305 → (30, 5). 前一部分<b>递归</b>转成字符串, 再把最后一位对应的字符接在后面. <b>递归出口</b>: 只剩一位数时 (商为 0) 直接返回那一位. 负数: 先处理负号, 再对 −n 递归. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>ZIFFERN = '0123456789'
+
+def integer_als_string(n):
+    if n &lt; 0:
+        return '-' + integer_als_string(-n)
+    rest_zahl, ziffer = divmod(n, 10)
+    if rest_zahl == 0:
+        return ZIFFERN[ziffer]
+    return integer_als_string(rest_zahl) + ZIFFERN[ziffer]</pre>
+<pre>&gt;&gt;&gt; integer_als_string(0), integer_als_string(42), integer_als_string(-305)
+('0', '42', '-305')</pre>
+  <p><b>核对</b>: 对 −5000 到 4999 的每个整数和 <code>str(n)</code> 比较, 全部一致. </p>
+  <p><b>易错</b>: ① 递归出口写成 <code>if n == 0: return ''</code>, 那么 0 本身会得到空串; ② 对负数直接 <code>divmod(-305, 10)</code> 得 (−31, 5), Python 的整数除法向下取整, 结果会乱, 所以要先把负号拿出来. </p>
+</details>
+</article>
+
+<article id="u6-2">
+<h3>浮点数转字符串<br><span class="de-title">Ausgabe von Fließkomma-Zahlen</span></h3>
+<div class="card de">
+  <span class="folie">Übung 6 · Aufgabe 2</span>
+  <p class="themen">Themen: Rekursion, divmod, String-Konkatenation</p>
+  <p>Schreiben Sie eine Funktion <code>float_als_string</code>, welche eine Fließkommazahl als String ausgibt. Es sollen maximal 10 Nachkommastellen ausgegeben werden. Es muss nicht gerundet werden.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写函数 <code>float_als_string</code>, 把浮点数转成字符串, 最多输出 10 位小数, <b>不需要四舍五入</b> (直接截断). </p>
+  <p><b>思路</b>: <code>divmod(x, 1)</code> 把 x 拆成整数部分和小数部分: 3.14 → (3.0, 0.14). 整数部分用上一题的函数. 小数部分递归地一位一位取: 乘以 10 再 <code>divmod(…, 1)</code>, 整数部分就是下一位数字, 剩下的小数继续递归, 最多 10 次. 最后把末尾多余的 0 去掉. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>def nachkomma(x, stellen):
+    """Die ersten `stellen` Nachkommastellen von 0 &lt;= x &lt; 1 (rekursiv, ohne Rundung)."""
+    if stellen == 0 or x == 0:
+        return ''
+    ziffer, rest = divmod(x * 10, 1)
+    return ZIFFERN[int(ziffer)] + nachkomma(rest, stellen - 1)
+
+def float_als_string(x):
+    if x &lt; 0:
+        return '-' + float_als_string(-x)
+    ganz, bruch = divmod(x, 1)
+    nk = nachkomma(bruch, 10).rstrip('0') or '0'
+    return integer_als_string(int(ganz)) + '.' + nk</pre>
+<pre>&gt;&gt;&gt; for x in [3.14, -2.5, 0.1, 100.0, 1/3, 3.3, 12.34]:
+...     print(x, '-&gt;', float_als_string(x))
+3.14 -&gt; 3.14
+-2.5 -&gt; -2.5
+0.1 -&gt; 0.1
+100.0 -&gt; 100.0
+0.3333333333333333 -&gt; 0.3333333333
+3.3 -&gt; 3.2999999999
+12.34 -&gt; 12.3399999999</pre>
+  <p><b>为什么 3.3 变成 3.2999999999</b>: 3.3 在二进制里存不精确, 实际存的是 3.29999999999999982236…. 题目明确说「不用四舍五入」, 截断前 10 位就是 2999999999. 这不是程序错, 而是浮点数本身的性质. Python 自己的 <code>str(3.3)</code> 会找「能还原成同一个浮点数的最短十进制表示」, 所以显示 3.3. </p>
+  <p><b>易错</b>: ① 去掉末尾 0 后小数部分为空 (100.0), 要补一个 0; ② 负数同样先拿出负号. </p>
+</details>
+</article>
+
+<article id="u6-3">
+<h3>数据结构转字符串<br><span class="de-title">Ausgabe von Datenstrukturen</span></h3>
+<div class="card de">
+  <span class="folie">Übung 6 · Aufgabe 3</span>
+  <p class="themen">Themen: Rekursion, match...case</p>
+  <p>Schreiben Sie eine Funktion <code>als_string</code>, welche eine geschachtelte Python-Datenstruktur als Argument erhält und ähnlich wie die Python-Funktion <code>str</code> eine Stringrepräsentation des Arguments zurückgibt. Die Funktion soll Listen, Tupel, Sets, Dictionarys, Strings, Zahlen und Wahrheitswerte korrekt in Strings umwandeln können.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写函数 <code>als_string</code>, 参数是一个 (可能嵌套的) Python 数据结构, 像 <code>str</code> 一样返回它的字符串表示. 要能处理列表、元组、集合、字典、字符串、数字和布尔值. </p>
+  <p><b>思路</b>: 用 <code>match x:</code> 按<b>类型</b>分情况 (<code>case list():</code> 匹配所有列表). 容器类型对每个元素<b>递归</b>调用 <code>als_string</code>, 再用 <code>', '.join</code> 拼起来, 外面加上对应的括号. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>def als_string(x):
+    match x:
+        case bool():                      # vor int prüfen: True ist auch ein int!
+            return 'True' if x else 'False'
+        case int() | float():
+            return str(x)
+        case str():
+            return "'" + x + "'"
+        case list():
+            return '[' + ', '.join(als_string(e) for e in x) + ']'
+        case tuple():
+            if len(x) == 1:
+                return '(' + als_string(x[0]) + ',)'
+            return '(' + ', '.join(als_string(e) for e in x) + ')'
+        case set():
+            if not x:
+                return 'set()'
+            return '{' + ', '.join(als_string(e) for e in x) + '}'
+        case dict():
+            return '{' + ', '.join(als_string(k) + ': ' + als_string(v)
+                                   for k, v in x.items()) + '}'
+        case None:
+            return 'None'
+        case _:
+            raise TypeError(f'Typ {type(x).__name__} wird nicht unterstützt')
+
+if __name__ == '__main__':
+    tests = [[1, 2.5, 'a', True], (1,), (), {'x': [1, (2, 3)], 'y': None},
+             set(), {3}, [[], {}], False, -7]
+    for t in tests:
+        print(als_string(t), als_string(t) == str(t))</pre>
+<pre>$ python3 alsstring.py
+[1, 2.5, 'a', True] True
+(1,) True
+() True
+{'x': [1, (2, 3)], 'y': None} True
+set() True
+{3} True
+[[], {}] True
+False True
+-7 True</pre>
+  <p>每行后面的 True 表示和 Python 自己的 <code>str()</code> 结果完全相同. </p>
+  <p><b>三个容易漏的特殊情况</b>: </p>
+  <ul>
+    <li><b>bool 必须放在 int 前面</b>: 在 Python 里 <code>True</code> 也是 <code>int</code> 的实例 (<code>isinstance(True, int)</code> 为 True), 如果 <code>case int()</code> 在前, True 会被输出成 1. </li>
+    <li><b>单元素元组</b>要写成 <code>(1,)</code>, 不加逗号就成了普通的括号表达式. </li>
+    <li><b>空集合</b>是 <code>set()</code>, 因为 <code>{}</code> 表示空字典. </li>
+  </ul>
+  <p>容器里的字符串要带引号 (<code>['a']</code>), 所以字符串分支加了引号. 严格说 Python 用的是 <code>repr</code>, 含单引号的字符串会改用双引号, 这里简化了. </p>
+</details>
+</article>
+
+<article id="u6-4">
+<h3>凯撒加密<br><span class="de-title">Cäsar-Verschlüsselung</span></h3>
+<div class="card de">
+  <span class="folie">Übung 6 · Aufgabe 4</span>
+  <p class="themen">Themen: class, __call__, enumerate, Dictionary Comprehension, join</p>
+  <p>Bei der Cäsar-Verschlüsselung werden zunächst alle Zeichen auf Zahlen abgebildet. Zur Verschlüsselung wird zu jeder Zahl ein Offset addiert. Dann werden die Zahlen wieder auf Buchstaben abgebildet und ausgegeben.</p>
+  <p>Beispiel mit 27 Zeichen (einschließlich Leerzeichen) und dem Offset 5:</p>
+<pre>'hallo welt' ⇒ 8 1 12 12 15 0 23 5 12 20
+             ⇒ 13 6 17 17 20 5 1 10 17 25 ⇒ 'mfqqteajqy'</pre>
+  <p>Implementieren Sie eine Klasse <code>Kodierer</code>, welche die Cäsar-Verschlüsselung implementiert. Die init-Methode bekommt den Offset als Argument. Die Klasse besitzt außerdem eine Methode <code>__call__</code>, welche einen Text als Argument erhält und den kodierten Text zurückgibt.</p>
+  <p>Fügen Sie außerdem Code zum Testen der Klasse hinzu.</p>
+  <p><b>Vorüberlegungen:</b></p>
+  <ul>
+    <li>Wozu dient die Methode <code>__call__</code>?</li>
+    <li>Was müssen Sie beachten, wenn Sie 'z' verschlüsseln?</li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 凯撒加密: 先把每个字符映射成数字, 加上一个偏移量, 再映射回字母. 例子用 27 个字符 (空格 + 26 个字母), 偏移 5. 写一个类 <code>Kodierer</code>: <code>__init__</code> 接收偏移量; 方法 <code>__call__</code> 接收文本、返回加密后的文本. 再写测试代码. 想想: <code>__call__</code> 有什么用? 加密 'z' 时要注意什么? </p>
+  <p><b>思路</b>: 从例子能看出映射: 空格 = 0, a = 1, …, z = 26. 字符串 <code class="lc">' abcdefghijklmnopqrstuvwxyz'</code> 的下标正好就是这个编号; 反方向 (字符 → 编号) 用 <code>enumerate</code> 加字典推导式建一张表. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>class Kodierer:
+    ZEICHEN = ' abcdefghijklmnopqrstuvwxyz'                  # 27 Zeichen, ' ' = 0
+    NUMMER = {z: i for i, z in enumerate(ZEICHEN)}
+
+    def __init__(self, offset):
+        self.offset = offset
+
+    def __call__(self, text):
+        n = len(self.ZEICHEN)
+        return ''.join(self.ZEICHEN[(self.NUMMER[z] + self.offset) % n]
+                       for z in text.lower())
+
+if __name__ == '__main__':
+    kodiere = Kodierer(5)
+    print(repr(kodiere('hallo welt')))
+    dekodiere = Kodierer(-5)
+    print(repr(dekodiere(kodiere('hallo welt'))))
+    print(repr(kodiere('z')), repr(kodiere('xyz')))</pre>
+<pre>$ python3 caesar.py
+'mfqqteajqy'
+'hallo welt'
+'d' 'bcd'</pre>
+  <p><b>两个预备问题的答案</b>: </p>
+  <ul>
+    <li><b><code>__call__</code></b>: 定义了它, <b>对象就能像函数一样被调用</b>: <code>kodiere = Kodierer(5)</code> 之后直接写 <code>kodiere('hallo welt')</code>. 对象记住了偏移量 (状态), 用起来又像一个普通函数. </li>
+    <li><b>加密 'z'</b>: z = 26, 加 5 得 31, 超出了 0–26 的范围, 要<b>取模 27</b> 绕回开头: 31 % 27 = 4 → 'd'. 例子里 w (23) + 5 = 28 → 28 % 27 = 1 → 'a', 就是这种情况. </li>
+  </ul>
+  <p>解密就是反向偏移: <code>Kodierer(-5)</code>. Python 的 <code>%</code> 对负数也返回非负结果 (−3 % 27 = 24), 所以不用特别处理. </p>
+</details>
+<div class="add"><p>凯撒密码极不安全: 只有 27 种偏移, 全部试一遍就破解了; 而且字母频率不变 (德语里最常见的字母 e 加密后仍是最常见的那个), 用频率分析也能破解. </p></div>
+</article>
+</section>
+
+<!-- ======================= ÜBUNG 7 ======================= -->
+
+<section class="part" id="u7">
+<h2>Übung 7<br><span class="de-title"><span class="seg">Hashtabelle ·</span> <span class="seg">Spezialmethoden</span></span><small>对应合集 <a href="EIP-合集-计算语言学编程导论.html#dict">字典</a>、<a href="EIP-合集-计算语言学编程导论.html#klassen">类</a>. </small></h2>
+
+<article id="u7-1">
+<h3>哈希表<br><span class="de-title">Hashtabelle</span></h3>
+<div class="card de">
+  <span class="folie">Übung 7 · Aufgabe 1</span>
+  <p class="themen">Themen: Klassen, geschachtelte Listen, hash, for...else, itertools.chain, __str__, __getitem__, __setitem__</p>
+  <p>Python-Dictionarys sind als Hashtabellen implementiert.</p>
+  <p>Schreiben Sie eine Klasse <code>HashTabelle</code>, welche eine Hashtabelle implementiert. Die Daten der Hashtabelle speichern Sie in einer Liste von Buckets. Ein Bucket ist eine Liste von Key-Value-Paaren.</p>
+  <p>Die init-Methode der Klasse erhält optional die Größe der Hashtabelle mit einem Defaultwert von 10 als Argument und initialisiert die Hashtabelle mit leeren Buckets.</p>
+  <p>Die Methode <code>__getitem__</code> erhält einen Key als Argument ruft die Funktion <code>hash</code> für diesen Key auf und teilt den Hashwert per Integer-Division (//) durch die Größe der Hashtabelle. Wenn das Divisionsergebnis 13 ist, wird anschließend in Bucket 13 nach dem übergebenen Key gesucht. Wenn er gefunden wird, wird der entsprechende Value zurückgegeben, andernfalls <code>None</code>.</p>
+  <p>Analog wird eine Methode <code>__setitem__</code> definiert, welche einen Key und einen Value als Argument erhält, in der Tabelle nach dem Key sucht und seinen Wert auf Value setzt. Wenn der Key nicht gefunden wurde, wird er zu dem Bucket hinzugefügt.</p>
+  <p>Die Methode <code>__str__</code> gibt die Hashtabelle in dem Format aus, in dem Python den Inhalt von Dictionarys ausgibt.</p>
+  <p>Eine Methode <code>resize</code> wird aufgerufen, wenn die Zahl der Elemente in der Hashtabelle die Größe der Hashtabelle übersteigt. <code>resize</code> verdoppelt die Größe der Hashtabelle und speichert dann alle Key-Value-Paare in der neuen Tabelle.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: Python 的字典就是用哈希表实现的. 写一个类 <code>HashTabelle</code>: 数据存在一个 <b>Bucket (桶) </b>列表里, 每个桶是一个「键值对」列表. <code>__init__</code> 可选地接收表的大小 (默认 10), 建好空桶. <code>__getitem__</code> 接收键, 对键调用 <code>hash</code>, 用哈希值算出桶号, 在那个桶里找这个键, 找到返回值, 否则返回 None. <code>__setitem__</code> 类似: 找到键就改值, 找不到就加进桶里. <code>__str__</code> 按 Python 打印字典的格式输出. 元素个数超过表大小时调用 <code>resize</code>: 把表扩大一倍, 再把所有键值对重新放进新表. </p>
+  <p><b>思路</b>: </p>
+  <ul>
+    <li><code>__getitem__</code> / <code>__setitem__</code> 让对象支持方括号: <code>t[key]</code> 和 <code>t[key] = value</code>. </li>
+    <li>在桶里找键用 <code>for … else</code>: 找到就 <code>break</code>; 循环正常结束 (没 break) 说明没找到, 在 else 里追加新键值对. </li>
+    <li><code class="lc">itertools.chain(*self.buckets)</code> 把所有桶连成一条, <code>__str__</code> 和 <code>resize</code> 都要遍历全部键值对. </li>
+    <li>扩容后桶的个数变了, 每个键的桶号也跟着变, 所以不能直接复制, 必须<b>重新算一遍</b>桶号. </li>
+  </ul>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>from itertools import chain
+
+class HashTabelle:
+    def __init__(self, groesse=10):
+        self.buckets = [[] for _ in range(groesse)]
+        self.anzahl = 0
+
+    def _bucket(self, key):
+        return self.buckets[hash(key) % len(self.buckets)]
+
+    def __getitem__(self, key):
+        for k, v in self._bucket(key):
+            if k == key:
+                return v
+        return None
+
+    def __setitem__(self, key, value):
+        bucket = self._bucket(key)
+        for i, (k, _) in enumerate(bucket):
+            if k == key:
+                bucket[i] = (key, value)
+                break
+        else:                                  # Schleife ohne break: Key ist neu
+            bucket.append((key, value))
+            self.anzahl += 1
+            if self.anzahl &gt; len(self.buckets):
+                self.resize()
+
+    def resize(self):
+        paare = list(chain(*self.buckets))
+        self.buckets = [[] for _ in range(2 * len(self.buckets))]
+        for k, v in paare:
+            self._bucket(k).append((k, v))
+
+    def __str__(self):
+        paare = chain(*self.buckets)
+        return '{' + ', '.join(f'{k!r}: {v!r}' for k, v in paare) + '}'
+
+if __name__ == '__main__':
+    t = HashTabelle(4)
+    for i, wort in enumerate(['der', 'die', 'das', 'Haus', 'Baum', 'der']):
+        t[wort] = i
+    print(t['der'], t['Haus'], t['fehlt'])
+    print(len(t.buckets), t.anzahl)
+    print(t)</pre>
+<pre>$ PYTHONHASHSEED=0 python3 hashtab.py
+5 3 None
+8 5
+{'die': 1, 'Baum': 4, 'Haus': 3, 'der': 5, 'das': 2}</pre>
+  <p><b>讲解</b>: 从大小 4 开始放入 5 个不同的键 ('der' 出现两次, 第二次只改值为 5), 第 5 个键放入时元素数 5 &gt; 4, 扩容到 8. 输出顺序是桶的顺序, 和插入顺序无关, 这正是「哈希表」的样子 (Python 3.7 以后的 dict 额外记住了插入顺序, 所以 dict 打印是插入顺序). </p>
+  <p><b>核对</b>: 随机插入 2000 次 (1117 个不同的键), 每个键都能取回正确的值, 计数正确. </p>
+  <p><b>为什么要设 PYTHONHASHSEED</b>: 字符串的 <code>hash</code> 值每次启动 Python 都不同 (防止针对哈希表的攻击), 桶的顺序也就每次不同. 固定这个环境变量才能得到可重复的输出. </p>
+</details>
+<div class="warn"><p><b>练习单错误: </b>桶号应该用<b>取模</b> <code>hash(key) % 大小</code>, 而不是整数除法 <code>//</code>. 实际运行: <code>hash('der') // 10</code> 得到 <code>-85429607905572916</code> 这样巨大的数 (哈希值本身就有 19 位左右), 拿它当下标直接报 <code>IndexError</code>. 取模才能保证结果在 0 到大小−1 之间. 文中「Wenn das Divisionsergebnis 13 ist, wird … in Bucket 13 gesucht」也说明本意是「余数」: 而且默认大小 10 时根本没有 13 号桶. 参考答案用 <code>%</code>. 另: 「erhält einen Key als Argument<b>,</b> ruft …」缺逗号. </p></div>
+</article>
+</section>
+
+<!-- ======================= ÜBUNG 8 ======================= -->
+
+<section class="part" id="u8">
+<h2>Übung 8<br><span class="de-title"><span class="seg">Rekursion ·</span> <span class="seg">*args und **kwargs</span></span><small>对应合集 <a href="EIP-合集-计算语言学编程导论.html#sort">排序与推导式</a>、<a href="EIP-合集-计算语言学编程导论.html#ctrl">if 与函数</a>. </small></h2>
+
+<article id="u8-1">
+<h3>归并排序<br><span class="de-title">Merge-Sort</span></h3>
+<div class="card de">
+  <span class="folie">Übung 8 · Aufgabe 1</span>
+  <p class="themen">Themen: Rekursion, randint, pop, extend</p>
+  <p>Implementieren Sie den Merge-Sort-Algorithmus. Dieser sortiert eine Liste von Elementen, indem er</p>
+  <ul>
+    <li>die Liste in zwei etwa gleich große Teillisten aufspaltet</li>
+    <li>jede Teilliste rekursiv sortiert und</li>
+    <li>die beiden sortierten Listen zu einer einzigen sortierten Liste vereinigt.</li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 实现归并排序: 把列表分成大小差不多的两半; 每一半递归排序; 把两个已排好的列表<b>合并</b>成一个有序列表. </p>
+  <p><b>思路</b>: 递归出口是长度 ≤ 1 的列表 (本身就有序). 合并时比较两个列表的<b>第一个</b>元素, 较小的用 <code>pop(0)</code> 取出放进结果; 一边取完后, 另一边剩下的已经有序, 用 <code>extend</code> 整段接上. <code>randint</code> 用来生成测试数据. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>from random import randint
+
+def merge_sort(liste):
+    if len(liste) &lt;= 1:
+        return liste
+    mitte = len(liste) // 2
+    links = merge_sort(liste[:mitte])
+    rechts = merge_sort(liste[mitte:])
+    ergebnis = []
+    while links and rechts:
+        if links[0] &lt;= rechts[0]:
+            ergebnis.append(links.pop(0))
+        else:
+            ergebnis.append(rechts.pop(0))
+    ergebnis.extend(links)        # höchstens eine der beiden ist noch nicht leer
+    ergebnis.extend(rechts)
+    return ergebnis
+
+if __name__ == '__main__':
+    zahlen = [randint(0, 99) for _ in range(15)]
+    print(zahlen)
+    print(merge_sort(zahlen))</pre>
+<pre>$ python3 merge.py
+[14, 77, 15, 78, 57, 45, 51, 97, 99, 91, 29, 86, 79, 18, 77]
+[14, 15, 18, 29, 45, 51, 57, 77, 77, 78, 79, 86, 91, 97, 99]</pre>
+  <p><b>核对</b>: 3000 个随机列表 (长度 0–60, 含负数和重复) 全部和 <code>sorted()</code> 结果相同. </p>
+  <p><b>讲解</b>: 归并排序总共要 O(n log n) 次比较: 每层合并处理 n 个元素, 一共 log₂ n 层. 比较用 <code>&lt;=</code>, 相等时先取左边的, 所以它是<b>稳定</b>排序 (相等元素保持原来的先后顺序). </p>
+  <p><b>易错</b>: ① 忘了把递归结果赋给 <code>links</code>/<code>rechts</code>, 合并的是没排序的半边; ② 合并后只 extend 了一边; ③ <code>pop(0)</code> 每次要把后面的元素整体前移, 大列表时很慢, 更高效的写法是用两个下标 i、j 遍历, 不删除元素. </p>
+</details>
+</article>
+
+<article id="u8-2">
+<h3>旅行描述<br><span class="de-title">Reisebeschreibung</span></h3>
+<div class="card de">
+  <span class="folie">Übung 8 · Aufgabe 2</span>
+  <p class="themen">Themen: * und ** Argumente</p>
+  <p>Schreiben Sie eine Funktion <code>beschreibe_reise</code>, welche folgendermaßen aufgerufen wird:</p>
+<pre>beschreibe_reise(
+   "Paris",                              # 1. obligatorisch (Ziel)
+   "Eiffelturm", "Louvre", "Notre-Dame", # 2. optional (Sehenswuerdigkeiten)
+   Dauer="5 Tage", Unterkunft="Hotel"    # 3. Keyword-Argumente (für Details)
+)</pre>
+  <p>Die Funktion soll dann folgende Ausgabe generieren:</p>
+<pre>Reiseziel: Paris
+
+Geplante Stopps:
+ - Eiffelturm
+ - Louvre
+ - Notre-Dame
+
+Weitere Details:
+ - Dauer: 5 Tage
+ - Unterkunft: Hotel</pre>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写函数 <code>beschreibe_reise</code>, 调用方式如上: 第一个参数是必填的目的地; 接着是任意个可选的景点; 最后是任意个关键字参数 (细节). 函数要输出上面那样的文本. </p>
+  <p><b>思路</b>: 三种参数正好对应函数定义的三部分: 普通参数 <code>ziel</code>; <code>*stopps</code> 把多出来的<b>位置参数</b>收成一个元组; <code>**details</code> 把多出来的<b>关键字参数</b>收成一个字典 (键是参数名的字符串). </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>def beschreibe_reise(ziel, *stopps, **details):
+    print(f'Reiseziel: {ziel}')
+    if stopps:
+        print('\nGeplante Stopps:')
+        for stopp in stopps:
+            print(f' - {stopp}')
+    if details:
+        print('\nWeitere Details:')
+        for schluessel, wert in details.items():
+            print(f' - {schluessel}: {wert}')
+
+beschreibe_reise(
+    "Paris",
+    "Eiffelturm", "Louvre", "Notre-Dame",
+    Dauer="5 Tage", Unterkunft="Hotel"
+)</pre>
+<pre>$ python3 reise.py
+Reiseziel: Paris
+
+Geplante Stopps:
+ - Eiffelturm
+ - Louvre
+ - Notre-Dame
+
+Weitere Details:
+ - Dauer: 5 Tage
+ - Unterkunft: Hotel</pre>
+  <p>输出和练习单要求的逐字一致. </p>
+  <p><b>讲解</b>: 调用时 <code class="lc">stopps = ('Eiffelturm', 'Louvre', 'Notre-Dame')</code>, <code class="lc">details = {'Dauer': '5 Tage', 'Unterkunft': 'Hotel'}</code>. 字典保持关键字参数传入的顺序, 所以细节按调用时的顺序输出. 没有景点或没有细节时, 对应的小标题干脆不输出 (<code>if stopps:</code>), 这样 <code>beschreibe_reise('Rom')</code> 也能正常工作. </p>
+  <p><b>易错</b>: ① 参数顺序必须是 普通参数 → <code>*args</code> → <code>**kwargs</code>; ② 小标题前的空行: <code class="lc">print('\nGeplante Stopps:')</code> 的 <code>\n</code> 先输出一个空行. </p>
+</details>
+</article>
+</section>
+
+<!-- ======================= ÜBUNG 9 ======================= -->
+
+<section class="part" id="u9">
+<h2>Übung 9<br><span class="de-title">Bigramm-Sprachmodell</span><small>对应合集 <a href="EIP-合集-计算语言学编程导论.html#dict">字典</a>、<a href="EIP-合集-计算语言学编程导论.html#datei">模块与文件</a>、<a href="EIP-合集-计算语言学编程导论.html#cli">命令行</a>. </small></h2>
+
+<article id="u9-1">
+<h3>字符二元语言模型<br><span class="de-title">Bigramm-Sprachmodell</span></h3>
+<div class="card de">
+  <span class="folie">Übung 9 · Aufgabe 1</span>
+  <p class="themen">Themen: open, defaultdict(lambda: defaultdict(int)), sum, Overfitting</p>
+  <p>Schreiben Sie eine Klasse <code>Sprachmodell</code>, deren init-Methode einen Text als Argument erhält und</p>
+  <ul>
+    <li>ein Start- und ein Ende-Symbol hinzufügt</li>
+    <li>die Häufigkeiten aller Zeichen-Bigramme berechnet</li>
+    <li>und aus den Häufigkeiten Wahrscheinlichkeiten schätzt nach der Formel:</li>
+  </ul>
+  <p style="text-align:center">p(b|a) = f<sub>ab</sub> / Σ<sub>b′</sub> f<sub>ab′</sub></p>
+  <p>Schreiben Sie zusätzlich eine Methode <code>perplexity</code>, welche einen Text als Argument erhält, ebenfalls über die Zeilen iteriert und die Wahrscheinlichkeit jeder Zeile wie folgt berechnet:</p>
+  <p style="text-align:center">p(<b>t</b>) = ∏<sub>i=1</sub><sup>n+1</sup> p(t<sub>i</sub> | t<sub>i−1</sub>)</p>
+  <p>Dabei ist t<sub>0</sub> das Startsymbol und t<sub>n+1</sub> das Endesymbol. Diese Wahrscheinlichkeit wird dann noch in eine Perplexität umgerechnet:</p>
+  <p style="text-align:center"><i>perplexity</i>(<b>t</b>) = − log p(<b>t</b>) / |<b>t</b>|</p>
+  <p>Das Hauptprogramm liest eine Datei ein, deren Name auf der Kommandozeile übergeben wurde, und initialisiert damit das Sprachmodell.</p>
+  <p>Dann wird der Benutzer aufgefordert, eine Textzeile einzugeben. Zu dem eingegebenen Text werden ein Start- und ein Ende-Symbol hinzugefügt. Dann wird die Wahrscheinlichkeit des Textes mit folgender Formel berechnet und ausgegeben:</p>
+  <p>Das Programm endet, wenn der Benutzer eine leere Zeile eingibt.</p>
+  <p><b>Frage:</b> Welches Problem taucht beim Experimentieren mit dem System auf?</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写一个类 <code>Sprachmodell</code> (语言模型). <code>__init__</code> 接收一段文本: 给 (每行) 加上开始符和结束符; 统计所有<b>字符二元组</b> (Bigramm, 相邻两个字符) 的频次; 按公式把频次变成概率: p(b|a) = 「a 后面紧跟 b」的次数 ÷「a 后面跟任何字符」的总次数. 再写方法 <code>perplexity</code>: 同样逐行处理, 一行的概率是所有相邻字符条件概率的乘积 (t₀ 是开始符, t<sub>n+1</sub> 是结束符), 再按公式换算成困惑度. 主程序读入命令行给出的文件来训练模型, 然后反复让用户输入一行, 算出并输出它的概率, 空行结束. 问题: 实验时会遇到什么问题? </p>
+  <p><b>思路</b>: </p>
+  <ul>
+    <li><code class="lc">defaultdict(lambda: defaultdict(int))</code> 是「两层字典」: <code>freq['a']['b']</code> 直接 <code>+= 1</code>, 不存在的键自动从 0 开始, 第一层不存在的键自动建一个新的内层字典. </li>
+    <li>相邻字符对用 <code class="lc">zip(zeichen, zeichen[1:])</code> 得到. </li>
+    <li>概率: 对每个 a, 用 <code>sum(freq[a].values())</code> 得到分母. </li>
+    <li>开始符和结束符要选文本里不会出现的字符, 这里用 <code>&lt;</code> 和 <code>&gt;</code>. </li>
+  </ul>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>import math
+import sys
+from collections import defaultdict
+
+START, ENDE = '&lt;', '&gt;'          # Zeichen, die im Text selbst nicht vorkommen sollten
+
+class Sprachmodell:
+    def __init__(self, text):
+        freq = defaultdict(lambda: defaultdict(int))
+        for zeile in text.splitlines():
+            if not zeile:
+                continue
+            zeichen = START + zeile + ENDE
+            for a, b in zip(zeichen, zeichen[1:]):
+                freq[a][b] += 1
+        self.p = {}
+        for a, folger in freq.items():
+            gesamt = sum(folger.values())
+            self.p[a] = {b: f / gesamt for b, f in folger.items()}
+
+    def wahrscheinlichkeit(self, zeile):
+        zeichen = START + zeile + ENDE
+        p = 1.0
+        for a, b in zip(zeichen, zeichen[1:]):
+            p *= self.p.get(a, {}).get(b, 0.0)
+        return p
+
+    def perplexity(self, text):
+        werte = []
+        for zeile in text.splitlines():
+            p = self.wahrscheinlichkeit(zeile)
+            if p == 0.0:
+                werte.append(math.inf)       # unbekanntes Bigramm: log 0 ist nicht definiert
+            else:
+                werte.append(-math.log(p) / len(zeile))
+        return werte
+
+if __name__ == '__main__':
+    with open(sys.argv[1], encoding='utf-8') as f:
+        modell = Sprachmodell(f.read())
+    while True:
+        zeile = input('Text: ')
+        if zeile == '':
+            break
+        print('p =', modell.wahrscheinlichkeit(zeile),
+              ' perplexity =', modell.perplexity(zeile)[0])</pre>
+  <p>训练文件 <code>korpus.txt</code> (自己造的四行小语料): </p>
+<pre>der hund bellt
+die katze schlaeft
+der hund schlaeft
+die katze bellt nicht</pre>
+<pre>$ python3 sprachmodell.py korpus.txt
+Text: der hund schlaeft
+p = 2.229625274892764e-06  perplexity = 0.7655104132221718
+Text: die katze
+p = 0.0  perplexity = inf
+Text: </pre>
+  <p><b>预备问题的答案 (实验中的问题)</b>: 「die katze」明明每个字都在语料里, 概率却是 <b>0</b>. 原因: 语料里 katze 后面总是空格, 从来没有以 e 结尾的行, 所以二元组「e + 结束符」的频次是 0, 整个乘积变成 0, <code>log 0</code> 没有定义 (直接 <code>math.log(0)</code> 会报 <code class="lc">ValueError: math domain error</code>, 参考答案里返回 inf 代替). 只要出现一个训练时没见过的二元组, 整句的概率就是 0. 这就是 Themen 里说的 <b>Overfitting 过拟合</b>: 模型只认得训练文本里出现过的东西, 对新文本完全没有泛化能力. 解决办法是<b>平滑</b> (Smoothing), 例如加一平滑 (Add-one / Laplace): 每个频次都加 1, 没见过的二元组也有一个很小但不为 0 的概率. </p>
+  <p><b>核对</b>: 每个 a 的条件概率之和都是 1 (例如 <code>sum(p['d'].values())</code> = 1.0); 开始符后面只会接 'd' (四行都以 d 开头), 概率为 1.0. </p>
+  <p><b>易错</b>: ① 文件末尾的换行会产生一个空行, 如果不跳过, 模型会学到「开始符后直接接结束符」, 所以训练时跳过空行; ② 概率连乘会越来越小, 长文本会下溢成 0.0, 实际系统都改成<b>对数相加</b>: log p(t) = Σ log p(tᵢ|tᵢ₋₁). </p>
+</details>
+<div class="warn"><p><b>练习单问题: </b>① 「Dann wird die Wahrscheinlichkeit des Textes mit folgender Formel berechnet und ausgegeben:」后面<b>公式缺失</b>, 直接接下一段, 应该就是上面 p(<b>t</b>) 那个乘积公式. ② 按标准定义, 困惑度 (perplexity) 是 2 或 e 的 −log p(t)/|t| <b>次方</b>; 练习单里的 −log p(t)/|t| 其实是「平均每个字符的负对数概率」 (交叉熵), 不是困惑度本身. 两者单调相关, 比较模型时结论一样. ③ |t| 是否把结束符算进去没说清, 参考答案用文本长度 n. ④ 「ebenfalls über die Zeilen iteriert」暗示 <code>__init__</code> 也按行处理, 但前面描述 <code>__init__</code> 时没提到「按行」. </p></div>
+</article>
+</section>
+
+<!-- ======================= ÜBUNG 10 ======================= -->
+
+<section class="part" id="u10">
+<h2>Übung 10<br><span class="de-title"><span class="seg">Rekursion ·</span> <span class="seg">Backtracking ·</span> <span class="seg">Numpy</span></span><small>对应合集 <a href="EIP-合集-计算语言学编程导论.html#bib">常用库</a>. </small></h2>
+
+<article id="u10-1">
+<h3>数独<br><span class="de-title">Sudoku</span></h3>
+<div class="card de">
+  <span class="folie">Übung 10 · Aufgabe 1</span>
+  <p class="themen">Themen: Rekursion, Backtracking, Numpy, itertool.chain</p>
+  <p>Bei einem Sudoku ist eine Tabelle der Größe 9x9 gegeben, welche teilweise mit Ziffern von 1 bis 9 gefüllt ist. Die Aufgabe besteht darin, die leeren Felder mit Ziffern zu füllen. Dabei sind folgende Regeln zu beachten:</p>
+  <ul>
+    <li>Jede Zeile der Tabelle muss die Zahlen 1 bis 9 ohne Wiederholung enthalten.</li>
+    <li>Jede Spalte muss die Zahlen 1 bis 9 ohne Wiederholung enthalten.</li>
+    <li>Jedes der neun 3×3-Teiltabellen muss die Zahlen 1 bis 9 genau einmal enthalten.</li>
+  </ul>
+  <p>Schreiben Sie ein Programm, welches Sudokus löst.<br>Ein Beispiel-Sudoku finden Sie auf der Kursseite.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 数独是一个 9×9 的表格, 部分格子填了 1–9 的数字, 要把空格填满: 每行、每列、每个 3×3 小方块都必须恰好包含 1–9 各一次. 写一个程序解数独. 示例数独在课程网页上. </p>
+  <p><b>思路 (回溯法, Backtracking)</b>: </p>
+  <ol>
+    <li>找第一个空格 (0 表示空); 没有空格了, 说明已经解完. </li>
+    <li>在这个格子依次试 1–9, 只试<b>不违反规则</b>的数字. </li>
+    <li>填上之后<b>递归</b>去解剩下的格子; 递归成功就一路返回 True. </li>
+    <li>递归失败, 说明这个数字走不通: 把格子<b>清回 0</b> (这一步就是「回溯」), 再试下一个数字; 9 个都不行就返回 False, 让上一层换数字. </li>
+  </ol>
+  <p>用 numpy 二维数组存表格, 切片很方便: <code>feld[z, :]</code> 是一行, <code>feld[:, s]</code> 是一列, <code>feld[bz:bz+3, bs:bs+3]</code> 是小方块. <code>itertools.chain</code> 把三者连在一起检查. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>import numpy as np
+from itertools import chain
+
+def moeglich(feld, z, s, ziffer):
+    bz, bs = 3 * (z // 3), 3 * (s // 3)
+    belegt = chain(feld[z, :], feld[:, s], feld[bz:bz+3, bs:bs+3].flat)
+    return ziffer not in belegt
+
+def loese(feld):
+    leer = np.argwhere(feld == 0)
+    if len(leer) == 0:
+        return True                          # alle Felder gefüllt
+    z, s = leer[0]
+    for ziffer in range(1, 10):
+        if moeglich(feld, z, s, ziffer):
+            feld[z, s] = ziffer
+            if loese(feld):
+                return True
+            feld[z, s] = 0                   # Backtracking: Versuch zurücknehmen
+    return False
+
+RAETSEL = """
+530070000
+600195000
+098000060
+800060003
+400803001
+700020006
+060000280
+000419005
+000080079"""
+
+if __name__ == '__main__':
+    feld = np.array([[int(c) for c in zeile] for zeile in RAETSEL.split()])
+    if loese(feld):
+        print(feld)
+    else:
+        print('keine Lösung')</pre>
+<pre>$ python3 sudoku.py
+[[5 3 4 6 7 8 9 1 2]
+ [6 7 2 1 9 5 3 4 8]
+ [1 9 8 3 4 2 5 6 7]
+ [8 5 9 7 6 1 4 2 3]
+ [4 2 6 8 5 3 7 9 1]
+ [7 1 3 9 2 4 8 5 6]
+ [9 6 1 5 3 7 2 8 4]
+ [2 8 7 4 1 9 6 3 5]
+ [3 4 5 2 8 6 1 7 9]]</pre>
+  <p><b>核对</b>: 用程序检查了结果: 9 行、9 列、9 个小方块都恰好是 1–9; 原来给定的数字都没被改动. 示例用的是维基百科「Sudoku」条目上的经典题 (课程网页上的示例无法获取). </p>
+  <p><b>讲解</b>: <code>3 * (z // 3)</code> 算出格子所在小方块的左上角: 第 4 行 (下标 4) → 4 // 3 = 1 → 3, 即第 3–5 行那个方块. <code>.flat</code> 把 3×3 的小方块拉平成 9 个数. </p>
+  <p><b>易错</b>: ① 递归失败后忘了把格子清回 0, 后面的检查会把错误的数字当成已填; ② 返回值没往上传 (<code>loese(feld)</code> 成功了却没 <code>return True</code>), 程序会继续把填好的格子改掉. </p>
+</details>
+<div class="warn"><p><b>原文笔误: </b>Themen 里「<b>itertool</b>.chain」应为「<b>itertools</b>.chain」; 「Jede<b>s</b> der neun 3×3-Teiltabellen」: Teiltabelle 是阴性, 应为「Jede der neun …」. 另外前两条规则写「ohne Wiederholung」, 第三条写「genau einmal」, 说的是同一回事. </p></div>
+</article>
+</section>
+
+<!-- ======================= ÜBUNG 11 ======================= -->
+
+<section class="part" id="u11">
+<h2>Übung 11<br><span class="de-title">Reguläre Ausdrücke</span><small>对应合集 <a href="EIP-合集-计算语言学编程导论.html#regex">正则</a>. </small></h2>
+
+<article id="u11-1">
+<h3>从 XML 文件中提取数据<br><span class="de-title">Extraktion von Daten aus XML-Dateien</span></h3>
+<div class="card de">
+  <span class="folie">Übung 11 · Aufgabe 1</span>
+  <p class="themen">Themen: reguläre Ausdrücke</p>
+  <p>Extrahieren Sie aus XML-Dateien mit annotierten Texten die Daten und speichern Sie Token, Wortart mit morphosyntaktischen Merkmalen und Lemmata in einer dreispaltigen TSV-Datei mit Tabulatoren als Trennzeichen wie in folgendem Beispiel:</p>
+<pre>ist       VAFIN.Ind.Pres.Sg.3         sein</pre>
+  <p>Einen Link zu den Daten finden Sie auf der Kursseite. Verwenden Sie reguläre Ausdrücke zur Extraktion der Daten.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 从带标注的 XML 文本中提取数据, 把<b>词形</b> (Token)、<b>词类及形态句法特征</b> (如 VAFIN.Ind.Pres.Sg.3: 限定助动词、直陈式、现在时、单数、第三人称) 和<b>词元</b> (Lemma) 存成三列、以 Tab 分隔的 TSV 文件. 数据链接在课程网页上. 要求用正则表达式提取. </p>
+  <p><b>思路</b>: 先打开数据文件看一个词在 XML 里长什么样, 再写一个正则, 用三个<b>捕获组</b>分别抓出词形、标签和词元, <code>re.findall</code> 一次找出所有匹配, 逐行写出. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+  <p>课程网页上的数据这里拿不到, 下面假设每个词的格式是 <code class="lc">&lt;w lemma="…" pos="…"&gt;词形&lt;/w&gt;</code>. 拿到真实数据后, <b>只需按它的格式改正则</b>, 其余代码不变. </p>
+<pre>import re
+import sys
+
+# &lt;w lemma="sein" pos="VAFIN.Ind.Pres.Sg.3"&gt;ist&lt;/w&gt;
+WORT = re.compile(r'&lt;w\s+lemma="([^"]*)"\s+pos="([^"]*)"\s*&gt;([^&lt;]*)&lt;/w&gt;')
+
+def extrahiere(eingabe, ausgabe):
+    with open(eingabe, encoding='utf-8') as f, \
+         open(ausgabe, 'w', encoding='utf-8') as out:
+        for lemma, pos, token in WORT.findall(f.read()):
+            print(token, pos, lemma, sep='\t', file=out)
+
+if __name__ == '__main__':
+    extrahiere(sys.argv[1], sys.argv[2])</pre>
+  <p>测试文件 <code>beispiel.xml</code>: </p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;text&gt;
+ &lt;s id="s1"&gt;
+  &lt;w lemma="das" pos="ART.Nom.Sg.Neut"&gt;Das&lt;/w&gt;
+  &lt;w lemma="Wetter" pos="NN.Nom.Sg.Neut"&gt;Wetter&lt;/w&gt;
+  &lt;w lemma="sein" pos="VAFIN.Ind.Pres.Sg.3"&gt;ist&lt;/w&gt;
+  &lt;w lemma="schön" pos="ADJD.Pos"&gt;schön&lt;/w&gt;
+  &lt;w lemma="." pos="$."&gt;.&lt;/w&gt;
+ &lt;/s&gt;
+&lt;/text&gt;</pre>
+<pre>$ python3 xml2tsv.py beispiel.xml beispiel.tsv
+$ cat beispiel.tsv            （→ 表示 Tab）
+Das→ART.Nom.Sg.Neut→das
+Wetter→NN.Nom.Sg.Neut→Wetter
+ist→VAFIN.Ind.Pres.Sg.3→sein
+schön→ADJD.Pos→schön
+.→$.→.</pre>
+  <p><b>正则逐段</b>: <code>&lt;w\s+</code> 标签开头; <code>lemma="([^"]*)"</code> 第 1 组: 引号里任意非引号字符; <code>pos="([^"]*)"</code> 第 2 组; <code>&gt;([^&lt;]*)&lt;/w&gt;</code> 第 3 组: 标签之间的词形. <code>[^"]*</code> 比 <code>.*</code> 安全: <code>.*</code> 是贪婪的, 会一直匹配到这一行<b>最后</b>一个引号. </p>
+  <p><b>易错</b>: ① 属性顺序和真实数据不一致时正则匹配不到: 先看数据再写; ② <code>print(…, sep='\t')</code> 用 Tab 分隔, 别用空格; ③ 文件要用 <code>encoding='utf-8'</code> 打开, 否则 ä、ö、ü 可能出错. </p>
+</details>
+<div class="add"><p>正式处理 XML 应该用 XML 解析器 (<code>xml.etree.ElementTree</code>), 它能正确处理属性顺序、换行、转义字符 (<code>&amp;amp;</code>) 等情况; 正则只适合格式非常规整的文件. 这道题要求用正则, 是为了练习. </p></div>
+</article>
+</section>
+
+<!-- ======================= ÜBUNG 12 ======================= -->
+
+<section class="part" id="u12">
+<h2>Übung 12<br><span class="de-title"><span class="seg">set ·</span> <span class="seg">defaultdict ·</span> <span class="seg">requests ·</span> <span class="seg">timeit ·</span> <span class="seg">matplotlib</span></span><small>对应合集 <a href="EIP-合集-计算语言学编程导论.html#bib">常用库</a>、<a href="EIP-合集-计算语言学编程导论.html#str">str / tuple / set</a>. </small></h2>
+
+<article id="u12-1">
+<h3>词频统计<br><span class="de-title">Worthäufigkeiten</span></h3>
+<div class="card de">
+  <span class="folie">Übung 12 · Aufgabe 1</span>
+  <p class="themen">Themen: set, defaultdict, requests, Zeitmessung, Effizienz, matplotlib</p>
+  <p>Schreiben Sie ein Programm, welches die Worthäufigkeiten aus Alice in Wonderland extrahiert und graphisch darstellt.</p>
+  <p>Schritte:</p>
+  <ul>
+    <li>Laden Sie eine Stoppwortliste mit dem Modul requests von folgender Adresse herunter: https://tinyurl.com/evpxs6u8</li>
+    <li>Speichern Sie die Stoppwörter in einer Liste.</li>
+    <li>Lesen den Text von Alice in Wonderland ein.</li>
+    <li>Ersetzen Sie Großbuchstaben durch Kleinbuchstaben.</li>
+    <li>Entfernen Sie Satzzeichen, Klammern etc.</li>
+    <li>Spalten Sie den Text in Wörter auf mit Whitespace-Symbolen als Wortgrenzen.</li>
+    <li>Entfernen Sie aus der erhaltenen Wortliste die Stoppwörter.</li>
+    <li>Messen Sie mit timeit.timeit, wie lange das Ausfiltern dauert.</li>
+    <li>Speichern Sie dann die Stoppwörter in einem Set.</li>
+    <li>Messen Sie noch einmal, wie lange das Ausfiltern dauert.</li>
+    <li>Berechnen Sie die Worthäufigkeiten.</li>
+    <li>Sortieren Sie die Wörter absteigend nach Häufigkeit und plotten Sie die Häufigkeiten mit der matplotlib-Biliothek.</li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写程序统计《爱丽丝漫游奇境》的词频并画图. 步骤: 用 <code>requests</code> 下载停用词表, 存进列表; 读入小说; 转小写; 去掉标点、括号等; 按空白切词; 删掉停用词, 用 <code>timeit.timeit</code> 计时; 再把停用词存进<b>集合</b>, 重新计时; 统计词频; 按频率降序排列, 用 matplotlib 画出来. </p>
+  <p><b>思路</b>: 这道题的重点是<b>列表和集合的速度差</b>: <code>w in 列表</code> 要从头到尾逐个比较 (停用词表 128 个, 每个词最多比 128 次); <code>w in 集合</code> 用哈希直接定位 (Übung 7 的哈希表), 几乎一步完成. </p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>import re
+import timeit
+from collections import defaultdict
+
+import matplotlib.pyplot as plt
+import requests
+
+URL = 'https://tinyurl.com/evpxs6u8'
+
+stoppwoerter = [w.strip("'") for w in requests.get(URL).text.split()]   # Liste; "'s" -&gt; "s"
+
+with open('alice.txt', encoding='utf-8') as f:
+    text = f.read()
+# nur den Roman, ohne Lizenztext von Project Gutenberg
+text = text.split('*** START')[1].split('*** END')[0].lower()
+text = re.sub(r'[^a-z\s]', ' ', text)                 # Satzzeichen, Ziffern, Klammern … entfernen
+woerter = text.split()                                  # Whitespace als Wortgrenze
+
+def filtern(stopp):
+    return [w for w in woerter if w not in stopp]
+
+zeit_liste = timeit.timeit(lambda: filtern(stoppwoerter), number=10) / 10
+stopp_set = set(stoppwoerter)
+zeit_set = timeit.timeit(lambda: filtern(stopp_set), number=10) / 10
+print(f'Liste: {zeit_liste*1000:.1f} ms   Set: {zeit_set*1000:.1f} ms   '
+      f'Faktor {zeit_liste/zeit_set:.0f}')
+
+haeufigkeit = defaultdict(int)
+for w in filtern(stopp_set):
+    haeufigkeit[w] += 1
+
+sortiert = sorted(haeufigkeit.items(), key=lambda kv: kv[1], reverse=True)
+print(sortiert[:10])
+
+plt.plot(range(1, len(sortiert) + 1), [f for _, f in sortiert])
+plt.xscale('log'); plt.yscale('log')
+plt.xlabel('Rang'); plt.ylabel('Häufigkeit')
+plt.title('Alice in Wonderland')
+plt.savefig('alice.png')</pre>
+<pre>$ python3 woerter.py
+Liste: 28.2 ms   Set: 0.8 ms   Faktor 35
+[('said', 462), ('alice', 400), ('little', 129), ('one', 104), ('know', 87), ('like', 85), ('would', 83), ('went', 83), ('could', 77), ('queen', 76)]</pre>
+  <figure class="src-fig"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAHgCAYAAAA10dzkAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjExLjIsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvgI3uAAAAAAlwSFlzAAAPYQAAD2EBqD+naQAASH9JREFUeJzt3Qd4VFXex/F/ekgnhEBI6EhJ6E16E6WDBVd91RXEteGKa1n7ouu6rKtuUVGsYHcXBWRBQUSQXqRKC00gtDSSTArp8z7nhBkzkABpc2fmfj/Pc59k7lwmZ+5cZn5zqpfVarUKAAAATMPb6AIAAADAuQiAAAAAJkMABAAAMBkCIAAAgMkQAAEAAEyGAAgAAGAyBEAAAACTIQACAACYDAEQAADAZAiAAAAAJkMABAAAMBkCIAAAgMkQAAEAAEyGAAgAAGAyBEAAAACTIQACAACYDAEQAADAZAiAAAAAJkMABAAAMBkCIAAAgMkQAAEAAEyGAAgAAGAyBEAAAACTIQACAACYDAEQAADAZAiAAAAAJkMABAAAMBkCIAAAgMkQAAEAAEyGAAgAAGAyBEAAAACTIQACAACYDAEQAADAZAiAAAAAJkMABAAAMBkCIGByt9xyi7z88suX3GdEOczkwQcflEceecTjzmtdPS8ANeNbw38PwIX9/ve/l71798pDDz0kY8eOrfCY1atXS0BAwCX31bXa/pt33nmnlJSUyIcffuiwPzk5WW699VYJDQ2V+fPnO9yXl5cn1157rQwePFiefvppcaZNmzZJYGBgrT+uEa+lM54XgJohAAIe6vDhwzJz5kzx8/PTQaiyAFiRL774QiIjI+u0fM74mx9//LG88sor0rBhQ/u+5cuXyw8//CBWq1WH4w4dOtjvW7t2rSxbtkzGjRtXq+UAAFdDEzDgod5//30JCQnRzX8rV66UAwcOXPa/HTBggMTHx9dp+er6bw4bNkyHvBUrVjjsV+Fv4MCBEh0drX8//z7bvwUAT0YABDyQqvGbM2eO3HbbbfK73/1O16y99957Ne439ssvv8if/vQnue666+Smm26S119/XQoKCi6oeXzqqadk/Pjxujn1pZdekqysrGr9TVUT98Ybb0hGRoY8++yz+rZ6Pjt27Ljk49lC3PkBUN0eOnSobuat6L5GjRpJQkKCfd/GjRtl6tSpMmbMGF1GdR4LCwtrVM5vv/1WvzYTJkzQz/n8c1jV82n7++np6fr1Ubc//fTTSh9TPZ/hw4frbeTIkfLb3/5WPvroI33dOOt5ATAWARDwQIsXL5aTJ0/K/fffL/Xq1ZNJkybpvnBFRUWX3W9s9+7dDvvmzZuna+hUM6kKAhMnTpRDhw7pnzYLFy7U4Wnnzp06IN5www0yd+5c6dmzp6SkpFT5b6pAtmXLFh28GjdurINKYmKi9OvXT44cOXLRx2vSpIm0b9/eoZbv6NGjOlCpADhkyBBdM6pqCZXs7Gz9t8rX/qkm9L59+4rFYpHJkydLjx495NFHH9XH5OfnV6ucKhiNHj1a187ecccdOiSpPokVudzzqf7+5s2b9f2qufv666/XZa6M+rtPPPGE3lQYbNu2re4nOmXKlGqf/6o8LwAuwArA44wdO9Y6cOBA++0DBw5Yvby8rF999dUFx8bGxlrvuOOOi+5LTk62BgcHW8eNG2ctLS11ODYzM1P/TEtLs4aGhlpvuOEGh/tzcnKsMTEx1jvvvPOiZa6oHOpvqu3gwYP2fRkZGdZ69epZp02bdomzYLXef//9Kt1ZT5w4oW9/8MEH1sDAQGt+fr519+7d+r5t27bp+xYtWqRvv/vuu/r20aNHrb6+vtbbb7/d4TFXrVqlj3vuueeqXM4jR47ox3zggQccHvOTTz6x+vn5WQcPHmzfV5Xzqf62el579+617yssLKz0vFbkyy+/1M9rz549dfq8ALgGagABD3PixAndFHfffffZ97Vp00Y397377rvVekxV+5ebmyuPPfaYeHl5OdwXHh5uP0bVoqlpP8oLDg7WTcZff/11tfsGtm7d2n47IiJCOnfuLLt27apyM7CqDVS1V2pUrKrNLN8P0HaM7d+o2rfi4mJdi1qe6j+o/v5XX31V5XLaHlM1o5anatiCgoIc9lX1fF555ZW6xtNGDf6pzNmzZ+Xtt9+W22+/XTcBq2vj1Vdf1fedXwtb288LgGtgFDDgYWbPnq37cs2aNUsPBDm/+fPYsWPSrFmzKj2m6vunqKbCyhw8eFD/nD59ug5YqmnV1ryqmopV/zTVbFrVKUGaN29+wb4GDRpIUlLSJf+taur19vbWIU81R6qQd++999rvV/0A1X0PP/yw/tmiRQtp1aqVvk+dJ8V2uzwViNRo4qqW0/aYLVu2dDhOlfH816Sq5/P8x7xY+OvTp4+cOXNGpk2bpl9TFdJUk+769eslJyenTp8XANdAAAQ8iAoIKvSpfl1qwEBF8wJ+8MEH8txzz1XpcVU/QkX1K1ODJCpiCyL33HOPREVFVXjMxWqlKlPRv1G1kKWlpZf8t2rwS5cuXXTwU33XVO2oCoU2qh+g6geXmpqqBzaovpLnP2cViFRNYXnqPNjur0o5bf9G1eypeQjLU/vKT4NT1fOpagYvh6q5VH0KV61apWszbb777rtL/o3aeF4AXAMBEPAgag47VZOjmuJU8DmfGryhAqAaKapqZy5X//799U9VS3bFFVdUeIxqKrRRTYquQjXpquZN9bxVTVfv3r0dAqAKKGquQBVoyg8AUQMtFDXopXwtoJosevv27boWrapsj7lhwwY9UMPm+PHjukatfG1bXZ1PFXYrqs1dunRptR+zKs8LgGugDyDgQdQUJTExMRWGP2XUqFH6A7mqH/YqgKiwpIKj+pC3yczMlHfeeUf/fvXVV8tVV12ll/1SI1LLU7Vrqs+ZEVSZFDWdiQqy5Wu0VD9AVaOp7lPKB0B1rtQIXFVbahvxqkKien5qWhTVH7Kq1GO2a9dOT6ly6tQpvU+Nln3yySclLi7O4di6Op+9evXSPz/55BP7vu+//14H3eqqyvMC4BoIgICHUDU7amDAiBEjKj1G1SqpJrqqDgZRTX4LFiyQa665RgYNGqQ/7FWtjwpI5WsS1TGqllE1LaoaJhW41HQsanqR2NhYMYIqiwp9quaufPOvjXo+6j61IogKzza+vr56ME3Tpk314AoVnNRzUIMz1Bx7qv9gValyLFq0SHx8fPTAHFUbqf6uGtShplk5X12cT3UNPPPMM/L4449Lp06d9Gv44osv6lrQ6qrq8wJgPC81FNjoQgCoubS0NN00qYLCxTreq9okFXhsAWbNmjW6j1b5VTgq2mejar/UEmpqvjcVjPz9/S84Ro0Y3rNnjx4ZqppPK+s3WF5Ff1PN06dCmQqc59eA2QYzXI5169bp56xqRssvC6eogTFqU2VUgagiapCDqgUMCwuTjh076nBYXlXLqd521Sha1fys/qYK5ep1UWFazTVY1fNZ2d+/2GupvjCo1WFU/0J1zajzo86TCoS2IFzXzwuAcQiAAAAAJkMTMAAAgMkQAAEAAEyGAAgAAGAyBEAAAACTIQACAACYDAEQAADAZFgKrgbUqgAnT57Uc12piXIBAIDrs1qter5KNbF6VZbF9CQEwBpQ4U+tEgAAANxPUlKSaZcrJADWgKr5s11AaoUAAADg+iwWi67AsX2OmxEBsBpmzpypt5KSEn1bhT8CIAAA7sXLxN23WAquht8gwsPDJSsriwAIAICbsPD5zShgAAAAszHn0BcAAAATIwACAACYDAEQAADAZAiAAAAAJkMABAAAMBkCIAAAgMkQAAEAAEyGAFgNahWQ+Ph46dWrV+2/IgAAAHWMlUBqgJnEAQBwPxZWAqEGEAAAwGx8jS4ALrRiX4r8Z3OSdIoLl4QmYdIpNlwahARwqgAAQK0gALqgDYfTZcnu03qziQkPlI6x4dKxSbh0igvTP6PDAg0tJwAAcE8EQBc0rksTiQoJkJ9PZMmuk1nyS1qunMrK19uyPcn24xqGBujawY5NwsrCYWy4DopeXl6Glh8AALg2BoG4QSfSnIJi2XPSogPh7hNZ+ueh1BwptV54bINgf0mIDZdOsWW1hCoUxtWvRygEAMDJn9+ujADophdQXmGx7D1lkV0nyoLhrhNZciAlR0oqSIURQX46DCbElvUnVL83iwwSb29qCgEA5mMhABIAPekCyi8qkX2ns3UY1NvJLEk8nS1FJReGwtBAXz3ApKxPoRpsEi6tooIJhQAAj2dxsc9vI1AD6OEXUEFxiRxIzrHXEqpt7+lsKSwuveDYYH8fibf1JzwXDFUo9PVhvnAAgOewuMHnd10jAJrwAioqKdWhUNUQ2kLhnlMWyS+6MBQG+nlLh5hfm45VOLyiUYj4EQoBAG7K4qaf37WJAFgDnnQBFZeUyuG0XB0GywabWGT3ySzJLSy54Fh/37JQ+PToDtK7ZaQh5QUAoLosHvT5XV0EwGquBay2kpIS2b9/v8deQKWlVvklvSwUlg+G2QXF+v6uTSNkwdT+RhcTAIAqsRAACYA1YcYLSIXCxORsGff6Gikutcr3Dw+SNtGhRhcLAIDLZjHh5/f56N2Pql0w3l66+XdIu2h9e+6W45xBAADcDAEQ1TKxR5z+OW/rCd1/EAAAuA8CIKplWPtoiQz2l9TsAll1IJWzCACAGyEAolrUSOBru8bq3+f+RDMwAADuhACIaruxZ1kz8Pd7kyUjt5AzCQCAmyAAotrUYBC1nJxaau7r7Sc4kwAAuAkCIGrkxnODQRgNDACA+yAAokYmdI0Vfx9v2X3SIntOWjibAAC4AQIgaqR+sL8Mjy+bE/BL5gQEAMAtEABRa3MCLth+QgqLmRMQAABXRwBEjQ26oqFEhwbImdxC+WFfCmcUAAAXRwBEjfn6eMt13cvmBPxySxJnFAAAF0cARK2OBl6RmCop2fmcVQAAXBgBELWiTXSodG0aISWlVvl620nOKgAALowAWA0zZ86U+Ph46dWrV+2/Ih6wMsjcLUlitVqNLg4AAKgEAbAapk6dKnv27JHNmzdX5597rHFdmkiAr7fsT86RncezjC4OAACoBAEQtSYs0E9GdmxsrwUEAACuiQCIWnVjj6b658LtJyW/qISzCwCACyIAolb1bd1AmoQHiiW/WJbtSebsAgDgggiAqFU+3l5yw7kpYeayNBwAAC6JAIg6Wxpu9YFUOZV1ljMMAICLIQCi1jVvECy9W0aKmglm3tYTnGEAAFwMARB1Wgv45ZbjzAkIAICLIQCiTozpFCNB/j7yS1qubDmawVkGAMCFEABRJ4IDfGV0pxj9+9yfjnOWAQBwIQRA1JkbzzUDL/75lOQVFnOmAQBwEQRA1Bk1EKRZZJDkFBTLkl2nOdMAALgIAiDqjJeXl30wCM3AAAC4DgIg6pSaFNrLS2T94XRJOpPH2QYAwAUQAFGnYiPqSf/WUfYpYQAAgPEIgKhztmbgr7Yel9JSK2ccAACDEQBR50YkNJbQAF85nnFWNvySzhkHAMBgBEDUuXr+PjK2SxP9+5fMCQgAgOEIgHCKG3uWNQN/s+uUZOcXcdYBADAQARBO0a1phLRqGCz5RaXyzc+nOOsAABiIAAinzQl4Y4+m+nfmBAQAwFgEwGqYOXOmxMfHS69evWr/FfFg13ePFW8vkZ+OZsjh1ByjiwMAgGkRAKth6tSpsmfPHtm8eXPtvyIerFFYoAxu21D/zpyAAAAYhwAIp7qxZ1kz8LytJ6SEOQEBADAEARBOdVWHaIkI8pPTlnxZczCNsw8AgAEIgHCqAF8fmXBuTsC5PyVx9gEAMAABEIY1A3+3J1my8pgTEAAAZyMAwukSmoRJ+8ahUlhcKgt3nuQVAADAyQiAMGROwIk9ylYG+ZJmYAAAnI4ACENc1y1WfL29ZMfxLNmfnM2rAACAExEAYYgGIQEyrH20/p3BIAAAOBcBEIYPBpm/7aQUlZTySgAA4CQEQBhmSLuGEhXiL2k5BfJjYiqvBAAATkIAhGH8fLzl2q6x+ve5W5gTEAAAZyEAwiWagZfvTZH0nAJeDQAAnIAACEO1axwqnePCpbjUKgu2MycgAADOQACE4exzAm45bnRRAAAwBQIgDDe+SxPx9/GWvacssutEltHFAQDA4xEAYbiIIH+5OqGR/p1aQAAA6h4BEC7hxnPNwAu2n5CC4hKjiwMAgEcjAMIlDLyioTQKC5DMvCL5YW+K0cUBAMCjEQDhEny8veT67mW1gHMZDAIAQJ0iAMLlmoFXJqZIiiXf6OIAAOCxCIBwGa0ahkiP5vWl1Coyb9sJo4sDAIDHIgDCJWsBv9h0TDLzCo0uDgAAHokACJcypnOMhAX6ypH0PBn5r9Wy7mCa0UUCAMDjEADhUkID/eSz3/WRVlHBctqSL7e+v1FmfLOXqWEAAKhFBEC4nI6x4bLowQFyS+9mYrWKvL3qsFz/5jo5mJJtdNEAAPAIBEC4pCB/X5lxfSd55/YeUj/IT3aftMjY19fIxxuOilWlQgAAUG0EQLi0axIay5KHBsnAK6Ikv6hUnl2wS+768CdJyykwumgAALgtAiBcXqOwQPlwcm95dmy8+Pt4y/J9KTLyX6tkRSIrhgAAUB0EQLgFb28vmTKgpXz9QH9p2yhE0nIKZfLszfLcwt2SX8TawQAAVAUBUESKi4v1BtfXISZMFj4wQCb1a6Fvz1l3RMa/sUb2nrIYXTQAANyGqQNgSUmJPP/88xIdHS0hISFy0003SUEBfctcXaCfjzw3PkFmT+4lUSEBsj85Rya8sVbeW31YStUyIgAA4KJMHQBPnTolXl5ecvToUUlJSZFDhw7J/PnzjS4WLtPQdtGy5KGBMrxDtBSWlMpfFu+VO2ZvkmTWEQYAwLMDYEZGhnz55ZeyYcOGSo/ZvXu3DnZbtmxx2B8XFyd/+tOfJDQ0VMLCwiQyMlJiY2OdUGrUFlUD+O5ve8pfru0ogX7esvpAmh4gsnT3aU4yAACeFgDPnDkjkydPloSEBLnvvvvkjTfeuOAYNV/clClTpF+/fjJr1iwZOXKkjBo1SvLz8y849qWXXpIOHTrIwIEDnfQMUFtULe5tfZrLot8PlIQmYZKRVyT3fLxFnp7/MwNEAADwpACYm5srgwYN0s22PXr0qPCYTz/9VD7//HNZv369LF26VHbs2CFbt26VV1991SEkPvroozpQ/vvf/3biM0BtaxMdIvPv7y/3DG6lb3+68Zjc8NY6OZqey8kGAMATAmDTpk11DWC9evUqPeaTTz7RtX7x8fH6dpMmTeTmm2/W+5XCwkJ9W3nsscckLS1Nzp49W+njqQEiFovFYYNr8ff1lidHdZA5k3s5rCCyZBdNwgAAuH0AvBw///yzdOzY0WFfp06dJDExUYe/w4cPy/Lly2XOnDnSvn17vc2ePbvSx5sxY4aEh4fbNxVC4ZqGtIuWxQ8OlB7N60t2frHc+8kWeWHRHiksLjW6aAAAGM6jA2BWVpYe2FFegwYNdLOvqr1TgU/V+pXf7r///kof78knn9SPaduSkpKc8CxQXU0i6skXd/eRuweVNQm/v+YXuemd9XIis/JaXgAAzMCjA2BAQIDk5OQ47LPdDgwMrNbjqdHC5Te4Nj8fb3lqdAd55/YeEhboK9uOZcqY11bLin0sIwcAMC+PDoCtW7eWY8eOOexTc/41bNhQT/wM87gmobFuEu4cFy6ZeUUyec5m+fuSfVJcQpMwAMB8PDoAjh49WhYtWmQf2KFW/lBzBo4ZM8boosEATSODZO69feWOvs317TdXHpL/e28jE0cDAEzHy6o6xLmp//73v1JaWip/+9vf9GTOU6dOlaCgIBk/fry+PzMzU3r27Kknd1ajfZcsWSLr1q2TTZs2ScuWLWv891U/QjUYRPUHpDnYvSzaeVKe+OpnySkolqgQf/n3zd2kf5soo4sFAHACC5/f7h0Ab731Vl2rd/4gj5kzZ9pvq/n93nrrLT3yt1mzZnLvvffqFUBqQj2+2tTf3r9/PwHQTR1OzZH7P90q+05ni5eXyENXtZVbejfVq4t4e3sZXTwAQB2xEADdOwAajQvI/eUXlcj0r3fLf376dUS3v4+3xEQESmxEvbKt/q8/4yKCpHF4oJ5vEADgniwEQPE1+kUAjBTo5yMvTewsvVtGyms/HJCkM3lSWFIqR9Pz9FYRVVsYExYoLaKCpWW5Td1uWj+IcAgAcHnUANYA3yA8jxoVfNqSLycyzur5Au0/y/1ecJHJpH28vaRp/Xo6DEYG+YtU0pLs4+WlRyYP7xCt1zIGADiPhRpAAiAXEKpC9ZhIyymUY2dy5Ze0PDmSpn7+up0tcuyTeilD2zWU58YnSPMGwbwQAOAkFgIgAZALCLUZDlOyC+Rwaq4cSc+V7PyiSo89mZkvn248KkUlVt1kfN/g1nLfkNa6SRoAULcsBEACYHUwChi14VBqjh6AsuZgmr7dLDJInh+fIEPbR3OCAaAOWQiABEAuIBhda7j451PywqI9kmwp0PtUv8DB7aIlNiJQr2estrBAP14oAKglFgIgAZALCK5ATUj92vID8sGaX6S49MKZmUIDfPU0NN2b15cBbaKkb6sGUj/Y35CyAoC7sxAACYBcQHAl+5Oz5YtNSZKUkScnM8/qLSPvwr6EauBwQpMwvXrJVe0bSa8W9RlNDACXyUIAJADWBBcQnCGvsFgPGlGjjNcfSpe1B9MkMTnb4RgVBu8e1EpGd4oRPx8mqQaAi7EQAAmANcEFBKOkWPJl3aF0WbU/Vb7ZdUryi8rmJowJD5TJ/VvIzb2b0W8QACphIQASAGuCCwiuICO3UD7ZcFQ+XH9U0nLKBpJEBPnJCxM6yrguTYwuHgC4HAsBkADIBQRPWtd44faT8vaqQ3IoNVfvUwHwhQkJEqFWJQEAaBYCoNBZqJrzAMbHx0uvXr34rwSXoSaR/k2vprLkoUEy7aor9LJ0/9txUq755ypZmZhidPEAAC6EtYBrgG8QcGU7kjLlD//drlcmUSb1ayFPje6gVx4BADOzUANIDSDgqbo0jZBvHhyoB4Uoc9YdkVve3SDJlnyjiwYAMBhVAYCHNwtPH5cg79/RU0IDfWXL0QwZ+/oa2fTLGaOLBgAwEE3ANUAVMtzJkbRcuefjLXoOQV9vL7m5d1MJCah4iTk1leDIhBjpFBfu9HICQF2z0ARMAOQCgtkmlX7iq59l4Y6TlzxWhcQnRrWXKQNassoIAI9iIQASALmAYDZWq1UHwJ+PZ1V6zOG0XPlhX9nI4REJjeTvE7tIeL2KawsBwN1YCIAEQC4goOKQqCaX/vOiPVJUYpVmkUEyfVy8DGsfTW0gALdnIQAyCKQ6mAcQns7Ly0tu79tCvry3n8RG1JNjZ/Jkyoc/yW3vb5Q9Jy1GFw8AUEMMAqkBvkHADCz5RfLmikPywZpfpLCkVLy8RHo1j5Sr4xvJsA7R0igssML+g2oEMgC4Igs1gARALiDg8iSdyZOXluyTRTtPXfJYFRIHtImSiT3i5Jr4xlLPnzAIwHVYCIAEQC4goGqOZ+TJ8r0p8v3eZNlwOF33EbyYkABfGdMpRm7oESctooL0PjWgJMCXUAjAGBYCIAGQCwiovqKSUikpvTAAnsrKl/nbTsi8rcfleMbZC+5XAfDfN3eVIe2iOf0AnM5CACQAcgEBdae01CqbjpyRL7ccl6W7T0tuQbGouGi1qsmmveS58QkyvnMT8fIWCQtkmhkAzmEhABIAuYAA5yosLpUn5/0sX2097rD/qvbR8vr/dZMgf19eEgB1ykIAZBoYAM7l7+str9zYWR69pq0E+P66HPnyfSlyxwebJDu/iJcEAOoY08DUAN8ggJpR/QdLrVbZeTxTJs3eLNn5xeLn46Wbh22aRwbLQ8OvkJEdGzMJNYBaYaEGkADIBQS4hl0nsnQITMspqPD+hqEB4u/jLZ3jwuWp0R2kaWTZiGIAqCoLAZAAWN2VQNRWUlIi+/fvl6ysLAkLC+N/IFBDBcUlkmL5NQCq2sGvthyXd1YflvyiUvv+QD9v+f2wK+R3A1vpJmUAqAoLAZAAWBNcQIBzZOYVytH0PMkrLJHXlh+Q9YfT9f7WDYOlU2y4NAgJkIevbivBAQwgAXBpFgKg8G4JwOVFBPnrTenTKlLPMfji4r1yKDVXb0rW2SJ55cYuBpcUANwDARCAW/Hy8pLru8fJsPbRelk61WdQ1QqquQZbNQyW+Jgw6dOqAWsRA8BFEAABuCVVI3hbn+b2Cadf++Gg/H1Jor7dtlGIrg2MDg20rzzCesQA8CsCIAC39+BVV0hqTqEknrbIkfQ82Z+cI+PfWGu/P9jfR/4+sYuM6RxjaDkBwFUwD2AN0IkUcD2p2QXy+Fc7ZfWBVL3knFp6zrZecWxEPfso4hnXd5beLSMNLi0AI1gYBEIA5AICPFtxSam8+M1emb32iMP+do1C5ZtpAx0mnQZgDhYCIE3AADybr4+3TB+XIJP6tZCMvCIpKimVKXM2S2JytizYdkJu6BFndBEBwOmYQRWAKTRvECxdm0ZIrxaRct+QNnqfqhlMPJ1tdNEAwPMD4F133SXvvfdele8DgNoyuX8LvaTcmdxCufW9DXIwhRAIwFxcahRwYWGhBAaWTdsAAHUl0M9HPrqzt9z63kbZfdIiN7+zQc8daNMqKljuH9qGuQQBeCynBcAff/xR9u7dK/v27ZOCggIpLi52uP/MmTOyePFiefDBB8Wd1gIG4L7zCH4y5Uq55d0Nsu90tp5UuryDqTkyZUAr6d4sQk8+DQCexGnTwDz11FPy3//+V1JTUyUgIEDCwsJ+LYSXl0RGRsr1118vjz/+uLgLRhEB7s+SXyTf/nxKrzOs5BYUy7++PyDF56aOGd+lifz75q6EQMCDWBgF7PxpYGbMmCEJCQkyfvx4cXdcQIBnWrLrtLz14yHZfSJLB8FnxnSQuwa2MrpYAGqJhQDIPIBcQAAq8+G6IzJ94W49V6BqLu7b+td+ggDcl4UA6Jw+gCtWrJDdu3fLsGHDJDk5Wf9eGXVMfHy8M4oFABf1277NZXtSpszfdkKmL9wl3/1hMGcMgEdwSgD84YcfZO7cudK4cWPZsWOH/r0y6hgCIABXoPonTx8XLwu2n9DrC6tl5hqGBhhdLACoMdYCrgGqkAFzGPmvVXqk8Fu3dpdRnWKMLg6AGrLQBMxKIABwKWr1EGXTkTOcLAAewZCl4LKzs+XFF1+UG2+8UZYuXar3bd68WTZt2mREcQDgonq1LAuAs9cekRnf7hUnT54AAO6/EkheXp707NlTIiIidBBMSkrS+6OiomTcuHGyfft28fV1qQVKAJhcn1aR4u/rLYXFpfL2j4clNqKeDGsfLZHB/hLkz/sVAPfj9BrADz/8UFq1aiUbNmyQ/v372/e3bNlS6tevr1cMAQBXEh0aKP97YIAM7xCtb//p690y4KUV0nfGD3I8I8/o4gGA6wdAtRzcqFGj9Oi685dXio2NlRMnTji7SABwSe0ah8qs23rIkHYNJcDXW88NmHW2SB6du0M+WPOL3tYfSudMAnALTm+7UE2/tmbf8gGwqKhIfvrpJ7n77rudXSQAuCy+Pt4yZ3Jv/fu+0xYZ89oa2XD4jN4Uby+Rb6YNlPaNf13qEgBckdMD4G9+8xsZPHiwXHXVVVJaWqr3HTx4UJ588kkpLi6WAQMGOLtIAFBlKuT94zddZPneFH078XS2JCZny70fb5E20SHi7eUlt/ZpLoPbNuTsAnA5hswD+Nlnn8m9996rB4GoAR8q+DVr1kwWLFgg3bp1E3fBPEIAbA6n5siIf62SopJf31KjQgJkzeNDJdDPhxMFuBAL8wA6PwAWFhaKv7+/PvmrV6+WtLQ03fdv0KBBen9qaqo0bOge35i5gACUtyMpUzcNK68tPygnMs9K/SA/8fPxtk8n8/rN3cRbtRUDMIyFAOj8JuDnnntOJk2aJG3btpUxY8Y43PfMM89IixYt5K677hJXNnPmTL2VlJQYXRQALqRL0wi9Kb7e3vLI3B2SkVdkv3/xzlNybddY6d+mgX2fGkwS4EsNIQAPrwF87bXX5NVXX5W1a9dKXFycff/TTz8ts2bN0rWC7rIWMN8gAFzM0fRcyS0o+6L40foj8sXmsgFw5fl6e8k/b+oq47o04WQCTmKhBtD508A8+OCDMmHCBLnmmmskPb1syoSnnnpKh7/vv//ebcIfAFxK8wbBEt8kTG+/v+oKiQrxv+CY4lKr/PWbvXqSaQDw6EEg6k/edtttevSvGvU7Z84cWb58uXTt2lXcCd8gAFRFSanVIehZ8otk4EsrpLCkVGLCA2XVH4fa+wsCqDsWagCNWQtYzf+nQl+DBg30yiDuGP4AoKpUf796/j72rVFYoNw9qJW+71RWvizcflKSzuRJSnY+JxeA+9cAPvHEE/LFF19UOCI4NzdXLwFn89JLL8lNN90k7oBvEABqw/P/2y2z1x5x2PfCtR3l9j7NOcFAHbBQA+icUcBjx46VNm3aXNax1AQCMJs7+raQZXuS5UxuoW4mLigulU83HJXxXZpIkL8PzcIAPKMPoKfgGwSA2paRWyg9X/xeB0ElIshPvnlwoDSJqMfJBmqJhRpAY/oAAgAqVj/YX27u1dR+OzOvSBbtPMnpAuDeNYAPPPCAHgBSER8fHz0wRK0T/MILL0jjxo3FlfENAkBdKSoplU82HJXn/7dH/H29JTTAV0IDfWXmrd0loUk4Jx6oAQs1gM6vAZwyZYqEh4dL//795R//+IceBazCnloBpHPnzvLHP/5Rtm3bJuPHj2elDQCmpaaDGd0pRoL9ffTUMem5hXIkPU++2HThZNIA4PI1gB999JHMnz9fb+Wp0cBdunSRxYsXS9OmTaV9+/byn//8R/r27Suuim8QAOpaVl6RJGfny+YjZ+Tp+bv0vkn9WshTozvomkEAVWehBtD5NYDbt2+XQYMGXbA/ODhYunfvLjt27JCgoCAd/I4ePers4gGASwkP8pO2jUJlQtdYPSJYmbPuiCzZfdroogFwY04PgBEREbJw4cILmndTUlJkzZo19jkBjx07Jm3btnV28QDAJYUE+Mp/7+kr9YP89O3nFu6WA8nZRhcLgJtyehPwqVOnpEePHjroXXvttRIZGSlJSUny+eef68C3cuVK2bBhg/z1r3/VzcGujCpkAM72w75kuXPOT/p31T9w49PDdTgEcPksNAEbMw9gamqqvPrqq7Jq1Sr9e1xcnA6D99xzjwQGBoq74AICYMTo4OkLd8tnG4/p2x/d2VsGtW3ICwFUgYUAyETQNcEFBMAoD/9nu8zbdkLXAgb6+egpYt74v+7SMZYpYoBLsRAAmQgaANzRiI5l86TmFpbYp4iZt/WE0cUC4Cac0nHk2Weflblz58pf/vIXPcpX/V4ZdczEiROdUSwAcFsjEhrLuieGSU5BsaxMTJG/frNPVh9Ila+2HBc/X28Z0q6hhAWWDRgBAEMC4LBhw6RRo0YSHx8vS5Ys0YNAKpvfTx0DALg02/rAatJoFQAPpOTII3N36H1qObm/3dCZ0wjAuACYlpYmvXv3toe7oUOHyl133eWMPw0AHq9lVLA8NPwK2XYsUyz5RfrnpiNnjC4WALPPA7hs2TLd9AsAqBsPDW8rH97ZW965vae+/Utartz14WZ5YdEeKSl1+mQPAFycU2oA1dJuak4/tf6vGnmjpn45ePBghcdGR0dLWFiYuLKZM2fq7fzJrAHAaA1DA3SNoAqA3+9N0fuujm8kfVo1MLpoAMw2D2BycrKMGDHismoB3333XbdpHmYYOQBXdDQ9VzYcTtdzBe44niXPjYuXSf1bGl0swGVYmAbGufMApqeny9SpU6Vbt25y0003VXhMVFSUhISEiDvgAgLgyl5ZmihvrDio5wqMCg2Qp0d3kGsSyqaPAczMQgB0ThOwTYMGDeSxxx7TP1u0aOHMPw0AptO/TZQOgGquwNz0PPl04zECIADnDQIpT00BQ/gDgLrXt3UDWfP4UHl5Ytl0MAdTcjjtADSnryD+wAMPyJw5cyq9Xw2uuOOOO5xaJgDwVHH1g+SqDmVv9Scyz0rXP3/ncH/nuAiZPamX+Hh7GVRCAKYIgGqAx/Dhwx32ZWRkyMcffyyqO+KQIUOcXSQA8GiRwf6S0CRMdp+0SGZekcN9q/anyqHUHGnbKNSw8gEwQQDs2rWr3s532223SefOnZlaBQDqwPz7+8uxM3kO+x74bKvsO50tR9JyCYCAyTi9D2Bl/Pz8dDDcunWr0UUBAI/j7+stbaJDLtiU5/+3R8a9vkae/99u3RIDwPO5TABMSUmRdevWSUREhNFFAQBT6No0wt438OcTWTJ77RE5bck3ulgAPLEJ+C9/+YssWLDAYV9hYaFeGUTND0gfQABwjkn9Wkin2HDJKyyRJ+btlGRLgRzPOCsx4fV4CQAP52vENDC+vo5/NiAgQNq0aSOjR48WHx8fZxcJAEzJ18dbrjy3RFyrqBAdAD9af1Q2/XJG/Hy8ZELXWGkUFmh0MQG4+0ognoaZxAF4iifn7ZTPNyU57Lu+e6z84zcXDtoD3J2FlUCcXwMIAHA99w1uIwG+PpJfVCIns/L19DC/pOUaXSwAnhQAVfJ+7733ZO/evZKdne1w3z333CNDhw41olgAYFrNGgTJc+MT9O87kjJ1ADydxYAQwFM5JQB+//33EhMTIwkJCZKVlaXn+2vUqJH+vWHDhhIYGCgrV66U9u3b6+lgAADGaRxe1u/vVFa+dJq+1L4/JNBXXr+lm/RsEWlg6QC4zTQwatTvTz/9pH//8MMPdRDcuHGjDBw4UCZNmqQD4po1ayQ5OVk6dOjgjCIBACrRMCRAWjcM1r9nFxTbNxUIl+4+zXkDPIBTagDfeOMN++/79++XUaNGiZeXl/j7+0teXtnM9H369JF+/frJqlWr5LrrrnNGsQAAFfD29pJvpg2UU5m/NgH/96ckeXPlIUnLKeScAR7AKQHwpZde0rV+Y8eOlfz8fKlXr2yOqSZNmsi+ffvsx6n7CgoKnFEkAMBFqAEhLaLKagGVKxqVrRpyND1XDiQ79t1WvLxEWkaFiI+3F+cVcANOCYDR0dESFhZ2wf4JEyZI7969JSQkRA8MUbV/7777rjOKBACogoYhZf0Ctx7LlKv/uarCY4Z3iJb37ujFeQXcgFMC4OTJk+2/P/bYY/Yw2KlTJ/nss8/k7bff1utPqr6CzZo1c0aRAABV0L15hF467tiZsm475ZWUWiXrbJFsO5bJOQXcBBNB1wATSQKASLIlX67863Ld/HvgL6N0H0LAlVmYCJqJoAEANRMR5GevCTyUmiOhgX4VHhPox1KfgOkmgl64cKFs3br1kseNHz9eunfv7pQyAQBqZ8BIsL+P5BaWVNo/MLyen/zwyGBpEBLAKQfMFADVPH+qv59NRkaGBAQESFBQkMNx7dq1IwACgJu5rnus/Gez41rCNkUlZX0EE09nS782BEDA1H0A77rrLj33n/rpruhDAACXdsNb62TL0QyZdVt3GdkxhlMGw1noA+iclUAAAOYVFljW2GQ5W2x0UQA4uwkYAGBOYfXKBoXMWnVI/rfzpH1/aKCvPDmqgzSNdOwKBKDuEQABAHWqeYOyFUUOp+bqrbwrokPlD1e35RUAPDUAqvZ227q/ytmzZ/W+06cdFxYPDw+3LxUHAHB/9w9pLR0ah8rZohL7vm9+Pi3f700WS36RoWUDzMppAfDhhx+W999/32GfGhX8yCOPOOxTS8G588AQAIAjNf/fqE6Ogz9OW/J1AMzJp18g4NEB8A9/+INMnDjxksd17NhRnCklJUUKCwvFx8dHYmIYnQYAzhASUPbxk1tIAAQ8OgAmJCTozdXcfvvtsmvXLikoKJC0tDSjiwMApgqAS3adlg7PLrHvD/L3kX/c1FUGt21oYOkAz2f6aWCWLl0qiYmJRr8OAGAqHWPDxd/XW0qtovsG2rb03EJZtsexbziA2uf2o4CTk5Nl2bJl0rx5cxk4cGCFx2zZskX2798vzZo1k379+omXFwuVA4CR2jYKlZ+eGS5Zeb8OAvl80zF5c+UhySv8dbAIgLrhtgEwPT1dHnjgAVm9erUUFRXJ1VdffUEALC0t1U28S5YskQEDBsjmzZulffv2smjRoguWoAMAOFdYoJ/ebGIiymaAyCsgAAJ1zW2bgNU0MuPHj5fDhw9Lt27dKjzmo48+kgULFsiGDRvk66+/lu3bt8vevXvl5Zdfdnp5AQAXF+Tno3/mlZsuBkDdcNsawLi4OLnlllsueoyaZmbUqFFyxRVX6NvR0dFy88036/3Tp0/X+86cOaMHf6jawuPHj0tYWJjeKqIGiqjNRs1jCACoHcEBZQFw27EM+b93N1Rwv1o5pL20ahjCKQfMWgN4OdTo3vNHHqtpZg4cOGAPck8++aQMGzZMNwn36dNHZs6cWenjzZgxQ09UbduaNm1a588BAMwirn5Z15zs/GJZdyj9gm3ZnmT5cstxo4sJeAS3rQG8HFlZWRIREeGwLzIyUqxWq2RnZ0tAQIC8/fbbl/14KiyqCa3L1wASAgGg9kYGz723r5zMPHvBfYt3npLv9iQzQASoJR4dANWScrm5jutOquBnu6+qVGBUGwCgbvRqEVnh/mPpeToA5tM/EKgVHt0E3Lp1azly5IjDPnW7UaNGEhxctjg5AMA9lpNTCIBA7fDoADh27FhZvHixvRawuLhY5s6dq/cDANxHoF/Zx1V+UanRRQE8gls3AatpXtTo3RMnTuj+eHPmzNE1ezfeeKO+f9q0aXrE7/Dhw+U3v/mNXvUjNTXVPgIYAOBeNYBL95yWts98e8H94fX85L3f9pQuTR37fQPwwBrAH3/8UVauXCk9evSQtm3b6t/Xr19vv19N57Jx40aZOHGinv9PTQat5gKs6cANNVI4Pj5eevXqVQvPAgBwKZ3iypaOs1pFCotLL9hSswtk9YFUTiRwmbysakgsqkXVOqrpYNRo48rmDgQA1I7s/CKx5BdfsP8f3+2Xr7YelweHtZGHr2nH6cYlWfj8du8mYACAeYQG+untfPWDyvYVFNM/EDBFEzAAAKppWCEAApePAAgA8IgAWFhCDSBwuWgCBgC4tQDfshHCW49myCtLEys9rkVUsEzsEefEkgGuiwAIAHBrEef6AO47na23i+kcFy5tG4U6qWSA6yIAVnMaGLWVlJTU/isCAKiScV2aSIqlQDLyCis9Zt7W43oEcWZeEWcXYBqYmmEYOQC4h2v++aPsT86RT++6Uvq3iTK6ODCYhWlgGAQCAPB8fj5lA0WKGCgCaIwCBgB4PN9zAbC4hLUPAIUACADweH7eXvonNYBAGQaBAABM0wR8OC1Xdh7PrPAYtcpIy6hgJ5cMMAYBEADg8fzOTRb98tJEvVXmtVu6yfguTZxYMsAYBMBqYBoYAHAvN/aIk6PpuZX2AczMK5TcwhI5mJLj9LIBRvCyWq30iK0mhpEDgGd4/n+7ZfbaIzJ1aGt5bER7o4uDOmZhGhgGgQAA4HtukEhxKXUiMAdGAQMATM/Hu+zjsIRpYmASBEAAgOlRAwizIQACAEzP51wTcAlNwDAJAiAAwPR+rQEsNf25gDkwDQwAwPR8fMoC4LI9yXIwZd0F58NLvOSWK5vKdd3iTH+u4BkIgNXAPIAA4FliI+rpn2k5hXqrSFpuAQEQHoN5AGuAeYQAwDOUllpl4y9nJOvsheFPLR/39yWJEle/nqx5fJgh5UPtsjAPIDWAAAB4e3tJ39YNKjwRO5LU2sGJOiQCnoJBIAAAXM4IYRbOggchAAIAcLEPSi/bFDGcJngOAiAAAJdRA1hKDSA8CAEQAICL8Dn3Sckk0fAkBEAAAC6jCZhBIPAkBEAAAC7C17vso5JBIPAkTAQNAMBFnMt/craoRK57c+1Fz5Wfj7dMu+oK6d8minMKl0YArAZWAgEA86gf5C/1/Hx0ANx2TM0JeHEfrT9CAITLYyWQGmAmcQAwh6PpubI/Oeeix6w9mCZz1h2Roe0ayuzJvZ1WNlSdhZVAqAEEAOBSmjcI1tvFZOcX6Z/FrBgCN8AgEAAAaoHvuflimC4G7oAACABALfA9N2E0NYBwBwRAAABqccWQYtaMgxsgAAIAUIs1gDQBwx0QAAEAqM0aQAaBwA0QAAEAqAVqEmiFGkC4AwIgAAC1gBpAuBMCIAAAtTkKmEEgcAMsBQcAQC3WAKbnFMqf/7fnsv9d/SA/mTygpYQE8JEM5+FqqwbWAgYAnC+8np/+mV1QLB+s/aVKJ6hhaIDc3LsZJxVOw1rANcBaggCA8r7aclwOpV58zeDylu9NkcTkbHl6dAf53aBWnEwnsbAWMDWAAADUlht6xFXp+GRLgQ6ApVYrLwKcikEgAAAY5Fy3QSkhAMLJCIAAABg8cIT8B2cjAAIAYBAvL5aPgzEIgAAAGOTc4iGsHgKnIwACAGAQn3M1gFbagOFkBEAAAIxuAiYAwskIgAAAGDwIhNXj4GwEQAAADJ4GhiZgOBsBEAAAg3jbawCZCBrORQAEAMDgQSD0AYSzEQABADCIt30UMC8BnIsACACAQWgChlF8DfvLAACYnG0QyKKdJ2XrsYxqPUZCkzB56YbO9illgMtBAKyGmTNn6q2kpKQ6/xwAAK1p/SD9MyOvSG/VsfukRaYObSPNGwRzVnHZvKyMPa82i8Ui4eHhkpWVJWFhYdV/IACAKamP4O1JmWLJL67Wv7/vky2SV1giyx8ZLK0bhtR6+TyVhc9vagABADCKarbt1qx+tf+9n15MuIRBJKgyBoEAAOCmfu32xzBiVA0BEAAAN59GhnmkUVUEQAAA3JStApB5BFFVBEAAANyUbeqXUhIgqogACACAm/cBJP+hqgiAAAC4eRMwNYCoKgIgAABuPggEqCoCIAAAboomYFQXARAAALefBoZ5AFE1BEAAANwc8Q9VRQAEAMBNeZ/7FKcGEFVFAAQAwE15nRsHTAswqooACACAm2ItYFQXARAAADfFWsCoLgIgAABuirWAUV0EQAAA3LwJmEEgqCoCIAAAbsrrXAJkEAiqigAIAIDbNwEzEyCqxpcTBgCAew8CeXf1YfnfzpO19rijOsbIoLYNa+3x4HoIgNUwc+ZMvZWUlNT+KwIAwGUKD/LTP1ckptbqOVt9IE3WPD6M18GDeVmpN642i8Ui4eHhkpWVJWFhYbX5ugAAcEmHUnNkya7TUlpaO03AaTkF8uH6o9Ig2F+2PHu1x74CFj6/qQEEAMBdtW4YIlOHtqm1x0s8na0DID0KPR+DQAAAgMO0MjQOej4CIAAAcBhVDM9HAAQAAI41gJwPj0cABAAADphW0PMRAAEAwDm2lUWoA/R0BEAAAKDRBGweBEAAAOA4CIQKQI9HAAQAAJrXuSpA8p/nIwACAACHGkD6AHo+AiAAAHDoAwjPRwAEAAAOaAL2fARAAACgedmngeGEeDoCIAAAOG8aGBKgpyMAAgAAB9QAej4CIAAA0JgI2jwIgAAAwGEeQFqAPR8BEAAAaMwCYx4EQAAAoDEIxDwIgAAAwAGDQDwfARAAADjOA8j58HgEQAAA4NgETBWgxyMAAgAAh0Eg1AB6PgIgAAAoY68B5IR4OgIgAABw6AMIz0cABAAADn0A4fkIgAAA4AIMBPFsBEAAAKCVrwCkH6BnIwACAADHtYAZCezxCIAAAKCCGkCGAnsy0wfAQ4cOybhx46Rbt27y4osvcsEDAEyr/CAQ4p9nM30AvOGGG2Tw4MHy/vvvy4IFC+SLL74w+jUBAMDwaWCoAPRsHhEAjxw5IsnJyZXeX1RUJElJSZKfn3/Bvztz5ow8+uij0r17d3n88cdl3rx5TigxAAAuiGlgTMNtA6AKczNnzpSOHTtK27Zt5ZFHHqnwuDfffFOioqKka9euEhkZKc8884z9vtOnT0vTpk3tt5s1ayanTp1ySvkBAHDtJmAagT2Z2wbAo0ePyp49e+Tzzz+XYcOGVXjMDz/8IA8++KB89NFHkp6eLsuXL5d//OMfMnv2bH1/RESEZGZm2o/PyMiQ+vXrO+05AADgqmgC9my+4qbatWunawAvZtasWTJw4ECZMGGCvt23b1/d5++tt96SyZMnS+vWrXXo27Rpk/Tq1UvmzJmjj69MQUGB3mwsFkstPiMAAFynBfjRuTvE19v4NuGRHRvLyI4xRhfD47htALwcmzdvlltuucVh34ABA+Q///mPlJSUiJ+fnw6DI0aM0KN/e/ToIffdd1+ljzdjxgx5/vnnnVByAACcL8DXR4L8fSSvsEQW7XSNLlEtooIJgHXAowNgWlqaNGjQwGGf6g+oBoVkZWXpPoGqdlA1D6vaPNUkfDFPPvmkPPzww/bb6t+U70MIAIA78/f1lk/uulK2Hs0QV9GtGV2z6oJHB0Bvb28d9sorLCzUP318fByOu1T4UwICAvQGAICn6t6svt7g2dx2EMjlULVzaqRveep2aGiohIWFGVYuAAAAI3l0ABwyZIh89913Dvu++eYbPfFz+fUOAQAAzMTX3ZdxU4M38vLyJCcnRw4ePCi+vr7SokULfb+aG/Djjz+W+++/X4/6Xbx4sfz444+yatUqo4sOAABgGC+rG6/23L59eykuLnbYFxMTI6tXr7bf3r59ux65m5iYqCd6Vqt9DB06tEZ/V00/ozY1knj//v16QAlNygAAuAeLxSLh4eGm/vx26wBoNC4gAADcj4UA6Nl9AAEAAHAhAiAAAIDJEAABAABMhgAIAABgMgRAAAAAkyEAVoOaAiY+Pl569epV+68IAABAHWMamBpgGDkAAO7HwjQw1AACAACYjVsvBWc02xza6psEAABwD5Zzn9tmXguDAFgD2dnZ+mfTpk1r6/UAAABO/BwPDw835fmmD2ANlJaWysmTJyU0NFR69+4tmzdvrvRYNWCkovsr26++nahgmZSU5LLrFFZWdld57Oo8xuX+m8s57lLHcE1UjZmvicru432Ca4Jronr/X61Wqw5/TZo0EW9vc46HpQawBtRFExcXp3/38fG5aFCr7P5L/Tt1n6sGwEuV3ejHrs5jXO6/uZzjuCZql5mviUvdx/tE9XFNmPezI9ykNX825oy9dWDq1KnVuv9S/86V1WXZa+Oxq/MYl/tvLuc4ronaZeZroirlcDW8T9Ts/HBNuM715mloAnZRDFEH1wR4nwCfHagr1AC6qICAAJk+fbr+CXBNgPcJ8NmB2kQNIAAAgMlQAwgAAGAyBEAAAACTIQACAACYDAHQDS1fvlyGDRsmAwcOlK+//tro4sBgBQUF4uvrq7cJEyYYXRy4iHfeeUf69u0rQ4YMkfnz5xtdHLiAb7/9VgYPHiz9+vWT2bNnG10cGIyJoN1MWlqa3HzzzfrNPSgoSH77299K165dpXnz5kYXDQZRI8Xz8/Plhx9+kNdee43XAbJ48WLZunWr/POf/5Tjx4/r94m9e/faJ66H+aSmpsr7778vL774ov7SePvtt0v37t2lS5cuRhcNBiEAGqC4uFhOnDghkZGRehm5iqgP9MzMTImOjnZYpmbJkiUyfPhwue666/RtFQYXLFgg06ZNc1r5UfsyMjJk586d0qZNG4mNja3wmCNHjsjp06elbdu2+topT9X+mXU5I09VUlKiw1v9+vUrXdlAfZCra6dhw4Z6BQSbkSNHypgxY+y3n376af2+A/dfflQtDxoREVHpKhbqmjhz5oz+7Ch/TTRo0EC+/PJL/XthYaHExMRwTZgcnxhOlJKSIs8995y0bt1aWrZsKZ9++mmF/8FVmFP/wdu1a6fXKbT9p1VUAGjWrJn9tqr5O3XqlNOeA2rX4cOH5c4775SEhAS56qqrKmyqU2/oKvB37NhR7r77bh0QX3nlFV4KD5Wenq5radSXgVatWuna/orWMX388cd1OFTvE40aNZKPP/7Yfn/5D35VCzhixAhp0aKF054DapcKdDNmzLBfE2+99VaFxz311FP6mmjfvr2+JubMmWO/T31BVGvfqsdQXxhUF6IePXrwUpkYAdCJfvzxR/3GvXbtWt18W5GXX35ZB8OffvpJ1wD+6U9/kltuuUV2796t71ff+rKysuzHq2PUf3i4p0OHDsmAAQPk4MGDEhISUuExf/7zn/Xi5gcOHNC1hPPmzZPHHntM1qxZ4/Tyou6tX79ecnNzZcWKFfqDuiJvvvmmzJo1S1avXq3fD1599VWZNGmSvk7Ke/755/WXjH//+9+8dG5s48aNenUo1f9b1dxV5O2335bXX39dVq5cqa+Jf/3rXzJlyhTZsGGD/Zjg4GDdirRo0SJZtWqVfPfdd058FnA5VhgiODjY+tZbb12wv1mzZtbHH3/cYV+bNm2s06ZN07/v2rXLGhcXZ01PT7fm5ORYO3ToYF29erXTyo26Ex4ebn399dcv2B8TE2N99tlnHfZ1797deueddzrsW7ZsmXXMmDG8RB6kUaNG1pdffvmC/fHx8dapU6c67OvSpYt1ypQp+veioiJ9fTzzzDNOKyucIzY21jpjxowL9nfu3Nl6zz33OOzr0aOH9Y477tC/r127Vm+26+O6666zzpo1y0mlhiuiBtDFmoiPHTumR2iV179/f/s3e9VUqDp0q6Zf1Tw8dOhQXYMEz5ScnKyb+M9vqlG3t23bZr+tmvdUM98333yj+wMuXLjQgNLCGVTtoBrQcf77hHofsL1PzJ07Vz788EP5/PPPdZOf2tatW8cL5KHOnj0ru3btuug1ofoOqy5IjRs31n2IVT/AW2+91aASwxUwCMTFRmnZOuuWFxUV5fDmrfoHqU7dqpN4ZYNI4BlUB3/l/EEf6pqw3WdrSlbdCyrqAwbPmwlAvdYVvU/Y3kPGjRsn+/btc7i/ssFF8Iw+gqr/+MWuCfW7avJVt+vVq1dplxOYBwHQhdhGcZ4/Wq+oqOiCD/TK+hDCs/j7+9u/4ZeXl5dnv08h8JnH5bxPqA93VesHc6jKZ0dl/UphPjQBuxDbHF1qpG956jbf3s1Jve6qSVdNG1Seus3cj+akRneqa4L3CZQPdeoLIdcEqoIA6EJUc66amHPp0qUO3+DUyC81ezvMOcmzmq6hfJ8+Vfu3bNkyufrqqw0tG4yhPuhVX6/y7xOq+U817/E+YU7qC4Hq71f+mlDdBNRtrglUhiZgJ1Lzudnm7FP/OdV8X2pyXzU031Ytr6Z9mThxou7kr5ZxUtM7qCr8++67z5lFhZOoebm2bNlib75RU72oaRzU9aAG/Nj6fKrlvB5++GH9Jq/mAFN9fe69915eJw+kvvTZanxVP1/V11O9T6huH2pyX+WZZ56R0aNH6/cHtSzkG2+8oQeHPPjggwaXHs68JlRfPlUjbLsmrrnmGj2VmFosQL1PqGnCHnroIV4UVMhLDQWu+C7UNjVq07aCR3mqw7aav8nmq6++0vN2qRGgnTp10gFATfYKz5OYmCj33HPPBfvVt3Y1h5vNpk2bZObMmbqJR00I/cc//tH+xg/Psn//fv1Bfj41UbhaystGzeWmAuDJkyelQ4cO8sILL+j3C3geNchLvf4VvU+o0d7l1/pVAVCFRTUZtJpDlKXeUBkCIAAAgMnQBxAAAMBkCIAAAAAmQwAEAAAwGQIgAACAyRAAAQAATIYACAAAYDIEQAAAAJMhAAIAAJgMS8EB8Eh33nmnFBYW2tfZbtOmjUyaNEkvowcAZkcNIACP9Nlnn4m/v7+MHDlSOnfurJdYVEumqeX0AMDsqAEE4LF69+4tt912m/5d/WzcuLF88MEH8tRTT+l9e/fu1WttK/Xq1ZO2bdvKlClTJDIy0v4YK1eulK+//lp+//vf61Cp1lnt2bOnTJ48Wby9f/0OnZSUJLNmzZKMjAzp1q2bdO3aVd5++2157733nP68AeBSqAEEYAqqGbhRo0Zy/Phx+z4V9FQNodp69eola9eulY4dO0pmZqb9mIMHD8o777wjY8eO1TWKKiSqAPnEE0/Yj0lOTtahcPPmzfrff//99/r4L774wunPEwAuBzWAAExB1fYdO3ZM18zZqEBoqyFU7r77bunTp4+utXv00Uft+/Py8uTLL7+U+Ph4e5hUIfDvf/+7vv3yyy9LdHS0LFmyRNcK3n///TJ69GhZtWqVU58jAFwuAiAAjzV79mxZs2aNZGdn66Zc1WyrtvK2bdsm8+bN0027atBIWlqaJCYmOhyjgqIt/CmqFjA1NVUfr2oFVc3hhAkTHJqEr7vuOgIgAJdFEzAAj5WQkKCbd4cMGaJH/549e1Z8fX/93jt37lzp16+fDoiqv6A6tkmTJvp2eYGBgQ63bUGvtLRU/1ShsX79+g7HnH8bAFwJNYAATDEI5Nprr9X989566y3dRKu8++67Mm3aNPnb3/5m/zdqkEhVNWvWTI4ePeqwTzU3A4CrogYQgCm0bNlSHnnkEZk+fbpYLBa9z8fHR9fe2ag+ez/++GOVH/v666/XAz5sU8yoGkRG/wJwZQRAAKbx2GOPiZeXl33whrr9+eefy+DBg2XEiBFyww036Gbjqvrd736naxfVfIOqL2CnTp30lDMqYAKAK6IJGIDHDgBRU7OUp0bvLlq0SA/4UIYNG6anedm4caP4+flJ//79Zd++fVJcXGz/N0OHDpWoqCiHx2nXrp18/PHHegCIon6qqV/UgBM1hYwKgt9++y3NwABclpfVarUaXQgAcHcrVqzQYdHWBDxw4EC58sor9WTQAOBqCIAAUAvUtC9qNZC4uDhdo6j6HM6fP19PIQMAroYACAC1ZOfOnXLo0CFp3ry5nnC6/LyAAOBKCIAAAAAmw9dTAAAAkyEAAgAAmAwBEAAAwGQIgAAAACZDAAQAADAZAiAAAICYy/8DWSuAbuNQokcAAAAASUVORK5CYII=" alt="程序画出的词频图：横轴词的排名、纵轴频次，双对数坐标下接近一条直线"><figcaption><span class="cs">程序输出的 alice.png:</span> <span class="cs">双对数坐标下近似一条下降的直线</span></figcaption></figure>
+  <p><b>结果</b>: 集合比列表快了约 35 倍 (每次测量数值略有不同). 最常见的词是 said 和 alice. 小说文本来自 Project Gutenberg (<code>pg11.txt</code>), 程序只取 <code>*** START</code> 和 <code>*** END</code> 之间的正文, 否则「gutenberg」「project」这些许可证文字会混进前十名. </p>
+  <p><b>为什么用双对数坐标</b>: 画出来几乎是一条直线, 这就是<b>齐普夫定律</b> (Zipf's law): 一个词的频率大约和它的排名成反比, 排第 2 的词出现次数约为排第 1 的一半. 普通坐标下只能看到左边一根竖线和右边一条贴地的长尾. </p>
+  <p><b>易错</b>: ① 停用词表里有 <code>'s</code>、<code>'t</code> 这样带撇号的词, 而文本去掉标点后 don't 变成 don 和 t, 两边对不上, 所以参考答案把停用词表里的撇号也去掉; ② 先去标点再切词, 否则 <code>alice,</code> 和 <code>alice</code> 会算成两个词; ③ <code>timeit.timeit</code> 要传一个<b>函数</b> (这里用 lambda), 传 <code>filtern(…)</code> 的结果就只计时了一次「什么也不做」. </p>
+</details>
+<div class="warn"><p><b>原文笔误: </b>「<b>Lesen</b> den Text … ein」缺主语, 应为「Lesen <b>Sie</b> den Text … ein」; 「matplotlib-<b>Biliothek</b>」应为「<b>Bibliothek</b>」. </p></div>
+</article>
+</section>
+
+<!-- ======================= ÜBUNG 13 ======================= -->
+
+<section class="part" id="u13">
+<h2>Übung 13<br><span class="de-title"><span class="seg">Klassen ·</span> <span class="seg">Klassenvariablen ·</span> <span class="seg">pickle ·</span> <span class="seg">Exceptions</span></span><small>对应合集 <a href="EIP-合集-计算语言学编程导论.html#klassen">类</a>、<a href="EIP-合集-计算语言学编程导论.html#vererbung">继承与类型</a>、<a href="EIP-合集-计算语言学编程导论.html#exc">异常</a>、<a href="EIP-合集-计算语言学编程导论.html#datei">模块与文件</a>. </small></h2>
+
+<article id="u13-1">
+<h3>大学管理系统<br><span class="de-title">Univerwaltung</span></h3>
+<div class="card de">
+  <span class="folie">Übung 13 · Aufgabe 1</span>
+  <p class="themen">Themen: Klassen, Klassenvariablen, pickle, Exceptions</p>
+  <p>Schreiben Sie ein objektorientiertes Programm zur Verwaltung einer Universität. Zu verwalten sind die Studierenden, Studiengänge, Kurse, Räume und Dozenten. Die Hauptklasse heißt <code>Univerwaltung</code>. Eine Hilfsklasse <code>Termin</code> speichert Wochentag und Uhrzeit eines Kurstermins. Es gibt einen Belegungsplan für jeden Raum und einen Kursplan für jeden Studierenden.</p>
+  <p>Dem Benutzer stehen folgende Aktionen zur Auswahl:</p>
+  <ol>
+    <li>Student immatrikulieren</li><li>neuen Kurs hinzufügen</li><li>neuen Dozenten hinzufügen</li><li>neuen Raum hinzufügen</li><li>neuen Studiengang hinzufügen</li><li>Kurs zu Studiengang hinzufügen</li><li>Dozent eines Kurses eintragen</li><li>Termin zu Kurs hinzufügen</li><li>Student zu Kurs anmelden</li><li>Student anzeigen</li><li>Dozent anzeigen</li><li>Kurs anzeigen</li><li>Raum anzeigen</li><li>Studiengang anzeigen</li><li>Student von Kurs abmelden</li><li>Student exmatrikulieren</li><li>Kurs löschen</li><li>Kurs in Studiengang löschen</li><li>Kurstermin löschen</li><li>Dozent löschen</li><li>Studiengang löschen</li><li>Programm beenden</li>
+  </ol>
+  <p>Er wählt eine Aktion durch Eingabe der Nummer und wird dann nach allen benötigten Informationen gefragt. Nach Abschluss der Aktion gibt der Benutzer die Nummer der nächsten Aktion ein. Die Aktion Programm beenden speichert alle relevanten Inhalte in einer pickle-Datei und beendet das Programm. Beim Start des Programmes werden alle Daten aus der pickle-Datei zurückgelesen.</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 写一个面向对象的大学管理程序, 管理学生、专业、课程、教室和教师. 主类叫 <code>Univerwaltung</code>; 辅助类 <code>Termin</code> 存课程时间 (星期几、几点). 每个教室有<b>占用表</b>, 每个学生有<b>课表</b>. 用户可以选上面 22 个操作: 输入编号, 程序再问需要的信息, 做完后输入下一个操作编号. 「结束程序」把所有数据存进一个 <b>pickle</b> 文件; 程序启动时再从这个文件读回来. </p>
+  <p><b>思路 (先设计类再写代码)</b>: </p>
+  <div class="tablewrap"><table>
+    <tr><th>类</th><th>存什么</th></tr>
+    <tr><td><code>Termin</code></td><td class="wide">星期、时间; 定义 <code>__eq__</code> 和 <code>__hash__</code>, 才能当字典的键、比较两个时间是否冲突</td></tr>
+    <tr><td><code>Student</code></td><td class="wide">姓名、学号、专业、课表; 学号由<b>类变量</b> <code>naechste_nummer</code> 自动递增</td></tr>
+    <tr><td><code>Dozent</code></td><td class="wide">姓名 (和 Student 共用父类 <code>Person</code>) </td></tr>
+    <tr><td><code>Raum</code></td><td class="wide">名称、占用表 {Termin: 课程}</td></tr>
+    <tr><td><code>Kurs</code></td><td class="wide">名称、教师、时间表 {Termin: 教室}、参加者</td></tr>
+    <tr><td><code>Studiengang</code></td><td>名称、所含课程</td></tr>
+    <tr><td><code>Univerwaltung</code></td><td class="wide">五张字典: 学号 → 学生、名称 → 教师/教室/课程/专业; 每个操作一个方法</td></tr>
+  </table></div>
+  <ul>
+    <li><b>异常</b>: 定义自己的 <code>UniFehler</code>, 遇到「教室已被占用」「学生不存在」等情况就 <code>raise</code>; 主循环 <code>except UniFehler</code> 统一打印错误信息, 程序不会因为用户输错而崩溃. </li>
+    <li><b>菜单</b>: 22 个操作不必写 22 个 <code>elif</code>: 用一个字典「编号 → (方法, 要问的问题)」查表调用. </li>
+    <li><b>pickle</b>: 把整个 <code>Univerwaltung</code> 对象一次存下, 所有学生、课程都跟着存了. 注意类变量不属于对象, 要单独存. </li>
+  </ul>
+</div>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
+<pre>import os
+import pickle
+
+DATEI = 'uni.pickle'
+
+class UniFehler(Exception):
+    """Fehler, die der Benutzer verursacht hat (unbekannte Nummer, Doppelbelegung …)."""
+
+class Termin:
+    TAGE = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
+
+    def __init__(self, tag, uhrzeit):
+        if tag not in self.TAGE:
+            raise UniFehler(f'unbekannter Wochentag: {tag}')
+        self.tag, self.uhrzeit = tag, uhrzeit
+
+    def __eq__(self, other):
+        return (self.tag, self.uhrzeit) == (other.tag, other.uhrzeit)
+
+    def __hash__(self):
+        return hash((self.tag, self.uhrzeit))
+
+    def __str__(self):
+        return f'{self.tag} {self.uhrzeit}'
+
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+class Student(Person):
+    naechste_nummer = 1                       # Klassenvariable: Matrikelnummern hochzählen
+
+    def __init__(self, name, studiengang):
+        super().__init__(name)
+        self.nummer = Student.naechste_nummer
+        Student.naechste_nummer += 1
+        self.studiengang = studiengang
+        self.kursplan = set()                 # Kursnamen
+
+class Dozent(Person):
+    pass
+
+class Raum:
+    def __init__(self, name):
+        self.name = name
+        self.belegung = {}                    # Termin -&gt; Kursname
+
+class Kurs:
+    def __init__(self, name):
+        self.name = name
+        self.dozent = None
+        self.termine = {}                     # Termin -&gt; Raumname
+        self.teilnehmer = set()               # Matrikelnummern
+
+class Studiengang:
+    def __init__(self, name):
+        self.name = name
+        self.kurse = set()
+
+class Univerwaltung:
+    def __init__(self):
+        self.studenten, self.dozenten, self.raeume = {}, {}, {}
+        self.kurse, self.studiengaenge = {}, {}
+
+    # --- Hilfsfunktionen -------------------------------------------------
+    @staticmethod
+    def hole(tabelle, schluessel, was):
+        try:
+            return tabelle[schluessel]
+        except KeyError:
+            raise UniFehler(f'{was} {schluessel!r} existiert nicht') from None
+
+    @staticmethod
+    def neu(tabelle, schluessel, objekt, was):
+        if schluessel in tabelle:
+            raise UniFehler(f'{was} {schluessel!r} existiert schon')
+        tabelle[schluessel] = objekt
+
+    # --- Aktionen ----------------------------------------------------------
+    def immatrikulieren(self, name, studiengang):
+        self.hole(self.studiengaenge, studiengang, 'Studiengang')
+        s = Student(name, studiengang)
+        self.studenten[s.nummer] = s
+        return s.nummer
+
+    def kurs_neu(self, name):          self.neu(self.kurse, name, Kurs(name), 'Kurs')
+    def dozent_neu(self, name):        self.neu(self.dozenten, name, Dozent(name), 'Dozent')
+    def raum_neu(self, name):          self.neu(self.raeume, name, Raum(name), 'Raum')
+    def studiengang_neu(self, name):   self.neu(self.studiengaenge, name, Studiengang(name), 'Studiengang')
+
+    def kurs_zu_studiengang(self, kurs, sg):
+        self.hole(self.kurse, kurs, 'Kurs')
+        self.hole(self.studiengaenge, sg, 'Studiengang').kurse.add(kurs)
+
+    def dozent_eintragen(self, kurs, dozent):
+        self.hole(self.dozenten, dozent, 'Dozent')
+        self.hole(self.kurse, kurs, 'Kurs').dozent = dozent
+
+    def termin_neu(self, kurs, raum, tag, uhrzeit):
+        k = self.hole(self.kurse, kurs, 'Kurs')
+        r = self.hole(self.raeume, raum, 'Raum')
+        t = Termin(tag, uhrzeit)
+        if t in r.belegung:
+            raise UniFehler(f'Raum {raum} ist {t} schon von {r.belegung[t]} belegt')
+        r.belegung[t] = kurs
+        k.termine[t] = raum
+
+    def anmelden(self, nummer, kurs):
+        s = self.hole(self.studenten, nummer, 'Student')
+        k = self.hole(self.kurse, kurs, 'Kurs')
+        for anderer in s.kursplan:                       # Terminüberschneidung?
+            gemeinsam = set(k.termine) &amp; set(self.kurse[anderer].termine)
+            if gemeinsam:
+                raise UniFehler(f'Überschneidung mit {anderer} am {gemeinsam.pop()}')
+        s.kursplan.add(kurs)
+        k.teilnehmer.add(nummer)
+
+    def abmelden(self, nummer, kurs):
+        s = self.hole(self.studenten, nummer, 'Student')
+        s.kursplan.discard(kurs)
+        self.hole(self.kurse, kurs, 'Kurs').teilnehmer.discard(nummer)
+
+    def exmatrikulieren(self, nummer):
+        s = self.hole(self.studenten, nummer, 'Student')
+        for kurs in list(s.kursplan):
+            self.abmelden(nummer, kurs)
+        del self.studenten[nummer]
+
+    def termin_loeschen(self, kurs, tag, uhrzeit):
+        k = self.hole(self.kurse, kurs, 'Kurs')
+        t = Termin(tag, uhrzeit)
+        raum = self.hole(k.termine, t, 'Termin')
+        del self.raeume[raum].belegung[t]
+        del k.termine[t]
+
+    def kurs_loeschen(self, kurs):
+        k = self.hole(self.kurse, kurs, 'Kurs')
+        for t in list(k.termine):
+            self.termin_loeschen(kurs, t.tag, t.uhrzeit)
+        for nummer in list(k.teilnehmer):
+            self.abmelden(nummer, kurs)
+        for sg in self.studiengaenge.values():
+            sg.kurse.discard(kurs)
+        del self.kurse[kurs]
+
+    def kurs_aus_studiengang(self, kurs, sg):
+        self.hole(self.studiengaenge, sg, 'Studiengang').kurse.discard(kurs)
+
+    def dozent_loeschen(self, name):
+        self.hole(self.dozenten, name, 'Dozent')
+        for k in self.kurse.values():
+            if k.dozent == name:
+                k.dozent = None
+        del self.dozenten[name]
+
+    def studiengang_loeschen(self, name):
+        self.hole(self.studiengaenge, name, 'Studiengang')
+        if any(s.studiengang == name for s in self.studenten.values()):
+            raise UniFehler(f'im Studiengang {name} sind noch Studierende eingeschrieben')
+        del self.studiengaenge[name]
+
+    # --- Anzeigen ---------------------------------------------------------
+    def zeige_student(self, nummer):
+        s = self.hole(self.studenten, nummer, 'Student')
+        return f'{s.nummer}: {s.name} ({s.studiengang}), Kurse: {sorted(s.kursplan)}'
+
+    def zeige_dozent(self, name):
+        self.hole(self.dozenten, name, 'Dozent')
+        return f'{name}: {sorted(k.name for k in self.kurse.values() if k.dozent == name)}'
+
+    def zeige_kurs(self, kurs):
+        k = self.hole(self.kurse, kurs, 'Kurs')
+        termine = ', '.join(f'{t} in {r}' for t, r in k.termine.items())
+        return f'{k.name}, Dozent: {k.dozent}, Termine: {termine}, Teilnehmer: {sorted(k.teilnehmer)}'
+
+    def zeige_raum(self, raum):
+        r = self.hole(self.raeume, raum, 'Raum')
+        return f'{r.name}: ' + ', '.join(f'{t}: {k}' for t, k in r.belegung.items())
+
+    def zeige_studiengang(self, sg):
+        return f'{sg}: {sorted(self.hole(self.studiengaenge, sg, "Studiengang").kurse)}'
+
+    # --- Speichern / Laden ---------------------------------------------------
+    def speichern(self):
+        with open(DATEI, 'wb') as f:
+            pickle.dump((self, Student.naechste_nummer), f)
+
+    @staticmethod
+    def laden():
+        if not os.path.exists(DATEI):
+            return Univerwaltung()
+        with open(DATEI, 'rb') as f:
+            uni, Student.naechste_nummer = pickle.load(f)
+        return uni
+
+
+MENUE = '''
+ 1 Student immatrikulieren      12 Kurs anzeigen
+ 2 neuen Kurs hinzufügen        13 Raum anzeigen
+ 3 neuen Dozenten hinzufügen    14 Studiengang anzeigen
+ 4 neuen Raum hinzufügen        15 Student von Kurs abmelden
+ 5 neuen Studiengang hinzufügen 16 Student exmatrikulieren
+ 6 Kurs zu Studiengang          17 Kurs löschen
+ 7 Dozent eines Kurses          18 Kurs in Studiengang löschen
+ 8 Termin zu Kurs               19 Kurstermin löschen
+ 9 Student zu Kurs anmelden     20 Dozent löschen
+10 Student anzeigen             21 Studiengang löschen
+11 Dozent anzeigen              22 Programm beenden'''
+
+def main():
+    uni = Univerwaltung.laden()
+    frage = input
+    nr = lambda: int(frage('Matrikelnummer: '))
+    # Nummer -&gt; (Funktion, Liste der Fragen, die vorher gestellt werden)
+    aktionen = {
+        1: (uni.immatrikulieren, [lambda: frage('Name: '), lambda: frage('Studiengang: ')]),
+        2: (uni.kurs_neu, [lambda: frage('Kurs: ')]),
+        3: (uni.dozent_neu, [lambda: frage('Dozent: ')]),
+        4: (uni.raum_neu, [lambda: frage('Raum: ')]),
+        5: (uni.studiengang_neu, [lambda: frage('Studiengang: ')]),
+        6: (uni.kurs_zu_studiengang, [lambda: frage('Kurs: '), lambda: frage('Studiengang: ')]),
+        7: (uni.dozent_eintragen, [lambda: frage('Kurs: '), lambda: frage('Dozent: ')]),
+        8: (uni.termin_neu, [lambda: frage('Kurs: '), lambda: frage('Raum: '),
+                             lambda: frage('Wochentag (Mo–So): '), lambda: frage('Uhrzeit: ')]),
+        9: (uni.anmelden, [nr, lambda: frage('Kurs: ')]),
+        10: (uni.zeige_student, [nr]),
+        11: (uni.zeige_dozent, [lambda: frage('Dozent: ')]),
+        12: (uni.zeige_kurs, [lambda: frage('Kurs: ')]),
+        13: (uni.zeige_raum, [lambda: frage('Raum: ')]),
+        14: (uni.zeige_studiengang, [lambda: frage('Studiengang: ')]),
+        15: (uni.abmelden, [nr, lambda: frage('Kurs: ')]),
+        16: (uni.exmatrikulieren, [nr]),
+        17: (uni.kurs_loeschen, [lambda: frage('Kurs: ')]),
+        18: (uni.kurs_aus_studiengang, [lambda: frage('Kurs: '), lambda: frage('Studiengang: ')]),
+        19: (uni.termin_loeschen, [lambda: frage('Kurs: '), lambda: frage('Wochentag: '),
+                                   lambda: frage('Uhrzeit: ')]),
+        20: (uni.dozent_loeschen, [lambda: frage('Dozent: ')]),
+        21: (uni.studiengang_loeschen, [lambda: frage('Studiengang: ')]),
+    }
+    print(MENUE)
+    while True:
+        try:
+            wahl = int(frage('\nAktion: '))
+            if wahl == 22:
+                uni.speichern()
+                print('gespeichert, Programm beendet')
+                break
+            funktion, fragen = aktionen[wahl]
+            ergebnis = funktion(*[f() for f in fragen])
+            if ergebnis is not None:
+                print(ergebnis)
+        except UniFehler as e:
+            print('Fehler:', e)
+        except (ValueError, KeyError):
+            print('Fehler: ungültige Eingabe')
+
+if __name__ == '__main__':
+    main()</pre>
+  <p><b>运行测试</b> (输入用管道送进去, 下面只列关键几步): </p>
+<pre>Aktion: 5 → Studiengang: CL
+Aktion: 1 → Name: Anna, Studiengang: CL                → 1
+Aktion: 1 → Name: Ben,  Studiengang: Info              → Fehler: Studiengang 'Info' existiert nicht
+Aktion: 8 → EIP,  B001, Mo, 10:00
+Aktion: 8 → EICL, B001, Mo, 10:00                      → Fehler: Raum B001 ist Mo 10:00 schon von EIP belegt
+Aktion: 8 → EICL, B001, Di, 12:00
+Aktion: 13 → Raum: B001                                → B001: Mo 10:00: EIP, Di 12:00: EICL
+Aktion: 10 → Matrikelnummer: 1                         → 1: Anna (CL), Kurse: ['EICL', 'EIP']
+Aktion: 99                                             → Fehler: ungültige Eingabe
+Aktion: 22                                             → gespeichert, Programm beendet
+
+（重新启动程序）
+Aktion: 10 → Matrikelnummer: 1                         → 1: Anna (CL), Kurse: ['EICL', 'EIP']
+Aktion: 1 → Name: Carla, Studiengang: CL              → 2
+Aktion: 21 → Studiengang: CL                           → Fehler: im Studiengang CL sind noch Studierende eingeschrieben</pre>
+  <p><b>核对</b>: 重启后 Anna 的数据还在, 新学生 Carla 拿到学号 2, 说明 pickle 正确保存并读回了数据和学号计数器; 教室冲突、不存在的专业、非法编号都给出了错误提示, 程序没有崩溃. </p>
+  <p><b>讲解</b>: </p>
+  <ul>
+    <li>删除操作要<b>保持数据一致</b>: 删课程时, 要同时释放它占用的教室时间、把学生从课上注销、从各专业里去掉; 删教师时把他教的课的教师设为 None; 专业里还有学生时不允许删除. </li>
+    <li>选课时检查时间冲突: 新课和学生已选的课有相同的 <code>Termin</code> 就报错. 这需要 <code>Termin</code> 定义了 <code>__eq__</code> 和 <code>__hash__</code>, 否则两个「周一 10:00」会被当成不同的对象. </li>
+    <li><code>hole</code> 和 <code>neu</code> 把重复的「查不到就报错」「已存在就报错」集中在一起, 避免在 22 个方法里各写一遍. </li>
+  </ul>
+  <p><b>易错</b>: ① pickle 文件要用 <code>'wb'</code>/<code>'rb'</code> 以<b>二进制</b>方式打开; ② 第一次运行时 pickle 文件还不存在, 要先检查; ③ 只存了对象、没存类变量, 重启后学号会从 1 重新开始, 和已有学生重号. </p>
+</details>
+<div class="add"><p>pickle 只能读取<b>可信</b>的文件: 读入一个恶意构造的 pickle 文件可能执行任意代码. 另外 pickle 文件和类定义绑定, 改了类的名字或模块, 旧文件就读不回来了. 需要长期保存或交换的数据, 一般用 JSON 或数据库. </p></div>
+</article>
+</section>
+
+
+</main>
+<script id="glass-js">
+/* 玻璃霓虹层 v11 的交互: 进度条后备、滚动淡入、浮动胶囊目录、背景等高线、解密标题、卡片聚光灯、光标拖影、折叠动画.
+   全部是本地代码, 不加载任何外部资源; 任何一步出错都不影响正文显示. */
+(function () {
+  try {
+    var doc = document.documentElement;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var auto = navigator.webdriver || /HeadlessChrome/.test(navigator.userAgent); // 自动化截图时关掉动效, 保证截图完整
+    if (!reduce && !auto && 'IntersectionObserver' in window) doc.classList.add('fx');
+
+    /* 第二强调色跟着课程色走: 课程主色的色相 +40°, 写进 --glow2 (等高线低处、拖影尾端、标题波动用) */
+    (function () {
+      var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((getComputedStyle(doc).getPropertyValue('--accent') || '').trim());
+      if (!m) return;
+      var r = parseInt(m[1], 16) / 255, g = parseInt(m[2], 16) / 255, b = parseInt(m[3], 16) / 255;
+      var mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn, h = 0, s = 0;
+      if (d) { s = d / (1 - Math.abs(2 * l - 1)); h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
+      h = (h + 40 + 360) % 360;
+      var c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), o = l - c / 2, rgb;
+      rgb = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
+      doc.style.setProperty('--glow2', '#' + rgb.map(function (v) { return ('0' + Math.round((v + o) * 255).toString(16)).slice(-2); }).join(''));
+    })();
+
+    /* 1. 进度条: 浏览器不支持 CSS 滚动动画时用脚本更新 */
+    var bar = document.getElementById('progress');
+    if (bar && !(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'))) {
+      var upd = function () {
+        var h = doc.scrollHeight - innerHeight;
+        bar.style.setProperty('--p', h > 0 ? Math.min(1, scrollY / h) : 0);
+      };
+      addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd); upd();
+    }
+
+    /* 0. 运行时整理结构 (文件本身不变):
+       a) 小节标题 h2、三级标题 h3 的中文主标题 (第一个 <br> / 德语副标题 / small 之前的部分) 包进 <span class="ht">;
+       b) 每个 <pre> 包进 .codebox, 加标题栏 (三个圆点 + 语言 + 复制按钮); 语言优先取 data-lang, 否则按内容猜. */
+    Array.prototype.forEach.call(document.querySelectorAll('main h2, main h3'), function (h) {
+      if (h.querySelector(':scope > .ht')) return;
+      var ht = document.createElement('span'); ht.className = 'ht';
+      var n = h.firstChild;
+      while (n && !(n.nodeType === 1 && (n.tagName === 'BR' || n.tagName === 'SMALL' || n.classList.contains('de-title')))) {
+        var nx = n.nextSibling; ht.appendChild(n); n = nx;
+      }
+      if (ht.textContent.trim()) h.insertBefore(ht, h.firstChild);
+    });
+    /* c) 没有图注的普通 <figure> (MGTN): 用图片的 alt 补一个图注, 和其他笔记的原图一致 */
+    Array.prototype.forEach.call(document.querySelectorAll('main figure:not([class])'), function (f) {
+      var im = f.querySelector(':scope > img');
+      if (!im || f.querySelector('figcaption, .fig-cap') || !(im.alt || '').trim()) return;
+      var c = document.createElement('div'); c.className = 'fig-cap'; c.textContent = im.alt; f.appendChild(c);
+    });
+    var guessLang = function (t) {
+      if (/^\s*>>>/m.test(t)) return 'python repl';
+      if (/^\s*\$ /m.test(t)) return 'shell';
+      if (/^\s*(SELECT|CREATE|INSERT|UPDATE|DELETE|WITH)\b/m.test(t)) return 'sql';
+      if (/^\s*(def |class |import |from \S+ import|for .+ in .+:|if .+:|while .+:|print\()/m.test(t)) return 'python';
+      if (/^\s*(git|cd|ls|pip|python3?|mkdir|cat|grep|echo)\b/m.test(t)) return 'shell';
+      if (/^\s*\(\w+ \(/.test(t)) return 'tree';
+      return 'text';
+    };
+    Array.prototype.forEach.call(document.querySelectorAll('main pre'), function (pre) {
+      if (pre.parentElement.classList.contains('codebox')) return;
+      var box = document.createElement('div'); box.className = 'codebox';
+      var head = document.createElement('div'); head.className = 'cb-head';
+      head.innerHTML = '<span class="cb-dots"><i></i><i></i><i></i></span><span class="cb-lang"></span><button class="cb-copy" type="button">复制</button>';
+      head.querySelector('.cb-lang').textContent = pre.getAttribute('data-lang') || guessLang(pre.textContent);
+      pre.parentNode.insertBefore(box, pre); box.appendChild(head); box.appendChild(pre);
+      var btn = head.querySelector('.cb-copy');
+      btn.addEventListener('click', function () {
+        var txt = pre.innerText, ok = function () { btn.textContent = '已复制'; btn.classList.add('ok'); setTimeout(function () { btn.textContent = '复制'; btn.classList.remove('ok'); }, 1400); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, function () {});
+        else { var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); ok(); } catch (e) {} ta.remove(); }
+      });
+    });
+
+    /* 2. 滚动淡入 */
+    if (doc.classList.contains('fx')) {
+      var els = document.querySelectorAll('main .card, main .zh, main .add, main .warn, main .codebox, main .src-fig, main figure:not([class]), main .tablewrap, main details');
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -8% 0px' });
+      els.forEach(function (el) {
+        if (el.parentElement && el.parentElement.closest('.reveal')) return;
+        var r = el.getBoundingClientRect();
+        el.classList.add('reveal');
+        if (r.top < innerHeight) el.classList.add('in'); else io.observe(el);
+      });
+    }
+
+    /* 解密动画 (小节标题、胶囊目录共用): 先显示乱码, 再从左到右逐字恢复; 德语副标题不动; 无论如何最后都恢复原文 */
+    var gsrc = document.querySelector('[data-glyphs]');
+    var GL = Array.from((gsrc && gsrc.getAttribute('data-glyphs')) || '#%&*+=<>/|01');
+    var GW = Array.from('＃％＆＊＋＝＜＞／｜０１');                 /* 中文位置用全角字符占位, 宽度不跳 */
+    var isWide = function (ch) { return /[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF\u3000-\u303F]/.test(ch); };
+    var rndG = function (ch) { var g = isWide(ch) ? GW : GL; return g[(Math.random() * g.length) | 0]; };
+    var textNodes = function (el) {
+      var out = [], tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+      while (tw.nextNode()) { var tn = tw.currentNode; if (!tn.parentElement.closest('.de-title, small, .katex') && tn.nodeValue.trim()) out.push(tn); }
+      return out;
+    };
+    /* 把元素里的文字拆成逐字的 <span class="ch"> (行内元素, 不改变排版); 乱码画在 ::after 叠层里,
+       原字只是暂时隐藏、仍占原来的位置, 所以解密和信号干扰时标题和下面的内容都不会移动 */
+    var splitChars = function (el) {
+      var groups = textNodes(el).map(function (tn) {
+        var frag = document.createDocumentFragment(), spans = [];
+        Array.from(tn.nodeValue).forEach(function (ch) {
+          if (/\s/.test(ch)) { frag.appendChild(document.createTextNode(ch)); return; }
+          var sp = document.createElement('span'); sp.className = 'ch'; sp.textContent = ch; frag.appendChild(sp); spans.push(sp);
+        });
+        var first = frag.firstChild; tn.parentNode.replaceChild(frag, tn);
+        return { tn: tn, first: first, spans: spans, count: Array.from(tn.nodeValue).length };
+      });
+      return groups;
+    };
+    var joinChars = function (groups) {
+      groups.forEach(function (g) {
+        var n = g.first; if (!n || !n.parentNode) return;
+        var parent = n.parentNode; parent.insertBefore(g.tn, n);
+        for (var k = 0; k < g.count && g.tn.nextSibling; k++) parent.removeChild(g.tn.nextSibling);
+      });
+    };
+    var setX = function (sp, on) {
+      if (on) { sp.setAttribute('data-g', rndG(sp.textContent)); sp.classList.add('x'); } else sp.classList.remove('x');
+    };
+    var decrypt = function (h, DUR) {
+      DUR = DUR || 800;
+      if (h._dtok) return;
+      var groups = splitChars(h); if (!groups.length) return;
+      var tok = h._dtok = {};
+      var hd = h.classList.contains('ht') ? h.parentElement : null;
+      if (hd) hd.classList.remove('wave');
+      var spans = [].concat.apply([], groups.map(function (g) { return g.spans; })), total = spans.length, t0 = performance.now();
+      h.classList.add('decrypting');
+      var finish = function () {
+        if (h._dtok !== tok) return;
+        h._dtok = null; joinChars(groups); h.classList.remove('decrypting');
+        if (hd && hd.tagName === 'H2') hd.classList.add('wave');   /* 解密完成后, h2 开始颜色波动 */
+      };
+      var tick = function (now) {
+        if (h._dtok !== tok) return;
+        var k = Math.floor(Math.min(1, (now - t0) / DUR) * total);
+        for (var q = 0; q < total; q++) setX(spans[q], q >= k);
+        if (now - t0 < DUR) requestAnimationFrame(tick); else finish();
+      };
+      requestAnimationFrame(tick);
+      setTimeout(finish, DUR + 600);
+    };
+    /* 信号干扰: 随机一两个字瞬间变乱码, 150 毫秒后恢复; 同样不改变排版 */
+    var glitchOnce = function (ht) {
+      if (ht._dtok) return;
+      var groups = splitChars(ht); if (!groups.length) return;
+      var tok = ht._dtok = {}, spans = [].concat.apply([], groups.map(function (g) { return g.spans; }));
+      for (var q = 0, n = Math.random() < .5 ? 1 : 2; q < n && spans.length; q++) setX(spans[(Math.random() * spans.length) | 0], true);
+      setTimeout(function () { if (ht._dtok === tok) { ht._dtok = null; joinChars(groups); } }, 150);
+    };
+    var fx = doc.classList.contains('fx');
+
+    /* 3. 浮动胶囊目录 + 当前小节高亮 */
+    var nav = document.querySelector('nav');
+    var links = nav ? Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]')) : [];
+    var targets = links.map(function (a) { return document.getElementById(decodeURIComponent(a.hash.slice(1))); });
+    var pill = null, cur = null, pLinks = [], curIdx = -1;
+    if (links.length) {
+      pill = document.createElement('div'); pill.id = 'toc-pill';
+      pill.innerHTML = '<div class="cap" role="button" tabindex="0" aria-expanded="false"><span class="ring"></span><span class="idx"></span><span class="cur"></span><span class="chev">▾</span></div><div class="panel"></div>';
+      var panel = pill.querySelector('.panel'); cur = pill.querySelector('.cur');
+      links.forEach(function (a) { var b = a.cloneNode(true); panel.appendChild(b); pLinks.push(b); });
+      document.body.appendChild(pill);
+      var cap = pill.querySelector('.cap');
+      var toggle = function (open) {
+        pill.classList.toggle('open', open);
+        cap.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+      cap.addEventListener('click', function () { toggle(!pill.classList.contains('open')); });
+      cap.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(!pill.classList.contains('open')); } });
+      panel.addEventListener('click', function (e) { if (e.target.closest('a')) toggle(false); });
+      document.addEventListener('click', function (e) { if (!pill.contains(e.target)) toggle(false); });
+      var lastY = scrollY;
+      addEventListener('scroll', function () { if (Math.abs(scrollY - lastY) > 40) { toggle(false); lastY = scrollY; } }, { passive: true });
+    }
+    var mark = function () {
+      var y = 140, idx = -1, hgt = doc.scrollHeight - innerHeight, rp = hgt > 0 ? Math.min(1, scrollY / hgt) : 0;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top < y) idx = i; });
+      curIdx = idx;
+      links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+      pLinks.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+      if (pill) {
+        var past = nav.getBoundingClientRect().bottom < 0;
+        pill.classList.toggle('show', past);
+        if (!past) pill.classList.remove('open');
+        pill.style.setProperty('--rp', rp.toFixed(3));
+        pill.querySelector('.panel').setAttribute('data-pct', Math.round(rp * 100) + '%');
+        pill.querySelector('.idx').textContent = ('0' + Math.max(1, idx + 1)).slice(-2) + '/' + ('0' + links.length).slice(-2);
+        var name = idx >= 0 ? links[idx].textContent : links[0].textContent;
+        if (cur.getAttribute('data-name') !== name) {
+          cur.setAttribute('data-name', name);
+          cur._dtok = null; cur.classList.remove('decrypting'); cur.textContent = name;   /* 直接重写文字, 旧的逐字 span 一并清掉 */
+          if (fx && past) decrypt(cur, 420);               /* 进入新小节时, 胶囊里的节名解密切换 */
+        }
+      }
+    };
+    addEventListener('scroll', mark, { passive: true }); addEventListener('resize', mark); mark();
+
+    /* 4. 背景等高线: 地形图式的等高线 (每 5 条一条较粗的计曲线), 按高度从青到绿着色;
+       地形缓慢呼吸变形, 鼠标所在处隆起一个小山丘; 正文一栏用羽化的遮罩压淡 */
+    if (!reduce) {
+      var cv = document.createElement('canvas'); cv.id = 'contour'; cv.setAttribute('aria-hidden', 'true');
+      document.body.insertBefore(cv, document.body.firstChild);
+      var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, C = 7, NX = 0, NY = 0, F = null, narrow = false, mL = 0, mR = 0;
+      var cs0 = getComputedStyle(doc);
+      function rgbOf(h, d) { var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((h || '').trim());
+        return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : d; }
+      var A = rgbOf(cs0.getPropertyValue('--accent'), [129, 228, 141]);
+      var B = rgbOf(cs0.getPropertyValue('--glow2'), [127, 211, 255]);
+      var mainEl = document.querySelector('main');
+      var P = new Uint8Array(512), sd = 2468013;
+      for (var q = 0; q < 256; q++) P[q] = q;
+      for (q = 255; q > 0; q--) { sd = (sd * 16807) % 2147483647; var r = sd % (q + 1), tmp = P[q]; P[q] = P[r]; P[r] = tmp; }
+      for (q = 0; q < 256; q++) P[q + 256] = P[q];
+      function sm(t) { return t * t * (3 - 2 * t); }
+      function vn(x, y) {
+        var xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi; xi &= 255; yi &= 255;
+        var a = P[P[xi] + yi] / 255, b = P[P[xi + 1] + yi] / 255, c = P[P[xi] + yi + 1] / 255, d = P[P[xi + 1] + yi + 1] / 255;
+        var u = sm(xf), v = sm(yf);
+        return (a + (b - a) * u) * (1 - v) + (c + (d - c) * u) * v;
+      }
+      var mx = -9999, my = -9999, hx = -9999, hy = -9999, amp = 0, ampT = 0, lastMove = 0;
+      addEventListener('pointermove', function (e) { if (e.pointerType !== 'mouse') return; mx = e.clientX; my = e.clientY; ampT = 1; lastMove = performance.now(); }, { passive: true });
+      document.addEventListener('pointerleave', function () { ampT = 0; });
+      var LV = []; for (var lv = .18, li = 0; lv < .95; lv += .033, li++) LV.push({ v: lv, idx: li % 5 === 0 });
+      function size() {
+        dpr = Math.min(2, window.devicePixelRatio || 1);
+        W = innerWidth; H = innerHeight; narrow = W < 700;
+        cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        NX = Math.ceil(W / C) + 2; NY = Math.ceil(H / C) + 2; F = new Float32Array(NX * NY);
+        var rr = mainEl ? mainEl.getBoundingClientRect() : { left: 0, right: 0 }; mL = rr.left; mR = rr.right;
+      }
+      function field(t) {
+        var ts = t / 1000, br = 1 + .06 * Math.sin(ts * Math.PI * 2 / 20), sy = scrollY * .0011;
+        var ox = .3 * Math.sin(ts * .045), oy = .3 * Math.cos(ts * .038);
+        /* 鼠标山丘: 位置和高度都平滑跟随 */
+        if (hx < -999) { hx = mx; hy = my; }
+        hx += (mx - hx) * .18; hy += (my - hy) * .18;
+        if (performance.now() - lastMove > 2500) ampT = 0;
+        amp += (ampT * .22 - amp) * .06;
+        var s2 = 2 * 85 * 85, cx = W / 2, cy = H / 2;
+        for (var y = 0; y < NY; y++) {
+          var py = y * C, ny0 = ((py - cy) / br + cy) * .0042;
+          for (var x = 0; x < NX; x++) {
+            var px = x * C, nx0 = ((px - cx) / br + cx) * .0042;
+            var v = .68 * vn(nx0 + ox, ny0 + oy + sy) + .32 * vn(nx0 * 2.6 - ts * .02, ny0 * 2.6 + ts * .015 + sy * 2.6);
+            if (amp > .002) { var dx = px - hx, dy = py - hy; v += amp * Math.exp(-(dx * dx + dy * dy) / s2); }
+            F[y * NX + x] = v;
+          }
+        }
+      }
+      function draw(t) {
+        field(t);
+        ctx.clearRect(0, 0, W, H);
+        ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+        var k = narrow ? .55 : 1;
+        for (var l = 0; l < LV.length; l++) {
+          var lev = LV[l].v, f = Math.min(1, Math.max(0, (lev - .25) / .6));
+          var c = [Math.round(B[0] + (A[0] - B[0]) * f), Math.round(B[1] + (A[1] - B[1]) * f), Math.round(B[2] + (A[2] - B[2]) * f)];
+          ctx.strokeStyle = 'rgba(' + c.join(',') + ',' + ((LV[l].idx ? .34 : .15) * k).toFixed(3) + ')';
+          ctx.lineWidth = LV[l].idx ? 1.35 : .8;
+          ctx.beginPath();
+          for (var y = 0; y < NY - 1; y++) for (var x = 0; x < NX - 1; x++) {
+            var a = F[y * NX + x], b = F[y * NX + x + 1], cc = F[(y + 1) * NX + x + 1], d = F[(y + 1) * NX + x];
+            var id = (a > lev ? 8 : 0) | (b > lev ? 4 : 0) | (cc > lev ? 2 : 0) | (d > lev ? 1 : 0);
+            if (id === 0 || id === 15) continue;
+            var X = x * C, Y = y * C;
+            var T = [X + C * (lev - a) / (b - a), Y], Rt = [X + C, Y + C * (lev - b) / (cc - b)], Bt = [X + C * (lev - d) / (cc - d), Y + C], Lf = [X, Y + C * (lev - a) / (d - a)];
+            var sg;
+            switch (id) {
+              case 1: case 14: sg = [Lf, Bt]; break;  case 2: case 13: sg = [Bt, Rt]; break;
+              case 3: case 12: sg = [Lf, Rt]; break;  case 4: case 11: sg = [T, Rt]; break;
+              case 6: case 9: sg = [T, Bt]; break;    case 7: case 8: sg = [Lf, T]; break;
+              case 5: sg = [Lf, T, Bt, Rt]; break;    case 10: sg = [T, Rt, Lf, Bt]; break;
+            }
+            for (var g = 0; g < sg.length; g += 2) { ctx.moveTo(sg[g][0], sg[g][1]); ctx.lineTo(sg[g + 1][0], sg[g + 1][1]); }
+          }
+          ctx.stroke();
+        }
+        /* 羽化遮罩: 正文一栏中心最淡, 向两侧平滑过渡 */
+        if (!narrow && mR > mL) {
+          var gw = 140, g2 = ctx.createLinearGradient(mL - gw, 0, mR + gw, 0), fl = gw / (mR - mL + 2 * gw);
+          g2.addColorStop(0, 'rgba(0,0,0,0)'); g2.addColorStop(Math.min(.49, fl * 1.6), 'rgba(0,0,0,.72)');
+          g2.addColorStop(Math.max(.51, 1 - fl * 1.6), 'rgba(0,0,0,.72)'); g2.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = g2; ctx.fillRect(mL - gw, 0, mR - mL + 2 * gw, H);
+          ctx.globalCompositeOperation = 'source-over';
+        }
+      }
+      size(); addEventListener('resize', function () { size(); draw(performance.now()); });
+      if (auto) draw(0);
+      else {
+        var lastT = 0;
+        (function loop(t) { if (!document.hidden && t - lastT > 66) { lastT = t; draw(t); } requestAnimationFrame(loop); })(0);
+      }
+    }
+
+    /* 解密标题 (h2 小节标题和 h3 三级标题; 页首大标题 h1 不加):
+       ① 第一次滚进视野时解密 (解密的是中文主标题 .ht, 德语副标题不动); h2 解密完开始颜色波动;
+       ② 之后鼠标悬停 (手机上点一下) 再解密, 1.2 秒内不重复;
+       ③ 正在读的那一节, 它的 h2 每隔 6–10 秒有一两个字瞬间变乱码再恢复 (信号干扰) */
+    if (fx) {
+      var heads = Array.prototype.slice.call(document.querySelectorAll('main h2, main h3')).filter(function (h) { return h.querySelector(':scope > .ht'); });
+      var hio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { decrypt(e.target.querySelector(':scope > .ht'), e.target.tagName === 'H3' ? 600 : 800); hio.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -12% 0px' });
+      heads.forEach(function (h) {
+        var ht = h.querySelector(':scope > .ht'), short = h.tagName === 'H3' ? 520 : 650;
+        if (h.getBoundingClientRect().top < innerHeight * .88) decrypt(ht, h.tagName === 'H3' ? 600 : 800); else hio.observe(h);
+        var lastHover = 0;
+        var again = function () { var now = performance.now(); if (now - lastHover > 1200) { lastHover = now; decrypt(ht, short); } };
+        ht.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') again(); });
+        h.addEventListener('click', function (e) { if (e.pointerType !== 'mouse' && !e.target.closest('a')) again(); });
+      });
+      var headOf = function (t) {
+        if (!t) return null;
+        var h = /^H2$/.test(t.tagName) ? t : t.querySelector('h2');
+        return h ? h.querySelector(':scope > .ht') : null;
+      };
+      var glitch = function () {
+        var ht = curIdx >= 0 ? headOf(targets[curIdx]) : null;
+        if (ht && !ht._dtok && !document.hidden) {
+          var r = ht.getBoundingClientRect();
+          if (r.bottom > 0 && r.top < innerHeight) glitchOnce(ht);
+        }
+        setTimeout(glitch, 6000 + Math.random() * 4000);
+      };
+      setTimeout(glitch, 7000);
+    }
+
+    /* 图片点击放大: 从原位置平滑放大到屏幕中央 (FLIP), 点击 / Esc 时缩回原位 */
+    var lb = document.createElement('div'); lb.id = 'lightbox'; document.body.appendChild(lb);   /* 图片在打开时才放进去, 页面里没有空的 <img> */
+    var lbSrc = null, lbBusy = false;
+    var rectFit = function (nw, nh) {
+      var mw = innerWidth * .92, mh = innerHeight * .84, k = Math.min(mw / nw, mh / nh, 2.2);
+      var w = nw * k, h = nh * k; return { left: (innerWidth - w) / 2, top: (innerHeight - h) / 2 - innerHeight * .03, width: w, height: h };
+    };
+    var place = function (el, r, to) {
+      var sx = r.width / to.width, sy = r.height / to.height;
+      el.style.transform = 'translate(' + r.left + 'px,' + r.top + 'px) scale(' + sx + ',' + sy + ')';
+    };
+    var lbOpen = function (im) {
+      if (lbBusy) return; lbBusy = true; lbSrc = im;
+      var b = document.createElement('img'); b.src = im.src; b.alt = im.alt;
+      var cap = document.createElement('div'); cap.className = 'lb-cap';
+      var fc = im.closest('figure') && im.closest('figure').querySelector('figcaption, .fig-cap');
+      cap.textContent = fc ? fc.textContent : (im.alt || '');
+      lb.textContent = ''; lb.appendChild(b); lb.appendChild(cap);
+      var to = rectFit(im.naturalWidth || im.width, im.naturalHeight || im.height);
+      b.style.width = to.width + 'px'; b.style.height = to.height + 'px';
+      b.style.transition = 'none'; place(b, im.getBoundingClientRect(), to);
+      im.style.visibility = 'hidden';
+      b.getBoundingClientRect();
+      b.style.transition = ''; lb.classList.add('on');
+      requestAnimationFrame(function () { b.style.transform = 'translate(' + to.left + 'px,' + to.top + 'px)'; });
+      setTimeout(function () { lbBusy = false; }, reduce ? 0 : 480);
+    };
+    var lbClose = function () {
+      if (!lb.classList.contains('on') || lbBusy) return;
+      var b = lb.querySelector('img'), im = lbSrc;
+      lb.classList.remove('on');
+      if (b && im && !reduce) {
+        lbBusy = true;
+        var to = { width: parseFloat(b.style.width), height: parseFloat(b.style.height) };
+        place(b, im.getBoundingClientRect(), to);
+        setTimeout(function () { im.style.visibility = ''; lb.textContent = ''; lbBusy = false; }, 480);
+      } else { if (im) im.style.visibility = ''; lb.textContent = ''; }
+    };
+    lb.addEventListener('click', lbClose);
+    addEventListener('keydown', function (e) { if (e.key === 'Escape') lbClose(); });
+    addEventListener('scroll', function () { if (lb.classList.contains('on')) lbClose(); }, { passive: true });
+    Array.prototype.forEach.call(document.querySelectorAll('main .src-fig img, main figure:not([class]) img'), function (im) {
+      im.addEventListener('click', function () { lbOpen(im); });
+    });
+
+    /* 左侧色条里的流光: 每个框随机错开起点, 不会整页同时闪 */
+    document.querySelectorAll('.zh, .warn, .def').forEach(function (el) { el.style.setProperty('--bar-delay', (-Math.random() * 5.5).toFixed(2) + 's'); });
+
+    /* 5. 卡片聚光灯: 只在鼠标所在的那张卡片里亮 */
+    if (!reduce && matchMedia('(pointer: fine)').matches) {
+      var boxes = document.querySelectorAll('main .card, main .zh, main .add, main .warn');
+      boxes.forEach(function (el) {
+        el.addEventListener('pointermove', function (e) {
+          if (e.target.closest('.card, .zh, .add, .warn') !== el) { el.classList.remove('lit'); return; }
+          var r = el.getBoundingClientRect();
+          el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+          el.classList.add('lit');
+        });
+        el.addEventListener('pointerleave', function () { el.classList.remove('lit'); });
+      });
+    }
+
+    /* 7. 光标拖影: 鼠标移动时拖一条由粗到细、逐渐变淡的光带, 停下就收拢消失 */
+    if (!reduce && !auto && matchMedia('(pointer: fine)').matches) {
+      var tc = document.createElement('canvas'); tc.id = 'trail'; tc.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(tc);
+      var tx = tc.getContext('2d'), TW = 0, TH = 0, tdpr = 1, pts = [], running = false, LIFE = 160;
+      var g1 = (getComputedStyle(doc).getPropertyValue('--accent') || '#81e48d').trim();
+      var g2 = (getComputedStyle(doc).getPropertyValue('--glow2') || '#7fd3ff').trim();
+      function tsize() { tdpr = Math.min(2, window.devicePixelRatio || 1); TW = innerWidth; TH = innerHeight;
+        tc.width = TW * tdpr; tc.height = TH * tdpr; tx.setTransform(tdpr, 0, 0, tdpr, 0, 0); }
+      tsize(); addEventListener('resize', tsize);
+      addEventListener('pointermove', function (e) {
+        pts.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+        if (!running) { running = true; requestAnimationFrame(tdraw); }
+      }, { passive: true });
+      function tdraw(now) {
+        while (pts.length && now - pts[0].t > LIFE) pts.shift();
+        tx.clearRect(0, 0, TW, TH);
+        if (pts.length > 1) {
+          tx.lineCap = 'round'; tx.lineJoin = 'round';
+          for (var i = 1; i < pts.length; i++) {
+            var a = pts[i - 1], b = pts[i], f = i / (pts.length - 1), age = 1 - (now - b.t) / LIFE;
+            tx.strokeStyle = f > .5 ? g1 : g2;
+            tx.globalAlpha = Math.max(0, .75 * f * age);
+            tx.lineWidth = 1 + 5 * f * age;
+            tx.shadowColor = g1; tx.shadowBlur = 12 * f;
+            tx.beginPath(); tx.moveTo(a.x, a.y); tx.lineTo(b.x, b.y); tx.stroke();
+          }
+          tx.globalAlpha = 1; tx.shadowBlur = 0;
+        }
+        if (pts.length) requestAnimationFrame(tdraw); else { running = false; tx.clearRect(0, 0, TW, TH); }
+      }
+    }
+
+    /* 6. 折叠答案的展开动画 */
+    document.querySelectorAll('details.answer').forEach(function (d) {
+      var s = d.querySelector('summary'); if (!s) return;
+      var body = document.createElement('div'); body.className = 'dbody';
+      while (s.nextSibling) body.appendChild(s.nextSibling);
+      d.appendChild(body);
+      s.addEventListener('click', function (ev) {
+        if (reduce) return;
+        ev.preventDefault();
+        if (d.open) {
+          body.style.height = body.scrollHeight + 'px';
+          requestAnimationFrame(function () { body.style.height = '0px'; });
+          setTimeout(function () { d.open = false; body.style.height = ''; }, 350);
+        } else {
+          d.open = true; var h = body.scrollHeight; body.style.height = '0px';
+          requestAnimationFrame(function () { body.style.height = h + 'px'; });
+          setTimeout(function () { body.style.height = ''; }, 360);
+        }
+      });
+    });
+  } catch (err) { document.documentElement.classList.remove('fx'); }
+})();
+</script>
+</body>
+</html>
