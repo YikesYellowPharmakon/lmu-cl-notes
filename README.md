@@ -19,4 +19,4 @@
 2. 用浏览器打开根目录的 `index.html`, 从总目录点进各份笔记.
 3. 以后获取最新进度: 在仓库文件夹里运行 `git pull` (Mac 用终端, Windows 用 Git Bash 或 PowerShell; 或在 GitHub Desktop 里点 Fetch origin → Pull).
 
-SMIS 和 MGTN 的公式用到同文件夹下的 `katex/`, 请保持文件夹结构不变.
+部分笔记的公式用到同文件夹下的 `katex/`, 请保持文件夹结构不变.
