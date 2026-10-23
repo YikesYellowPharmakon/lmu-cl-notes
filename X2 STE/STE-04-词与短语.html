@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STE 04 · 词与短语</title>
+<style>
+  /* 同一门课沿用同目录已有笔记的整段 <style>；新课只改下面的颜色 token。 */
+  :root {
+    --bg: #1b1e12;
+    --ink: #eaede3;
+    --muted: #aeb59b;
+    --line: #434b30;
+    --card: #262b1a;
+    --code: #15180e;
+    --accent: #c7e481;
+    --chip: #363e23;
+    --zh: #252b17;
+    --add: #1f2318;
+    --add-line: #a8b686;
+    --warn: #2a1a1c;
+    --warn-line: #ff7b72;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16.5px/1.6 "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif;
+  }
+  header { position: static; background: transparent; border: 0; }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 18px 22px 72px; }
+  header .wrap { padding-top: 18px; padding-bottom: 8px; }
+  h1 { font-size: 28px; line-height: 1.25; margin: 0 0 6px; font-weight: 650; }
+  h2 { font-size: 22px; margin: 44px 0 8px; padding-top: 10px; border-top: 1px solid var(--line); }
+  h3 { font-size: 17px; margin: 24px 0 6px; }
+  h1 .de-title, h2 .de-title, h3 .de-title {
+    display: block; margin-top: 2px; color: var(--muted);
+    font-weight: 500; font-size: 0.92em; line-height: 1.35;
+  }
+  h1 .de-title { font-size: 0.62em; }
+  p { margin: 8px 0; }
+  .lede { color: var(--muted); margin: 0; }
+  nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+  nav a {
+    color: var(--accent); text-decoration: none; background: var(--chip);
+    border-radius: 999px; padding: 3px 10px;
+    font: 13px/1.4 "PingFang SC", sans-serif;
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px 16px; margin: 12px 0;
+  }
+  .card p, .card li { margin: 4px 0; }
+  .de { position: relative; padding-top: 26px; }
+  .folie {
+    position: absolute; top: 7px; left: 16px;
+    font: 11.5px/1.3 "PingFang SC", sans-serif; color: var(--muted); letter-spacing: .02em;
+  }
+  .de .def {
+    border-left: 3px solid var(--accent); padding: 4px 10px; margin: 6px 0;
+    background: var(--chip); border-radius: 0 8px 8px 0;
+  }
+  .zh {
+    background: var(--zh); border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .zh p { margin: 0 0 8px; }
+  .zh p:last-child, .zh ul:last-child, .zh ol:last-child { margin-bottom: 0; }
+  .add {
+    background: var(--add); border-left: 3px dashed var(--add-line);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .add::before { content: "补充 (幻灯片之外)"; display: block; font-size: 12px; color: var(--add-line); font-weight: 600; margin-bottom: 4px; }
+  .add p { margin: 0 0 8px; }
+  .add p:last-child { margin-bottom: 0; }
+  .warn {
+    background: var(--warn); border-left: 3px solid var(--warn-line);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .vocab { font-family: "PingFang SC", sans-serif; font-size: 14px; color: var(--muted); margin: 6px 0 2px; }
+  .vocab b { color: var(--ink); font-weight: 600; }
+  ul, ol { margin: 8px 0; padding-left: 1.3em; }
+  li { margin: 4px 0; }
+  ul ul { margin: 2px 0; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; margin: 12px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 7px 10px; border-bottom: 1px solid var(--line); }
+  th { font: 12px/1.3 "PingFang SC", sans-serif; color: var(--muted); font-weight: 600; background: var(--chip); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tablewrap { overflow-x: auto; }
+  pre {
+    background: var(--code); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px; overflow: auto; margin: 12px 0;
+    font: 13.5px/1.5 "SF Mono", ui-monospace, Menlo, monospace;
+  }
+  code {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 0.86em;
+    background: var(--chip); padding: 1px 5px; border-radius: 5px;
+  }
+  pre code { background: none; padding: 0; }
+  .c { color: #8fbf98; }
+  .s { color: #f2a27f; }
+  .k { color: #8ab4f8; font-weight: 600; }
+  a { color: var(--accent); }
+  .src { color: var(--muted); font-size: 14px; }
+  blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin: 8px 0; }
+  details summary { cursor: pointer; font-weight: 600; }
+  details[open] summary { margin-bottom: 6px; }
+  .diagram { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+  .diagram > div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font-family: "PingFang SC", sans-serif; font-size: 14.5px; }
+  .diagram h4 { margin: 0 0 6px; font-size: 15px; }
+  @media (max-width: 560px) { .diagram { grid-template-columns: 1fr; } }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cols pre { margin: 0; }
+  @media (max-width: 620px) { .cols { grid-template-columns: 1fr; } }
+  /* ===== 前端细节优化 2026-10-16：只调排版与交互，不改内容和颜色 token ===== */
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  h1, h2, h3, h4 { text-wrap: balance; }
+  p, li { text-wrap: pretty; }
+  p, li, a, code { overflow-wrap: break-word; }
+  [id] { scroll-margin-top: 16px; }
+  :focus-visible { outline: 2px solid var(--accent, var(--link)); outline-offset: 2px; border-radius: 4px; }
+  pre, .tablewrap { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  pre { tab-size: 4; }
+  .tablewrap { overflow-x: auto; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  @media print { pre, table, details, figure { break-inside: avoid; } h2, h3 { break-after: avoid; } }
+  ::selection { background: color-mix(in srgb, var(--accent, var(--link)) 35%, transparent); }
+  nav a { transition: background-color .15s ease, color .15s ease; }
+  nav a:hover { background: color-mix(in srgb, var(--accent, var(--link)) 22%, var(--chip, var(--paper))); }
+  details summary:hover { color: var(--accent, var(--link)); }
+  @media print { .card, .zh, .add, .warn, .de, .later, .vocab { break-inside: avoid; } }
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .wrap, header .wrap, main { padding-left: 16px; padding-right: 16px; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; }
+    .card { padding-left: 12px; padding-right: 12px; }
+    .folie, .slide { left: 12px; }
+    .zh, .add, .warn { padding: 9px 12px; }
+    .part > h2, article { padding-left: 14px; padding-right: 14px; }
+    pre { padding: 10px 12px; font-size: 13px; }
+  }
+
+  .src-fig { background:#fff; border-radius:8px; padding:8px; margin:12px auto; }
+  .src-fig img { max-width:100%; max-height:360px; width:auto; }
+  .src-fig figcaption { color:#444; font:12.5px/1.5 "PingFang SC", sans-serif; margin-top:6px; }
+  .src-fig.wide img { max-height:520px; }
+  .card .strike, s { text-decoration: line-through; }
+  .ex { font-style: italic; }
+  .math-block { display: block; overflow-x: auto; overflow-y: hidden; max-width: 100%; margin: 10px 0; }
+  .math-block .katex-display { margin: 0.4em 0; }
+  .formula { text-align: center; margin: 8px 0; overflow-x: auto; }
+  /* ===== 排版统一层 v9（所有笔记共用；只管字体、尺寸、间距、对齐，不改颜色 token） ===== */
+  :root { --measure: 760px; --gutter: 24px; --serif: "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif; --sans: "PingFang SC", "Hiragino Sans GB", "Songti SC", sans-serif; --mono: "SF Mono", ui-monospace, Menlo, monospace; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { font: 16.5px/1.65 var(--serif); font-kerning: normal; }
+  /* 换行：中文按标点避头尾（strict），不用 balance / pretty（它们会在宽屏和手机上把中文行拆成一长一短、在词中间断开） */
+  body { line-break: strict; word-break: normal; overflow-wrap: break-word; font-feature-settings: "halt" 1; }
+  /* 中文讲解用英文标点（, . : ; ! ? ( )，由 scripts/zh_punct.py 转换）；剩下的「」、《》用 halt 压成半宽，不留大空白 */
+  pre, code, kbd, .katex { font-feature-settings: normal; }
+  /* 页首说明和副标题按「 · 」分段，只在段与段之间换行，不在一个段落中间断开 */
+  .seg, h1 .seg, h2 .seg, h3 .seg, .lede .seg { display: inline-block; margin: 0; font-size: inherit; font-weight: inherit; color: inherit; letter-spacing: inherit; }
+  p, li, td, th, dd, figcaption, summary, .lede { text-wrap: wrap; }
+  h1, h2, h3, h4 { text-wrap: wrap; word-break: keep-all; overflow-wrap: anywhere; }
+  /* 行内代码整体不拆行（bark() 不会断成 bark( / )）；只有页首、出处说明里的长文件名允许在放不下时断开 */
+  code { white-space: nowrap; }
+  .lede code, .src code, h1 code, h2 code, h3 code { white-space: normal; overflow-wrap: anywhere; }
+  td:first-child, th:first-child { min-width: 5em; }
+  /* 单元格内容不能断开的表（莫尔斯码之类）给 table 加 class="nowrap"，放不下就横向滚动（注释里不要写带尖括号的标签，wrap_tables.py 曾把它当成真表格） */
+  table.nowrap td, table.nowrap th { white-space: nowrap; text-wrap: nowrap; }
+  /* 代码块里的 code 跟随 pre 保留换行（上面的 nowrap 只给行内代码；漏了这条，多行代码会挤成一行） */
+  pre code { white-space: inherit; overflow-wrap: normal; word-break: normal; }
+  /* 长的行内代码（apply_typography.py 标 .lc，超过 24 个字符）在手机上放不下，允许在空格处换行，必要时任意处断开 */
+  code.lc { white-space: normal; overflow-wrap: anywhere; }
+  /* 版心：页首和正文同一列，左右对齐、整体居中 */
+  header .wrap, main.wrap, main { box-sizing: border-box; max-width: var(--measure); margin-left: auto; margin-right: auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+  header .wrap { padding-top: 40px; padding-bottom: 8px; }
+  main.wrap, main { padding-top: 8px; padding-bottom: 96px; }
+  /* 标题层级 */
+  h1 { font-size: 28px; line-height: 1.3; font-weight: 650; margin: 0 0 4px; }
+  h1 .de-title, h1 > span { display: block; margin-top: 6px; font-size: 15px; line-height: 1.45; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+  h2 { font-size: 22px; line-height: 1.35; font-weight: 650; margin: 56px 0 10px; padding-top: 16px; }
+  h2 .de-title { display: block; margin-top: 4px; font-size: 15px; font-weight: 500; color: var(--muted); }
+  h3 { font-size: 17.5px; line-height: 1.45; font-weight: 650; margin: 32px 0 8px; }
+  h3 .de-title { display: block; margin-top: 2px; font-size: 14px; font-weight: 500; color: var(--muted); }
+  h4 { font-size: 16px; margin: 24px 0 8px; }
+  /* 页首说明与导航 */
+  .lede { margin: 12px 0 0; font: 15.5px/1.65 var(--serif); color: var(--muted); }
+  nav { display: flex; flex-wrap: wrap; gap: 6px 6px; margin: 18px 0 0; }
+  nav a { font: 12.5px/1.5 var(--sans); padding: 3px 11px; border-radius: 999px; text-decoration: none; }
+  /* 正文段落 */
+  p { margin: 10px 0; }
+  ul, ol { padding-left: 1.4em; margin: 8px 0; }
+  li { margin: 4px 0; }
+  /* 原文卡片与各类框：统一宽度、圆角、内边距 */
+  .card { box-sizing: border-box; width: 100%; border-radius: 12px; padding: 14px 18px; margin: 14px 0; }
+  .card.de, .card.orig { padding-top: 30px; }
+  .folie, .slide { top: 9px; left: 18px; font: 11.5px/1.3 var(--sans); letter-spacing: .03em; }
+  .zh, .add, .warn, details.answer, .later { box-sizing: border-box; font: 15px/1.75 var(--sans); padding: 12px 16px; margin: 10px 0 6px; }
+  .zh p, .add p, .warn p, details.answer p { margin: 0 0 10px; }
+  .zh p:last-child, .add p:last-child, .warn p:last-child { margin-bottom: 0; }
+  .src { font: 14px/1.7 var(--sans); }
+  /* 居中元素：公式行、图、表格统一处理 */
+  p[style*="text-align:center"], p[style*="text-align: center"], .math-block { margin: 14px auto; text-align: center; font-size: 1.05em; }
+  figure, .src-fig { margin: 14px auto; text-align: center; }
+  /* 图注左对齐: 居中的两行图注第二行会孤零零缩在中间 */
+  figure figcaption, .src-fig figcaption { text-align: left; }
+  /* 图注按标点分句 (span.cs)，每行都在一个标点后结束，不在半句中间换行 */
+  figcaption .cs { display: inline-block; max-width: 100%; }
+  figure img, .src-fig img { display: block; margin: 0 auto; }
+  figure svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .tablewrap { width: 100%; overflow-x: auto; margin: 12px 0; }
+  table { width: 100%; font: 14.5px/1.6 var(--sans); }
+  .card table, .tablewrap table { margin: 0; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 11px; }
+  td.num, th.num { text-align: right; }
+  /* 代码 */
+  pre { font: 13.5px/1.55 var(--mono); padding: 12px 16px; border-radius: 10px; margin: 12px 0; overflow-x: auto; tab-size: 4; }
+  code { font-family: var(--mono); font-size: .86em; }
+  pre code { font-size: inherit; }
+  .cols { gap: 12px; }
+  .cols > *, .pair > *, .card > *, .zh > *, details.answer > * { min-width: 0; }
+  img, video { max-width: 100%; height: auto; }
+  .katex svg { max-width: none; }
+  /* 折叠框 */
+  details > summary { font: 600 15px/1.5 var(--sans); }
+  /* 窄屏 */
+  @media (max-width: 600px) {
+    :root { --gutter: 16px; }
+    body { font-size: 16px; line-height: 1.65; }
+    header .wrap { padding-top: 24px; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; margin-top: 44px; }
+    h3 { font-size: 17px; }
+    .card { padding-left: 13px; padding-right: 13px; }
+    .folie, .slide { left: 13px; }
+    .zh, .add, .warn, details.answer { padding: 10px 13px; font-size: 15px; line-height: 1.75; }
+    nav a { font-size: 12px; padding: 2px 9px; }
+    .cols { grid-template-columns: 1fr; }
+    /* 手机上表格列太窄时中文会一字一行（「需求分析」竖着排）：给单元格最小宽度，放不下就在 .tablewrap 里横向滚动 */
+    th, td { min-width: 4.5em; }
+    td.wide, th.wide { min-width: 9em; }
+  }
+  /* ===== /排版统一层 ===== */
+</style>
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+  .katex { font-size: 1.08em; }
+  .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; text-align: center; }
+  .math-block .katex-display { margin: 0.4em 0; }
+</style>
+<style id="glass">
+  /* ===== 玻璃霓虹层 (Glass / Neon) v13 · 只管视觉特效, 由 scripts/apply_glass.py 插在 </head> 前; 不改字号、版心、间距 ===== */
+  :root {
+    --glow: var(--accent);
+    --glow2: #7fd3ff;
+    --tint: color-mix(in srgb, var(--glow) 55%, #ffffff);          /* 课程色的亮色调, 进度条/色条/标题波动都用它, 跟着课程走 */
+    --glass: color-mix(in srgb, var(--card) 62%, transparent);
+    --glass-strong: color-mix(in srgb, var(--card) 80%, transparent);
+    --edge: color-mix(in srgb, #ffffff 9%, transparent);
+    --mono: "JetBrainsMono Nerd Font", "JetBrainsMono NF", "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  }
+  html { background: var(--bg); }
+  body {
+    background:
+      radial-gradient(1100px 600px at 50% -15%, color-mix(in srgb, var(--glow) 9%, transparent), transparent 65%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+  ::selection { background: color-mix(in srgb, var(--glow) 38%, transparent); color: #fff; }
+
+  /* 背景等高线: 固定画布上一张缓慢呼吸的地形图, 鼠标处隆起山丘 (由脚本绘制) */
+  #contour { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  /* 光标拖影: 覆盖全屏的透明画布, 不拦截鼠标 */
+  #trail { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 60; pointer-events: none; }
+
+  /* 顶部阅读进度条: 一条极淡的轨道 + 课程色渐变的进度 + 末端一颗发光的光点; 颜色全部来自课程主色 */
+  @property --p { syntax: "<number>"; inherits: true; initial-value: 0; }
+  #progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 50; pointer-events: none;
+    background: color-mix(in srgb, var(--glow) 10%, transparent); }
+  #progress::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p) * 100%);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 15%, transparent), color-mix(in srgb, var(--glow) 75%, transparent) 60%, var(--glow) 88%, var(--tint));
+    box-shadow: 0 0 6px color-mix(in srgb, var(--glow) 70%, transparent), 0 0 14px color-mix(in srgb, var(--glow) 35%, transparent); border-radius: 0 2px 2px 0; }
+  #progress::after { content: ""; position: absolute; top: 50%; left: calc(var(--p) * 100%); width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%;
+    background: var(--tint); opacity: min(1, calc(var(--p) * 60));
+    box-shadow: 0 0 6px 1px var(--glow), 0 0 16px 4px color-mix(in srgb, var(--glow) 45%, transparent); }
+  @supports (animation-timeline: scroll()) {
+    #progress { animation: prog linear both; animation-timeline: scroll(root); }
+    @keyframes prog { from { --p: 0; } to { --p: 1; } }
+  }
+
+  /* 标题 */
+  h1 { background: linear-gradient(100deg, #fff 0%, var(--glow) 55%, var(--glow2) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  h1 .de-title { -webkit-text-fill-color: var(--muted); color: var(--muted); }
+  h2 { border-top: 0 !important; position: relative; }
+  .part:has(> h2) { border-top-color: transparent !important; }   /* 练习单的分节线由 h2 的渐变线代替, 不出现两条线 */
+  h2::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px;
+    background: linear-gradient(90deg, var(--glow), color-mix(in srgb, var(--glow2) 50%, transparent) 40%, transparent); opacity: .7; }
+
+  /* 小节标题 h2 / 三级标题 h3 的中文主标题: 脚本在运行时把它包进 .ht (文件本身不变).
+     h2 的 .ht 从一开始就用「文字裁切渐变」绘制 (起始是纯正文色), 解密后只是让渐变里的光带开始流动;
+     渲染方式前后不变, 所以结束时不会闪、德语副标题也不会跟着变. */
+  h2 .ht { background: linear-gradient(90deg, var(--ink) 0 100%); background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  h2.wave .ht { background-image: linear-gradient(90deg, var(--ink) 0%, var(--ink) 18%, var(--glow) 34%, var(--tint) 42%, var(--glow) 50%, var(--ink) 66%, var(--ink) 100%);
+    animation: hwave 9s linear infinite; }
+  @keyframes hwave { from { background-position: 0% 0; } to { background-position: -200% 0; } }
+
+  /* 解密 / 信号干扰: 原字隐藏但仍占原位, 乱码画在 ::after 叠层里, 居中压在原字上, 不参与排版 */
+  .ch { position: relative; }
+  .ch.x { visibility: hidden; }
+  .ch.x::after { content: attr(data-g); visibility: visible; position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+    white-space: pre; color: var(--glow); -webkit-text-fill-color: var(--glow); opacity: .85; pointer-events: none; }
+
+  /* ===== 页首目录: 和卡片同一套玻璃面板, 每项带两位编号 (CSS 计数, 不改文件) ===== */
+  header nav, body > nav { counter-reset: toc; display: flex; flex-wrap: wrap; gap: 2px 4px; margin-top: 14px; padding: 30px 10px 10px;
+    position: relative; border-radius: 14px; background: var(--glass); border: 1px solid var(--edge);
+    -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+    box-shadow: 0 10px 30px -14px rgba(0,0,0,.6), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent); }
+  body > nav { width: calc(min(760px, 100%) - 44px) !important; max-width: none !important; margin: 14px auto 0 !important; padding: 30px 10px 10px !important; box-sizing: border-box; }
+  @media (max-width: 560px) { body > nav { width: calc(100% - 32px) !important; } }
+  header nav::before, body > nav::before { content: "目录"; position: absolute; left: 14px; top: 9px;
+    font: 600 11px/1 var(--mono); letter-spacing: .12em; color: color-mix(in srgb, var(--glow) 75%, var(--muted)); }
+  header nav::after, body > nav::after { content: ""; position: absolute; left: 14px; right: 14px; top: 23px; height: 1px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 45%, transparent), transparent 70%); }
+  header nav a, body > nav a { counter-increment: toc; display: inline-flex; align-items: baseline; gap: 6px;
+    background: transparent !important; border: 0 !important; border-radius: 8px; padding: 4px 9px !important;
+    color: var(--ink) !important; text-decoration: none; position: relative; transition: background-color .2s, color .2s; }
+  header nav a::before, body > nav a::before { content: counter(toc, decimal-leading-zero);
+    font: 500 10.5px/1 var(--mono); color: color-mix(in srgb, var(--glow) 60%, var(--muted)); }
+  header nav a:hover, body > nav a:hover { background: color-mix(in srgb, var(--glow) 10%, transparent) !important; }
+  header nav a.active, body > nav a.active { color: var(--glow) !important; background: color-mix(in srgb, var(--glow) 12%, transparent) !important; }
+  header nav a.active::after, body > nav a.active::after { content: ""; position: absolute; left: 9px; right: 9px; bottom: 0; height: 1.5px; border-radius: 2px;
+    background: var(--glow); box-shadow: 0 0 8px var(--glow); }
+
+  /* ===== 浮动胶囊目录 ===== */
+  #toc-pill { position: fixed; top: 12px; left: 50%; z-index: 45; transform: translate(-50%, -150%);
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), opacity .3s; opacity: 0; width: min(92vw, 440px); font: 13px/1.4 "PingFang SC", sans-serif; }
+  #toc-pill.show { transform: translate(-50%, 0); opacity: 1; }
+  #toc-pill .cap { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; margin: 0 auto; width: fit-content; max-width: 100%;
+    padding: 6px 14px 6px 8px; border-radius: 999px; color: var(--ink); white-space: nowrap;
+    background: color-mix(in srgb, var(--card) 90%, #000); border: 1px solid color-mix(in srgb, var(--glow) 30%, var(--edge));
+    -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: 0 10px 28px -10px rgba(0,0,0,.8), 0 0 20px -8px color-mix(in srgb, var(--glow) 60%, transparent); }
+  #toc-pill .ring { width: 20px; height: 20px; border-radius: 50%; flex: none; position: relative;
+    background: conic-gradient(var(--glow) calc(var(--rp, 0) * 360deg), color-mix(in srgb, var(--glow) 16%, transparent) 0); }
+  #toc-pill .ring::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--card); box-shadow: inset 0 0 6px color-mix(in srgb, var(--glow) 35%, transparent); }
+  #toc-pill .idx { font: 600 11.5px/1 var(--mono); color: var(--glow); }
+  #toc-pill .cur { overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+  #toc-pill .chev { opacity: .55; font-size: 10px; transition: transform .25s; }
+  #toc-pill.open .chev { transform: rotate(180deg); }
+  #toc-pill .panel { counter-reset: tp; margin-top: 8px; padding: 34px 8px 8px; border-radius: 16px; display: none; position: relative;
+    background: color-mix(in srgb, var(--card) 94%, #000); border: 1px solid color-mix(in srgb, var(--glow) 18%, var(--edge));
+    -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: 0 22px 50px -14px rgba(0,0,0,.85), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent); max-height: 62vh; overflow-y: auto; }
+  #toc-pill .panel::before { content: "目录 · " attr(data-pct); position: absolute; left: 16px; top: 12px;
+    font: 600 11px/1 var(--mono); letter-spacing: .1em; color: color-mix(in srgb, var(--glow) 75%, var(--muted)); }
+  #toc-pill .panel::after { content: ""; position: absolute; left: 16px; right: 16px; top: 27px; height: 1px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 45%, transparent), transparent 75%); }
+  #toc-pill.open .panel { display: block; animation: panel-in .22s ease-out; }
+  @keyframes panel-in { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: none; } }
+  #toc-pill .panel a { counter-increment: tp; display: flex; align-items: baseline; gap: 10px; padding: 7px 12px 7px 14px; border-radius: 10px;
+    color: var(--ink); text-decoration: none; position: relative; transition: background-color .15s; }
+  #toc-pill .panel a::before { content: counter(tp, decimal-leading-zero); font: 500 11px/1 var(--mono); color: var(--muted); min-width: 18px; }
+  #toc-pill .panel a:hover { background: color-mix(in srgb, var(--glow) 10%, transparent); }
+  #toc-pill .panel a.active { color: var(--glow); background: color-mix(in srgb, var(--glow) 13%, transparent); }
+  #toc-pill .panel a.active::before { color: var(--glow); }
+  #toc-pill .panel a.active::after { content: ""; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 2px; border-radius: 2px; background: var(--glow); box-shadow: 0 0 8px var(--glow); }
+
+  /* 卡片层次: 原文 = 明亮玻璃, 讲解 = 带色玻璃, 补充 = 虚光, 红框 = 红色辉光 */
+  .card { background: var(--glass); border: 1px solid var(--edge);
+    -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: 0 10px 30px -12px rgba(0,0,0,.6), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+    position: relative; isolation: isolate; }
+  .zh { background: color-mix(in srgb, var(--zh) 70%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-left-color: transparent !important; }
+  .add { background: color-mix(in srgb, var(--add) 55%, transparent);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  .warn { background: color-mix(in srgb, #3a1518 65%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-left-color: transparent !important; }
+  /* ===== 左侧色条 v2: 讲解框、红框、补充框、原文卡片里的定义框统一 =====
+     由三部分组成: 顶端一个发光的节点, 一根两端渐隐的细线, 一段沿线缓慢往下流动的亮光 (像数据在线路里传输);
+     框的左边缘还有一层淡淡的同色光晕, 让色条「照亮」框内. 颜色由 --bar / --bar-tint 决定, 默认是课程色. */
+  .zh, .def { --bar: var(--glow); --bar-tint: var(--tint); }
+  .warn { --bar: var(--warn-line); --bar-tint: color-mix(in srgb, var(--warn-line) 55%, #fff); }
+  .add { --bar: var(--add-line); --bar-tint: color-mix(in srgb, var(--add-line) 55%, #fff); }
+  .zh, .warn, .add, .def { border-left-color: transparent !important; }
+  .def { position: relative; isolation: isolate; border-left-width: 3px !important; border-left-style: solid !important;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 10%, transparent), transparent 90px), color-mix(in srgb, var(--chip) 80%, transparent) !important; }
+  .zh { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 9%, transparent), transparent 110px), color-mix(in srgb, var(--zh) 70%, transparent); }
+  .warn { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 10%, transparent), transparent 110px), color-mix(in srgb, #3a1518 65%, transparent); }
+  .add { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 6%, transparent), transparent 90px), color-mix(in srgb, var(--add) 55%, transparent); }
+  .zh::before, .warn::before, .def::before{
+    content: ""; position: absolute; left: -6px; top: 6px; bottom: 6px; width: 9px; pointer-events: none; z-index: 1;
+    background:
+      radial-gradient(circle at 50% 5px, var(--bar-tint) 0 1.6px, color-mix(in srgb, var(--bar) 70%, transparent) 2.4px, transparent 4.5px) no-repeat,
+      linear-gradient(180deg, transparent, var(--bar-tint) 45%, #fff 50%, var(--bar-tint) 55%, transparent) 50% -60% / 2px 34% no-repeat,
+      linear-gradient(180deg, transparent 6px, color-mix(in srgb, var(--bar) 85%, transparent) 14px, color-mix(in srgb, var(--bar) 75%, transparent) 80%, transparent) 50% 0 / 2px 100% no-repeat;
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bar) 70%, transparent)) drop-shadow(0 0 8px color-mix(in srgb, var(--bar) 30%, transparent));
+    animation: bar-flow 5.5s cubic-bezier(.45,0,.25,1) infinite; animation-delay: var(--bar-delay, 0s);
+    transition: filter .3s; }
+  /* 补充框: ::before 已用来显示「补充」小标题, 色条改用 ::after 画成虚线 + 空心节点 */
+  .add::after {
+    content: ""; position: absolute; left: -6px; top: 6px; bottom: 6px; width: 9px; pointer-events: none; z-index: 1; border-radius: 0;
+    inset: 6px auto 6px -6px; opacity: .85;
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bar) 60%, transparent));
+    background:
+      radial-gradient(circle at 50% 5px, var(--bar-tint) 0 1.4px, transparent 2.2px, transparent 3px, color-mix(in srgb, var(--bar) 60%, transparent) 3.4px, transparent 4.4px) no-repeat,
+      linear-gradient(transparent, transparent) 50% 0 / 2px 0 no-repeat,
+      repeating-linear-gradient(180deg, color-mix(in srgb, var(--bar) 80%, transparent) 0 5px, transparent 5px 10px) 50% 12px / 2px calc(100% - 18px) no-repeat;
+    -webkit-mask: none; mask: none;
+    animation: none; }
+  @keyframes bar-flow {
+    0%   { background-position: 0 0, 50% -60%, 50% 0; }
+    70%  { background-position: 0 0, 50% 160%, 50% 0; }
+    100% { background-position: 0 0, 50% 160%, 50% 0; } }
+  .zh.lit::before, .warn.lit::before, .add.lit::after, .def:hover::before {
+    filter: drop-shadow(0 0 4px var(--bar)) drop-shadow(0 0 12px color-mix(in srgb, var(--bar) 45%, transparent)); animation-duration: 2.6s; }
+
+  /* 卡片聚光灯: 鼠标所在的卡片里, 以光标为中心亮起柔光, 边框离光标近的一段也变亮 (位置由脚本写进 --mx / --my) */
+  .zh, .add, .warn { position: relative; isolation: isolate; }
+  .card::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; z-index: -1; pointer-events: none;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--glow) 85%, #fff), transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity .3s; }
+  .card::after, .zh::after, .warn::after { content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; pointer-events: none;
+    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--glow) 11%, transparent), transparent 65%);
+    opacity: 0; transition: opacity .3s; }
+  .warn::after { background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--warn-line) 10%, transparent), transparent 65%); }
+  .card.lit::before, .card.lit::after, .zh.lit::after, .warn.lit::after { opacity: 1; }
+  .add.lit::after { opacity: 1; filter: drop-shadow(0 0 5px var(--bar)); }
+
+  /* ===== 代码块: 脚本在运行时把每个 <pre> 包进 .codebox (文件不变): 顶部标题栏 = 三个圆点 + 语言 + 复制按钮 ===== */
+  pre, code, .folie, .slide { font-family: var(--mono) !important; }
+  pre, code { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+  .folie { color: color-mix(in srgb, var(--glow) 70%, var(--muted)) !important; }
+  .codebox { position: relative; margin: 12px 0; border-radius: 12px; overflow: hidden; min-width: 0;
+    background: color-mix(in srgb, var(--code) 90%, transparent);
+    border: 1px solid color-mix(in srgb, var(--glow) 20%, var(--edge));
+    box-shadow: 0 14px 30px -16px rgba(0,0,0,.85), inset 0 1px 0 color-mix(in srgb, #fff 5%, transparent); }
+  .codebox::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: 1;
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--glow) 55%, transparent), transparent); }
+  .cb-head { display: flex; align-items: center; gap: 10px; height: 28px; padding: 0 10px 0 12px;
+    background: color-mix(in srgb, var(--glow) 5%, color-mix(in srgb, #000 30%, transparent));
+    border-bottom: 1px solid color-mix(in srgb, var(--glow) 12%, var(--edge)); font: 600 10.5px/1 var(--mono); letter-spacing: .08em; }
+  .cb-dots { display: inline-flex; gap: 6px; }
+  .cb-dots i { width: 9px; height: 9px; border-radius: 50%; background: #ff5f57; opacity: .8; }
+  .cb-dots i:nth-child(2) { background: #febc2e; } .cb-dots i:nth-child(3) { background: #28c840; }
+  .cb-lang { color: color-mix(in srgb, var(--glow) 80%, var(--muted)); text-transform: uppercase; }
+  .cb-copy { all: unset; margin-left: auto; cursor: pointer; color: var(--muted); padding: 3px 8px; border-radius: 6px;
+    font: 500 10.5px/1 var(--mono); letter-spacing: .04em; opacity: 0; transition: opacity .2s, background-color .2s, color .2s; }
+  .codebox:hover .cb-copy, .cb-copy:focus-visible { opacity: 1; }
+  .cb-copy:hover { background: color-mix(in srgb, var(--glow) 14%, transparent); color: var(--glow); }
+  .cb-copy.ok { color: var(--glow); opacity: 1; }
+  .codebox pre { margin: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+    background: transparent !important; }
+  /* 没有脚本时 (或打印) 的普通样式 */
+  pre { background: color-mix(in srgb, var(--code) 90%, transparent) !important; border: 1px solid color-mix(in srgb, var(--glow) 20%, var(--edge)) !important; }
+
+  /* ===== 原图 (所有笔记统一): 玻璃相框 + 白色底板 + 编号图注; .src-fig 和 MGTN 的普通 <figure> 同一套 =====
+     图注: 有 figcaption 用它; MGTN 没有图注, 脚本运行时用图片的 alt 补一个 .fig-cap (文件不变).
+     编号用 CSS 计数 (图 01, 图 02 …). 内嵌 SVG 的排版图 figure.rr / .tri 不受影响. */
+  main { counter-reset: fig; }
+  .src-fig, main figure:not([class]) { counter-increment: fig; position: relative; display: block; text-align: center;
+    width: fit-content; max-width: 100%; box-sizing: border-box; margin: 16px auto !important; padding: 10px 10px 0 !important;
+    background: var(--glass) !important; border: 1px solid var(--edge); border-radius: 14px !important;
+    box-shadow: 0 14px 34px -18px rgba(0,0,0,.8), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    transition: border-color .35s ease, box-shadow .35s ease; }
+  .src-fig img, main figure:not([class]) img { display: block; margin: 0 auto; width: auto !important; max-width: 100% !important; max-height: 380px; height: auto;
+    box-sizing: border-box; padding: 10px; background: #fff; border: 0 !important; border-radius: 9px !important;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); cursor: zoom-in;
+    transition: transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease; transform-origin: 50% 50%; }
+  .src-fig.wide img { max-height: 520px; }
+  .src-fig figcaption, main figure:not([class]) figcaption, .fig-cap {
+    display: block; text-align: left !important; color: var(--muted) !important; margin: 0 !important; padding: 9px 4px 10px !important;
+    font: 12.5px/1.6 "PingFang SC", sans-serif !important; }
+  .src-fig figcaption::before, main figure:not([class]) figcaption::before, .fig-cap::before {
+    content: "图 " counter(fig, decimal-leading-zero); display: inline-block; margin-right: 8px; padding: 1px 7px; border-radius: 6px; vertical-align: 1px;
+    font: 600 10px/1.5 var(--mono); letter-spacing: .06em; color: var(--glow);
+    background: color-mix(in srgb, var(--glow) 12%, transparent); border: 1px solid color-mix(in srgb, var(--glow) 28%, transparent); }
+  /* 悬停: 相框描边发光, 图片轻微浮起, 右上角出现「放大」提示 */
+  .src-fig::after, main figure:not([class])::after { content: "⤢ 放大"; position: absolute; top: 16px; right: 16px; z-index: 2; pointer-events: none;
+    padding: 3px 8px; border-radius: 999px; font: 600 10.5px/1.4 "PingFang SC", sans-serif; color: #fff;
+    background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid color-mix(in srgb, var(--glow) 40%, transparent);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    opacity: 0; transform: translateY(-4px); transition: opacity .3s ease, transform .3s ease; }
+  .src-fig:hover, main figure:not([class]):hover { border-color: color-mix(in srgb, var(--glow) 38%, var(--edge));
+    box-shadow: 0 20px 44px -18px rgba(0,0,0,.85), 0 0 26px -12px var(--glow), inset 0 1px 0 color-mix(in srgb, #fff 8%, transparent); }
+  .src-fig:hover img, main figure:not([class]):hover img { transform: scale(1.012); box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), 0 10px 26px -14px rgba(0,0,0,.6); }
+  .src-fig:hover::after, main figure:not([class]):hover::after { opacity: 1; transform: none; }
+  @media (pointer: coarse) { .src-fig::after, main figure:not([class])::after { display: none; } }
+  /* 出现: 相框淡入上浮, 图片底板随后自上而下展开 */
+  html.fx .src-fig.reveal img, html.fx main figure:not([class]).reveal img { clip-path: inset(0 0 100% 0 round 9px); transition: clip-path .9s cubic-bezier(.65,0,.35,1) .15s, transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
+  html.fx .src-fig.reveal.in img, html.fx main figure:not([class]).reveal.in img { clip-path: inset(0 0 0 0 round 9px); }
+
+  /* 放大: 图片从原位置平滑放大到屏幕中央 (FLIP), 关闭时缩回原位; 背景暗色毛玻璃淡入淡出 */
+  #lightbox { position: fixed; inset: 0; z-index: 90; visibility: hidden; cursor: zoom-out;
+    background: color-mix(in srgb, var(--bg) 0%, transparent); -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0);
+    transition: background-color .4s ease, backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, visibility 0s linear .4s; }
+  #lightbox.on { visibility: visible; background: color-mix(in srgb, var(--bg) 84%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    transition: background-color .4s ease, backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, visibility 0s; }
+  #lightbox img { position: fixed; left: 0; top: 0; transform-origin: 0 0; background: #fff; border-radius: 12px; padding: 14px; box-sizing: border-box;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,.9), 0 0 0 1px color-mix(in srgb, var(--glow) 35%, transparent);
+    transition: transform .48s cubic-bezier(.2,.8,.2,1); will-change: transform; }
+  #lightbox .lb-cap { position: fixed; left: 50%; bottom: 3vh; transform: translateX(-50%); max-width: min(90vw, 760px); text-align: center;
+    font: 13px/1.6 "PingFang SC", sans-serif; color: var(--ink); opacity: 0; transition: opacity .3s ease .15s; }
+  #lightbox.on .lb-cap { opacity: .9; }
+
+  /* ===== 表格: 和卡片同一套玻璃质感 ===== */
+  main .tablewrap { border-radius: 12px; }
+  main table { background: color-mix(in srgb, var(--card) 70%, transparent) !important; border: 1px solid var(--edge); border-radius: 12px; overflow: hidden; }
+  main th { background: color-mix(in srgb, var(--glow) 9%, var(--chip)) !important; border-bottom: 1px solid color-mix(in srgb, var(--glow) 30%, var(--line)) !important; }
+  main tr:hover td { background: color-mix(in srgb, var(--glow) 5%, transparent); }
+
+  /* 折叠答案的展开动画 */
+  details.answer > summary { transition: color .2s; }
+  details.answer .dbody { overflow: hidden; transition: height .35s ease; }
+
+  /* 滚动淡入 (只有 JS 生效时才隐藏, 无 JS 时直接显示) */
+  html.fx .reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  html.fx .reveal.in { opacity: 1; transform: none; }
+
+  main, header { position: relative; z-index: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #contour, #trail { display: none; }
+    h2.wave .ht { animation: none; }
+    #toc-pill.open .panel { animation: none; }
+    #lightbox, #lightbox img { transition: none !important; }
+    .src-fig img, main figure img { transition: none !important; clip-path: none !important; }
+    .zh::before, .warn::before, .def::before { animation: none; }
+    html.fx .reveal { opacity: 1; transform: none; transition: none; }
+  }
+  @media print {
+    #contour, #trail, #progress, #toc-pill { display: none !important; }
+    body { background: #fff !important; }
+    .card, .zh, .add, .warn, pre, nav { backdrop-filter: none !important; box-shadow: none !important; }
+    h1 { color: #000 !important; -webkit-text-fill-color: #000; background: none; }
+    h2 .ht { -webkit-text-fill-color: #000; background: none !important; animation: none; }
+    .cb-head, #lightbox { display: none !important; }
+  }
+  /* ===== /玻璃霓虹层 ===== */
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<span hidden data-glyphs="Aa¶§—;:,.&quot;?!"></span>
+<header>
+  <div class="wrap">
+    <h1>科学与技术英语 · 第 4 讲: 词与短语<br><span class="de-title"><span class="seg">Scientific and Technical English ·</span> <span class="seg">Regular Lecture 4: Words and Phrases</span></span></h1>
+    <nav>
+      <a href="#wortarten">词类</a>
+      <a href="#formen">拼写与缩写</a>
+      <a href="#verben">时态与语气</a>
+      <a href="#phrasen">人名与所有格</a>
+      <a href="#fallen">陷阱</a>
+      <a href="#problem">易错词表</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<div class="zh">
+  <p><b>读法说明. </b>带边框的卡片是幻灯片原文 (英语, 逐字照录), 卡片标签是幻灯片底部「N/总页数」里的页码 N; 幻灯片里作为例子提到的词和句子是<span class="good">蓝色</span>, 错误或不推荐的说法是<span class="bad">橙色</span>, 卡片里照此着色. 左侧有色竖线的框是中文讲解; 左侧虚线的框是幻灯片之外的补充; 红框标出幻灯片的错误.</p>
+</div>
+<style>.bad { color: #f2a65a; } .good { color: #7cc4ff; }</style>
+
+<!-- ===== WORTARTEN ===== -->
+<h2 id="wortarten">八大词类<br><span class="de-title"><span class="seg">Words ·</span> <span class="seg">The Traditional Parts of Speech</span></span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 3</span>
+  <p><b>The Traditional Parts of Speech</b></p>
+  <p><b>Parts of speech</b> are the word types. Traditionally, English grammars distinguish between eight parts of speech:</p>
+  <div class="cols">
+    <ul><li>nouns (e.g., <span class="good"><i>computer</i></span>);</li><li>pronouns (e.g., <span class="good"><i>you</i></span>);</li><li>verbs (e.g., <span class="good"><i>eat</i></span>);</li><li>adjectives (e.g., <span class="good"><i>appropriate</i></span>);</li></ul>
+    <ul><li>adverbs (e.g., <span class="good"><i>however</i></span>);</li><li>prepositions (e.g., <span class="good"><i>in</i></span>);</li><li>conjunctions (e.g., <span class="good"><i>but</i></span>);</li><li>interjections (e.g., <span class="good"><i>alas</i></span>).</li></ul>
+  </div>
+  <p>What matters is how words behave in a sentence: <span class="good"><i>But</i></span> and <span class="good"><i>however</i></span> have nearly the same meaning but are categorized differently.</p>
+  <p>Understanding the parts of speech is necessary to understand English grammar, which in turn will help you write better.</p>
+</div>
+<div class="zh">
+  <p><b>Parts of speech 词类</b>: 传统英语语法分八类: 名词、代词、动词、形容词、副词、介词、连词、感叹词. 决定词类的是词在句中的<b>用法</b>, 而不是意思: but 和 however 意思几乎相同, 但 but 是连词, however 是副词. 区别在于: but 能直接连接两个句子 (It works, but it is slow.); however 不能, 两句之间要用分号或句号 (It works; however, it is slow.). 写成「It works, however it is slow.」是常见错误 (comma splice). 理解词类是理解英语语法的前提, 进而有助于写好.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 4–5</span>
+  <p><b>Nouns</b></p>
+  <p>A <b>noun</b> names a thing or a concept. It can be a <b>common noun</b> (lowercased) or a <b>proper noun</b> (usually uppercased).</p>
+  <p>Examples of common nouns: <span class="good"><i>coffee</i></span>, <span class="good"><i>snake</i></span>, <span class="good"><i>summer</i></span>.</p>
+  <p>Examples of proper nouns: <span class="good"><i>iPhone</i></span>, <span class="good"><i>Python</i></span>, <span class="good"><i>Switzerland</i></span>, <span class="good"><i>The Da Vinci Code</i></span>.</p>
+  <p><b>Pronouns</b></p>
+  <p>A <b>pronoun</b> stands for a noun or another pronoun, called the <b>antecedent</b>. You should ensure the antecedent is clear from the context.</p>
+  <p>Examples of pronouns: <span class="good"><i>you</i></span>, <span class="good"><i>she</i></span>, <span class="good"><i>his</i></span>, <span class="good"><i>itself</i></span>, <span class="good"><i>they</i></span>, <span class="good"><i>whom</i></span>.</p>
+  <p>Below, <span class="good"><i>who</i></span> is a pronoun that stands for the antecedent <span class="good"><i>Jessica</i></span>:</p>
+  <p class="good"><i>It was Jessica who opened the windows.</i></p>
+</div>
+<div class="zh">
+  <p><b>名词</b>指称事物或概念, 分普通名词 (小写) 和专有名词 (通常大写): 咖啡、蛇、夏天是普通名词; iPhone、Python、Switzerland、《达·芬奇密码》是专有名词. 「usually」是因为有 iPhone 这种以小写开头的专有名词.</p>
+  <p><b>代词</b>代替一个名词或另一个代词, 被代替的叫<b>antecedent 先行词</b>. 要保证从上下文能看清先行词是谁. 例句里的 who 代指 Jessica. 技术写作里最常见的问题是 it 和 this 指代不清: 「The parser calls the lexer. It then …」, It 是 parser 还是 lexer?</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 6</span>
+  <p><b>Verbs</b></p>
+  <p>A <b>verb</b> describes an action or a state of being.</p>
+  <p>Examples of verbs: <span class="good"><i>be</i></span>, <span class="good"><i>has</i></span>, <span class="good"><i>fly</i></span>, <span class="good"><i>displayed</i></span>, <span class="good"><i>transforms</i></span>.</p>
+  <p>A verb is called <b>transitive</b> if it takes a direct object. Otherwise, it is called <b>intransitive</b>. Many verbs can be used both transitively and intransitively.</p>
+  <p>A transitive verb: <span class="good"><i>She ate lunch.</i></span></p>
+  <p>An intransitive verb: <span class="good"><i>She ate.</i></span></p>
+</div>
+<div class="zh">
+  <p><b>动词</b>描述动作或状态. 带直接宾语的叫<b>transitiv 及物</b>动词, 不带的叫<b>intransitiv 不及物</b>动词. 很多动词两种用法都有: She ate lunch (及物) / She ate (不及物).</p>
+  <p>技术写作里要注意: 有些动词只能及物, 不能省宾语. 例如 allow 后面必须有宾语: 「The tool allows to compare files」是常见的德语式错误 (德语 erlaubt zu …), 应写「allows users to compare files」或「allows comparing files」.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 7</span>
+  <p><b>Adjectives</b></p>
+  <p>An <b>adjective</b> modifies a noun.</p>
+  <p>Examples of adjectives: <span class="good"><i>pink</i></span>, <span class="good"><i>wonderful</i></span>, <span class="good"><i>Austrian</i></span>, <span class="good"><i>many</i></span>, <span class="good"><i>this</i></span>, <span class="good"><i>such</i></span>, <span class="good"><i>five</i></span>, <span class="good"><i>my</i></span>, <span class="good"><i>which</i></span>, <span class="good"><i>each</i></span>, <span class="good"><i>some</i></span>, <span class="good"><i>the</i></span>, <span class="good"><i>a</i></span>.</p>
+  <p>An adjective as an attributive: <span class="good"><i>They bought a beige sofa.</i></span></p>
+  <p>An adjective as the complement of a verb: <span class="good"><i>The sofa is beige.</i></span></p>
+</div>
+<div class="zh">
+  <p><b>形容词</b>修饰名词. 传统语法把很多「限定词」也算作形容词: 数词 (five)、指示词 (this)、所有格 (my)、冠词 (the, a) 等; 现代语法一般把它们单列为 determiner 限定词. 形容词有两种用法: 放在名词前作<b>定语</b> (a beige sofa), 或放在系动词后作<b>表语</b> (The sofa is beige). 这个区别决定了复合形容词要不要加连字符 (见 <a href="STE-01-课程安排与写作辅助工具.html">STE 01</a>).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 8</span>
+  <p><b>Adverbs</b></p>
+  <p>An <b>adverb</b> modifies a verb, an adjective, another adverb, or an entire sentence.</p>
+  <p>Examples of adverbs: <span class="good"><i>very</i></span>, <span class="good"><i>quickly</i></span>, <span class="good"><i>extremely</i></span>, <span class="good"><i>however</i></span>, <span class="good"><i>now</i></span>, <span class="good"><i>here</i></span>, <span class="good"><i>too</i></span>.</p>
+  <p>An adverb modifying a verb: <span class="good"><i>She ran quickly.</i></span><br>An adverb modifying an adjective: <span class="good"><i>This color is very dark.</i></span><br>An adverb modifying an adverb: <span class="good"><i>It all went really fast.</i></span><br>A sentence adverb: <span class="good"><i>Unfortunately, there is no solution.</i></span></p>
+</div>
+<div class="zh">
+  <p><b>副词</b>修饰动词、形容词、另一个副词或整个句子. 四个例子分别对应这四种: ran quickly; very dark; really fast; 句首的 Unfortunately 修饰整句 (sentence adverb 句子副词), 后面加逗号.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 9–11</span>
+  <p><b>Prepositions</b></p>
+  <p>A <b>preposition</b> links a phrase with another part of the sentence, indicating the relationship between them.</p>
+  <p>Examples of prepositions: <span class="good"><i>in</i></span>, <span class="good"><i>as</i></span>, <span class="good"><i>for</i></span>, <span class="good"><i>on</i></span>, <span class="good"><i>about</i></span>, <span class="good"><i>below</i></span>, <span class="good"><i>between</i></span>, <span class="good"><i>throughout</i></span>.</p>
+  <p>Three prepositions in a sentence: <span class="good"><i>Dongchen moved from Xi’an to Munich in May.</i></span></p>
+  <p><b>Conjunctions</b></p>
+  <p>A <b>conjunction</b> connects sentences, clauses, or words.</p>
+  <p>Examples: <span class="good"><i>and</i></span>, <span class="good"><i>or</i></span>, <span class="good"><i>but</i></span>, <span class="good"><i>because</i></span>, <span class="good"><i>if</i></span>, <span class="good"><i>both–and</i></span>, <span class="good"><i>either–or</i></span>, <span class="good"><i>therefore</i></span>.</p>
+  <p>Two important types:</p>
+  <ul>
+    <li><b>Coordinating conjunctions</b> join grammatical expressions of equal rank.</li>
+    <li><b>Subordinating conjunctions</b> join grammatical expressions of unequal rank.</li>
+  </ul>
+  <p>A coordinating conjunction: <span class="good"><i>Prove or disprove the following statement.</i></span><br>A subordinating conjunction: <span class="good"><i>Raise your hand if you know the answer.</i></span></p>
+  <p><b>Interjection</b></p>
+  <p>An <b>interjection</b> (also called “exclamation”) denotes an abrupt, brief remark.</p>
+  <p>Examples: <span class="good"><i>alas</i></span>, <span class="good"><i>ah</i></span>, <span class="good"><i>well</i></span>, <span class="good"><i>ouch</i></span>.</p>
+  <p>There is virtually no place for interjections in formal writing.</p>
+</div>
+<div class="zh">
+  <p><b>介词</b>把一个短语和句子的其他部分联系起来, 表明两者的关系. 例句里有三个: from Xi’an, to Munich, in May.</p>
+  <p><b>连词</b>连接句子、从句或词. both–and、either–or 是成对使用的关联连词 (中间用 en dash 表示「成对」). 两大类: <b>并列连词</b>连接地位相同的成分 (Prove <b>or</b> disprove: 两个祈使动词并列); <b>从属连词</b>连接地位不同的成分, 引出从句 (Raise your hand <b>if</b> you know the answer: if 从句从属于主句).</p>
+  <p><b>感叹词</b> (也叫 exclamation) 表示突然的简短感叹: alas (唉)、ah、well、ouch (哎哟). 正式写作里几乎没有感叹词的位置.</p>
+</div>
+<div class="warn"><p><b>幻灯片前后不一致:</b> 连词的例子里有 <i>therefore</i>. 但 therefore 和 Slide 3 归为副词的 however 是同一类词 (连接副词, conjunctive adverb): 它不能单独用逗号连接两个句子 (不能写「It is fast, therefore it is used」, 要写「It is fast; therefore, it is used」或「It is fast, so it is used」). 按 Slide 3 强调的「看词在句中的用法」, therefore 应该归为副词.</p></div>
+
+<div class="card de">
+  <span class="folie">Slide 12</span>
+  <p><b>Etymology</b></p>
+  <p>A word’s <b>etymology</b> refers to its origin.</p>
+  <p>Etymology can be fascinating, but it does not give a word’s true meaning. For example:</p>
+  <ul>
+    <li><span class="good"><i>thesaurus</i></span> is derived from the Greek word <span class="good"><i>θησαυρός</i></span>, meaning “storehouse, treasure,” but in English it refers to a book of synonyms.</li>
+    <li><span class="good"><i>muscle</i></span> is derived from the Latin word <span class="good"><i>musculus</i></span>, meaning “little mouse.”</li>
+  </ul>
+  <p>A word’s true meaning can be found in a dictionary.</p>
+</div>
+<div class="zh">
+  <p><b>Etymology 词源</b>: 词的来源. 词源很有趣, 但不决定一个词的真正意思. thesaurus 来自希腊语「仓库, 宝藏」, 在英语里却指同义词词典; muscle (肌肉) 来自拉丁语「小老鼠」(肌肉在皮肤下动起来像小老鼠). 词的真正意思要查词典. 也就是说, 不能用「这个词本来的意思是……」来为一个现代用法错误辩护.</p>
+</div>
+
+<!-- ===== FORMEN ===== -->
+<h2 id="formen">拼写、缩写与复数<br><span class="de-title"><span class="seg">Spelling ·</span> <span class="seg">Abbreviations ·</span> <span class="seg">Plurals</span></span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 13</span>
+  <p><b>Spelling</b></p>
+  <p>Even if spelling is your forte, you might miss a <b>subtle misspelling</b> such as <span class="bad"><i>arithemtic</i></span>, <span class="bad"><i>occurence</i></span>, and <span class="bad"><i>accomodate</i></span>. Any spellchecker will flag these. But it might not catch <span class="bad"><i>lead</i></span> in <span class="bad"><i>This lead to an explosion.</i></span> (Change to <span class="good"><i>led</i></span>.)</p>
+  <p>Some words have <b>multiple spellings</b>—e.g., <span class="good"><i>judgment</i></span> vs. <span class="good"><i>judgement</i></span>. Often, one will mainly be American and the other, British, so you can simply choose the appropriate variant. In cases such as <span class="good"><i>formulas</i></span> vs. <span class="good"><i>formulae</i></span>, you can follow your preference or Google Books Ngram Viewer.</p>
+</div>
+<div class="zh">
+  <p>拼写: 即使你很会拼写, 也可能漏掉细微的拼写错误, 例如 arithemtic (→ arithmetic)、occurence (→ occurrence)、accomodate (→ accommodate, 两个 c 两个 m). 这些拼写检查器都能发现. 但它可能发现不了 This lead to an explosion 里的 lead: lead 本身是正确的单词 (铅; 带领), 这里应该用 lead 的过去式 led. 有些词有多种拼法, 例如 judgment/judgement, 通常一个是美式一个是英式, 选对应的即可; formulas/formulae 这种情况可以按个人偏好, 或查 Ngram Viewer 看哪种更常用.</p>
+  <p>句子「one will mainly be American and the other, British」里 the other 后面的逗号代替了省略的 will mainly be (gapping), 这是正式英语的写法.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 14</span>
+  <p><b>Abbreviations</b></p>
+  <p>An <b>abbreviation</b> is a shortened form of a word or phrase.</p>
+  <p>Some abbreviations belong to the written language (e.g., <span class="good"><i>Dr.</i></span> or <span class="good"><i>Dr</i></span>). Others exist also in speech (e.g., <span class="good"><i>exam</i></span> for <span class="good"><i>examination</i></span>).</p>
+  <p>Written-only abbreviations usually end with a period (<b>.</b>). However, in British English, the period is omitted if the abbreviation ends with the original word’s last letter (e.g., <span class="good"><i>Dr</i></span>, <span class="good"><i>Mr</i></span>, <span class="good"><i>vs</i></span>).</p>
+</div>
+<div class="zh">
+  <p><b>Abbreviation 缩写</b>: 词或短语的缩短形式. 有的只存在于书面 (Dr. 读作 doctor); 有的也用于口语 (exam). 只用于书面的缩写一般以句点结尾. 但英式英语里, 如果缩写的最后一个字母就是原词的最后一个字母, 就不加句点: Dr (Docto<b>r</b>)、Mr (Miste<b>r</b>)、vs (versu<b>s</b>). 美式英语一律写 Dr.、Mr.、vs.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 15</span>
+  <p><b>Abbreviations</b></p>
+  <p>Two special types of abbreviations:</p>
+  <ul>
+    <li>An <b>acronym</b> is an abbreviation consisting of the initial letters of other words and pronounced as a word (e.g., <span class="good"><i>ASCII</i></span>).</li>
+    <li>An <b>initialism</b> is an abbreviation consisting of the initial letters of other words pronounced separately (e.g., <span class="good"><i>CPU</i></span>).</li>
+  </ul>
+  <p>In American English, some two-letter initialisms are spelled with periods (e.g., <span class="good"><i>U.S.</i></span>).</p>
+</div>
+<div class="zh">
+  <p>两种特殊的缩写: <b>acronym 首字母拼音词</b>由各词首字母组成, 并像一个词那样读 (ASCII 读作 /ˈæski/); <b>initialism 首字母缩写词</b>也由首字母组成, 但逐个字母读 (CPU 读 C-P-U). 美式英语里有些两个字母的首字母缩写词带句点 (U.S.).</p>
+  <p>这个区别影响冠词: 冠词 a/an 看的是<b>读音</b>而不是拼写. 所以是 an SQL query (如果读作 S-Q-L, 「es」是元音开头) 或 a SQL query (如果读作 sequel); an FPGA, a URL (读作 U-R-L, 「you」是辅音开头).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 16</span>
+  <p><b>Abbreviations</b></p>
+  <p>Use abbreviations <b>sparingly</b>. They can be cryptic and off-putting, and are hard to find using a search engine. Does <span class="bad"><i>AR</i></span> stand for <span class="good"><i>augmented reality</i></span> or <span class="good"><i>automated reasoning</i></span>? For such short phrases, do you really need an abbreviation?</p>
+  <p>The Latin abbreviations <span class="good"><i>e.g.</i></span>, <span class="good"><i>i.e.</i></span>, and <span class="good"><i>etc.</i></span> are generally acceptable. Beyond this, <span class="good"><i>iff</i></span> (<span class="good"><i>if and only if</i></span>) and <span class="good"><i>w.r.t.</i></span> (<span class="good"><i>with respect to</i></span>) are acceptable in mathematical texts.</p>
+  <p>Lengthy phrases such as <span class="good"><i>nondeterministic finite automaton</i></span> might conveniently be shortened to <span class="good"><i>NFA</i></span>. But often it suffices to write <span class="good"><i>automaton</i></span>. If you choose to write <span class="good"><i>NFA</i></span>, introduce it in parentheses at the first occurrence and use <span class="good"><i>NFA</i></span> from then on. It is good style to <b>define</b> virtually all abbreviations on first use and to avoid them in titles and headings.</p>
+  <p>If you use a lengthy phrase only <b>once</b>, do not introduce an abbreviation, unless the abbreviation is better known than the phrase.</p>
+</div>
+<div class="zh">
+  <p>缩写要<b>少用</b>: 它们可能晦涩、让人反感, 也难以用搜索引擎查. AR 是 augmented reality (增强现实) 还是 automated reasoning (自动推理)? 这么短的短语真的需要缩写吗? 拉丁缩写 e.g.、i.e.、etc. 一般可以用; 数学文本里还可以用 iff (当且仅当) 和 w.r.t. (关于).</p>
+  <p>长短语如 nondeterministic finite automaton 可以缩写成 NFA, 但往往直接写 automaton 就够了. 决定用 NFA 的话, 第一次出现时在括号里引入 (nondeterministic finite automaton (NFA)), 之后一直用 NFA. 好的文体是: 几乎所有缩写都在第一次使用时定义, 标题和小标题里不用缩写. 一个长短语只用一次时不要引入缩写, 除非缩写比全称更有名 (例如 DNA, NASA).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 17</span>
+  <p><b>Plurals</b></p>
+  <p>Many nouns have both a singular and a plural form. Regular plural formation adds the suffix <b>-s</b> or <b>-es</b>. But there are many exceptions, including the following:</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Singular</th><th>Plural</th></tr></thead>
+    <tbody>
+      <tr><td class="good"><i>appendix</i></td><td class="good"><i>appendices</i> (or <i>appendixes</i>)</td></tr>
+      <tr><td class="good"><i>automaton</i></td><td class="good"><i>automata</i></td></tr>
+      <tr><td class="good"><i>basis</i></td><td class="good"><i>bases</i></td></tr>
+      <tr><td class="good"><i>corpus</i></td><td class="good"><i>corpora</i></td></tr>
+      <tr><td class="good"><i>criterion</i></td><td class="good"><i>criteria</i></td></tr>
+      <tr><td class="good"><i>datum</i></td><td class="good"><i>data</i></td></tr>
+      <tr><td class="good"><i>erratum</i></td><td class="good"><i>errata</i></td></tr>
+      <tr><td class="good"><i>formula</i></td><td class="good"><i>formulae</i> (or <i>formulas</i>)</td></tr>
+      <tr><td class="good"><i>index</i></td><td class="good"><i>indices</i> (or <i>indexes</i>)</td></tr>
+      <tr><td class="good"><i>matrix</i></td><td class="good"><i>matrices</i> (or <i>matrixes</i>)</td></tr>
+      <tr><td class="good"><i>thesis</i></td><td class="good"><i>theses</i></td></tr>
+    </tbody>
+  </table></div>
+</div>
+<div class="zh">
+  <p>不规则复数, 大多来自拉丁语或希腊语: -ix → -ices, -on → -a, -is → -es, -us → -ora (corpus), -um → -a. 计算语言学里最常用的是 corpus/corpora (语料库). 最常见的错误是把复数当单数: 「a criteria」「this phenomena」应为 a criterion、this phenomenon. data 在计算机科学里常当作不可数的单数用 (the data is …), 也可以严格当复数 (the data are …), 全文统一即可.</p>
+</div>
+
+<!-- ===== VERBEN ===== -->
+<h2 id="verben">时态与语气<br><span class="de-title"><span class="seg">Tenses ·</span> <span class="seg">Moods ·</span> <span class="seg">Shall vs. Will ·</span> <span class="seg">Past vs. Present Perfect</span></span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 18</span>
+  <p><b>Tenses</b></p>
+  <p>English distinguishes between three main verb tenses:</p>
+  <ul><li><b>present</b> (e.g., <span class="good"><i>walk</i></span>);</li><li><b>past</b> (e.g., <span class="good"><i>walked</i></span>);</li><li><b>future</b> (e.g., <span class="good"><i>will walk</i></span>).</li></ul>
+  <p>Both the past and the present tense are common in academic writing:</p>
+  <p class="good"><i>David A. Huffman invented the algorithm around 1950.<br>Our study confirms that system programmers prefer Rust to C.</i></p>
+  <p>When quoting Shafi Goldwasser, both <span class="good"><i>Goldwasser writes</i></span> and <span class="good"><i>Goldwasser wrote</i></span> work, but try to be locally consistent.</p>
+</div>
+<div class="zh">
+  <p>英语有三个主要时态: 现在时、过去时、将来时. 学术写作里过去时和现在时都很常见: 历史事实用过去时 (Huffman 在 1950 年左右发明了这个算法); 当前成立的结论用现在时 (我们的研究证实系统程序员更喜欢 Rust 而不是 C; 注意 prefer A <b>to</b> B). 引用别人的观点时, Goldwasser writes 和 Goldwasser wrote 都可以, 但要在局部保持一致.</p>
+</div>
+<div class="add"><p>Huffman 编码是 Huffman 1951 年在 MIT 读研究生时想出的, 论文发表于 1952 年, 所以「around 1950」是大致的说法.</p></div>
+
+<div class="card de">
+  <span class="folie">Slide 19</span>
+  <p><b>Tenses</b></p>
+  <p>The future tense competes with the present tense. Compare:</p>
+  <p class="good"><i>In Section 8, we will describe our experiments.<br>In Section 8, we describe our experiments.</i></p>
+  <p>Knuth et al. recommend either of two approaches concerning tenses of verbs:</p>
+  <blockquote><p>Either use present tense throughout the entire paper, or write sequentially. Sequential writing means that you say things like, “We saw this before. We will see this later.” The sequential approach is more appropriate for lengthy papers.</p></blockquote>
+</div>
+<div class="zh">
+  <p>将来时和现在时之间有竞争: 「第 8 节我们将描述实验」和「第 8 节我们描述实验」都可以. Knuth 等人推荐两种做法之一: 要么全文都用现在时; 要么「按顺序写」, 也就是说「我们之前看过这个. 我们之后会看到那个」(把文章当作读者一起走过的一段路). 按顺序写更适合长篇论文.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 20</span>
+  <p><b>Moods</b></p>
+  <p>English distinguishes between five verb moods:</p>
+  <ul>
+    <li><b>indicative</b> (for facts);</li>
+    <li><b>imperative</b> (for commands);</li>
+    <li><b>interrogative</b> (for questions);</li>
+    <li><b>optative</b> (for wishes);</li>
+    <li><b>subjunctive</b> (for conditions).</li>
+  </ul>
+  <p>In modern English, the optative and the subjunctive moods are often replaced by the indicative mood. Compare:</p>
+  <p class="good"><i>I wish I were going.<br>I wish I was going.<br>They require that the resources be released at the end.<br>They require that the resources are released at the end.</i></p>
+</div>
+<div class="zh">
+  <p>语气 (mood): 陈述语气 (事实)、祈使语气 (命令)、疑问语气 (问题)、祈愿语气 (愿望)、虚拟语气 (条件). 现代英语里, 祈愿和虚拟语气常被陈述语气取代. 对比: I wish I <b>were</b> going (虚拟) 和 I wish I <b>was</b> going (陈述); They require that the resources <b>be</b> released (虚拟, 动词原形) 和 … <b>are</b> released (陈述). 每组第一句是正式写法, 第二句在日常英语里也常见.</p>
+  <p>正式技术写作建议用虚拟语气: require/recommend/insist that + 动词原形, 这在 API 文档里很常见 (The specification requires that the method <b>return</b> null.).</p>
+</div>
+<div class="add"><p>不同语法书对英语有几种语气说法不一: 很多英语语法只区分三种 (陈述、祈使、虚拟), 把疑问看作句型而不是语气, 把祈愿 (God save the Queen) 归入虚拟语气. 幻灯片的五分法是一种说法, 考试按幻灯片答.</p></div>
+
+<div class="card de">
+  <span class="folie">Slide 21</span>
+  <p><b><i>Shall</i> vs. <i>Will</i></b></p>
+  <p>Should you write <span class="good"><i>we shall see</i></span> or <span class="good"><i>we will see</i></span>?</p>
+  <p>Summary of the traditional approach:</p>
+  <div class="tablewrap"><table class="nowrap">
+    <thead><tr><th>“must”</th><th>“going to”</th><th>“want”</th></tr></thead>
+    <tbody>
+      <tr><td>–</td><td class="good"><i>I shall</i></td><td class="good"><i>I will</i></td></tr>
+      <tr><td class="good"><i>you shall</i></td><td class="good"><i>you will</i></td><td>–</td></tr>
+      <tr><td class="good"><i>she/he/it shall</i></td><td class="good"><i>she/he/it will</i></td><td>–</td></tr>
+      <tr><td>–</td><td class="good"><i>we shall</i></td><td class="good"><i>we will</i></td></tr>
+      <tr><td class="good"><i>you shall</i></td><td class="good"><i>you will</i></td><td>–</td></tr>
+      <tr><td class="good"><i>they shall</i></td><td class="good"><i>they will</i></td><td>–</td></tr>
+    </tbody>
+  </table></div>
+  <p>Traditionally, you would write <span class="good"><i>we shall see</i></span> rather than <span class="good"><i>we will see</i></span>. Notice how the <span class="good"><i>I</i></span> and <span class="good"><i>we</i></span> rows are shifted to the right.</p>
+</div>
+<div class="zh">
+  <p>shall 还是 will? 传统用法: 表示单纯的将来 (「going to」那一列), 第一人称 (I, we) 用 shall, 第二、三人称用 will; 表示意愿 (「want」), 第一人称用 will; 表示义务、命令 (「must」), 第二、三人称用 shall. 所以表里 I 和 we 两行「向右移了一格」. 按传统, 「我们将会看到」写 we shall see.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 22</span>
+  <p><b><i>Shall</i> vs. <i>Will</i></b></p>
+  <p>Compare:</p>
+  <p class="good"><i>I shall drown; no one will save me!<br>I will drown; no one shall save me!</i></p>
+  <p>According to the traditional approach:</p>
+  <ul><li>The first speaker is expecting to drown.</li><li>The second speaker is expressing suicidal intent.</li></ul>
+</div>
+<div class="zh">
+  <p>经典例子: 「I shall drown; no one will save me!」按传统用法, I shall 是单纯的将来, no one will 也是单纯的将来: 「我要淹死了, 没人会救我!」(呼救). 「I will drown; no one shall save me!」里 I will 表示意愿, no one shall 表示命令: 「我就要淹死, 谁也不准救我!」(想自杀). 这是英语教科书里流传很久的笑话 (常说是一个落水的外国人用反了, 结果没人救他).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 23–24</span>
+  <p><b><i>Shall</i> vs. <i>Will</i></b></p>
+  <p>Summary of the modern approach:</p>
+  <div class="tablewrap"><table class="nowrap">
+    <thead><tr><th>“must”</th><th>“going to”</th></tr></thead>
+    <tbody>
+      <tr><td>–</td><td class="good"><i>I will</i></td></tr>
+      <tr><td class="good"><i>you shall</i></td><td class="good"><i>you will</i></td></tr>
+      <tr><td class="good"><i>she/he/it shall</i></td><td class="good"><i>she/he/it will</i></td></tr>
+      <tr><td>–</td><td class="good"><i>we will</i></td></tr>
+      <tr><td class="good"><i>you shall</i></td><td class="good"><i>you will</i></td></tr>
+      <tr><td class="good"><i>they shall</i></td><td class="good"><i>they will</i></td></tr>
+    </tbody>
+  </table></div>
+  <p>Using the modern approach, you would write <span class="good"><i>we will see</i></span> rather than <span class="good"><i>we shall see</i></span>.</p>
+  <p>You can choose either approach, but <b>do not mix and match</b>. The modern approach is slightly less formal. It is also easier to use.</p>
+  <p>Regardless of the approach, beware of using <span class="bad"><i>shall</i></span> instead of <span class="good"><i>will</i></span> with the second or third person. Example from a course’s web site:</p>
+  <p class="bad"><i>The course shall cover the textbook’s first four chapters.</i></p>
+  <p class="good"><i>The course will cover the textbook’s first four chapters.</i></p>
+</div>
+<div class="zh">
+  <p>现代用法: 单纯的将来一律用 will (I will, we will); shall 只用于第二、三人称表示义务 (第一人称的「must」和「want」两列都没有了). 按现代用法写 we will see. 两种做法任选, 但<b>不要混用</b>; 现代用法稍微不那么正式, 也更容易用.</p>
+  <p>不管用哪种, 第二、三人称都不要用 shall 表示单纯的将来. 某课程网站上写「The course shall cover …」, 按两种用法 shall 在这里都表示「必须」(像合同条款), 而作者想说的只是「本课程将讲……」, 应该用 will. 反过来, 规范文档里正是用 shall 表示强制要求 (The system shall log every access.).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 25</span>
+  <p><b>Past vs. Present Perfect</b></p>
+  <p>Should you write <span class="good"><i>we developed</i></span> (past) or <span class="good"><i>we have developed</i></span> (present perfect)?</p>
+  <p>Generally:</p>
+  <ul>
+    <li>Use the past tense for an action that took place in the past and is <b>not continuing now</b>.</li>
+    <li>Use the present perfect tense when the action started in the past and is <b>continuing now</b>.</li>
+  </ul>
+  <p>A gray area is the conclusion of a thesis or paper. Both forms are widely used—e.g.:</p>
+  <p class="good"><i>We presented a technique to reconstruct a network from the observations of the nodes’ phase dynamics.</i></p>
+  <p class="good"><i>We have presented a technique to reconstruct a network from the observations of the nodes’ phase dynamics.</i></p>
+</div>
+<div class="zh">
+  <p>一般过去时还是现在完成时? 一般来说: 动作发生在过去、现在不再继续, 用过去时; 动作从过去开始、现在仍在继续 (或结果仍然有效), 用现在完成时. 论文的结论是灰色地带, 两种都常见: We presented a technique … / We have presented a technique … (我们 (已经) 提出了一种根据节点相位动态的观测重建网络的技术).</p>
+  <p>德语母语者要注意: 德语口语用现在完成时讲过去的事 (Ich habe gestern … gemacht), 英语不行: 有明确的过去时间时只能用一般过去时 (We developed the tool in 2024, 不能写 we have developed … in 2024).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 26</span>
+  <p><b>Above and Below</b></p>
+  <p>Phrases such as <span class="good"><i>the diagram above</i></span>, <span class="good"><i>the above code</i></span>, or <span class="good"><i>the table below</i></span> (but not <span class="bad"><i>the below formula</i></span>) refer to material presented before or after the current sentence.</p>
+  <p>The material above or below does not need to literally occur on the same page.</p>
+</div>
+<div class="zh">
+  <p>above 和 below: the diagram above (上面的图)、the above code (上面的代码)、the table below (下面的表) 都可以; 但 below 不能放在名词前, 不能写 the below formula. 也就是说 above 可前可后, below 只能后置. 「上面」「下面」的内容不必真的在同一页上.</p>
+</div>
+
+<!-- ===== PHRASEN ===== -->
+<h2 id="phrasen">人名与所有格<br><span class="de-title"><span class="seg">Phrases ·</span> <span class="seg">Personal Names ·</span> <span class="seg">Possessives</span></span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 28</span>
+  <p><b>Personal Names</b></p>
+  <p>Suppose you want to refer to Emmy Noether. Should you write <span class="good"><i>Emmy Noether</i></span>, <span class="good"><i>E. Noether</i></span>, or <span class="good"><i>Noether</i></span>?</p>
+  <p>Here is a reasonable strategy:</p>
+  <ul>
+    <li>If the name is followed by a citation to a paper by the same person, <span class="good"><i>Noether</i></span> suffices. After all, interested readers can follow the citation.</li>
+    <li>If no citation is present, write <span class="good"><i>Emmy Noether</i></span> the first time for clarity, then continue with <span class="good"><i>Noether</i></span>. Apply this rule regardless of how famous she is.</li>
+    <li>In the reference list, write <span class="good"><i>Emmy Noether</i></span>, <span class="good"><i>E. Noether</i></span>, <span class="good"><i>Noether, Emmy</i></span>, or <span class="good"><i>Noether, E.</i></span>, but be consistent.</li>
+  </ul>
+  <p>What about <span class="good"><i>Professor</i></span>? In most scientific writing, academic titles are not used.</p>
+</div>
+<div class="zh">
+  <p>人名: 提到 Emmy Noether (数学家, 诺特定理), 写全名、E. Noether 还是 Noether? 合理的做法: 名字后面紧跟着她本人论文的引用时, 写 Noether 就够了, 想了解的读者可以查引用; 没有引用时, 第一次写全名 Emmy Noether, 之后写 Noether, 不管她多有名都这样. 参考文献列表里四种写法都可以, 但要统一. Professor 这类学术头衔在大多数科学写作里不用 (德语习惯写 Prof. Dr., 英语论文里不写).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 29</span>
+  <p><b>Personal Names</b></p>
+  <p>Names with particles, such as <span class="good"><i>Nicolaas Govert de Bruijn</i></span> and <span class="good"><i>John von Neumann</i></span>, pose special challenges.</p>
+  <ul>
+    <li>When the family name starts a sentence, capitalize the particle.</li>
+    <li>In the middle of a sentence, if the first names are omitted, write <span class="good"><i>De Bruijn</i></span> (following a Dutch convention) but <span class="good"><i>von Neumann</i></span>.</li>
+  </ul>
+  <p>Personal names from China, Japan, and some other countries put the family name before the first name. However, such names are often reversed to comply with Western conventions. For <span class="good"><i>Yang Chen</i></span>, is <span class="good"><i>Yang</i></span> the given or the family name? You can often find out by inspecting the self-citations in Yang Chen’s papers.</p>
+  <p>A separate challenge is to determine Yang Chen’s pronouns. If you fail to obtain this piece of information, use singular <span class="good"><i>they</i></span>, or reword to avoid the issue.</p>
+</div>
+<div class="zh">
+  <p>带小品词的姓名, 如 Nicolaas Govert de Bruijn (荷兰数学家) 和 John von Neumann, 有特殊的难处: 姓氏在句首时, 小品词大写 (De Bruijn showed …, Von Neumann proposed …); 在句中省略名字时, 按荷兰习惯写 De Bruijn (荷兰人单独用姓时 de 大写), 但写 von Neumann (德语的 von 小写).</p>
+  <p>中国、日本等国家的姓名姓在前、名在后, 但常为了照顾西方习惯而颠倒. Yang Chen 里的 Yang 是名还是姓? 通常可以看这个人自己论文里的自引用 (参考文献里写成 Chen, Y. 还是 Yang, C.). 另一个难处是确定 Yang Chen 用什么代词; 查不到就用单数 they, 或改写句子避开.</p>
+  <p>对中文读者: 你自己写英文论文时, 名字的顺序要全文和所有出版物里保持一致 (例如一直用 Given Family 的西式顺序), 并可以把姓全部大写来消除歧义 (Yang CHEN), 但后者在计算机领域不常见.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 30</span>
+  <p><b>Possessives</b></p>
+  <p>The possessive of singular nouns is generally formed with <b>’s</b>. The possessive of plural nouns is generally formed with an <b>apostrophe</b> (’).</p>
+  <p>Examples: <span class="good"><i>Monica’s novel</i></span>, <span class="good"><i>the Müllers’ textbook</i></span>, <span class="good"><i>Charles’s</i></span> (or <span class="good"><i>Charles’</i></span>) <span class="good"><i>thriller</i></span>.</p>
+  <p>There is a subtle distinction between the following:</p>
+  <ul>
+    <li><span class="good"><i>Tremblay and Wilson’s books</i></span> (their shared books);</li>
+    <li><span class="good"><i>Tremblay’s and Wilson’s books</i></span> (their respective books).</li>
+  </ul>
+  <p>The possessive of pronouns is written without an apostrophe—e.g., <span class="good"><i>its name</i></span>, not <span class="bad"><i>it’s name</i></span>.</p>
+</div>
+<div class="zh">
+  <p>所有格: 单数名词加 ’s (Monica’s novel); 以 s 结尾的复数名词只加撇号 (the Müllers’ textbook, 穆勒一家的教科书). 以 s 结尾的单数名词两种都行: Charles’s 或 Charles’. 细微区别: Tremblay and Wilson’s books 是两人<b>合著</b>的书 (只在最后一个名字加 ’s); Tremblay’s and Wilson’s books 是两人<b>各自</b>的书. 代词的所有格不加撇号: its name, 不是 it’s name (it’s = it is).</p>
+</div>
+
+<!-- ===== FALLEN ===== -->
+<h2 id="fallen">陷阱<br><span class="de-title">Pitfalls</span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 32</span>
+  <p><b>Pitfalls</b></p>
+  <dl>
+    <dt>Adjectives as adverbs</dt>
+    <dd>A common mistake, especially by German speakers, is to use adjectives in place of adverbs—e.g., <span class="bad"><i>the program runs automatic</i></span> instead of <span class="good"><i>the program runs automatically</i></span>. However, due to a phenomenon called “flat adverbs,” adjectives can be used as adverbs in less formal settings—e.g., <span class="bad"><i>drive slow</i></span>.</dd>
+    <dt>Archaisms</dt>
+    <dd>Avoid old-fashioned words such as <span class="bad"><i>albeit</i></span>, <span class="bad"><i>behoof</i></span>, and <span class="bad"><i>betwixt</i></span>.</dd>
+    <dt>Foreign words</dt>
+    <dd>Foreign words that are well integrated into the language need no accents or italics—e.g., <span class="good"><i>role</i></span> (not <span class="bad"><i>rôle</i></span>), <span class="good"><i>naive</i></span> (not <span class="bad"><i>naïve</i></span>). The French phrase <span class="bad"><i>à la</i></span> (“in the style of”) is widely understood but informal. Rare foreign words are best avoided unless you explain them.</dd>
+  </dl>
+</div>
+<div class="zh">
+  <ul>
+    <li><b>形容词当副词用</b>: 德语母语者常犯, 因为德语的形容词可以直接作副词 (Das Programm läuft automatisch). 英语要用副词: runs automatically. 不过由于所谓的「平副词」(flat adverbs) 现象, 在不太正式的场合形容词也可以当副词用, 例如 drive slow (慢点开); 正式写作里仍写 slowly.</li>
+    <li><b>古语词</b>: 避免过时的词, 如 albeit (虽然, 改用 although)、behoof (利益)、betwixt (在……之间, 改用 between).</li>
+    <li><b>外来词</b>: 已经融入英语的外来词不加重音符号、不用斜体: role 而不是 rôle, naive 而不是 naïve. 法语短语 à la (以……的风格) 大家都懂, 但不正式. 罕见的外来词最好别用, 除非你加以解释. 德语词 Zettelkasten 在 <a href="STE-02-结构.html">STE 02</a> 里就是用斜体并给出了例子的情形.</li>
+  </ul>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 33</span>
+  <p><b>Pitfalls</b></p>
+  <dl>
+    <dt>Malapropisms</dt>
+    <dd>A <b>malapropism</b> is the mistake of using a word in place of a similar-sounding one, sometimes with comical outcomes. A few problematic pairs follow:</dd>
+  </dl>
+  <div class="tablewrap"><table class="nowrap">
+    <tbody>
+      <tr><td class="good"><i>affect</i></td><td class="good"><i>effect</i></td></tr>
+      <tr><td class="good"><i>compose</i></td><td class="good"><i>comprise</i></td></tr>
+      <tr><td class="good"><i>delegate</i></td><td class="good"><i>relegate</i></td></tr>
+      <tr><td class="good"><i>discreet</i></td><td class="good"><i>discrete</i></td></tr>
+      <tr><td class="good"><i>ensure</i></td><td class="good"><i>insure</i></td></tr>
+      <tr><td class="good"><i>parable</i></td><td class="good"><i>parabola</i></td></tr>
+      <tr><td class="good"><i>principal</i></td><td class="good"><i>principle</i></td></tr>
+      <tr><td class="good"><i>proposal</i></td><td class="good"><i>proposition</i></td></tr>
+      <tr><td class="good"><i>sensible</i></td><td class="good"><i>sensitive</i></td></tr>
+    </tbody>
+  </table></div>
+</div>
+<div class="zh">
+  <p><b>Malapropism 词语误用</b>: 用了一个发音相近的错词, 有时很滑稽. 几组容易混淆的词:</p>
+  <div class="tablewrap"><table>
+    <tbody>
+      <tr><td class="wide">affect / effect</td><td class="wide">affect 一般是动词「影响」; effect 一般是名词「效果」(作动词时是「实现」: effect a change)</td></tr>
+      <tr><td class="wide">compose / comprise</td><td class="wide">整体 comprises 部分 (The system comprises three modules); 部分 compose 整体 (Three modules compose the system). 「is comprised of」被很多人视为错误</td></tr>
+      <tr><td class="wide">delegate / relegate</td><td class="wide">delegate 委派 (任务给别人); relegate 降级、贬到次要位置</td></tr>
+      <tr><td class="wide">discreet / discrete</td><td class="wide">discreet 谨慎的、低调的; discrete 离散的 (discrete mathematics)</td></tr>
+      <tr><td class="wide">ensure / insure</td><td class="wide">ensure 确保; insure 投保 (美式里 insure 也可作「确保」, 但写作中用 ensure)</td></tr>
+      <tr><td class="wide">parable / parabola</td><td class="wide">parable 寓言; parabola 抛物线</td></tr>
+      <tr><td class="wide">principal / principle</td><td class="wide">principal 主要的, 校长, 本金; principle 原则</td></tr>
+      <tr><td class="wide">proposal / proposition</td><td class="wide">proposal 提议; proposition 命题 (逻辑), 主张</td></tr>
+      <tr><td class="wide">sensible / sensitive</td><td class="wide">sensible 明智的、合理的; sensitive 敏感的 (德语 sensibel 是「敏感」, 是假朋友)</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 34</span>
+  <p><b>Pitfalls</b></p>
+  <dl>
+    <dt>Near-synonyms</dt>
+    <dd>Beware of words, such as <span class="good"><i>simple</i></span> and <span class="good"><i>simplistic</i></span>, that have almost the same meaning but not exactly.</dd>
+    <dt>Noun trains</dt>
+    <dd>Avoid noun phrases such as <span class="bad"><i>network packet traffic analysis tool</i></span>. Use prepositions—e.g., <span class="good"><i>traffic analysis tool for network packets</i></span>.</dd>
+    <dt>Sticky words</dt>
+    <dd>These are words that stick in the reader’s mind, so they should be used sparingly. For example, <span class="good"><i>also</i></span>, <span class="good"><i>but</i></span>, and <span class="good"><i>now</i></span> should be used at most once within a paragraph.</dd>
+  </dl>
+</div>
+<div class="zh">
+  <ul>
+    <li><b>近义词</b>: 意思几乎相同但不完全一样的词, 例如 simple (简单的, 褒义或中性) 和 simplistic (过分简单化的, 贬义). 说别人的方法 simplistic 是批评.</li>
+    <li><b>名词火车</b>: 避免一长串名词堆在一起, 如 network packet traffic analysis tool (五个名词连用, 读者要从后往前解析). 用介词拆开: traffic analysis tool for network packets. 德语的复合词习惯 (Netzwerkpaketverkehrsanalysewerkzeug) 容易导致这个问题.</li>
+    <li><b>黏性词</b>: 会粘在读者脑子里的词, 要少用. 例如 also、but、now 在一段里最多用一次, 重复了读者会注意到.</li>
+  </ul>
+</div>
+
+<!-- ===== PROBLEM ===== -->
+<h2 id="problem">易错词与短语<br><span class="de-title">Problem Words and Phrases</span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 36</span>
+  <p><b>Problem Words and Phrases</b></p>
+  <dl>
+    <dt>&amp;</dt><dd>Spell out as <span class="good"><i>and</i></span>, except in the names of firms and such.</dd>
+    <dt><i>all</i> vs. <i>all of</i></dt><dd>Both have the same meaning. Trust your ear.</dd>
+    <dt><i>alternative</i></dt><dd>An alternative is another possibility. The word is not a synonym for <span class="good"><i>option</i></span>. <span class="good"><i>We have two alternatives</i></span> means something else than <span class="good"><i>We have two options</i></span>.</dd>
+    <dt><i>as well as</i></dt><dd>Prefer <span class="good"><i>and</i></span> when both work.</dd>
+    <dt><i>assist</i>, <i>assistance</i></dt><dd>These can usually be replaced by the less pretentious <span class="good"><i>help</i></span>.</dd>
+  </dl>
+</div>
+<div class="zh">
+  <p>易错词表按字母顺序排列. &amp; 要写成 and, 公司名等除外 (AT&amp;T). all 和 all of 意思相同, 凭语感 (all the files / all of the files; 代词前必须用 all of: all of them). alternative 是「另一种可能」, 不是 option 的同义词: 严格说, we have two alternatives 意思是「除了现在这个之外, 还有两种可能」(共三种), 而 we have two options 是「一共两个选项」. as well as 和 and 都行时用 and. assist、assistance 一般可以换成不那么做作的 help.</p>
+</div>
+<div class="warn"><p><b>原文用词:</b> 「means something <b>else than</b>」是德语式的说法 (etwas anderes als). 标准英语说 <i>something other than</i> 或 <i>something different from</i>.</p></div>
+
+<div class="card de">
+  <span class="folie">Slide 37</span>
+  <p><b>Problem Words and Phrases</b></p>
+  <dl>
+    <dt><i>associate with</i> vs. <i>associate to</i></dt><dd><span class="bad"><i>Associate to</i></span> is ungrammatical.</dd>
+    <dt><i>bound</i> vs. <i>bounded</i></dt><dd>A <span class="good"><i>bound</i></span> variable is attached to a binder. A <span class="good"><i>bounded</i></span> variable ranges over a domain that is limited by a bound.</dd>
+    <dt><i>can</i> vs. <i>may</i></dt><dd>Prefer <span class="good"><i>may</i></span> for expressing permission, and use <span class="good"><i>can</i></span> otherwise—e.g., <span class="good"><i>The user can scroll up and down using the scroll bar.</i></span></dd>
+    <dt><i>cannot</i></dt><dd>The negation of <span class="good"><i>can</i></span> is normally spelled as one word.</dd>
+    <dt><i>cf.</i></dt><dd>This Latin abbreviation means “compare with,” not “see.”</dd>
+  </dl>
+</div>
+<div class="zh">
+  <p>associate <b>with</b>, 不能写 associate to (德语 zuordnen 容易导致这个错误). bound 和 bounded: bound variable 是被约束的变量 (被 ∀、λ 等绑定符绑定); bounded variable 是取值范围有界的变量. can 和 may: 表示「允许」用 may, 其他情况用 can, 例如「用户可以用滚动条上下滚动」说的是能力, 用 can. can 的否定通常写成一个词 cannot (can not 只在特殊强调时用). cf. 是拉丁语 confer 的缩写, 意思是「比较」, 不是「参见」: 「cf. [12]」意味着读者应该把这里和 [12] 对比; 只是参见的话写 see [12].</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 38</span>
+  <p><b>Problem Words and Phrases</b></p>
+  <dl>
+    <dt><i>compare with</i> vs. <i>compare to</i></dt><dd><span class="good"><i>With</i></span> is the correct preposition when emphasizing the differences—e.g., <span class="good"><i>She compared C# with Java.</i></span> <span class="good"><i>To</i></span> is correct if we want emphasize the similarities—e.g., <span class="good"><i>He compared Napoleon to Charlemagne.</i></span></dd>
+    <dt><i>consider</i> vs. <i>consider as</i></dt><dd><span class="bad"><i>Consider as</i></span> is old-fashioned. Thus, write <span class="good"><i>The fact is considered relevant</i></span>, not <span class="bad"><i>The fact is considered as relevant</i></span>.</dd>
+    <dt><i>e.g.</i> vs. <i>i.e.</i></dt><dd>Do not confuse these. They mean “for example” and “that is,” respectively. In American English, they are followed by a comma.</dd>
+    <dt><i>et al.</i></dt><dd>Be careful with the punctuation. The spelling is not <span class="bad"><i>et al</i></span> nor <span class="bad"><i>et. al</i></span> nor <span class="bad"><i>et. al.</i></span></dd>
+  </dl>
+</div>
+<div class="zh">
+  <p>compare with 强调差异 (把 C# 和 Java 相比较, 找异同); compare to 强调相似 (把拿破仑比作查理大帝). consider as 过时, 写 is considered relevant. e.g. = for example (例如, 列举不完整); i.e. = that is (即, 换一种说法, 完整等价). 美式英语里两者后面都加逗号 (e.g., this). et al. 是拉丁语 et alii 的缩写: et 是完整的词 (不加点), al. 是缩写 (加点); 所以 et al、et. al、et. al. 都错.</p>
+</div>
+<div class="warn"><p><b>原文笔误:</b> 「To is correct if we want emphasize the similarities」漏了 to, 应为 <i>if we want <b>to</b> emphasize</i>.</p></div>
+
+<div class="card de">
+  <span class="folie">Slide 39</span>
+  <p><b>Problem Words and Phrases</b></p>
+  <dl>
+    <dt><i>the fact that</i></dt><dd>Avoid this verbose phrase.</dd>
+    <dt><i>fewer</i> vs. <i>less</i></dt><dd>Prefer <span class="good"><i>fewer</i></span> to <span class="bad"><i>less</i></span> with countable nouns—e.g., <span class="good"><i>fewer lines of code</i></span>.</dd>
+    <dt><i>the former</i>, <i>the latter</i></dt><dd>These are often clumsier, and more puzzling, than the words they replace. Use only if <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span>.</dd>
+    <dt><i>good</i>, <i>bad</i></dt><dd>Instead of telling the reader that something is good or bad, tell them why it is good or bad.</dd>
+  </dl>
+</div>
+<div class="zh">
+  <p>the fact that 很啰嗦, 避免 (见 <a href="STE-03-文体.html">STE 03</a> Slide 13). 可数名词用 fewer, 不可数用 less: fewer lines of code, less memory. the former / the latter (前者 / 后者) 常常比它们代替的词更笨拙、更让人困惑 (读者得回头找), 而且只能用于正好两项 (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span>). 不要只告诉读者某样东西好或坏, 要告诉他们<b>为什么</b>好或坏.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 40</span>
+  <p><b>Problem Words and Phrases</b></p>
+  <dl>
+    <dt><i>in-</i>, <i>un-</i>, <i>non-</i>, <i>a-</i></dt><dd>All these prefixes denote negation. Check a dictionary to choose the right prefix in a given situation.</dd>
+    <dt><i>in general</i></dt><dd>The phrase can mean both “almost always” and “always.” Be careful in mathematical contexts that require precision.</dd>
+    <dt><i>interesting</i></dt><dd>Avoid this vague word. Instead, tell the reader why something is interesting.</dd>
+    <dt><i>-like</i> vs. <i>-style</i></dt><dd>Compare <span class="good"><i>D is a C-like language</i></span> (i.e., “the D language is like C”) with <span class="good"><i>D has a C-style syntax</i></span> (i.e., “D has a syntax in the style of C’s syntax”).</dd>
+  </dl>
+</div>
+<div class="zh">
+  <p>in-、un-、non-、a- 都表示否定, 具体用哪个查词典 (incorrect, unsound, nonempty, asymmetric; 意思也可能不同: unmoral / immoral / amoral). in general 既可以指「几乎总是」也可以指「总是」, 数学语境里要小心: 「in general, the problem is undecidable」到底是说一般情形不可判定, 还是说存在不可判定的实例? interesting 太含糊, 要说出为什么有趣. -like 和 -style: C-like language 指语言整体像 C; C-style syntax 指语法是 C 的风格.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 41</span>
+  <p><b>Problem Words and Phrases</b></p>
+  <dl>
+    <dt><i>like</i> vs. <i>such as</i></dt><dd>When both work, prefer the more formal <span class="good"><i>such as</i></span>.</dd>
+    <dt><i>little</i>, <i>big</i></dt><dd>As a rule, prefer the more formal <span class="good"><i>small</i></span> and <span class="good"><i>large</i></span> to <span class="bad"><i>little</i></span> and <span class="bad"><i>big</i></span>.</dd>
+    <dt><i>note that</i></dt><dd>Use this phrase sparingly. Often it can be omitted altogether.</dd>
+    <dt><i>oftentimes</i></dt><dd>Needless variant of <span class="good"><i>often</i></span>.</dd>
+    <dt><i>on</i> vs. <i>upon</i></dt><dd><span class="good"><i>Upon</i></span> is old-fashioned but still preferable in, e.g., <span class="good"><i>frowned upon</i></span>.</dd>
+    <dt><i>orientated</i></dt><dd>Needless variant of <span class="good"><i>oriented</i></span>.</dd>
+  </dl>
+</div>
+<div class="zh">
+  <p>like 和 such as 都可以时, 用更正式的 such as (languages such as Java). little、big 一般换成更正式的 small、large (a large data set). note that 少用, 往往可以整个删掉. oftentimes 是 often 的多余变体. upon 过时, 但在 frowned upon (不被赞成) 这种固定搭配里仍然更好. orientated 是 oriented 的多余变体 (object-oriented).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 42</span>
+  <p><b>Problem Words and Phrases</b></p>
+  <dl>
+    <dt><i>prior to</i></dt><dd>Needless variant of <span class="good"><i>before</i></span>.</dd>
+    <dt><i>quite</i></dt><dd>It can mean both “very” (especially in American English) and “fairly.” To avoid ambiguity, it should be avoided.</dd>
+    <dt><i>really</i>, <i>very</i></dt><dd>Use these adverbs with moderation. Often they can simply be omitted or replaced with a near-synonym such as <span class="good"><i>substantially</i></span> or <span class="good"><i>highly</i></span>.</dd>
+    <dt><i>this</i>/<i>these</i> vs. <i>that</i>/<i>those</i></dt><dd>In informal speech, people tend to say <span class="bad"><i>that</i></span>/<span class="bad"><i>those</i></span> where formal English would call for <span class="good"><i>this</i></span>/<span class="good"><i>these</i></span>—e.g., <span class="bad"><i>. . . the duality principle. That principle . . .</i></span></dd>
+  </dl>
+</div>
+<div class="zh">
+  <p>prior to 是 before 的多余变体. quite 既可以是「非常」(尤其在美式英语里) 也可以是「相当, 还算」(英式里常见), 有歧义, 应该避免: quite good 在美国人听来是「很好」, 在英国人听来可能是「还行」. really、very 要节制, 常可以删掉, 或换成 substantially、highly 之类. 刚提到的东西, 口语常用 that/those 回指, 正式英语用 this/these: 「… the duality principle. <b>This</b> principle …」.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 43</span>
+  <p><b>Problem Words and Phrases</b></p>
+  <dl>
+    <dt><i>thusly</i></dt><dd>Needless variant of <span class="good"><i>thus</i></span>.</dd>
+    <dt><i>trivial</i></dt><dd>Do not use it as a synonym for <span class="good"><i>easy</i></span>. Similarly, avoid euphemisms such as <span class="bad"><i>highly nontrivial</i></span> (for <span class="good"><i>difficult</i></span>).</dd>
+    <dt><i>unique</i></dt><dd>Use only when <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>. In particular, never write <span class="bad"><i>fairly unique</i></span>.</dd>
+    <dt><i>utilize</i>, <i>utilization</i></dt><dd>Needless, pompous variants of <span class="good"><i>use</i></span>.</dd>
+    <dt><i>whom</i> vs. <i>who</i></dt><dd>Prefer <span class="good"><i>whom</i></span> to <span class="bad"><i>who</i></span> for the object case—e.g., <span class="good"><i>computer scientists, for whom this user’s manual is designed</i></span>.</dd>
+  </dl>
+</div>
+<div class="zh">
+  <p>thusly 是 thus 的多余变体. trivial (平凡的) 不要当 easy 用; 在数学里 trivial 有确切含义 (不需要任何论证); 同理避免 highly nontrivial 这种委婉语, 直接说 difficult. unique 只用于正好一个 (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>): 唯一就是唯一, 没有「相当唯一」. utilize、utilization 是 use 的多余、做作的变体. 宾格用 whom: for whom this user’s manual is designed (这本用户手册是为他们设计的); 介词后面一定是 whom.</p>
+</div>
+
+</main>
+
+<script id="glass-js">
+/* 玻璃霓虹层 v11 的交互: 进度条后备、滚动淡入、浮动胶囊目录、背景等高线、解密标题、卡片聚光灯、光标拖影、折叠动画.
+   全部是本地代码, 不加载任何外部资源; 任何一步出错都不影响正文显示. */
+(function () {
+  try {
+    var doc = document.documentElement;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var auto = navigator.webdriver || /HeadlessChrome/.test(navigator.userAgent); // 自动化截图时关掉动效, 保证截图完整
+    if (!reduce && !auto && 'IntersectionObserver' in window) doc.classList.add('fx');
+
+    /* 第二强调色跟着课程色走: 课程主色的色相 +40°, 写进 --glow2 (等高线低处、拖影尾端、标题波动用) */
+    (function () {
+      var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((getComputedStyle(doc).getPropertyValue('--accent') || '').trim());
+      if (!m) return;
+      var r = parseInt(m[1], 16) / 255, g = parseInt(m[2], 16) / 255, b = parseInt(m[3], 16) / 255;
+      var mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn, h = 0, s = 0;
+      if (d) { s = d / (1 - Math.abs(2 * l - 1)); h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
+      h = (h + 40 + 360) % 360;
+      var c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), o = l - c / 2, rgb;
+      rgb = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
+      doc.style.setProperty('--glow2', '#' + rgb.map(function (v) { return ('0' + Math.round((v + o) * 255).toString(16)).slice(-2); }).join(''));
+    })();
+
+    /* 1. 进度条: 浏览器不支持 CSS 滚动动画时用脚本更新 */
+    var bar = document.getElementById('progress');
+    if (bar && !(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'))) {
+      var upd = function () {
+        var h = doc.scrollHeight - innerHeight;
+        bar.style.setProperty('--p', h > 0 ? Math.min(1, scrollY / h) : 0);
+      };
+      addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd); upd();
+    }
+
+    /* 0. 运行时整理结构 (文件本身不变):
+       a) 小节标题 h2、三级标题 h3 的中文主标题 (第一个 <br> / 德语副标题 / small 之前的部分) 包进 <span class="ht">;
+       b) 每个 <pre> 包进 .codebox, 加标题栏 (三个圆点 + 语言 + 复制按钮); 语言优先取 data-lang, 否则按内容猜. */
+    Array.prototype.forEach.call(document.querySelectorAll('main h2, main h3'), function (h) {
+      if (h.querySelector(':scope > .ht')) return;
+      var ht = document.createElement('span'); ht.className = 'ht';
+      var n = h.firstChild;
+      while (n && !(n.nodeType === 1 && (n.tagName === 'BR' || n.tagName === 'SMALL' || n.classList.contains('de-title')))) {
+        var nx = n.nextSibling; ht.appendChild(n); n = nx;
+      }
+      if (ht.textContent.trim()) h.insertBefore(ht, h.firstChild);
+    });
+    /* c) 没有图注的普通 <figure> (MGTN): 用图片的 alt 补一个图注, 和其他笔记的原图一致 */
+    Array.prototype.forEach.call(document.querySelectorAll('main figure:not([class])'), function (f) {
+      var im = f.querySelector(':scope > img');
+      if (!im || f.querySelector('figcaption, .fig-cap') || !(im.alt || '').trim()) return;
+      var c = document.createElement('div'); c.className = 'fig-cap'; c.textContent = im.alt; f.appendChild(c);
+    });
+    var guessLang = function (t) {
+      if (/^\s*>>>/m.test(t)) return 'python repl';
+      if (/^\s*\$ /m.test(t)) return 'shell';
+      if (/^\s*(SELECT|CREATE|INSERT|UPDATE|DELETE|WITH)\b/m.test(t)) return 'sql';
+      if (/^\s*(def |class |import |from \S+ import|for .+ in .+:|if .+:|while .+:|print\()/m.test(t)) return 'python';
+      if (/^\s*(git|cd|ls|pip|python3?|mkdir|cat|grep|echo)\b/m.test(t)) return 'shell';
+      if (/^\s*\(\w+ \(/.test(t)) return 'tree';
+      return 'text';
+    };
+    Array.prototype.forEach.call(document.querySelectorAll('main pre'), function (pre) {
+      if (pre.parentElement.classList.contains('codebox')) return;
+      var box = document.createElement('div'); box.className = 'codebox';
+      var head = document.createElement('div'); head.className = 'cb-head';
+      head.innerHTML = '<span class="cb-dots"><i></i><i></i><i></i></span><span class="cb-lang"></span><button class="cb-copy" type="button">复制</button>';
+      head.querySelector('.cb-lang').textContent = pre.getAttribute('data-lang') || guessLang(pre.textContent);
+      pre.parentNode.insertBefore(box, pre); box.appendChild(head); box.appendChild(pre);
+      var btn = head.querySelector('.cb-copy');
+      btn.addEventListener('click', function () {
+        var txt = pre.innerText, ok = function () { btn.textContent = '已复制'; btn.classList.add('ok'); setTimeout(function () { btn.textContent = '复制'; btn.classList.remove('ok'); }, 1400); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, function () {});
+        else { var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); ok(); } catch (e) {} ta.remove(); }
+      });
+    });
+
+    /* 2. 滚动淡入 */
+    if (doc.classList.contains('fx')) {
+      var els = document.querySelectorAll('main .card, main .zh, main .add, main .warn, main .codebox, main .src-fig, main figure:not([class]), main .tablewrap, main details');
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -8% 0px' });
+      els.forEach(function (el) {
+        if (el.parentElement && el.parentElement.closest('.reveal')) return;
+        var r = el.getBoundingClientRect();
+        el.classList.add('reveal');
+        if (r.top < innerHeight) el.classList.add('in'); else io.observe(el);
+      });
+    }
+
+    /* 解密动画 (小节标题、胶囊目录共用): 先显示乱码, 再从左到右逐字恢复; 德语副标题不动; 无论如何最后都恢复原文 */
+    var gsrc = document.querySelector('[data-glyphs]');
+    var GL = Array.from((gsrc && gsrc.getAttribute('data-glyphs')) || '#%&*+=<>/|01');
+    var GW = Array.from('＃％＆＊＋＝＜＞／｜０１');                 /* 中文位置用全角字符占位, 宽度不跳 */
+    var isWide = function (ch) { return /[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF\u3000-\u303F]/.test(ch); };
+    var rndG = function (ch) { var g = isWide(ch) ? GW : GL; return g[(Math.random() * g.length) | 0]; };
+    var textNodes = function (el) {
+      var out = [], tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+      while (tw.nextNode()) { var tn = tw.currentNode; if (!tn.parentElement.closest('.de-title, small, .katex') && tn.nodeValue.trim()) out.push(tn); }
+      return out;
+    };
+    /* 把元素里的文字拆成逐字的 <span class="ch"> (行内元素, 不改变排版); 乱码画在 ::after 叠层里,
+       原字只是暂时隐藏、仍占原来的位置, 所以解密和信号干扰时标题和下面的内容都不会移动 */
+    var splitChars = function (el) {
+      var groups = textNodes(el).map(function (tn) {
+        var frag = document.createDocumentFragment(), spans = [];
+        Array.from(tn.nodeValue).forEach(function (ch) {
+          if (/\s/.test(ch)) { frag.appendChild(document.createTextNode(ch)); return; }
+          var sp = document.createElement('span'); sp.className = 'ch'; sp.textContent = ch; frag.appendChild(sp); spans.push(sp);
+        });
+        var first = frag.firstChild; tn.parentNode.replaceChild(frag, tn);
+        return { tn: tn, first: first, spans: spans, count: Array.from(tn.nodeValue).length };
+      });
+      return groups;
+    };
+    var joinChars = function (groups) {
+      groups.forEach(function (g) {
+        var n = g.first; if (!n || !n.parentNode) return;
+        var parent = n.parentNode; parent.insertBefore(g.tn, n);
+        for (var k = 0; k < g.count && g.tn.nextSibling; k++) parent.removeChild(g.tn.nextSibling);
+      });
+    };
+    var setX = function (sp, on) {
+      if (on) { sp.setAttribute('data-g', rndG(sp.textContent)); sp.classList.add('x'); } else sp.classList.remove('x');
+    };
+    var decrypt = function (h, DUR) {
+      DUR = DUR || 800;
+      if (h._dtok) return;
+      var groups = splitChars(h); if (!groups.length) return;
+      var tok = h._dtok = {};
+      var hd = h.classList.contains('ht') ? h.parentElement : null;
+      if (hd) hd.classList.remove('wave');
+      var spans = [].concat.apply([], groups.map(function (g) { return g.spans; })), total = spans.length, t0 = performance.now();
+      h.classList.add('decrypting');
+      var finish = function () {
+        if (h._dtok !== tok) return;
+        h._dtok = null; joinChars(groups); h.classList.remove('decrypting');
+        if (hd && hd.tagName === 'H2') hd.classList.add('wave');   /* 解密完成后, h2 开始颜色波动 */
+      };
+      var tick = function (now) {
+        if (h._dtok !== tok) return;
+        var k = Math.floor(Math.min(1, (now - t0) / DUR) * total);
+        for (var q = 0; q < total; q++) setX(spans[q], q >= k);
+        if (now - t0 < DUR) requestAnimationFrame(tick); else finish();
+      };
+      requestAnimationFrame(tick);
+      setTimeout(finish, DUR + 600);
+    };
+    /* 信号干扰: 随机一两个字瞬间变乱码, 150 毫秒后恢复; 同样不改变排版 */
+    var glitchOnce = function (ht) {
+      if (ht._dtok) return;
+      var groups = splitChars(ht); if (!groups.length) return;
+      var tok = ht._dtok = {}, spans = [].concat.apply([], groups.map(function (g) { return g.spans; }));
+      for (var q = 0, n = Math.random() < .5 ? 1 : 2; q < n && spans.length; q++) setX(spans[(Math.random() * spans.length) | 0], true);
+      setTimeout(function () { if (ht._dtok === tok) { ht._dtok = null; joinChars(groups); } }, 150);
+    };
+    var fx = doc.classList.contains('fx');
+
+    /* 3. 浮动胶囊目录 + 当前小节高亮 */
+    var nav = document.querySelector('nav');
+    var links = nav ? Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]')) : [];
+    var targets = links.map(function (a) { return document.getElementById(decodeURIComponent(a.hash.slice(1))); });
+    var pill = null, cur = null, pLinks = [], curIdx = -1;
+    if (links.length) {
+      pill = document.createElement('div'); pill.id = 'toc-pill';
+      pill.innerHTML = '<div class="cap" role="button" tabindex="0" aria-expanded="false"><span class="ring"></span><span class="idx"></span><span class="cur"></span><span class="chev">▾</span></div><div class="panel"></div>';
+      var panel = pill.querySelector('.panel'); cur = pill.querySelector('.cur');
+      links.forEach(function (a) { var b = a.cloneNode(true); panel.appendChild(b); pLinks.push(b); });
+      document.body.appendChild(pill);
+      var cap = pill.querySelector('.cap');
+      var toggle = function (open) {
+        pill.classList.toggle('open', open);
+        cap.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+      cap.addEventListener('click', function () { toggle(!pill.classList.contains('open')); });
+      cap.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(!pill.classList.contains('open')); } });
+      panel.addEventListener('click', function (e) { if (e.target.closest('a')) toggle(false); });
+      document.addEventListener('click', function (e) { if (!pill.contains(e.target)) toggle(false); });
+      var lastY = scrollY;
+      addEventListener('scroll', function () { if (Math.abs(scrollY - lastY) > 40) { toggle(false); lastY = scrollY; } }, { passive: true });
+    }
+    var mark = function () {
+      var y = 140, idx = -1, hgt = doc.scrollHeight - innerHeight, rp = hgt > 0 ? Math.min(1, scrollY / hgt) : 0;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top < y) idx = i; });
+      curIdx = idx;
+      links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+      pLinks.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+      if (pill) {
+        var past = nav.getBoundingClientRect().bottom < 0;
+        pill.classList.toggle('show', past);
+        if (!past) pill.classList.remove('open');
+        pill.style.setProperty('--rp', rp.toFixed(3));
+        pill.querySelector('.panel').setAttribute('data-pct', Math.round(rp * 100) + '%');
+        pill.querySelector('.idx').textContent = ('0' + Math.max(1, idx + 1)).slice(-2) + '/' + ('0' + links.length).slice(-2);
+        var name = idx >= 0 ? links[idx].textContent : links[0].textContent;
+        if (cur.getAttribute('data-name') !== name) {
+          cur.setAttribute('data-name', name);
+          cur._dtok = null; cur.classList.remove('decrypting'); cur.textContent = name;   /* 直接重写文字, 旧的逐字 span 一并清掉 */
+          if (fx && past) decrypt(cur, 420);               /* 进入新小节时, 胶囊里的节名解密切换 */
+        }
+      }
+    };
+    addEventListener('scroll', mark, { passive: true }); addEventListener('resize', mark); mark();
+
+    /* 4. 背景等高线: 地形图式的等高线 (每 5 条一条较粗的计曲线), 按高度从青到绿着色;
+       地形缓慢呼吸变形, 鼠标所在处隆起一个小山丘; 正文一栏用羽化的遮罩压淡 */
+    if (!reduce) {
+      var cv = document.createElement('canvas'); cv.id = 'contour'; cv.setAttribute('aria-hidden', 'true');
+      document.body.insertBefore(cv, document.body.firstChild);
+      var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, C = 7, NX = 0, NY = 0, F = null, narrow = false, mL = 0, mR = 0;
+      var cs0 = getComputedStyle(doc);
+      function rgbOf(h, d) { var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((h || '').trim());
+        return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : d; }
+      var A = rgbOf(cs0.getPropertyValue('--accent'), [129, 228, 141]);
+      var B = rgbOf(cs0.getPropertyValue('--glow2'), [127, 211, 255]);
+      var mainEl = document.querySelector('main');
+      var P = new Uint8Array(512), sd = 2468013;
+      for (var q = 0; q < 256; q++) P[q] = q;
+      for (q = 255; q > 0; q--) { sd = (sd * 16807) % 2147483647; var r = sd % (q + 1), tmp = P[q]; P[q] = P[r]; P[r] = tmp; }
+      for (q = 0; q < 256; q++) P[q + 256] = P[q];
+      function sm(t) { return t * t * (3 - 2 * t); }
+      function vn(x, y) {
+        var xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi; xi &= 255; yi &= 255;
+        var a = P[P[xi] + yi] / 255, b = P[P[xi + 1] + yi] / 255, c = P[P[xi] + yi + 1] / 255, d = P[P[xi + 1] + yi + 1] / 255;
+        var u = sm(xf), v = sm(yf);
+        return (a + (b - a) * u) * (1 - v) + (c + (d - c) * u) * v;
+      }
+      var mx = -9999, my = -9999, hx = -9999, hy = -9999, amp = 0, ampT = 0, lastMove = 0;
+      addEventListener('pointermove', function (e) { if (e.pointerType !== 'mouse') return; mx = e.clientX; my = e.clientY; ampT = 1; lastMove = performance.now(); }, { passive: true });
+      document.addEventListener('pointerleave', function () { ampT = 0; });
+      var LV = []; for (var lv = .18, li = 0; lv < .95; lv += .033, li++) LV.push({ v: lv, idx: li % 5 === 0 });
+      function size() {
+        dpr = Math.min(2, window.devicePixelRatio || 1);
+        W = innerWidth; H = innerHeight; narrow = W < 700;
+        cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        NX = Math.ceil(W / C) + 2; NY = Math.ceil(H / C) + 2; F = new Float32Array(NX * NY);
+        var rr = mainEl ? mainEl.getBoundingClientRect() : { left: 0, right: 0 }; mL = rr.left; mR = rr.right;
+      }
+      function field(t) {
+        var ts = t / 1000, br = 1 + .06 * Math.sin(ts * Math.PI * 2 / 20), sy = scrollY * .0011;
+        var ox = .3 * Math.sin(ts * .045), oy = .3 * Math.cos(ts * .038);
+        /* 鼠标山丘: 位置和高度都平滑跟随 */
+        if (hx < -999) { hx = mx; hy = my; }
+        hx += (mx - hx) * .18; hy += (my - hy) * .18;
+        if (performance.now() - lastMove > 2500) ampT = 0;
+        amp += (ampT * .22 - amp) * .06;
+        var s2 = 2 * 85 * 85, cx = W / 2, cy = H / 2;
+        for (var y = 0; y < NY; y++) {
+          var py = y * C, ny0 = ((py - cy) / br + cy) * .0042;
+          for (var x = 0; x < NX; x++) {
+            var px = x * C, nx0 = ((px - cx) / br + cx) * .0042;
+            var v = .68 * vn(nx0 + ox, ny0 + oy + sy) + .32 * vn(nx0 * 2.6 - ts * .02, ny0 * 2.6 + ts * .015 + sy * 2.6);
+            if (amp > .002) { var dx = px - hx, dy = py - hy; v += amp * Math.exp(-(dx * dx + dy * dy) / s2); }
+            F[y * NX + x] = v;
+          }
+        }
+      }
+      function draw(t) {
+        field(t);
+        ctx.clearRect(0, 0, W, H);
+        ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+        var k = narrow ? .55 : 1;
+        for (var l = 0; l < LV.length; l++) {
+          var lev = LV[l].v, f = Math.min(1, Math.max(0, (lev - .25) / .6));
+          var c = [Math.round(B[0] + (A[0] - B[0]) * f), Math.round(B[1] + (A[1] - B[1]) * f), Math.round(B[2] + (A[2] - B[2]) * f)];
+          ctx.strokeStyle = 'rgba(' + c.join(',') + ',' + ((LV[l].idx ? .34 : .15) * k).toFixed(3) + ')';
+          ctx.lineWidth = LV[l].idx ? 1.35 : .8;
+          ctx.beginPath();
+          for (var y = 0; y < NY - 1; y++) for (var x = 0; x < NX - 1; x++) {
+            var a = F[y * NX + x], b = F[y * NX + x + 1], cc = F[(y + 1) * NX + x + 1], d = F[(y + 1) * NX + x];
+            var id = (a > lev ? 8 : 0) | (b > lev ? 4 : 0) | (cc > lev ? 2 : 0) | (d > lev ? 1 : 0);
+            if (id === 0 || id === 15) continue;
+            var X = x * C, Y = y * C;
+            var T = [X + C * (lev - a) / (b - a), Y], Rt = [X + C, Y + C * (lev - b) / (cc - b)], Bt = [X + C * (lev - d) / (cc - d), Y + C], Lf = [X, Y + C * (lev - a) / (d - a)];
+            var sg;
+            switch (id) {
+              case 1: case 14: sg = [Lf, Bt]; break;  case 2: case 13: sg = [Bt, Rt]; break;
+              case 3: case 12: sg = [Lf, Rt]; break;  case 4: case 11: sg = [T, Rt]; break;
+              case 6: case 9: sg = [T, Bt]; break;    case 7: case 8: sg = [Lf, T]; break;
+              case 5: sg = [Lf, T, Bt, Rt]; break;    case 10: sg = [T, Rt, Lf, Bt]; break;
+            }
+            for (var g = 0; g < sg.length; g += 2) { ctx.moveTo(sg[g][0], sg[g][1]); ctx.lineTo(sg[g + 1][0], sg[g + 1][1]); }
+          }
+          ctx.stroke();
+        }
+        /* 羽化遮罩: 正文一栏中心最淡, 向两侧平滑过渡 */
+        if (!narrow && mR > mL) {
+          var gw = 140, g2 = ctx.createLinearGradient(mL - gw, 0, mR + gw, 0), fl = gw / (mR - mL + 2 * gw);
+          g2.addColorStop(0, 'rgba(0,0,0,0)'); g2.addColorStop(Math.min(.49, fl * 1.6), 'rgba(0,0,0,.72)');
+          g2.addColorStop(Math.max(.51, 1 - fl * 1.6), 'rgba(0,0,0,.72)'); g2.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = g2; ctx.fillRect(mL - gw, 0, mR - mL + 2 * gw, H);
+          ctx.globalCompositeOperation = 'source-over';
+        }
+      }
+      size(); addEventListener('resize', function () { size(); draw(performance.now()); });
+      if (auto) draw(0);
+      else {
+        var lastT = 0;
+        (function loop(t) { if (!document.hidden && t - lastT > 66) { lastT = t; draw(t); } requestAnimationFrame(loop); })(0);
+      }
+    }
+
+    /* 解密标题 (h2 小节标题和 h3 三级标题; 页首大标题 h1 不加):
+       ① 第一次滚进视野时解密 (解密的是中文主标题 .ht, 德语副标题不动); h2 解密完开始颜色波动;
+       ② 之后鼠标悬停 (手机上点一下) 再解密, 1.2 秒内不重复;
+       ③ 正在读的那一节, 它的 h2 每隔 6–10 秒有一两个字瞬间变乱码再恢复 (信号干扰) */
+    if (fx) {
+      var heads = Array.prototype.slice.call(document.querySelectorAll('main h2, main h3')).filter(function (h) { return h.querySelector(':scope > .ht'); });
+      var hio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { decrypt(e.target.querySelector(':scope > .ht'), e.target.tagName === 'H3' ? 600 : 800); hio.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -12% 0px' });
+      heads.forEach(function (h) {
+        var ht = h.querySelector(':scope > .ht'), short = h.tagName === 'H3' ? 520 : 650;
+        if (h.getBoundingClientRect().top < innerHeight * .88) decrypt(ht, h.tagName === 'H3' ? 600 : 800); else hio.observe(h);
+        var lastHover = 0;
+        var again = function () { var now = performance.now(); if (now - lastHover > 1200) { lastHover = now; decrypt(ht, short); } };
+        ht.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') again(); });
+        h.addEventListener('click', function (e) { if (e.pointerType !== 'mouse' && !e.target.closest('a')) again(); });
+      });
+      var headOf = function (t) {
+        if (!t) return null;
+        var h = /^H2$/.test(t.tagName) ? t : t.querySelector('h2');
+        return h ? h.querySelector(':scope > .ht') : null;
+      };
+      var glitch = function () {
+        var ht = curIdx >= 0 ? headOf(targets[curIdx]) : null;
+        if (ht && !ht._dtok && !document.hidden) {
+          var r = ht.getBoundingClientRect();
+          if (r.bottom > 0 && r.top < innerHeight) glitchOnce(ht);
+        }
+        setTimeout(glitch, 6000 + Math.random() * 4000);
+      };
+      setTimeout(glitch, 7000);
+    }
+
+    /* 图片点击放大: 从原位置平滑放大到屏幕中央 (FLIP), 点击 / Esc 时缩回原位 */
+    var lb = document.createElement('div'); lb.id = 'lightbox'; document.body.appendChild(lb);   /* 图片在打开时才放进去, 页面里没有空的 <img> */
+    var lbSrc = null, lbBusy = false;
+    var rectFit = function (nw, nh) {
+      var mw = innerWidth * .92, mh = innerHeight * .84, k = Math.min(mw / nw, mh / nh, 2.2);
+      var w = nw * k, h = nh * k; return { left: (innerWidth - w) / 2, top: (innerHeight - h) / 2 - innerHeight * .03, width: w, height: h };
+    };
+    var place = function (el, r, to) {
+      var sx = r.width / to.width, sy = r.height / to.height;
+      el.style.transform = 'translate(' + r.left + 'px,' + r.top + 'px) scale(' + sx + ',' + sy + ')';
+    };
+    var lbOpen = function (im) {
+      if (lbBusy) return; lbBusy = true; lbSrc = im;
+      var b = document.createElement('img'); b.src = im.src; b.alt = im.alt;
+      var cap = document.createElement('div'); cap.className = 'lb-cap';
+      var fc = im.closest('figure') && im.closest('figure').querySelector('figcaption, .fig-cap');
+      cap.textContent = fc ? fc.textContent : (im.alt || '');
+      lb.textContent = ''; lb.appendChild(b); lb.appendChild(cap);
+      var to = rectFit(im.naturalWidth || im.width, im.naturalHeight || im.height);
+      b.style.width = to.width + 'px'; b.style.height = to.height + 'px';
+      b.style.transition = 'none'; place(b, im.getBoundingClientRect(), to);
+      im.style.visibility = 'hidden';
+      b.getBoundingClientRect();
+      b.style.transition = ''; lb.classList.add('on');
+      requestAnimationFrame(function () { b.style.transform = 'translate(' + to.left + 'px,' + to.top + 'px)'; });
+      setTimeout(function () { lbBusy = false; }, reduce ? 0 : 480);
+    };
+    var lbClose = function () {
+      if (!lb.classList.contains('on') || lbBusy) return;
+      var b = lb.querySelector('img'), im = lbSrc;
+      lb.classList.remove('on');
+      if (b && im && !reduce) {
+        lbBusy = true;
+        var to = { width: parseFloat(b.style.width), height: parseFloat(b.style.height) };
+        place(b, im.getBoundingClientRect(), to);
+        setTimeout(function () { im.style.visibility = ''; lb.textContent = ''; lbBusy = false; }, 480);
+      } else { if (im) im.style.visibility = ''; lb.textContent = ''; }
+    };
+    lb.addEventListener('click', lbClose);
+    addEventListener('keydown', function (e) { if (e.key === 'Escape') lbClose(); });
+    addEventListener('scroll', function () { if (lb.classList.contains('on')) lbClose(); }, { passive: true });
+    Array.prototype.forEach.call(document.querySelectorAll('main .src-fig img, main figure:not([class]) img'), function (im) {
+      im.addEventListener('click', function () { lbOpen(im); });
+    });
+
+    /* 左侧色条里的流光: 每个框随机错开起点, 不会整页同时闪 */
+    document.querySelectorAll('.zh, .warn, .def').forEach(function (el) { el.style.setProperty('--bar-delay', (-Math.random() * 5.5).toFixed(2) + 's'); });
+
+    /* 5. 卡片聚光灯: 只在鼠标所在的那张卡片里亮 */
+    if (!reduce && matchMedia('(pointer: fine)').matches) {
+      var boxes = document.querySelectorAll('main .card, main .zh, main .add, main .warn');
+      boxes.forEach(function (el) {
+        el.addEventListener('pointermove', function (e) {
+          if (e.target.closest('.card, .zh, .add, .warn') !== el) { el.classList.remove('lit'); return; }
+          var r = el.getBoundingClientRect();
+          el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+          el.classList.add('lit');
+        });
+        el.addEventListener('pointerleave', function () { el.classList.remove('lit'); });
+      });
+    }
+
+    /* 7. 光标拖影: 鼠标移动时拖一条由粗到细、逐渐变淡的光带, 停下就收拢消失 */
+    if (!reduce && !auto && matchMedia('(pointer: fine)').matches) {
+      var tc = document.createElement('canvas'); tc.id = 'trail'; tc.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(tc);
+      var tx = tc.getContext('2d'), TW = 0, TH = 0, tdpr = 1, pts = [], running = false, LIFE = 160;
+      var g1 = (getComputedStyle(doc).getPropertyValue('--accent') || '#81e48d').trim();
+      var g2 = (getComputedStyle(doc).getPropertyValue('--glow2') || '#7fd3ff').trim();
+      function tsize() { tdpr = Math.min(2, window.devicePixelRatio || 1); TW = innerWidth; TH = innerHeight;
+        tc.width = TW * tdpr; tc.height = TH * tdpr; tx.setTransform(tdpr, 0, 0, tdpr, 0, 0); }
+      tsize(); addEventListener('resize', tsize);
+      addEventListener('pointermove', function (e) {
+        pts.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+        if (!running) { running = true; requestAnimationFrame(tdraw); }
+      }, { passive: true });
+      function tdraw(now) {
+        while (pts.length && now - pts[0].t > LIFE) pts.shift();
+        tx.clearRect(0, 0, TW, TH);
+        if (pts.length > 1) {
+          tx.lineCap = 'round'; tx.lineJoin = 'round';
+          for (var i = 1; i < pts.length; i++) {
+            var a = pts[i - 1], b = pts[i], f = i / (pts.length - 1), age = 1 - (now - b.t) / LIFE;
+            tx.strokeStyle = f > .5 ? g1 : g2;
+            tx.globalAlpha = Math.max(0, .75 * f * age);
+            tx.lineWidth = 1 + 5 * f * age;
+            tx.shadowColor = g1; tx.shadowBlur = 12 * f;
+            tx.beginPath(); tx.moveTo(a.x, a.y); tx.lineTo(b.x, b.y); tx.stroke();
+          }
+          tx.globalAlpha = 1; tx.shadowBlur = 0;
+        }
+        if (pts.length) requestAnimationFrame(tdraw); else { running = false; tx.clearRect(0, 0, TW, TH); }
+      }
+    }
+
+    /* 6. 折叠答案的展开动画 */
+    document.querySelectorAll('details.answer').forEach(function (d) {
+      var s = d.querySelector('summary'); if (!s) return;
+      var body = document.createElement('div'); body.className = 'dbody';
+      while (s.nextSibling) body.appendChild(s.nextSibling);
+      d.appendChild(body);
+      s.addEventListener('click', function (ev) {
+        if (reduce) return;
+        ev.preventDefault();
+        if (d.open) {
+          body.style.height = body.scrollHeight + 'px';
+          requestAnimationFrame(function () { body.style.height = '0px'; });
+          setTimeout(function () { d.open = false; body.style.height = ''; }, 350);
+        } else {
+          d.open = true; var h = body.scrollHeight; body.style.height = '0px';
+          requestAnimationFrame(function () { body.style.height = h + 'px'; });
+          setTimeout(function () { body.style.height = ''; }, 360);
+        }
+      });
+    });
+  } catch (err) { document.documentElement.classList.remove('fx'); }
+})();
+</script>
+</body>
+</html>
