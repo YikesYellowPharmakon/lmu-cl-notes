@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STE 08 · 排版</title>
+<style>
+  /* 同一门课沿用同目录已有笔记的整段 <style>；新课只改下面的颜色 token。 */
+  :root {
+    --bg: #1b1e12;
+    --ink: #eaede3;
+    --muted: #aeb59b;
+    --line: #434b30;
+    --card: #262b1a;
+    --code: #15180e;
+    --accent: #c7e481;
+    --chip: #363e23;
+    --zh: #252b17;
+    --add: #1f2318;
+    --add-line: #a8b686;
+    --warn: #2a1a1c;
+    --warn-line: #ff7b72;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16.5px/1.6 "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif;
+  }
+  header { position: static; background: transparent; border: 0; }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 18px 22px 72px; }
+  header .wrap { padding-top: 18px; padding-bottom: 8px; }
+  h1 { font-size: 28px; line-height: 1.25; margin: 0 0 6px; font-weight: 650; }
+  h2 { font-size: 22px; margin: 44px 0 8px; padding-top: 10px; border-top: 1px solid var(--line); }
+  h3 { font-size: 17px; margin: 24px 0 6px; }
+  h1 .de-title, h2 .de-title, h3 .de-title {
+    display: block; margin-top: 2px; color: var(--muted);
+    font-weight: 500; font-size: 0.92em; line-height: 1.35;
+  }
+  h1 .de-title { font-size: 0.62em; }
+  p { margin: 8px 0; }
+  .lede { color: var(--muted); margin: 0; }
+  nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+  nav a {
+    color: var(--accent); text-decoration: none; background: var(--chip);
+    border-radius: 999px; padding: 3px 10px;
+    font: 13px/1.4 "PingFang SC", sans-serif;
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px 16px; margin: 12px 0;
+  }
+  .card p, .card li { margin: 4px 0; }
+  .de { position: relative; padding-top: 26px; }
+  .folie {
+    position: absolute; top: 7px; left: 16px;
+    font: 11.5px/1.3 "PingFang SC", sans-serif; color: var(--muted); letter-spacing: .02em;
+  }
+  .de .def {
+    border-left: 3px solid var(--accent); padding: 4px 10px; margin: 6px 0;
+    background: var(--chip); border-radius: 0 8px 8px 0;
+  }
+  .zh {
+    background: var(--zh); border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .zh p { margin: 0 0 8px; }
+  .zh p:last-child, .zh ul:last-child, .zh ol:last-child { margin-bottom: 0; }
+  .add {
+    background: var(--add); border-left: 3px dashed var(--add-line);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .add::before { content: "补充 (幻灯片之外)"; display: block; font-size: 12px; color: var(--add-line); font-weight: 600; margin-bottom: 4px; }
+  .add p { margin: 0 0 8px; }
+  .add p:last-child { margin-bottom: 0; }
+  .warn {
+    background: var(--warn); border-left: 3px solid var(--warn-line);
+    border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
+    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+  }
+  .vocab { font-family: "PingFang SC", sans-serif; font-size: 14px; color: var(--muted); margin: 6px 0 2px; }
+  .vocab b { color: var(--ink); font-weight: 600; }
+  ul, ol { margin: 8px 0; padding-left: 1.3em; }
+  li { margin: 4px 0; }
+  ul ul { margin: 2px 0; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; margin: 12px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 7px 10px; border-bottom: 1px solid var(--line); }
+  th { font: 12px/1.3 "PingFang SC", sans-serif; color: var(--muted); font-weight: 600; background: var(--chip); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tablewrap { overflow-x: auto; }
+  pre {
+    background: var(--code); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px; overflow: auto; margin: 12px 0;
+    font: 13.5px/1.5 "SF Mono", ui-monospace, Menlo, monospace;
+  }
+  code {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 0.86em;
+    background: var(--chip); padding: 1px 5px; border-radius: 5px;
+  }
+  pre code { background: none; padding: 0; }
+  .c { color: #8fbf98; }
+  .s { color: #f2a27f; }
+  .k { color: #8ab4f8; font-weight: 600; }
+  a { color: var(--accent); }
+  .src { color: var(--muted); font-size: 14px; }
+  blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin: 8px 0; }
+  details summary { cursor: pointer; font-weight: 600; }
+  details[open] summary { margin-bottom: 6px; }
+  .diagram { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+  .diagram > div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font-family: "PingFang SC", sans-serif; font-size: 14.5px; }
+  .diagram h4 { margin: 0 0 6px; font-size: 15px; }
+  @media (max-width: 560px) { .diagram { grid-template-columns: 1fr; } }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cols pre { margin: 0; }
+  @media (max-width: 620px) { .cols { grid-template-columns: 1fr; } }
+  /* ===== 前端细节优化 2026-10-16：只调排版与交互，不改内容和颜色 token ===== */
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  h1, h2, h3, h4 { text-wrap: balance; }
+  p, li { text-wrap: pretty; }
+  p, li, a, code { overflow-wrap: break-word; }
+  [id] { scroll-margin-top: 16px; }
+  :focus-visible { outline: 2px solid var(--accent, var(--link)); outline-offset: 2px; border-radius: 4px; }
+  pre, .tablewrap { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  pre { tab-size: 4; }
+  .tablewrap { overflow-x: auto; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  @media print { pre, table, details, figure { break-inside: avoid; } h2, h3 { break-after: avoid; } }
+  ::selection { background: color-mix(in srgb, var(--accent, var(--link)) 35%, transparent); }
+  nav a { transition: background-color .15s ease, color .15s ease; }
+  nav a:hover { background: color-mix(in srgb, var(--accent, var(--link)) 22%, var(--chip, var(--paper))); }
+  details summary:hover { color: var(--accent, var(--link)); }
+  @media print { .card, .zh, .add, .warn, .de, .later, .vocab { break-inside: avoid; } }
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .wrap, header .wrap, main { padding-left: 16px; padding-right: 16px; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; }
+    .card { padding-left: 12px; padding-right: 12px; }
+    .folie, .slide { left: 12px; }
+    .zh, .add, .warn { padding: 9px 12px; }
+    .part > h2, article { padding-left: 14px; padding-right: 14px; }
+    pre { padding: 10px 12px; font-size: 13px; }
+  }
+
+  .src-fig { background:#fff; border-radius:8px; padding:8px; margin:12px auto; }
+  .src-fig img { max-width:100%; max-height:360px; width:auto; }
+  .src-fig figcaption { color:#444; font:12.5px/1.5 "PingFang SC", sans-serif; margin-top:6px; }
+  .src-fig.wide img { max-height:520px; }
+  .card .strike, s { text-decoration: line-through; }
+  .ex { font-style: italic; }
+  .math-block { display: block; overflow-x: auto; overflow-y: hidden; max-width: 100%; margin: 10px 0; }
+  .math-block .katex-display { margin: 0.4em 0; }
+  .formula { text-align: center; margin: 8px 0; overflow-x: auto; }
+  /* ===== 排版统一层 v9（所有笔记共用；只管字体、尺寸、间距、对齐，不改颜色 token） ===== */
+  :root { --measure: 760px; --gutter: 24px; --serif: "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif; --sans: "PingFang SC", "Hiragino Sans GB", "Songti SC", sans-serif; --mono: "SF Mono", ui-monospace, Menlo, monospace; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { font: 16.5px/1.65 var(--serif); font-kerning: normal; }
+  /* 换行：中文按标点避头尾（strict），不用 balance / pretty（它们会在宽屏和手机上把中文行拆成一长一短、在词中间断开） */
+  body { line-break: strict; word-break: normal; overflow-wrap: break-word; font-feature-settings: "halt" 1; }
+  /* 中文讲解用英文标点（, . : ; ! ? ( )，由 scripts/zh_punct.py 转换）；剩下的「」、《》用 halt 压成半宽，不留大空白 */
+  pre, code, kbd, .katex { font-feature-settings: normal; }
+  /* 页首说明和副标题按「 · 」分段，只在段与段之间换行，不在一个段落中间断开 */
+  .seg, h1 .seg, h2 .seg, h3 .seg, .lede .seg { display: inline-block; margin: 0; font-size: inherit; font-weight: inherit; color: inherit; letter-spacing: inherit; }
+  p, li, td, th, dd, figcaption, summary, .lede { text-wrap: wrap; }
+  h1, h2, h3, h4 { text-wrap: wrap; word-break: keep-all; overflow-wrap: anywhere; }
+  /* 行内代码整体不拆行（bark() 不会断成 bark( / )）；只有页首、出处说明里的长文件名允许在放不下时断开 */
+  code { white-space: nowrap; }
+  .lede code, .src code, h1 code, h2 code, h3 code { white-space: normal; overflow-wrap: anywhere; }
+  td:first-child, th:first-child { min-width: 5em; }
+  /* 单元格内容不能断开的表（莫尔斯码之类）给 table 加 class="nowrap"，放不下就横向滚动（注释里不要写带尖括号的标签，wrap_tables.py 曾把它当成真表格） */
+  table.nowrap td, table.nowrap th { white-space: nowrap; text-wrap: nowrap; }
+  /* 代码块里的 code 跟随 pre 保留换行（上面的 nowrap 只给行内代码；漏了这条，多行代码会挤成一行） */
+  pre code { white-space: inherit; overflow-wrap: normal; word-break: normal; }
+  /* 长的行内代码（apply_typography.py 标 .lc，超过 24 个字符）在手机上放不下，允许在空格处换行，必要时任意处断开 */
+  code.lc { white-space: normal; overflow-wrap: anywhere; }
+  /* 版心：页首和正文同一列，左右对齐、整体居中 */
+  header .wrap, main.wrap, main { box-sizing: border-box; max-width: var(--measure); margin-left: auto; margin-right: auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+  header .wrap { padding-top: 40px; padding-bottom: 8px; }
+  main.wrap, main { padding-top: 8px; padding-bottom: 96px; }
+  /* 标题层级 */
+  h1 { font-size: 28px; line-height: 1.3; font-weight: 650; margin: 0 0 4px; }
+  h1 .de-title, h1 > span { display: block; margin-top: 6px; font-size: 15px; line-height: 1.45; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+  h2 { font-size: 22px; line-height: 1.35; font-weight: 650; margin: 56px 0 10px; padding-top: 16px; }
+  h2 .de-title { display: block; margin-top: 4px; font-size: 15px; font-weight: 500; color: var(--muted); }
+  h3 { font-size: 17.5px; line-height: 1.45; font-weight: 650; margin: 32px 0 8px; }
+  h3 .de-title { display: block; margin-top: 2px; font-size: 14px; font-weight: 500; color: var(--muted); }
+  h4 { font-size: 16px; margin: 24px 0 8px; }
+  /* 页首说明与导航 */
+  .lede { margin: 12px 0 0; font: 15.5px/1.65 var(--serif); color: var(--muted); }
+  nav { display: flex; flex-wrap: wrap; gap: 6px 6px; margin: 18px 0 0; }
+  nav a { font: 12.5px/1.5 var(--sans); padding: 3px 11px; border-radius: 999px; text-decoration: none; }
+  /* 正文段落 */
+  p { margin: 10px 0; }
+  ul, ol { padding-left: 1.4em; margin: 8px 0; }
+  li { margin: 4px 0; }
+  /* 原文卡片与各类框：统一宽度、圆角、内边距 */
+  .card { box-sizing: border-box; width: 100%; border-radius: 12px; padding: 14px 18px; margin: 14px 0; }
+  .card.de, .card.orig { padding-top: 30px; }
+  .folie, .slide { top: 9px; left: 18px; font: 11.5px/1.3 var(--sans); letter-spacing: .03em; }
+  .zh, .add, .warn, details.answer, .later { box-sizing: border-box; font: 15px/1.75 var(--sans); padding: 12px 16px; margin: 10px 0 6px; }
+  .zh p, .add p, .warn p, details.answer p { margin: 0 0 10px; }
+  .zh p:last-child, .add p:last-child, .warn p:last-child { margin-bottom: 0; }
+  .src { font: 14px/1.7 var(--sans); }
+  /* 居中元素：公式行、图、表格统一处理 */
+  p[style*="text-align:center"], p[style*="text-align: center"], .math-block { margin: 14px auto; text-align: center; font-size: 1.05em; }
+  figure, .src-fig { margin: 14px auto; text-align: center; }
+  /* 图注左对齐: 居中的两行图注第二行会孤零零缩在中间 */
+  figure figcaption, .src-fig figcaption { text-align: left; }
+  /* 图注按标点分句 (span.cs)，每行都在一个标点后结束，不在半句中间换行 */
+  figcaption .cs { display: inline-block; max-width: 100%; }
+  figure img, .src-fig img { display: block; margin: 0 auto; }
+  figure svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .tablewrap { width: 100%; overflow-x: auto; margin: 12px 0; }
+  table { width: 100%; font: 14.5px/1.6 var(--sans); }
+  .card table, .tablewrap table { margin: 0; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 11px; }
+  td.num, th.num { text-align: right; }
+  /* 代码 */
+  pre { font: 13.5px/1.55 var(--mono); padding: 12px 16px; border-radius: 10px; margin: 12px 0; overflow-x: auto; tab-size: 4; }
+  code { font-family: var(--mono); font-size: .86em; }
+  pre code { font-size: inherit; }
+  .cols { gap: 12px; }
+  .cols > *, .pair > *, .card > *, .zh > *, details.answer > * { min-width: 0; }
+  img, video { max-width: 100%; height: auto; }
+  .katex svg { max-width: none; }
+  /* 折叠框 */
+  details > summary { font: 600 15px/1.5 var(--sans); }
+  /* 窄屏 */
+  @media (max-width: 600px) {
+    :root { --gutter: 16px; }
+    body { font-size: 16px; line-height: 1.65; }
+    header .wrap { padding-top: 24px; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; margin-top: 44px; }
+    h3 { font-size: 17px; }
+    .card { padding-left: 13px; padding-right: 13px; }
+    .folie, .slide { left: 13px; }
+    .zh, .add, .warn, details.answer { padding: 10px 13px; font-size: 15px; line-height: 1.75; }
+    nav a { font-size: 12px; padding: 2px 9px; }
+    .cols { grid-template-columns: 1fr; }
+    /* 手机上表格列太窄时中文会一字一行（「需求分析」竖着排）：给单元格最小宽度，放不下就在 .tablewrap 里横向滚动 */
+    th, td { min-width: 4.5em; }
+    td.wide, th.wide { min-width: 9em; }
+  }
+  /* ===== /排版统一层 ===== */
+</style>
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+  .katex { font-size: 1.08em; }
+  .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; text-align: center; }
+  .math-block .katex-display { margin: 0.4em 0; }
+</style>
+<style id="glass">
+  /* ===== 玻璃霓虹层 (Glass / Neon) v13 · 只管视觉特效, 由 scripts/apply_glass.py 插在 </head> 前; 不改字号、版心、间距 ===== */
+  :root {
+    --glow: var(--accent);
+    --glow2: #7fd3ff;
+    --tint: color-mix(in srgb, var(--glow) 55%, #ffffff);          /* 课程色的亮色调, 进度条/色条/标题波动都用它, 跟着课程走 */
+    --glass: color-mix(in srgb, var(--card) 62%, transparent);
+    --glass-strong: color-mix(in srgb, var(--card) 80%, transparent);
+    --edge: color-mix(in srgb, #ffffff 9%, transparent);
+    --mono: "JetBrainsMono Nerd Font", "JetBrainsMono NF", "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  }
+  html { background: var(--bg); }
+  body {
+    background:
+      radial-gradient(1100px 600px at 50% -15%, color-mix(in srgb, var(--glow) 9%, transparent), transparent 65%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+  ::selection { background: color-mix(in srgb, var(--glow) 38%, transparent); color: #fff; }
+
+  /* 背景等高线: 固定画布上一张缓慢呼吸的地形图, 鼠标处隆起山丘 (由脚本绘制) */
+  #contour { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  /* 光标拖影: 覆盖全屏的透明画布, 不拦截鼠标 */
+  #trail { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 60; pointer-events: none; }
+
+  /* 顶部阅读进度条: 一条极淡的轨道 + 课程色渐变的进度 + 末端一颗发光的光点; 颜色全部来自课程主色 */
+  @property --p { syntax: "<number>"; inherits: true; initial-value: 0; }
+  #progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 50; pointer-events: none;
+    background: color-mix(in srgb, var(--glow) 10%, transparent); }
+  #progress::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p) * 100%);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 15%, transparent), color-mix(in srgb, var(--glow) 75%, transparent) 60%, var(--glow) 88%, var(--tint));
+    box-shadow: 0 0 6px color-mix(in srgb, var(--glow) 70%, transparent), 0 0 14px color-mix(in srgb, var(--glow) 35%, transparent); border-radius: 0 2px 2px 0; }
+  #progress::after { content: ""; position: absolute; top: 50%; left: calc(var(--p) * 100%); width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%;
+    background: var(--tint); opacity: min(1, calc(var(--p) * 60));
+    box-shadow: 0 0 6px 1px var(--glow), 0 0 16px 4px color-mix(in srgb, var(--glow) 45%, transparent); }
+  @supports (animation-timeline: scroll()) {
+    #progress { animation: prog linear both; animation-timeline: scroll(root); }
+    @keyframes prog { from { --p: 0; } to { --p: 1; } }
+  }
+
+  /* 标题 */
+  h1 { background: linear-gradient(100deg, #fff 0%, var(--glow) 55%, var(--glow2) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  h1 .de-title { -webkit-text-fill-color: var(--muted); color: var(--muted); }
+  h2 { border-top: 0 !important; position: relative; }
+  .part:has(> h2) { border-top-color: transparent !important; }   /* 练习单的分节线由 h2 的渐变线代替, 不出现两条线 */
+  h2::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px;
+    background: linear-gradient(90deg, var(--glow), color-mix(in srgb, var(--glow2) 50%, transparent) 40%, transparent); opacity: .7; }
+
+  /* 小节标题 h2 / 三级标题 h3 的中文主标题: 脚本在运行时把它包进 .ht (文件本身不变).
+     h2 的 .ht 从一开始就用「文字裁切渐变」绘制 (起始是纯正文色), 解密后只是让渐变里的光带开始流动;
+     渲染方式前后不变, 所以结束时不会闪、德语副标题也不会跟着变. */
+  h2 .ht { background: linear-gradient(90deg, var(--ink) 0 100%); background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  h2.wave .ht { background-image: linear-gradient(90deg, var(--ink) 0%, var(--ink) 18%, var(--glow) 34%, var(--tint) 42%, var(--glow) 50%, var(--ink) 66%, var(--ink) 100%);
+    animation: hwave 9s linear infinite; }
+  @keyframes hwave { from { background-position: 0% 0; } to { background-position: -200% 0; } }
+
+  /* 解密 / 信号干扰: 原字隐藏但仍占原位, 乱码画在 ::after 叠层里, 居中压在原字上, 不参与排版 */
+  .ch { position: relative; }
+  .ch.x { visibility: hidden; }
+  .ch.x::after { content: attr(data-g); visibility: visible; position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+    white-space: pre; color: var(--glow); -webkit-text-fill-color: var(--glow); opacity: .85; pointer-events: none; }
+
+  /* ===== 页首目录: 和卡片同一套玻璃面板, 每项带两位编号 (CSS 计数, 不改文件) ===== */
+  header nav, body > nav { counter-reset: toc; display: flex; flex-wrap: wrap; gap: 2px 4px; margin-top: 14px; padding: 30px 10px 10px;
+    position: relative; border-radius: 14px; background: var(--glass); border: 1px solid var(--edge);
+    -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+    box-shadow: 0 10px 30px -14px rgba(0,0,0,.6), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent); }
+  body > nav { width: calc(min(760px, 100%) - 44px) !important; max-width: none !important; margin: 14px auto 0 !important; padding: 30px 10px 10px !important; box-sizing: border-box; }
+  @media (max-width: 560px) { body > nav { width: calc(100% - 32px) !important; } }
+  header nav::before, body > nav::before { content: "目录"; position: absolute; left: 14px; top: 9px;
+    font: 600 11px/1 var(--mono); letter-spacing: .12em; color: color-mix(in srgb, var(--glow) 75%, var(--muted)); }
+  header nav::after, body > nav::after { content: ""; position: absolute; left: 14px; right: 14px; top: 23px; height: 1px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 45%, transparent), transparent 70%); }
+  header nav a, body > nav a { counter-increment: toc; display: inline-flex; align-items: baseline; gap: 6px;
+    background: transparent !important; border: 0 !important; border-radius: 8px; padding: 4px 9px !important;
+    color: var(--ink) !important; text-decoration: none; position: relative; transition: background-color .2s, color .2s; }
+  header nav a::before, body > nav a::before { content: counter(toc, decimal-leading-zero);
+    font: 500 10.5px/1 var(--mono); color: color-mix(in srgb, var(--glow) 60%, var(--muted)); }
+  header nav a:hover, body > nav a:hover { background: color-mix(in srgb, var(--glow) 10%, transparent) !important; }
+  header nav a.active, body > nav a.active { color: var(--glow) !important; background: color-mix(in srgb, var(--glow) 12%, transparent) !important; }
+  header nav a.active::after, body > nav a.active::after { content: ""; position: absolute; left: 9px; right: 9px; bottom: 0; height: 1.5px; border-radius: 2px;
+    background: var(--glow); box-shadow: 0 0 8px var(--glow); }
+
+  /* ===== 浮动胶囊目录 ===== */
+  #toc-pill { position: fixed; top: 12px; left: 50%; z-index: 45; transform: translate(-50%, -150%);
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), opacity .3s; opacity: 0; width: min(92vw, 440px); font: 13px/1.4 "PingFang SC", sans-serif; }
+  #toc-pill.show { transform: translate(-50%, 0); opacity: 1; }
+  #toc-pill .cap { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; margin: 0 auto; width: fit-content; max-width: 100%;
+    padding: 6px 14px 6px 8px; border-radius: 999px; color: var(--ink); white-space: nowrap;
+    background: color-mix(in srgb, var(--card) 90%, #000); border: 1px solid color-mix(in srgb, var(--glow) 30%, var(--edge));
+    -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: 0 10px 28px -10px rgba(0,0,0,.8), 0 0 20px -8px color-mix(in srgb, var(--glow) 60%, transparent); }
+  #toc-pill .ring { width: 20px; height: 20px; border-radius: 50%; flex: none; position: relative;
+    background: conic-gradient(var(--glow) calc(var(--rp, 0) * 360deg), color-mix(in srgb, var(--glow) 16%, transparent) 0); }
+  #toc-pill .ring::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--card); box-shadow: inset 0 0 6px color-mix(in srgb, var(--glow) 35%, transparent); }
+  #toc-pill .idx { font: 600 11.5px/1 var(--mono); color: var(--glow); }
+  #toc-pill .cur { overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+  #toc-pill .chev { opacity: .55; font-size: 10px; transition: transform .25s; }
+  #toc-pill.open .chev { transform: rotate(180deg); }
+  #toc-pill .panel { counter-reset: tp; margin-top: 8px; padding: 34px 8px 8px; border-radius: 16px; display: none; position: relative;
+    background: color-mix(in srgb, var(--card) 94%, #000); border: 1px solid color-mix(in srgb, var(--glow) 18%, var(--edge));
+    -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: 0 22px 50px -14px rgba(0,0,0,.85), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent); max-height: 62vh; overflow-y: auto; }
+  #toc-pill .panel::before { content: "目录 · " attr(data-pct); position: absolute; left: 16px; top: 12px;
+    font: 600 11px/1 var(--mono); letter-spacing: .1em; color: color-mix(in srgb, var(--glow) 75%, var(--muted)); }
+  #toc-pill .panel::after { content: ""; position: absolute; left: 16px; right: 16px; top: 27px; height: 1px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--glow) 45%, transparent), transparent 75%); }
+  #toc-pill.open .panel { display: block; animation: panel-in .22s ease-out; }
+  @keyframes panel-in { from { opacity: 0; transform: translateY(-6px) scale(.98); } to { opacity: 1; transform: none; } }
+  #toc-pill .panel a { counter-increment: tp; display: flex; align-items: baseline; gap: 10px; padding: 7px 12px 7px 14px; border-radius: 10px;
+    color: var(--ink); text-decoration: none; position: relative; transition: background-color .15s; }
+  #toc-pill .panel a::before { content: counter(tp, decimal-leading-zero); font: 500 11px/1 var(--mono); color: var(--muted); min-width: 18px; }
+  #toc-pill .panel a:hover { background: color-mix(in srgb, var(--glow) 10%, transparent); }
+  #toc-pill .panel a.active { color: var(--glow); background: color-mix(in srgb, var(--glow) 13%, transparent); }
+  #toc-pill .panel a.active::before { color: var(--glow); }
+  #toc-pill .panel a.active::after { content: ""; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 2px; border-radius: 2px; background: var(--glow); box-shadow: 0 0 8px var(--glow); }
+
+  /* 卡片层次: 原文 = 明亮玻璃, 讲解 = 带色玻璃, 补充 = 虚光, 红框 = 红色辉光 */
+  .card { background: var(--glass); border: 1px solid var(--edge);
+    -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: 0 10px 30px -12px rgba(0,0,0,.6), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+    position: relative; isolation: isolate; }
+  .zh { background: color-mix(in srgb, var(--zh) 70%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-left-color: transparent !important; }
+  .add { background: color-mix(in srgb, var(--add) 55%, transparent);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  .warn { background: color-mix(in srgb, #3a1518 65%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-left-color: transparent !important; }
+  /* ===== 左侧色条 v2: 讲解框、红框、补充框、原文卡片里的定义框统一 =====
+     由三部分组成: 顶端一个发光的节点, 一根两端渐隐的细线, 一段沿线缓慢往下流动的亮光 (像数据在线路里传输);
+     框的左边缘还有一层淡淡的同色光晕, 让色条「照亮」框内. 颜色由 --bar / --bar-tint 决定, 默认是课程色. */
+  .zh, .def { --bar: var(--glow); --bar-tint: var(--tint); }
+  .warn { --bar: var(--warn-line); --bar-tint: color-mix(in srgb, var(--warn-line) 55%, #fff); }
+  .add { --bar: var(--add-line); --bar-tint: color-mix(in srgb, var(--add-line) 55%, #fff); }
+  .zh, .warn, .add, .def { border-left-color: transparent !important; }
+  .def { position: relative; isolation: isolate; border-left-width: 3px !important; border-left-style: solid !important;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 10%, transparent), transparent 90px), color-mix(in srgb, var(--chip) 80%, transparent) !important; }
+  .zh { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 9%, transparent), transparent 110px), color-mix(in srgb, var(--zh) 70%, transparent); }
+  .warn { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 10%, transparent), transparent 110px), color-mix(in srgb, #3a1518 65%, transparent); }
+  .add { background: linear-gradient(90deg, color-mix(in srgb, var(--bar) 6%, transparent), transparent 90px), color-mix(in srgb, var(--add) 55%, transparent); }
+  .zh::before, .warn::before, .def::before{
+    content: ""; position: absolute; left: -6px; top: 6px; bottom: 6px; width: 9px; pointer-events: none; z-index: 1;
+    background:
+      radial-gradient(circle at 50% 5px, var(--bar-tint) 0 1.6px, color-mix(in srgb, var(--bar) 70%, transparent) 2.4px, transparent 4.5px) no-repeat,
+      linear-gradient(180deg, transparent, var(--bar-tint) 45%, #fff 50%, var(--bar-tint) 55%, transparent) 50% -60% / 2px 34% no-repeat,
+      linear-gradient(180deg, transparent 6px, color-mix(in srgb, var(--bar) 85%, transparent) 14px, color-mix(in srgb, var(--bar) 75%, transparent) 80%, transparent) 50% 0 / 2px 100% no-repeat;
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bar) 70%, transparent)) drop-shadow(0 0 8px color-mix(in srgb, var(--bar) 30%, transparent));
+    animation: bar-flow 5.5s cubic-bezier(.45,0,.25,1) infinite; animation-delay: var(--bar-delay, 0s);
+    transition: filter .3s; }
+  /* 补充框: ::before 已用来显示「补充」小标题, 色条改用 ::after 画成虚线 + 空心节点 */
+  .add::after {
+    content: ""; position: absolute; left: -6px; top: 6px; bottom: 6px; width: 9px; pointer-events: none; z-index: 1; border-radius: 0;
+    inset: 6px auto 6px -6px; opacity: .85;
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bar) 60%, transparent));
+    background:
+      radial-gradient(circle at 50% 5px, var(--bar-tint) 0 1.4px, transparent 2.2px, transparent 3px, color-mix(in srgb, var(--bar) 60%, transparent) 3.4px, transparent 4.4px) no-repeat,
+      linear-gradient(transparent, transparent) 50% 0 / 2px 0 no-repeat,
+      repeating-linear-gradient(180deg, color-mix(in srgb, var(--bar) 80%, transparent) 0 5px, transparent 5px 10px) 50% 12px / 2px calc(100% - 18px) no-repeat;
+    -webkit-mask: none; mask: none;
+    animation: none; }
+  @keyframes bar-flow {
+    0%   { background-position: 0 0, 50% -60%, 50% 0; }
+    70%  { background-position: 0 0, 50% 160%, 50% 0; }
+    100% { background-position: 0 0, 50% 160%, 50% 0; } }
+  .zh.lit::before, .warn.lit::before, .add.lit::after, .def:hover::before {
+    filter: drop-shadow(0 0 4px var(--bar)) drop-shadow(0 0 12px color-mix(in srgb, var(--bar) 45%, transparent)); animation-duration: 2.6s; }
+
+  /* 卡片聚光灯: 鼠标所在的卡片里, 以光标为中心亮起柔光, 边框离光标近的一段也变亮 (位置由脚本写进 --mx / --my) */
+  .zh, .add, .warn { position: relative; isolation: isolate; }
+  .card::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; z-index: -1; pointer-events: none;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--glow) 85%, #fff), transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0; transition: opacity .3s; }
+  .card::after, .zh::after, .warn::after { content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; pointer-events: none;
+    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--glow) 11%, transparent), transparent 65%);
+    opacity: 0; transition: opacity .3s; }
+  .warn::after { background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--warn-line) 10%, transparent), transparent 65%); }
+  .card.lit::before, .card.lit::after, .zh.lit::after, .warn.lit::after { opacity: 1; }
+  .add.lit::after { opacity: 1; filter: drop-shadow(0 0 5px var(--bar)); }
+
+  /* ===== 代码块: 脚本在运行时把每个 <pre> 包进 .codebox (文件不变): 顶部标题栏 = 三个圆点 + 语言 + 复制按钮 ===== */
+  pre, code, .folie, .slide { font-family: var(--mono) !important; }
+  pre, code { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+  .folie { color: color-mix(in srgb, var(--glow) 70%, var(--muted)) !important; }
+  .codebox { position: relative; margin: 12px 0; border-radius: 12px; overflow: hidden; min-width: 0;
+    background: color-mix(in srgb, var(--code) 90%, transparent);
+    border: 1px solid color-mix(in srgb, var(--glow) 20%, var(--edge));
+    box-shadow: 0 14px 30px -16px rgba(0,0,0,.85), inset 0 1px 0 color-mix(in srgb, #fff 5%, transparent); }
+  .codebox::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: 1;
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--glow) 55%, transparent), transparent); }
+  .cb-head { display: flex; align-items: center; gap: 10px; height: 28px; padding: 0 10px 0 12px;
+    background: color-mix(in srgb, var(--glow) 5%, color-mix(in srgb, #000 30%, transparent));
+    border-bottom: 1px solid color-mix(in srgb, var(--glow) 12%, var(--edge)); font: 600 10.5px/1 var(--mono); letter-spacing: .08em; }
+  .cb-dots { display: inline-flex; gap: 6px; }
+  .cb-dots i { width: 9px; height: 9px; border-radius: 50%; background: #ff5f57; opacity: .8; }
+  .cb-dots i:nth-child(2) { background: #febc2e; } .cb-dots i:nth-child(3) { background: #28c840; }
+  .cb-lang { color: color-mix(in srgb, var(--glow) 80%, var(--muted)); text-transform: uppercase; }
+  .cb-copy { all: unset; margin-left: auto; cursor: pointer; color: var(--muted); padding: 3px 8px; border-radius: 6px;
+    font: 500 10.5px/1 var(--mono); letter-spacing: .04em; opacity: 0; transition: opacity .2s, background-color .2s, color .2s; }
+  .codebox:hover .cb-copy, .cb-copy:focus-visible { opacity: 1; }
+  .cb-copy:hover { background: color-mix(in srgb, var(--glow) 14%, transparent); color: var(--glow); }
+  .cb-copy.ok { color: var(--glow); opacity: 1; }
+  .codebox pre { margin: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+    background: transparent !important; }
+  /* 没有脚本时 (或打印) 的普通样式 */
+  pre { background: color-mix(in srgb, var(--code) 90%, transparent) !important; border: 1px solid color-mix(in srgb, var(--glow) 20%, var(--edge)) !important; }
+
+  /* ===== 原图 (所有笔记统一): 玻璃相框 + 白色底板 + 编号图注; .src-fig 和 MGTN 的普通 <figure> 同一套 =====
+     图注: 有 figcaption 用它; MGTN 没有图注, 脚本运行时用图片的 alt 补一个 .fig-cap (文件不变).
+     编号用 CSS 计数 (图 01, 图 02 …). 内嵌 SVG 的排版图 figure.rr / .tri 不受影响. */
+  main { counter-reset: fig; }
+  .src-fig, main figure:not([class]) { counter-increment: fig; position: relative; display: block; text-align: center;
+    width: fit-content; max-width: 100%; box-sizing: border-box; margin: 16px auto !important; padding: 10px 10px 0 !important;
+    background: var(--glass) !important; border: 1px solid var(--edge); border-radius: 14px !important;
+    box-shadow: 0 14px 34px -18px rgba(0,0,0,.8), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    transition: border-color .35s ease, box-shadow .35s ease; }
+  .src-fig img, main figure:not([class]) img { display: block; margin: 0 auto; width: auto !important; max-width: 100% !important; max-height: 380px; height: auto;
+    box-sizing: border-box; padding: 10px; background: #fff; border: 0 !important; border-radius: 9px !important;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); cursor: zoom-in;
+    transition: transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease; transform-origin: 50% 50%; }
+  .src-fig.wide img { max-height: 520px; }
+  .src-fig figcaption, main figure:not([class]) figcaption, .fig-cap {
+    display: block; text-align: left !important; color: var(--muted) !important; margin: 0 !important; padding: 9px 4px 10px !important;
+    font: 12.5px/1.6 "PingFang SC", sans-serif !important; }
+  .src-fig figcaption::before, main figure:not([class]) figcaption::before, .fig-cap::before {
+    content: "图 " counter(fig, decimal-leading-zero); display: inline-block; margin-right: 8px; padding: 1px 7px; border-radius: 6px; vertical-align: 1px;
+    font: 600 10px/1.5 var(--mono); letter-spacing: .06em; color: var(--glow);
+    background: color-mix(in srgb, var(--glow) 12%, transparent); border: 1px solid color-mix(in srgb, var(--glow) 28%, transparent); }
+  /* 悬停: 相框描边发光, 图片轻微浮起, 右上角出现「放大」提示 */
+  .src-fig::after, main figure:not([class])::after { content: "⤢ 放大"; position: absolute; top: 16px; right: 16px; z-index: 2; pointer-events: none;
+    padding: 3px 8px; border-radius: 999px; font: 600 10.5px/1.4 "PingFang SC", sans-serif; color: #fff;
+    background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid color-mix(in srgb, var(--glow) 40%, transparent);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    opacity: 0; transform: translateY(-4px); transition: opacity .3s ease, transform .3s ease; }
+  .src-fig:hover, main figure:not([class]):hover { border-color: color-mix(in srgb, var(--glow) 38%, var(--edge));
+    box-shadow: 0 20px 44px -18px rgba(0,0,0,.85), 0 0 26px -12px var(--glow), inset 0 1px 0 color-mix(in srgb, #fff 8%, transparent); }
+  .src-fig:hover img, main figure:not([class]):hover img { transform: scale(1.012); box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), 0 10px 26px -14px rgba(0,0,0,.6); }
+  .src-fig:hover::after, main figure:not([class]):hover::after { opacity: 1; transform: none; }
+  @media (pointer: coarse) { .src-fig::after, main figure:not([class])::after { display: none; } }
+  /* 出现: 相框淡入上浮, 图片底板随后自上而下展开 */
+  html.fx .src-fig.reveal img, html.fx main figure:not([class]).reveal img { clip-path: inset(0 0 100% 0 round 9px); transition: clip-path .9s cubic-bezier(.65,0,.35,1) .15s, transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
+  html.fx .src-fig.reveal.in img, html.fx main figure:not([class]).reveal.in img { clip-path: inset(0 0 0 0 round 9px); }
+
+  /* 放大: 图片从原位置平滑放大到屏幕中央 (FLIP), 关闭时缩回原位; 背景暗色毛玻璃淡入淡出 */
+  #lightbox { position: fixed; inset: 0; z-index: 90; visibility: hidden; cursor: zoom-out;
+    background: color-mix(in srgb, var(--bg) 0%, transparent); -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0);
+    transition: background-color .4s ease, backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, visibility 0s linear .4s; }
+  #lightbox.on { visibility: visible; background: color-mix(in srgb, var(--bg) 84%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    transition: background-color .4s ease, backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, visibility 0s; }
+  #lightbox img { position: fixed; left: 0; top: 0; transform-origin: 0 0; background: #fff; border-radius: 12px; padding: 14px; box-sizing: border-box;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,.9), 0 0 0 1px color-mix(in srgb, var(--glow) 35%, transparent);
+    transition: transform .48s cubic-bezier(.2,.8,.2,1); will-change: transform; }
+  #lightbox .lb-cap { position: fixed; left: 50%; bottom: 3vh; transform: translateX(-50%); max-width: min(90vw, 760px); text-align: center;
+    font: 13px/1.6 "PingFang SC", sans-serif; color: var(--ink); opacity: 0; transition: opacity .3s ease .15s; }
+  #lightbox.on .lb-cap { opacity: .9; }
+
+  /* ===== 表格: 和卡片同一套玻璃质感 ===== */
+  main .tablewrap { border-radius: 12px; }
+  main table { background: color-mix(in srgb, var(--card) 70%, transparent) !important; border: 1px solid var(--edge); border-radius: 12px; overflow: hidden; }
+  main th { background: color-mix(in srgb, var(--glow) 9%, var(--chip)) !important; border-bottom: 1px solid color-mix(in srgb, var(--glow) 30%, var(--line)) !important; }
+  main tr:hover td { background: color-mix(in srgb, var(--glow) 5%, transparent); }
+
+  /* 折叠答案的展开动画 */
+  details.answer > summary { transition: color .2s; }
+  details.answer .dbody { overflow: hidden; transition: height .35s ease; }
+
+  /* 滚动淡入 (只有 JS 生效时才隐藏, 无 JS 时直接显示) */
+  html.fx .reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  html.fx .reveal.in { opacity: 1; transform: none; }
+
+  main, header { position: relative; z-index: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #contour, #trail { display: none; }
+    h2.wave .ht { animation: none; }
+    #toc-pill.open .panel { animation: none; }
+    #lightbox, #lightbox img { transition: none !important; }
+    .src-fig img, main figure img { transition: none !important; clip-path: none !important; }
+    .zh::before, .warn::before, .def::before { animation: none; }
+    html.fx .reveal { opacity: 1; transform: none; transition: none; }
+  }
+  @media print {
+    #contour, #trail, #progress, #toc-pill { display: none !important; }
+    body { background: #fff !important; }
+    .card, .zh, .add, .warn, pre, nav { backdrop-filter: none !important; box-shadow: none !important; }
+    h1 { color: #000 !important; -webkit-text-fill-color: #000; background: none; }
+    h2 .ht { -webkit-text-fill-color: #000; background: none !important; animation: none; }
+    .cb-head, #lightbox { display: none !important; }
+  }
+  /* ===== /玻璃霓虹层 ===== */
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<span hidden data-glyphs="Aa¶§—;:,.&quot;?!"></span>
+<header>
+  <div class="wrap">
+    <h1>科学与技术英语 · 第 8 讲: 排版<br><span class="de-title"><span class="seg">Scientific and Technical English ·</span> <span class="seg">Regular Lecture 8: Typesetting</span></span></h1>
+    <nav>
+      <a href="#schrift">字体与强调</a>
+      <a href="#ueber">标题与大小写</a>
+      <a href="#zahlen">数字与日期</a>
+      <a href="#verweise">引用与脚注</a>
+      <a href="#layout">版面</a>
+      <a href="#tabellen">表格与图</a>
+      <a href="#mathe">数学</a>
+      <a href="#informatik">计算机科学</a>
+      <a href="#software">排版软件</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<div class="zh">
+  <p><b>读法说明. </b>带边框的卡片是幻灯片原文 (英语, 逐字照录), 卡片标签是幻灯片底部「N/总页数」里的页码 N; 幻灯片里的正面例子是<span class="good">蓝色</span>, 反面例子是<span class="bad">橙色</span>, 卡片里照此着色; 这一讲讲排版, 缩进、换行、表格这类例子在卡片里按原样排出, 只有一处字距的例子放了原图. 左侧有色竖线的框是中文讲解; 左侧虚线的框是幻灯片之外的补充; 红框标出幻灯片的错误.</p>
+</div>
+<style>.bad { color: #f2a65a; } .good { color: #7cc4ff; } .ind { text-indent: 2em; } .ind2 { text-indent: 3em; } .gap { margin-top: 1em; } .booktabs { border-collapse: collapse; } .booktabs th, .booktabs td { border: none; padding: 2px 10px; } .booktabs thead tr { border-top: 2px solid currentColor; border-bottom: 1px solid currentColor; } .booktabs tbody tr:last-child { border-bottom: 2px solid currentColor; }</style>
+
+<!-- ===== SCHRIFT ===== -->
+<h2 id="schrift">字体与强调<br><span class="de-title"><span class="seg">General Principles ·</span> <span class="seg">Font Families and Sizes ·</span> <span class="seg">Bold and Underline ·</span> <span class="seg">Italics ·</span> <span class="seg">Colors</span></span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 3</span>
+  <p><b>Font Families and Sizes</b></p>
+  <p><b>Named collections</b> of related fonts (for bold, italics, etc.) form a font family—e.g., Times New Roman.</p>
+  <p>Use <b>as few font families</b> as possible while making important distinctions visible. Often a single family suffices for an entire document, including diagrams. You can make an exception for code, which is usually set in a monospaced font.</p>
+  <p>Combine font families only if they have similar line thickness and the lowercase letter x has a similar height in all of them.</p>
+  <p>Also ensure that your text is set in a suitably <b>large font</b>. This principle applies especially for slides and posters.</p>
+</div>
+<div class="zh">
+  <p>一组相关的字体 (常规、粗体、斜体等) 构成一个<b>font family 字体家族</b>, 例如 Times New Roman. 字体家族尽量少用, 但重要的区别要能看出来; 常常整份文档 (包括图) 只用一个家族就够了, 代码例外, 通常用等宽字体. 只有笔画粗细相近、小写 x 高度 (x-height) 相近的家族才能搭配. 字号要足够大, 幻灯片和海报尤其如此.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 4</span>
+  <p><b>Bold and Underline</b></p>
+  <p>Emphasis can be achieved using bold, underline, italics, and colors.</p>
+  <p>Bold is often used for <b>titles</b> and <b>headings</b>. It can be used for emphasis on slides and posters.</p>
+  <p><b>Keywords</b> in pseudocode are often set in bold—e.g.:</p>
+  <p class="good"><i><b>if</b> <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span> <b>then</b><br>&nbsp;&nbsp;&nbsp;<span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span><br><b>else</b><br>&nbsp;&nbsp;&nbsp;<span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span></i></p>
+  <p>Underline—e.g., <span class="bad"><u>Journal of Cryptology</u></span>—is <b>ugly</b>. It was used on typewriters when italics were not available. Prefer italics if possible.</p>
+</div>
+<div class="zh">
+  <p>强调可以用粗体、下划线、斜体和颜色. 粗体常用于标题; 在幻灯片和海报上也可以用来强调. 伪代码里的关键字 (if, then, else) 常用粗体. 下划线很<b>丑</b>: 它是打字机时代没有斜体时的替代品 (打字稿里下划线表示「排版时用斜体」). 能用斜体就用斜体.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 5</span>
+  <p><b>Italics</b></p>
+  <p>Italics are elegant, but they <b>slow down</b> reading. Beyond emphasis, they have three main uses.</p>
+  <ul>
+    <li>Italics highlight <b>uncommon foreign phases</b>, as in <span class="good"><i>This thesis is a veritable</i> tour de force<i>.</i></span> Do not italicize common Latin phrases such as <span class="good">e.g.</span>, <span class="good">et al.</span>, <span class="good">etc.</span>, and <span class="good">i.e.</span> In case of doubt, check your dictionary.</li>
+    <li>Italics can be used to <b>define a term</b>, as in <span class="good">A <i>palindrome</i> is a list whose reverse is equal to itself.</span></li>
+    <li>Italics are used, in conjunction with title case, for the <b>titles of “large works”</b> such as theses, books, journals, and music albums when they occur in text—e.g., <span class="good">This paper was submitted to the <i>Journal of Cryptology</i>.</span></li>
+  </ul>
+  <p>Within an italicized passage, you can emphasize a passage by unitalicizing it.</p>
+</div>
+<div class="zh">
+  <p>斜体优雅, 但会<b>拖慢</b>阅读. 除了强调, 斜体有三个主要用途: ① 标出<b>不常见的外来短语</b> (这篇论文是一部真正的 tour de force 杰作); 常见的拉丁缩写 e.g.、et al.、etc.、i.e. 不用斜体, 拿不准时查词典. ② <b>定义术语</b>: 第一次定义时把术语设为斜体 (回文是一个反转后等于自身的列表). ③ 「大作品」的标题 (毕业论文、书、期刊、音乐专辑) 用斜体加 title case; 「小作品」用引号 (见 <a href="STE-06-标点(上).html">STE 06</a>). 在一段斜体里要强调某部分时, 把它改回正体.</p>
+</div>
+<div class="warn"><p><b>原文笔误:</b> 「uncommon foreign <b>phases</b>」应为 phrases (第 1 讲 Slide 22 也有同样的笔误).</p></div>
+
+<div class="card de">
+  <span class="folie">Slide 6</span>
+  <p><b>Colors</b></p>
+  <p>Colors can be used for emphasis or to make distinctions. In programming, they are frequently used for <b>syntax highlighting</b>.</p>
+  <p>Some people are <b>color-blind</b>. They often cannot distinguish between red and green, among others. Thus, avoid relying on color alone.</p>
+  <p>If you use colors, check that your document is readable when printed in black and white. In addition, choose your colors with taste. Choose colors that offer a good contrast with the background and each other. Avoid pure primary colors, and prefer <b>palettes recommended by experts</b>.</p>
+</div>
+<div class="zh">
+  <p>颜色可以用于强调或区分; 编程中常用于语法高亮. 有些人是色盲, 常常分不清红和绿等颜色, 所以不要只靠颜色传达信息 (例如图里的两条线除了颜色不同, 还应该用不同的线型或标记). 用颜色时, 检查黑白打印后是否仍可读; 选色要有品味: 和背景、彼此之间要有足够的对比; 避免纯原色, 用专家推荐的调色板 (例如 ColorBrewer, 或对色盲友好的 Okabe–Ito 调色板).</p>
+</div>
+
+<!-- ===== UEBER ===== -->
+<h2 id="ueber">标题与大小写<br><span class="de-title"><span class="seg">Headings ·</span> <span class="seg">Capitalization</span></span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 7</span>
+  <p><b>Headings</b></p>
+  <p>Chapter, section, and subsection headings should be viewed as <b>meta-information</b>. The text following a heading should make sense if the reader skips the heading. Compare:</p>
+  <p class="bad"><b><i>2.2&nbsp; First-Order Relational Logic</i></b><br><i>This logic, implemented in Kodkod, is used . . .</i></p>
+  <p class="good"><b><i>2.2&nbsp; First-Order Relational Logic</i></b><br><i>Kodkod’s underlying formalism, first-order relational logic, is used . . .</i></p>
+</div>
+<div class="zh">
+  <p>章节标题应该看作<b>元信息</b>: 读者跳过标题, 后面的正文也应该读得通. 第一个版本的正文以 This logic 开头, 这个 This 指的是标题里的逻辑, 跳过标题就不知道指什么. 第二个版本在正文里重新说出 first-order relational logic (一阶关系逻辑, 模型查找器 Kodkod 的底层形式化).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 8</span>
+  <p><b>Capitalization</b></p>
+  <p>Titles and headings can be capitalized following two approaches.</p>
+  <ul>
+    <li><b>Title case</b>: “Capitalize the first word, the first word after a colon, and all other words except articles, unstressed conjunctions, and unstressed prepositions” (van Leunen). <i>Chicago</i> has more elaborate rules.</li>
+    <li><b>Sentence case</b>: “Capitalize the first word, the first word after a colon, and no other words except proper nouns and proper adjectives” (van Leunen).</li>
+  </ul>
+  <p>Compare:</p>
+  <p class="good"><i>An Intermezzo: Jazzing Up the Data<br>An intermezzo: Jazzing up the data</i></p>
+  <p>For the title of your document, use title case. For chapter, section, and subsection headings, consistently use either case.</p>
+</div>
+<div class="zh">
+  <p>标题的大小写有两种做法. <b>Title case</b>: 第一个词、冒号后的第一个词和其他所有词大写, 冠词、不重读的连词和不重读的介词除外; <i>Chicago Manual of Style</i> 的规则更细. <b>Sentence case</b>: 只大写第一个词、冒号后的第一个词, 以及专有名词和专有形容词 (如 English). 对比例子: Jazzing Up 里的 Up 是短语动词的小品词 (重读), 所以在 title case 里大写, 不是介词. 文档的标题用 title case; 章节标题两种都可以, 但要统一.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 9</span>
+  <p><b>Capitalization</b></p>
+  <p>Should you capitalize phrases such as <span class="bad"><i>the Event Dispatcher Thread</i></span> and <span class="bad"><i>Fermat’s Little Theorem</i></span>? And what about <span class="bad"><i>the Introduction</i></span>?</p>
+  <p>In case of doubt, <b>prefer lowercase</b>. Thus, write <span class="good"><i>the event dispatcher thread</i></span>, <span class="good"><i>Fermat’s little theorem</i></span>, and <span class="good"><i>the introduction</i></span>.</p>
+  <p>Lowercase is arguably more pleasant to read and is easier to use consistently.</p>
+  <p>When introducing an acronym or initialism, there is no need to capitalize the unabbreviated expression unless it is a proper noun. Compare:</p>
+  <p class="bad"><i>The framework fully supports Multiple-Document Interface (MDI).</i></p>
+  <p class="good"><i>The framework fully supports multiple-document interface (MDI).</i></p>
+</div>
+<div class="zh">
+  <p>the Event Dispatcher Thread、Fermat’s Little Theorem、the Introduction 要不要大写? 拿不准时<b>用小写</b>: the event dispatcher thread、Fermat’s little theorem (Fermat 是人名, 仍大写)、the introduction. 小写读起来更舒服, 也更容易保持一致. 引入首字母缩写时, 全称不必为了「对应字母」而大写, 除非它本身是专有名词: multiple-document interface (MDI).</p>
+  <p>德语母语者要注意: 德语名词都大写, 英语只有专有名词大写. 「Section 3」「Figure 2」「Theorem 4.1」这种后面跟编号的情况大写 (它们相当于名字), 但泛指时小写: in the next section.</p>
+</div>
+
+<!-- ===== ZAHLEN ===== -->
+<h2 id="zahlen">数字、单位与日期<br><span class="de-title"><span class="seg">Numbers ·</span> <span class="seg">Dates ·</span> <span class="seg">Coinciding Punctuation</span></span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 10</span>
+  <p><b>Numbers</b></p>
+  <p>Generally spell out numbers from <b>zero to ten</b> (or twelve), unless this would look locally inconsistent—e.g.:</p>
+  <p class="good"><i>Below, we compare the performance of all eight configurations on our server.<br>We used a third-party library for programming the user interface.</i></p>
+  <p>Since sentences should not start with a number (or symbol), also spell out numbers at the beginning of sentences, or reword to avoid the issue.</p>
+  <p>Numbers with at least five (or four) digits should use the <b>thousands’ separator</b>, either a traditional comma or, following international standards, a small space—e.g., <span class="good"><i>1,000,000</i></span> or <span class="good"><i>1 000 000</i></span>.</p>
+  <p>For years and page numbers, the thousands’ separator is omitted—e.g., <span class="good"><i>1999</i></span>.</p>
+</div>
+<div class="zh">
+  <p>数字: 0 到 10 (或 12) 一般用英文单词写 (all eight configurations, a third-party library), 除非这样在局部看起来不一致 (例如「3 to 15 nodes」不写成 three to 15). 句子不应以数字 (或符号) 开头, 所以句首的数字也写成单词, 或改写句子. 五位 (或四位) 以上的数字用千位分隔符: 传统的逗号 1,000,000, 或按国际标准用小空格 1 000 000. 年份和页码不用分隔符 (1999).</p>
+  <p><b>易错:</b> 德语用句点作千位分隔符、逗号作小数点 (1.000.000,5), 英语正好相反.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 11</span>
+  <p><b>Numbers</b></p>
+  <p>In English, the <b>decimal separator</b> is usually the period (.). Thus, two and a half is written <span class="good"><i>2.5</i></span>.</p>
+  <p>There should be a space before units—e.g., <span class="good"><i>30 s</i></span>. In compound expressions, there should be no hyphen—e.g., <span class="good"><i>a 30 s timeout</i></span>.</p>
+  <p>The percentage sign, the degree sign, and currency symbols have their own conventions—e.g., <span class="good"><i>3%</i></span> (or <span class="good"><i>3 %</i></span>), <span class="good"><i>90°</i></span>, <span class="good"><i>21 °C</i></span>, <span class="good"><i>$55</i></span>, <span class="good"><i>€50</i></span>.</p>
+  <p>For measurements, three <b>significant digits</b> usually suffice—e.g., <span class="good"><i>89.7%</i></span>. Note that <span class="good"><i>90.0%</i></span> is more precise than <span class="good"><i>90%</i></span>.</p>
+  <p>Distinguish between percentages and <b>percentage points</b>. Percentage points denote the difference between percentages. A value of 50% falling by 10 percentage points becomes 40%. By contrast, a 10% fall would yield 45%.</p>
+</div>
+<div class="zh">
+  <p>英语的小数点是句点: 2.5. 数字和单位之间有空格: 30 s; 作定语时不加连字符: a 30 s timeout (写成单词时则加: a 30-second timeout). 百分号、度、货币符号各有惯例: 3% (或 3 %)、90° (角度, 不空格)、21 °C (温度, 空格)、$55、€50 (货币符号在前). 测量值一般三位有效数字就够了 (89.7%); 90.0% 比 90% 更精确, 因为它声明了小数点后一位是 0.</p>
+  <p>区分百分比和<b>百分点</b>: 百分点是两个百分比之差. 50% 下降 10 个百分点变成 40%; 下降 10% 则是 50% × 0.9 = 45%. 论文里比较准确率时最常犯这个错: 从 80% 提高到 88% 是「提高了 8 个百分点」或「相对提高了 10%」.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 12</span>
+  <p><b>Dates</b></p>
+  <p>In American English, dates are written in <b>month–day–year</b> order, with commas around the year—e.g., <span class="good"><i>May 1, 1990,</i></span> (with a trailing comma).</p>
+  <p>If the day or the year is omitted, no commas are needed—e.g., <span class="good"><i>May 1990</i></span>.</p>
+  <p>In British English, dates are written in <b>day–month–year</b> order—e.g., <span class="good"><i>1 May 1990</i></span>.</p>
+  <p>Further examples:</p>
+  <p class="good"><i>We met on Sunday, February 14, 2021.<br>We met again on Sunday, 21 February 2021.<br>The semester lasts from October 2026 to March 2027.</i></p>
+  <p>Do not abbreviate years. Thus, write <span class="good"><i>1999</i></span>, not <span class="bad"><i>’99</i></span> or <span class="bad"><i>99</i></span>.</p>
+</div>
+<div class="zh">
+  <p>美式日期按「月 日, 年」, 年份前后都加逗号 (句中的 May 1, 1990, 后面还有一个逗号); 省略日或年时不加逗号 (May 1990). 英式按「日 月 年」, 不用逗号. 三个例句: 美式、英式、只有月和年. 我核对过, 2021 年 2 月 14 日和 21 日都是星期日. 年份不要缩写: 写 1999, 不写 ’99 或 99. 注意 ’99 的撇号形状和右单引号一样 (表示省略), 自动排版常会误排成左引号 ‘99.</p>
+  <p>例句里一个美式、一个英式只是为了展示; 同一篇文本里要统一. 国际化的技术文档里, 为了避免 05/06 是 5 月 6 日还是 6 月 5 日的歧义, 常用 ISO 8601 格式 2021-02-14.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 13</span>
+  <p><b>Coinciding Punctuation</b></p>
+  <p>When multiple punctuation signs would occur in sequence, <b>special rules</b> apply:</p>
+  <ul>
+    <li>Logically, an abbreviation such as <span class="good"><i>Co.</i></span> should become <span class="bad"><i>Co..</i></span> at the end of a sentence, but in practice one period swallows the other.</li>
+    <li>American typesetting conventions dictate comma–quote (<span class="good">,”</span>) and period–quote (<span class="good">.”</span>), also against logic. In British English, punctuation that does not logically belong inside the quote is put outside—e.g., <span class="good"><i>I said ‘OK’.</i></span></li>
+    <li>In <span class="good"><i>“‘Who are you?’ she asked,”</i></span> a tiny space is inserted between the opening double and single quotes for readability, and the question mark swallows the separating comma that would otherwise have followed it.</li>
+  </ul>
+  <p>The conventions governing coinciding punctuation are <b>outlandish</b>. For American English, they are spelled out by van Leunen, pages 60–73.</p>
+</div>
+<div class="zh">
+  <p>几个标点连在一起时有特殊规则: ① 缩写 Co. 在句末, 按逻辑应写成 Co.., 实际上一个句点「吞掉」另一个, 只写一个. ② 美式排版规定逗号和句号放在右引号里面 (,” 和 .”), 即使不合逻辑; 英式只把逻辑上属于引文的标点放进引号: I said ‘OK’. ③ 「“‘Who are you?’ she asked,”」里, 双引号和单引号相邻处加一个很小的空格, 便于阅读; 问号吞掉了本应跟在引语后面的分隔逗号 (不写 ‘Who are you?’, she asked). 这些规则很古怪, 美式英语的完整规则见 van Leunen 书的第 60–73 页.</p>
+</div>
+
+<!-- ===== VERWEISE ===== -->
+<h2 id="verweise">交叉引用与脚注<br><span class="de-title"><span class="seg">Cross-References ·</span> <span class="seg">Footnotes ·</span> <span class="seg">Item Lists</span></span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 14</span>
+  <p><b>Cross-References</b></p>
+  <p>Cross-references are useful in all sorts of documents, but especially in dictionaries and reference manuals, which are usually read out of order.</p>
+  <p><b>Forward cross-references</b> are pointers to a location later in the document—e.g.:</p>
+  <p class="good"><i>We introduce a new functional programming language, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">λ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">y</span><span class="mord mathnormal mtight" style="margin-right:0.044em;">z</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> (Section 3).</i></p>
+  <p><b>Backward cross-references</b> are pointers to a location earlier in the document—e.g.:</p>
+  <p class="good"><i>When we presented the language’s grammar in Section 3.2.1, we silently omitted the ternary operator.</i></p>
+  <p>Notice the tenses: present (or sometimes future in lengthy documents) for forward cross-references, past for backward cross-references.</p>
+  <p>Incidentally, you will rarely need to tell the reader to <b>see</b> a given section or page.</p>
+</div>
+<div class="zh">
+  <p>交叉引用在各种文档里都有用, 尤其是不按顺序阅读的词典和参考手册. <b>向前引用</b>指向后面的位置: 「我们引入一种新的函数式语言 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">λ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">y</span><span class="mord mathnormal mtight" style="margin-right:0.044em;">z</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> (第 3 节)」. <b>向后引用</b>指向前面的位置: 「我们在 3.2.1 节介绍语言的语法时, 悄悄省略了三元运算符」. 注意时态: 向前引用用现在时 (长文档里有时用将来时), 向后引用用过去时 (对应 <a href="STE-04-词与短语.html">STE 04</a> 里 Knuth 说的「按顺序写」). 另外, 很少需要叫读者「see」某节某页: 括号里写 (Section 3) 就够了.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 15</span>
+  <p><b>Cross-References</b></p>
+  <p>If your text contains lots of cross-references, this might indicate a serious <b>flaw in your document’s structure</b>. For example, if you have many forward cross-references to Section 7 in Sections 3 to 6, maybe Section 7 should have been Section 3.</p>
+  <p>“Organization is the most elusive of all qualities in writing. We recognize badly organized material when other people produce it, but spotting our own failures is more difficult. Heavy cross-reference is one of the few hints you’ll ever have to guide you; heed its warning” (van Leunen).</p>
+</div>
+<div class="zh">
+  <p>交叉引用很多, 可能说明文档结构有严重缺陷: 如果第 3 到 6 节都频繁向前引用第 7 节, 也许第 7 节应该放在第 3 节. van Leunen 说: 「组织是写作中最难捉摸的品质. 别人写的材料组织得差, 我们一眼就能看出; 发现自己的失败却难得多. 大量交叉引用是你能得到的少数提示之一; 注意它的警告.」</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 16</span>
+  <p><b>Footnotes</b></p>
+  <p>Footnotes are suitable for <b>minor comments</b> that would disrupt the text’s flow and that are nevertheless too important to omit. They are useful for digressions or discussions targeted only at some of the audience.</p>
+  <p>In English, the footnote call (e.g., <sup>1</sup> or <sup>*</sup>) generally comes <b>immediately after any punctuation sign</b>, even against logic—e.g.:</p>
+  <p class="good"><i>Zipperposition’s success inspired me to develop Jeha, a new theorem prover.<sup>2</sup> Unlike its predecessor, Jeha is implemented in Standard ML.</i></p>
+  <p class="good" style="font-size: .85em"><i><sup>2</sup> The name Jeha is appropriated from a fictional character in Middle Eastern folklore.</i></p>
+  <p>Most readers will look at the footnote. This will cause them to <b>lose context</b>. So there needs to be a good reason for the footnote to exist.</p>
+</div>
+<div class="zh">
+  <p>脚注适合放次要的说明: 放进正文会打断思路, 但又重要得不能删; 也适合离题话或只针对部分读者的讨论. 英语里脚注标记一般放在<b>标点之后</b>, 即使不合逻辑: prover.² (德语习惯是视情况放在标点前或后). 大多数读者会去看脚注, 这会让他们丢失上下文, 所以每个脚注都需要存在的充分理由.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 17</span>
+  <p><b>Item Lists</b></p>
+  <p>Item lists can be used for listing <b>parallel items</b> or <b>consecutive steps</b>. As a side effect, they visually break up the text.</p>
+  <p>Items start with <b>bullets</b> (•) or <b>numbers</b> (1, 2, 3, etc.). Keep numbered lists for situations in which the items’ order matters or you need to refer to individual items later.</p>
+  <p>Make sure that your items are <b>symmetric</b>—e.g., they are all sentences, or all <i>-ing</i> verbs.</p>
+  <p><b>Punctuation</b> must be consistent. Some authors punctuate each item, even if it is not a complete sentence. Others omit the punctuation. Compare:</p>
+  <div class="cols">
+    <ul class="good"><li><i>Alnitak;</i></li><li><i>Alnilam; and</i></li><li><i>Mintaka.</i></li></ul>
+    <ul class="good"><li><i>Alnitak;</i></li><li><i>Alnilam;</i></li><li><i>Mintaka.</i></li></ul>
+    <ul class="good"><li><i>Alnitak</i></li><li><i>Alnilam</i></li><li><i>Mintaka</i></li></ul>
+  </div>
+</div>
+<div class="zh">
+  <p>列表用于列举平行的项目或连续的步骤, 副作用是在视觉上把文本分块. 列表项以圆点或数字开头; 只有顺序重要、或之后要引用某一项时才用编号列表. 各项要<b>对称</b>: 要么都是句子, 要么都是 -ing 动词等. 标点要一致: 有人每项都加标点 (即使不是完整句子), 有人都不加. 例子 (猎户座腰带三星) 给了三种都可以的风格: 分号 + and + 句号; 只有分号和句号; 不加标点. 这门课的幻灯片用的是第二种.</p>
+</div>
+
+<!-- ===== LAYOUT ===== -->
+<h2 id="layout">版面: 间距、分段、换行、分页<br><span class="de-title"><span class="seg">Spacing ·</span> <span class="seg">Paragraph Breaks ·</span> <span class="seg">Line Breaks ·</span> <span class="seg">Page Breaks ·</span> <span class="seg">Justification</span></span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 18</span>
+  <p><b>Spacing</b></p>
+  <p>Two <b>fundamental rules</b> of spacing:</p>
+  <ol>
+    <li>Put less space between closely related elements than between loosely related elements.</li>
+    <li>Try to avoid hardcoding dimensions. And if you cannot avoid it, use multiples of logical units (e.g., baselines, ems).</li>
+  </ol>
+  <p>The first principle applies especially to <b>mathematical operators</b>. Operators that bind more tightly, such as addition (+), need less space around them than operators that bind more loosely, such as equality (=).</p>
+  <figure class="src-fig"><img src="data:image/png;base64,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" alt="Thus, 2 + 2 = 4 (蓝色, + 两边空隙小, = 两边空隙大), not 2 + 2 = 4 (橙色, 两种运算符的空隙一样)"><figcaption><span class="cs">幻灯片原图 (Slide 18):</span> <span class="cs">蓝色的正确,</span> <span class="cs">+ 的两边比 = 的两边窄;</span> <span class="cs">橙色的空隙一样宽.</span></figcaption></figure>
+</div>
+<div class="zh">
+  <p>间距的两条基本规则: ① 关系紧密的元素之间空隙小, 关系松散的之间空隙大; ② 尽量不要写死尺寸; 实在要写, 用逻辑单位的倍数 (行距、em). 第一条尤其适用于数学运算符: 结合得紧的运算符 (+) 两边空隙小, 结合得松的 (=) 两边空隙大. <b>读图:</b> 蓝色的 2 + 2 = 4 里, 等号两边明显比加号两边宽; 橙色的四个空隙一样. LaTeX 的数学模式会自动这样排, 所以公式一律放进 <code>$…$</code>, 不要在正文里手打.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 19–21</span>
+  <p><b>Paragraph Breaks</b></p>
+  <p>The beginning of paragraphs should be clearly marked, through either indentation or vertical space (but not both simultaneously).</p>
+  <p>Exceptionally, the first line of the first paragraph of a document, chapter, section, or subsection is usually not indented in English.</p>
+  <p><b>Examples of Paragraph Breaks</b></p>
+  <p>Correct:</p>
+  <div class="good"><p style="margin:0"><i>The toilet paper dispensers in a certain building are designed to hold two rolls of tissues, and a person can use either roll.</i></p><p class="ind" style="margin:0"><i>There are two kinds of people who use the rest rooms in the building: . . .</i></p></div>
+  <p>Also correct:</p>
+  <div class="good"><p style="margin:0"><i>The toilet paper dispensers in a certain building are designed to hold two rolls of tissues, and a person can use either roll.</i></p><p class="gap" style="margin-bottom:0"><i>There are two kinds of people who use the rest rooms in the building: . . .</i></p></div>
+  <p>Incorrect:</p>
+  <div class="bad"><p style="margin:0"><i>The toilet paper dispensers in a certain building are designed to hold two rolls of tissues, and a person can use either roll.</i></p><p style="margin:0"><i>There are two kinds of people who use the rest rooms in the building: . . .</i></p></div>
+  <p>Also incorrect:</p>
+  <div class="bad"><p style="margin:0"><i>The toilet paper dispensers in a certain building are designed to hold two rolls of tissues, and a person can use either roll.</i></p><p class="ind gap" style="margin-bottom:0"><i>There are two kinds of people who use the rest rooms in the building: . . .</i></p></div>
+</div>
+<div class="zh">
+  <p>段落的开头必须清楚地标出: 要么首行缩进, 要么段间加空行, 但<b>不能两者同时用</b>. 例外: 英语里文档、章、节、小节的第一段首行通常不缩进 (因为前面就是标题, 不需要再标). 四个例子 (卡片里按幻灯片的版式排出): 正确的有两种, 第二段首行缩进且无空行, 或者有空行且不缩进; 错误的也有两种, 既不缩进也无空行 (看不出分段), 以及既缩进又有空行 (多余).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 22</span>
+  <p><b>Line Breaks</b></p>
+  <p>Line breaking and hyphenation are largely automated by modern text processors, but they sometimes require <b>special attention</b>.</p>
+  <p><b>Titles</b> and <b>headings</b> should be carefully broken. Compare:</p>
+  <p class="bad"><i>Simulation of n-Tape Turing Machines Using 2n-Stack Pushdown<br>Automata</i></p>
+  <p class="good"><i>Simulation of n-Tape Turing Machines<br>Using 2n-Stack Pushdown Automata</i></p>
+  <p>Avoid breaking references to sections, theorems, etc. The break in <span class="bad"><i>Section<br>3</i></span> is distracting. Avoid it by using a <b>nonbreaking space</b> (also called “tie”).</p>
+  <p>Avoid breaking before the <b>last item</b> of a short inline enumeration, as in</p>
+  <p class="bad"><i>The results of our empirical evaluation are summarized in Figures 3, 4, and<br>5.</i></p>
+</div>
+<div class="zh">
+  <p>换行和断词基本由排版软件自动处理, 但有时要特别注意. 标题要在意义单元处断行: 第一个版本把 Automata 一个词孤零零地留在第二行; 第二个版本在 Using 前断开, 两行各是一个意义完整的短语. 不要在「Section 3」「Theorem 2」中间断行, 用<b>不断行空格</b> (LaTeX 里叫 tie, 写作 <code>Section~3</code>, 见 Slide 41 的 <code>CDC~6600</code>). 短的行内列举不要在最后一项前断行 (and 后面单独一个 5. 很难看).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 23–24</span>
+  <p><b>Page Breaks</b></p>
+  <p>Page breaking is largely automated by modern text processors, but it sometimes requires <b>special attention</b>.</p>
+  <p>In particular, try to avoid these:</p>
+  <ul>
+    <li>A <b>widow</b> arises when a page break occurs right before the last line of a paragraph.</li>
+    <li>An <b>orphan</b> arises when a page break occurs right after the first line of a paragraph.</li>
+  </ul>
+  <p><b>Justification</b></p>
+  <p>Most prose documents are justified, meaning that the whitespace between words is <b>stretched</b> or <b>shrunk</b> to reach the right margin.</p>
+  <p><b>Ragged-right</b>, whereby no stretching or shrinking takes place, can look better with short lines (e.g., in two-column format) or on slides.</p>
+</div>
+<div class="zh">
+  <p>分页也基本是自动的, 但要特别避免两种情况: <b>widow 寡行</b>: 段落的最后一行单独落到下一页顶部; <b>orphan 孤行</b>: 段落的第一行单独留在上一页底部. (LaTeX 用 <code>\widowpenalty</code> 和 <code>\clubpenalty</code> 控制.)</p>
+  <p><b>两端对齐</b>: 大多数正文是两端对齐的, 词间空白被拉伸或压缩, 使每行都抵达右边界. <b>ragged-right 左对齐 (右边参差)</b> 不拉伸也不压缩, 在行很短时 (例如双栏排版) 或幻灯片上可能更好看, 因为短行强行两端对齐会出现很大的词间空隙.</p>
+</div>
+
+<!-- ===== TABELLEN ===== -->
+<h2 id="tabellen">表格与图<br><span class="de-title">Tables and Figures</span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 25</span>
+  <p><b>Tables and Figures</b></p>
+  <p>Tables and figures are welcome distractions in most documents:</p>
+  <ul>
+    <li>Tables are <b>grids</b> of textual or numeric data.</li>
+    <li>Figures are <b>diagrams</b> or <b>images</b> illustrating some concepts or visually presenting some data.</li>
+  </ul>
+  <p>Tables and figures can be used</p>
+  <ul>
+    <li>as <b>displays</b>—integrated in the text;</li>
+    <li>as <b>floats</b>—labeled with a (sentence-case) caption.</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>表格和图在大多数文档里是受欢迎的「分心之物」: 表格是文字或数字数据的网格; 图是说明概念或可视化数据的图表或图像. 两种用法: <b>display 展示式</b>, 嵌在正文里, 是句子流的一部分; <b>float 浮动式</b>, 带一个 (sentence case 的) 标题和编号, 由排版软件放到合适的位置 (例如页面顶部).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 26</span>
+  <p><b>Example of a Displayed Table</b></p>
+  <p class="good"><i>Another measure of MaSh’s and MeSh’s power is the total number of problems solved. The following table gives the success rate in percent for various combinations of selectors and systems:</i></p>
+  <div class="tablewrap"><table class="booktabs nowrap good">
+    <thead><tr><th></th><th>CVC4</th><th>Epar</th><th>Vampire</th><th>Z3</th><th>Any system</th></tr></thead>
+    <tbody>
+      <tr><td>MePo</td><td>38.2</td><td>40.8</td><td>41.3</td><td>40.5</td><td>48.5</td></tr>
+      <tr><td>MaSh-kNN</td><td>47.0</td><td>50.4</td><td>51.4</td><td>48.0</td><td>60.0</td></tr>
+      <tr><td>MaSh-NB</td><td>47.9</td><td>51.0</td><td>52.0</td><td>49.1</td><td>60.3</td></tr>
+      <tr><td>MeSh-kNN</td><td>46.7</td><td>48.9</td><td>50.8</td><td>50.2</td><td>59.6</td></tr>
+      <tr><td>MeSh-NB</td><td>46.8</td><td>49.0</td><td>51.0</td><td>51.3</td><td>60.2</td></tr>
+    </tbody>
+  </table></div>
+  <p class="good"><i>We see that the success rate goes up substantially, from 48.5% with MePo to about 60% with the new selectors.</i></p>
+</div>
+<div class="zh">
+  <p>展示式表格的例子 (来自 Sledgehammer 的前提选择器实验, MePo、MaSh、MeSh 是三种选择器, 列是不同的自动证明器): 正文以冒号引出表格 (the following table …:), 表格后面正文接着解读: 成功率从 MePo 的 48.5% 大幅提高到新选择器的约 60%. 表格没有编号、没有标题, 它是正文的一部分.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 27</span>
+  <p><b>Example of a Floating Table</b></p>
+  <div class="tablewrap"><table class="booktabs nowrap good">
+    <caption style="caption-side: top"><i>Table 7: Success rates in percent per selector and system</i></caption>
+    <thead><tr><th></th><th>CVC4</th><th>Epar</th><th>Vampire</th><th>Z3</th><th>Any system</th></tr></thead>
+    <tbody>
+      <tr><td>MePo</td><td>38.2</td><td>40.8</td><td>41.3</td><td>40.5</td><td>48.5</td></tr>
+      <tr><td>MaSh-kNN</td><td>47.0</td><td>50.4</td><td>51.4</td><td>48.0</td><td>60.0</td></tr>
+      <tr><td>MaSh-NB</td><td>47.9</td><td>51.0</td><td>52.0</td><td>49.1</td><td>60.3</td></tr>
+      <tr><td>MeSh-kNN</td><td>46.7</td><td>48.9</td><td>50.8</td><td>50.2</td><td>59.6</td></tr>
+      <tr><td>MeSh-NB</td><td>46.8</td><td>49.0</td><td>51.0</td><td>51.3</td><td>60.2</td></tr>
+    </tbody>
+  </table></div>
+  <p class="good"><i>Another measure of MaSh’s and MeSh’s power is the total number of problems solved. Table 7 explores various combinations of selectors and systems. We see that the success rate goes up substantially, from 48.5% with MePo to about 60% with the new selectors.</i></p>
+</div>
+<div class="zh">
+  <p>同一张表的浮动式版本: 有编号和标题 (Table 7: …, sentence case, 表格的标题放在表格<b>上方</b>, 图的标题通常放在下方), 正文用「Table 7」引用它, 不再用冒号引出. 两个例子的表格都是 booktabs 风格: 只有三条横线, 没有竖线和双线 (见下一页).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 28</span>
+  <p><b>Tables and Figures</b></p>
+  <p>Displayed tables and figures should be <b>connected</b> to the text.</p>
+  <p>Floats should be <b>referred to</b> in the text, so that they do not get overlooked. Floats are especially useful to avoid ugly <b>page breaks</b>.</p>
+  <p>Stylish tables contain <b>no double lines</b> and, usually, <b>no vertical lines</b>.</p>
+  <p>Your text should <b>clarify the semantics</b> of figures with boxes and arrows. What is the meaning of a dotted arrow? Of a rectangular box?</p>
+</div>
+<div class="zh">
+  <p>展示式的表格和图要和正文衔接. 浮动体要在正文里被引用, 以免被忽略; 浮动体特别有助于避免难看的分页 (大表格放不下时整体移到下一页, 正文继续填满当前页). 好看的表格没有双线, 通常也没有竖线. 带方框和箭头的图, 正文要说明它们的语义: 虚线箭头是什么意思? 矩形框又代表什么?</p>
+</div>
+
+<!-- ===== MATHE ===== -->
+<h2 id="mathe">数学写作<br><span class="de-title">Mathematics</span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 30</span>
+  <p><b>Mathematical Prose</b></p>
+  <p>Fundamentally, mathematical prose is prose. There may be lots of notations, displayed formulas, and other layouts that introduce additional complexity, but the <b>basic rules</b> of style, grammar, and punctuation apply.</p>
+  <p>Mathematical prose should be <b>optimized for the reader</b>. Carefully chosen notations can help capture key concepts and increase readability. Let the notations work for you.</p>
+  <p><b>But be careful</b>: Compact notations that are useful for readers who are immersed in the topic may be overwhelming for readers who are new to the ideas.</p>
+</div>
+<div class="zh">
+  <p>数学文字本质上也是文字: 记号、展示公式等增加了复杂性, 但文体、语法、标点的基本规则照样适用. 数学写作要为读者优化: 精心选择的记号能抓住关键概念、提高可读性, 让记号为你服务. 但要小心: 对沉浸在这个领域的读者有用的紧凑记号, 可能让新读者不知所措.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 31</span>
+  <p><b>Mathematical Symbols</b></p>
+  <p>Three fine points:</p>
+  <ul>
+    <li>Denote <b>multiplication</b> by <span class="good"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">x</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span></span> or <span class="good"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4445em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span></span> or even <span class="good"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span></span>, but not <span class="bad"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4653em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span></span>.</li>
+    <li>Denote <b>minus</b> by a minus sign (−), which is not the same as a hyphen (-), a short dash (–), or a long dash (—).</li>
+    <li>When using <b>ellipses</b> in the middle of formulas, repeat the operators on both sides, and align the ellipsis with the operators—e.g., <span class="good"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span>.</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>三个细节: 乘法写 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">x</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span>、<span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4445em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span> 或 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span>, 不写编程语言的 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4653em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span>; 减号用真正的减号 (−, Unicode U+2212), 它和连字符、短破折号、长破折号都不同 (LaTeX 数学模式里的 - 会自动排成减号); 公式中间的省略号, 两边都重复运算符, 省略号和运算符居中对齐: <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> (LaTeX 的 <code>\cdots</code>, 而不是位于基线的 <code>\ldots</code>).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 32</span>
+  <p><b>Logical Symbols</b></p>
+  <p>Logical symbols belong in logical formulas and should generally be <b>spelled out</b> elsewhere.</p>
+  <p>Thus, write</p>
+  <p><span class="good"><i>for all</i></span>, <span class="good"><i>for each</i></span>, or <span class="good"><i>for every</i></span> instead of <span class="bad"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord">∀</span></span></span></span></span>,<br><span class="good"><i>for some</i></span> or <span class="good"><i>there exists</i></span> instead of <span class="bad"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord">∃</span></span></span></span></span>,<br><span class="good"><i>not</i></span> instead of <span class="bad"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord">¬</span></span></span></span></span>,<br><span class="good"><i>and</i></span> instead of <span class="bad"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5556em;"></span><span class="mord">∧</span></span></span></span></span>,<br><span class="good"><i>or</i></span> instead of <span class="bad"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5556em;"></span><span class="mord">∨</span></span></span></span></span>,<br>etc.</p>
+  <p>When you use English for complex logical statements, make sure that your sentences are unambiguous, especially if they combine <span class="good"><i>and</i></span> and <span class="good"><i>or</i></span>.</p>
+</div>
+<div class="zh">
+  <p>逻辑符号只用在逻辑公式里, 其他地方一般用英语写出: for all / for each / for every 代替 ∀, for some / there exists 代替 ∃, not、and、or 代替 ¬、∧、∨. 用英语表达复杂的逻辑语句时要确保没有歧义, 尤其是 and 和 or 混用时: 「A and B or C」是 (A and B) or C 还是 A and (B or C)? 用 either … or、both … and 或拆成两句来消除歧义.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 33</span>
+  <p><b>Mathematical Formulas</b></p>
+  <p><b>Display</b> important or large formulas. <b>Inline</b> the rest.</p>
+  <p>Traditionally, displayed formulas are <b>punctuated</b>—e.g.:</p>
+  <p class="good"><i>This indeterminate is instead handled by the equation</i></p>
+  <div class="good"><div class="math-block"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.2041em;vertical-align:-0.3998em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8043em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3173em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="katex-sizing reset-size3 size1 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3173em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="katex-sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3998em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.545em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord katex-accent mtight"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-2.714em;"><span class="pstrut" style="height:2.714em;"></span><span class="mord mathnormal mtight">n</span></span><span style="top:-2.714em;"><span class="pstrut" style="height:2.714em;"></span><span class="accent-body" style="left:-0.2355em;"><span class="katex-overlay mtight" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width="0.471em" height="0.714em" style="width:0.471em" viewBox="0 0 471 714" preserveAspectRatio="xMinYMin"><path d="M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.155em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.2041em;vertical-align:-0.3998em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8043em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3173em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="katex-sizing reset-size3 size1 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3173em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="katex-sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3998em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.545em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord katex-accent mtight"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-2.714em;"><span class="pstrut" style="height:2.714em;"></span><span class="mord mathnormal mtight">n</span></span><span style="top:-2.714em;"><span class="pstrut" style="height:2.714em;"></span><span class="accent-body" style="left:-0.2355em;"><span class="katex-overlay mtight" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width="0.471em" height="0.714em" style="width:0.471em" viewBox="0 0 471 714" preserveAspectRatio="xMinYMin"><path d="M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.155em;"><span></span></span></span></span></span></span><span class="mord">.</span></span></span></span></span></div></div>
+  <p>Many computer scientists would omit the period for consistency with displayed code.</p>
+  <p>Your text should read smoothly even if you read all formulas aloud as “<b>blah</b>,” which is essentially what many readers will do, especially on a first reading. Introduce redundancy if it helps—e.g., <span class="good"><i>the equation</i> <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span> instead of <span class="bad"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>.</p>
+</div>
+<div class="zh">
+  <p>重要或大的公式单独成行展示, 其余放在行内. 按传统, 展示公式也要加标点: 公式是句子的一部分, 句子在公式处结束, 公式末尾就加句号 (例子里的句号). 很多计算机科学家为了和展示的代码一致而省略这个句号.</p>
+  <p>检验方法: 把所有公式都念成「blah」, 文本仍然应该读得通 (很多读者第一遍读时差不多就是这样做的). 必要时加一点冗余: 「the equation n = m²」比光秃秃的「n = m²」好, 念成「the equation blah」仍然知道这里是一个等式.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 34</span>
+  <p><b>Mathematical Environments</b></p>
+  <p>Environments such as “Definition,” “Lemma,” “Theorem,” “Example,” and “Remark” <b>emphasize</b> important material and ease <b>cross-referencing</b>. Traditionally, the statement of lemmas and theorems is italicized—e.g.:</p>
+  <p class="good"><b><i>Theorem 3.1.</i></b> <i>If <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> is an even natural number, then <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">n</span><span class="mord">/2</span></span></span></span> is a natural number.</i></p>
+  <p>State definitions, lemmas, and theorems before you invoke them. In this way, <b>circular arguments</b> are ruled out by construction.</p>
+  <p>Consider numbering all environments using one <b>shared counter</b>—e.g., <span class="good"><i>Theorem 3.1</i></span> is followed by <span class="good"><i>Example 3.2</i></span>, which is followed by <span class="good"><i>Definition 3.3</i></span>, etc. This helps readers follow cross-references.</p>
+  <p>Lemmas and theorems need <b>proofs</b>. These start with the label <span class="good"><i>Proof.</i></span>, often typeset in italics, and end with the box symbol (<span class="good">□</span>) or <span class="good"><i>QED</i></span>.</p>
+</div>
+<div class="zh">
+  <p>定义、引理、定理、例子、注释等「环境」能突出重要内容、方便交叉引用. 按传统, 引理和定理的陈述用斜体. 定义、引理、定理要先陈述再使用, 这样从结构上就排除了循环论证. 可以考虑所有环境共用一个计数器 (定理 3.1 之后是例子 3.2, 再之后是定义 3.3), 读者找交叉引用更方便 (分开计数的话, 定理 3.1 和定义 3.1 可能隔很远). 引理和定理需要证明: 以斜体的 Proof. 开头, 以方框 □ 或 QED 结束.</p>
+</div>
+
+<!-- ===== INFORMATIK ===== -->
+<h2 id="informatik">计算机科学: 算法与代码<br><span class="de-title"><span class="seg">Computer Science ·</span> <span class="seg">Algorithms ·</span> <span class="seg">Code Excerpts</span></span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 36</span>
+  <p><b>Algorithms</b></p>
+  <p>Algorithms can be used to present the main idea of your code abstractly. Some advice:</p>
+  <ul>
+    <li>Explain the algorithm <b>informally</b> first.</li>
+    <li>State its <b>inputs</b>, <b>outputs</b>, and <b>specification</b> clearly.</li>
+    <li>Present it in <b>pseudocode</b> in a modular fashion. The pseudocode can be displayed or put in a float. Use the imperative mood.</li>
+    <li>Explain how the algorithm works using an <b>example</b>.</li>
+    <li>State its <b>properties</b> (e.g., partial correctness, termination, asymptotic complexity) as rigorously as possible.</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>算法可以抽象地呈现代码的主要思想. 建议: 先非正式地解释算法; 清楚地说明输入、输出和规约; 用模块化的伪代码呈现 (展示式或浮动式均可), 用祈使语气; 用一个例子解释算法怎样运行; 尽可能严格地陈述它的性质 (部分正确性、终止性、渐近复杂度).</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 37</span>
+  <p><b>Example of an Algorithm</b></p>
+  <div class="good">
+    <p><i>Input: A grammar <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.2222em;">V</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">Σ</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mclose">)</span></span></span></span> in Chomsky normal form<br>Output: A set <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">W</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⊆</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.2222em;">V</span></span></span></span> of all variables that do not generate the empty language</i></p>
+    <p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">W</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.2222em;">V</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">Σ</span><span class="mclose">}</span></span></span></span>;<br><b><i>repeat</i></b><br>&nbsp;&nbsp;&nbsp;<span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">old</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">W</span></span></span></span>;<br>&nbsp;&nbsp;&nbsp;<span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">W</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">old</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∪</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7224em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">old</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">C</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">old</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">}</span></span></span></span>;<br><b><i>until</i></b> <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">W</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.1389em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">old</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>;<br><b><i>return</i></b> <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">W</span></span></span></span>;</p>
+  </div>
+</div>
+<div class="zh">
+  <p>一个算法的例子: 输入是乔姆斯基范式的文法 G = (V, Σ, P, S), 输出是所有「不生成空语言」的变元 (即能推导出至少一个终结符串的变元). 先把有规则 A → a 的变元放进 W; 然后反复把「右边两个变元都已在 W 中」的规则 A → BC 的左部加进去, 直到 W 不再变化. 这个不动点迭代在 |V| 轮之内终止, 因为 W 只增不减. 在 CYK 分析之前常用它判断文法的语言是否为空 (S ∈ W 当且仅当 L(G) 非空). 我按算法的定义核对过, 它是正确的.</p>
+  <p>写法上: 关键字 repeat、until、return 用粗体, 输入输出单独写在前面, 正是 Slide 4 和上一页的建议.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 38</span>
+  <p><b>Code Excerpts</b></p>
+  <p>Small code excerpts, of up to one line, can be <b>inlined</b> in your text. Larger code excerpts can be <b>displayed</b> or put in a <b>float</b>. Make sure to use a special (usually monospaced) font to make the code stand out, whether it is inlined, displayed, or floating.</p>
+  <p>Unless you are writing software documentation, do not show much code, if any. You will probably struggle to explain the code, and chances are that the reader will not understand it anyway. It is usually better to <b>keep things abstract</b>.</p>
+</div>
+<div class="zh">
+  <p>一行以内的小段代码可以放在行内; 更长的展示或放进浮动体. 不管哪种, 都用特殊字体 (通常是等宽字体) 让代码醒目. 除非写的是软件文档, 否则不要展示多少代码 (最好不展示): 你可能很难解释清楚, 读者多半也看不懂. 保持抽象 (用伪代码或数学描述) 通常更好.</p>
+</div>
+
+<!-- ===== SOFTWARE ===== -->
+<h2 id="software">排版软件<br><span class="de-title"><span class="seg">Software ·</span> <span class="seg">Typesetting Software ·</span> <span class="seg">LaTeX Example ·</span> <span class="seg">Selected Literature</span></span></h2>
+
+<div class="card de">
+  <span class="folie">Slide 40</span>
+  <p><b>Typesetting Software</b></p>
+  <p><b>Word processors</b> such as Microsoft Word, LibreOffice Writer, and Google Docs can be used to write theses and papers. <b>Presentation software</b> such as Microsoft PowerPoint and Apple Keynote can be used to prepare slides and posters.</p>
+  <p><b>LaTeX</b> is an alternative to all of the above that is preferred by many computer scientists, especially in academia. LaTeX documents are text files containing typesetting commands. The files are translated to PDF.</p>
+  <p>Two variants of LaTeX are particularly useful:</p>
+  <ul>
+    <li><b>Overleaf</b> is an online interface for LaTeX. It is convenient and simplifies using LaTeX because you do not need to install any packages.</li>
+    <li><b>LyX</b> is a “what you see is what you mean” graphical interface on top of LaTeX. It encourages you to focus on the structure of your documents, as opposed to their appearance.</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>排版软件: Word、LibreOffice Writer、Google Docs 等文字处理软件可以写毕业论文和论文; PowerPoint、Keynote 可以做幻灯片和海报. LaTeX 是上面所有软件的替代, 很多计算机科学家 (尤其在学术界) 更喜欢它: LaTeX 文档是包含排版命令的文本文件, 编译成 PDF. 两个特别有用的变体: Overleaf 是 LaTeX 的在线界面, 不用自己安装任何宏包; LyX 是 LaTeX 之上的「所见即所指」(what you see is what you mean, 对比 WYSIWYG 所见即所得) 图形界面, 鼓励你关注文档的结构而不是外观.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 41–42</span>
+  <p><b>LaTeX Example</b></p>
+<pre data-lang="latex">\documentclass{letter}
+
+\begin{document}
+To the editors of the \emph{Bulletin of the AMS},
+
+We are writing to report that a direct search on the CDC~6600 yielded
+<div class="math-block"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.9474em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mord"><span class="mord">7</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.9474em;vertical-align:-0.0833em;"></span><span class="mord">8</span><span class="mord"><span class="mord">4</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.9474em;vertical-align:-0.0833em;"></span><span class="mord">11</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8641em;"></span><span class="mord">13</span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8641em;"></span><span class="mord">14</span><span class="mord"><span class="mord">4</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span></span></div>
+as the \textbf{smallest instance} in which four fifth powers sum to a fifth
+power. This is a counterexample to a conjecture by Euler that at least $n$
+$n$th powers are required to sum to an $n$th power, $n \ge 3$.
+
+Yours truly,
+
+L. J. Lander and T. R. Parkin
+\end{document}</pre>
+  <p class="src">(Slide 42: the typeset result)</p>
+  <div class="good">
+    <p>To the editors of the <i>Bulletin of the AMS</i>,</p>
+    <p>We are writing to report that a direct search on the CDC 6600 yielded</p>
+    <div class="math-block"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.9474em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mord"><span class="mord">7</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.9474em;vertical-align:-0.0833em;"></span><span class="mord">8</span><span class="mord"><span class="mord">4</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.9474em;vertical-align:-0.0833em;"></span><span class="mord">11</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8641em;"></span><span class="mord">13</span><span class="mord"><span class="mord">3</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8641em;"></span><span class="mord">14</span><span class="mord"><span class="mord">4</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span></span></div>
+    <p>as the <b>smallest instance</b> in which four fifth powers sum to a fifth power. This is a counterexample to a conjecture by Euler that at least <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>th powers are required to sum to an <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>th power, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span>.</p>
+    <p>Yours truly,</p>
+    <p>L. J. Lander and T. R. Parkin</p>
+  </div>
+</div>
+<div class="zh">
+  <p>一个 LaTeX 例子 (Slide 41 是源码, Slide 42 是排版结果): 1966 年 Lander 和 Parkin 寄给《美国数学会通报》的著名短信, 报告在 CDC 6600 计算机上直接搜索找到 27⁵ + 84⁵ + 110⁵ + 133⁵ = 144⁵, 推翻了欧拉的猜想 (要把 n 个 n 次幂之和表示成一个 n 次幂, 至少需要 n 项). 我用 Python 核对过等式: 两边都是 61 917 364 224.</p>
+  <p>源码里能看到这一讲的几个要点: <code>\emph</code> 产生斜体 (期刊名是「大作品」); <code>CDC~6600</code> 的 <code>~</code> 是不断行空格; <code><div class="math-block"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.123em;"></span><span class="minner">…</span></span></span></span></span></div></code> 是展示公式; <code>$n$th</code> 把数学变量放进数学模式; <code>\textbf</code> 是粗体强调. 空行表示分段.</p>
+</div>
+
+<div class="card de">
+  <span class="folie">Slide 43</span>
+  <p><b>Selected Literature</b></p>
+  <ul>
+    <li>Matthew Butterick, <b><i>Butterick’s Practical Typography</i></b>, Second Edition, <code class="lc">https://practicaltypography.com/</code>, accessed July 21, 2025.<br>This book provides an accessible introduction to typography. The author also designs his own fonts, which you can buy.</li>
+    <li>Robert Bringhurst, <b><i>The Elements of Typographic Style</i></b>, Hartley &amp; Marks Publishers, 1992.<br>This is another excellent book, which goes into greater detail.</li>
+  </ul>
+</div>
+<div class="zh">
+  <p>推荐书目: Butterick 的 <i>Practical Typography</i> (免费在线书), 通俗易懂的排版入门, 作者也设计并出售自己的字体; Bringhurst 的 <i>The Elements of Typographic Style</i>, 另一本优秀的书, 讲得更细.</p>
+</div>
+
+</main>
+
+<script id="glass-js">
+/* 玻璃霓虹层 v11 的交互: 进度条后备、滚动淡入、浮动胶囊目录、背景等高线、解密标题、卡片聚光灯、光标拖影、折叠动画.
+   全部是本地代码, 不加载任何外部资源; 任何一步出错都不影响正文显示. */
+(function () {
+  try {
+    var doc = document.documentElement;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var auto = navigator.webdriver || /HeadlessChrome/.test(navigator.userAgent); // 自动化截图时关掉动效, 保证截图完整
+    if (!reduce && !auto && 'IntersectionObserver' in window) doc.classList.add('fx');
+
+    /* 第二强调色跟着课程色走: 课程主色的色相 +40°, 写进 --glow2 (等高线低处、拖影尾端、标题波动用) */
+    (function () {
+      var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((getComputedStyle(doc).getPropertyValue('--accent') || '').trim());
+      if (!m) return;
+      var r = parseInt(m[1], 16) / 255, g = parseInt(m[2], 16) / 255, b = parseInt(m[3], 16) / 255;
+      var mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn, h = 0, s = 0;
+      if (d) { s = d / (1 - Math.abs(2 * l - 1)); h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
+      h = (h + 40 + 360) % 360;
+      var c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), o = l - c / 2, rgb;
+      rgb = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
+      doc.style.setProperty('--glow2', '#' + rgb.map(function (v) { return ('0' + Math.round((v + o) * 255).toString(16)).slice(-2); }).join(''));
+    })();
+
+    /* 1. 进度条: 浏览器不支持 CSS 滚动动画时用脚本更新 */
+    var bar = document.getElementById('progress');
+    if (bar && !(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'))) {
+      var upd = function () {
+        var h = doc.scrollHeight - innerHeight;
+        bar.style.setProperty('--p', h > 0 ? Math.min(1, scrollY / h) : 0);
+      };
+      addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd); upd();
+    }
+
+    /* 0. 运行时整理结构 (文件本身不变):
+       a) 小节标题 h2、三级标题 h3 的中文主标题 (第一个 <br> / 德语副标题 / small 之前的部分) 包进 <span class="ht">;
+       b) 每个 <pre> 包进 .codebox, 加标题栏 (三个圆点 + 语言 + 复制按钮); 语言优先取 data-lang, 否则按内容猜. */
+    Array.prototype.forEach.call(document.querySelectorAll('main h2, main h3'), function (h) {
+      if (h.querySelector(':scope > .ht')) return;
+      var ht = document.createElement('span'); ht.className = 'ht';
+      var n = h.firstChild;
+      while (n && !(n.nodeType === 1 && (n.tagName === 'BR' || n.tagName === 'SMALL' || n.classList.contains('de-title')))) {
+        var nx = n.nextSibling; ht.appendChild(n); n = nx;
+      }
+      if (ht.textContent.trim()) h.insertBefore(ht, h.firstChild);
+    });
+    /* c) 没有图注的普通 <figure> (MGTN): 用图片的 alt 补一个图注, 和其他笔记的原图一致 */
+    Array.prototype.forEach.call(document.querySelectorAll('main figure:not([class])'), function (f) {
+      var im = f.querySelector(':scope > img');
+      if (!im || f.querySelector('figcaption, .fig-cap') || !(im.alt || '').trim()) return;
+      var c = document.createElement('div'); c.className = 'fig-cap'; c.textContent = im.alt; f.appendChild(c);
+    });
+    var guessLang = function (t) {
+      if (/^\s*>>>/m.test(t)) return 'python repl';
+      if (/^\s*\$ /m.test(t)) return 'shell';
+      if (/^\s*(SELECT|CREATE|INSERT|UPDATE|DELETE|WITH)\b/m.test(t)) return 'sql';
+      if (/^\s*(def |class |import |from \S+ import|for .+ in .+:|if .+:|while .+:|print\()/m.test(t)) return 'python';
+      if (/^\s*(git|cd|ls|pip|python3?|mkdir|cat|grep|echo)\b/m.test(t)) return 'shell';
+      if (/^\s*\(\w+ \(/.test(t)) return 'tree';
+      return 'text';
+    };
+    Array.prototype.forEach.call(document.querySelectorAll('main pre'), function (pre) {
+      if (pre.parentElement.classList.contains('codebox')) return;
+      var box = document.createElement('div'); box.className = 'codebox';
+      var head = document.createElement('div'); head.className = 'cb-head';
+      head.innerHTML = '<span class="cb-dots"><i></i><i></i><i></i></span><span class="cb-lang"></span><button class="cb-copy" type="button">复制</button>';
+      head.querySelector('.cb-lang').textContent = pre.getAttribute('data-lang') || guessLang(pre.textContent);
+      pre.parentNode.insertBefore(box, pre); box.appendChild(head); box.appendChild(pre);
+      var btn = head.querySelector('.cb-copy');
+      btn.addEventListener('click', function () {
+        var txt = pre.innerText, ok = function () { btn.textContent = '已复制'; btn.classList.add('ok'); setTimeout(function () { btn.textContent = '复制'; btn.classList.remove('ok'); }, 1400); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, function () {});
+        else { var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); ok(); } catch (e) {} ta.remove(); }
+      });
+    });
+
+    /* 2. 滚动淡入 */
+    if (doc.classList.contains('fx')) {
+      var els = document.querySelectorAll('main .card, main .zh, main .add, main .warn, main .codebox, main .src-fig, main figure:not([class]), main .tablewrap, main details');
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -8% 0px' });
+      els.forEach(function (el) {
+        if (el.parentElement && el.parentElement.closest('.reveal')) return;
+        var r = el.getBoundingClientRect();
+        el.classList.add('reveal');
+        if (r.top < innerHeight) el.classList.add('in'); else io.observe(el);
+      });
+    }
+
+    /* 解密动画 (小节标题、胶囊目录共用): 先显示乱码, 再从左到右逐字恢复; 德语副标题不动; 无论如何最后都恢复原文 */
+    var gsrc = document.querySelector('[data-glyphs]');
+    var GL = Array.from((gsrc && gsrc.getAttribute('data-glyphs')) || '#%&*+=<>/|01');
+    var GW = Array.from('＃％＆＊＋＝＜＞／｜０１');                 /* 中文位置用全角字符占位, 宽度不跳 */
+    var isWide = function (ch) { return /[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF\u3000-\u303F]/.test(ch); };
+    var rndG = function (ch) { var g = isWide(ch) ? GW : GL; return g[(Math.random() * g.length) | 0]; };
+    var textNodes = function (el) {
+      var out = [], tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+      while (tw.nextNode()) { var tn = tw.currentNode; if (!tn.parentElement.closest('.de-title, small, .katex') && tn.nodeValue.trim()) out.push(tn); }
+      return out;
+    };
+    /* 把元素里的文字拆成逐字的 <span class="ch"> (行内元素, 不改变排版); 乱码画在 ::after 叠层里,
+       原字只是暂时隐藏、仍占原来的位置, 所以解密和信号干扰时标题和下面的内容都不会移动 */
+    var splitChars = function (el) {
+      var groups = textNodes(el).map(function (tn) {
+        var frag = document.createDocumentFragment(), spans = [];
+        Array.from(tn.nodeValue).forEach(function (ch) {
+          if (/\s/.test(ch)) { frag.appendChild(document.createTextNode(ch)); return; }
+          var sp = document.createElement('span'); sp.className = 'ch'; sp.textContent = ch; frag.appendChild(sp); spans.push(sp);
+        });
+        var first = frag.firstChild; tn.parentNode.replaceChild(frag, tn);
+        return { tn: tn, first: first, spans: spans, count: Array.from(tn.nodeValue).length };
+      });
+      return groups;
+    };
+    var joinChars = function (groups) {
+      groups.forEach(function (g) {
+        var n = g.first; if (!n || !n.parentNode) return;
+        var parent = n.parentNode; parent.insertBefore(g.tn, n);
+        for (var k = 0; k < g.count && g.tn.nextSibling; k++) parent.removeChild(g.tn.nextSibling);
+      });
+    };
+    var setX = function (sp, on) {
+      if (on) { sp.setAttribute('data-g', rndG(sp.textContent)); sp.classList.add('x'); } else sp.classList.remove('x');
+    };
+    var decrypt = function (h, DUR) {
+      DUR = DUR || 800;
+      if (h._dtok) return;
+      var groups = splitChars(h); if (!groups.length) return;
+      var tok = h._dtok = {};
+      var hd = h.classList.contains('ht') ? h.parentElement : null;
+      if (hd) hd.classList.remove('wave');
+      var spans = [].concat.apply([], groups.map(function (g) { return g.spans; })), total = spans.length, t0 = performance.now();
+      h.classList.add('decrypting');
+      var finish = function () {
+        if (h._dtok !== tok) return;
+        h._dtok = null; joinChars(groups); h.classList.remove('decrypting');
+        if (hd && hd.tagName === 'H2') hd.classList.add('wave');   /* 解密完成后, h2 开始颜色波动 */
+      };
+      var tick = function (now) {
+        if (h._dtok !== tok) return;
+        var k = Math.floor(Math.min(1, (now - t0) / DUR) * total);
+        for (var q = 0; q < total; q++) setX(spans[q], q >= k);
+        if (now - t0 < DUR) requestAnimationFrame(tick); else finish();
+      };
+      requestAnimationFrame(tick);
+      setTimeout(finish, DUR + 600);
+    };
+    /* 信号干扰: 随机一两个字瞬间变乱码, 150 毫秒后恢复; 同样不改变排版 */
+    var glitchOnce = function (ht) {
+      if (ht._dtok) return;
+      var groups = splitChars(ht); if (!groups.length) return;
+      var tok = ht._dtok = {}, spans = [].concat.apply([], groups.map(function (g) { return g.spans; }));
+      for (var q = 0, n = Math.random() < .5 ? 1 : 2; q < n && spans.length; q++) setX(spans[(Math.random() * spans.length) | 0], true);
+      setTimeout(function () { if (ht._dtok === tok) { ht._dtok = null; joinChars(groups); } }, 150);
+    };
+    var fx = doc.classList.contains('fx');
+
+    /* 3. 浮动胶囊目录 + 当前小节高亮 */
+    var nav = document.querySelector('nav');
+    var links = nav ? Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]')) : [];
+    var targets = links.map(function (a) { return document.getElementById(decodeURIComponent(a.hash.slice(1))); });
+    var pill = null, cur = null, pLinks = [], curIdx = -1;
+    if (links.length) {
+      pill = document.createElement('div'); pill.id = 'toc-pill';
+      pill.innerHTML = '<div class="cap" role="button" tabindex="0" aria-expanded="false"><span class="ring"></span><span class="idx"></span><span class="cur"></span><span class="chev">▾</span></div><div class="panel"></div>';
+      var panel = pill.querySelector('.panel'); cur = pill.querySelector('.cur');
+      links.forEach(function (a) { var b = a.cloneNode(true); panel.appendChild(b); pLinks.push(b); });
+      document.body.appendChild(pill);
+      var cap = pill.querySelector('.cap');
+      var toggle = function (open) {
+        pill.classList.toggle('open', open);
+        cap.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+      cap.addEventListener('click', function () { toggle(!pill.classList.contains('open')); });
+      cap.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(!pill.classList.contains('open')); } });
+      panel.addEventListener('click', function (e) { if (e.target.closest('a')) toggle(false); });
+      document.addEventListener('click', function (e) { if (!pill.contains(e.target)) toggle(false); });
+      var lastY = scrollY;
+      addEventListener('scroll', function () { if (Math.abs(scrollY - lastY) > 40) { toggle(false); lastY = scrollY; } }, { passive: true });
+    }
+    var mark = function () {
+      var y = 140, idx = -1, hgt = doc.scrollHeight - innerHeight, rp = hgt > 0 ? Math.min(1, scrollY / hgt) : 0;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top < y) idx = i; });
+      curIdx = idx;
+      links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+      pLinks.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+      if (pill) {
+        var past = nav.getBoundingClientRect().bottom < 0;
+        pill.classList.toggle('show', past);
+        if (!past) pill.classList.remove('open');
+        pill.style.setProperty('--rp', rp.toFixed(3));
+        pill.querySelector('.panel').setAttribute('data-pct', Math.round(rp * 100) + '%');
+        pill.querySelector('.idx').textContent = ('0' + Math.max(1, idx + 1)).slice(-2) + '/' + ('0' + links.length).slice(-2);
+        var name = idx >= 0 ? links[idx].textContent : links[0].textContent;
+        if (cur.getAttribute('data-name') !== name) {
+          cur.setAttribute('data-name', name);
+          cur._dtok = null; cur.classList.remove('decrypting'); cur.textContent = name;   /* 直接重写文字, 旧的逐字 span 一并清掉 */
+          if (fx && past) decrypt(cur, 420);               /* 进入新小节时, 胶囊里的节名解密切换 */
+        }
+      }
+    };
+    addEventListener('scroll', mark, { passive: true }); addEventListener('resize', mark); mark();
+
+    /* 4. 背景等高线: 地形图式的等高线 (每 5 条一条较粗的计曲线), 按高度从青到绿着色;
+       地形缓慢呼吸变形, 鼠标所在处隆起一个小山丘; 正文一栏用羽化的遮罩压淡 */
+    if (!reduce) {
+      var cv = document.createElement('canvas'); cv.id = 'contour'; cv.setAttribute('aria-hidden', 'true');
+      document.body.insertBefore(cv, document.body.firstChild);
+      var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, C = 7, NX = 0, NY = 0, F = null, narrow = false, mL = 0, mR = 0;
+      var cs0 = getComputedStyle(doc);
+      function rgbOf(h, d) { var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((h || '').trim());
+        return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : d; }
+      var A = rgbOf(cs0.getPropertyValue('--accent'), [129, 228, 141]);
+      var B = rgbOf(cs0.getPropertyValue('--glow2'), [127, 211, 255]);
+      var mainEl = document.querySelector('main');
+      var P = new Uint8Array(512), sd = 2468013;
+      for (var q = 0; q < 256; q++) P[q] = q;
+      for (q = 255; q > 0; q--) { sd = (sd * 16807) % 2147483647; var r = sd % (q + 1), tmp = P[q]; P[q] = P[r]; P[r] = tmp; }
+      for (q = 0; q < 256; q++) P[q + 256] = P[q];
+      function sm(t) { return t * t * (3 - 2 * t); }
+      function vn(x, y) {
+        var xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi; xi &= 255; yi &= 255;
+        var a = P[P[xi] + yi] / 255, b = P[P[xi + 1] + yi] / 255, c = P[P[xi] + yi + 1] / 255, d = P[P[xi + 1] + yi + 1] / 255;
+        var u = sm(xf), v = sm(yf);
+        return (a + (b - a) * u) * (1 - v) + (c + (d - c) * u) * v;
+      }
+      var mx = -9999, my = -9999, hx = -9999, hy = -9999, amp = 0, ampT = 0, lastMove = 0;
+      addEventListener('pointermove', function (e) { if (e.pointerType !== 'mouse') return; mx = e.clientX; my = e.clientY; ampT = 1; lastMove = performance.now(); }, { passive: true });
+      document.addEventListener('pointerleave', function () { ampT = 0; });
+      var LV = []; for (var lv = .18, li = 0; lv < .95; lv += .033, li++) LV.push({ v: lv, idx: li % 5 === 0 });
+      function size() {
+        dpr = Math.min(2, window.devicePixelRatio || 1);
+        W = innerWidth; H = innerHeight; narrow = W < 700;
+        cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        NX = Math.ceil(W / C) + 2; NY = Math.ceil(H / C) + 2; F = new Float32Array(NX * NY);
+        var rr = mainEl ? mainEl.getBoundingClientRect() : { left: 0, right: 0 }; mL = rr.left; mR = rr.right;
+      }
+      function field(t) {
+        var ts = t / 1000, br = 1 + .06 * Math.sin(ts * Math.PI * 2 / 20), sy = scrollY * .0011;
+        var ox = .3 * Math.sin(ts * .045), oy = .3 * Math.cos(ts * .038);
+        /* 鼠标山丘: 位置和高度都平滑跟随 */
+        if (hx < -999) { hx = mx; hy = my; }
+        hx += (mx - hx) * .18; hy += (my - hy) * .18;
+        if (performance.now() - lastMove > 2500) ampT = 0;
+        amp += (ampT * .22 - amp) * .06;
+        var s2 = 2 * 85 * 85, cx = W / 2, cy = H / 2;
+        for (var y = 0; y < NY; y++) {
+          var py = y * C, ny0 = ((py - cy) / br + cy) * .0042;
+          for (var x = 0; x < NX; x++) {
+            var px = x * C, nx0 = ((px - cx) / br + cx) * .0042;
+            var v = .68 * vn(nx0 + ox, ny0 + oy + sy) + .32 * vn(nx0 * 2.6 - ts * .02, ny0 * 2.6 + ts * .015 + sy * 2.6);
+            if (amp > .002) { var dx = px - hx, dy = py - hy; v += amp * Math.exp(-(dx * dx + dy * dy) / s2); }
+            F[y * NX + x] = v;
+          }
+        }
+      }
+      function draw(t) {
+        field(t);
+        ctx.clearRect(0, 0, W, H);
+        ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+        var k = narrow ? .55 : 1;
+        for (var l = 0; l < LV.length; l++) {
+          var lev = LV[l].v, f = Math.min(1, Math.max(0, (lev - .25) / .6));
+          var c = [Math.round(B[0] + (A[0] - B[0]) * f), Math.round(B[1] + (A[1] - B[1]) * f), Math.round(B[2] + (A[2] - B[2]) * f)];
+          ctx.strokeStyle = 'rgba(' + c.join(',') + ',' + ((LV[l].idx ? .34 : .15) * k).toFixed(3) + ')';
+          ctx.lineWidth = LV[l].idx ? 1.35 : .8;
+          ctx.beginPath();
+          for (var y = 0; y < NY - 1; y++) for (var x = 0; x < NX - 1; x++) {
+            var a = F[y * NX + x], b = F[y * NX + x + 1], cc = F[(y + 1) * NX + x + 1], d = F[(y + 1) * NX + x];
+            var id = (a > lev ? 8 : 0) | (b > lev ? 4 : 0) | (cc > lev ? 2 : 0) | (d > lev ? 1 : 0);
+            if (id === 0 || id === 15) continue;
+            var X = x * C, Y = y * C;
+            var T = [X + C * (lev - a) / (b - a), Y], Rt = [X + C, Y + C * (lev - b) / (cc - b)], Bt = [X + C * (lev - d) / (cc - d), Y + C], Lf = [X, Y + C * (lev - a) / (d - a)];
+            var sg;
+            switch (id) {
+              case 1: case 14: sg = [Lf, Bt]; break;  case 2: case 13: sg = [Bt, Rt]; break;
+              case 3: case 12: sg = [Lf, Rt]; break;  case 4: case 11: sg = [T, Rt]; break;
+              case 6: case 9: sg = [T, Bt]; break;    case 7: case 8: sg = [Lf, T]; break;
+              case 5: sg = [Lf, T, Bt, Rt]; break;    case 10: sg = [T, Rt, Lf, Bt]; break;
+            }
+            for (var g = 0; g < sg.length; g += 2) { ctx.moveTo(sg[g][0], sg[g][1]); ctx.lineTo(sg[g + 1][0], sg[g + 1][1]); }
+          }
+          ctx.stroke();
+        }
+        /* 羽化遮罩: 正文一栏中心最淡, 向两侧平滑过渡 */
+        if (!narrow && mR > mL) {
+          var gw = 140, g2 = ctx.createLinearGradient(mL - gw, 0, mR + gw, 0), fl = gw / (mR - mL + 2 * gw);
+          g2.addColorStop(0, 'rgba(0,0,0,0)'); g2.addColorStop(Math.min(.49, fl * 1.6), 'rgba(0,0,0,.72)');
+          g2.addColorStop(Math.max(.51, 1 - fl * 1.6), 'rgba(0,0,0,.72)'); g2.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = g2; ctx.fillRect(mL - gw, 0, mR - mL + 2 * gw, H);
+          ctx.globalCompositeOperation = 'source-over';
+        }
+      }
+      size(); addEventListener('resize', function () { size(); draw(performance.now()); });
+      if (auto) draw(0);
+      else {
+        var lastT = 0;
+        (function loop(t) { if (!document.hidden && t - lastT > 66) { lastT = t; draw(t); } requestAnimationFrame(loop); })(0);
+      }
+    }
+
+    /* 解密标题 (h2 小节标题和 h3 三级标题; 页首大标题 h1 不加):
+       ① 第一次滚进视野时解密 (解密的是中文主标题 .ht, 德语副标题不动); h2 解密完开始颜色波动;
+       ② 之后鼠标悬停 (手机上点一下) 再解密, 1.2 秒内不重复;
+       ③ 正在读的那一节, 它的 h2 每隔 6–10 秒有一两个字瞬间变乱码再恢复 (信号干扰) */
+    if (fx) {
+      var heads = Array.prototype.slice.call(document.querySelectorAll('main h2, main h3')).filter(function (h) { return h.querySelector(':scope > .ht'); });
+      var hio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { decrypt(e.target.querySelector(':scope > .ht'), e.target.tagName === 'H3' ? 600 : 800); hio.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -12% 0px' });
+      heads.forEach(function (h) {
+        var ht = h.querySelector(':scope > .ht'), short = h.tagName === 'H3' ? 520 : 650;
+        if (h.getBoundingClientRect().top < innerHeight * .88) decrypt(ht, h.tagName === 'H3' ? 600 : 800); else hio.observe(h);
+        var lastHover = 0;
+        var again = function () { var now = performance.now(); if (now - lastHover > 1200) { lastHover = now; decrypt(ht, short); } };
+        ht.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') again(); });
+        h.addEventListener('click', function (e) { if (e.pointerType !== 'mouse' && !e.target.closest('a')) again(); });
+      });
+      var headOf = function (t) {
+        if (!t) return null;
+        var h = /^H2$/.test(t.tagName) ? t : t.querySelector('h2');
+        return h ? h.querySelector(':scope > .ht') : null;
+      };
+      var glitch = function () {
+        var ht = curIdx >= 0 ? headOf(targets[curIdx]) : null;
+        if (ht && !ht._dtok && !document.hidden) {
+          var r = ht.getBoundingClientRect();
+          if (r.bottom > 0 && r.top < innerHeight) glitchOnce(ht);
+        }
+        setTimeout(glitch, 6000 + Math.random() * 4000);
+      };
+      setTimeout(glitch, 7000);
+    }
+
+    /* 图片点击放大: 从原位置平滑放大到屏幕中央 (FLIP), 点击 / Esc 时缩回原位 */
+    var lb = document.createElement('div'); lb.id = 'lightbox'; document.body.appendChild(lb);   /* 图片在打开时才放进去, 页面里没有空的 <img> */
+    var lbSrc = null, lbBusy = false;
+    var rectFit = function (nw, nh) {
+      var mw = innerWidth * .92, mh = innerHeight * .84, k = Math.min(mw / nw, mh / nh, 2.2);
+      var w = nw * k, h = nh * k; return { left: (innerWidth - w) / 2, top: (innerHeight - h) / 2 - innerHeight * .03, width: w, height: h };
+    };
+    var place = function (el, r, to) {
+      var sx = r.width / to.width, sy = r.height / to.height;
+      el.style.transform = 'translate(' + r.left + 'px,' + r.top + 'px) scale(' + sx + ',' + sy + ')';
+    };
+    var lbOpen = function (im) {
+      if (lbBusy) return; lbBusy = true; lbSrc = im;
+      var b = document.createElement('img'); b.src = im.src; b.alt = im.alt;
+      var cap = document.createElement('div'); cap.className = 'lb-cap';
+      var fc = im.closest('figure') && im.closest('figure').querySelector('figcaption, .fig-cap');
+      cap.textContent = fc ? fc.textContent : (im.alt || '');
+      lb.textContent = ''; lb.appendChild(b); lb.appendChild(cap);
+      var to = rectFit(im.naturalWidth || im.width, im.naturalHeight || im.height);
+      b.style.width = to.width + 'px'; b.style.height = to.height + 'px';
+      b.style.transition = 'none'; place(b, im.getBoundingClientRect(), to);
+      im.style.visibility = 'hidden';
+      b.getBoundingClientRect();
+      b.style.transition = ''; lb.classList.add('on');
+      requestAnimationFrame(function () { b.style.transform = 'translate(' + to.left + 'px,' + to.top + 'px)'; });
+      setTimeout(function () { lbBusy = false; }, reduce ? 0 : 480);
+    };
+    var lbClose = function () {
+      if (!lb.classList.contains('on') || lbBusy) return;
+      var b = lb.querySelector('img'), im = lbSrc;
+      lb.classList.remove('on');
+      if (b && im && !reduce) {
+        lbBusy = true;
+        var to = { width: parseFloat(b.style.width), height: parseFloat(b.style.height) };
+        place(b, im.getBoundingClientRect(), to);
+        setTimeout(function () { im.style.visibility = ''; lb.textContent = ''; lbBusy = false; }, 480);
+      } else { if (im) im.style.visibility = ''; lb.textContent = ''; }
+    };
+    lb.addEventListener('click', lbClose);
+    addEventListener('keydown', function (e) { if (e.key === 'Escape') lbClose(); });
+    addEventListener('scroll', function () { if (lb.classList.contains('on')) lbClose(); }, { passive: true });
+    Array.prototype.forEach.call(document.querySelectorAll('main .src-fig img, main figure:not([class]) img'), function (im) {
+      im.addEventListener('click', function () { lbOpen(im); });
+    });
+
+    /* 左侧色条里的流光: 每个框随机错开起点, 不会整页同时闪 */
+    document.querySelectorAll('.zh, .warn, .def').forEach(function (el) { el.style.setProperty('--bar-delay', (-Math.random() * 5.5).toFixed(2) + 's'); });
+
+    /* 5. 卡片聚光灯: 只在鼠标所在的那张卡片里亮 */
+    if (!reduce && matchMedia('(pointer: fine)').matches) {
+      var boxes = document.querySelectorAll('main .card, main .zh, main .add, main .warn');
+      boxes.forEach(function (el) {
+        el.addEventListener('pointermove', function (e) {
+          if (e.target.closest('.card, .zh, .add, .warn') !== el) { el.classList.remove('lit'); return; }
+          var r = el.getBoundingClientRect();
+          el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+          el.classList.add('lit');
+        });
+        el.addEventListener('pointerleave', function () { el.classList.remove('lit'); });
+      });
+    }
+
+    /* 7. 光标拖影: 鼠标移动时拖一条由粗到细、逐渐变淡的光带, 停下就收拢消失 */
+    if (!reduce && !auto && matchMedia('(pointer: fine)').matches) {
+      var tc = document.createElement('canvas'); tc.id = 'trail'; tc.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(tc);
+      var tx = tc.getContext('2d'), TW = 0, TH = 0, tdpr = 1, pts = [], running = false, LIFE = 160;
+      var g1 = (getComputedStyle(doc).getPropertyValue('--accent') || '#81e48d').trim();
+      var g2 = (getComputedStyle(doc).getPropertyValue('--glow2') || '#7fd3ff').trim();
+      function tsize() { tdpr = Math.min(2, window.devicePixelRatio || 1); TW = innerWidth; TH = innerHeight;
+        tc.width = TW * tdpr; tc.height = TH * tdpr; tx.setTransform(tdpr, 0, 0, tdpr, 0, 0); }
+      tsize(); addEventListener('resize', tsize);
+      addEventListener('pointermove', function (e) {
+        pts.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+        if (!running) { running = true; requestAnimationFrame(tdraw); }
+      }, { passive: true });
+      function tdraw(now) {
+        while (pts.length && now - pts[0].t > LIFE) pts.shift();
+        tx.clearRect(0, 0, TW, TH);
+        if (pts.length > 1) {
+          tx.lineCap = 'round'; tx.lineJoin = 'round';
+          for (var i = 1; i < pts.length; i++) {
+            var a = pts[i - 1], b = pts[i], f = i / (pts.length - 1), age = 1 - (now - b.t) / LIFE;
+            tx.strokeStyle = f > .5 ? g1 : g2;
+            tx.globalAlpha = Math.max(0, .75 * f * age);
+            tx.lineWidth = 1 + 5 * f * age;
+            tx.shadowColor = g1; tx.shadowBlur = 12 * f;
+            tx.beginPath(); tx.moveTo(a.x, a.y); tx.lineTo(b.x, b.y); tx.stroke();
+          }
+          tx.globalAlpha = 1; tx.shadowBlur = 0;
+        }
+        if (pts.length) requestAnimationFrame(tdraw); else { running = false; tx.clearRect(0, 0, TW, TH); }
+      }
+    }
+
+    /* 6. 折叠答案的展开动画 */
+    document.querySelectorAll('details.answer').forEach(function (d) {
+      var s = d.querySelector('summary'); if (!s) return;
+      var body = document.createElement('div'); body.className = 'dbody';
+      while (s.nextSibling) body.appendChild(s.nextSibling);
+      d.appendChild(body);
+      s.addEventListener('click', function (ev) {
+        if (reduce) return;
+        ev.preventDefault();
+        if (d.open) {
+          body.style.height = body.scrollHeight + 'px';
+          requestAnimationFrame(function () { body.style.height = '0px'; });
+          setTimeout(function () { d.open = false; body.style.height = ''; }, 350);
+        } else {
+          d.open = true; var h = body.scrollHeight; body.style.height = '0px';
+          requestAnimationFrame(function () { body.style.height = h + 'px'; });
+          setTimeout(function () { body.style.height = ''; }, 360);
+        }
+      });
+    });
+  } catch (err) { document.documentElement.classList.remove('fx'); }
+})();
+</script>
+</body>
+</html>
