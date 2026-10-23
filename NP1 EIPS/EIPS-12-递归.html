@@ -1032,7 +1032,7 @@ print(fac(5))</code></pre>
   </ol>
   <p>划分后基准已经在最终位置上, 左右两部分互不相干, 分别排好就整体有序. 这种「拆成子问题分别解决」的方法叫 <b>Divide-and-Conquer 分而治之</b> (第 1 章提过), 和二分查找一样. </p>
 </div>
-<div class="warn"><p><b>原文笔误: </b>「folgt <b>einen</b> ähnlichen Lösungsansatz」应为「einem». 另外第 2 步说左边「≤ Pivot」、右边「&gt; Pivot」, 而下面的 Folie 34 图下写的是「&lt; 65」和「≥ 65」, 两处的等号放在了不同的一边; 两种约定都可以, 但应前后一致. </p></div>
+<div class="warn"><p><b>原文笔误: </b>「folgt <b>einen</b> ähnlichen Lösungsansatz」应为「einem」. 另外第 2 步说左边「≤ Pivot」、右边「&gt; Pivot」, 而下面的 Folie 34 图下写的是「&lt; 65」和「≥ 65」, 两处的等号放在了不同的一边; 两种约定都可以, 但应前后一致. </p></div>
 
 <div class="card de">
   <span class="folie">Folie 33</span>
@@ -1153,7 +1153,7 @@ Sortiere beide Teillisten rekursiv mit Quicksort
   <p><b>原地划分</b> (Hoare 式): 基准在最左边; 两个指针: l 从左往右找<b>太大</b>的元素 (比基准大, 应该去右边), r 从右往左找<b>太小</b>的元素 (应该去左边). 都找到且 l 还在 r 左边, 就交换这两个元素, 继续找. l 和 r 交叉后, r 指向「左半部分的最后一个」, 把基准和 r 处的元素交换, 基准就到了正确位置. </p>
   <p>以 [65, 43, 92, 26, 75, 13] 为例 (基准 65): l 停在 92, r 停在 13 → 交换 → [65, 43, 13, 26, 75, 92]; l 继续到 75, r 退到 26, 已交叉 → 交换基准和 r 处的 26 → <b>[26, 43, 13, 65, 75, 92]</b>, 返回下标 3. 实际运行结果和图一致. </p>
 </div>
-<div class="warn"><p><b>原文笔误: </b>「Vertausche das Pivot <b>mir</b> r」应为「mit r». </p></div>
+<div class="warn"><p><b>原文笔误: </b>「Vertausche das Pivot <b>mir</b> r」应为「mit r」. </p></div>
 
 <div class="card de">
   <span class="folie">Folie 40</span>
@@ -1236,7 +1236,7 @@ Sortiere beide Teillisten rekursiv mit Quicksort
   </table></div>
   <p><b>最坏情况</b>什么时候出现: 选第一个元素作基准时, 输入<b>已经排好序</b> (或倒序) 就是最坏情况: 基准总是最小 (或最大) 的, 一边为空, 每层只减少一个元素. 讽刺的是, 对已排序的列表插入排序是 O(n), 快速排序却是 O(n²). 实践中快速排序的平均表现非常好, 所以仍然很常用. </p>
 </div>
-<div class="warn"><p><b>原文笔误: </b>「alle Element<b>en</b> außer dem Pivot」应为「alle Elemente». </p></div>
+<div class="warn"><p><b>原文笔误: </b>「alle Element<b>en</b> außer dem Pivot」应为「alle Elemente」. </p></div>
 
 <div class="card de">
   <span class="folie">Folie 44</span>
@@ -1253,7 +1253,7 @@ Sortiere beide Teillisten rekursiv mit Quicksort
 <div class="zh">
   <p>实践中的改进: </p>
   <ul>
-    <li>段很短时 (如 ≤ 10 个元素) 改用简单排序: 小规模时简单算法常数因子小, 反而更快 (第 10 章 Folie 53「常数因子也重要»). </li>
+    <li>段很短时 (如 ≤ 10 个元素) 改用简单排序: 小规模时简单算法常数因子小, 反而更快 (第 10 章 Folie 53「常数因子也重要」). </li>
     <li><b>三数取中</b>: 取第一个、中间、最后一个元素的<b>中位数</b>作基准. 这样对已排序的输入也能对半分, 避开最坏情况. </li>
     <li><b>三路划分</b>: 分成 &lt;、=、&gt; 三部分, 等于基准的部分不再递归. 重复元素很多时大大加速. Folie 37 的简单版本其实已经做到了三分, 只是 qsort 没有利用它. </li>
   </ul>
@@ -1271,7 +1271,7 @@ Sortiere beide Teillisten rekursiv mit Quicksort
 <div class="zh">
   <p>关于排序的理论结论: 任何<b>基于比较</b>的排序算法, 最坏情况下<b>至少</b>需要约 n log n 次比较. 有的算法最坏情况也能达到 O(n log n), 例如归并排序 (Merge-Sort: 对半分、分别排序、再合并). <b>不基于比较</b>的方法 (例如对固定长度的整数按位分配的基数排序) 可以做到线性时间. </p>
 </div>
-<div class="warn"><p><b>幻灯片说法不准确: </b>「jeder vergleichsbasierte Sortieralgorithmus ist im worst-case log-linear」字面意思是「每个基于比较的排序在最坏情况下都是 O(n log n)」, 这显然不对 (冒泡排序最坏 O(n²)). 定理的正确表述是: 最坏情况下<b>至少</b>需要 Ω(n log n) 次比较, 即「nicht besser als log-linear». 第二点「auch im worst-case dies erreichen」说的正是达到这个下界的算法. </p></div>
+<div class="warn"><p><b>幻灯片说法不准确: </b>「jeder vergleichsbasierte Sortieralgorithmus ist im worst-case log-linear」字面意思是「每个基于比较的排序在最坏情况下都是 O(n log n)」, 这显然不对 (冒泡排序最坏 O(n²)). 定理的正确表述是: 最坏情况下<b>至少</b>需要 Ω(n log n) 次比较, 即「nicht besser als log-linear」. 第二点「auch im worst-case dies erreichen」说的正是达到这个下界的算法. </p></div>
 
 <!-- ======================= LERNZIELE ======================= -->
 

@@ -1205,7 +1205,7 @@ c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></spa
 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
 c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span></span></span></span> 才能算 (在反向传播中位于它的「上游」), 所以也趋于零, 对总和几乎没有贡献.</p>
-  <p>后果: 如果 RNN 应该关注的词离损失很远 (例如情感由句首的 «not» 决定, 损失却在句末), 网络就学不到 (或学得极慢) 怎样利用这些词. 普通 RNN 实际上只能利用较短的上下文.</p>
+  <p>后果: 如果 RNN 应该关注的词离损失很远 (例如情感由句首的 「not」 决定, 损失却在句末), 网络就学不到 (或学得极慢) 怎样利用这些词. 普通 RNN 实际上只能利用较短的上下文.</p>
 </div>
 
 <div class="card de">
@@ -1369,7 +1369,7 @@ c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></spa
 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
 c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></span></span></span></span>, 是这一步算出的新信息.</p>
-  <p>它们之间的交互由<b>gate 门</b>控制. 门是取值在 (0, 1) 之间的 d 维向量, 逐元素相乘: 某一维为 0 表示「全关」, 为 1 表示「全开».</p>
+  <p>它们之间的交互由<b>gate 门</b>控制. 门是取值在 (0, 1) 之间的 d 维向量, 逐元素相乘: 某一维为 0 表示「全关」, 为 1 表示「全开」.</p>
   <ul>
     <li><b>遗忘门</b> <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.1719em;vertical-align:-0.1944em;"></span><span class="mord katex-accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9774em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span></span><span style="top:-3.2634em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.0688em;"><span class="katex-overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width="0.471em" height="0.714em" style="width:0.471em" viewBox="0 0 471 714" preserveAspectRatio="xMinYMin"><path d="M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
 3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
@@ -1994,7 +1994,7 @@ c-10 4-16 7.7-18 11 0 8.7 6 14.3 18 17 47.3 18.7 87.8 47 121.5 85S196 441.3 208
 c-10 4-16 7.7-18 11 0 8.7 6 14.3 18 17 47.3 18.7 87.8 47 121.5 85S196 441.3 208
  490c.7 2 1.3 5 2 9s1.2 6.7 1.5 8c.3 1.3 1 3.3 2 6s2.2 4.5 3.5 5.5c1.3 1 3.3
  1.8 6 2.5s6 1 10 1c14 0 21-3.7 21-11 0-2-2-10.3-6-25-20-79.3-65-146.7-135-202
- l-3-3h399890zM100 241v40h399900v-40z"/></svg></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span> 表示, 这样它同时有左边和右边的上下文 (词性标注里很有用: «flies» 是名词还是动词要看后面的词).</p>
+ l-3-3h399890zM100 241v40h399900v-40z"/></svg></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span> 表示, 这样它同时有左边和右边的上下文 (词性标注里很有用: 「flies」 是名词还是动词要看后面的词).</p>
 </div>
 
 <div class="card de">
@@ -2034,7 +2034,7 @@ c-10 4-16 7.7-18 11 0 8.7 6 14.3 18 17 47.3 18.7 87.8 47 121.5 85S196 441.3 208
 <div class="card de">
   <span class="folie">Slide 1</span>
   <p>Encoder-decoder with RNNs</p>
-  <p class="src">(Abbildung identisch mit 2.1 Slide 15: encoder liest «a great book !», decoder erzeugt «ein tolles buch ! EOS»; training w/ oracle inputs, inference w/ greedy decoding.)</p>
+  <p class="src">(Abbildung identisch mit 2.1 Slide 15: encoder liest 「a great book !」, decoder erzeugt 「ein tolles buch ! EOS」; training w/ oracle inputs, inference w/ greedy decoding.)</p>
 </div>
 <div class="zh">
   <p>回顾 <a href="#s21-apps">2.1 Slide 15</a> 的 RNN 编码器-解码器: 编码器读完源句, 只把最后一个状态交给解码器.</p>
@@ -2952,7 +2952,7 @@ c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></spa
   <p>Example:<br>What is the tallest building? =&gt; ‘What’, ‘is’, ‘the’, ‘tall’, ‘est’, ‘build’, ‘ing’, ‘?’</p>
 </div>
 <div class="zh">
-  <p><b>子词分词</b>比按词分更细: 先切成词, 再把词切成更小的单位 (词根、前缀、后缀等). 对<b>屈折变化丰富</b>的语言 (德语、芬兰语、土耳其语) 尤其重要: 一个词有很多形式, 加各种前后缀, 意义和功能随之变化; 如果每个形式都单独进词表, 词表会爆炸, 低频形式也学不好. 子词还有助于消歧, 并减少<b>OOV (未登录词)</b>: 没见过的 «tallest» 可以由见过的 «tall» + «est» 拼出来.</p>
+  <p><b>子词分词</b>比按词分更细: 先切成词, 再把词切成更小的单位 (词根、前缀、后缀等). 对<b>屈折变化丰富</b>的语言 (德语、芬兰语、土耳其语) 尤其重要: 一个词有很多形式, 加各种前后缀, 意义和功能随之变化; 如果每个形式都单独进词表, 词表会爆炸, 低频形式也学不好. 子词还有助于消歧, 并减少<b>OOV (未登录词)</b>: 没见过的 「tallest」 可以由见过的 「tall」 + 「est」 拼出来.</p>
 </div>
 <div class="warn"><p><b>原文笔误 / 说法:</b> 「highly <b>flective</b> languages」应为 inflective (或 inflecting / highly inflected). 「Uses more complex linguistic rules」不适用于本节后面讲的 BPE 和 WordPiece: 它们完全不用语言学规则, 只靠语料统计.</p></div>
 
@@ -3009,7 +3009,7 @@ c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></spa
 </div>
 <div class="zh">
   <p>Sennrich 等 (2016) 把 BPE 用到神经机器翻译上: 不看字节, 看字符. 动机: 翻译是一个<b>开放词表</b>问题, 总会遇到新词 (人名、复合词、新造词). 按词的 NMT 模型遇到 OOV 只能查后备词典, 根本无法翻译或生成没见过的词.</p>
-  <p>BPE 基本解决了这个问题, 只有两种例外: (1) 出现训练时没见过的<b>字符</b> (例如一个从未出现的汉字); (2) 某个子词在训练集里的所有出现都被合并进了更大的符号. 例: 如果训练集里 safeguar 每次都跟着 d, 合并后只剩 safeguard 这个单位, 那 «safeguar» 本身就从来没有单独被训练过; 测试时遇到 «safeguarding» 这类切分时, 某些中间单位的向量就没学好.</p>
+  <p>BPE 基本解决了这个问题, 只有两种例外: (1) 出现训练时没见过的<b>字符</b> (例如一个从未出现的汉字); (2) 某个子词在训练集里的所有出现都被合并进了更大的符号. 例: 如果训练集里 safeguar 每次都跟着 d, 合并后只剩 safeguard 这个单位, 那 「safeguar」 本身就从来没有单独被训练过; 测试时遇到 「safeguarding」 这类切分时, 某些中间单位的向量就没学好.</p>
 </div>
 <div class="warn"><p><b>原文笔误:</b> 「<b>occurence(s)</b>」(两处) 应为 occurrence(s); 「out-of-vocabulary <b>word</b>」应为复数 words.</p></div>
 
@@ -3184,7 +3184,7 @@ for i in range(num_merges):
     <li>选择合并后能让训练数据的<b>似然增加最多</b>的那一对单位进行合并.</li>
   </ol>
   <p>停止条件有两种: 达到指定词表大小, 或者似然的增量小于阈值.</p>
-  <p><b>和 BPE 的区别:</b> BPE 合并<b>出现次数最多</b>的一对; WordPiece 合并<b>让语言模型似然提高最多</b>的一对. 实际常用的近似是按 count(AB) / (count(A) · count(B)) 打分: 不只看 AB 多不多, 还看 A 和 B 是否「比偶然更常」在一起. BERT 用的就是 WordPiece (约 3 万词元, 词中的续接片段带 ## 前缀, 如 «play ##ing»).</p>
+  <p><b>和 BPE 的区别:</b> BPE 合并<b>出现次数最多</b>的一对; WordPiece 合并<b>让语言模型似然提高最多</b>的一对. 实际常用的近似是按 count(AB) / (count(A) · count(B)) 打分: 不只看 AB 多不多, 还看 A 和 B 是否「比偶然更常」在一起. BERT 用的就是 WordPiece (约 3 万词元, 词中的续接片段带 ## 前缀, 如 「play ##ing」).</p>
 </div>
 <div class="warn"><p><b>原文笔误:</b> 又一次「<b>the the</b> vocabulary」; 「before (<b>of</b> after)」应为 before (or after).</p></div>
 
@@ -3207,11 +3207,10 @@ for i in range(num_merges):
 </div>
 <div class="zh">
   <p>Wu 等 (2016, Google 神经机器翻译 GNMT) 的调整: 西方语言的基本单位少得多 (约 500 个); 只在词首加空格标记 (下划线); 最终词表 8k 到 32k 在准确度和解码速度之间取得较好平衡 (Schuster &amp; Nakajima 用的是约 20 万).</p>
-  <p>源语言和目标语言是分别建词表, 还是共用一个? Sennrich 等 (2016) 发现<b>联合 BPE</b> 效果更好; Wu 等 (2016) 也用共享的 WordPiece 模型, 保证同一个字符串在源句和目标句里切法一致, 这样罕见的实体名或数字 (如 «Schmidhuber», «1997») 只要逐块照抄过去就行.</p>
+  <p>源语言和目标语言是分别建词表, 还是共用一个? Sennrich 等 (2016) 发现<b>联合 BPE</b> 效果更好; Wu 等 (2016) 也用共享的 WordPiece 模型, 保证同一个字符串在源句和目标句里切法一致, 这样罕见的实体名或数字 (如 「Schmidhuber」, 「1997」) 只要逐块照抄过去就行.</p>
 </div>
 
 </main>
-
 <script id="glass-js">
 /* 玻璃霓虹层 v11 的交互: 进度条后备、滚动淡入、浮动胶囊目录、背景等高线、解密标题、卡片聚光灯、光标拖影、折叠动画.
    全部是本地代码, 不加载任何外部资源; 任何一步出错都不影响正文显示. */

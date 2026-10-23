@@ -923,7 +923,7 @@ print(ist_Primzahl(-6))  <span class="c"># Ergebnis: True</span></code></pre>
     <li><b>erwartetes Ergebnis 期望结果</b> (返回值); </li>
     <li><b>Nachbedingung 后置条件</b>: 执行后环境应处于什么状态 (文件被删除了); </li>
     <li><b>Testanweisungen 测试步骤</b>: 具体怎么调用; </li>
-    <li><b>Testauswertung 测试评估</b>: 比较期望结果和实际结果, 判定「通过」或「失败», 通常自动完成. </li>
+    <li><b>Testauswertung 测试评估</b>: 比较期望结果和实际结果, 判定「通过」或「失败」, 通常自动完成. </li>
   </ul>
   <p>纯函数 (ist_primzahl) 没有前置/后置条件, 只看返回值; 有副作用的函数 (os.remove 删除文件, 返回 None) 的真正效果要通过后置条件检查. </p>
 </div>
@@ -981,7 +981,7 @@ AssertionError: unexpected result of sqrt</code></pre>
 <div class="zh">
   <p><b>Modultest 单元测试</b>: 检查系统的各个部分 (函数、类、方法、包) 是否正确. 写成 <b>Test-Suite 测试套件</b> (一组测试), 每个测试 = 准备 + 具体输入 + 期望结果 + 收尾. 通常用 assert 检查, 并集成到开发流程中自动运行. Python 的工具: pytest、unittest (标准库)、doctest (把 Docstring 里的 &gt;&gt;&gt; 例子当测试)、Robot Framework. </p>
 </div>
-<div class="warn"><p><b>原文笔误: </b>「über<b>p</b>üfen」少了 r (überprüfen); 「<b>das</b> die Einzelteile」应为「dass」; 「Syste<b>sm</b>」应为「Systems»; 「Funktionen<b>,</b> Klassen」漏了逗号. </p></div>
+<div class="warn"><p><b>原文笔误: </b>「über<b>p</b>üfen」少了 r (überprüfen); 「<b>das</b> die Einzelteile」应为「dass」; 「Syste<b>sm</b>」应为「Systems」; 「Funktionen<b>,</b> Klassen」漏了逗号. </p></div>
 
 <h3>系统地创建测试用例<br><span class="de-title">Testfälle erzeugen</span></h3>
 <div class="card de">
@@ -1262,7 +1262,7 @@ FAILED test_max.py::test_max2 - IndexError: list index out of range
     <li>test_maximum_boundary_conditions: <code>maximum(None, 0, 0)</code> 碰巧抛出了 TypeError (None[0] 不能取下标), 这一项通过; 下一项 <code>maximum([], 0, 0)</code> 期望 ValueError, 实际是 [][0] 的 IndexError, 失败. </li>
   </ul>
 </div>
-<div class="warn"><p><b>截图和代码对不上: </b>截图里的测试文件和函数名是 <code>test_max.py::test_max1</code>、<code>test_max2</code>, 而 Folie 39 的测试函数叫 test_maximum_ok 和 test_maximum_boundary_conditions; 而且按 Folie 39 的测试顺序, 不会出现截图里第一行那个以 TypeError 失败的测试 (pytest.raises(TypeError) 会把它接住). 截图应来自另一版测试代码. 两次都是「2 failed」这一点一致. 另外「Testausf<b>ü</b>rung」应为「Testausführung». </p></div>
+<div class="warn"><p><b>截图和代码对不上: </b>截图里的测试文件和函数名是 <code>test_max.py::test_max1</code>、<code>test_max2</code>, 而 Folie 39 的测试函数叫 test_maximum_ok 和 test_maximum_boundary_conditions; 而且按 Folie 39 的测试顺序, 不会出现截图里第一行那个以 TypeError 失败的测试 (pytest.raises(TypeError) 会把它接住). 截图应来自另一版测试代码. 两次都是「2 failed」这一点一致. 另外「Testausf<b>ü</b>rung」应为「Testausführung」. </p></div>
 
 <div class="card de">
   <span class="folie">Folie 41</span>
