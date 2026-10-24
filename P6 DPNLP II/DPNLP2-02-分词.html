@@ -842,35 +842,27 @@
 
   /* ================= v7.1d: 标题字重 + 大标题的光 =================
      标题回到有分量的字重: h1 600 (32px), h2 500, h3 600; 原文标题仍是等宽小号大写.
-     大标题的「质感」: 字面是一道从上到下极淡的渐变 (上亮下略暗, 像拉丝金属的受光), 不是平涂;
-     大标题自己的动效 (和小节标题的解密乱码不同, 但同样克制): 加载时从左往右揭开, 一道窄光带贴着揭开的边走过; 鼠标悬停时光带再扫一次. */
-  @property --rv { syntax: "<percentage>"; inherits: false; initial-value: 115%; }
-  @property --sx { syntax: "<percentage>"; inherits: false; initial-value: 100%; }
+     (v7.1d 的大标题渐变字面和揭开光带已在 v7.1e 去掉, 大标题和小节标题用同一种解密动效; 字号见 v7.3 的 --h1n.) */
   h1 { font-weight: 600 !important; font-size: 32px !important; letter-spacing: .012em !important; }
   h2 { font-weight: 500 !important; letter-spacing: .02em !important; }
   h3 { font-weight: 600 !important; letter-spacing: .03em !important; }
   @media (max-width: 560px) { h1 { font-size: 26px !important; } }
 
-  /* ================= v7.1e: 标题字体 = 方正尚酷简体 =================
-     h1 / h2 / h3 的中文标题用方正尚酷简体 (本机安装后生效; 没装时退到苹方). 尚酷只有一个字重, 关掉合成粗体 (font-synthesis: none),
-     不会被浏览器硬描粗; 苹方仍按 600 / 500 / 600. 原文标题 (.de-title) 仍是等宽小号大写. */
-  :root { --hfont: "方正尚酷简体", "FZShangKuS-R-GB", "FZShangKu-M02S", "FZSKJW--GB1-0", "FZShangKuS", "PingFang SC", -apple-system, sans-serif; }
+  /* ================= v7.1e: 标题用 --hfont, 关掉合成粗体 =================
+     h1 / h2 / h3 的字体统一由 --hfont 决定 (现在是 v7.3 的 Avenir Next + 苹方, 定义在后面); 关掉合成粗体 (font-synthesis: none). */
   h1, h2, h3 { font-family: var(--hfont) !important; font-synthesis: none; }
   h1 .de-title, h2 .de-title, h3 .de-title { font-synthesis: none; }
   /* 答案模块: 触碰层 (柔光、透镜、涟漪) 罩住整个答案, 不再只在摘要那一行里 (之前在摘要行上下被切成一条硬边的光带) */
   main details.answer > summary { position: static !important; }
   /* 大标题的 .ht: 排版统一层的「h1 > span」规则是给副标题的 (块级、15px、灰), 不能套到标题正文上 */
   h1 > .ht { display: inline !important; margin: 0 !important; font: inherit !important; letter-spacing: inherit !important; color: inherit !important; }
-  /* ================= v7.1f: 标题字体 = 冬青黑体 (Hiragino Sans GB, macOS 自带) =================
-     和苹方同属现代黑体, 但笔画有粗细对比、转折更硬朗, 字面更有质感; 只有 W3 / W6 两个字重, 标题一律用 W6 (600). 没有冬青黑体的系统退到苹方.
-     取代 v7.1e 的方正尚酷 (用户 2026-10-24: 换成系统已有的、和苹方类似但更有质感的字体). */
-  :root { --hfont: "Hiragino Sans GB", "PingFang SC", -apple-system, sans-serif; }
+  /* 标题字重 (字体见 v7.3 的 --hfont) */
   h1, h2, h3 { font-weight: 600 !important; }
 
   /* ================= v7.2: 材质与整体性 (夜晚 / 白天) =================
      不动设计逻辑和样式, 只给所有东西同一种「材料」, 让它们像一台机器上的零件, 而不是一堆贴上去的元素:
        模块 = 斜面面板: 上沿一道受光的斜面亮线、下沿一道背光暗线、一圈几乎看不见的外轮廓、接触阴影 + 环境遮蔽; 面板里一层很细的拉丝纹理 (夜晚) / 纸纹 (白天);
-              四角是倒角 (corner-shape: bevel, 不支持时退成 2px 圆角); 悬停时面板抬起 1px、阴影加深, 一道高光跟着光标沿上沿的斜面走 (光照在金属边上).
+              四角 2px 圆角 (v7.2 的倒角已在 v7.3 去掉); 悬停时面板抬起 1px、阴影加深, 一道高光跟着光标沿上沿的斜面走 (光照在金属边上).
        标题 = 刻进面板的字: 静止时带一点本课主色 (淡), 1px 刻痕阴影; 夜晚比正文稍暗.
        连接件、边注软线、频谱仪、讲解框边上的 LED = 同一种压印: 下方 1px 阴影 (夜晚暗、白天亮), 有厚度.
        表格、公式的上下细线 = 刻线: 一道暗线 + 下面一道亮线. */
@@ -900,10 +892,6 @@
   main .codebox { box-shadow: inset 0 1px 0 var(--bev-hi), inset 0 -1px 0 var(--bev-lo), 0 0 0 1px var(--ring), 0 2px 3px -2px var(--ao), 0 16px 34px -26px var(--ao) !important; }
   .flaps i { box-shadow: inset 0 1px 0 var(--bev-hi), 0 0 0 1px color-mix(in srgb, var(--k-ans2) 24%, transparent), 0 1px 2px -1px var(--ao) !important; }
   .key { box-shadow: inset 0 1px 0 var(--bev-hi), inset 0 -1px 0 var(--bev-lo), 0 0 0 1px color-mix(in srgb, var(--k-ans2) 28%, transparent), 0 2px 4px -2px var(--ao) !important; }
-  /* 倒角 */
-  @supports (corner-shape: bevel) {
-    main :is(.card, .zh, .add, .warn, details.answer, .codebox), :is(header nav, body > nav) { border-radius: 7px !important; corner-shape: bevel; }
-  }
   /* 表格、公式: 刻线 */
   main .math-block::after, main .tablewrap::after { background: linear-gradient(var(--bev-lo), var(--bev-lo)) top / 100% 1px no-repeat, linear-gradient(var(--bev-hi), var(--bev-hi)) 0 1px / 100% 1px no-repeat,
     linear-gradient(var(--bev-lo), var(--bev-lo)) 0 calc(100% - 1px) / 100% 1px no-repeat, linear-gradient(var(--bev-hi), var(--bev-hi)) bottom / 100% 1px no-repeat !important; }
@@ -941,6 +929,70 @@
      (MGTN 练习单曾因此在解密时字号缩到 62%, 结束时又跳回来). scripts/heading_check.mjs 逐篇检查这一点. */
   :is(h1, h2, h3, #toc-pill .cur) .ch, :is(h1, h2, h3) .ht .seg { font: inherit !important; letter-spacing: inherit !important; line-height: inherit !important; text-transform: inherit !important; margin: 0 !important; padding: 0 !important; vertical-align: baseline !important; }
   :is(h1, h2, h3) .ch { display: inline !important; }
+
+  /* ================= v7.4 =================
+     背景暗字层随页面原生滚动; 页边记号是按页面坐标放的小画布. */
+  #bgfield { position: absolute; left: 0; top: 0; width: 100%; z-index: 0; pointer-events: none; background-repeat: repeat; }
+  .mk { position: absolute; z-index: 0; pointer-events: none; }
+  @media print { #bgfield, .mk { display: none !important; } }
+  /* 手机端精简模式 (html.lite, 只在触屏、不能悬停、宽度 ≤ 640 时由 <head> 的小脚本加上; 电脑端永远没有这个 class).
+     写在 @layer 里: 层里的 !important 优先于视觉层里不分层的 !important, 所以能把框改回原始样式. */
+  @layer lite {
+    html.lite body::before, html.lite #bg, html.lite #bgfield, html.lite #marg, html.lite .mk, html.lite #trail, html.lite .ov, html.lite .fxl,
+    html.lite canvas.div2, html.lite h2 > .tape, html.lite canvas.tether, html.lite .af, html.lite .holes, html.lite .link { display: none !important; }
+    html.lite, html.lite body { background: var(--bg) !important; }
+    html.lite main :is(.card, .zh, .add, .warn, details.answer, .math-block, .tablewrap) { box-shadow: none !important; transform: none !important; isolation: auto !important; transition: none !important; }
+    html.lite main :is(.card, .zh, .warn, details.answer, .math-block, .tablewrap)::before, html.lite main :is(.card, .zh, .add, .warn, details.answer, .math-block, .tablewrap)::after { display: none !important; }
+    html.lite main .card { background: var(--card) !important; border: 1px solid var(--line) !important; border-radius: 12px !important; }
+    html.lite main .zh { background: var(--zh) !important; border: 0 !important; border-left: 3px solid var(--accent) !important; border-radius: 0 10px 10px 0 !important; }
+    html.lite main .add { background: var(--add) !important; border: 0 !important; border-left: 3px dashed var(--add-line) !important; border-radius: 0 10px 10px 0 !important; padding-bottom: 12px !important; }
+    html.lite main .warn { background: var(--warn) !important; border: 0 !important; border-left: 3px solid var(--warn-line) !important; border-radius: 0 10px 10px 0 !important; padding-top: 12px !important; }
+    html.lite main details.answer { background: var(--card) !important; border: 1px solid var(--line) !important; border-radius: 10px !important; padding: 10px 14px !important; }
+    html.lite main details.answer > summary { padding: 0 !important; min-height: 0 !important; }
+    html.lite main details.answer[open] > summary { margin-bottom: 8px !important; }
+    html.lite main :is(.math-block, .tablewrap) { background: transparent !important; border: 0 !important; padding: 0 !important; overflow-x: auto !important; overflow-y: hidden !important; max-width: 100% !important; }
+    html.lite main .katex-display { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+    html.lite main :is(td, th).r, html.lite main :is(td, th).c, html.lite main td.x { background: transparent !important; box-shadow: none !important; }
+    html.lite .reveal { opacity: 1 !important; transform: none !important; }
+    html.lite :is(header nav, body > nav) { background: var(--card) !important; background-image: none !important; box-shadow: none !important; border: 1px solid var(--line) !important; border-radius: 12px !important; }
+  }
+
+  /* ================= v7.5: 夜晚底板 = 烟色磨砂玻璃 (只改夜晚; 取代 v7.2 的拉丝纹理) =================
+     只用纯 CSS 渐变, 不用任何贴图 (试过模糊字符场、颗粒噪点, 用户: 不均匀、像糊上去的), 所以整块面板是均匀的:
+       1. 暗: 底色 16% 黑 (比背景略深, 烟色), 上沿往下 1.6% 白渐隐 (有厚度的板子被顶光照着)、顶部一团很扁的光池 1.4%; 本课色调 (--tint)、斜线 (--hatch) 保留;
+       2. 边: 1px 渐变高光边 (框的 ::after + mask 只留边框一圈), 左上 10% 白 → 2.5% → 底边回光 3.5%; 纠错框掺纠错红; 上沿内侧 1px 亮线 5%;
+       3. 互动: 光标进框时, 玻璃边上离光标最近的一段被照亮 (触碰层 .fxl 里的子元素 .rim, 继承 --mx/--my, 同样只留边框一圈), 和触碰层的柔光、网点透镜、涟漪一起淡入淡出;
+          答案的触碰层在 summary 里, 它的边光不画下边 (展开后那条下边在答案中间).
+     不用 backdrop-filter (几十个框同时模糊背景会拖慢滚动). 白天不变; 手机精简模式 (html.lite) 是纯色底, 触碰层和 ::after 都隐藏. */
+  html:not([data-mode="day"]) { --bev-hi: rgba(255,255,255,.05); --bev-lo: rgba(0,0,0,.55);
+    --glass-body: linear-gradient(180deg, rgba(255,255,255,.016), rgba(255,255,255,.004) 40%, rgba(255,255,255,0));
+    --glass-pool: radial-gradient(130% 60px at 50% 0, rgba(255,255,255,.014), rgba(255,255,255,0) 100%);
+    --glass-smoke: linear-gradient(rgba(0,0,0,.16), rgba(0,0,0,.16));
+    --glass-rim: linear-gradient(165deg, rgba(255,255,255,.10), rgba(255,255,255,.025) 18%, rgba(255,255,255,.012) 55%, rgba(255,255,255,.035)); }
+  html:not([data-mode="day"]) main :is(.card, .zh, .add, .warn, details.answer) {
+    background: var(--glass-pool) padding-box, var(--glass-body) padding-box,
+      repeating-linear-gradient(-45deg, var(--hatch, transparent) 0 1px, transparent 1px 7px) padding-box,
+      linear-gradient(color-mix(in srgb, var(--ca) var(--tint, 2.5%), transparent), color-mix(in srgb, var(--ca) var(--tint, 2.5%), transparent)) padding-box,
+      var(--glass-smoke) padding-box !important;
+    box-shadow: inset 0 1px 0 var(--bev-hi), inset 0 -1px 0 var(--bev-lo), 0 2px 3px -2px var(--ao), 0 16px 34px -26px var(--ao) !important; }
+  html:not([data-mode="day"]) main :is(.card, .zh, .add, .warn, details.answer).lit {
+    box-shadow: inset 0 1px 0 var(--bev-hi), inset 0 -1px 0 var(--bev-lo), 0 3px 4px -2px var(--ao), 0 24px 44px -26px var(--ao) !important; }
+  html:not([data-mode="day"]) main :is(.card, .zh, .add, .warn, details.answer)::after {
+    content: "" !important; display: block !important; position: absolute !important; inset: 0 !important; padding: 1px !important; border-radius: inherit !important;
+    pointer-events: none !important; z-index: 2 !important; box-shadow: none !important; opacity: 1 !important; transition: none !important;
+    background: var(--glass-rim) !important;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) !important; -webkit-mask-composite: xor !important;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0) !important; }
+  html:not([data-mode="day"]) main .warn::after { background: linear-gradient(165deg, color-mix(in srgb, var(--k-warn) 30%, rgba(255,255,255,.06)), color-mix(in srgb, var(--k-warn) 9%, transparent) 20%, color-mix(in srgb, var(--k-warn) 4%, transparent) 60%, color-mix(in srgb, var(--k-warn) 11%, transparent)) !important; }
+  html:not([data-mode="day"]) :is(header nav, body > nav) {
+    background: var(--glass-pool), var(--glass-body), var(--glass-smoke) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.06), inset 0 0 0 1px rgba(255,255,255,.022), inset 0 -1px 0 var(--bev-lo), 0 2px 3px -2px var(--ao), 0 16px 34px -26px var(--ao) !important; }
+  html:not([data-mode="day"]) main .fxl > .rim { position: absolute; inset: 0; padding: 1px; border-radius: inherit; pointer-events: none;
+    background: radial-gradient(190px circle at var(--mx, -999px) var(--my, -999px), rgba(255,255,255,.42), rgba(255,255,255,.1) 45%, transparent 72%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+  html:not([data-mode="day"]) main .warn > .fxl > .rim { background: radial-gradient(190px circle at var(--mx, -999px) var(--my, -999px), color-mix(in srgb, var(--k-warn) 70%, #fff), color-mix(in srgb, var(--k-warn) 18%, transparent) 45%, transparent 72%); }
+  html:not([data-mode="day"]) main details.answer > summary > .fxl > .rim { padding: 1px 1px 0; }
+  html[data-mode="day"] main .fxl > .rim { display: none; }
 </style>
 <style id="glass-pal">
   :root {
@@ -998,7 +1050,7 @@
   }
 </style>
 <style id="glass-fit">h1 { --h1n: 10.5; }</style>
-<script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}</script>
+<script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1392,6 +1444,8 @@ Assistant: Distribute.</pre>
     var fine = matchMedia('(pointer: fine)').matches;
     if (!reduce && !auto && 'IntersectionObserver' in window) doc.classList.add('fx');
     var fx = doc.classList.contains('fx');
+    /* v7.4: 手机端精简模式 — 去掉背景、框的装置、连接件、分割线动画、触碰层等, 框回到原始样式; 只留代码框、标题解密、胶囊和白天 / 夜晚 */
+    var LITE = matchMedia('(max-width: 640px) and (hover: none) and (pointer: coarse)').matches; if (LITE) doc.classList.add('lite');
     var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
     var cs = getComputedStyle(doc);
     var rgbOf = function (h, d) { var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((h || '').trim()); return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : d; };
@@ -1563,17 +1617,34 @@ Assistant: Distribute.</pre>
     var rng = function (seed) { var s = seed || 1; return function () { s = (Math.imul(s, 1103515245) + 12345) >>> 0; return (s >>> 8) / 16777216; }; };
 
     /* ================= 背景: 字符场 v6 =================
-       渐变底色上, 稀疏的一层很暗的字符 (取代原来的点): 大约五分之一的格子里有字, 时不时有几个悄悄换成别的字.
+       渐变底色上, 稀疏的一层很暗的字符 (取代原来的点): 大约五分之一的格子里有字; 暗字画成一张平铺图, 铺在随页面原生滚动的 #bgfield 上 (v7.4).
        亮起来的字符从四个地方来, 每一簇一种文字、一种颜色, 先快速解码再停住, 然后慢慢褪去:
          1. 鼠标经过 (留 3–4 秒)   2. 留白处时不时浮现一小段   3. 偶尔一列从上往下解码   4. 点击空白处荡开一圈
-       一道很宽的斜光带缓慢扫过, 把暗字照亮一点. 正文一栏下面压淡. */
-    if (!reduce) (function () {
+       正文一栏连两侧 40px 清空、向外羽化. (v7.4 起不再换字, 也去掉了慢扫的斜光带: 每帧重画整屏暗字是滚动卡顿的原因.) */
+    if (!reduce && !LITE) (function () {
       var cv = document.createElement('canvas'); cv.id = 'bg'; cv.setAttribute('aria-hidden', 'true'); document.body.insertBefore(cv, document.body.firstChild);
       var ctx = cv.getContext('2d'), oc = document.createElement('canvas'), octx = oc.getContext('2d'), W, H, dpr, CW = 14, CH = 20, cells = new Map(), morph = new Map(), mainEl = document.querySelector('main');
       var FIELD = ['braille', 'kana', 'rune', 'math', 'box', 'hira', 'cher'];
       var strokeSet = pickSet(), strokeCol = ACC, strokeT = 0, lastCell = '', rings = [], rains = [], nextDrift = 900, nextRain = 2500, nextMorph = 0;
       var size = function () { dpr = Math.min(2, devicePixelRatio || 1); W = innerWidth; H = innerHeight; cv.width = oc.width = W * dpr; cv.height = oc.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); octx.setTransform(dpr, 0, 0, dpr, 0, 0); };
       size(); addEventListener('resize', size);
+      /* v7.4: 暗字场不再每帧按 scrollY 重画 (那样总比页面滚动慢一帧, 看起来一顿一顿), 而是先画成一张 40 × 30 格的平铺图,
+         铺在一个和整页一样高、随页面原生滚动的层上 (#bgfield); 正文一栏连两侧 40px 用遮罩清空、向外羽化 90px. 切换白天 / 夜晚时重画这张图. */
+      var lay = document.createElement('div'); lay.id = 'bgfield'; lay.setAttribute('aria-hidden', 'true'); document.body.insertBefore(lay, document.body.firstChild);
+      var TCOL = 40, TROW = 30;
+      var tile = function () { var d = Math.min(2, devicePixelRatio || 1), tc = document.createElement('canvas'), t = tc.getContext('2d'), w = TCOL * CW, h = TROW * CH;
+        tc.width = w * d; tc.height = h * d; t.setTransform(d, 0, 0, d, 0, 0); t.font = '11px ' + FONT; t.textAlign = 'center'; t.textBaseline = 'middle';
+        t.fillStyle = INKP + (doc.getAttribute('data-mode') === 'day' ? .055 : .042) + ')';
+        for (var j = 0; j < TROW; j++) for (var i = 0; i < TCOL; i++) { var g = fieldAt(i, j); if (g) t.fillText(g, i * CW + CW / 2, j * CH + CH / 2); }
+        lay.style.backgroundImage = 'url(' + tc.toDataURL('image/png') + ')'; lay.style.backgroundSize = w + 'px ' + h + 'px'; };
+      var layout = function () { var rr = mainEl.getBoundingClientRect(), L0 = rr.left + scrollX - 40, L1 = rr.right + scrollX + 40, m;
+        lay.style.height = document.documentElement.scrollHeight + 'px';
+        m = 'linear-gradient(90deg, #000 ' + (L0 - 90) + 'px, transparent ' + L0 + 'px, transparent ' + L1 + 'px, #000 ' + (L1 + 90) + 'px)';
+        lay.style.webkitMaskImage = m; lay.style.maskImage = m; };
+      var layT = 0, relay = function () { clearTimeout(layT); layT = setTimeout(layout, 120); };
+      addEventListener('resize', relay); addEventListener('load', layout);
+      if (window.ResizeObserver) new ResizeObserver(relay).observe(document.body);
+      new MutationObserver(function () { setTimeout(tile, 30); }).observe(doc, { attributes: true, attributeFilter: ['data-mode'] });
       /* 每个格子有没有暗字、是什么字, 由坐标决定 (滚动回来还是同一个字) */
       var fieldAt = function (ix, iy) { var k = ix + ',' + iy, mo = morph.get(k); if (mo) return mo; var h = hash(k); if (h % 100 >= 19) return null; var set = FIELD[(h >>> 8) % FIELD.length], a = SETS[set]; return a[(h >>> 12) % a.length]; };
       var spawn = function (ix, iy, set, col, amp, delay, life) {
@@ -1594,16 +1665,9 @@ Assistant: Distribute.</pre>
         var y0 = Math.floor(scrollY / CH), offY = -(scrollY % CH); c.fillStyle = INKP + '' + alpha + ')';
         for (var j = -1; j * CH < H + CH; j++) for (var i = 0; i * CW < W; i++) { if (cells.has(i + ',' + (y0 + j))) continue; var g = fieldAt(i, y0 + j); if (g) c.fillText(g, i * CW + CW / 2, offY + j * CH + CH / 2); }
       };
-      var last = 0;
+      var last = 0, lastY = -1;
       var draw = function (now) {
         ctx.clearRect(0, 0, W, H); ctx.font = octx.font = '11px ' + FONT; ctx.textAlign = octx.textAlign = 'center'; ctx.textBaseline = octx.textBaseline = 'middle';
-        if (now > nextMorph) { nextMorph = now + 140; var y0 = Math.floor(scrollY / CH); for (var q0 = 0; q0 < 3; q0++) { var ix = rnd(Math.ceil(W / CW)), iy = y0 + rnd(Math.ceil(H / CH)); if (fieldAt(ix, iy)) morph.set(ix + ',' + iy, glyph(FIELD[rnd(FIELD.length)])); } if (morph.size > 4000) morph.clear(); }
-        drawField(ctx, doc.getAttribute('data-mode') === 'day' ? .055 : .042);
-        /* 斜光带 */
-        var span = W + H * .7 + 900, c0 = ((now / 1000) * 70) % span - 450, g0 = octx.createLinearGradient(c0 - 260, 0, c0 + 260, H * .7);
-        g0.addColorStop(0, 'rgba(0,0,0,0)'); g0.addColorStop(.5, 'rgba(0,0,0,1)'); g0.addColorStop(1, 'rgba(0,0,0,0)');
-        octx.clearRect(0, 0, W, H); drawField(octx, doc.getAttribute('data-mode') === 'day' ? .2 : .15); octx.globalCompositeOperation = 'destination-in'; octx.fillStyle = g0; octx.fillRect(0, 0, W, H); octx.globalCompositeOperation = 'source-over';
-        ctx.drawImage(oc, 0, 0, W, H);
         if (now > nextDrift) { drift(); nextDrift = now + 500 + Math.random() * 900; }
         if (now > nextRain) { nextRain = now + 2600 + Math.random() * 3200; rains.push({ gx: Math.floor(margins() / CW), gy: Math.floor((rnd(H * .5) + scrollY) / CH), n: 10 + rnd(14), set: pickSet(), col: pickCol(), next: now }); }
         rains = rains.filter(function (r) { if (now >= r.next) { spawn(r.gx, r.gy, r.set, r.col, .9, 0, 2600); r.gy++; r.n--; r.next = now + 85; } return r.n > 0; });
@@ -1625,8 +1689,10 @@ Assistant: Distribute.</pre>
         g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(fl, 'rgba(0,0,0,1)'); g.addColorStop(1 - fl, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = g; ctx.fillRect(L0 - gw, 0, L1 - L0 + gw * 2, H); ctx.globalCompositeOperation = 'source-over';
       };
+      tile(); layout();
       if (auto) { draw(4000); return; }
-      (function lp(t) { if (!document.hidden && t - last > 33 && !(window.__glassBusy > t)) { last = t; draw(t); } requestAnimationFrame(lp); })(0);
+      /* 亮字是按页面坐标放的: 页面在滚动时每一帧都画 (现在每帧只画几十个亮字, 很便宜), 不滚动时 30 帧 */
+      (function lp(t) { if (!document.hidden && !(window.__glassBusy > t) && (scrollY !== lastY || t - last > 33)) { last = t; lastY = scrollY; draw(t); } requestAnimationFrame(lp); })(0);
     })();
 
     /* ================= 框的装置 v6 =================
@@ -1637,6 +1703,7 @@ Assistant: Distribute.</pre>
     var CSSV = { card: 'var(--k-card)', zh: 'var(--k-zh)', add: 'var(--k-add)', warn: 'var(--k-warn)', ans: 'var(--k-ans)', math: 'var(--k-math)', tab: 'var(--k-zh)', code: 'var(--k-zh)', fig: 'var(--k-card)' };
     var typeOf = function (el) { for (var i = 0; i < TYPES.length; i++) if (el.matches(TYPES[i][1])) return TYPES[i][0]; return 'zh'; };
     var els = $$(TYPES.map(function (t) { return t[1]; }).join(', ')).filter(function (el) { return (el.matches('.tablewrap, .math-block') || !el.parentElement.closest('.card, .zh, .add, .warn, details, .math-block, .tablewrap, .codebox, .src-fig')) && (!el.matches('.tablewrap') || el.querySelector('table')); });   /* 表格和公式嵌在原文卡片里也要有互动 */
+    if (LITE) els = [];   /* v7.4: 手机端不建框的装置 (连接件、字符边、准星、LED 面板等) */
     var TOP = 44;
     var ov = function (m, l, r, b) { var c = document.createElement('canvas'); c.className = 'ov'; c.setAttribute('aria-hidden', 'true');
       c.style.left = -l + 'px'; c.style.top = -TOP + 'px'; c.style.width = 'calc(100% + ' + (l + r) + 'px)'; c.style.height = 'calc(100% + ' + (TOP + b) + 'px)'; m.el.insertBefore(c, m.el.firstChild);  /* 放在最前面, 不破坏框里 p:last-child 的规则 */ m.cv = c; m.cx = c.getContext('2d'); m.o = [l, TOP]; };
@@ -1712,7 +1779,7 @@ Assistant: Distribute.</pre>
     var RHY = [.14, .38, .62, .86, .62, .38];   /* 来回折的走线: 四个位置之间往返 */
     var along = function (pts, t) { var f = clamp(t, 0, 1) * (pts.length - 1), i = Math.min(pts.length - 2, Math.floor(f)), k = f - i; return [pts[i][0] + (pts[i + 1][0] - pts[i][0]) * k, pts[i][1] + (pts[i + 1][1] - pts[i][1]) * k]; };
     var linkDraw = function (B, now, dt) {
-      var A = B.prev; if (!A || B.el.classList.contains('side') || !A.r) return;
+      var A = B.prev; if (!A || B.el.classList.contains('side') || !A.r || A.type === 'ans' || B.type === 'ans') return;   /* v7.4: 答案上下不画连接件 */
       var g = B.r.top - A.r.bottom; if (g < 6 || g > TOP - 2) return;
       var c = B.cx, W = B.W, ca = COL[A.type], cb = COL[B.type], st = B.lst, i, pts = [];
       var X = st === 'fuse' || st === 'fix' ? 30 : st === 'key' ? W - 27 : Math.round(W * B.lfr);
@@ -1884,7 +1951,7 @@ Assistant: Distribute.</pre>
        进入视野时: 一个亮头从左往右把点阵「写」出来, 身后留一段余辉.
        鼠标停在标题附近: 光标下方的点亮起 (读头), 上方用等宽小字显示读头下这 8 位数据的十六进制值 (0x5A …), 跟着光标移动. */
     var tapes = [];
-    $$('main h2').forEach(function (h) {
+    (LITE ? [] : $$('main h2')).forEach(function (h) {
       if (h.querySelector(':scope > .tape')) return; var t = document.createElement('canvas'); t.className = 'tape'; t.setAttribute('aria-hidden', 'true'); h.insertBefore(t, h.firstChild);
       var R = rng(hash(h.textContent) || 3), bits = []; for (var i = 0; i < 400; i++) bits.push([R() < .45, R() < .35]);
       tapes.push({ h: h, cv: t, cx: t.getContext('2d'), bits: bits, rev: 0, hx: -1, hv: 0, glow: [] });
@@ -1926,11 +1993,10 @@ Assistant: Distribute.</pre>
        淡入一个, 停五到九秒再淡出; 同一屏最多五个, 不重叠, 相邻两次不重样. 都是细线和小字, 颜色偏灰, 只有色标条用课程配色.
        窄屏没有页边, 不出现. */
     (function () {
-      if (reduce || auto) return;
-      var cv = document.createElement('canvas'); cv.id = 'marg'; cv.setAttribute('aria-hidden', 'true'); document.body.insertBefore(cv, document.body.firstChild.nextSibling);
-      var x = cv.getContext('2d'), W = 0, Hh = 0, items = [], next = 1200, lastKind = '', mainEl = document.querySelector('main');
-      var size = function () { var d = Math.min(2, devicePixelRatio || 1); W = innerWidth; Hh = innerHeight; cv.width = W * d; cv.height = Hh * d; x.setTransform(d, 0, 0, d, 0, 0); };
-      size(); addEventListener('resize', size);
+      if (reduce || auto || LITE) return;
+      /* v7.4: 不再用一整屏固定的画布每帧按框的位置重画 (滚动时跟不上); 每个记号画在自己的小画布上, 按页面坐标放好, 随页面原生滚动, 淡入淡出交给浏览器动画 */
+      var x = null, W = innerWidth, Hh = innerHeight, items = [], lastKind = '', mainEl = document.querySelector('main');
+      addEventListener('resize', function () { W = innerWidth; Hh = innerHeight; });
       var INKM = INKC;
       var K = {   /* 每种记号: [宽, 高, 画法] ; 画在 (0,0) 起的盒子里 */
         reg: [13, 13, function (a) { st(a); x.beginPath(); x.arc(6.5, 6.5, 3.6, 0, 7); x.moveTo(6.5, 0); x.lineTo(6.5, 13); x.moveTo(0, 6.5); x.lineTo(13, 6.5); x.stroke(); }],
@@ -1961,20 +2027,15 @@ Assistant: Distribute.</pre>
         var p = pos(it); if (sides.some(function (s) { if (!s.el.classList.contains('side')) return false; var sr = s.el.getBoundingClientRect(); return p[0] > sr.left - 34 && p[0] < sr.right + 34 && p[1] > sr.top - 34 && p[1] < sr.bottom + 34; })) return;
         if (items.some(function (o) { var q = pos(o); return Math.abs(q[0] - p[0]) < 40 && Math.abs(q[1] - p[1]) < 40; })) return;
         it.pos = pos; items.push(it); lastKind = kind;
+        var c = document.createElement('canvas'), d = Math.min(2, devicePixelRatio || 1), bw = k[0] + 2, bh = k[1] + 2, body = document.body,
+          bp = getComputedStyle(body).position !== 'static', br = body.getBoundingClientRect();
+        c.className = 'mk'; c.setAttribute('aria-hidden', 'true'); c.width = Math.round(bw * d); c.height = Math.round(bh * d);
+        c.style.cssText = 'width:' + bw + 'px;height:' + bh + 'px;left:' + Math.round(bp ? p[0] - br.left : p[0] + scrollX) + 'px;top:' + Math.round(bp ? p[1] - br.top : p[1] + scrollY) + 'px';
+        x = c.getContext('2d'); x.setTransform(d, 0, 0, d, .5 * d, .5 * d); k[2](1, side, it.seed); x = null; body.appendChild(c);
+        var an = c.animate([{ opacity: 0 }, { opacity: .32, offset: 700 / it.life }, { opacity: .32, offset: 1 - 900 / it.life }, { opacity: 0 }], { duration: it.life, fill: 'forwards' });
+        an.onfinish = function () { c.remove(); items = items.filter(function (o) { return o !== it; }); };
       };
-      (function lp(now) {
-        if (!document.hidden && !(window.__glassBusy > now)) {
-          x.clearRect(0, 0, W, Hh);
-          if (now > next) { spawn(now); next = now + 1800 + Math.random() * 1600; }
-          items = items.filter(function (it) {
-            var age = now - it.t0; if (age > it.life || !it.m.r) return false;
-            var a = Math.min(1, age / 700, (it.life - age) / 900) * .32, p = it.pos(it), k = K[it.kind];
-            if (p[1] < -40 || p[1] > Hh + 40) return true;
-            x.save(); x.translate(Math.round(p[0]) + .5, Math.round(p[1]) + .5); k[2](a, it.side, it.seed); x.restore(); return true;
-          });
-        }
-        requestAnimationFrame(lp);
-      })(performance.now());
+      (function tick() { var now = performance.now(); if (!document.hidden && !(window.__glassBusy > now)) spawn(now); setTimeout(tick, 1800 + Math.random() * 1600); })();
     })();
 
     /* ================= 边注的系线 (v19) =================
@@ -1983,7 +2044,7 @@ Assistant: Distribute.</pre>
        v19: 每根软线画在自己的一小块画布上, 画布按页面坐标放在两框之间 (随页面一起滚动, 由浏览器合成), 不再每帧追着滚动重画位置 —
        之前用一整屏固定的画布, 滚动时总比页面慢一帧, 看起来软线在框之间错位、抖动. 版面变化 (缩放窗口、展开答案、图片载入) 时才重新量位置. */
     var modOf = function (el) { return el ? mods.filter(function (q) { return q.el === el; })[0] : null; };
-    var tethers = sides.filter(function (s) { return s.anchor; }).map(function (s) {
+    var tethers = (LITE ? [] : sides).filter(function (s) { return s.anchor; }).map(function (s) {
       var cv = document.createElement('canvas'); cv.className = 'tether'; cv.setAttribute('aria-hidden', 'true'); document.body.appendChild(cv);
       return { s: s, m: modOf(s.el), a: modOf(s.anchor), cv: cv, cx: cv.getContext('2d'), hot: 0, draw: 0, pk: [], next: performance.now() + 1200 + rnd(1800), g: null };
     });
@@ -2117,7 +2178,7 @@ Assistant: Distribute.</pre>
     else (function lp(now) { if (!document.hidden && !(window.__glassBusy > now)) step(now); requestAnimationFrame(lp); })(performance.now());
 
     /* ================= 答案: 钥匙 + 翻牌 ================= */
-    $$('details.answer').forEach(function (d) {
+    (LITE ? [] : $$('details.answer')).forEach(function (d) {
       var s = d.querySelector('summary'); if (!s) return; var body = document.createElement('div'); body.className = 'dbody';
       while (s.nextSibling && !(s.nextSibling.classList && s.nextSibling.classList.contains('ov'))) body.appendChild(s.nextSibling);
       s.parentNode.insertBefore(body, s.nextSibling);
@@ -2151,7 +2212,7 @@ Assistant: Distribute.</pre>
     });
 
     /* ================= 光标拖影 ================= */
-    if (!reduce && !auto && fine) {
+    if (!reduce && !auto && fine && !LITE) {
       var tc = document.createElement('canvas'); tc.id = 'trail'; tc.setAttribute('aria-hidden', 'true'); document.body.appendChild(tc);
       var tx = tc.getContext('2d'), TW = 0, TH = 0, pts = [], trun = false, LIFE = 130;
       var tsize = function () { var dd = Math.min(2, devicePixelRatio || 1); TW = innerWidth; TH = innerHeight; tc.width = TW * dd; tc.height = TH * dd; tx.setTransform(dd, 0, 0, dd, 0, 0); };
@@ -2187,6 +2248,7 @@ Assistant: Distribute.</pre>
    B 频谱仪: 分割线是一排很细的频谱柱 (老式音响的频谱显示) — 平时只是一排极矮、轻轻跳动的柱, 两端渐隐;
      进入视野时柱子从左往右依次弹起再落下; 鼠标靠近时光标附近的柱子跟着跳高 (中间最高), 每根柱顶有一个慢慢落下的峰值帽; 点一下 = 一次「重音」, 整排跳一下. */
 (function () {
+  if (document.documentElement.classList.contains('lite')) return;   /* v7.4: 手机端不建 */
   var doc = document.documentElement, reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var cur = { d: 'b' };
   /* 框 4 (涟漪): 记下鼠标进入框的那一点, 涟漪从这里荡开 (圆心固定, 不跟着光标移动) */
@@ -2296,12 +2358,14 @@ Assistant: Distribute.</pre>
          0.6 秒内再进同一个框不重复触发 (光标在框边上来回擦时不会连环荡). 每次动画只跑 1.5 秒, 平时不占渲染.
    透镜: 光标位置在这里用缓动平滑 (每帧只写一次, 位置变化不到 0.3px 就不写), 不再靠 CSS 过渡 (过渡每次都被打断重来). */
 (function () {
+  if (document.documentElement.classList.contains('lite')) return;   /* v7.4: 手机端不建 */
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var boxes = [].slice.call(document.querySelectorAll('main .card, main .zh, main .add, main .warn, main details.answer')).filter(function (el) { return !el.parentElement.closest('.card, .zh, .add, .warn, details'); });
   var hot = null, px = 0, py = 0, raf = 0;
   boxes.forEach(function (el) {
     var host = el.matches('details') ? (el.querySelector('summary') || el) : el;
     var f = document.createElement('i'); f.className = 'fxl'; f.setAttribute('aria-hidden', 'true'); host.insertBefore(f, host.firstChild);
+    var rim = document.createElement('b'); rim.className = 'rim'; f.appendChild(rim);   /* v7.5e: 玻璃边光, 夜晚由 CSS 显示 */
     el.setAttribute('data-fxl', ''); el._fxl = f; el._left = -1e9; el._hx = null;
     el.addEventListener('pointerenter', function (e) {
       if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
