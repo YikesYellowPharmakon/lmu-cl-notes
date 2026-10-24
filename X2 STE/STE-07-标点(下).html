@@ -861,6 +861,86 @@
   main details.answer > summary { position: static !important; }
   /* 大标题的 .ht: 排版统一层的「h1 > span」规则是给副标题的 (块级、15px、灰), 不能套到标题正文上 */
   h1 > .ht { display: inline !important; margin: 0 !important; font: inherit !important; letter-spacing: inherit !important; color: inherit !important; }
+  /* ================= v7.1f: 标题字体 = 冬青黑体 (Hiragino Sans GB, macOS 自带) =================
+     和苹方同属现代黑体, 但笔画有粗细对比、转折更硬朗, 字面更有质感; 只有 W3 / W6 两个字重, 标题一律用 W6 (600). 没有冬青黑体的系统退到苹方.
+     取代 v7.1e 的方正尚酷 (用户 2026-10-24: 换成系统已有的、和苹方类似但更有质感的字体). */
+  :root { --hfont: "Hiragino Sans GB", "PingFang SC", -apple-system, sans-serif; }
+  h1, h2, h3 { font-weight: 600 !important; }
+
+  /* ================= v7.2: 材质与整体性 (夜晚 / 白天) =================
+     不动设计逻辑和样式, 只给所有东西同一种「材料」, 让它们像一台机器上的零件, 而不是一堆贴上去的元素:
+       模块 = 斜面面板: 上沿一道受光的斜面亮线、下沿一道背光暗线、一圈几乎看不见的外轮廓、接触阴影 + 环境遮蔽; 面板里一层很细的拉丝纹理 (夜晚) / 纸纹 (白天);
+              四角是倒角 (corner-shape: bevel, 不支持时退成 2px 圆角); 悬停时面板抬起 1px、阴影加深, 一道高光跟着光标沿上沿的斜面走 (光照在金属边上).
+       标题 = 刻进面板的字: 静止时带一点本课主色 (淡), 1px 刻痕阴影; 夜晚比正文稍暗.
+       连接件、边注软线、频谱仪、讲解框边上的 LED = 同一种压印: 下方 1px 阴影 (夜晚暗、白天亮), 有厚度.
+       表格、公式的上下细线 = 刻线: 一道暗线 + 下面一道亮线. */
+  html { --bev-hi: rgba(255,255,255,.058); --bev-lo: rgba(0,0,0,.42); --ring: rgba(255,255,255,.022); --ao: rgba(0,0,0,.78);
+    --tex: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='b'><feTurbulence type='fractalNoise' baseFrequency='.85 .028' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .035 0'/></filter><rect width='100%' height='100%' filter='url(%23b)'/></svg>"); }
+  html[data-mode="day"] { --bev-hi: rgba(255,255,255,.95); --bev-lo: rgba(20,22,26,.07); --ring: rgba(20,22,26,.045); --ao: rgba(30,32,36,.17);
+    --tex: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .032 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>"); }
+  main .card, main .zh, main .add, main .warn, main details.answer {
+    background: var(--tex) 0 0 / 240px 240px padding-box, repeating-linear-gradient(-45deg, var(--hatch, transparent) 0 1px, transparent 1px 7px) padding-box,
+      linear-gradient(color-mix(in srgb, var(--ca) var(--tint, 2.5%), transparent), color-mix(in srgb, var(--ca) var(--tint, 2.5%), transparent)) padding-box,
+      linear-gradient(var(--l1), var(--l1)) padding-box !important;
+    box-shadow: inset 0 1px 0 var(--bev-hi), inset 0 -1px 0 var(--bev-lo), 0 0 0 1px var(--ring), 0 2px 3px -2px var(--ao), 0 16px 34px -26px var(--ao), 0 0 14px 3px var(--l1) !important;
+    transition: transform .4s var(--ease), box-shadow .4s var(--ease), --lit .45s var(--ease) !important; }
+  main .warn { box-shadow: inset 0 1px 0 color-mix(in srgb, var(--k-warn) 26%, transparent), inset 0 -1px 0 var(--bev-lo), 0 0 0 1px color-mix(in srgb, var(--k-warn) 10%, transparent), 0 2px 3px -2px var(--ao), 0 16px 34px -26px var(--ao) !important; }
+  main :is(.card, .zh, .add, .warn, details.answer).lit { transform: translateY(-1px);
+    box-shadow: inset 0 1px 0 var(--bev-hi), inset 0 -1px 0 var(--bev-lo), 0 0 0 1px var(--ring), 0 3px 4px -2px var(--ao), 0 24px 44px -26px var(--ao), 0 0 16px 4px var(--l1) !important; }
+  main .warn.lit { box-shadow: inset 0 1px 0 color-mix(in srgb, var(--k-warn) 34%, transparent), inset 0 -1px 0 var(--bev-lo), 0 0 0 1px color-mix(in srgb, var(--k-warn) 14%, transparent), 0 3px 4px -2px var(--ao), 0 24px 44px -26px var(--ao) !important; }
+  /* 斜面上的高光: 跟着光标沿上沿走 (画在触碰层上, 只在框里时出现) */
+  main .fxl { background: radial-gradient(220px 3px at var(--mx, -999px) 0, color-mix(in srgb, var(--ink) 42%, transparent), transparent 72%) top left / 100% 3px no-repeat,
+    radial-gradient(340px circle at var(--mx, -999px) var(--my, -999px), color-mix(in srgb, var(--cb) 10%, transparent), transparent 70%) !important; }
+  html[data-mode="day"] main .fxl { background: radial-gradient(220px 3px at var(--mx, -999px) 0, rgba(255,255,255,.95), transparent 72%) top left / 100% 3px no-repeat,
+    radial-gradient(340px circle at var(--mx, -999px) var(--my, -999px), color-mix(in srgb, var(--cb) 9%, transparent), transparent 70%) !important; }
+  /* 其他零件: 目录卡、胶囊、代码框、边注的面板同一种材质 */
+  :is(header nav, body > nav) { background: var(--tex) 0 0 / 240px 240px, linear-gradient(var(--l1), var(--l1)) !important;
+    box-shadow: inset 0 1px 0 var(--bev-hi), inset 0 -1px 0 var(--bev-lo), 0 0 0 1px var(--ring), 0 2px 3px -2px var(--ao), 0 16px 34px -26px var(--ao) !important; }
+  #toc-pill .cap, #toc-pill .panel { box-shadow: inset 0 1px 0 var(--bev-hi), inset 0 -1px 0 var(--bev-lo), 0 0 0 1px var(--ring), 0 2px 3px -2px var(--ao), 0 14px 30px -18px var(--ao) !important; }
+  main .codebox { box-shadow: inset 0 1px 0 var(--bev-hi), inset 0 -1px 0 var(--bev-lo), 0 0 0 1px var(--ring), 0 2px 3px -2px var(--ao), 0 16px 34px -26px var(--ao) !important; }
+  .flaps i { box-shadow: inset 0 1px 0 var(--bev-hi), 0 0 0 1px color-mix(in srgb, var(--k-ans2) 24%, transparent), 0 1px 2px -1px var(--ao) !important; }
+  .key { box-shadow: inset 0 1px 0 var(--bev-hi), inset 0 -1px 0 var(--bev-lo), 0 0 0 1px color-mix(in srgb, var(--k-ans2) 28%, transparent), 0 2px 4px -2px var(--ao) !important; }
+  /* 倒角 */
+  @supports (corner-shape: bevel) {
+    main :is(.card, .zh, .add, .warn, details.answer, .codebox), :is(header nav, body > nav) { border-radius: 7px !important; corner-shape: bevel; }
+  }
+  /* 表格、公式: 刻线 */
+  main .math-block::after, main .tablewrap::after { background: linear-gradient(var(--bev-lo), var(--bev-lo)) top / 100% 1px no-repeat, linear-gradient(var(--bev-hi), var(--bev-hi)) 0 1px / 100% 1px no-repeat,
+    linear-gradient(var(--bev-lo), var(--bev-lo)) 0 calc(100% - 1px) / 100% 1px no-repeat, linear-gradient(var(--bev-hi), var(--bev-hi)) bottom / 100% 1px no-repeat !important; }
+  /* 标题: 静止时淡淡带本课主色; 夜晚比正文稍暗; 刻痕阴影. 字距收紧一点; 大标题由脚本缩放到一行放得下 */
+  h1 { letter-spacing: 0 !important; } h2 { letter-spacing: .005em !important; } h3 { letter-spacing: .01em !important; }
+  html:not([data-mode="day"]) h1 { color: color-mix(in srgb, color-mix(in srgb, var(--glow) 20%, var(--ink)) 90%, var(--bg-b)) !important; }
+  html:not([data-mode="day"]) h2 { color: color-mix(in srgb, color-mix(in srgb, var(--glow) 18%, var(--ink)) 86%, var(--bg-b)) !important; }
+  html:not([data-mode="day"]) h3 { color: color-mix(in srgb, color-mix(in srgb, var(--glow) 15%, var(--ink)) 82%, var(--bg-b)) !important; }
+  html:not([data-mode="day"]) :is(h1, h2, h3) { text-shadow: 0 1px 0 rgba(0,0,0,.6); }
+  html[data-mode="day"] h1 { color: color-mix(in srgb, var(--glow) 22%, var(--ink)) !important; }
+  html[data-mode="day"] h2 { color: color-mix(in srgb, var(--glow) 18%, var(--ink)) !important; }
+  html[data-mode="day"] h3 { color: color-mix(in srgb, var(--glow) 15%, var(--ink)) !important; }
+  html[data-mode="day"] :is(h1, h2, h3) { text-shadow: 0 1px 0 rgba(255,255,255,.75); }
+  :is(h1, h2, h3) .de-title { text-shadow: none; }
+  @media (prefers-reduced-motion: reduce) { main :is(.card, .zh, .add, .warn, details.answer).lit { transform: none; } }
+  @media print { main :is(.card, .zh, .add, .warn, details.answer) { box-shadow: none !important; background: none !important; } :is(h1, h2, h3) { text-shadow: none !important; } }
+  /* 白天的代码框: 浅色纸面同一种材质 (之前标题栏是一块灰) */
+  html[data-mode="day"] .codebox { background: color-mix(in srgb, var(--bg-b) 90%, var(--ink) 3%) !important; }
+  html[data-mode="day"] .cb-head { background: color-mix(in srgb, var(--bg-b) 82%, var(--ink) 6%) !important; border-bottom: 1px solid var(--bev-lo) !important; }
+  html[data-mode="day"] .cb-lang, html[data-mode="day"] .cb-copy { color: var(--muted) !important; }
+
+  /* ================= v7.3: 边缘与标题 =================
+     边缘: 去掉 v7.2 的倒角 (原有的边缘互动都是直线, 遇到倒角会伸出去); 面板四边都是直的, 上沿受光斜面线 + 下沿背光线;
+           讲解框边上的 LED 直接点亮这两条线本身 (不再另画在框外), 光标附近一段亮起、两端不越过转角; 其他框的高光也只沿上沿的斜面线走.
+           讲解框的斜面高光和 LED 不叠加 (讲解框用 LED, 其余用高光).
+     标题字体: 拉丁字母和数字用 Avenir Next (几何、圆润、有未来感), 中文用苹方 (比冬青黑体圆一些); h1 / h2 600、h3 500 (苹方中黑).
+     大标题字号: apply_glass.py 按标题字数写 --h1n, 这里用 CSS 直接算 (版心宽 / 字数, 夹在 22–32px, 手机最小 19px), 首屏就是最终大小. */
+  @supports (corner-shape: bevel) { main :is(.card, .zh, .add, .warn, details.answer, .codebox), :is(header nav, body > nav) { corner-shape: round !important; border-radius: 2px !important; } }
+  main .zh .fxl { background: radial-gradient(340px circle at var(--mx, -999px) var(--my, -999px), color-mix(in srgb, var(--cb) 10%, transparent), transparent 70%) !important; }
+  :root { --hfont: "Avenir Next", "PingFang SC", -apple-system, sans-serif; }
+  h1, h2 { font-weight: 600 !important; } h3 { font-weight: 500 !important; }
+  h1 { --h1w: calc(min(var(--measure, 760px), 100vw) - 2 * var(--gutter, 24px)); font-size: clamp(22px, calc(var(--h1w) / var(--h1n, 14) * .97), 32px) !important; }
+  @media (max-width: 560px) { h1 { font-size: clamp(19px, calc(var(--h1w) / var(--h1n, 14) * .97), 26px) !important; } }
+  /* v7.3a: 解密时拆出的单字 (.ch) 和分段 (.seg) 一律继承所在标题的字体、字号、字重、字距, 不受笔记自己旧样式里「h1 span { font-size: … }」这类规则影响
+     (MGTN 练习单曾因此在解密时字号缩到 62%, 结束时又跳回来). scripts/heading_check.mjs 逐篇检查这一点. */
+  :is(h1, h2, h3, #toc-pill .cur) .ch, :is(h1, h2, h3) .ht .seg { font: inherit !important; letter-spacing: inherit !important; line-height: inherit !important; text-transform: inherit !important; margin: 0 !important; padding: 0 !important; vertical-align: baseline !important; }
+  :is(h1, h2, h3) .ch { display: inline !important; }
 </style>
 <style id="glass-pal">
   :root {
@@ -917,6 +997,7 @@
     --base: color-mix(in srgb, var(--bg-b) 72%, transparent);
   }
 </style>
+<style id="glass-fit">h1 { --h1n: 19.4; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}</script>
 </head>
 <body>
@@ -1553,18 +1634,21 @@
        从光标处向两边各扫出一个亮点, 沿着点列跑到两角, 身后拖一小段余辉. 不再有三角游标和浮光.
        光标在左右两侧时, 边外 12px 处照旧闪过一列符号 ---- */
     var ledRow = function (c, horiz, fixedC, from, to, p0, near, ca, cb, len) {
+      c.save(); c.shadowColor = (document.documentElement.getAttribute('data-mode') === 'day' ? 'rgba(255,255,255,.9)' : 'rgba(0,0,0,.65)'); c.shadowOffsetY = 1; c.shadowBlur = 0;
       for (var k = Math.max(0, Math.floor((from + 1) / 3)); k * 3 - 1 <= to; k++) { var s = k * 3 - 1; if (s < -1 || s > len - 1) continue;
+        if (s < 4 || s > len - 6) continue;
         var d = Math.abs(s + 1 - p0), b = Math.min(1, near * 1.25) * Math.exp(-(d * d) / (2 * 40 * 40)); if (b < .03) continue;
         var lc = mix(mix(INKC, ca, .4), cb, clamp(d / 70, 0, 1));
         c.fillStyle = rgba(lc, Math.min(1, b)); if (horiz) c.fillRect(s, fixedC, 2, 1); else c.fillRect(fixedC, s, 1, 2);
         c.fillStyle = rgba(lc, .22 * b); if (horiz) c.fillRect(s - .5, fixedC - 1, 3, 3); else c.fillRect(fixedC - 1, s - .5, 3, 3); }
+      c.restore();
     };
     var edgeDraw = function (m, now) {
       var c = m.cx, W = m.W, Hh = m.H, lx = mx - m.r.left - 1, ly = my - m.r.top - 1, ca = COL[m.type], cb = m.type === 'math' ? ACC : ZH2, near = m.near;
       if (!m.ep || m.dirty) { m.ep = []; for (var y0 = 12; y0 <= Hh - 12; y0 += 12) { m.ep.push({ y: y0, side: 'l', t: -1e9 }); m.ep.push({ y: y0, side: 'r', t: -1e9 }); } }
       var dl = Math.abs(lx), dr = Math.abs(W - lx), dtp = Math.abs(ly), dbt = Math.abs(Hh - ly), k = Math.min(dl, dr, dtp, dbt), horiz = k === dtp || k === dbt;
       var sideNow = horiz ? (k === dtp ? 't' : 'b') : (k === dl ? 'l' : 'r'), p0 = horiz ? clamp(lx, 0, W) : clamp(ly, 0, Hh), len = horiz ? W : Hh;
-      var fc = sideNow === 't' ? -1 : sideNow === 'b' ? Hh - 2 : sideNow === 'l' ? -1 : W - 2;
+      var fc = sideNow === 't' ? 0 : sideNow === 'b' ? Hh - 1 : sideNow === 'l' ? 0 : W - 1;   /* v7.3: 点亮面板自己的边 */
       if (near > .02 && fineP) {
         ledRow(c, horiz, fc, p0 - 120, p0 + 120, p0, near, ca, cb, len);
         if (m.lastSide !== sideNow && near > .3) { (m.pulses = m.pulses || []).push({ p: p0, t: now, horiz: horiz, fc: fc, len: len }); m.lastSide = sideNow; }
@@ -1618,7 +1702,7 @@
       var L = B.lk, hot = A.inside || B.inside; L.on = ez(L.on, hot ? 1 : 0, dt, 5);
       var fA = Math.max(0, 1 - (now - L.flash) / 600), on = L.on, la = .45 + .35 * on;
       /* 平时半透明, 鼠标靠近相连的任一个框时才完全显出来 */
-      var nr = Math.max(A.near || 0, B.near || 0); B.lv = ez(B.lv == null ? .3 : B.lv, .3 + .7 * nr * nr * (3 - 2 * nr), dt, 6); c.save(); c.globalAlpha = B.lv;
+      var nr = Math.max(A.near || 0, B.near || 0); B.lv = ez(B.lv == null ? .3 : B.lv, .3 + .7 * nr * nr * (3 - 2 * nr), dt, 6); c.save(); c.globalAlpha = B.lv; c.shadowColor = (document.documentElement.getAttribute('data-mode') === 'day' ? 'rgba(255,255,255,.9)' : 'rgba(0,0,0,.65)'); c.shadowOffsetY = 1; c.shadowBlur = 0;   /* v7.2: 压印 */
       if (st === 'jack') { var dx = (B.lfr > .5 ? -1 : 1) * 22, xb = X + dx; for (i = 0; i <= 24; i++) { var t = i / 24; pts.push([X + dx * t, y0 + 3 + (y1 - y0 - 3) * t + Math.sin(t * Math.PI) * 3.5]); } }
       else if (st === 'trace') { var jx = (B.lfr > .5 ? -1 : 1) * 12, ya = y0 + (y1 - y0) * .3, yb2 = ya + Math.abs(jx); pts = [[X, y0], [X, ya], [X + jx, yb2], [X + jx, y1]]; }
       else for (i = 0; i <= 12; i++) pts.push([X, y0 + (y1 - y0) * i / 12]);
@@ -1908,7 +1992,7 @@
     var tetherDraw = function (dt, now) {
       tethers.forEach(function (T) {
         var G = T.g; if (!G) return; var b = G.box; if (b[1] + b[3] < scrollY - 60 || b[1] > scrollY + innerHeight + 60) return;
-        var x = T.cx; x.clearRect(b[0], b[1], b[2], b[3]);
+        var x = T.cx; x.clearRect(b[0], b[1], b[2], b[3]); x.shadowColor = (document.documentElement.getAttribute('data-mode') === 'day' ? 'rgba(255,255,255,.9)' : 'rgba(0,0,0,.65)'); x.shadowOffsetY = 1; x.shadowBlur = 0;
         var add = G.add, col = add ? BLUE : RED, P = G.P, len = G.len, N = G.N, Lt = G.Lt;
         var at = function (s) { s = clamp(s, 0, Lt); var k = 1; while (k < N && len[k] < s) k++; var f = (s - len[k - 1]) / Math.max(1e-6, len[k] - len[k - 1]); return [P[k - 1][0] + (P[k][0] - P[k - 1][0]) * f, P[k - 1][1] + (P[k][1] - P[k - 1][1]) * f]; };
         var hot = (T.m && (T.m.inside || T.m.near > .55)) || (T.a && T.a.inside) ? 1 : 0;
@@ -2133,7 +2217,7 @@
   var spec = function (D, dt, now) {
     var x = D.x, w = D.w, hh = D.hh, base = 42, CELL = 3, NC = 8, BW = 3, ST = 5, n = Math.floor(w / ST), t = now / 1000;
     var ink = C.i, ca = C.a, cb = C.b, warm = C.w || ca, day = C.day;
-    x.clearRect(0, 0, w, hh); D.rev = D.seen ? Math.min(1, D.rev + dt / 1.2) : 0; var xm = (1 - Math.pow(1 - D.rev, 3)) * (w + 60);
+    x.clearRect(0, 0, w, hh); D.rev = D.seen ? Math.min(1, D.rev + dt / 1.2) : 0; var xm = (1 - Math.pow(1 - D.rev, 3)) * (w + 60); x.shadowColor = (document.documentElement.getAttribute('data-mode') === 'day' ? 'rgba(255,255,255,.9)' : 'rgba(0,0,0,.65)'); x.shadowOffsetY = 1; x.shadowBlur = 0;
     if (!D.L) { D.L = []; D.Pk = []; D.Ph = []; D.N = []; }
     var lvl = function (i) { return D.L[i] || 0; };
     var cellCol = function (k) { var f = k / (NC - 1); return k === NC - 1 ? mix(mix(ink, warm, day ? .95 : .7), cb, .25) : mix(mix(ink, ca, day ? .95 : .62), mix(ink, cb, day ? .95 : .62), f); };
