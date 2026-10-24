@@ -2,321 +2,316 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="dark light">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LMU 计算语言学 · 笔记总目录</title>
+<script>try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}</script>
 <style>
-  /* 总目录 v2 (2026-10-22): 黑白灰; 与笔记的玻璃卡片、等高线、进度条、解密标题同一套视觉语言, 另加检索、分组、折叠、浮动胶囊.
-     性能 (用户要求不卡): 背景等高线只在加载/改窗口大小时画一次, 不持续重绘; 不用 backdrop-filter / filter: blur / mix-blend-mode / mask / 3D transform;
-     动画只用 transform / opacity. 由 scripts/sync_repo.py 填入 __占位符__. */
-  :root { --bg:#0b0b0c; --ink:#f1f1f1; --muted:#a3a3a3; --dim:#5f5f5f; --line:#2a2a2c; --card:#151517; --chip:#1f1f22;
-          --glow:#ffffff; --tint:#d9d9d9; --edge:rgba(255,255,255,.09);
-          --mono:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace; --sans:"PingFang SC","Helvetica Neue",sans-serif; }
+  /* 总目录 v3 (2026-10-24): 和笔记视觉层 v7 同一套语言 — 夜晚 / 白天 (和笔记共用同一个开关记忆)、顶部正中的开关圆滚动后展开成胶囊、
+     等宽大写小标签、冬青黑体标题、近中性的暗底 + 一层静态字符场、没有边线的「明度面」卡片 (每门课一颗本课主色的指示灯).
+     性能 (用户要求不卡): 字符场只在加载 / 改窗口大小 / 切换模式时画一次; 不用 backdrop-filter / filter: blur; 动画只用 transform / opacity.
+     由 scripts/sync_repo.py 填入 __占位符__. */
+  :root { --bg:#0c0e10; --bg2:#0e1013; --ink:#e4e6e8; --muted:#8f969d; --dim:#5d636a; --face:rgba(255,255,255,.028); --face2:rgba(255,255,255,.05);
+          --hair:rgba(255,255,255,.06); --hair2:rgba(255,255,255,.12); --glow:#e8eaec; --field:255,255,255; --sh:rgba(0,0,0,.55);
+          --mono:"JetBrainsMono Nerd Font","JetBrains Mono","SF Mono",Menlo,monospace; --sans:"PingFang SC","Helvetica Neue",sans-serif;
+          --hfont:"Hiragino Sans GB","PingFang SC",-apple-system,sans-serif; --ease:cubic-bezier(.22,.8,.24,1); }
+  html[data-mode="day"] { --bg:#f4f3f0; --bg2:#efeeea; --ink:#1d2024; --muted:#646a71; --dim:#9aa0a6; --face:rgba(255,255,255,.66); --face2:rgba(255,255,255,.9);
+          --hair:rgba(20,22,26,.07); --hair2:rgba(20,22,26,.14); --glow:#1d2024; --field:30,32,36; --sh:rgba(30,32,36,.14); color-scheme: light; }
   * { box-sizing: border-box; }
   html { background: var(--bg); scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-  body { margin: 0; color: var(--ink); background: var(--bg); font: 16px/1.6 var(--sans); overflow-x: hidden; }
-  ::selection { background: #4a4a4a; color: #fff; }
+  body { margin: 0; color: var(--ink); font: 15.5px/1.6 var(--sans); overflow-x: hidden;
+         background: radial-gradient(130% 110% at 50% 30%, transparent 55%, color-mix(in srgb, #000 30%, transparent) 100%), linear-gradient(168deg, var(--bg) 0%, var(--bg2) 100%) fixed; }
+  html[data-mode="day"] body { background: radial-gradient(130% 110% at 50% 30%, transparent 60%, rgba(40,35,25,.06) 100%), linear-gradient(168deg, var(--bg) 0%, var(--bg2) 100%) fixed; }
+  ::selection { background: color-mix(in srgb, var(--ink) 22%, transparent); }
   a { color: inherit; }
-  :focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 6px; }
-  .wrap { width: min(860px, 100%); margin: 0 auto; padding: 0 22px; position: relative; z-index: 1; }
+  :focus-visible { outline: 1px dotted var(--ink); outline-offset: 3px; border-radius: 3px; }
+  .wrap { width: min(820px, 100%); margin: 0 auto; padding: 0 22px; position: relative; z-index: 1; }
+  .lab { font: 500 10.5px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 
-  /* ---------- 背景: 静态等高线 (canvas 画一次) + 暗角 ---------- */
-  #topo { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-  .vignette { position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background: radial-gradient(120vmax 80vmax at 50% 0%, transparent 30%, rgba(0,0,0,.55) 75%),
-                linear-gradient(90deg, transparent calc(50% - 560px), rgba(11,11,12,.55) calc(50% - 380px), rgba(11,11,12,.55) calc(50% + 380px), transparent calc(50% + 560px)); }
+  /* ---------- 背景: 静态字符场 (画一次) ---------- */
+  #field { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .045;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  html[data-mode="day"] body::before { filter: invert(1); opacity: .035; }
 
-  /* ---------- 顶部进度条 (同笔记) ---------- */
-  #progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 60; pointer-events: none; background: rgba(255,255,255,.06); }
-  #progress i { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; transform-origin: 0 50%; transform: scaleX(var(--p, 0));
-                background: linear-gradient(90deg, #5a5a5a, #fff); }
+  /* ---------- 顶部进度条 ---------- */
+  #progress { position: fixed; top: 0; left: 0; width: 100%; height: 1px; z-index: 60; pointer-events: none; background: var(--hair); }
+  #progress i { position: absolute; inset: 0; transform-origin: 0 50%; transform: scaleX(var(--p, 0)); background: color-mix(in srgb, var(--ink) 55%, transparent); }
+
+  /* ---------- 胶囊: 顶部正中, 页首时只有开关圆; 滚过页首从圆向两边展开 (当前课程, 点一下回到顶部) ---------- */
+  #pill { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 55; }
+  #pill .cap { display: flex; align-items: center; gap: 10px; max-width: 420px; overflow: hidden; white-space: nowrap; padding: 6px 14px 6px 6px; border-radius: 999px;
+    background: color-mix(in srgb, var(--bg) 92%, var(--ink) 4%); box-shadow: 0 0 0 1px var(--hair), 0 10px 26px -16px var(--sh);
+    transition: max-width .62s cubic-bezier(.65,0,.25,1), padding .62s cubic-bezier(.65,0,.25,1), gap .62s cubic-bezier(.65,0,.25,1); }
+  #pill .cap > :not(.ring) { transition: opacity .32s ease .3s; }
+  #pill:not(.show) .cap { max-width: 34px; padding: 6px; gap: 0; transition-delay: .12s; }
+  #pill:not(.show) .cap > :not(.ring) { opacity: 0; transition: opacity .16s ease; }
+  .ring { all: unset; position: relative; flex: none; width: 22px; height: 22px; border-radius: 50%; cursor: pointer;
+    background: conic-gradient(color-mix(in srgb, var(--ink) 60%, transparent) calc(var(--p, 0) * 360deg), var(--hair2) 0); }
+  .ring::after { content: ""; position: absolute; inset: 1.5px; border-radius: 50%; background: color-mix(in srgb, var(--bg) 92%, var(--ink) 4%); }
+  .ring .orb { position: absolute; inset: 6px; z-index: 1; border-radius: 50%; transform: rotate(-20deg); transition: box-shadow .6s var(--ease), transform .6s var(--ease);
+    box-shadow: inset 3px -1.6px 0 0 #e9d46a; }
+  html[data-mode="day"] .ring .orb { box-shadow: inset 0 0 0 5px #b8960e; transform: rotate(160deg); }
+  .ring:hover .orb { transform: rotate(-20deg) scale(1.15); } html[data-mode="day"] .ring:hover .orb { transform: rotate(160deg) scale(1.15); }
+  #pill .cc { font: 600 11px/1 var(--mono); letter-spacing: .1em; color: var(--muted); }
+  #pill .cn { font: 500 12.5px/1 var(--sans); color: var(--ink); max-width: 46vw; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+  #pill .up { font: 500 11px/1 var(--mono); color: var(--dim); cursor: pointer; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 
   /* ---------- 页首 ---------- */
-  header.wrap { padding-top: 76px; padding-bottom: 18px; }
-  .kicker { font: 600 11.5px/1 var(--mono); letter-spacing: .26em; text-transform: uppercase; color: var(--muted);
-            display: inline-flex; align-items: center; gap: 10px; }
-  .kicker::before { content: ""; width: 26px; height: 1px; background: linear-gradient(90deg, transparent, #fff); }
-  h1 { margin: 16px 0 6px; font: 800 clamp(40px, 7.6vw, 76px)/1.04 var(--sans); letter-spacing: -.01em; word-break: keep-all;
-       background: linear-gradient(100deg, #fff 0%, #cfcfcf 45%, #6f6f6f 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  h1 .ch.x::after { -webkit-text-fill-color: #8a8a8a; }
-  .sub { font: 500 13.5px/1.5 var(--mono); color: var(--muted); letter-spacing: .06em; }
-  .stats { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 0; padding: 0; list-style: none; }
-  .stats li { min-width: 128px; padding: 12px 16px 10px; border: 1px solid var(--edge); border-radius: 14px;
-              background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)); }
-  .stats b { display: block; font: 700 28px/1.1 var(--mono); font-variant-numeric: tabular-nums; }
-  .stats span { font: 500 11.5px/1.4 var(--mono); color: var(--muted); letter-spacing: .12em; text-transform: uppercase; }
+  header.wrap { padding-top: 92px; padding-bottom: 8px; }
+  h1 { margin: 14px 0 8px; font: 600 clamp(34px, 6.4vw, 60px)/1.14 var(--hfont); letter-spacing: .01em; word-break: keep-all; color: var(--ink);
+       font-kerning: none; font-variant-ligatures: none; }
+  h1 .ht { display: inline; }
+  .sub { font: 400 11.5px/1.6 var(--mono); color: var(--muted); letter-spacing: .14em; text-transform: uppercase; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 30px 0 0; padding: 0; list-style: none;
+           background: var(--face); box-shadow: 0 0 14px 3px var(--face); border-radius: 2px; }
+  .stats li { padding: 14px 16px 12px; }
+  .stats li + li { box-shadow: inset 1px 0 0 var(--hair); }
+  .stats b { display: block; font: 500 26px/1.15 var(--mono); font-variant-numeric: tabular-nums; color: var(--ink); }
+  .stats span { font: 500 10px/1.4 var(--mono); color: var(--muted); letter-spacing: .16em; text-transform: uppercase; }
 
-  /* ---------- 检索栏 + 模块号跳转 ---------- */
-  .finder { position: sticky; top: 10px; z-index: 40; margin: 30px 0 8px; }
-  .search { display: flex; align-items: center; gap: 12px; height: 52px; padding: 0 14px 0 18px; border-radius: 16px;
-            background: rgba(21,21,23,.94); border: 1px solid var(--edge); box-shadow: 0 18px 40px -24px #000; transition: border-color .2s, box-shadow .2s; }
-  .search:focus-within { border-color: rgba(255,255,255,.35); box-shadow: 0 0 0 4px rgba(255,255,255,.05), 0 18px 40px -24px #000; }
-  .search svg { flex: none; opacity: .6; }
-  .search input { all: unset; flex: 1; min-width: 0; font: 500 16px/1 var(--sans); color: var(--ink); }
+  /* ---------- 检索 + 跳转 ---------- */
+  .finder { position: sticky; top: 58px; z-index: 40; margin: 26px 0 8px; }
+  .search { display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px 0 16px; border-radius: 2px;
+            background: color-mix(in srgb, var(--bg) 94%, var(--ink) 3%); box-shadow: 0 0 0 1px var(--hair), 0 16px 36px -26px var(--sh); transition: box-shadow .2s; }
+  .search:focus-within { box-shadow: 0 0 0 1px var(--hair2), 0 16px 36px -26px var(--sh); }
+  .search .pr { font: 600 13px/1 var(--mono); color: var(--muted); }
+  .search input { all: unset; flex: 1; min-width: 0; font: 400 15px/1 var(--sans); color: var(--ink); caret-color: var(--ink); }
   .search input::placeholder { color: var(--dim); }
-  .search kbd { font: 600 11.5px/1 var(--mono); color: var(--muted); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; padding: 4px 7px; }
-  .search .hits { font: 500 12px/1 var(--mono); color: var(--muted); white-space: nowrap; }
+  .search kbd { font: 500 10.5px/1 var(--mono); color: var(--muted); box-shadow: inset 0 0 0 1px var(--hair2); border-radius: 3px; padding: 4px 6px; }
+  .search .hits { font: 500 11px/1 var(--mono); letter-spacing: .08em; color: var(--muted); white-space: nowrap; }
   .search .hits:empty { display: none; }
-  .jump { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; }
-  .jump a { font: 600 12.5px/1 var(--mono); text-decoration: none; color: var(--muted); padding: 7px 10px; border-radius: 999px;
-            border: 1px solid var(--line); background: rgba(21,21,23,.7); transition: color .15s, border-color .15s, background-color .15s; }
-  .jump a:hover, .jump a.on { color: #0b0b0c; background: #f1f1f1; border-color: #f1f1f1; }
-  .jump a small { font-weight: 500; opacity: .6; margin-left: 4px; }
+  .jump { display: flex; flex-wrap: wrap; gap: 4px; margin: 12px 0 0; }
+  .jump a { font: 500 11px/1 var(--mono); letter-spacing: .06em; text-decoration: none; color: var(--muted); padding: 7px 9px; border-radius: 2px;
+            background: var(--face); transition: color .15s, background-color .15s; }
+  .jump a:hover, .jump a.on { color: var(--ink); background: var(--face2); }
+  .jump a small { opacity: .55; margin-left: 5px; }
+  .tools { display: flex; align-items: center; gap: 8px; margin: 14px 0 0; }
+  .tools .legend { display: inline-flex; gap: 14px; align-items: center; }
+  .tools .legend i { display: inline-block; width: 5px; height: 5px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; background: color-mix(in srgb, var(--ink) 55%, transparent); }
+  .tools .legend i.k { background: var(--ink); } .tools .legend i.h { background: transparent; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 55%, transparent); }
 
-  /* ---------- 分组 (HP / NP / NWP …) ---------- */
-  .group { margin: 54px 0 0; }
-  .gh { position: relative; display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; margin: 0 0 18px; padding-top: 16px;
-        font: 700 22px/1.3 var(--sans); }
-  .gh::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, #fff, rgba(255,255,255,.18) 40%, transparent); }
-  .gh .gk { font: 800 13px/1 var(--mono); letter-spacing: .14em; color: #0b0b0c; background: #f1f1f1; padding: 5px 8px; border-radius: 6px; align-self: center; }
-  .gh small { font: 500 13px/1.3 var(--mono); color: var(--muted); letter-spacing: .04em; }
-  .gh .gc { margin-left: auto; font: 500 12px/1 var(--mono); color: var(--dim); }
-  .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }   /* 只用单栏 (用户要求, 2026-10-22) */
+  /* ---------- 分组 ---------- */
+  .group { margin: 58px 0 0; }
+  .gh { position: relative; display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; margin: 0 0 18px; padding-top: 18px; font: 600 20px/1.3 var(--hfont); }
+  .gh::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px;
+    background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--ink) 30%, transparent) 0 2px, transparent 2px 3px); -webkit-mask: linear-gradient(90deg, #000 30%, transparent); mask: linear-gradient(90deg, #000 30%, transparent); }
+  .gh .gk { font: 600 11px/1 var(--mono); letter-spacing: .16em; color: var(--muted); align-self: center; }
+  .gh small { font: 400 10.5px/1.3 var(--mono); color: var(--muted); letter-spacing: .14em; text-transform: uppercase; }
+  .gh .gc { margin-left: auto; font: 500 10.5px/1 var(--mono); letter-spacing: .12em; color: var(--dim); }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
 
-  /* ---------- 课程卡片: 玻璃 + 聚光灯 ---------- */
-  .course { position: relative; isolation: isolate; min-width: 0; padding: 18px 18px 10px; border-radius: 18px; scroll-margin-top: 90px;
-            background: linear-gradient(180deg, rgba(30,30,33,.92), rgba(18,18,20,.94)); border: 1px solid var(--edge);
-            box-shadow: 0 22px 44px -30px #000; transition: border-color .25s; }
-  .course::after { content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; pointer-events: none; opacity: 0; transition: opacity .3s;
-                   background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(255,255,255,.07), transparent 60%); }
+  /* ---------- 课程卡片: 明度面, 没有边线; 鼠标处一团柔光 ---------- */
+  .course { --c: #9aa0a6; position: relative; isolation: isolate; min-width: 0; padding: 18px 18px 10px; border-radius: 2px; scroll-margin-top: 120px;
+            background: var(--face); box-shadow: 0 0 14px 3px var(--face); }
+  html[data-mode="day"] .course { box-shadow: 0 0 16px 4px var(--face), 0 10px 26px -20px var(--sh); }
+  .course::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity .35s;
+                   background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--c) 9%, transparent), transparent 70%); }
   .course.lit::after { opacity: 1; }
-  .course.lit { border-color: rgba(255,255,255,.2); }
-  .course::before { content: ""; position: absolute; left: 18px; right: 18px; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent); }
-  .head { display: flex; align-items: center; gap: 16px; }
-  .num { flex: none; font: 900 40px/1 var(--mono); letter-spacing: -.02em; color: transparent; -webkit-text-stroke: 1.4px #e6e6e6; }
+  .head { display: flex; align-items: center; gap: 14px; }
+  .num { flex: none; display: inline-flex; align-items: center; gap: 8px; font: 600 12px/1 var(--mono); letter-spacing: .12em; color: var(--muted); min-width: 64px; }
+  .num::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--c); box-shadow: 0 0 6px color-mix(in srgb, var(--c) 55%, transparent); }
+  html[data-mode="day"] .num::before { box-shadow: none; }
   .name { min-width: 0; }
-  .name h3 { margin: 0; font: 700 18.5px/1.35 var(--sans); word-break: keep-all; }
-  .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
-  .tag, .cnt, .opt { font: 600 11.5px/1 var(--mono); padding: 4px 7px; border-radius: 5px; }
-  .tag { color: #0b0b0c; background: #e9e9e9; }
-  .cnt { color: var(--muted); border: 1px solid var(--line); }
-  .cnt::after { content: " 份笔记"; font-family: var(--sans); }
-  .opt { font-family: var(--sans); color: var(--tint); border: 1px dashed #6a6a6a; }
-  .bar { height: 3px; margin: 14px 0 4px; border-radius: 3px; background: var(--chip); overflow: hidden; display: flex; gap: 2px; }
-  .bar i { flex: 1; background: #8a8a8a; transform-origin: 0 50%; }
-  .bar i.k { background: #f1f1f1; } .bar i.h { background: #4d4d4d; }
+  .name h3 { margin: 0; font: 600 17.5px/1.35 var(--hfont); word-break: keep-all; letter-spacing: .02em; }
+  .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  .tag, .cnt, .opt { font: 500 10.5px/1 var(--mono); letter-spacing: .1em; color: var(--muted); }
+  .cnt::after { content: " NOTES"; }
+  .opt { font-family: var(--sans); letter-spacing: .02em; }
+  .bar { height: 2px; margin: 14px 0 6px; display: flex; gap: 2px; }
+  .bar i { flex: 1; background: color-mix(in srgb, var(--ink) 18%, transparent); transform-origin: 0 50%; }
+  .bar i.k { background: color-mix(in srgb, var(--c) 70%, var(--ink)); } .bar i.h { background: color-mix(in srgb, var(--ink) 9%, transparent); }
 
-  .notes { list-style: none; margin: 6px 0 0; padding: 0; }
-  .notes li { position: relative; }
-  .notes li + li a { border-top: 1px solid rgba(255,255,255,.05); }
-  .notes a { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; column-gap: 10px; align-items: baseline;
-             padding: 11px 8px 11px 4px; text-decoration: none; border-radius: 10px; position: relative;
-             transition: background-color .2s, transform .2s; }
-  .notes a::before { content: ""; position: absolute; left: -10px; top: 18%; bottom: 18%; width: 2px; border-radius: 2px; background: #fff;
-                     transform: scaleY(0); transition: transform .2s; box-shadow: 0 0 10px rgba(255,255,255,.7); }
-  .notes a:hover, .notes a.sel { background: rgba(255,255,255,.045); transform: translateX(4px); }
-  .notes a:hover::before, .notes a.sel::before { transform: scaleY(1); }
-  .notes .i { font: 600 12px/1 var(--mono); color: var(--dim); font-variant-numeric: tabular-nums; }
-  .notes a:hover .i { color: #fff; }
-  .notes .t { display: block; font-weight: 650; font-size: 15.5px; line-height: 1.4; }
-  .notes .s { display: block; font-size: 13px; line-height: 1.45; color: var(--muted); margin-top: 2px; }
-  .notes .ty { font: 600 10.5px/1 var(--mono); letter-spacing: .06em; padding: 3px 6px; border-radius: 4px; color: var(--muted); border: 1px solid var(--line); white-space: nowrap; }
-  .notes .ty.k { color: #0b0b0c; background: #d6d6d6; border-color: #d6d6d6; }
-  .notes .ty.h { border-style: dashed; }
-  .notes mark { background: #f1f1f1; color: #0b0b0c; border-radius: 3px; padding: 0 1px; }
+  .notes { list-style: none; margin: 4px 0 0; padding: 0; }
+  .notes li + li a { box-shadow: inset 0 1px 0 var(--hair); }
+  .notes a { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; column-gap: 10px; align-items: baseline;
+             padding: 10px 6px 10px 2px; text-decoration: none; position: relative; transition: background-color .2s, transform .25s var(--ease); }
+  .notes a:hover, .notes a.sel { background: var(--face); transform: translateX(3px); }
+  .notes .i { font: 500 10.5px/1 var(--mono); color: var(--dim); font-variant-numeric: tabular-nums; padding-left: 10px;
+              background: radial-gradient(circle, var(--led, color-mix(in srgb, var(--ink) 16%, transparent)) 2px, transparent 2.5px) 0 50% / 5px 5px no-repeat; }
+  .notes a:hover .i, .notes a.sel .i { color: var(--ink); --led: var(--c); }
+  .notes .t { display: block; font-weight: 500; font-size: 15px; line-height: 1.45; }
+  .notes .s { display: block; font-size: 12.5px; line-height: 1.45; color: var(--muted); margin-top: 2px; }
+  .notes .ty { font: 500 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); white-space: nowrap; }
+  .notes .ty.k { color: var(--muted); }
+  .notes mark { background: color-mix(in srgb, var(--c) 30%, transparent); color: var(--ink); border-radius: 2px; padding: 0 1px; }
   .notes li.fold { display: none; }
   .course.open .notes li.fold { display: block; }
-  .more { all: unset; display: block; width: 100%; margin: 4px 0; padding: 9px 0 5px; text-align: center; cursor: pointer;
-          font: 600 12px/1 var(--mono); color: var(--muted); border-top: 1px dashed rgba(255,255,255,.1); }
-  .more:hover { color: #fff; }
-  .more::after { content: " ▾"; display: inline-block; transition: transform .2s; }
-  .course.open .more::after { transform: rotate(180deg); }
+  .more { all: unset; display: block; width: 100%; margin: 4px 0; padding: 10px 0 6px; text-align: center; cursor: pointer;
+          font: 500 10.5px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); box-shadow: inset 0 1px 0 var(--hair); }
+  .more:hover { color: var(--ink); }
   body.searching .notes li.fold { display: block; }
   body.searching .more { display: none; }
   .hide { display: none !important; }
-  .empty { display: none; margin: 40px 0; text-align: center; font: 500 14px/1.6 var(--mono); color: var(--muted); }
+  .empty { display: none; margin: 40px 0; text-align: center; font: 500 12px/1.6 var(--mono); letter-spacing: .1em; color: var(--muted); }
   body.none .empty { display: block; }
 
-  /* ---------- 图例 ---------- */
-  .tools { display: flex; align-items: center; gap: 8px; margin: 14px 0 0; font: 500 12px/1 var(--mono); color: var(--dim); }
-  .tools .legend { display: inline-flex; gap: 12px; align-items: center; }
-  .tools .legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; background: #8a8a8a; margin-right: 5px; vertical-align: middle; }
-  .tools .legend i.k { background: #f1f1f1; } .tools .legend i.h { background: #4d4d4d; }
-
-  /* ---------- 浮动胶囊 ---------- */
-  .capsule { all: unset; position: fixed; left: 50%; bottom: 18px; z-index: 50; display: flex; align-items: center; gap: 10px; padding: 8px 14px 8px 8px;
-             border-radius: 999px; background: rgba(24,24,27,.95); border: 1px solid rgba(255,255,255,.14); box-shadow: 0 16px 40px -18px #000;
-             font: 600 12.5px/1 var(--mono); color: var(--ink); cursor: pointer; transform: translate(-50%, 140%); opacity: 0;
-             transition: transform .35s cubic-bezier(.2,.8,.2,1), opacity .25s; }
-  .capsule.show { transform: translate(-50%, 0); opacity: 1; }
-  .capsule svg { flex: none; }
-  .capsule .cc { color: #0b0b0c; background: #f1f1f1; border-radius: 999px; padding: 5px 8px; }
-  .capsule .cn { max-width: 46vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--sans); }
-  .capsule .up { color: var(--muted); }
-
-  /* ---------- 解密标题 (同笔记: 原字占位不动, 乱码叠在上面) ---------- */
+  /* ---------- 解密标题 (同笔记) ---------- */
   .ch { position: relative; }
   .ch.x { visibility: hidden; }
   .ch.x::after { content: attr(data-g); visibility: visible; position: absolute; left: 50%; top: 0; transform: translateX(-50%); color: var(--muted); font-family: var(--mono); }
 
   /* ---------- 进场 ---------- */
-  .fx .course { opacity: 0; transform: translateY(18px); }
-  .fx .course.in { opacity: 1; transform: none; transition: opacity .6s, transform .6s cubic-bezier(.2,.8,.2,1), border-color .25s; }
+  .fx .course { opacity: 0; transform: translateY(14px); }
+  .fx .course.in { opacity: 1; transform: none; transition: opacity .6s, transform .6s var(--ease); }
   .fx .bar i { transform: scaleX(0); }
-  .fx .course.in .bar i { transform: none; transition: transform .7s cubic-bezier(.2,.8,.2,1); }
+  .fx .course.in .bar i { transform: none; transition: transform .7s var(--ease); }
 
-  /* footer 同时带 .wrap, 必须写 footer.wrap 才能压过 .wrap 的 margin: 0 auto; 底部留白给浮动胶囊 */
-  footer.wrap { margin: 70px auto 0; padding-bottom: calc(110px + env(safe-area-inset-bottom)); font: 500 12px/1.6 var(--mono); color: var(--dim); text-align: center; letter-spacing: .06em; }
+  footer.wrap { margin: 72px auto 0; padding-bottom: calc(80px + env(safe-area-inset-bottom)); font: 500 10.5px/1.6 var(--mono); color: var(--dim); text-align: center; letter-spacing: .14em; text-transform: uppercase; }
 
   @media (max-width: 560px) {
     .wrap { padding: 0 16px; }
-    header.wrap { padding-top: 52px; }
-    .stats li { min-width: 0; flex: 1 1 40%; padding: 10px 12px 8px; }
+    header.wrap { padding-top: 72px; }
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stats li:nth-child(3) { box-shadow: inset 0 1px 0 var(--hair); } .stats li:nth-child(4) { box-shadow: inset 1px 0 0 var(--hair), inset 0 1px 0 var(--hair); }
     .stats b { font-size: 22px; }
     .search kbd { display: none; }
     .course { padding: 16px 14px 8px; }
-    .num { font-size: 30px; }
-    .head { gap: 12px; }
-    .notes a { grid-template-columns: 24px minmax(0, 1fr); }
+    .head { gap: 10px; align-items: flex-start; } .num { min-width: 0; padding-top: 4px; }
+    .notes a { grid-template-columns: 30px minmax(0, 1fr); }
     .notes .ty { grid-column: 2; justify-self: start; margin-top: 6px; }
-    .tools .legend { gap: 8px; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation: none !important; transition: none !important; }
-    .fx .course { opacity: 1; transform: none; }
-    .fx .bar i { transform: none; }
+    .fx .course { opacity: 1; transform: none; } .fx .bar i { transform: none; }
   }
   @media print {
-    #topo, .vignette, #progress, .capsule, .finder, .tools, .jump { display: none !important; }
+    #field, #progress, #pill, .finder, .tools, .jump { display: none !important; }
     body { background: #fff; color: #000; }
-    .course { background: #fff; border-color: #ccc; box-shadow: none; break-inside: avoid; }
+    .course { background: #fff; box-shadow: none; break-inside: avoid; }
     .notes li.fold { display: block; } .more { display: none; }
   }
 </style>
 </head>
 <body>
-<canvas id="topo" aria-hidden="true"></canvas>
-<div class="vignette" aria-hidden="true"></div>
+<canvas id="field" aria-hidden="true"></canvas>
 <div id="progress" aria-hidden="true"><i></i></div>
 <span hidden data-glyphs="{}[]&lt;&gt;#*+=01/|"></span>
+<div id="pill"><div class="cap"><button class="ring" type="button" aria-label="切换白天 / 夜晚"><i class="orb"></i></button><span class="cc" id="capc">—</span><span class="cn" id="capn"></span><span class="up" id="capu">TOP ↑</span></div></div>
 
 <header class="wrap">
-  <span class="kicker">LMU · Computerlinguistik · Bachelor &amp; Master</span>
+  <span class="lab">LMU · Computerlinguistik · Bachelor &amp; Master</span>
   <h1><span class="ht">计算语言学</span><br><span class="ht">笔记总目录</span></h1>
-  <div class="sub">Vorlesungsnotizen · 原文卡片 + 中文讲解</div>
+  <div class="sub">Vorlesungsnotizen · Originalfolien + chinesische Erläuterungen</div>
   <ul class="stats">
-    <li><b data-n="15">15</b><span>门课程</span></li>
-    <li><b data-n="85">85</b><span>份笔记</span></li>
-    <li><b data-n="5">5</b><span>类模块</span></li>
-    <li><b>10-23</b><span>最近更新</span></li>
+    <li><b data-n="15">15</b><span>Courses</span></li>
+    <li><b data-n="85">85</b><span>Notes</span></li>
+    <li><b data-n="5">5</b><span>Modules</span></li>
+    <li><b>10-24</b><span>Updated</span></li>
   </ul>
 </header>
 
 <div class="wrap">
   <div class="finder">
     <label class="search">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <span class="pr" aria-hidden="true">&gt;_</span>
       <input id="q" type="search" placeholder="搜索课程或笔记, 如 BERT、句法" autocomplete="off" aria-label="搜索笔记">
       <span class="hits" id="hits"></span>
       <kbd>/</kbd>
     </label>
   </div>
   <nav class="jump" aria-label="课程"><a href="#hp1eip">HP1<small>EIP</small></a><a href="#hp2eicl">HP2<small>EICL</small></a><a href="#hp3aeal">HP3<small>AEAL</small></a><a href="#hp5sp">HP5<small>SP</small></a><a href="#hp6sns">HP6<small>SNS</small></a><a href="#hp7fs">HP7<small>FS</small></a><a href="#hp10smis">HP10<small>SMIS</small></a><a href="#hp11ie">HP11<small>IE</small></a><a href="#np1eips">NP1<small>EIPS</small></a><a href="#np2mgtn">NP2<small>MGTN</small></a><a href="#nwp2dbs">NWP2<small>DBS</small></a><a href="#x1bs">X1<small>BS</small></a><a href="#x2ste">X2<small>STE</small></a><a href="#p3dpnlpi">P3<small>DPNLP I</small></a><a href="#p6dpnlpii">P6<small>DPNLP II</small></a></nav>
-  <div class="tools">
-    <span class="legend"><span><i class="k"></i>讲次</span><span><i></i>合集</span><span><i class="h"></i>练习单</span></span>
+  <div class="tools lab">
+    <span class="legend"><span><i class="k"></i>Lecture</span><span><i></i>Collection</span><span><i class="h"></i>Exercises</span></span>
   </div>
 </div>
 
 <main class="wrap">
 <section class="group" id="g-hp"><h2 class="gh"><span class="gk">HP</span><span class="gt">本科 · 主修必修</span><small>Bachelor · Hauptfach · Pflicht</small><span class="gc">8 门课</span></h2>
 <div class="grid">
-<article class="course" id="hp1eip" data-code="HP1" data-k="HP1 EIP 计算语言学编程导论 EIP">
+<article class="course" id="hp1eip" data-code="HP1" data-k="HP1 EIP 计算语言学编程导论 EIP" style="--c:#79c0ff">
   <div class="head"><span class="num">HP1</span><div class="name"><h3>计算语言学编程导论</h3><div class="meta"><span class="tag">EIP</span><span class="cnt">3</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class=""></i><i class=""></i><i class="h"></i></div>
-  <ol class="notes"><li><a href="HP1%20EIP/EIP-%E5%90%88%E9%9B%86-Linux%E5%91%BD%E4%BB%A4%E8%A1%8C.html"><span class="i">01</span><span><span class="t">EIP 合集 · Linux 命令行</span><span class="s">Linux 命令行 (第 2 版) · 第 1 部分: 学会 Shell</span></span><span class="ty ">合集</span></a></li><li><a href="HP1%20EIP/EIP-%E5%90%88%E9%9B%86-%E8%AE%A1%E7%AE%97%E8%AF%AD%E8%A8%80%E5%AD%A6%E7%BC%96%E7%A8%8B%E5%AF%BC%E8%AE%BA.html"><span class="i">02</span><span><span class="t">EIP 合集 · 计算语言学编程导论</span><span class="s">计算语言学编程导论</span></span><span class="ty ">合集</span></a></li><li><a href="HP1%20EIP/EIP-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">03</span><span><span class="t">EIP 合集 · 练习单</span><span class="s">计算语言学编程导论 · 练习单合集</span></span><span class="ty h">练习</span></a></li></ol>
+  <ol class="notes"><li><a href="HP1%20EIP/EIP-%E5%90%88%E9%9B%86-Linux%E5%91%BD%E4%BB%A4%E8%A1%8C.html"><span class="i">01</span><span><span class="t">EIP 合集 · Linux 命令行</span><span class="s">Linux 命令行 (第 2 版) · 第 1 部分: 学会 Shell</span></span><span class="ty ">Collection</span></a></li><li><a href="HP1%20EIP/EIP-%E5%90%88%E9%9B%86-%E8%AE%A1%E7%AE%97%E8%AF%AD%E8%A8%80%E5%AD%A6%E7%BC%96%E7%A8%8B%E5%AF%BC%E8%AE%BA.html"><span class="i">02</span><span><span class="t">EIP 合集 · 计算语言学编程导论</span><span class="s">计算语言学编程导论</span></span><span class="ty ">Collection</span></a></li><li><a href="HP1%20EIP/EIP-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">03</span><span><span class="t">EIP 合集 · 练习单</span><span class="s">计算语言学编程导论 · 练习单合集</span></span><span class="ty h">Exercises</span></a></li></ol>
 </article>
-<article class="course" id="hp2eicl" data-code="HP2" data-k="HP2 EICL 计算语言学导论 EICL">
+<article class="course" id="hp2eicl" data-code="HP2" data-k="HP2 EICL 计算语言学导论 EICL" style="--c:#e49a81">
   <div class="head"><span class="num">HP2</span><div class="name"><h3>计算语言学导论</h3><div class="meta"><span class="tag">EICL</span><span class="cnt">5</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class="k"></i><i class="k"></i><i class="k"></i><i class=""></i><i class="h"></i></div>
-  <ol class="notes"><li><a href="HP2%20EICL/EICL-01-%E8%AF%BE%E7%A8%8B%E6%A6%82%E8%A7%88.html"><span class="i">01</span><span><span class="t">EICL 01 · 课程概览</span><span class="s">计算语言学导论 · 概览</span></span><span class="ty k">讲次</span></a></li><li><a href="HP2%20EICL/EICL-02-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.html"><span class="i">02</span><span><span class="t">EICL 02 · 基本概念</span><span class="s">计算语言学导论 · 基本概念</span></span><span class="ty k">讲次</span></a></li><li><a href="HP2%20EICL/EICL-03-%E5%BD%A2%E6%80%81%E5%AD%A6.html"><span class="i">03</span><span><span class="t">EICL 03 · 形态学</span><span class="s">计算语言学导论 · 形态学</span></span><span class="ty k">讲次</span></a></li><li><a href="HP2%20EICL/EICL-%E5%90%88%E9%9B%86-%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB.html"><span class="i">04</span><span><span class="t">EICL 合集 · 文献阅读</span><span class="s">计算语言学导论 · 文献阅读合集</span></span><span class="ty ">合集</span></a></li><li><a href="HP2%20EICL/EICL-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">05</span><span><span class="t">EICL 合集 · 练习单</span><span class="s">计算语言学导论 · 练习单合集</span></span><span class="ty h">练习</span></a></li></ol>
+  <ol class="notes"><li><a href="HP2%20EICL/EICL-01-%E8%AF%BE%E7%A8%8B%E6%A6%82%E8%A7%88.html"><span class="i">01</span><span><span class="t">EICL 01 · 课程概览</span><span class="s">计算语言学导论 · 概览</span></span><span class="ty k">Lecture</span></a></li><li><a href="HP2%20EICL/EICL-02-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.html"><span class="i">02</span><span><span class="t">EICL 02 · 基本概念</span><span class="s">计算语言学导论 · 基本概念</span></span><span class="ty k">Lecture</span></a></li><li><a href="HP2%20EICL/EICL-03-%E5%BD%A2%E6%80%81%E5%AD%A6.html"><span class="i">03</span><span><span class="t">EICL 03 · 形态学</span><span class="s">计算语言学导论 · 形态学</span></span><span class="ty k">Lecture</span></a></li><li><a href="HP2%20EICL/EICL-%E5%90%88%E9%9B%86-%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB.html"><span class="i">04</span><span><span class="t">EICL 合集 · 文献阅读</span><span class="s">计算语言学导论 · 文献阅读合集</span></span><span class="ty ">Collection</span></a></li><li><a href="HP2%20EICL/EICL-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">05</span><span><span class="t">EICL 合集 · 练习单</span><span class="s">计算语言学导论 · 练习单合集</span></span><span class="ty h">Exercises</span></a></li></ol>
 </article>
-<article class="course" id="hp3aeal" data-code="HP3" data-k="HP3 AEAL 英语 C1 · Academic English at Advanced Level AEAL">
+<article class="course" id="hp3aeal" data-code="HP3" data-k="HP3 AEAL 英语 C1 · Academic English at Advanced Level AEAL" style="--c:#e4d681">
   <div class="head"><span class="num">HP3</span><div class="name"><h3>英语 C1 · Academic English at Advanced Level</h3><div class="meta"><span class="tag">AEAL</span><span class="cnt">1</span><span class="opt">选修模块 · 多门可选</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class="k"></i></div>
-  <ol class="notes"><li><a href="HP3%20AEAL/AEAL-01-%E5%AD%A6%E6%9C%9F%E7%BB%84%E7%BB%87%E4%BF%A1%E6%81%AF.html"><span class="i">01</span><span><span class="t">AEAL 01 · 学期组织信息</span><span class="s">LMU 语言中心英语课程 · 学期组织信息</span></span><span class="ty k">讲次</span></a></li></ol>
+  <ol class="notes"><li><a href="HP3%20AEAL/AEAL-01-%E5%AD%A6%E6%9C%9F%E7%BB%84%E7%BB%87%E4%BF%A1%E6%81%AF.html"><span class="i">01</span><span><span class="t">AEAL 01 · 学期组织信息</span><span class="s">LMU 语言中心英语课程 · 学期组织信息</span></span><span class="ty k">Lecture</span></a></li></ol>
 </article>
-<article class="course" id="hp5sp" data-code="HP5" data-k="HP5 SP 符号程序设计语言 SP">
+<article class="course" id="hp5sp" data-code="HP5" data-k="HP5 SP 符号程序设计语言 SP" style="--c:#8192e4">
   <div class="head"><span class="num">HP5</span><div class="name"><h3>符号程序设计语言</h3><div class="meta"><span class="tag">SP</span><span class="cnt">4</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class="k"></i><i class="k"></i><i class="k"></i><i class="h"></i></div>
-  <ol class="notes"><li><a href="HP5%20SP/SP-01-Python%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%8B%E8%AF%95.html"><span class="i">01</span><span><span class="t">SP 01 · Python 基础与测试</span><span class="s">符号程序设计语言 · 第 1 讲: Python 基础与测试</span></span><span class="ty k">讲次</span></a></li><li><a href="HP5%20SP/SP-02-Git%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.html"><span class="i">02</span><span><span class="t">SP 02 · Git 版本控制</span><span class="s">符号程序设计语言 · Git 版本控制入门</span></span><span class="ty k">讲次</span></a></li><li><a href="HP5%20SP/SP-03-%E5%8F%AF%E5%8F%98%E6%80%A7%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1.html"><span class="i">03</span><span><span class="t">SP 03 · 可变性、作用域与面向对象</span><span class="s">符号程序设计语言 · 第 2 讲: 可变性、列表、作用域与面向对象编程</span></span><span class="ty k">讲次</span></a></li><li><a href="HP5%20SP/SP-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">04</span><span><span class="t">SP 合集 · 练习单</span><span class="s">符号程序设计语言 · 练习单合集</span></span><span class="ty h">练习</span></a></li></ol>
+  <ol class="notes"><li><a href="HP5%20SP/SP-01-Python%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%B5%8B%E8%AF%95.html"><span class="i">01</span><span><span class="t">SP 01 · Python 基础与测试</span><span class="s">符号程序设计语言 · 第 1 讲: Python 基础与测试</span></span><span class="ty k">Lecture</span></a></li><li><a href="HP5%20SP/SP-02-Git%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6.html"><span class="i">02</span><span><span class="t">SP 02 · Git 版本控制</span><span class="s">符号程序设计语言 · Git 版本控制入门</span></span><span class="ty k">Lecture</span></a></li><li><a href="HP5%20SP/SP-03-%E5%8F%AF%E5%8F%98%E6%80%A7%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1.html"><span class="i">03</span><span><span class="t">SP 03 · 可变性、作用域与面向对象</span><span class="s">符号程序设计语言 · 第 2 讲: 可变性、列表、作用域与面向对象编程</span></span><span class="ty k">Lecture</span></a></li><li><a href="HP5%20SP/SP-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">04</span><span><span class="t">SP 合集 · 练习单</span><span class="s">符号程序设计语言 · 练习单合集</span></span><span class="ty h">Exercises</span></a></li></ol>
 </article>
-<article class="course" id="hp6sns" data-code="HP6" data-k="HP6 SNS 自然语言句法 SNS">
+<article class="course" id="hp6sns" data-code="HP6" data-k="HP6 SNS 自然语言句法 SNS" style="--c:#e481b9">
   <div class="head"><span class="num">HP6</span><div class="name"><h3>自然语言句法</h3><div class="meta"><span class="tag">SNS</span><span class="cnt">4</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class="k"></i><i class="k"></i><i class="k"></i><i class="h"></i></div>
-  <ol class="notes"><li><a href="HP6%20SNS/SNS-00-%E5%AF%BC%E8%AE%BA.html"><span class="i">01</span><span><span class="t">SNS 00 · 导论</span><span class="s">自然语言句法: 导论</span></span><span class="ty k">讲次</span></a></li><li><a href="HP6%20SNS/SNS-01-%E5%8F%A5%E6%B3%95%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%A5%E6%B3%95%E6%B5%8B%E8%AF%95.html"><span class="i">02</span><span><span class="t">SNS 01 · 句法分析与句法测试</span><span class="s">自然语言句法 · 第 1 讲: 句法分析与句法测试</span></span><span class="ty k">讲次</span></a></li><li><a href="HP6%20SNS/SNS-02-%E7%9F%AD%E8%AF%AD%E7%BB%93%E6%9E%84%E6%96%87%E6%B3%95.html"><span class="i">03</span><span><span class="t">SNS 02 · 短语结构文法</span><span class="s">自然语言句法 · 第 2 讲: 短语结构文法</span></span><span class="ty k">讲次</span></a></li><li><a href="HP6%20SNS/SNS-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">04</span><span><span class="t">SNS 合集 · 练习单</span><span class="s">自然语言句法 · 练习单合集</span></span><span class="ty h">练习</span></a></li></ol>
+  <ol class="notes"><li><a href="HP6%20SNS/SNS-00-%E5%AF%BC%E8%AE%BA.html"><span class="i">01</span><span><span class="t">SNS 00 · 导论</span><span class="s">自然语言句法: 导论</span></span><span class="ty k">Lecture</span></a></li><li><a href="HP6%20SNS/SNS-01-%E5%8F%A5%E6%B3%95%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%A5%E6%B3%95%E6%B5%8B%E8%AF%95.html"><span class="i">02</span><span><span class="t">SNS 01 · 句法分析与句法测试</span><span class="s">自然语言句法 · 第 1 讲: 句法分析与句法测试</span></span><span class="ty k">Lecture</span></a></li><li><a href="HP6%20SNS/SNS-02-%E7%9F%AD%E8%AF%AD%E7%BB%93%E6%9E%84%E6%96%87%E6%B3%95.html"><span class="i">03</span><span><span class="t">SNS 02 · 短语结构文法</span><span class="s">自然语言句法 · 第 2 讲: 短语结构文法</span></span><span class="ty k">Lecture</span></a></li><li><a href="HP6%20SNS/SNS-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">04</span><span><span class="t">SNS 合集 · 练习单</span><span class="s">自然语言句法 · 练习单合集</span></span><span class="ty h">Exercises</span></a></li></ol>
 </article>
-<article class="course" id="hp7fs" data-code="HP7" data-k="HP7 FS 形式语言 FS">
+<article class="course" id="hp7fs" data-code="HP7" data-k="HP7 FS 形式语言 FS" style="--c:#81e4ba">
   <div class="head"><span class="num">HP7</span><div class="name"><h3>形式语言</h3><div class="meta"><span class="tag">FS</span><span class="cnt">3</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class="k"></i><i class=""></i><i class="h"></i></div>
-  <ol class="notes"><li><a href="HP7%20FS/FS-01-%E5%AF%BC%E8%AE%BA.html"><span class="i">01</span><span><span class="t">FS 01 · 导论</span><span class="s">形式语言: 导论</span></span><span class="ty k">讲次</span></a></li><li><a href="HP7%20FS/FS-%E5%90%88%E9%9B%86-%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB.html"><span class="i">02</span><span><span class="t">FS 合集 · 文献阅读</span><span class="s">形式语言 · 文献阅读合集</span></span><span class="ty ">合集</span></a></li><li><a href="HP7%20FS/FS-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">03</span><span><span class="t">FS 合集 · 练习单</span><span class="s">形式语言 · 练习单合集</span></span><span class="ty h">练习</span></a></li></ol>
+  <ol class="notes"><li><a href="HP7%20FS/FS-01-%E5%AF%BC%E8%AE%BA.html"><span class="i">01</span><span><span class="t">FS 01 · 导论</span><span class="s">形式语言: 导论</span></span><span class="ty k">Lecture</span></a></li><li><a href="HP7%20FS/FS-%E5%90%88%E9%9B%86-%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB.html"><span class="i">02</span><span><span class="t">FS 合集 · 文献阅读</span><span class="s">形式语言 · 文献阅读合集</span></span><span class="ty ">Collection</span></a></li><li><a href="HP7%20FS/FS-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">03</span><span><span class="t">FS 合集 · 练习单</span><span class="s">形式语言 · 练习单合集</span></span><span class="ty h">Exercises</span></a></li></ol>
 </article>
-<article class="course" id="hp10smis" data-code="HP10" data-k="HP10 SMIS 语言处理中的统计方法 SMIS">
+<article class="course" id="hp10smis" data-code="HP10" data-k="HP10 SMIS 语言处理中的统计方法 SMIS" style="--c:#aa81e4">
   <div class="head"><span class="num">HP10</span><div class="name"><h3>语言处理中的统计方法</h3><div class="meta"><span class="tag">SMIS</span><span class="cnt">2</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class=""></i><i class="h"></i></div>
-  <ol class="notes"><li><a href="HP10%20SMIS/SMIS-%E5%90%88%E9%9B%86-%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%AD%E7%9A%84%E7%BB%9F%E8%AE%A1%E6%96%B9%E6%B3%95.html"><span class="i">01</span><span><span class="t">SMIS 合集 · 语言处理中的统计方法</span><span class="s">语言处理中的统计方法</span></span><span class="ty ">合集</span></a></li><li><a href="HP10%20SMIS/SMIS-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">02</span><span><span class="t">SMIS 合集 · 练习单</span><span class="s">语言处理中的统计方法 · 练习单合集</span></span><span class="ty h">练习</span></a></li></ol>
+  <ol class="notes"><li><a href="HP10%20SMIS/SMIS-%E5%90%88%E9%9B%86-%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%AD%E7%9A%84%E7%BB%9F%E8%AE%A1%E6%96%B9%E6%B3%95.html"><span class="i">01</span><span><span class="t">SMIS 合集 · 语言处理中的统计方法</span><span class="s">语言处理中的统计方法</span></span><span class="ty ">Collection</span></a></li><li><a href="HP10%20SMIS/SMIS-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">02</span><span><span class="t">SMIS 合集 · 练习单</span><span class="s">语言处理中的统计方法 · 练习单合集</span></span><span class="ty h">Exercises</span></a></li></ol>
 </article>
-<article class="course" id="hp11ie" data-code="HP11" data-k="HP11 IE 信息抽取 IE">
+<article class="course" id="hp11ie" data-code="HP11" data-k="HP11 IE 信息抽取 IE" style="--c:#dd81e4">
   <div class="head"><span class="num">HP11</span><div class="name"><h3>信息抽取</h3><div class="meta"><span class="tag">IE</span><span class="cnt">4</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class="k"></i><i class="k"></i><i class="k"></i><i class=""></i></div>
-  <ol class="notes"><li><a href="HP11%20IE/IE-01-%E8%AF%BE%E7%A8%8B%E4%BB%8B%E7%BB%8D%E4%B8%8E%E4%BF%A1%E6%81%AF%E6%8A%BD%E5%8F%96%E5%AF%BC%E8%AE%BA.html"><span class="i">01</span><span><span class="t">IE 01 · 课程介绍与信息抽取导论</span><span class="s">信息抽取 · 第 1 周: 课程介绍与信息抽取导论</span></span><span class="ty k">讲次</span></a></li><li><a href="HP11%20IE/IE-02-%E7%A0%94%E8%AE%A8%E8%AF%BE%E4%B8%8E%E8%AF%84%E5%88%86%E6%A0%87%E5%87%86.html"><span class="i">02</span><span><span class="t">IE 02 · 研讨课与评分标准</span><span class="s">信息抽取 · 第 2 周研讨课</span></span><span class="ty k">讲次</span></a></li><li><a href="HP11%20IE/IE-03-%E5%9F%BA%E7%A1%80%E4%B8%8E%E4%BC%A0%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%8A%BD%E5%8F%96.html"><span class="i">03</span><span><span class="t">IE 03 · 基础与传统信息抽取</span><span class="s">信息抽取 · 第 2 周: 基础与传统信息抽取</span></span><span class="ty k">讲次</span></a></li><li><a href="HP11%20IE/IE-%E5%90%88%E9%9B%86-%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB.html"><span class="i">04</span><span><span class="t">IE 合集 · 文献阅读</span><span class="s">信息抽取 · 文献阅读合集</span></span><span class="ty ">合集</span></a></li></ol>
+  <ol class="notes"><li><a href="HP11%20IE/IE-01-%E8%AF%BE%E7%A8%8B%E4%BB%8B%E7%BB%8D%E4%B8%8E%E4%BF%A1%E6%81%AF%E6%8A%BD%E5%8F%96%E5%AF%BC%E8%AE%BA.html"><span class="i">01</span><span><span class="t">IE 01 · 课程介绍与信息抽取导论</span><span class="s">信息抽取 · 第 1 周: 课程介绍与信息抽取导论</span></span><span class="ty k">Lecture</span></a></li><li><a href="HP11%20IE/IE-02-%E7%A0%94%E8%AE%A8%E8%AF%BE%E4%B8%8E%E8%AF%84%E5%88%86%E6%A0%87%E5%87%86.html"><span class="i">02</span><span><span class="t">IE 02 · 研讨课与评分标准</span><span class="s">信息抽取 · 第 2 周研讨课</span></span><span class="ty k">Lecture</span></a></li><li><a href="HP11%20IE/IE-03-%E5%9F%BA%E7%A1%80%E4%B8%8E%E4%BC%A0%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%8A%BD%E5%8F%96.html"><span class="i">03</span><span><span class="t">IE 03 · 基础与传统信息抽取</span><span class="s">信息抽取 · 第 2 周: 基础与传统信息抽取</span></span><span class="ty k">Lecture</span></a></li><li><a href="HP11%20IE/IE-%E5%90%88%E9%9B%86-%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB.html"><span class="i">04</span><span><span class="t">IE 合集 · 文献阅读</span><span class="s">信息抽取 · 文献阅读合集</span></span><span class="ty ">Collection</span></a></li></ol>
 </article>
 </div></section>
 <section class="group" id="g-np"><h2 class="gh"><span class="gk">NP</span><span class="gt">本科 · 辅修必修</span><small>Bachelor · Nebenfach · Pflicht</small><span class="gc">2 门课</span></h2>
 <div class="grid">
-<article class="course" id="np1eips" data-code="NP1" data-k="NP1 EIPS 第 5 章: 函数, 对象与类 EIPS">
-  <div class="head"><span class="num">NP1</span><div class="name"><h3>第 5 章: 函数, 对象与类</h3><div class="meta"><span class="tag">EIPS</span><span class="cnt">17</span></div></div></div>
+<article class="course" id="np1eips" data-code="NP1" data-k="NP1 EIPS 第 14 章: 异常与异常处理 EIPS" style="--c:#81cee4">
+  <div class="head"><span class="num">NP1</span><div class="name"><h3>第 14 章: 异常与异常处理</h3><div class="meta"><span class="tag">EIPS</span><span class="cnt">17</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="h"></i></div>
-  <ol class="notes"><li><a href="NP1%20EIPS/EIPS-00-%E6%AC%A2%E8%BF%8E%E4%B8%8E%E7%BB%84%E7%BB%87.html"><span class="i">01</span><span><span class="t">EIPS 00 · 欢迎与组织</span><span class="s">欢迎与组织</span></span><span class="ty k">讲次</span></a></li><li><a href="NP1%20EIPS/EIPS-01-%E5%AF%BC%E8%AE%BA%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.html"><span class="i">02</span><span><span class="t">EIPS 01 · 导论与基本概念</span><span class="s">第 1 章: 导论与基本概念</span></span><span class="ty k">讲次</span></a></li><li><a href="NP1%20EIPS/EIPS-02-%E6%8F%8F%E8%BF%B0%E8%AF%AD%E6%B3%95%E7%9A%84%E6%96%B9%E6%B3%95.html"><span class="i">03</span><span><span class="t">EIPS 02 · 描述语法的方法</span><span class="s">第 2 章: 描述语法的方法</span></span><span class="ty k">讲次</span></a></li><li><a href="NP1%20EIPS/EIPS-03-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%8F%98%E9%87%8F.html"><span class="i">04</span><span><span class="t">EIPS 03 · 基本数据类型表达式与变量</span><span class="s">第 3 章: 基本数据类型, 表达式与变量</span></span><span class="ty k">讲次</span></a></li><li><a href="NP1%20EIPS/EIPS-04-%E8%AF%AD%E5%8F%A5%E4%B8%8E%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84.html"><span class="i">05</span><span><span class="t">EIPS 04 · 语句与控制结构</span><span class="s">第 4 章: 语句与控制结构</span></span><span class="ty k">讲次</span></a></li><li><a href="NP1%20EIPS/EIPS-05-%E5%87%BD%E6%95%B0%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB.html"><span class="i">06</span><span><span class="t">EIPS 05 · 函数对象与类</span><span class="s">第 5 章: 函数, 对象与类</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-06-%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E4%B8%AD%E7%9A%84%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84.html"><span class="i">07</span><span><span class="t">EIPS 06 · 类与对象中的控制结构</span><span class="s">第 6 章: 类与对象中的控制结构</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-07-%E7%B1%BB%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E8%81%94%E4%B8%8E%E7%BB%A7%E6%89%BF.html"><span class="i">08</span><span><span class="t">EIPS 07 · 类之间的关联与继承</span><span class="s">第 7 章: 类之间的关联与继承</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-08-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84I%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B.html"><span class="i">09</span><span><span class="t">EIPS 08 · 数据结构 I 序列类型</span><span class="s">第 8 章: 数据结构 I – 序列类型</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-09-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84II%E9%9B%86%E5%90%88%E4%B8%8E%E5%AD%97%E5%85%B8.html"><span class="i">10</span><span><span class="t">EIPS 09 · 数据结构 II 集合与字典</span><span class="s">第 9 章: 数据结构 II – 集合与字典</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-10-%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95.html"><span class="i">11</span><span><span class="t">EIPS 10 · 算法复杂度与排序方法</span><span class="s">第 10 章: 算法复杂度与排序方法</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-11-%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81.html"><span class="i">12</span><span><span class="t">EIPS 11 · 质量保证</span><span class="s">第 11 章: 质量保证</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-12-%E9%80%92%E5%BD%92.html"><span class="i">13</span><span><span class="t">EIPS 12 · 递归</span><span class="s">第 12 章: 递归</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-13-%E6%A0%91.html"><span class="i">14</span><span><span class="t">EIPS 13 · 树</span><span class="s">第 13 章: 树</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-14-%E5%BC%82%E5%B8%B8%E4%B8%8E%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86.html"><span class="i">15</span><span><span class="t">EIPS 14 · 异常与异常处理</span><span class="s">第 14 章: 异常与异常处理</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-15-%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91.html"><span class="i">16</span><span><span class="t">EIPS 15 · 软件开发</span><span class="s">第 15 章: 软件开发</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">17</span><span><span class="t">EIPS 合集 · 练习单</span><span class="s">信息学导论: 编程与软件开发 · 练习单合集</span></span><span class="ty h">练习</span></a></li></ol><button class="more" type="button" aria-expanded="false"></button>
+  <ol class="notes"><li><a href="NP1%20EIPS/EIPS-00-%E6%AC%A2%E8%BF%8E%E4%B8%8E%E7%BB%84%E7%BB%87.html"><span class="i">01</span><span><span class="t">EIPS 00 · 欢迎与组织</span><span class="s">欢迎与组织</span></span><span class="ty k">Lecture</span></a></li><li><a href="NP1%20EIPS/EIPS-01-%E5%AF%BC%E8%AE%BA%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.html"><span class="i">02</span><span><span class="t">EIPS 01 · 导论与基本概念</span><span class="s">第 1 章: 导论与基本概念</span></span><span class="ty k">Lecture</span></a></li><li><a href="NP1%20EIPS/EIPS-02-%E6%8F%8F%E8%BF%B0%E8%AF%AD%E6%B3%95%E7%9A%84%E6%96%B9%E6%B3%95.html"><span class="i">03</span><span><span class="t">EIPS 02 · 描述语法的方法</span><span class="s">第 2 章: 描述语法的方法</span></span><span class="ty k">Lecture</span></a></li><li><a href="NP1%20EIPS/EIPS-03-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%8F%98%E9%87%8F.html"><span class="i">04</span><span><span class="t">EIPS 03 · 基本数据类型表达式与变量</span><span class="s">第 3 章: 基本数据类型, 表达式与变量</span></span><span class="ty k">Lecture</span></a></li><li><a href="NP1%20EIPS/EIPS-04-%E8%AF%AD%E5%8F%A5%E4%B8%8E%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84.html"><span class="i">05</span><span><span class="t">EIPS 04 · 语句与控制结构</span><span class="s">第 4 章: 语句与控制结构</span></span><span class="ty k">Lecture</span></a></li><li><a href="NP1%20EIPS/EIPS-05-%E5%87%BD%E6%95%B0%E5%AF%B9%E8%B1%A1%E4%B8%8E%E7%B1%BB.html"><span class="i">06</span><span><span class="t">EIPS 05 · 函数对象与类</span><span class="s">第 5 章: 函数, 对象与类</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-06-%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E4%B8%AD%E7%9A%84%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84.html"><span class="i">07</span><span><span class="t">EIPS 06 · 类与对象中的控制结构</span><span class="s">第 6 章: 类与对象中的控制结构</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-07-%E7%B1%BB%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E8%81%94%E4%B8%8E%E7%BB%A7%E6%89%BF.html"><span class="i">08</span><span><span class="t">EIPS 07 · 类之间的关联与继承</span><span class="s">第 7 章: 类之间的关联与继承</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-08-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84I%E5%BA%8F%E5%88%97%E7%B1%BB%E5%9E%8B.html"><span class="i">09</span><span><span class="t">EIPS 08 · 数据结构 I 序列类型</span><span class="s">第 8 章: 数据结构 I – 序列类型</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-09-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84II%E9%9B%86%E5%90%88%E4%B8%8E%E5%AD%97%E5%85%B8.html"><span class="i">10</span><span><span class="t">EIPS 09 · 数据结构 II 集合与字典</span><span class="s">第 9 章: 数据结构 II – 集合与字典</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-10-%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95.html"><span class="i">11</span><span><span class="t">EIPS 10 · 算法复杂度与排序方法</span><span class="s">第 10 章: 算法复杂度与排序方法</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-11-%E8%B4%A8%E9%87%8F%E4%BF%9D%E8%AF%81.html"><span class="i">12</span><span><span class="t">EIPS 11 · 质量保证</span><span class="s">第 11 章: 质量保证</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-12-%E9%80%92%E5%BD%92.html"><span class="i">13</span><span><span class="t">EIPS 12 · 递归</span><span class="s">第 12 章: 递归</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-13-%E6%A0%91.html"><span class="i">14</span><span><span class="t">EIPS 13 · 树</span><span class="s">第 13 章: 树</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-14-%E5%BC%82%E5%B8%B8%E4%B8%8E%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86.html"><span class="i">15</span><span><span class="t">EIPS 14 · 异常与异常处理</span><span class="s">第 14 章: 异常与异常处理</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-15-%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91.html"><span class="i">16</span><span><span class="t">EIPS 15 · 软件开发</span><span class="s">第 15 章: 软件开发</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="NP1%20EIPS/EIPS-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">17</span><span><span class="t">EIPS 合集 · 练习单</span><span class="s">信息学导论: 编程与软件开发 · 练习单合集</span></span><span class="ty h">Exercises</span></a></li></ol><button class="more" type="button" aria-expanded="false"></button>
 </article>
-<article class="course" id="np2mgtn" data-code="NP2" data-k="NP2 MGTN 数学 I: 面向辅修学生的基础技术 MGTN">
+<article class="course" id="np2mgtn" data-code="NP2" data-k="NP2 MGTN 数学 I: 面向辅修学生的基础技术 MGTN" style="--c:#7ed6a8">
   <div class="head"><span class="num">NP2</span><div class="name"><h3>数学 I: 面向辅修学生的基础技术</h3><div class="meta"><span class="tag">MGTN</span><span class="cnt">2</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class=""></i><i class="h"></i></div>
-  <ol class="notes"><li><a href="NP2%20MGTN/MGTN-%E5%90%88%E9%9B%86-%E6%95%B0%E5%AD%A6I%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF.html"><span class="i">01</span><span><span class="t">MGTN 合集 · 数学 I 基础技术</span><span class="s">数学 I: 面向辅修学生的基础技术</span></span><span class="ty ">合集</span></a></li><li><a href="NP2%20MGTN/MGTN-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">02</span><span><span class="t">MGTN 合集 · 练习单</span><span class="s">数学 I · 练习单合集</span></span><span class="ty h">练习</span></a></li></ol>
+  <ol class="notes"><li><a href="NP2%20MGTN/MGTN-%E5%90%88%E9%9B%86-%E6%95%B0%E5%AD%A6I%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF.html"><span class="i">01</span><span><span class="t">MGTN 合集 · 数学 I 基础技术</span><span class="s">数学 I: 面向辅修学生的基础技术</span></span><span class="ty ">Collection</span></a></li><li><a href="NP2%20MGTN/MGTN-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">02</span><span><span class="t">MGTN 合集 · 练习单</span><span class="s">数学 I · 练习单合集</span></span><span class="ty h">Exercises</span></a></li></ol>
 </article>
 </div></section>
 <section class="group" id="g-nwp"><h2 class="gh"><span class="gk">NWP</span><span class="gt">本科 · 辅修选修</span><small>Bachelor · Nebenfach · Wahlpflicht</small><span class="gc">1 门课</span></h2>
 <div class="grid">
-<article class="course" id="nwp2dbs" data-code="NWP2" data-k="NWP2 DBS 数据库系统 DBS">
+<article class="course" id="nwp2dbs" data-code="NWP2" data-k="NWP2 DBS 数据库系统 DBS" style="--c:#81e48d">
   <div class="head"><span class="num">NWP2</span><div class="name"><h3>数据库系统</h3><div class="meta"><span class="tag">DBS</span><span class="cnt">4</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class="k"></i><i class="k"></i><i class="k"></i><i class="h"></i></div>
-  <ol class="notes"><li><a href="NWP2%20DBS/DBS-00-%E8%AF%BE%E7%A8%8B%E7%BB%84%E7%BB%87.html"><span class="i">01</span><span><span class="t">DBS 00 · 课程组织</span><span class="s">数据库系统 · 第 0 章: 课程组织</span></span><span class="ty k">讲次</span></a></li><li><a href="NWP2%20DBS/DBS-01-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80.html"><span class="i">02</span><span><span class="t">DBS 01 · 数据库系统基础</span><span class="s">数据库系统 · 第 1 章: 数据库系统基础</span></span><span class="ty k">讲次</span></a></li><li><a href="NWP2%20DBS/DBS-02-%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B.html"><span class="i">03</span><span><span class="t">DBS 02 · 关系模型</span><span class="s">数据库系统 · 第 2 章: 关系模型</span></span><span class="ty k">讲次</span></a></li><li><a href="NWP2%20DBS/DBS-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">04</span><span><span class="t">DBS 合集 · 练习单</span><span class="s">数据库系统 · 练习单合集</span></span><span class="ty h">练习</span></a></li></ol>
+  <ol class="notes"><li><a href="NWP2%20DBS/DBS-00-%E8%AF%BE%E7%A8%8B%E7%BB%84%E7%BB%87.html"><span class="i">01</span><span><span class="t">DBS 00 · 课程组织</span><span class="s">数据库系统 · 第 0 章: 课程组织</span></span><span class="ty k">Lecture</span></a></li><li><a href="NWP2%20DBS/DBS-01-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80.html"><span class="i">02</span><span><span class="t">DBS 01 · 数据库系统基础</span><span class="s">数据库系统 · 第 1 章: 数据库系统基础</span></span><span class="ty k">Lecture</span></a></li><li><a href="NWP2%20DBS/DBS-02-%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B.html"><span class="i">03</span><span><span class="t">DBS 02 · 关系模型</span><span class="s">数据库系统 · 第 2 章: 关系模型</span></span><span class="ty k">Lecture</span></a></li><li><a href="NWP2%20DBS/DBS-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">04</span><span><span class="t">DBS 合集 · 练习单</span><span class="s">数据库系统 · 练习单合集</span></span><span class="ty h">Exercises</span></a></li></ol>
 </article>
 </div></section>
 <section class="group" id="g-x"><h2 class="gh"><span class="gk">X</span><span class="gt">本科 · 跨专业补充课程</span><small>Bachelor · Ergänzungsfächer aus anderen Studiengängen</small><span class="gc">2 门课</span></h2>
 <div class="grid">
-<article class="course" id="x1bs" data-code="X1" data-k="X1 BS 第 1 部分: 虚拟化 BS">
-  <div class="head"><span class="num">X1</span><div class="name"><h3>第 1 部分: 虚拟化</h3><div class="meta"><span class="tag">BS</span><span class="cnt">2</span></div></div></div>
+<article class="course" id="x1bs" data-code="X1" data-k="X1 BS 操作系统 – 导论 BS" style="--c:#81e4db">
+  <div class="head"><span class="num">X1</span><div class="name"><h3>操作系统 – 导论</h3><div class="meta"><span class="tag">BS</span><span class="cnt">2</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class="k"></i><i class="k"></i></div>
-  <ol class="notes"><li><a href="X1%20BS/BS-01-%E5%AF%BC%E8%AE%BA.html"><span class="i">01</span><span><span class="t">BS 01 · 导论</span><span class="s">操作系统 – 导论</span></span><span class="ty k">讲次</span></a></li><li><a href="X1%20BS/BS-02-%E8%BF%9B%E7%A8%8B.html"><span class="i">02</span><span><span class="t">BS 02 · 进程</span><span class="s">第 1 部分: 虚拟化 · 进程</span></span><span class="ty k">讲次</span></a></li></ol>
+  <ol class="notes"><li><a href="X1%20BS/BS-01-%E5%AF%BC%E8%AE%BA.html"><span class="i">01</span><span><span class="t">BS 01 · 导论</span><span class="s">操作系统 – 导论</span></span><span class="ty k">Lecture</span></a></li><li><a href="X1%20BS/BS-02-%E8%BF%9B%E7%A8%8B.html"><span class="i">02</span><span><span class="t">BS 02 · 进程</span><span class="s">第 1 部分: 虚拟化 · 进程</span></span><span class="ty k">Lecture</span></a></li></ol>
 </article>
-<article class="course" id="x2ste" data-code="X2" data-k="X2 STE 科学与技术英语 STE">
+<article class="course" id="x2ste" data-code="X2" data-k="X2 STE 科学与技术英语 STE" style="--c:#c7e481">
   <div class="head"><span class="num">X2</span><div class="name"><h3>科学与技术英语</h3><div class="meta"><span class="tag">STE</span><span class="cnt">14</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="h"></i></div>
-  <ol class="notes"><li><a href="X2%20STE/STE-01-%E8%AF%BE%E7%A8%8B%E5%AE%89%E6%8E%92%E4%B8%8E%E5%86%99%E4%BD%9C%E8%BE%85%E5%8A%A9%E5%B7%A5%E5%85%B7.html"><span class="i">01</span><span><span class="t">STE 01 · 课程安排与写作辅助工具</span><span class="s">科学与技术英语 · 第 1 讲: 课程安排与写作辅助工具</span></span><span class="ty k">讲次</span></a></li><li><a href="X2%20STE/STE-02-%E7%BB%93%E6%9E%84.html"><span class="i">02</span><span><span class="t">STE 02 · 结构</span><span class="s">科学与技术英语 · 第 2 讲: 结构</span></span><span class="ty k">讲次</span></a></li><li><a href="X2%20STE/STE-03-%E6%96%87%E4%BD%93.html"><span class="i">03</span><span><span class="t">STE 03 · 文体</span><span class="s">科学与技术英语 · 第 3 讲: 文体</span></span><span class="ty k">讲次</span></a></li><li><a href="X2%20STE/STE-04-%E8%AF%8D%E4%B8%8E%E7%9F%AD%E8%AF%AD.html"><span class="i">04</span><span><span class="t">STE 04 · 词与短语</span><span class="s">科学与技术英语 · 第 4 讲: 词与短语</span></span><span class="ty k">讲次</span></a></li><li><a href="X2%20STE/STE-05-%E5%8F%A5%E5%AD%90%E4%B8%8E%E6%AE%B5%E8%90%BD.html"><span class="i">05</span><span><span class="t">STE 05 · 句子与段落</span><span class="s">科学与技术英语 · 第 5 讲: 句子与段落</span></span><span class="ty k">讲次</span></a></li><li><a href="X2%20STE/STE-06-%E6%A0%87%E7%82%B9%28%E4%B8%8A%29.html"><span class="i">06</span><span><span class="t">STE 06 · 标点 (上)</span><span class="s">科学与技术英语 · 第 6 讲: 标点 (第 1 部分)</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="X2%20STE/STE-07-%E6%A0%87%E7%82%B9%28%E4%B8%8B%29.html"><span class="i">07</span><span><span class="t">STE 07 · 标点 (下)</span><span class="s">科学与技术英语 · 第 7 讲: 标点 (第 2 部分)</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="X2%20STE/STE-08-%E6%8E%92%E7%89%88.html"><span class="i">08</span><span><span class="t">STE 08 · 排版</span><span class="s">科学与技术英语 · 第 8 讲: 排版</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="X2%20STE/STE-09-%E5%BC%95%E7%94%A8%E4%B8%8E%E5%BC%95%E8%AF%AD.html"><span class="i">09</span><span><span class="t">STE 09 · 引用与引语</span><span class="s">科学与技术英语 · 第 9 讲: 引用与引语</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="X2%20STE/STE-10-%E4%BF%AE%E6%94%B9.html"><span class="i">10</span><span><span class="t">STE 10 · 修改</span><span class="s">科学与技术英语 · 第 10 讲: 修改</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="X2%20STE/STE-11-%E5%AD%A6%E4%BD%8D%E8%AE%BA%E6%96%87%E4%B8%8E%E7%A0%94%E7%A9%B6%E8%AE%BA%E6%96%87.html"><span class="i">11</span><span><span class="t">STE 11 · 学位论文与研究论文</span><span class="s">科学与技术英语 · 第 11 讲: 学位论文与研究论文</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="X2%20STE/STE-12-%E5%B9%BB%E7%81%AF%E7%89%87%E4%B8%8E%E6%B5%B7%E6%8A%A5.html"><span class="i">12</span><span><span class="t">STE 12 · 幻灯片与海报</span><span class="s">科学与技术英语 · 第 12 讲: 幻灯片与海报</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="X2%20STE/STE-13-%E8%BD%AF%E4%BB%B6%E6%96%87%E6%A1%A3.html"><span class="i">13</span><span><span class="t">STE 13 · 软件文档</span><span class="s">科学与技术英语 · 第 13 讲: 软件文档</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="X2%20STE/STE-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">14</span><span><span class="t">STE · 练习单合集</span><span class="s">科学与技术英语 · 练习单合集</span></span><span class="ty h">练习</span></a></li></ol><button class="more" type="button" aria-expanded="false"></button>
+  <ol class="notes"><li><a href="X2%20STE/STE-01-%E8%AF%BE%E7%A8%8B%E5%AE%89%E6%8E%92%E4%B8%8E%E5%86%99%E4%BD%9C%E8%BE%85%E5%8A%A9%E5%B7%A5%E5%85%B7.html"><span class="i">01</span><span><span class="t">STE 01 · 课程安排与写作辅助工具</span><span class="s">科学与技术英语 · 第 1 讲: 课程安排与写作辅助工具</span></span><span class="ty k">Lecture</span></a></li><li><a href="X2%20STE/STE-02-%E7%BB%93%E6%9E%84.html"><span class="i">02</span><span><span class="t">STE 02 · 结构</span><span class="s">科学与技术英语 · 第 2 讲: 结构</span></span><span class="ty k">Lecture</span></a></li><li><a href="X2%20STE/STE-03-%E6%96%87%E4%BD%93.html"><span class="i">03</span><span><span class="t">STE 03 · 文体</span><span class="s">科学与技术英语 · 第 3 讲: 文体</span></span><span class="ty k">Lecture</span></a></li><li><a href="X2%20STE/STE-04-%E8%AF%8D%E4%B8%8E%E7%9F%AD%E8%AF%AD.html"><span class="i">04</span><span><span class="t">STE 04 · 词与短语</span><span class="s">科学与技术英语 · 第 4 讲: 词与短语</span></span><span class="ty k">Lecture</span></a></li><li><a href="X2%20STE/STE-05-%E5%8F%A5%E5%AD%90%E4%B8%8E%E6%AE%B5%E8%90%BD.html"><span class="i">05</span><span><span class="t">STE 05 · 句子与段落</span><span class="s">科学与技术英语 · 第 5 讲: 句子与段落</span></span><span class="ty k">Lecture</span></a></li><li><a href="X2%20STE/STE-06-%E6%A0%87%E7%82%B9%28%E4%B8%8A%29.html"><span class="i">06</span><span><span class="t">STE 06 · 标点 (上)</span><span class="s">科学与技术英语 · 第 6 讲: 标点 (第 1 部分)</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="X2%20STE/STE-07-%E6%A0%87%E7%82%B9%28%E4%B8%8B%29.html"><span class="i">07</span><span><span class="t">STE 07 · 标点 (下)</span><span class="s">科学与技术英语 · 第 7 讲: 标点 (第 2 部分)</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="X2%20STE/STE-08-%E6%8E%92%E7%89%88.html"><span class="i">08</span><span><span class="t">STE 08 · 排版</span><span class="s">科学与技术英语 · 第 8 讲: 排版</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="X2%20STE/STE-09-%E5%BC%95%E7%94%A8%E4%B8%8E%E5%BC%95%E8%AF%AD.html"><span class="i">09</span><span><span class="t">STE 09 · 引用与引语</span><span class="s">科学与技术英语 · 第 9 讲: 引用与引语</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="X2%20STE/STE-10-%E4%BF%AE%E6%94%B9.html"><span class="i">10</span><span><span class="t">STE 10 · 修改</span><span class="s">科学与技术英语 · 第 10 讲: 修改</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="X2%20STE/STE-11-%E5%AD%A6%E4%BD%8D%E8%AE%BA%E6%96%87%E4%B8%8E%E7%A0%94%E7%A9%B6%E8%AE%BA%E6%96%87.html"><span class="i">11</span><span><span class="t">STE 11 · 学位论文与研究论文</span><span class="s">科学与技术英语 · 第 11 讲: 学位论文与研究论文</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="X2%20STE/STE-12-%E5%B9%BB%E7%81%AF%E7%89%87%E4%B8%8E%E6%B5%B7%E6%8A%A5.html"><span class="i">12</span><span><span class="t">STE 12 · 幻灯片与海报</span><span class="s">科学与技术英语 · 第 12 讲: 幻灯片与海报</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="X2%20STE/STE-13-%E8%BD%AF%E4%BB%B6%E6%96%87%E6%A1%A3.html"><span class="i">13</span><span><span class="t">STE 13 · 软件文档</span><span class="s">科学与技术英语 · 第 13 讲: 软件文档</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="X2%20STE/STE-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">14</span><span><span class="t">STE · 练习单合集</span><span class="s">科学与技术英语 · 练习单合集</span></span><span class="ty h">Exercises</span></a></li></ol><button class="more" type="button" aria-expanded="false"></button>
 </article>
 </div></section>
 <section class="group" id="g-p"><h2 class="gh"><span class="gk">P</span><span class="gt">硕士 · 计算语言学必修</span><small>Master Computerlinguistik · Pflicht</small><span class="gc">2 门课</span></h2>
 <div class="grid">
-<article class="course" id="p3dpnlpi" data-code="P3" data-k="P3 DPNLP I NLP 深度学习 I · Deep Learning for NLP DPNLP I">
+<article class="course" id="p3dpnlpi" data-code="P3" data-k="P3 DPNLP I NLP 深度学习 I · Deep Learning for NLP DPNLP I" style="--c:#8e81e4">
   <div class="head"><span class="num">P3</span><div class="name"><h3>NLP 深度学习 I · Deep Learning for NLP</h3><div class="meta"><span class="tag">DPNLP I</span><span class="cnt">16</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="k"></i><i class="h"></i></div>
-  <ol class="notes"><li><a href="P3%20DPNLP%20I/DPNLP1-01-%E5%9F%BA%E7%A1%80.html"><span class="i">01</span><span><span class="t">DPNLP I 01 · 基础</span><span class="s">NLP 深度学习 · 基础</span></span><span class="ty k">讲次</span></a></li><li><a href="P3%20DPNLP%20I/DPNLP1-02-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80.html"><span class="i">02</span><span><span class="t">DPNLP I 02 · 深度学习基础</span><span class="s">NLP 深度学习 · 深度学习基础</span></span><span class="ty k">讲次</span></a></li><li><a href="P3%20DPNLP%20I/DPNLP1-03-Transformer.html"><span class="i">03</span><span><span class="t">DPNLP I 03 · Transformer</span><span class="s">NLP 深度学习 · Transformer</span></span><span class="ty k">讲次</span></a></li><li><a href="P3%20DPNLP%20I/DPNLP1-04-BERT.html"><span class="i">04</span><span><span class="t">DPNLP I 04 · BERT</span><span class="s">NLP 深度学习 · BERT</span></span><span class="ty k">讲次</span></a></li><li><a href="P3%20DPNLP%20I/DPNLP1-05-%E5%90%8EBERT%E6%97%B6%E4%BB%A3-BERTology%E4%B8%8E%E8%92%B8%E9%A6%8F.html"><span class="i">05</span><span><span class="t">DPNLP I 05 · 后BERT时代-BERTology与蒸馏</span><span class="s">NLP 深度学习 · 后 BERT 时代</span></span><span class="ty k">讲次</span></a></li><li><a href="P3%20DPNLP%20I/DPNLP1-06-%E5%90%8EBERT%E6%97%B6%E4%BB%A3-ELECTRA-XLNet%E4%B8%8ET5.html"><span class="i">06</span><span><span class="t">DPNLP I 06 · 后BERT时代-ELECTRA-XLNet与T5</span><span class="s">NLP 深度学习 · 后 BERT 时代</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-07-GPT%E7%B3%BB%E5%88%97.html"><span class="i">07</span><span><span class="t">DPNLP I 07 · GPT系列</span><span class="s">NLP 深度学习 · 生成式预训练 Transformer</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-08-%E8%A7%A3%E7%A0%81%E7%AD%96%E7%95%A5.html"><span class="i">08</span><span><span class="t">DPNLP I 08 · 解码策略</span><span class="s">NLP 深度学习 · 解码策略</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-09-%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B.html"><span class="i">09</span><span><span class="t">DPNLP I 09 · 大语言模型</span><span class="s">NLP 深度学习 · 大语言模型 · 训练 LLM</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-10-%E9%A2%84%E8%AE%AD%E7%BB%83.html"><span class="i">10</span><span><span class="t">DPNLP I 10 · 预训练</span><span class="s">NLP 深度学习 · 训练 LLM (第 10 章: 预训练)</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-11-%E5%90%8E%E8%AE%AD%E7%BB%83.html"><span class="i">11</span><span><span class="t">DPNLP I 11 · 后训练</span><span class="s">NLP 深度学习 · 大语言模型: 后训练: 对齐与推理</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-12-%E5%A4%9A%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%B7%A8%E8%AF%AD%E8%A8%80%E8%BF%81%E7%A7%BB.html"><span class="i">12</span><span><span class="t">DPNLP I 12 · 多语言与跨语言迁移</span><span class="s">NLP 深度学习 · 第 12 讲: 多语言性与跨语言迁移</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-13-%E8%AF%84%E4%BC%B0%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B.html"><span class="i">13</span><span><span class="t">DPNLP I 13 · 评估大语言模型</span><span class="s">NLP 深度学习 · 大语言模型: 评估大语言模型</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-14-%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7.html"><span class="i">14</span><span><span class="t">DPNLP I 14 · 可解释性</span><span class="s">NLP 深度学习 · 大语言模型: 可解释性与可诠释性</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-15-AI%E6%96%87%E6%9C%AC%E6%A3%80%E6%B5%8B%E4%B8%8E%E6%B0%B4%E5%8D%B0.html"><span class="i">15</span><span><span class="t">DPNLP I 15 · AI 文本检测与水印</span><span class="s">NLP 深度学习 · 大语言模型: AI 文本检测器与水印</span></span><span class="ty k">讲次</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">16</span><span><span class="t">DPNLP I 合集 · 练习单</span><span class="s">NLP 深度学习 I · 练习单合集</span></span><span class="ty h">练习</span></a></li></ol><button class="more" type="button" aria-expanded="false"></button>
+  <ol class="notes"><li><a href="P3%20DPNLP%20I/DPNLP1-01-%E5%9F%BA%E7%A1%80.html"><span class="i">01</span><span><span class="t">DPNLP I 01 · 基础</span><span class="s">NLP 深度学习 · 基础</span></span><span class="ty k">Lecture</span></a></li><li><a href="P3%20DPNLP%20I/DPNLP1-02-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80.html"><span class="i">02</span><span><span class="t">DPNLP I 02 · 深度学习基础</span><span class="s">NLP 深度学习 · 深度学习基础</span></span><span class="ty k">Lecture</span></a></li><li><a href="P3%20DPNLP%20I/DPNLP1-03-Transformer.html"><span class="i">03</span><span><span class="t">DPNLP I 03 · Transformer</span><span class="s">NLP 深度学习 · Transformer</span></span><span class="ty k">Lecture</span></a></li><li><a href="P3%20DPNLP%20I/DPNLP1-04-BERT.html"><span class="i">04</span><span><span class="t">DPNLP I 04 · BERT</span><span class="s">NLP 深度学习 · BERT</span></span><span class="ty k">Lecture</span></a></li><li><a href="P3%20DPNLP%20I/DPNLP1-05-%E5%90%8EBERT%E6%97%B6%E4%BB%A3-BERTology%E4%B8%8E%E8%92%B8%E9%A6%8F.html"><span class="i">05</span><span><span class="t">DPNLP I 05 · 后BERT时代-BERTology与蒸馏</span><span class="s">NLP 深度学习 · 后 BERT 时代</span></span><span class="ty k">Lecture</span></a></li><li><a href="P3%20DPNLP%20I/DPNLP1-06-%E5%90%8EBERT%E6%97%B6%E4%BB%A3-ELECTRA-XLNet%E4%B8%8ET5.html"><span class="i">06</span><span><span class="t">DPNLP I 06 · 后BERT时代-ELECTRA-XLNet与T5</span><span class="s">NLP 深度学习 · 后 BERT 时代</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-07-GPT%E7%B3%BB%E5%88%97.html"><span class="i">07</span><span><span class="t">DPNLP I 07 · GPT系列</span><span class="s">NLP 深度学习 · 生成式预训练 Transformer</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-08-%E8%A7%A3%E7%A0%81%E7%AD%96%E7%95%A5.html"><span class="i">08</span><span><span class="t">DPNLP I 08 · 解码策略</span><span class="s">NLP 深度学习 · 解码策略</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-09-%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B.html"><span class="i">09</span><span><span class="t">DPNLP I 09 · 大语言模型</span><span class="s">NLP 深度学习 · 大语言模型 · 训练 LLM</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-10-%E9%A2%84%E8%AE%AD%E7%BB%83.html"><span class="i">10</span><span><span class="t">DPNLP I 10 · 预训练</span><span class="s">NLP 深度学习 · 训练 LLM (第 10 章: 预训练)</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-11-%E5%90%8E%E8%AE%AD%E7%BB%83.html"><span class="i">11</span><span><span class="t">DPNLP I 11 · 后训练</span><span class="s">NLP 深度学习 · 大语言模型: 后训练: 对齐与推理</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-12-%E5%A4%9A%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%B7%A8%E8%AF%AD%E8%A8%80%E8%BF%81%E7%A7%BB.html"><span class="i">12</span><span><span class="t">DPNLP I 12 · 多语言与跨语言迁移</span><span class="s">NLP 深度学习 · 第 12 讲: 多语言性与跨语言迁移</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-13-%E8%AF%84%E4%BC%B0%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B.html"><span class="i">13</span><span><span class="t">DPNLP I 13 · 评估大语言模型</span><span class="s">NLP 深度学习 · 大语言模型: 评估大语言模型</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-14-%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7.html"><span class="i">14</span><span><span class="t">DPNLP I 14 · 可解释性</span><span class="s">NLP 深度学习 · 大语言模型: 可解释性与可诠释性</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-15-AI%E6%96%87%E6%9C%AC%E6%A3%80%E6%B5%8B%E4%B8%8E%E6%B0%B4%E5%8D%B0.html"><span class="i">15</span><span><span class="t">DPNLP I 15 · AI 文本检测与水印</span><span class="s">NLP 深度学习 · 大语言模型: AI 文本检测器与水印</span></span><span class="ty k">Lecture</span></a></li><li class="fold"><a href="P3%20DPNLP%20I/DPNLP1-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">16</span><span><span class="t">DPNLP I 合集 · 练习单</span><span class="s">NLP 深度学习 I · 练习单合集</span></span><span class="ty h">Exercises</span></a></li></ol><button class="more" type="button" aria-expanded="false"></button>
 </article>
-<article class="course" id="p6dpnlpii" data-code="P6" data-k="P6 DPNLP II NLP 深度学习 II · Deep Learning for NLP DPNLP II">
+<article class="course" id="p6dpnlpii" data-code="P6" data-k="P6 DPNLP II NLP 深度学习 II · Deep Learning for NLP DPNLP II" style="--c:#e481d2">
   <div class="head"><span class="num">P6</span><div class="name"><h3>NLP 深度学习 II · Deep Learning for NLP</h3><div class="meta"><span class="tag">DPNLP II</span><span class="cnt">4</span></div></div></div>
   <div class="bar" aria-hidden="true"><i class="k"></i><i class="k"></i><i class="k"></i><i class="h"></i></div>
-  <ol class="notes"><li><a href="P6%20DPNLP%20II/DPNLP2-00-%E8%AF%BE%E7%A8%8B%E5%AF%BC%E8%AE%BA.html"><span class="i">01</span><span><span class="t">DPNLP II 00 · 课程导论</span><span class="s">NLP 深度学习 II · 基础: 导论与课程大纲</span></span><span class="ty k">讲次</span></a></li><li><a href="P6%20DPNLP%20II/DPNLP2-01-Transformer%E5%A4%8D%E4%B9%A0.html"><span class="i">02</span><span><span class="t">DPNLP II 01 · Transformer 复习</span><span class="s">NLP 深度学习 II · Transformer 复习</span></span><span class="ty k">讲次</span></a></li><li><a href="P6%20DPNLP%20II/DPNLP2-02-%E5%88%86%E8%AF%8D.html"><span class="i">03</span><span><span class="t">DPNLP II 02 · 分词</span><span class="s">NLP 深度学习 II · 分词</span></span><span class="ty k">讲次</span></a></li><li><a href="P6%20DPNLP%20II/DPNLP2-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">04</span><span><span class="t">DPNLP II 合集 · 练习单</span><span class="s">NLP 深度学习 II · 练习单合集</span></span><span class="ty h">练习</span></a></li></ol>
+  <ol class="notes"><li><a href="P6%20DPNLP%20II/DPNLP2-00-%E8%AF%BE%E7%A8%8B%E5%AF%BC%E8%AE%BA.html"><span class="i">01</span><span><span class="t">DPNLP II 00 · 课程导论</span><span class="s">NLP 深度学习 II · 基础: 导论与课程大纲</span></span><span class="ty k">Lecture</span></a></li><li><a href="P6%20DPNLP%20II/DPNLP2-01-Transformer%E5%A4%8D%E4%B9%A0.html"><span class="i">02</span><span><span class="t">DPNLP II 01 · Transformer 复习</span><span class="s">NLP 深度学习 II · Transformer 复习</span></span><span class="ty k">Lecture</span></a></li><li><a href="P6%20DPNLP%20II/DPNLP2-02-%E5%88%86%E8%AF%8D.html"><span class="i">03</span><span><span class="t">DPNLP II 02 · 分词</span><span class="s">NLP 深度学习 II · 分词</span></span><span class="ty k">Lecture</span></a></li><li><a href="P6%20DPNLP%20II/DPNLP2-%E5%90%88%E9%9B%86-%E7%BB%83%E4%B9%A0%E5%8D%95.html"><span class="i">04</span><span><span class="t">DPNLP II 合集 · 练习单</span><span class="s">NLP 深度学习 II · 练习单合集</span></span><span class="ty h">Exercises</span></a></li></ol>
 </article>
 </div></section>
-<p class="empty">没有找到匹配的笔记 · 按 Esc 清空</p>
+<p class="empty">NO MATCH · ESC 清空</p>
 </main>
-<footer class="wrap">LMU München · Computerlinguistik · 生成于 2026-10-23</footer>
-
-<button class="capsule" id="cap" type="button" aria-label="回到顶部">
-  <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="2"/><circle id="ring" cx="11" cy="11" r="9" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" transform="rotate(-90 11 11)"/></svg>
-  <span class="cc" id="capc">—</span><span class="cn" id="capn"></span><span class="up">↑</span>
-</button>
+<footer class="wrap">LMU München · Computerlinguistik · built 2026-10-24</footer>
 
 <script>
 (function () {
@@ -328,103 +323,87 @@
   var anim = !reduce && !headless;
   if (anim) H.classList.add('fx');
 
-  /* ---- 背景等高线: 值噪声 + marching squares, 只画一次 (改窗口大小时重画) ---- */
-  var cv = D.getElementById('topo'), cx = cv.getContext('2d');
-  function rnd(i, j) { var s = Math.sin(i * 127.1 + j * 311.7) * 43758.5453; return s - Math.floor(s); }
-  function noise(x, y) {
-    var i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j, u = fx * fx * (3 - 2 * fx), v = fy * fy * (3 - 2 * fy);
-    var a = rnd(i, j), b = rnd(i + 1, j), c = rnd(i, j + 1), d = rnd(i + 1, j + 1);
-    return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
-  }
-  function field(x, y) { return noise(x, y) * .6 + noise(x * 2.1 + 5, y * 2.1 + 3) * .3 + noise(x * 4.3 + 9, y * 4.3 + 1) * .1; }
-  function topo() {
-    var dpr = Math.min(devicePixelRatio || 1, 2), W = innerWidth, Hh = innerHeight;
+  /* ---- 背景: 静态字符场 (同笔记: 约五分之一的格子有一个很暗的字), 只在加载 / 改窗口大小 / 切换模式时画 ---- */
+  var cv = D.getElementById('field'), cx = cv.getContext('2d');
+  var SETS = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄ⠁⠃⠉⠙⠑⠋⠛⠓⠊ᚠᚢᚦᚨᚱᚲᚷᚹ∑∏∫∂∇∞≈≡≤≥╱╲╳┼├┤░▒';
+  function h32(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function field() {
+    var dpr = Math.min(devicePixelRatio || 1, 2), W = innerWidth, Hh = innerHeight, CW = 14, CH = 20;
     cv.width = W * dpr; cv.height = Hh * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); cx.clearRect(0, 0, W, Hh);
-    var st = W < 600 ? 14 : 12, nx = Math.ceil(W / st) + 1, ny = Math.ceil(Hh / st) + 1, sc = 1 / 230, g = [], x, y;
-    for (y = 0; y < ny; y++) { g[y] = []; for (x = 0; x < nx; x++) g[y][x] = field(x * st * sc, y * st * sc); }
-    var L = 22;
-    for (var l = 1; l < L; l++) {
-      var t = .18 + l * (.66 / L), major = l % 5 === 0;
-      cx.strokeStyle = major ? 'rgba(255,255,255,.13)' : 'rgba(255,255,255,.05)'; cx.lineWidth = major ? 1.1 : .8; cx.beginPath();
-      for (y = 0; y < ny - 1; y++) for (x = 0; x < nx - 1; x++) {
-        var a = g[y][x], b = g[y][x + 1], c = g[y + 1][x + 1], d = g[y + 1][x];
-        var k = (a > t ? 8 : 0) | (b > t ? 4 : 0) | (c > t ? 2 : 0) | (d > t ? 1 : 0);
-        if (k === 0 || k === 15) continue;
-        var X = x * st, Y = y * st;
-        var T = [X + st * (t - a) / (b - a), Y], R = [X + st, Y + st * (t - b) / (c - b)], B = [X + st * (t - d) / (c - d), Y + st], Lf = [X, Y + st * (t - a) / (d - a)];
-        var segs = { 1: [Lf, B], 2: [B, R], 3: [Lf, R], 4: [T, R], 5: [Lf, T, B, R], 6: [T, B], 7: [Lf, T], 8: [Lf, T], 9: [T, B], 10: [T, R, Lf, B], 11: [T, R], 12: [Lf, R], 13: [B, R], 14: [Lf, B] }[k];
-        for (var s = 0; s < segs.length; s += 2) { cx.moveTo(segs[s][0], segs[s][1]); cx.lineTo(segs[s + 1][0], segs[s + 1][1]); }
-      }
-      cx.stroke();
+    var rgb = getComputedStyle(H).getPropertyValue('--field').trim(), day = H.getAttribute('data-mode') === 'day';
+    cx.font = '11px "SF Mono", Menlo, "Hiragino Sans", sans-serif'; cx.textAlign = 'center'; cx.textBaseline = 'middle';
+    var col = Math.min(W, 820), L = (W - col) / 2;
+    for (var j = 0; j * CH < Hh + CH; j++) for (var i = 0; i * CW < W; i++) {
+      var h = h32(i + ',' + j); if (h % 100 >= 19) continue;
+      var x = i * CW + CW / 2, d = x < L ? (L - x) : x > L + col ? x - L - col : 0; if (d < 40) continue;
+      var a = (day ? .07 : .05) * Math.min(1, (d - 40) / 120);
+      cx.fillStyle = 'rgba(' + rgb + ',' + a.toFixed(3) + ')'; cx.fillText(SETS[(h >>> 8) % SETS.length], x, j * CH + CH / 2);
     }
   }
-  topo();
-  var rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(topo, 200); });
+  field();
+  var rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(field, 200); });
 
-  /* ---- 进度条 + 胶囊 (当前课程 + 进度环, 点击回到顶部) ---- */
-  var prog = D.querySelector('#progress i'), cap = D.getElementById('cap'), ring = D.getElementById('ring'),
-      capc = D.getElementById('capc'), capn = D.getElementById('capn'), hdr = D.querySelector('header');
+  /* ---- 白天 / 夜晚: 和笔记共用 localStorage「lmu-notes-mode」; 新配色从开关处圆形铺开 ---- */
+  var ringBtn = D.querySelector('.ring');
+  function setMode(day) {
+    var go = function () { if (day) H.setAttribute('data-mode', 'day'); else H.removeAttribute('data-mode'); try { localStorage.setItem('lmu-notes-mode', day ? 'day' : 'night'); } catch (e) {} field(); };
+    var r = ringBtn.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2, R = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    if (D.startViewTransition && anim) { try { var vt = D.startViewTransition(go); vt.ready.then(function () { H.animate({ clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + R + 'px at ' + x + 'px ' + y + 'px)'] }, { duration: 750, easing: 'cubic-bezier(.45,0,.2,1)', pseudoElement: '::view-transition-new(root)' }); }).catch(function () {}); return; } catch (e) {} }
+    go();
+  }
+  ringBtn.addEventListener('click', function (e) { e.stopPropagation(); setMode(H.getAttribute('data-mode') !== 'day'); });
+
+  /* ---- 进度条 + 胶囊 (当前课程; 点课程名回到顶部) ---- */
+  var prog = D.querySelector('#progress i'), pill = D.getElementById('pill'), capc = D.getElementById('capc'), capn = D.getElementById('capn'), hdr = D.querySelector('header');
   var courses = [].slice.call(D.querySelectorAll('.course')), jumps = {};
   [].forEach.call(D.querySelectorAll('.jump a'), function (a) { jumps[a.getAttribute('href').slice(1)] = a; });
-  var ticking = false;
+  var ticking = false, pinned = null, pinT;
   function onScroll() {
     ticking = false;
     var max = H.scrollHeight - innerHeight, p = max > 0 ? scrollY / max : 0;
-    prog.style.setProperty('--p', p.toFixed(4));
-    ring.setAttribute('stroke-dashoffset', (56.55 * (1 - p)).toFixed(2));
-    cap.classList.toggle('show', hdr.getBoundingClientRect().bottom < 0);
-    var cur = null;
-    if (pinned) cur = pinned;
-    else for (var i = 0; i < courses.length; i++) { if (courses[i].offsetParent && courses[i].getBoundingClientRect().top < innerHeight * .4) cur = courses[i]; }
-    if (hdr.getBoundingClientRect().bottom > 0 && !pinned) cur = null;   // 页首还在视野里时不标记任何课程
+    prog.style.setProperty('--p', p.toFixed(4)); ringBtn.style.setProperty('--p', p.toFixed(3));
+    var past = hdr.getBoundingClientRect().bottom < 0; pill.classList.toggle('show', past);
+    var cur = pinned;
+    if (!cur) for (var i = 0; i < courses.length; i++) { if (courses[i].offsetParent && courses[i].getBoundingClientRect().top < innerHeight * .4) cur = courses[i]; }
+    if (!past && !pinned) cur = null;
     if (cur) { capc.textContent = cur.dataset.code; capn.textContent = cur.querySelector('h3').textContent; }
     for (var k in jumps) jumps[k].classList.toggle('on', !!cur && k === cur.id);
   }
-  var pinned = null, pinT;
   [].forEach.call(D.querySelectorAll('.jump a'), function (a) {
-    a.addEventListener('click', function () {
-      pinned = D.getElementById(a.getAttribute('href').slice(1)); clearTimeout(pinT);
-      pinT = setTimeout(function () { pinned = null; }, 1200);   // 平滑滚动结束后恢复按位置判断
-      onScroll();
-    });
+    a.addEventListener('click', function () { pinned = D.getElementById(a.getAttribute('href').slice(1)); clearTimeout(pinT); pinT = setTimeout(function () { pinned = null; }, 1200); onScroll(); });
   });
   addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   onScroll();
-  cap.addEventListener('click', function () { scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
+  [capn, D.getElementById('capu')].forEach(function (el) { el.addEventListener('click', function () { scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); }); });
 
-  /* ---- 卡片聚光灯 ---- */
+  /* ---- 卡片柔光 ---- */
   if (hover && !reduce) courses.forEach(function (c) {
     c.addEventListener('pointermove', function (e) { var r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px'); c.classList.add('lit'); });
     c.addEventListener('pointerleave', function () { c.classList.remove('lit'); });
   });
 
-  /* ---- 折叠: 笔记多的课先只显示前几份 ---- */
+  /* ---- 折叠 ---- */
   courses.forEach(function (c) {
     var b = c.querySelector('.more'); if (!b) return;
     var n = c.querySelectorAll('.notes li.fold').length;
-    b.textContent = '展开其余 ' + n + ' 份';
-    b.addEventListener('click', function () { var o = c.classList.toggle('open'); b.textContent = o ? '收起' : '展开其余 ' + n + ' 份'; b.setAttribute('aria-expanded', o); });
+    b.textContent = 'Show ' + n + ' more';
+    b.addEventListener('click', function () { var o = c.classList.toggle('open'); b.textContent = o ? 'Collapse' : 'Show ' + n + ' more'; b.setAttribute('aria-expanded', o); });
   });
 
-  /* ---- 进场 + 数字滚动 + 标题解密 ---- */
+  /* ---- 进场 + 数字滚动 + 标题解密 (同笔记: 拆字时锁住宽度) ---- */
   var gEl = D.querySelector('[data-glyphs]'), G = gEl ? gEl.getAttribute('data-glyphs') : '#*+=01';
   function scramble(el, dur) {
     if (!anim || el._run) return; el._run = 1;
-    var txt = el.textContent, chars = Array.from(txt); el.textContent = '';
+    var txt = el.textContent, chars = Array.from(txt); el.style.display = 'inline-block'; el.style.width = el.getBoundingClientRect().width + 'px'; el.style.whiteSpace = 'nowrap'; el.textContent = '';
     var spans = chars.map(function (ch) { var s = D.createElement('span'); s.className = 'ch'; s.textContent = ch; el.appendChild(s); return s; });
     var t0 = performance.now();
     (function step(now) {
       var k = (now - t0) / dur;
-      spans.forEach(function (s, i) {
-        if (/\s/.test(chars[i])) return;
-        var done = k > (i + 1) / spans.length;
-        s.classList.toggle('x', !done);
-        if (!done) s.setAttribute('data-g', G[(Math.random() * G.length) | 0]);
-      });
-      if (k < 1.05) requestAnimationFrame(step); else { el.textContent = txt; el._run = 0; }
+      spans.forEach(function (s, i) { if (/\s/.test(chars[i])) return; var done = k > (i + 1) / spans.length; s.classList.toggle('x', !done); if (!done) s.setAttribute('data-g', G[(Math.random() * G.length) | 0]); });
+      if (k < 1.05) requestAnimationFrame(step); else { el.textContent = txt; el.style.display = el.style.width = el.style.whiteSpace = ''; el._run = 0; }
     })(t0);
   }
-  if (anim) [].forEach.call(D.querySelectorAll('h1 .ht'), function (el, i) { setTimeout(function () { scramble(el, 700); }, 120 + i * 180); });
+  if (anim) [].forEach.call(D.querySelectorAll('h1 .ht'), function (el, i) { setTimeout(function () { scramble(el, 900); }, 150 + i * 200); });
   if (anim) [].forEach.call(D.querySelectorAll('.stats b[data-n]'), function (b) {
     var n = +b.dataset.n, t0 = performance.now();
     (function step(now) { var k = Math.min(1, (now - t0) / 900); b.textContent = Math.round(n * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); })(t0);
@@ -438,7 +417,6 @@
     courses.forEach(function (c) { io.observe(c); });
     gts.forEach(function (h) { io.observe(h); h.addEventListener('pointerenter', function () { scramble(h, 500); }); });
   } else courses.forEach(function (c) { c.classList.add('in'); });
-
 
   /* ---- 检索: 课程名、缩写、模块号、笔记标题和副标题; ↑↓ 选择, Enter 打开, Esc 清空 ---- */
   var q = D.getElementById('q'), hits = D.getElementById('hits'), rows = [].slice.call(D.querySelectorAll('.notes li')), sel = -1, vis = [];
@@ -460,7 +438,7 @@
       c.classList.toggle('hide', n === 0); total += n;
     });
     [].forEach.call(D.querySelectorAll('.group'), function (g) { g.classList.toggle('hide', !g.querySelector('.course:not(.hide)')); });
-    hits.textContent = w ? total + ' 条' : '';
+    hits.textContent = w ? total + ' HITS' : '';
     D.body.classList.toggle('none', !!w && total === 0);
     if (w) courses.forEach(function (c) { c.classList.add('in'); });
     pick(-1);
@@ -472,9 +450,7 @@
     else if (e.key === 'Enter') { var li = vis[sel < 0 ? 0 : sel]; if (q.value.trim() && li) location.href = li.firstChild.href; }
     else if (e.key === 'Escape') { q.value = ''; run(); q.blur(); }
   });
-  addEventListener('keydown', function (e) {
-    if (e.key === '/' && D.activeElement !== q && !e.metaKey && !e.ctrlKey) { e.preventDefault(); q.focus(); }
-  });
+  addEventListener('keydown', function (e) { if (e.key === '/' && D.activeElement !== q && !e.metaKey && !e.ctrlKey) { e.preventDefault(); q.focus(); } });
   } catch (err) { document.documentElement.classList.remove('fx'); }
 })();
 </script>
