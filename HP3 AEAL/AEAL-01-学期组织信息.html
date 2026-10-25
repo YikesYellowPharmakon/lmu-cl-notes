@@ -1493,6 +1493,9 @@
     var pickCol = function () { return PALS[rnd(PALS.length)]; };
     /* v7.7d: 鼠标经过背景时冒出的字只用本课色相族, 范围比别处 (±8°) 稍宽: 主色在 oklab 里转 -12° / -6° / 0 / +6° / +12°, 每次现算 (白天夜晚跟着主色变) */
     var rotHue = function (c, deg) { var o = toLab(c), r = deg * Math.PI / 180, cs2 = Math.cos(r), sn = Math.sin(r); return fromLab([o[0], o[1] * cs2 - o[2] * sn, o[1] * sn + o[2] * cs2]); };
+    /* v7.7e: 点击背景的颜色 — 从 8 色池 (去掉重复的主色, 共 7 种) 随机, 但任意连续三次点击颜色互不相同 (排除最近两次用过的) */
+    var clickHist = [], pickClick = function () { var pool = PALS.filter(function (c, i) { return PALS.indexOf(c) === i && clickHist.indexOf(c) < 0; }), c = pool[rnd(pool.length)];
+      clickHist.push(c); if (clickHist.length > 2) clickHist.shift(); return c; };
     var pickHover = function () { return rotHue(ACC, [-12, -6, 0, 6, 12][rnd(5)]); };
     var FONT = '"SF Mono", Menlo, "Hiragino Sans", "PingFang SC", "Apple Symbols", "Kefa", "Plantagenet Cherokee", "Kohinoor Devanagari", "Mshtakan", sans-serif';
     var clamp = function (v, a, b) { return v < a ? a : v > b ? b : v; };
@@ -1558,7 +1561,7 @@
         var gx = Math.floor(e.clientX / CW), gy = Math.floor((e.clientY + scrollY) / CH), key = gx + ',' + gy; if (key === lastCell) return; lastCell = key;
         for (var n = 0; n < 4; n++) spawn(gx + rnd(9) - 4, gy + rnd(5) - 2, strokeSet, strokeCol, .8 + Math.random() * .2, rnd(90), 3000 + rnd(1200));
       }, { passive: true });
-      addEventListener('click', function (e) { if (e.target.closest('main, a, button, summary, #toc-pill')) return; rings.push({ x: e.clientX, y: e.clientY + scrollY, t: performance.now(), set: pickSet(), col: pickCol(), done: new Set() }); });
+      addEventListener('click', function (e) { if (e.target.closest('main, a, button, summary, #toc-pill')) return; rings.push({ x: e.clientX, y: e.clientY + scrollY, t: performance.now(), set: pickSet(), col: pickClick(), done: new Set() }); });
       var margins = function () { var rr = mainEl.getBoundingClientRect(); if (W < 900) return rnd(W); return Math.random() < .5 ? rnd(Math.max(1, rr.left - 60)) : rr.right + 40 + rnd(Math.max(1, W - rr.right - 60)); };
       var drift = function () { var gy = Math.floor((rnd(H) + scrollY) / CH), gx = Math.floor(margins() / CW), len = 4 + rnd(9), set = pickSet(), col = pickCol(), vert = Math.random() < .25;
         for (var i = 0; i < len; i++) spawn(vert ? gx : gx + i, vert ? gy + i : gy, set, col, .6, i * 60, 3600); };
