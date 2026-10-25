@@ -47,7 +47,7 @@
   nav a {
     color: var(--accent); text-decoration: none; background: var(--chip);
     border-radius: 999px; padding: 3px 10px;
-    font: 13px/1.4 "PingFang SC", sans-serif;
+    font: 13px/1.4 "ZH Latin", "PingFang SC", sans-serif;
   }
   .card {
     background: var(--card); border: 1px solid var(--line);
@@ -57,21 +57,21 @@
   .orig { position: relative; padding-top: 26px; }
   .slide {
     position: absolute; top: 7px; left: 16px;
-    font: 11.5px/1.3 "PingFang SC", sans-serif; color: var(--muted); letter-spacing: .02em;
+    font: 11.5px/1.3 "ZH Latin", "PingFang SC", sans-serif; color: var(--muted); letter-spacing: .02em;
   }
   .orig pre { margin: 8px 0; background: var(--code); }
   .orig table { background: var(--bg); }
   .zh {
     background: var(--zh); border-left: 3px solid var(--accent);
     border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
-    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+    font-family: "ZH Latin", "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
   }
   .zh p { margin: 0 0 8px; }
   .zh p:last-child, .zh ul:last-child, .zh ol:last-child { margin-bottom: 0; }
   .add {
     background: var(--add); border-left: 3px dashed var(--add-line);
     border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
-    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+    font-family: "ZH Latin", "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
   }
   .add::before { content: "补充 (幻灯片之外)"; display: block; font-size: 12px; color: var(--add-line); font-weight: 600; margin-bottom: 4px; }
   .add p { margin: 0 0 8px; }
@@ -79,18 +79,18 @@
   .warn {
     background: var(--warn); border-left: 3px solid var(--warn-line);
     border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
-    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+    font-family: "ZH Latin", "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
   }
   .warn p { margin: 0 0 8px; }
   .warn p:last-child { margin-bottom: 0; }
-  .terms { font-family: "PingFang SC", sans-serif; font-size: 14px; color: var(--muted); margin: 6px 0 2px; }
+  .terms { font-family: "ZH Latin", "PingFang SC", sans-serif; font-size: 14px; color: var(--muted); margin: 6px 0 2px; }
   .terms b { color: var(--ink); font-weight: 600; }
   ul, ol { margin: 8px 0; padding-left: 1.3em; }
   li { margin: 4px 0; }
   ul ul { margin: 2px 0; }
   table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; margin: 12px 0; }
   th, td { text-align: left; vertical-align: top; padding: 7px 10px; border-bottom: 1px solid var(--line); }
-  th { font: 12px/1.3 "PingFang SC", sans-serif; color: var(--muted); font-weight: 600; background: var(--chip); }
+  th { font: 12px/1.3 "ZH Latin", "PingFang SC", sans-serif; color: var(--muted); font-weight: 600; background: var(--chip); }
   .tablewrap { overflow-x: auto; }
   pre {
     background: var(--code); border: 1px solid var(--line); border-radius: 12px;
@@ -138,9 +138,16 @@
   }
   .src-fig { margin: 10px 0 6px; background: #fff; border-radius: 8px; padding: 8px; }
   .src-fig img { display: block; max-width: 100%; max-height: 360px; width: auto; height: auto; margin: 0 auto; }
-  .src-fig figcaption { margin-top: 6px; font: 12px/1.4 "PingFang SC", sans-serif; color: #555; text-align: center; }
+  .src-fig figcaption { margin-top: 6px; font: 12px/1.4 "ZH Latin", "PingFang SC", sans-serif; color: #555; text-align: center; }
   /* ===== 排版统一层 v9（所有笔记共用；只管字体、尺寸、间距、对齐，不改颜色 token） ===== */
-  :root { --measure: 760px; --gutter: 24px; --serif: "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif; --sans: "PingFang SC", "Hiragino Sans GB", "Songti SC", sans-serif; --mono: "SF Mono", ui-monospace, Menlo, monospace; }
+  /* 苹方缺的拉丁字形: ① 苹方的连字符「-」特别宽 (16px 时 9.95px, 比字母 a 还宽), 中文讲解里看起来像破折号 (un-、-lich、Im- und Export);
+     ② 苹方根本没有带变音符号的拉丁字母 (ä ö ü ß é ç …) 和「„」, 浏览器只能借字体栈里下一个字体, ä 变细变小、Ü 甚至变成宋体.
+     「ZH Latin」只含这些字符 (unicode-range), 字形取自 Helvetica Neue (和苹方的拉丁字母最协调); scripts/zh_latin.py 把它放在
+     每个以苹方开头的字体栈最前面, 其他字符照旧用苹方. 加载不到时自动退回原来的字体栈, 和原来一样. */
+  @font-face { font-family: "ZH Latin"; src: local("Helvetica Neue"), local("HelveticaNeue"); font-weight: 100 449; unicode-range: U+002D, U+2010-2011, U+00C0-00FF, U+0152-0153, U+201E; }
+  @font-face { font-family: "ZH Latin"; src: local("Helvetica Neue Medium"), local("HelveticaNeue-Medium"); font-weight: 450 549; unicode-range: U+002D, U+2010-2011, U+00C0-00FF, U+0152-0153, U+201E; }
+  @font-face { font-family: "ZH Latin"; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"); font-weight: 550 900; unicode-range: U+002D, U+2010-2011, U+00C0-00FF, U+0152-0153, U+201E; }
+  :root { --measure: 760px; --gutter: 24px; --serif: "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif; --sans: "ZH Latin", "PingFang SC", "Hiragino Sans GB", "Songti SC", sans-serif; --mono: "SF Mono", ui-monospace, Menlo, monospace; }
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   body { font: 16.5px/1.65 var(--serif); font-kerning: normal; }
   /* 换行：中文按标点避头尾（strict），不用 balance / pretty（它们会在宽屏和手机上把中文行拆成一长一短、在词中间断开） */
@@ -1305,7 +1312,7 @@
   <ul>
     <li>类型在<b>运行时自动确定</b>: 不用像 Java 那样写 <code>int x</code>, Python 看赋给它的值是什么, <span class="nb">就知道是什么类型.</span> </li>
     <li>同一个变量的<b>类型可以改变</b>: <code>x = 5</code> 之后可以 <span class="nb"><code>x = "hi"</code>.</span> </li>
-    <li>用 <code>type(x)</code> 查看当前类型: <code>type(5)</code> → <span class="nb"><code>&lt;class 'int'&gt;</code>.</span> </li>
+    <li>用 <code>type(x)</code> 查看当前类型: <code>type(5)</code> → <span class="nb"><code class="lc">&lt;class 'int'&gt;</code>.</span> </li>
   </ul>
   <p><b>4. 空白有意义. </b>Python 用<b>缩进</b> (空格或 Tab) 表示代码块, 即哪些语句属于 <code>if</code>、<code>for</code>、函数等. Java/C 用花括号 <code>{ }</code> 表示代码块, 缩进只是为了好看; Python 里缩进错了, 程序结构就变了, 甚至报 <span class="nb"><code>IndentationError</code>.</span> </p>
 </div>

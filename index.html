@@ -7,13 +7,21 @@
 <title>LMU 计算语言学 · 笔记总目录</title>
 <script>try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}</script>
 <style>
+  /* 苹方缺的拉丁字形: ① 苹方的连字符「-」特别宽 (16px 时 9.95px, 比字母 a 还宽), 中文讲解里看起来像破折号 (un-、-lich、Im- und Export);
+     ② 苹方根本没有带变音符号的拉丁字母 (ä ö ü ß é ç …) 和「„」, 浏览器只能借字体栈里下一个字体, ä 变细变小、Ü 甚至变成宋体.
+     「ZH Latin」只含这些字符 (unicode-range), 字形取自 Helvetica Neue (和苹方的拉丁字母最协调); scripts/zh_latin.py 把它放在
+     每个以苹方开头的字体栈最前面, 其他字符照旧用苹方. 加载不到时自动退回原来的字体栈, 和原来一样. */
+  @font-face { font-family: "ZH Latin"; src: local("Helvetica Neue"), local("HelveticaNeue"); font-weight: 100 449; unicode-range: U+002D, U+2010-2011, U+00C0-00FF, U+0152-0153, U+201E; }
+  @font-face { font-family: "ZH Latin"; src: local("Helvetica Neue Medium"), local("HelveticaNeue-Medium"); font-weight: 450 549; unicode-range: U+002D, U+2010-2011, U+00C0-00FF, U+0152-0153, U+201E; }
+  @font-face { font-family: "ZH Latin"; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"); font-weight: 550 900; unicode-range: U+002D, U+2010-2011, U+00C0-00FF, U+0152-0153, U+201E; }
+
   /* 总目录 v3 (2026-10-24): 和笔记视觉层 v7 同一套语言 — 夜晚 / 白天 (和笔记共用同一个开关记忆)、顶部正中的开关圆滚动后展开成胶囊、
      等宽大写小标签、冬青黑体标题、近中性的暗底 + 一层静态字符场、没有边线的「明度面」卡片 (每门课一颗本课主色的指示灯).
      性能 (用户要求不卡): 字符场只在加载 / 改窗口大小 / 切换模式时画一次; 不用 backdrop-filter / filter: blur; 动画只用 transform / opacity.
      由 scripts/sync_repo.py 填入 __占位符__. */
   :root { --bg:#0c0e10; --bg2:#0e1013; --ink:#e4e6e8; --muted:#8f969d; --dim:#5d636a; --face:rgba(255,255,255,.028); --face2:rgba(255,255,255,.05);
           --hair:rgba(255,255,255,.06); --hair2:rgba(255,255,255,.12); --glow:#e8eaec; --field:255,255,255; --sh:rgba(0,0,0,.55);
-          --mono:"JetBrainsMono Nerd Font","JetBrains Mono","SF Mono",Menlo,monospace; --sans:"PingFang SC","Helvetica Neue",sans-serif;
+          --mono:"JetBrainsMono Nerd Font","JetBrains Mono","SF Mono",Menlo,monospace; --sans:"ZH Latin", "PingFang SC","Helvetica Neue",sans-serif;
           --hfont:"Avenir Next","PingFang SC",-apple-system,sans-serif; --ease:cubic-bezier(.22,.8,.24,1); }
   html[data-mode="day"] { --bg:#f4f3f0; --bg2:#efeeea; --ink:#1d2024; --muted:#646a71; --dim:#9aa0a6; --face:rgba(255,255,255,.66); --face2:rgba(255,255,255,.9);
           --hair:rgba(20,22,26,.07); --hair2:rgba(20,22,26,.14); --glow:#1d2024; --field:30,32,36; --sh:rgba(30,32,36,.14); color-scheme: light; }

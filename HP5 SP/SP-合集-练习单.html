@@ -46,7 +46,7 @@
   nav a {
     color: var(--accent); text-decoration: none; background: var(--chip);
     border-radius: 999px; padding: 3px 10px;
-    font: 13px/1.4 "PingFang SC", sans-serif;
+    font: 13px/1.4 "ZH Latin", "PingFang SC", sans-serif;
   }
   .card {
     background: var(--card); border: 1px solid var(--line);
@@ -56,21 +56,21 @@
   .orig { position: relative; padding-top: 26px; }
   .slide {
     position: absolute; top: 7px; left: 16px;
-    font: 11.5px/1.3 "PingFang SC", sans-serif; color: var(--muted); letter-spacing: .02em;
+    font: 11.5px/1.3 "ZH Latin", "PingFang SC", sans-serif; color: var(--muted); letter-spacing: .02em;
   }
   .orig pre { margin: 8px 0; background: var(--code); }
   .orig table { background: var(--bg); }
   .zh {
     background: var(--zh); border-left: 3px solid var(--accent);
     border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
-    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+    font-family: "ZH Latin", "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
   }
   .zh p { margin: 0 0 8px; }
   .zh p:last-child, .zh ul:last-child, .zh ol:last-child { margin-bottom: 0; }
   .add {
     background: var(--add); border-left: 3px dashed var(--add-line);
     border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
-    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+    font-family: "ZH Latin", "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
   }
   .add::before { content: "补充 (幻灯片之外)"; display: block; font-size: 12px; color: var(--add-line); font-weight: 600; margin-bottom: 4px; }
   .add p { margin: 0 0 8px; }
@@ -78,18 +78,18 @@
   .warn {
     background: var(--warn); border-left: 3px solid var(--warn-line);
     border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 8px 0 4px;
-    font-family: "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
+    font-family: "ZH Latin", "PingFang SC", "Songti SC", sans-serif; font-size: 15px;
   }
   .warn p { margin: 0 0 8px; }
   .warn p:last-child { margin-bottom: 0; }
-  .terms { font-family: "PingFang SC", sans-serif; font-size: 14px; color: var(--muted); margin: 6px 0 2px; }
+  .terms { font-family: "ZH Latin", "PingFang SC", sans-serif; font-size: 14px; color: var(--muted); margin: 6px 0 2px; }
   .terms b { color: var(--ink); font-weight: 600; }
   ul, ol { margin: 8px 0; padding-left: 1.3em; }
   li { margin: 4px 0; }
   ul ul { margin: 2px 0; }
   table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; margin: 12px 0; }
   th, td { text-align: left; vertical-align: top; padding: 7px 10px; border-bottom: 1px solid var(--line); }
-  th { font: 12px/1.3 "PingFang SC", sans-serif; color: var(--muted); font-weight: 600; background: var(--chip); }
+  th { font: 12px/1.3 "ZH Latin", "PingFang SC", sans-serif; color: var(--muted); font-weight: 600; background: var(--chip); }
   .tablewrap { overflow-x: auto; }
   pre {
     background: var(--code); border: 1px solid var(--line); border-radius: 12px;
@@ -137,18 +137,25 @@
   }
   .src-fig { margin: 10px 0 6px; background: #fff; border-radius: 8px; padding: 8px; }
   .src-fig img { display: block; max-width: 100%; max-height: 360px; width: auto; height: auto; margin: 0 auto; }
-  .src-fig figcaption { margin-top: 6px; font: 12px/1.4 "PingFang SC", sans-serif; color: #555; text-align: center; }
+  .src-fig figcaption { margin-top: 6px; font: 12px/1.4 "ZH Latin", "PingFang SC", sans-serif; color: #555; text-align: center; }
   /* 练习单统一样式 */
   .part { margin-top: 8px; }
-  .part > h2 small { display:block; font: 13px/1.6 "PingFang SC", sans-serif; color: var(--muted); font-weight: 400; margin-top: 4px; }
+  .part > h2 small { display:block; font: 13px/1.6 "ZH Latin", "PingFang SC", sans-serif; color: var(--muted); font-weight: 400; margin-top: 4px; }
   article { margin: 26px 0 8px; }
-  .themen { color: var(--muted); font: 13.5px/1.6 "PingFang SC", sans-serif; }
+  .themen { color: var(--muted); font: 13.5px/1.6 "ZH Latin", "PingFang SC", sans-serif; }
   details.answer { background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
   details.answer > summary { color: var(--accent); }
   .math-block { display: block; overflow-x: auto; overflow-y: hidden; max-width: 100%; margin: 10px 0; }
   .math-block .katex-display { margin: 0.4em 0; }
   /* ===== 排版统一层 v9（所有笔记共用；只管字体、尺寸、间距、对齐，不改颜色 token） ===== */
-  :root { --measure: 760px; --gutter: 24px; --serif: "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif; --sans: "PingFang SC", "Hiragino Sans GB", "Songti SC", sans-serif; --mono: "SF Mono", ui-monospace, Menlo, monospace; }
+  /* 苹方缺的拉丁字形: ① 苹方的连字符「-」特别宽 (16px 时 9.95px, 比字母 a 还宽), 中文讲解里看起来像破折号 (un-、-lich、Im- und Export);
+     ② 苹方根本没有带变音符号的拉丁字母 (ä ö ü ß é ç …) 和「„」, 浏览器只能借字体栈里下一个字体, ä 变细变小、Ü 甚至变成宋体.
+     「ZH Latin」只含这些字符 (unicode-range), 字形取自 Helvetica Neue (和苹方的拉丁字母最协调); scripts/zh_latin.py 把它放在
+     每个以苹方开头的字体栈最前面, 其他字符照旧用苹方. 加载不到时自动退回原来的字体栈, 和原来一样. */
+  @font-face { font-family: "ZH Latin"; src: local("Helvetica Neue"), local("HelveticaNeue"); font-weight: 100 449; unicode-range: U+002D, U+2010-2011, U+00C0-00FF, U+0152-0153, U+201E; }
+  @font-face { font-family: "ZH Latin"; src: local("Helvetica Neue Medium"), local("HelveticaNeue-Medium"); font-weight: 450 549; unicode-range: U+002D, U+2010-2011, U+00C0-00FF, U+0152-0153, U+201E; }
+  @font-face { font-family: "ZH Latin"; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"); font-weight: 550 900; unicode-range: U+002D, U+2010-2011, U+00C0-00FF, U+0152-0153, U+201E; }
+  :root { --measure: 760px; --gutter: 24px; --serif: "Iowan Old Style", Palatino, "Songti SC", "PingFang SC", serif; --sans: "ZH Latin", "PingFang SC", "Hiragino Sans GB", "Songti SC", sans-serif; --mono: "SF Mono", ui-monospace, Menlo, monospace; }
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   body { font: 16.5px/1.65 var(--serif); font-kerning: normal; }
   /* 换行：中文按标点避头尾（strict），不用 balance / pretty（它们会在宽屏和手机上把中文行拆成一长一短、在词中间断开） */
@@ -1068,21 +1075,21 @@
     <li>Mutable</li>
     <li>Ordered</li>
     <li>No pre-determined fixed <span class="nb">size</span></li>
-    <li>Initialization: <span class="nb"><code>l = [123, 'spam', 1.23]</code></span></li>
+    <li>Initialization: <span class="nb"><code class="lc">l = [123, 'spam', 1.23]</code></span></li>
     <li>Empty list: <span class="nb"><code>l = []</code></span></li>
   </ul>
   <p><b>List Operations</b> — What do the following <span class="nb">operations do?</span></p>
   <div class="tablewrap"><table class="nowrap">
     <tr><th>Operation</th><th class="wide">Result / List after operation</th></tr>
-    <tr><td class="wide"><code>myList = [3, 2, 6, 1, 8]</code></td><td></td></tr>
+    <tr><td class="wide"><code class="lc">myList = [3, 2, 6, 1, 8]</code></td><td></td></tr>
     <tr><td class="wide"><code>myList.reverse()</code></td><td></td></tr>
-    <tr><td class="wide"><code>x = len(myList)</code></td><td></td></tr>
-    <tr><td class="wide"><code>myList.insert(2, 5)</code></td><td></td></tr>
+    <tr><td class="wide"><code class="lc">x = len(myList)</code></td><td></td></tr>
+    <tr><td class="wide"><code class="lc">myList.insert(2, 5)</code></td><td></td></tr>
     <tr><td class="wide"><code class="lc">myList.sort(reverse=True)</code></td><td></td></tr>
     <tr><td class="wide"><code>myList.append(3)</code></td><td></td></tr>
-    <tr><td class="wide"><code>x = myList.count(3)</code></td><td></td></tr>
+    <tr><td class="wide"><code class="lc">x = myList.count(3)</code></td><td></td></tr>
     <tr><td class="wide"><code>myList.remove(3)</code></td><td></td></tr>
-    <tr><td class="wide"><code>z = 4 in myList</code></td><td></td></tr>
+    <tr><td class="wide"><code class="lc">z = 4 in myList</code></td><td></td></tr>
     <tr><td class="wide"><code class="lc">myList = myList + [7, 8, 9]</code></td><td></td></tr>
   </table></div>
 </div>
@@ -1093,19 +1100,19 @@
 <details class="answer"><summary>答案 (先自己做再看)</summary>
   <div class="tablewrap"><table class="nowrap">
     <tr><th>Operation</th><th>结果</th><th>为什么</th></tr>
-    <tr><td class="wide"><code>myList = [3, 2, 6, 1, 8]</code></td><td class="wide"><code>[3, 2, 6, 1, 8]</code></td><td>初始列表</td></tr>
-    <tr><td class="wide"><code>myList.reverse()</code></td><td class="wide"><code>[8, 1, 6, 2, 3]</code></td><td>原地倒序, 不是排序</td></tr>
-    <tr><td class="wide"><code>x = len(myList)</code></td><td><code>5</code></td><td>5 个元素</td></tr>
-    <tr><td class="wide"><code>myList.insert(2, 5)</code></td><td class="wide"><code>[8, 1, 5, 6, 2, 3]</code></td><td>在下标 2 前插入 5</td></tr>
-    <tr><td class="wide"><code class="lc">myList.sort(reverse=True)</code></td><td class="wide"><code>[8, 6, 5, 3, 2, 1]</code></td><td>从大到小排序</td></tr>
-    <tr><td class="wide"><code>myList.append(3)</code></td><td class="wide"><code>[8, 6, 5, 3, 2, 1, 3]</code></td><td>加在末尾</td></tr>
-    <tr><td class="wide"><code>x = myList.count(3)</code></td><td><code>2</code></td><td>3 出现两次</td></tr>
-    <tr><td class="wide"><code>myList.remove(3)</code></td><td class="wide"><code>[8, 6, 5, 2, 1, 3]</code></td><td>只删<b>第一个</b> 3</td></tr>
-    <tr><td class="wide"><code>z = 4 in myList</code></td><td><code>False</code></td><td>列表里没有 4</td></tr>
+    <tr><td class="wide"><code class="lc">myList = [3, 2, 6, 1, 8]</code></td><td class="wide"><code class="lc">[3, 2, 6, 1, 8]</code></td><td>初始列表</td></tr>
+    <tr><td class="wide"><code>myList.reverse()</code></td><td class="wide"><code class="lc">[8, 1, 6, 2, 3]</code></td><td>原地倒序, 不是排序</td></tr>
+    <tr><td class="wide"><code class="lc">x = len(myList)</code></td><td><code>5</code></td><td>5 个元素</td></tr>
+    <tr><td class="wide"><code class="lc">myList.insert(2, 5)</code></td><td class="wide"><code class="lc">[8, 1, 5, 6, 2, 3]</code></td><td>在下标 2 前插入 5</td></tr>
+    <tr><td class="wide"><code class="lc">myList.sort(reverse=True)</code></td><td class="wide"><code class="lc">[8, 6, 5, 3, 2, 1]</code></td><td>从大到小排序</td></tr>
+    <tr><td class="wide"><code>myList.append(3)</code></td><td class="wide"><code class="lc">[8, 6, 5, 3, 2, 1, 3]</code></td><td>加在末尾</td></tr>
+    <tr><td class="wide"><code class="lc">x = myList.count(3)</code></td><td><code>2</code></td><td>3 出现两次</td></tr>
+    <tr><td class="wide"><code>myList.remove(3)</code></td><td class="wide"><code class="lc">[8, 6, 5, 2, 1, 3]</code></td><td>只删<b>第一个</b> 3</td></tr>
+    <tr><td class="wide"><code class="lc">z = 4 in myList</code></td><td><code>False</code></td><td>列表里没有 4</td></tr>
     <tr><td class="wide"><code class="lc">myList = myList + [7, 8, 9]</code></td><td class="wide"><code class="lc">[8, 6, 5, 2, 1, 3, 7, 8, 9]</code></td><td>拼接成新列表</td></tr>
   </table></div>
   <p>逐行实际运行的结果与幻灯片最后一页给出的答案<span class="nb">完全一致.</span></p>
-  <p><b>易错:</b> <code>remove(3)</code> 只删第一次出现的 3, 末尾的 3 还在; <code>myList = myList.sort()</code> 会把 myList 变成 <code>None</code>, 因为 sort 原地排序、<span class="nb">返回 None.</span></p>
+  <p><b>易错:</b> <code>remove(3)</code> 只删第一次出现的 3, 末尾的 3 还在; <code class="lc">myList = myList.sort()</code> 会把 myList 变成 <code>None</code>, 因为 sort 原地排序、<span class="nb">返回 None.</span></p>
 </details>
 </article>
 
@@ -1124,7 +1131,7 @@
   <ul>
     <li>Strings are <b>immutable</b>: they cannot be modified after <span class="nb">creation.</span></li>
     <li>String operations such as <code>replace()</code> return a string without modifying the original object.
-      <ul><li><code>s = "hello world"</code></li><li><code>print(id(s))</code> → <span class="nb">12345</span></li><li><code class="lc">s = s.replace("world", "Python")</code></li><li><code>print(id(s))</code> → <span class="nb">67890</span></li></ul></li>
+      <ul><li><code class="lc">s = "hello world"</code></li><li><code>print(id(s))</code> → <span class="nb">12345</span></li><li><code class="lc">s = s.replace("world", "Python")</code></li><li><code>print(id(s))</code> → <span class="nb">67890</span></li></ul></li>
     <li><code>id()</code> identifies an object during its lifetime.
       <ul><li>Different IDs indicate different objects in <span class="nb">memory.</span></li><li>The variable s now refers to a <span class="nb"><b>new object</b>.</span></li><li>The original string was <span class="nb"><b>not modified</b>.</span></li></ul></li>
   </ul>
