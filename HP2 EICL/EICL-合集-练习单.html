@@ -1370,7 +1370,7 @@
 <!-- ======================= AUFGABE 02 ======================= -->
 
 <section class="part" id="a2">
-<h2>Aufgabe 02<br><span class="de-title">Grundkonzepte: Zeichen, Relationen, Wortbegriff</span><small><span class="rl">原标题为 Aufgabe 03. Frage 1–2 对应 <a href="EICL-02-基本概念.html#wort">EICL 02 · 词</a>、<a href="EICL-02-基本概念.html#achsen">组合轴与聚合轴</a>、<a href="EICL-02-基本概念.html#rest">分布、合式性、符号</a>;</span><span class="rl">Frage 3–9 对应 <a href="EICL-03-形态学.html#struktur">EICL 03 · 词的结构</a>、<a href="EICL-03-形态学.html#derivation">派生</a>、<a href="EICL-03-形态学.html#komposition">复合</a>.</span></small></h2>
+<h2>Aufgabe 02<br><span class="de-title">Grundkonzepte: Zeichen, Relationen, Wortbegriff</span><small><span class="rl">原标题为 Aufgabe 03.</span><span class="rl">Frage 1–2 对应 <a href="EICL-02-基本概念.html#wort">EICL 02 · 词</a>、<a href="EICL-02-基本概念.html#achsen">组合轴与聚合轴</a>、<a href="EICL-02-基本概念.html#rest">分布、合式性、符号</a>;</span><span class="rl">Frage 3–9 对应 <a href="EICL-03-形态学.html#struktur">EICL 03 · 词的结构</a>、<a href="EICL-03-形态学.html#derivation">派生</a>、<a href="EICL-03-形态学.html#komposition">复合</a>.</span></small></h2>
 
 <div class="zh"><p>Frage 1–2 的答案根据第 2 讲课件 (n02termi) 推出, Frage 3–9 根据第 3 讲 (形态学) <span class="nb">推出.</span> </p></div>
 
@@ -1846,7 +1846,8 @@
         for (var j = 0; j < TROW; j++) for (var i = 0; i < TCOL; i++) { var g = fieldAt(i, j); if (g) t.fillText(g, i * CW + CW / 2, j * CH + CH / 2); }
         lay.style.backgroundImage = 'url(' + tc.toDataURL('image/png') + ')'; lay.style.backgroundSize = w + 'px ' + h + 'px'; };
       var layout = function () { var rr = mainEl.getBoundingClientRect(), L0 = rr.left + scrollX - 40, L1 = rr.right + scrollX + 40, m;
-        lay.style.height = document.documentElement.scrollHeight + 'px';
+        /* 先清零再量: 否则整页高度里包含这一层自己, 窗口变宽、正文变短后它不会缩回去, 页面底部留下一大片空白 (2026-10-25 修) */
+        lay.style.height = '0px'; lay.style.height = document.documentElement.scrollHeight + 'px';
         m = 'linear-gradient(90deg, #000 ' + (L0 - 90) + 'px, transparent ' + L0 + 'px, transparent ' + L1 + 'px, #000 ' + (L1 + 90) + 'px)';
         lay.style.webkitMaskImage = m; lay.style.maskImage = m; };
       var layT = 0, relay = function () { clearTimeout(layT); layT = setTimeout(layout, 120); };
