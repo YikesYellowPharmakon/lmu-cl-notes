@@ -399,15 +399,15 @@
   :root {
     --p-red: #ff5a4a; --p-lime: #8fd94a; --p-sun: #f5df4a; --p-blue: #5aa9f0; --p-mag: #e04fc8; --p-vio: #9b82ff;
     --k-zh: var(--accent); --k-zh2: #5aa9f0; --k-card: #8fa6c4; --k-card2: #9b82ff; --k-add: #5aa9f0; --k-add2: #9b82ff;
-    --k-warn: #ff5a4a; --k-warn2: #e04fc8; --k-ok: #8fd94a; --k-ans: #f5df4a; --k-ans2: #8fd94a; --k-math: #9b82ff; --k-math2: var(--accent);
+    --k-warn: #ff5a4a; --k-warn2: #e04fc8; --k-ok: #8fd94a; --k-ans: #f5df4a; --k-ans2: #8fd94a; --k-math: #9b82ff; --k-math2: var(--accent); --bg-g1: #5aa9f0; --bg-g2: #9b82ff;
     --bg-a: #0a1d26; --bg-b: #0e2224; --bg-c: #17143a;
     --glow: var(--accent); --add-line: var(--k-add); --warn-line: var(--k-warn);
     --hl: color-mix(in srgb, var(--ink) 8%, transparent); --hl2: color-mix(in srgb, var(--ink) 14%, transparent); --base: color-mix(in srgb, var(--bg-b) 70%, transparent);
     --gap: 22px;
   }
   html, body { background:
-      radial-gradient(1100px 760px at 8% -8%, color-mix(in srgb, var(--k-zh2) 16%, transparent), transparent 62%),
-      radial-gradient(900px 900px at 108% 104%, color-mix(in srgb, var(--k-math) 17%, transparent), transparent 60%),
+      radial-gradient(1100px 760px at 8% -8%, color-mix(in srgb, var(--bg-g1) 16%, transparent), transparent 62%),
+      radial-gradient(900px 900px at 108% 104%, color-mix(in srgb, var(--bg-g2) 17%, transparent), transparent 60%),
       radial-gradient(700px 520px at 92% 18%, color-mix(in srgb, var(--glow) 7%, transparent), transparent 70%),
       linear-gradient(162deg, var(--bg-a) 0%, var(--bg-b) 46%, var(--bg-c) 100%) !important; background-attachment: fixed !important; }
   body { background: transparent !important; }
@@ -508,9 +508,9 @@
   main .lit::after, main .anchor-lit::after { --elit: 1; }
   main .lit { --lit: 1; }
   /* 超链接: 平时是偏灰的补充色 + 一条点状下划线 (像老式文档里的交叉引用); 悬停时变亮, 下划线从左往右描成实线; 外部链接后面跟一个小「↗」 */
-  main a { color: color-mix(in srgb, var(--k-add) 72%, var(--ink)) !important; text-decoration: underline dotted color-mix(in srgb, var(--k-add) 55%, transparent) !important; text-decoration-thickness: 1px !important; text-underline-offset: 4px;
+  main a { color: color-mix(in srgb, var(--accent) 72%, var(--ink)) !important; text-decoration: underline dotted color-mix(in srgb, var(--accent) 55%, transparent) !important; text-decoration-thickness: 1px !important; text-underline-offset: 4px;
     background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: color .2s, background-size .35s var(--ease), text-decoration-color .2s; padding-bottom: 1px; }
-  main a:hover { color: color-mix(in srgb, var(--k-add) 85%, #fff) !important; text-decoration-color: transparent !important; background-size: 100% 1px; }
+  main a:hover { color: color-mix(in srgb, var(--accent) 85%, #fff) !important; text-decoration-color: transparent !important; background-size: 100% 1px; }
   main a[href^="http"]::after { content: "↗"; display: inline-block; margin-left: .15em; font-size: .72em; vertical-align: .25em; opacity: .55; transition: transform .25s var(--ease), opacity .2s; }
   main a[href^="http"]:hover::after { transform: translate(1px, -1px); opacity: .9; }
   /* 纠错: 红色 — 点状边整体偏红、更亮; 底色平铺一层很淡的 45° 剖面线 (制图里「剖开、有问题」的记号); 上边缘从上一个框 (或主色) 过渡过来 */
@@ -628,8 +628,8 @@
   #toc-pill .ring { width: 18px !important; height: 18px !important; cursor: pointer; }
   #toc-pill .ring::after { inset: 1.5px !important; }
   #toc-pill .ring .orb { position: absolute; inset: 5px; z-index: 1; border-radius: 50%; transition: box-shadow .6s var(--ease), transform .6s var(--ease), background-color .6s;
-    box-shadow: inset 2.6px -1.4px 0 0 color-mix(in srgb, var(--k-ans) 75%, var(--ink)); transform: rotate(-20deg); }
-  html[data-mode="day"] #toc-pill .ring .orb { box-shadow: inset 0 0 0 4px color-mix(in srgb, var(--k-ans) 80%, var(--ink)); transform: rotate(160deg); }
+    box-shadow: inset 2.6px -1.4px 0 0 color-mix(in srgb, var(--accent) 75%, var(--ink)); transform: rotate(-20deg); }
+  html[data-mode="day"] #toc-pill .ring .orb { box-shadow: inset 0 0 0 4px color-mix(in srgb, var(--accent) 80%, var(--ink)); transform: rotate(160deg); }
   #toc-pill .ring:hover .orb, #toc-pill .ring:focus-visible .orb { transform: rotate(-20deg) scale(1.15); }
   html[data-mode="day"] #toc-pill .ring:hover .orb { transform: rotate(160deg) scale(1.15); }
   #toc-pill .ring:focus-visible { outline: 1px dotted var(--glow); outline-offset: 2px; }
@@ -739,8 +739,8 @@
      底色由 palette.py 重新算 (三个色标更暗、饱和度更低、彼此只差一点点色相); 这里把背景上的三团光压到很淡, 胶片颗粒和框的明度台阶也都收一档,
      框和背景之间只差一层极淡的亮度, 没有明显的色彩过渡. 白天不变 (下面的规则都限定在非白天). */
   html:not([data-mode="day"]), html:not([data-mode="day"]) body { background:
-      radial-gradient(1200px 820px at 6% -10%, color-mix(in srgb, var(--k-zh2) 5%, transparent), transparent 64%),
-      radial-gradient(1000px 900px at 106% 106%, color-mix(in srgb, var(--k-math) 5%, transparent), transparent 62%),
+      radial-gradient(1200px 820px at 6% -10%, color-mix(in srgb, var(--bg-g1) 5%, transparent), transparent 64%),
+      radial-gradient(1000px 900px at 106% 106%, color-mix(in srgb, var(--bg-g2) 5%, transparent), transparent 62%),
       radial-gradient(760px 560px at 92% 16%, color-mix(in srgb, var(--glow) 2.5%, transparent), transparent 70%),
       linear-gradient(168deg, var(--bg-a) 0%, var(--bg-b) 50%, var(--bg-c) 100%) !important; background-attachment: fixed !important; }
   html:not([data-mode="day"]) body { background: transparent !important; }
@@ -764,8 +764,8 @@
   html:not([data-mode="day"]) { --hl: rgba(255,255,255,.05); --hl2: rgba(255,255,255,.08); }
   html:not([data-mode="day"]), html:not([data-mode="day"]) body { background:
       radial-gradient(130% 110% at 50% 38%, transparent 55%, rgba(0,0,0,.34) 100%),
-      radial-gradient(1200px 820px at 6% -10%, color-mix(in srgb, var(--k-zh2) 4%, transparent), transparent 64%),
-      radial-gradient(1000px 900px at 106% 106%, color-mix(in srgb, var(--k-math) 4%, transparent), transparent 62%),
+      radial-gradient(1200px 820px at 6% -10%, color-mix(in srgb, var(--bg-g1) 4%, transparent), transparent 64%),
+      radial-gradient(1000px 900px at 106% 106%, color-mix(in srgb, var(--bg-g2) 4%, transparent), transparent 62%),
       linear-gradient(168deg, var(--bg-a) 0%, var(--bg-b) 50%, var(--bg-c) 100%) !important; background-attachment: fixed !important; }
   html:not([data-mode="day"]) body { background: transparent !important; }
   html:not([data-mode="day"]) ::selection { background: color-mix(in srgb, var(--glow) 28%, transparent); color: #fff; }
@@ -784,8 +784,8 @@
   /* 行内代码: 中性的暗灰小片, 字是正文色带一点公式色; 不再是一块紫色 */
   html:not([data-mode="day"]) main :not(pre) > code { background: rgba(255,255,255,.05) !important; color: color-mix(in srgb, var(--ink) 82%, var(--k-math)) !important; box-shadow: inset 0 0 0 1px rgba(255,255,255,.035) !important; }
   /* 链接: 平时是正文色 + 一条很淡的补充色虚线, 悬停才显出颜色 */
-  html:not([data-mode="day"]) main a { color: color-mix(in srgb, var(--ink) 80%, var(--k-add)) !important; text-decoration-color: color-mix(in srgb, var(--k-add) 38%, transparent) !important; }
-  html:not([data-mode="day"]) main a:hover { color: color-mix(in srgb, var(--k-add) 70%, var(--ink)) !important; }
+  html:not([data-mode="day"]) main a { color: color-mix(in srgb, var(--ink) 68%, var(--accent)) !important; text-decoration-color: color-mix(in srgb, var(--accent) 38%, transparent) !important; }
+  html:not([data-mode="day"]) main a:hover { color: color-mix(in srgb, var(--accent) 70%, var(--ink)) !important; }
   /* 代码块: 和背景同一块暗色, 只比框深一点; 三个圆点降饱和 */
   html:not([data-mode="day"]) .codebox { background: color-mix(in srgb, var(--bg-b) 70%, #000) !important; box-shadow: 0 0 0 1px rgba(255,255,255,.035), 0 10px 30px -22px #000 !important; }
   html:not([data-mode="day"]) .cb-head { background: color-mix(in srgb, var(--bg-b) 85%, #000) !important; border-bottom: 1px solid rgba(255,255,255,.035) !important; }
@@ -833,8 +833,8 @@
   /* ---------- 白天: 纸一样的近中性暖白 + 炭黑正文, 背景光压到很淡, 四周一圈极轻的暗角 ---------- */
   html[data-mode="day"], html[data-mode="day"] body { background:
       radial-gradient(130% 110% at 50% 38%, transparent 60%, rgba(40,35,25,.06) 100%),
-      radial-gradient(1200px 820px at 6% -10%, color-mix(in srgb, var(--k-zh2) 4%, transparent), transparent 64%),
-      radial-gradient(1000px 900px at 106% 106%, color-mix(in srgb, var(--k-math) 3.5%, transparent), transparent 62%),
+      radial-gradient(1200px 820px at 6% -10%, color-mix(in srgb, var(--bg-g1) 4%, transparent), transparent 64%),
+      radial-gradient(1000px 900px at 106% 106%, color-mix(in srgb, var(--bg-g2) 3.5%, transparent), transparent 62%),
       linear-gradient(168deg, var(--bg-a) 0%, var(--bg-b) 50%, var(--bg-c) 100%) !important; background-attachment: fixed !important; }
   html[data-mode="day"] body { background: transparent !important; }
   html[data-mode="day"] h1 { color: var(--ink) !important; }
@@ -842,8 +842,8 @@
   html[data-mode="day"] h3 { color: color-mix(in srgb, var(--ink) 88%, var(--glow)) !important; }
   html[data-mode="day"] h1 .de-title, html[data-mode="day"] h2 .de-title, html[data-mode="day"] h3 .de-title { color: color-mix(in srgb, var(--muted) 82%, var(--glow)) !important; }
   html[data-mode="day"] main :not(pre) > code { background: rgba(20,20,20,.05) !important; color: color-mix(in srgb, var(--ink) 82%, var(--k-math)) !important; box-shadow: inset 0 0 0 1px rgba(20,20,20,.05) !important; }
-  html[data-mode="day"] main a { color: color-mix(in srgb, var(--ink) 72%, var(--k-add)) !important; text-decoration-color: color-mix(in srgb, var(--k-add) 40%, transparent) !important; }
-  html[data-mode="day"] main a:hover { color: var(--k-add) !important; }
+  html[data-mode="day"] main a { color: color-mix(in srgb, var(--ink) 72%, var(--accent)) !important; text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent) !important; }
+  html[data-mode="day"] main a:hover { color: var(--accent) !important; }
   html[data-mode="day"] .folie, html[data-mode="day"] .slide, html[data-mode="day"] main th { color: color-mix(in srgb, var(--muted) 85%, var(--glow)) !important; }
   html[data-mode="day"] :is(header nav, body > nav) { box-shadow: 0 0 0 1px rgba(20,20,20,.05), 0 0 16px 4px var(--l1) !important; }
 
@@ -1021,18 +1021,45 @@
     background: color-mix(in srgb, var(--k-zh) 4%, color-mix(in srgb, var(--ink) 4%, transparent)) !important;
     box-shadow: inset 0 1px 1px rgba(0,0,0,.07), inset 0 -1px 0 rgba(255,255,255,.7), inset 0 0 0 1px color-mix(in srgb, var(--ink) 7%, transparent) !important; }
   html:not(.lite) main :is(.def, blockquote) > :first-child { margin-top: 0 !important; } html:not(.lite) main :is(.def, blockquote) > :last-child { margin-bottom: 0 !important; }
+  /* ================= v7.7: 同色相 + 自适应过渡 + 夜晚代码框 (2026-10-25) =================
+     1. 配色 (palette.py): 除背景和补充、纠错、答案以外, 所有颜色都在本课色相 ±8° 以内 (卡片、讲解副色、表格、公式、行内代码、列表符号、页码、目录、画布);
+        背景两团光和背景字符场改读 --bg-g1 / --bg-g2, 保留原来的原色. 链接和开关圆用主色.
+     2. 自适应过渡: 补充、纠错、答案的底色从上一个框的颜色 (--cp, 由脚本按相邻关系写入; 没有相邻框时是本课主色) 自上而下过渡到本框颜色,
+        夜晚另有玻璃边从 --cp 过渡过来. 白天夜晚都看得到 (v7.2 / v7.5 的底板曾把 v6 的过渡整个盖掉).
+     3. 夜晚代码框: 边线、上沿光线、标题栏减弱 (不去掉), 底色更接近背景. 白天不变. */
+  main .good { color: color-mix(in srgb, var(--accent) 82%, var(--ink)) !important; }   /* STE 的正确示例: 主色族 (错误示例 .bad 和纠错同类, 不改) */
+  main :is(.add, .warn, details.answer) { --cp: var(--k-zh); }
+  html:not([data-mode="day"]) main :is(.add, .warn, details.answer) {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--cp) 7%, transparent), color-mix(in srgb, var(--ca) 3.5%, transparent) 42%, color-mix(in srgb, var(--ca) 1.8%, transparent)) padding-box,
+      var(--glass-pool) padding-box, var(--glass-body) padding-box,
+      repeating-linear-gradient(-45deg, var(--hatch, transparent) 0 1px, transparent 1px 7px) padding-box,
+      var(--glass-smoke) padding-box !important; }
+  html:not([data-mode="day"]) main :is(.add, details.answer)::after {
+    background: linear-gradient(165deg, color-mix(in srgb, var(--cp) 34%, rgba(255,255,255,.05)), color-mix(in srgb, var(--ca) 13%, transparent) 32%, color-mix(in srgb, var(--ca) 5%, transparent) 62%, color-mix(in srgb, var(--ca) 10%, transparent)) !important; }
+  html:not([data-mode="day"]) main .warn::after {
+    background: linear-gradient(165deg, color-mix(in srgb, var(--cp) 34%, rgba(255,255,255,.05)), color-mix(in srgb, var(--k-warn) 16%, transparent) 30%, color-mix(in srgb, var(--k-warn) 4%, transparent) 60%, color-mix(in srgb, var(--k-warn) 11%, transparent)) !important; }
+  html[data-mode="day"] main :is(.add, .warn, details.answer) {
+    background: var(--tex) 0 0 / 240px 240px padding-box, repeating-linear-gradient(-45deg, var(--hatch, transparent) 0 1px, transparent 1px 7px) padding-box,
+      linear-gradient(180deg, color-mix(in srgb, var(--cp) 8%, transparent), color-mix(in srgb, var(--ca) 4.5%, transparent) 42%, color-mix(in srgb, var(--ca) 2.5%, transparent)) padding-box,
+      linear-gradient(var(--l1), var(--l1)) padding-box !important; }
+  html:not([data-mode="day"]) .codebox { border-color: rgba(255,255,255,.045) !important; background: color-mix(in srgb, var(--bg-b) 84%, #000) !important; }
+  html:not([data-mode="day"]) .codebox::before { background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--glow) 20%, transparent), transparent) !important; }
+  html:not([data-mode="day"]) .cb-head { background: color-mix(in srgb, var(--bg-b) 92%, #000) !important; border-bottom-color: rgba(255,255,255,.028) !important; }
+  html:not([data-mode="day"]) main .codebox { box-shadow: inset 0 1px 0 rgba(255,255,255,.03), 0 0 0 1px rgba(255,255,255,.012), 0 2px 3px -2px var(--ao), 0 16px 34px -26px var(--ao) !important; }
 </style>
 <style id="glass-pal">
   :root {
     --bg-a: #0d0c10;
     --bg-b: #0c0b0f;
     --bg-c: #0e0d11;
-    --ink: #dfdbe1;
-    --muted: #9890a2;
+    --ink: #dcdbe1;
+    --muted: #9390a2;
     --k-zh: #8e81e4;
-    --k-zh2: #e04fc8;
-    --k-card: #af98c3;
-    --k-card2: #e04fc8;
+    --k-zh2: #a994e6;
+    --k-card: #a39bbf;
+    --k-card2: #9390df;
+    --bg-g1: #e04fc8;
+    --bg-g2: #e04fc8;
     --k-add: #5aa9f0;
     --k-add2: #e04fc8;
     --k-warn: #ff5a4a;
@@ -1040,13 +1067,13 @@
     --k-ok: #8fd94a;
     --k-ans: #f5df4a;
     --k-ans2: #8fd94a;
-    --k-math: #e04fc8;
+    --k-math: #8686df;
     --k-math2: #8e81e4;
   }
   html[data-mode="day"] {
     --bg: #f5f5f6;
     --ink: #1e1d25;
-    --muted: #706878;
+    --muted: #6b6878;
     --line: #dad9dd;
     --card: #f9f9fa;
     --code: #ecebf1;
@@ -1061,9 +1088,9 @@
     --bg-b: #f5f5f6;
     --bg-c: #f3f2f5;
     --k-zh: #302097;
-    --k-zh2: #ae2998;
+    --k-zh2: #4b29ae;
     --k-card: #6e5185;
-    --k-card2: #ae2998;
+    --k-card2: #3430a6;
     --k-add: #296fae;
     --k-add2: #ae2998;
     --k-warn: #d23a2c;
@@ -1071,8 +1098,10 @@
     --k-ok: #50841f;
     --k-ans: #b8a10a;
     --k-ans2: #50841f;
-    --k-math: #ae2998;
+    --k-math: #2d2da9;
     --k-math2: #302097;
+    --bg-g1: #ae2998;
+    --bg-g2: #ae2998;
     --glow: #302097;
     --base: color-mix(in srgb, var(--bg-b) 72%, transparent);
   }
@@ -2034,10 +2063,10 @@ c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></spa
     var cs = getComputedStyle(doc);
     var rgbOf = function (h, d) { var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec((h || '').trim()); return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : d; };
     var ACC = rgbOf(cs.getPropertyValue('--accent'), [129, 228, 219]);
-    var mkGlow2 = window.__mkGlow2 = function () {   /* --glow2 = 主色色相 +40° (切换白天/夜晚时重算) */
+    var mkGlow2 = window.__mkGlow2 = function () {   /* --glow2 = 主色色相 +6° (v7.7) (切换白天/夜晚时重算) */
       var r = ACC[0] / 255, g = ACC[1] / 255, b = ACC[2] / 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn, h = 0, s = 0;
       if (d) { s = d / (1 - Math.abs(2 * l - 1)); h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
-      h = (h + 40 + 360) % 360; var c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), o = l - c / 2;
+      h = (h + 6 + 360) % 360; var c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), o = l - c / 2;
       var rgb = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
       doc.style.setProperty('--glow2', '#' + rgb.map(function (v) { return ('0' + Math.round((v + o) * 255).toString(16)).slice(-2); }).join(''));
     }; mkGlow2();
@@ -2843,7 +2872,7 @@ c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></spa
 
   /* ---------- 颜色 (切换白天/夜晚时重读) ---------- */
   var hex = function (v, d) { var m = /#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/i.exec(v || ''); return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : d; };
-  var C = {}, readC = function () { var cs = getComputedStyle(doc); C.a = hex(cs.getPropertyValue('--accent'), [129, 146, 228]); C.b = hex(cs.getPropertyValue('--k-zh2'), [90, 169, 240]); C.i = hex(cs.getPropertyValue('--ink'), [238, 246, 244]); C.w = hex(cs.getPropertyValue('--k-ans'), [245, 223, 74]); C.day = doc.getAttribute('data-mode') === 'day'; };
+  var C = {}, readC = function () { var cs = getComputedStyle(doc); C.a = hex(cs.getPropertyValue('--accent'), [129, 146, 228]); C.b = hex(cs.getPropertyValue('--bg-g1'), [90, 169, 240]); C.i = hex(cs.getPropertyValue('--ink'), [238, 246, 244]); C.w = hex(cs.getPropertyValue('--k-ans'), [245, 223, 74]); C.day = doc.getAttribute('data-mode') === 'day'; };
   readC(); new MutationObserver(readC).observe(doc, { attributes: true, attributeFilter: ['data-mode'] });
   var mix = function (a, b, t) { return [0, 1, 2].map(function (i) { return Math.round(a[i] + (b[i] - a[i]) * t); }); };
   var rgba = function (c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + Math.max(0, Math.min(1, a)).toFixed(3) + ')'; };
