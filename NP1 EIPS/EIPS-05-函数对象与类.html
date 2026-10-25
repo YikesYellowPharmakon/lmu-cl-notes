@@ -2518,10 +2518,21 @@ TypeError: Point.__init__() missing 2 required positional arguments: 'x0' and 'y
     var glyph = function (set) { var a = SETS[set] || SETS.kana; return a[rnd(a.length)]; };
     var PALS = [ACC, ACC, ZH2, BLUE, LIME, SUN, MAG, VIO];
     var pickCol = function () { return PALS[rnd(PALS.length)]; };
+    var PALN = [ACC, ACC, ZH2, VIO], pickNear = function () { return PALN[rnd(PALN.length)]; };   /* v7.7c: 点击背景荡开的字符只用本课色相族 (ZH2 / VIO 是 ±8° 的族色); 平时浮现的字符仍然多色 */
     var FONT = '"SF Mono", Menlo, "Hiragino Sans", "PingFang SC", "Apple Symbols", "Kefa", "Plantagenet Cherokee", "Kohinoor Devanagari", "Mshtakan", sans-serif';
     var clamp = function (v, a, b) { return v < a ? a : v > b ? b : v; };
     var ez = function (a, b, dt, k) { return a + (b - a) * (1 - Math.exp(-k * dt)); };
     var mix = function (a, b, t) { return [0, 1, 2].map(function (i) { return Math.round(a[i] + (b[i] - a[i]) * t); }); };
+    /* v7.7c: 色差大的两种颜色相接时 (连接件、系线), 在 oklab 里互相靠拢, 不混成发灰的脏色 */
+    var lin = function (v) { v /= 255; return v <= .04045 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }, gam = function (v) { v = v <= .0031308 ? v * 12.92 : 1.055 * Math.pow(v, 1 / 2.4) - .055; return Math.round(Math.max(0, Math.min(1, v)) * 255); };
+    var toLab = function (c) { var r = lin(c[0]), g = lin(c[1]), b = lin(c[2]), l = Math.cbrt(.4122214708 * r + .5363851355 * g + .0514459929 * b), m = Math.cbrt(.2119034982 * r + .6806995451 * g + .1073969566 * b), q = Math.cbrt(.0883024619 * r + .2817188376 * g + .6299787005 * b);
+      return [.2104542553 * l + .793617785 * m - .0040720468 * q, 1.9779984951 * l - 2.428592205 * m + .4505937099 * q, .0259040371 * l + .7827717662 * m - .808675766 * q]; };
+    var fromLab = function (o) { var l = Math.pow(o[0] + .3963377774 * o[1] + .2158037573 * o[2], 3), m = Math.pow(o[0] - .1055613458 * o[1] - .0638541728 * o[2], 3), q = Math.pow(o[0] - .0894841775 * o[1] - 1.291485548 * o[2], 3);
+      return [gam(4.0767416621 * l - 3.3077115913 * m + .2309699292 * q), gam(-1.2684380046 * l + 2.6097574011 * m - .3413193965 * q), gam(-.0041960863 * l - .7034186147 * m + 1.707614701 * q)]; };
+    var mixOk = function (a, b, t) { var A = toLab(a), B = toLab(b); return fromLab([0, 1, 2].map(function (i) { return A[i] + (B[i] - A[i]) * t; })); };
+    var hueGap = function (a, b) { var A = toLab(a), B = toLab(b), g = Math.abs(Math.atan2(A[2], A[1]) - Math.atan2(B[2], B[1])) * 180 / Math.PI; return Math.min(g, 360 - g); };
+    /* 两端颜色: 色相差 ≤25° 原样; 越大, 来源端 a 越往接收端 b 靠 (最多一半), 接收端也稍微往回靠 (最多 15%); k 用来压暗来源端的透明度 */
+    var softPair = function (a, b) { var k = Math.max(0, Math.min(1, (hueGap(a, b) - 25) / 155)); return k ? [mixOk(a, b, .5 * k), mixOk(b, a, .15 * k), k] : [a, b, 0]; };
     var hash = function (s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
     var rng = function (seed) { var s = seed || 1; return function () { s = (Math.imul(s, 1103515245) + 12345) >>> 0; return (s >>> 8) / 16777216; }; };
 
@@ -2567,7 +2578,7 @@ TypeError: Point.__init__() missing 2 required positional arguments: 'x0' and 'y
         var gx = Math.floor(e.clientX / CW), gy = Math.floor((e.clientY + scrollY) / CH), key = gx + ',' + gy; if (key === lastCell) return; lastCell = key;
         for (var n = 0; n < 4; n++) spawn(gx + rnd(9) - 4, gy + rnd(5) - 2, strokeSet, strokeCol, .8 + Math.random() * .2, rnd(90), 3000 + rnd(1200));
       }, { passive: true });
-      addEventListener('click', function (e) { if (e.target.closest('main, a, button, summary, #toc-pill')) return; rings.push({ x: e.clientX, y: e.clientY + scrollY, t: performance.now(), set: pickSet(), col: pickCol(), done: new Set() }); });
+      addEventListener('click', function (e) { if (e.target.closest('main, a, button, summary, #toc-pill')) return; rings.push({ x: e.clientX, y: e.clientY + scrollY, t: performance.now(), set: pickSet(), col: pickNear(), done: new Set() }); });
       var margins = function () { var rr = mainEl.getBoundingClientRect(); if (W < 900) return rnd(W); return Math.random() < .5 ? rnd(Math.max(1, rr.left - 60)) : rr.right + 40 + rnd(Math.max(1, W - rr.right - 60)); };
       var drift = function () { var gy = Math.floor((rnd(H) + scrollY) / CH), gx = Math.floor(margins() / CW), len = 4 + rnd(9), set = pickSet(), col = pickCol(), vert = Math.random() < .25;
         for (var i = 0; i < len; i++) spawn(vert ? gx : gx + i, vert ? gy + i : gy, set, col, .6, i * 60, 3600); };
@@ -2697,7 +2708,7 @@ TypeError: Point.__init__() missing 2 required positional arguments: 'x0' and 'y
     var linkDraw = function (B, now, dt) {
       var A = B.prev; if (!A || B.el.classList.contains('side') || !A.r || A.type === 'ans' || B.type === 'ans') return;   /* v7.4: 答案上下不画连接件 */
       var g = B.r.top - A.r.bottom; if (g < 6 || g > TOP - 2) return;
-      var c = B.cx, W = B.W, ca = COL[A.type], cb = COL[B.type], st = B.lst, i, pts = [];
+      var c = B.cx, W = B.W, sp = softPair(COL[A.type], COL[B.type]), ca = sp[0], cb = sp[1], st = B.lst, i, pts = [];
       var X = st === 'fuse' || st === 'fix' ? 30 : st === 'key' ? W - 27 : Math.round(W * B.lfr);
       var y0 = -g + 2, y1 = -2;
       if (!B.lk) B.lk = { pk: [], next: performance.now() + 3000 + rnd(9000), flash: -1e4, on: 0 };
@@ -2709,7 +2720,7 @@ TypeError: Point.__init__() missing 2 required positional arguments: 'x0' and 'y
       else if (st === 'trace') { var jx = (B.lfr > .5 ? -1 : 1) * 12, ya = y0 + (y1 - y0) * .3, yb2 = ya + Math.abs(jx); pts = [[X, y0], [X, ya], [X + jx, yb2], [X + jx, y1]]; }
       else for (i = 0; i <= 12; i++) pts.push([X, y0 + (y1 - y0) * i / 12]);
       var X1 = pts[pts.length - 1][0];
-      var grad = c.createLinearGradient(0, y0, 0, y1); grad.addColorStop(0, hair(ca, la)); grad.addColorStop(1, hair(cb, la));
+      var grad = c.createLinearGradient(0, y0, 0, y1); grad.addColorStop(0, hair(ca, la * (1 - .35 * sp[2]))); grad.addColorStop(1, hair(cb, la));
       var line = function (p) { c.strokeStyle = grad; c.lineWidth = 1; c.beginPath(); p.forEach(function (q, j) { j ? c.lineTo(q[0], q[1]) : c.moveTo(q[0], q[1]); }); c.stroke(); };
       var ring = function (x, y, col, r) { c.fillStyle = rgba(BGB, 1); c.strokeStyle = hair(col, la + .2 * fA); c.lineWidth = 1; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); c.stroke(); };
       var dotc = function (x, y, col, r) { c.fillStyle = hair(col, la + .3 * fA); c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); };
@@ -2993,7 +3004,7 @@ TypeError: Point.__init__() missing 2 required positional arguments: 'x0' and 'y
         var at = function (s) { s = clamp(s, 0, Lt); var k = 1; while (k < N && len[k] < s) k++; var f = (s - len[k - 1]) / Math.max(1e-6, len[k] - len[k - 1]); return [P[k - 1][0] + (P[k][0] - P[k - 1][0]) * f, P[k - 1][1] + (P[k][1] - P[k - 1][1]) * f]; };
         var hot = (T.m && (T.m.inside || T.m.near > .55)) || (T.a && T.a.inside) ? 1 : 0;
         T.hot = ez(T.hot, hot, dt, hot ? 6 : 2.5); T.draw = ez(T.draw, hot, dt, hot ? 4.2 : 1.6);
-        var cA = mix(INKC, col, .5), cB = mix(INKC, ACC, .5), g = x.createLinearGradient(G.x0, G.y0, G.x1, G.y1); g.addColorStop(0, rgba(cA, .5 + .4 * T.hot)); g.addColorStop(1, rgba(cB, .45 + .4 * T.hot));
+        var tp = softPair(col, ACC), cA = mix(INKC, tp[0], .5), cB = mix(INKC, tp[1], .5), g = x.createLinearGradient(G.x0, G.y0, G.x1, G.y1); g.addColorStop(0, rgba(cA, (.5 + .4 * T.hot) * (1 - .3 * tp[2]))); g.addColorStop(1, rgba(cB, .45 + .4 * T.hot));
         x.fillStyle = g; x.globalAlpha = .26 + .2 * (1 - T.draw); for (var s = 2; s < Lt - 2; s += 4) { var q = at(s); x.fillRect(q[0] - .5, q[1] - .5, 1, 1); } x.globalAlpha = 1;
         if (T.draw > .01) { var Ld = Lt * T.draw; x.strokeStyle = g; x.lineWidth = 1; x.globalAlpha = .35 + .5 * T.hot; x.beginPath(); x.moveTo(P[0][0], P[0][1]);
           for (var j = 1; j <= N && len[j] <= Ld; j++) x.lineTo(P[j][0], P[j][1]); var e = at(Ld); x.lineTo(e[0], e[1]); x.stroke(); x.globalAlpha = 1;
@@ -3001,7 +3012,7 @@ TypeError: Point.__init__() missing 2 required positional arguments: 'x0' and 'y
         x.fillStyle = rgba(mix(INKC, col, .5), .35 + .5 * T.hot); x.fillRect(add ? G.x0 : G.x0 - 4, G.y0 - 2.5, 4, 5); x.fillRect(add ? G.x0 + 4 : G.x0 - 6, G.y0 - .5, 2, 1);
         x.fillStyle = rgba(BGB, 1); x.strokeStyle = rgba(cB, .35 + .55 * T.hot); x.lineWidth = 1; x.beginPath(); x.arc(G.x1, G.y1, 2.4 + .6 * T.hot, 0, 7); x.fill(); x.stroke();
         x.font = '9px ' + FONT; x.textAlign = 'center'; x.textBaseline = 'middle';
-        if (now > T.next) { T.next = now + (T.hot > .5 ? (add ? 480 : 1500) : (add ? 3200 + rnd(1800) : 1e9)); if (add || T.hot > .5) T.pk.push({ s: 0, g: [], set: add ? pickSet() : 'sym', col: add ? (Math.random() < .7 ? BLUE : pickCol()) : RED }); }
+        if (now > T.next) { T.next = now + (T.hot > .5 ? (add ? 480 : 1500) : (add ? 3200 + rnd(1800) : 1e9)); if (add || T.hot > .5) T.pk.push({ s: 0, g: [], set: add ? pickSet() : 'sym', col: add ? mixOk(BLUE, ACC, .5 * softPair(BLUE, ACC)[2]) : RED }); }
         if (!add && T.hot < .3) T.next = Math.min(T.next, now + 400);
         T.pk = T.pk.filter(function (p) { p.s += (add ? (T.hot > .5 ? 150 : 45) : 110) * dt;
           for (var k = 0; k < (add ? 3 : 1); k++) { var s2 = p.s - k * 7; if (s2 < 0 || s2 > Lt) continue;
@@ -3174,7 +3185,7 @@ TypeError: Point.__init__() missing 2 required positional arguments: 'x0' and 'y
 
   /* ---------- 颜色 (切换白天/夜晚时重读) ---------- */
   var hex = function (v, d) { var m = /#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/i.exec(v || ''); return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : d; };
-  var C = {}, readC = function () { var cs = getComputedStyle(doc); C.a = hex(cs.getPropertyValue('--accent'), [129, 146, 228]); C.b = hex(cs.getPropertyValue('--bg-g1'), [90, 169, 240]); C.i = hex(cs.getPropertyValue('--ink'), [238, 246, 244]); C.w = hex(cs.getPropertyValue('--k-ans'), [245, 223, 74]); C.day = doc.getAttribute('data-mode') === 'day'; };
+  var C = {}, readC = function () { var cs = getComputedStyle(doc); C.a = hex(cs.getPropertyValue('--accent'), [129, 146, 228]); C.b = hex(cs.getPropertyValue('--k-zh2'), [90, 169, 240]); C.i = hex(cs.getPropertyValue('--ink'), [238, 246, 244]); C.w = hex(cs.getPropertyValue('--k-ans'), [245, 223, 74]); C.day = doc.getAttribute('data-mode') === 'day'; };
   readC(); new MutationObserver(readC).observe(doc, { attributes: true, attributeFilter: ['data-mode'] });
   var mix = function (a, b, t) { return [0, 1, 2].map(function (i) { return Math.round(a[i] + (b[i] - a[i]) * t); }); };
   var rgba = function (c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + Math.max(0, Math.min(1, a)).toFixed(3) + ')'; };
