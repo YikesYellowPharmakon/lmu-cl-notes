@@ -1008,23 +1008,24 @@
   /* ================= v7.7: 同色相 + 自适应过渡 + 夜晚代码框 (2026-10-25) =================
      1. 配色 (palette.py): 除背景和补充、纠错、答案以外, 所有颜色都在本课色相 ±8° 以内 (卡片、讲解副色、表格、公式、行内代码、列表符号、页码、目录、画布);
         背景两团光和背景字符场改读 --bg-g1 / --bg-g2, 保留原来的原色. 链接和开关圆用主色.
-     2. 自适应过渡: 补充、纠错、答案的底色从上一个框的颜色 (--cp, 由脚本按相邻关系写入; 没有相邻框时是本课主色) 自上而下过渡到本框颜色,
-        夜晚另有玻璃边从 --cp 过渡过来. 白天夜晚都看得到 (v7.2 / v7.5 的底板曾把 v6 的过渡整个盖掉).
+     2. 自适应过渡 (v7.7b 调淡): 补充、纠错、答案的上沿带一点上一个框的颜色 (--cp, 脚本按相邻关系写入; 没有相邻框时是本课主色), 在 64px 内过渡到本框颜色;
+        夜晚的玻璃边也从它过渡过来. 带过来的颜色 --tcp 先在 oklab 里和本框颜色对半混合, 强度再乘 --cpw (脚本按两框色相差算: ≤25° 为 1, 180° 时 .3),
+        所以色差大时静止看也不突兀. 白天夜晚都看得到 (v7.2 / v7.5 的底板曾把 v6 的过渡整个盖掉).
      3. 夜晚代码框: 边线、上沿光线、标题栏减弱 (不去掉), 底色更接近背景. 白天不变. */
   main .good { color: color-mix(in srgb, var(--accent) 82%, var(--ink)) !important; }   /* STE 的正确示例: 主色族 (错误示例 .bad 和纠错同类, 不改) */
-  main :is(.add, .warn, details.answer) { --cp: var(--k-zh); }
+  main :is(.add, .warn, details.answer) { --cp: var(--k-zh); --tcp: color-mix(in oklab, var(--cp) 50%, var(--ca)); }
   html:not([data-mode="day"]) main :is(.add, .warn, details.answer) {
-    background: linear-gradient(180deg, color-mix(in srgb, var(--cp) 7%, transparent), color-mix(in srgb, var(--ca) 3.5%, transparent) 42%, color-mix(in srgb, var(--ca) 1.8%, transparent)) padding-box,
+    background: linear-gradient(180deg, color-mix(in srgb, var(--tcp) calc(var(--cpw, 1) * 4.5%), transparent), color-mix(in srgb, var(--ca) 2.6%, transparent) 64px, color-mix(in srgb, var(--ca) 1.8%, transparent)) padding-box,
       var(--glass-pool) padding-box, var(--glass-body) padding-box,
       repeating-linear-gradient(-45deg, var(--hatch, transparent) 0 1px, transparent 1px 7px) padding-box,
       var(--glass-smoke) padding-box !important; }
   html:not([data-mode="day"]) main :is(.add, details.answer)::after {
-    background: linear-gradient(165deg, color-mix(in srgb, var(--cp) 34%, rgba(255,255,255,.05)), color-mix(in srgb, var(--ca) 13%, transparent) 32%, color-mix(in srgb, var(--ca) 5%, transparent) 62%, color-mix(in srgb, var(--ca) 10%, transparent)) !important; }
+    background: linear-gradient(165deg, color-mix(in srgb, var(--tcp) calc(var(--cpw, 1) * 22%), rgba(255,255,255,.06)), color-mix(in srgb, var(--ca) 13%, transparent) 32%, color-mix(in srgb, var(--ca) 5%, transparent) 62%, color-mix(in srgb, var(--ca) 10%, transparent)) !important; }
   html:not([data-mode="day"]) main .warn::after {
-    background: linear-gradient(165deg, color-mix(in srgb, var(--cp) 34%, rgba(255,255,255,.05)), color-mix(in srgb, var(--k-warn) 16%, transparent) 30%, color-mix(in srgb, var(--k-warn) 4%, transparent) 60%, color-mix(in srgb, var(--k-warn) 11%, transparent)) !important; }
+    background: linear-gradient(165deg, color-mix(in srgb, var(--tcp) calc(var(--cpw, 1) * 22%), rgba(255,255,255,.06)), color-mix(in srgb, var(--k-warn) 16%, transparent) 30%, color-mix(in srgb, var(--k-warn) 4%, transparent) 60%, color-mix(in srgb, var(--k-warn) 11%, transparent)) !important; }
   html[data-mode="day"] main :is(.add, .warn, details.answer) {
     background: var(--tex) 0 0 / 240px 240px padding-box, repeating-linear-gradient(-45deg, var(--hatch, transparent) 0 1px, transparent 1px 7px) padding-box,
-      linear-gradient(180deg, color-mix(in srgb, var(--cp) 8%, transparent), color-mix(in srgb, var(--ca) 4.5%, transparent) 42%, color-mix(in srgb, var(--ca) 2.5%, transparent)) padding-box,
+      linear-gradient(180deg, color-mix(in srgb, var(--tcp) calc(var(--cpw, 1) * 5.5%), transparent), color-mix(in srgb, var(--ca) 3.5%, transparent) 64px, color-mix(in srgb, var(--ca) 2.5%, transparent)) padding-box,
       linear-gradient(var(--l1), var(--l1)) padding-box !important; }
   html:not([data-mode="day"]) .codebox { border-color: rgba(255,255,255,.045) !important; background: color-mix(in srgb, var(--bg-b) 84%, #000) !important; }
   html:not([data-mode="day"]) .codebox::before { background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--glow) 20%, transparent), transparent) !important; }
@@ -2290,6 +2291,12 @@ print(l)</code></pre>
     var mods = [], mx = -1e4, my = -1e4, fineP = !reduce;   /* 鼠标和触屏都参与; 触屏上「点一下」代替悬停 */
     var TYPES = [['card', 'main .card'], ['zh', 'main .zh'], ['add', 'main .add'], ['warn', 'main .warn'], ['ans', 'main details.answer'], ['math', 'main .math-block'], ['tab', 'main .tablewrap'], ['code', 'main .codebox'], ['fig', 'main .src-fig']];
     var COL = { card: SLATE, zh: ACC, add: BLUE, warn: RED, ans: SUN, math: VIO, tab: ACC, code: ACC, fig: SLATE };
+    /* v7.7b: 过渡强度 --cpw. 上一个框和本框的色相差越大, 带过来的颜色越淡 (≤25° 全强度, 180° 时只剩 .3) */
+    var hueOf = function (v) { var n = /--[\w-]+/.exec(v || ''), c = n && rgbOf(getComputedStyle(doc).getPropertyValue(n[0]), null); if (!c) return null;
+      var r = c[0] / 255, g = c[1] / 255, b = c[2] / 255, mx = Math.max(r, g, b), d = mx - Math.min(r, g, b); if (!d) return null;
+      var h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; return (h * 60 + 360) % 360; };
+    var cpw = function (a, b) { var x = hueOf(CSSV[a]), y = hueOf(CSSV[b]); if (x === null || y === null) return '.6'; var g = Math.abs(x - y); g = Math.min(g, 360 - g);
+      return (g <= 25 ? 1 : Math.max(.3, 1 - (g - 25) / 155 * .7)).toFixed(2); };
     var CSSV = { card: 'var(--k-card)', zh: 'var(--k-zh)', add: 'var(--k-add)', warn: 'var(--k-warn)', ans: 'var(--k-ans)', math: 'var(--k-math)', tab: 'var(--k-zh)', code: 'var(--k-zh)', fig: 'var(--k-card)' };
     var typeOf = function (el) { for (var i = 0; i < TYPES.length; i++) if (el.matches(TYPES[i][1])) return TYPES[i][0]; return 'zh'; };
     var els = $$(TYPES.map(function (t) { return t[1]; }).join(', ')).filter(function (el) { return (el.matches('.tablewrap, .math-block') || !el.parentElement.closest('.card, .zh, .add, .warn, details, .math-block, .tablewrap, .codebox, .src-fig')) && (!el.matches('.tablewrap') || el.querySelector('table')); });   /* 表格和公式嵌在原文卡片里也要有互动 */
@@ -2527,7 +2534,7 @@ print(l)</code></pre>
     var relink = function () { mods.forEach(function (m) { var p = m.el.previousElementSibling; while (p && p.matches('.side')) p = p.previousElementSibling;
       var A = p && mods.filter(function (q) { return q.el === p; })[0], ok = A && !A.el.classList.contains('side') && !m.el.classList.contains('side');
       if ((ok ? A : null) !== (m.prev || null)) { m.prev = ok ? A : null; m.lst = null; m.lk = null; }
-      if (ok) m.el.style.setProperty('--cp', CSSV[A.type]); else m.el.style.removeProperty('--cp'); });
+      if (ok) { m.el.style.setProperty('--cp', CSSV[A.type]); m.el.style.setProperty('--cpw', cpw(A.type, m.type)); } else { m.el.style.removeProperty('--cp'); m.el.style.removeProperty('--cpw'); } });
       /* 连接件的样式和位置: 按文档顺序数「普通」连接件, 位置按 左 → 中 → 右 → 中 循环, 样式在跳线和引线之间交替 */
       /* 普通连接件: 从 POOL 里按下方框的文字为种子挑一种 (每次打开都一样), 相邻两个不重样 */
       var k = 0, prevS = ''; mods.forEach(function (m) { if (!m.prev) return; var s0 = linkStyle(m.prev, m, k);

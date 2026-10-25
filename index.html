@@ -80,7 +80,7 @@
   .stats span { font: 500 10px/1.4 var(--mono); color: var(--muted); letter-spacing: .16em; text-transform: uppercase; }
 
   /* ---------- 检索 + 跳转 ---------- */
-  .finder { position: sticky; top: 58px; z-index: 40; margin: 26px 0 8px; }
+  .finder { position: relative; z-index: 2; margin: 26px 0 8px; }   /* 不再 sticky: 容器太短, 下滑时会半透明地停一下再被推走 (2026-10-25); 按 / 聚焦时浏览器自动滚到它 */
   .search { display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px 0 16px; border-radius: 2px;
             background: color-mix(in srgb, var(--bg) 94%, var(--ink) 3%); box-shadow: 0 0 0 1px var(--hair), 0 16px 36px -26px var(--sh); transition: box-shadow .2s; }
   .search:focus-within { box-shadow: 0 0 0 1px var(--hair2), 0 16px 36px -26px var(--sh); }
@@ -511,7 +511,7 @@
     else if (e.key === 'Enter') { var li = vis[sel < 0 ? 0 : sel]; if (q.value.trim() && li) location.href = li.firstChild.href; }
     else if (e.key === 'Escape') { q.value = ''; run(); q.blur(); }
   });
-  addEventListener('keydown', function (e) { if (e.key === '/' && D.activeElement !== q && !e.metaKey && !e.ctrlKey) { e.preventDefault(); q.focus(); } });
+  addEventListener('keydown', function (e) { if (e.key === '/' && D.activeElement !== q && !e.metaKey && !e.ctrlKey) { e.preventDefault(); q.focus({ preventScroll: true }); q.scrollIntoView({ block: 'center', behavior: 'smooth' }); } });
   } catch (err) { document.documentElement.classList.remove('fx'); }
 })();
 </script>
