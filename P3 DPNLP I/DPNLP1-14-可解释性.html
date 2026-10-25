@@ -1028,6 +1028,8 @@
         夜晚的玻璃边也从它过渡过来. 带过来的颜色 --tcp 先在 oklab 里和本框颜色对半混合, 强度再乘 --cpw (脚本按两框色相差算: ≤25° 为 1, 180° 时 .3),
         所以色差大时静止看也不突兀. 白天夜晚都看得到 (v7.2 / v7.5 的底板曾把 v6 的过渡整个盖掉).
      3. 夜晚代码框: 边线、上沿光线、标题栏减弱 (不去掉), 底色更接近背景. 白天不变. */
+  /* v7.7d: 亮字画布 #bg 在 #bgfield 里随页面滚动 (按页面坐标, 高两屏, 由脚本定 top); #bgfield 裁掉超出部分, 不撑高页面 */
+  #bgfield { overflow: hidden; } #bgfield > #bg { position: absolute !important; left: 0 !important; right: auto !important; bottom: auto !important; width: 100% !important; }
   main .good { color: color-mix(in srgb, var(--accent) 82%, var(--ink)) !important; }   /* STE 的正确示例: 主色族 (错误示例 .bad 和纠错同类, 不改) */
   main :is(.add, .warn, details.answer) { --cp: var(--k-zh); --tcp: color-mix(in oklab, var(--cp) 50%, var(--ca)); }
   html:not([data-mode="day"]) main :is(.add, .warn, details.answer) {
@@ -1589,7 +1591,9 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
     var glyph = function (set) { var a = SETS[set] || SETS.kana; return a[rnd(a.length)]; };
     var PALS = [ACC, ACC, ZH2, BLUE, LIME, SUN, MAG, VIO];
     var pickCol = function () { return PALS[rnd(PALS.length)]; };
-    var PALN = [ACC, ACC, ZH2, VIO], pickNear = function () { return PALN[rnd(PALN.length)]; };   /* v7.7c: 点击背景荡开的字符只用本课色相族 (ZH2 / VIO 是 ±8° 的族色); 平时浮现的字符仍然多色 */
+    /* v7.7d: 鼠标经过背景时冒出的字只用本课色相族, 范围比别处 (±8°) 稍宽: 主色在 oklab 里转 -12° / -6° / 0 / +6° / +12°, 每次现算 (白天夜晚跟着主色变) */
+    var rotHue = function (c, deg) { var o = toLab(c), r = deg * Math.PI / 180, cs2 = Math.cos(r), sn = Math.sin(r); return fromLab([o[0], o[1] * cs2 - o[2] * sn, o[1] * sn + o[2] * cs2]); };
+    var pickHover = function () { return rotHue(ACC, [-12, -6, 0, 6, 12][rnd(5)]); };
     var FONT = '"SF Mono", Menlo, "Hiragino Sans", "PingFang SC", "Apple Symbols", "Kefa", "Plantagenet Cherokee", "Kohinoor Devanagari", "Mshtakan", sans-serif';
     var clamp = function (v, a, b) { return v < a ? a : v > b ? b : v; };
     var ez = function (a, b, dt, k) { return a + (b - a) * (1 - Math.exp(-k * dt)); };
@@ -1617,11 +1621,16 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
       var ctx = cv.getContext('2d'), oc = document.createElement('canvas'), octx = oc.getContext('2d'), W, H, dpr, CW = 14, CH = 20, cells = new Map(), morph = new Map(), mainEl = document.querySelector('main');
       var FIELD = ['braille', 'kana', 'rune', 'math', 'box', 'hira', 'cher'];
       var strokeSet = pickSet(), strokeCol = ACC, strokeT = 0, lastCell = '', rings = [], rains = [], nextDrift = 900, nextRain = 2500, nextMorph = 0;
-      var size = function () { dpr = Math.min(2, devicePixelRatio || 1); W = innerWidth; H = innerHeight; cv.width = oc.width = W * dpr; cv.height = oc.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); octx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+      /* v7.7d: 亮字画布不再固定在屏幕上 (每帧按 scrollY 重画, 总比页面滚动慢一帧), 而是放进随页面原生滚动的 #bgfield 里:
+         画布两屏高 (CHT), 按页面坐标定在 A 处; 视口滚出这段缓冲才挪一次 (挪位和重画在同一帧), 平时滚动不用重画. #bgfield 的遮罩同时清空正文一栏. */
+      var CHT = 0, A = -1e9, docH = 0;
+      var size = function () { dpr = Math.min(2, devicePixelRatio || 1); W = innerWidth; H = innerHeight; CHT = Math.round(H * 2); cv.width = oc.width = W * dpr; cv.height = CHT * dpr; oc.height = H * dpr; cv.style.height = CHT + 'px'; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); octx.setTransform(dpr, 0, 0, dpr, 0, 0); A = -1e9; };
       size(); addEventListener('resize', size);
+      var reanchor = function () { if (scrollY >= A && scrollY + H <= A + CHT) return false;
+        A = Math.max(0, Math.min(scrollY - (CHT - H) / 2, Math.max(0, (docH || document.documentElement.scrollHeight) - CHT))); cv.style.top = A + 'px'; return true; };
       /* v7.4: 暗字场不再每帧按 scrollY 重画 (那样总比页面滚动慢一帧, 看起来一顿一顿), 而是先画成一张 40 × 30 格的平铺图,
          铺在一个和整页一样高、随页面原生滚动的层上 (#bgfield); 正文一栏连两侧 40px 用遮罩清空、向外羽化 90px. 切换白天 / 夜晚时重画这张图. */
-      var lay = document.createElement('div'); lay.id = 'bgfield'; lay.setAttribute('aria-hidden', 'true'); document.body.insertBefore(lay, document.body.firstChild);
+      var lay = document.createElement('div'); lay.id = 'bgfield'; lay.setAttribute('aria-hidden', 'true'); document.body.insertBefore(lay, document.body.firstChild); lay.appendChild(cv);
       var TCOL = 40, TROW = 30;
       var tile = function () { var d = Math.min(2, devicePixelRatio || 1), tc = document.createElement('canvas'), t = tc.getContext('2d'), w = TCOL * CW, h = TROW * CH;
         tc.width = w * d; tc.height = h * d; t.setTransform(d, 0, 0, d, 0, 0); t.font = '11px ' + FONT; t.textAlign = 'center'; t.textBaseline = 'middle';
@@ -1630,7 +1639,7 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
         lay.style.backgroundImage = 'url(' + tc.toDataURL('image/png') + ')'; lay.style.backgroundSize = w + 'px ' + h + 'px'; };
       var layout = function () { var rr = mainEl.getBoundingClientRect(), L0 = rr.left + scrollX - 40, L1 = rr.right + scrollX + 40, m;
         /* 先清零再量: 否则整页高度里包含这一层自己, 窗口变宽、正文变短后它不会缩回去, 页面底部留下一大片空白 (2026-10-25 修) */
-        lay.style.height = '0px'; lay.style.height = document.documentElement.scrollHeight + 'px';
+        lay.style.height = '0px'; docH = document.documentElement.scrollHeight; lay.style.height = docH + 'px'; A = -1e9;
         m = 'linear-gradient(90deg, #000 ' + (L0 - 90) + 'px, transparent ' + L0 + 'px, transparent ' + L1 + 'px, #000 ' + (L1 + 90) + 'px)';
         lay.style.webkitMaskImage = m; lay.style.maskImage = m; };
       var layT = 0, relay = function () { clearTimeout(layT); layT = setTimeout(layout, 120); };
@@ -1645,21 +1654,17 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
       };
       addEventListener('pointermove', function (e) {
         if (e.pointerType !== 'mouse') return;
-        var now = performance.now(); if (now - strokeT > 900) { strokeSet = pickSet(); strokeCol = pickCol(); } strokeT = now;
+        var now = performance.now(); if (now - strokeT > 900) { strokeSet = pickSet(); strokeCol = pickHover(); } strokeT = now;
         var gx = Math.floor(e.clientX / CW), gy = Math.floor((e.clientY + scrollY) / CH), key = gx + ',' + gy; if (key === lastCell) return; lastCell = key;
         for (var n = 0; n < 4; n++) spawn(gx + rnd(9) - 4, gy + rnd(5) - 2, strokeSet, strokeCol, .8 + Math.random() * .2, rnd(90), 3000 + rnd(1200));
       }, { passive: true });
-      addEventListener('click', function (e) { if (e.target.closest('main, a, button, summary, #toc-pill')) return; rings.push({ x: e.clientX, y: e.clientY + scrollY, t: performance.now(), set: pickSet(), col: pickNear(), done: new Set() }); });
+      addEventListener('click', function (e) { if (e.target.closest('main, a, button, summary, #toc-pill')) return; rings.push({ x: e.clientX, y: e.clientY + scrollY, t: performance.now(), set: pickSet(), col: pickCol(), done: new Set() }); });
       var margins = function () { var rr = mainEl.getBoundingClientRect(); if (W < 900) return rnd(W); return Math.random() < .5 ? rnd(Math.max(1, rr.left - 60)) : rr.right + 40 + rnd(Math.max(1, W - rr.right - 60)); };
       var drift = function () { var gy = Math.floor((rnd(H) + scrollY) / CH), gx = Math.floor(margins() / CW), len = 4 + rnd(9), set = pickSet(), col = pickCol(), vert = Math.random() < .25;
         for (var i = 0; i < len; i++) spawn(vert ? gx : gx + i, vert ? gy + i : gy, set, col, .6, i * 60, 3600); };
-      var drawField = function (c, alpha) {
-        var y0 = Math.floor(scrollY / CH), offY = -(scrollY % CH); c.fillStyle = INKP + '' + alpha + ')';
-        for (var j = -1; j * CH < H + CH; j++) for (var i = 0; i * CW < W; i++) { if (cells.has(i + ',' + (y0 + j))) continue; var g = fieldAt(i, y0 + j); if (g) c.fillText(g, i * CW + CW / 2, offY + j * CH + CH / 2); }
-      };
-      var last = 0, lastY = -1;
+      var last = 0;
       var draw = function (now) {
-        ctx.clearRect(0, 0, W, H); ctx.font = octx.font = '11px ' + FONT; ctx.textAlign = octx.textAlign = 'center'; ctx.textBaseline = octx.textBaseline = 'middle';
+        reanchor(); ctx.clearRect(0, 0, W, CHT); ctx.font = octx.font = '11px ' + FONT; ctx.textAlign = octx.textAlign = 'center'; ctx.textBaseline = octx.textBaseline = 'middle';
         if (now > nextDrift) { drift(); nextDrift = now + 500 + Math.random() * 900; }
         if (now > nextRain) { nextRain = now + 2600 + Math.random() * 3200; rains.push({ gx: Math.floor(margins() / CW), gy: Math.floor((rnd(H * .5) + scrollY) / CH), n: 10 + rnd(14), set: pickSet(), col: pickCol(), next: now }); }
         rains = rains.filter(function (r) { if (now >= r.next) { spawn(r.gx, r.gy, r.set, r.col, .9, 0, 2600); r.gy++; r.n--; r.next = now + 85; } return r.n > 0; });
@@ -1671,20 +1676,16 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
         ctx.font = '12px ' + FONT;
         cells.forEach(function (cl, key) {
           var age = now - cl.t; if (age < 0) return; if (age > cl.life) { cells.delete(key); return; }
-          var p = key.indexOf(','), x = +key.slice(0, p) * CW + CW / 2, y = +key.slice(p + 1) * CH + CH / 2 - scrollY; if (y < -CH || y > H + CH) return;
+          var p = key.indexOf(','), x = +key.slice(0, p) * CW + CW / 2, y = +key.slice(p + 1) * CH + CH / 2 - A; if (y < -CH || y > CHT + CH) return;
           var dec = age < 240, f = dec ? .6 : Math.pow(1 - (age - 240) / (cl.life - 240), 1.15);
           ctx.fillStyle = rgba(cl.col, .6 * cl.amp * f); ctx.fillText(dec ? glyph(cl.set) : cl.g, x, y);
         });
-        var rr = mainEl.getBoundingClientRect();
-        /* 正文一栏连同两侧 40px 完全清空 (框边闪过的符号、页边记号都不会和背景字混在一起), 再向外羽化 90px */
-        var L0 = rr.left - 40, L1 = rr.right + 40, gw = 90, g = ctx.createLinearGradient(L0 - gw, 0, L1 + gw, 0), fl = gw / (L1 - L0 + 2 * gw);
-        g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(fl, 'rgba(0,0,0,1)'); g.addColorStop(1 - fl, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = g; ctx.fillRect(L0 - gw, 0, L1 - L0 + gw * 2, H); ctx.globalCompositeOperation = 'source-over';
+        /* 正文一栏的清空和羽化由 #bgfield 的遮罩负责 (画布在它里面) */
       };
       tile(); layout();
       if (auto) { draw(4000); return; }
-      /* 亮字是按页面坐标放的: 页面在滚动时每一帧都画 (现在每帧只画几十个亮字, 很便宜), 不滚动时 30 帧 */
-      (function lp(t) { if (!document.hidden && !(window.__glassBusy > t) && (scrollY !== lastY || t - last > 33)) { last = t; lastY = scrollY; draw(t); } requestAnimationFrame(lp); })(0);
+      /* 亮字按页面坐标画在随页面滚动的画布上: 滚动时不重画 (除非要挪缓冲), 动画 30 帧 */
+      (function lp(t) { if (!document.hidden && !(window.__glassBusy > t) && (reanchor() || t - last > 33)) { last = t; draw(t); } requestAnimationFrame(lp); })(0);
     })();
 
     /* ================= 框的装置 v6 =================
