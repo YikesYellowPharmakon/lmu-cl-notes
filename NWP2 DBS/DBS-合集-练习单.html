@@ -1070,6 +1070,7 @@
 </header>
 <nav class="wrap">
   <a href="#b1">练习单 1</a>
+  <a href="#b2">练习单 2</a>
 </nav>
 <main class="wrap">
 
@@ -1157,6 +1158,164 @@
 </div>
 </article>
 </section>
+
+<!-- ======================= B2 ======================= -->
+<section class="part" id="b2">
+<h2>练习单 2: SQL-DDL<br><span class="de-title">Übungsblatt 2: SQL-DDL</span><small><span class="rl">对应 <a href="DBS-02-关系模型.html#ddl">DBS 02 · 数据定义语言与 SQL 建表</a>、<a href="DBS-02-关系模型.html#constr">SQL 中的约束</a>、<a href="DBS-02-关系模型.html#fremd">外键</a>、<a href="DBS-02-关系模型.html#alter">修改表定义</a>, 以及 <a href="DBS-01-数据库系统基础.html#sprachen">DBS 01 · 数据库语言: DDL 和 DML</a>;</span><span class="rl">源文件 Zettel02.pdf</span></small></h2>
+
+<div class="zh">
+  <p>本节的 SQL 都在 PostgreSQL 18.6 (PGlite) 和课件推荐的 DuckDB 2.0 上实际运行过, 结果和报错照实写出. 两个系统在这张练习单上的差别很大, 答案以 PostgreSQL 为准, DuckDB 的不同写在每题<span class="nb">的补充里.</span></p>
+</div>
+
+<!-- ===== B2-1 ===== -->
+<article id="b2-1">
+<h3>题 2-1: 用 SQL-DDL 建表<br><span class="de-title"><span class="seg">Aufgabe 2-1 ·</span> <span class="seg">SQL DDL</span></span></h3>
+<div class="card de">
+  <span class="folie">Übungsblatt 2 · Aufgabe 2-1</span>
+  <p>Die fiktive Vertriebsplattform für Unterhaltungssoftware Vapor möchte einige Daten in einer relationalen Datenbank speichern. Zu diesem Zweck sind die folgenden Tabellen zu erstellen. Geben Sie jeweils ein hinreichendes SQL-DDL Statement zum erstellen der jeweiligen <span class="nb">Tabelle an.</span></p>
+  <ol type="a">
+    <li>Die Tabelle Game mit den Attributen:
+      <ul>
+        <li>GameID - Eine ganze Zahl. <span class="nb">Primärschlüssel.</span></li>
+        <li>Name - Ein string mit maximaler Länge 300. <span class="nb">Nicht null.</span></li>
+        <li>Publisher - Ein string mit maximaler <span class="nb">Länge 200</span></li>
+        <li>Preis - Eine reelle Zahl mit zwei Nachkommastellen die Werte bis 999 darstellen kann. Darf nicht negative sein. <span class="nb">Nicht null.</span></li>
+        <li>Erscheinungsdatum - Ein Zeitpunkt in unix time i.e. in Sekunden und relative zur Unix Epoche (1.1.1970 um 00:<span class="nb">00)</span></li>
+      </ul></li>
+    <li>Die Tabelle User mit den Attributen:
+      <ul>
+        <li>UserID - Eine ganze Zahl. <span class="nb">Primärschlüssel.</span></li>
+        <li>Nutzerkennung - Ein string mit maximaler Länge 200. <span class="nb">Nicht null.</span></li>
+      </ul></li>
+    <li>Die Tabelle OwnedGames mit den Attributen:
+      <ul>
+        <li>PurchaseID - Eine ganze Zahl. <span class="nb">Primärschlüssel.</span></li>
+        <li>GameID - Eine ganze Zahl. Fremdschlüssel aus der Game Tabelle. Entfernung des Game Tuples sollte zur Löschung der entsprechenden OwnedGames Tupels <span class="nb">führen.</span></li>
+        <li>UserID - Eine ganze Zahl. Fremdschlüssel aus der User Tabelle. Entfernung des Users Tuples sollte zur Löschung der entsprechenden OwnedGames Tupel <span class="nb">führen.</span></li>
+        <li>ReviewID - Eine ganze Zahl. Fremdschlüssel aus der Review Tabelle. Bei Entfernung des Reviews sollte dieser Wert auf null gesetzt <span class="nb">werden.</span></li>
+        <li>Playtime - Eine approximierte reelle Zahl (≈ IEEE 754 Binary 64). Muss nicht negative sein. <span class="nb">Standardwert 0.0.</span></li>
+      </ul></li>
+    <li>Die Tabelle Review mit den Attributen:
+      <ul>
+        <li>ReviewID - Eine ganze Zahl. <span class="nb">Primärschlüssel.</span></li>
+        <li>Rating - Eine reelle Zahl mit zwei Vor- und einer Nachkommastelle. Muss nicht-negative sein. Muss kleiner gleich 10 sein. <span class="nb">Nicht null.</span></li>
+        <li>ReviewText - Ein string mit maximaler Länge <span class="nb">2000</span></li>
+        <li>Datum - Ein Datum. <span class="nb">Nicht null.</span></li>
+      </ul></li>
+  </ol>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 虚构的游戏发行平台 Vapor 要把一些数据存进关系数据库, 为此要建下面这些表. 给出建每张表的、足以满足要求的 SQL-DDL 语句. a) Game 表: GameID 整数, 主键; Name 字符串, 最长 300, 非空; Publisher 字符串, 最长 200; Preis 实数, 两位小数, 能表示到 999, 不能为负, 非空; Erscheinungsdatum 是 unix 时间, 即从 Unix 纪元 (1970-01-01 00:00) 起的秒数. b) User 表: UserID 整数, 主键; Nutzerkennung 字符串, 最长 200, 非空. c) OwnedGames 表: PurchaseID 整数, 主键; GameID 整数, 引用 Game 的外键, 删除游戏时相应的购买记录也要删掉; UserID 整数, 引用 User 的外键, 删除用户时相应的购买记录也要删掉; ReviewID 整数, 引用 Review 的外键, 删除评论时这个值设为 null; Playtime 近似实数 (约等于 IEEE 754 双精度), 不能为负, 默认 0.0. d) Review 表: ReviewID 整数, 主键; Rating 实数, 两位整数、一位小数, 不能为负, 不超过 10, 非空; ReviewText 字符串, 最长 2000; Datum 日期, <span class="nb">非空.</span></p>
+  <p><b>思路:</b> 每个属性按课件 DBS 02 · Folie 24–27 选三样东西: <b>类型</b> (整数 INTEGER, 精确小数 DECIMAL(p,q), 浮点 DOUBLE PRECISION, 字符串 VARCHAR(n), 日期 DATE), <b>列约束</b> (PRIMARY KEY、NOT NULL、CHECK、DEFAULT), 以及外键 REFERENCES 和删除时的动作. DECIMAL(p,q) 的 p 是总位数, q 是小数位数, 从「最大值」和「小数位」反推. 外键的三种删除要求分别对应 ON DELETE CASCADE (跟着删) 和 ON DELETE SET NULL (置空). 还要注意两件事: 外键引用的表必须<b>先</b>存在, 所以四张表的建表顺序不是 a、b、c、d; 表名 User 在 SQL <span class="nb">里是保留字.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>建表顺序: Game, User, Review, 最后 OwnedGames <span class="nb">(它引用另外三张表).</span></p>
+<pre data-lang="sql">CREATE TABLE Game (
+  GameID            INTEGER PRIMARY KEY,
+  Name              VARCHAR(300) NOT NULL,
+  Publisher         VARCHAR(200),
+  Preis             DECIMAL(5,2) NOT NULL CHECK (Preis >= 0),
+  Erscheinungsdatum BIGINT
+);
+
+CREATE TABLE "User" (
+  UserID        INTEGER PRIMARY KEY,
+  Nutzerkennung VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE Review (
+  ReviewID   INTEGER PRIMARY KEY,
+  Rating     DECIMAL(3,1) NOT NULL CHECK (Rating >= 0 AND Rating <= 10),
+  ReviewText VARCHAR(2000),
+  Datum      DATE NOT NULL
+);
+
+CREATE TABLE OwnedGames (
+  PurchaseID INTEGER PRIMARY KEY,
+  GameID     INTEGER REFERENCES Game(GameID) ON DELETE CASCADE,
+  UserID     INTEGER REFERENCES "User"(UserID) ON DELETE CASCADE,
+  ReviewID   INTEGER REFERENCES Review(ReviewID) ON DELETE SET NULL,
+  Playtime   DOUBLE PRECISION DEFAULT 0.0 CHECK (Playtime >= 0)
+);</pre>
+  <ul>
+    <li><b>Preis DECIMAL(5,2)</b>: 两位小数, 整数部分最多三位 (到 999), 一共 5 位, 最大能存 999.99. 钱用精确小数, 不用浮点. 实测 PostgreSQL: 插入 1000.00 报 <code class="lc">numeric field overflow</code>, 插入 −1.00 报 <code class="lc">violates check constraint "game_preis_check"</code>.</li>
+    <li><b>Erscheinungsdatum BIGINT</b>: unix 时间是一个秒数, 用整数存. 课件的类型表里只有 INTEGER, 但它只有 4 字节, 最大 2147483647, 对应 2038-01-19 03:14:07 UTC, 之后的发售日期就存不下了. BIGINT (8 字节) 是标准 SQL 类型, PostgreSQL 和 DuckDB <span class="nb">都支持.</span></li>
+    <li><b>"User"</b>: USER 是 SQL 的保留字 (表示当前登录的数据库用户). 实测 PostgreSQL: <code class="lc">CREATE TABLE User (…)</code> 报 <code class="lc">syntax error at or near "User"</code>. 加双引号就是普通名字了, 但带引号的名字区分大小写, 以后每次都要写成 <code>"User"</code>, 包括 OwnedGames <span class="nb">里的外键.</span></li>
+    <li><b>Rating DECIMAL(3,1)</b>: 两位整数加一位小数, 共 3 位. 「≥ 0 且 ≤ 10」用一个 CHECK 写. 实测插入 10.<span class="nb">5 被拒.</span></li>
+    <li><b>OwnedGames 的外键</b>: 删游戏、删用户时购买记录跟着删 → ON DELETE CASCADE; 删评论时只把 ReviewID 置空 → ON DELETE SET NULL. 实测: 删除 ReviewID 100 后, 引用它的购买记录 ReviewID 变成 NULL; 删除 GameID 1 后, <span class="nb">它的购买记录消失.</span></li>
+    <li><b>Playtime DOUBLE PRECISION</b>: IEEE 754 binary64 就是双精度浮点数. 标准 SQL 的类型名是 DOUBLE PRECISION; 课件写的 DOUBLE 在 PostgreSQL 里不存在 (<code class="lc">type "double" does not exist</code>), DuckDB 可以. DEFAULT 0.0 加 CHECK (Playtime >= 0); 实测插入 −2.0 被拒, <span class="nb">不给值时是 0.</span></li>
+  </ul>
+  <p><b>易错:</b> ① 按题目的 a、b、c、d 顺序执行, 到 c) 会报 <code class="lc">relation "review" does not exist</code>. ② DECIMAL(5,2) 的 5 是<b>总</b>位数, 不是整数位数; 写 DECIMAL(3,2) 只能存到 9.99. ③ DECIMAL 会悄悄四舍五入多出来的小数: 实测插入 19.999 存成 20.00, 不报错. ④ GameID 和 UserID 题目没写「Nicht null」, 照题目可以为空; 实际设计里一条购买记录总该有游戏和用户, 加 NOT NULL <span class="nb">更合理.</span></p>
+</details>
+<div class="add">
+  <p><b>DuckDB 的不同</b> (课件推荐 DuckDB, 实测 2.0): ① DuckDB 不支持外键的删除动作, 写 ON DELETE CASCADE 或 SET NULL 都报 <code class="lc">FOREIGN KEY constraints cannot use CASCADE, SET NULL or SET DEFAULT</code>, 所以 c) 在 DuckDB 里只能写不带动作的 REFERENCES; 这时删除被引用的游戏会被拒绝, 级联删除要自己先删 OwnedGames 里的行. ② User 在 DuckDB 里不是保留字, 不加引号也能建表. ③ DOUBLE 在 DuckDB <span class="nb">里可以用.</span></p>
+</div>
+<div class="warn">
+  <p><b>原文笔误与漏洞:</b> ① 页首学期写成「WS 2025/26」, 练习单日期是 23.10.2026, 应为 WS 2026/27 (练习单 1 也是这样). ② c) 的 OwnedGames 引用 d) 才定义的 Review 表, 照题目顺序执行会失败; 应先建 Review, 或先建不带这个外键的 OwnedGames, 再用 <code class="lc">ALTER TABLE OwnedGames ADD FOREIGN KEY (ReviewID) REFERENCES Review(ReviewID) ON DELETE SET NULL</code> 补上. ③ 德语笔误: 「zum erstellen」应为 zum Erstellen; 「Ein string」中的名词应大写 String; 「Darf nicht negative sein」「Muss nicht negative sein」「Muss nicht-negative sein」应为 nicht negativ; 「relative zur Unix Epoche」应为 relativ zur Unix-Epoche; 「i.e.」是英语缩写, 德语写 d. h.; 「des Game Tuples」「der entsprechenden OwnedGames Tupels」「des Users Tuples」应为 des Game-Tupels、der entsprechenden OwnedGames-Tupel、des <span class="nb">User-Tupels.</span></p>
+</div>
+</article>
+
+<!-- ===== B2-2 ===== -->
+<article id="b2-2">
+<h3>题 2-2: SQL-DML 与 DDL<br><span class="de-title"><span class="seg">Aufgabe 2-2 ·</span> <span class="seg">SQL DML und DDL</span></span></h3>
+<div class="card de">
+  <span class="folie">Übungsblatt 2 · Aufgabe 2-2</span>
+  <p>Ferner existieren die folgenden zwei <span class="nb">Tabellen:</span></p>
+  <ul>
+    <li>CompatibilityType mit den Attributen:
+      <ul>
+        <li>CompatTypeID - Eine ganze Zahl. <span class="nb">Primärschlüssel.</span></li>
+        <li>CompatName - Ein string mit maximaler Länge 17. <span class="nb">Nicht null.</span></li>
+      </ul></li>
+    <li>GameCompat mit den Attributen:
+      <ul>
+        <li>GameID - Eine ganze Zahl. Fremdschlüssel aus der Game <span class="nb">Tabelle.</span></li>
+        <li>CompatTypeID - Eine ganze Zahl. Fremdschlüssel aus der CompatibilityType <span class="nb">Tabelle.</span></li>
+        <li>CompatSince - Ein Datum. <span class="nb">Not null.</span></li>
+      </ul></li>
+  </ul>
+  <p>Die aktuelle Ausprägung der Tabelle CompatibilityType ist wie <span class="nb">folgt:</span></p>
+  <div class="tablewrap"><table>
+    <tr><th>CompatTypeId</th><th>CompatName</th></tr>
+    <tr><td>0</td><td>Native-Windows</td></tr>
+    <tr><td>1</td><td class="wide">Native-Linux-Generic-x86</td></tr>
+    <tr><td>2</td><td class="wide">Proton-Linux-Generic-x86</td></tr>
+  </table></div>
+  <ol type="a">
+    <li>Formulieren Sie eine SQL-DML Anfrage, die der Tabelle CompatibilityType Tupel mit den CompatName-werten Vapor-Deck und Gabe-Cube <span class="nb">hinzufügt.</span></li>
+  </ol>
+  <p>Ihnen ist im Nachhinein aufgefallen das die Werte Vapor-Deck-Linux-SteamOS-x86 und Gabe-Cube-Linux-SteamOS-ARM sinnvoller gewesen <span class="nb">wären.</span></p>
+  <ol type="a" start="2">
+    <li>Geben Sie eine SQL Anfrage an, die die Tabellendefinition von CompatibilityType hinreichend ändert, sodass die neuen Werte für CompatName verwendet werden <span class="nb">können.</span></li>
+    <li>Geben Sie eine SQL Anfrage an, die die in (a) hinzugefügten Tupel wieder <span class="nb">entfernt.</span></li>
+  </ol>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 另外还有两张表: CompatibilityType (CompatTypeID 整数, 主键; CompatName 字符串, 最长 17, 非空) 和 GameCompat (GameID 整数, 引用 Game 的外键; CompatTypeID 整数, 引用 CompatibilityType 的外键; CompatSince 日期, 非空). CompatibilityType 当前的内容见表. a) 写一条 SQL-DML 语句, 往 CompatibilityType 里加入 CompatName 为 Vapor-Deck 和 Gabe-Cube 的两行. 事后你发现 Vapor-Deck-Linux-SteamOS-x86 和 Gabe-Cube-Linux-SteamOS-ARM 这两个值更合适. b) 写一条 SQL 语句, 修改 CompatibilityType 的表定义, 使这两个新值能够使用. c) 写一条 SQL 语句, <span class="nb">删除 a) 中加入的两行.</span></p>
+  <p><b>思路:</b> a) 是 INSERT, 主键没有默认值, 两行的 CompatTypeID 要自己给. b) 先数新值有多少个字符, 和现在的上限 17 比较, 再用 ALTER TABLE 改这一列的类型 (课件 DBS 02 · Folie 32). c) 是 DELETE, 用一个能准确选中这两行的条件; 想想如果 GameCompat 里已经有行引用了它们, <span class="nb">会发生什么.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p><b>a)</b> 现有的 ID 是 0 到 2, <span class="nb">新行取 3 和 4:</span></p>
+<pre data-lang="sql">INSERT INTO CompatibilityType (CompatTypeID, CompatName)
+VALUES (3, 'Vapor-Deck'), (4, 'Gabe-Cube');</pre>
+  <p><b>b)</b> 两个新值分别是 28 和 27 个字符, 超过了 17, 所以把这一列放宽到至少 <span class="nb">28:</span></p>
+<pre data-lang="sql">ALTER TABLE CompatibilityType ALTER COLUMN CompatName TYPE VARCHAR(28);</pre>
+  <p>标准 SQL 的写法是 <code class="lc">ALTER COLUMN CompatName SET DATA TYPE VARCHAR(28)</code>, PostgreSQL 两种都接受; 课件 Folie 32 的 <code>MODIFY</code> 是 Oracle 的写法, 在 PostgreSQL 里报语法错误. 实测 PostgreSQL: 改之前 <code class="lc">UPDATE CompatibilityType SET CompatName = 'Vapor-Deck-Linux-SteamOS-x86' WHERE CompatTypeID = 3</code> 报 <code class="lc">value too long for type character varying(17)</code>; 改之后同一条 UPDATE 成功. 题目只要求改表定义; 真要换成新名字, 再对 3 和 4 各执行一次这样的 <span class="nb">UPDATE.</span></p>
+  <p><b>c)</b> 按主键删:</p>
+<pre data-lang="sql">DELETE FROM CompatibilityType WHERE CompatTypeID IN (3, 4);</pre>
+  <p>按主键删最稳. 写成 <code class="lc">WHERE CompatName IN ('Vapor-Deck', 'Gabe-Cube')</code> 也对, 但如果之前已经用 UPDATE 改了名, 这个条件就选不中任何行了. 如果 GameCompat 里已经有行引用 3 或 4, DELETE 会被外键拒绝 (实测 PostgreSQL 和 DuckDB 都报错, 因为 GameCompat 的外键没写 ON DELETE CASCADE), 要先删 GameCompat <span class="nb">里的那些行.</span></p>
+  <p><b>易错:</b> ① DELETE 删行, 表还在; DROP TABLE 连表一起删, 这里不能用. ② a) 不能省略 CompatTypeID: 它是主键, 没有自增, 省略就是 NULL, 违反主键约束. ③ b) 只改长度就够了, <span class="nb">不需要先删表再重建.</span></p>
+</details>
+<div class="add">
+  <p><b>DuckDB 的不同</b> (实测 2.0): ① DuckDB <b>不检查</b> VARCHAR(n) 的长度, 28 个字符的值直接就能写进 VARCHAR(17), 所以 b) 在 DuckDB 里其实是多余的. ② GameCompat 引用 CompatibilityType 时, DuckDB 不允许修改被引用表的列类型, b) 报 <code class="lc">Dependency Error: Cannot alter entry "CompatibilityType" because there are entries that depend on it</code>.</p>
+</div>
+<div class="warn">
+  <p><b>原文漏洞与笔误:</b> ① 表定义说 CompatName 最长 17 个字符, 但「当前内容」里的 Native-Linux-Generic-x86 和 Proton-Linux-Generic-x86 都是 24 个字符, 在检查长度的系统里根本存不进去 (实测 PostgreSQL: <code class="lc">value too long for type character varying(17)</code>). 按 b) 放宽到 VARCHAR(28) 后, 这两个旧值也就合法了. ② GameCompat 的「CompatSince … Not null」是英语, 别处都写 Nicht null; 表头 CompatTypeId 和属性名 CompatTypeID 大小写不一致 (SQL 不区分大小写, 不影响答案). ③ 「aufgefallen das」应为 aufgefallen, dass; 「CompatName-werten」应为 <span class="nb">CompatName-Werten.</span></p>
+</div>
+</article>
+
+</section>
+
 
 </main>
 <script id="glass-js">
