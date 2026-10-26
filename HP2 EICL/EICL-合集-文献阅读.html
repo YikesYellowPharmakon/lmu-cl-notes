@@ -154,6 +154,11 @@
   .src-fig { margin: 10px 0 6px; background: #fff; border-radius: 8px; padding: 8px; }
   .src-fig img { display: block; max-width: 100%; max-height: 360px; width: auto; height: auto; margin: 0 auto; }
   .src-fig figcaption { margin-top: 6px; font: 12px/1.4 "ZH Latin", "PingFang SC", sans-serif; color: #555; text-align: center; }
+  /* ===== 练习单统一样式: 答案模块 (和各课练习单合集相同) ===== */
+  details.answer { background: var(--card, var(--paper)); border: 1px solid var(--line); border-left: 3px solid var(--accent, var(--mint)); border-radius: 0 10px 10px 0; padding: 8px 14px; margin: 8px 0 4px; font-family: "ZH Latin", "PingFang SC", "Songti SC", sans-serif; font-size: 15px; }
+  details.answer > summary { cursor: pointer; font-weight: 600; color: var(--accent, var(--mint)); }
+  details.answer[open] > summary { margin-bottom: 8px; }
+  details.answer p { margin: 0 0 8px; }
   /* ===== 排版统一层 v9（所有笔记共用；只管字体、尺寸、间距、对齐，不改颜色 token） ===== */
   /* 苹方缺的拉丁字形: ① 苹方的连字符「-」特别宽 (16px 时 9.95px, 比字母 a 还宽), 中文讲解里看起来像破折号 (un-、-lich、Im- und Export);
      ② 苹方根本没有带变音符号的拉丁字母 (ä ö ü ß é ç …) 和「„」, 浏览器只能借字体栈里下一个字体, ä 变细变小、Ü 甚至变成宋体.
@@ -1135,7 +1140,7 @@
 <main class="wrap">
 
 <div class="zh">
-  <p><b>读法说明. </b>带边框的卡片是文献的<b>原文摘录</b> (英语或德语) (关键句子、定义、例句), 左上角标的是<b>书上印的页码</b>. 淡色底的框是<b>中文讲解</b>, 虚线框是文献之外的<b>补充</b>, 红框标出原文的错误或前后不一致. 这份合集按文献分节; 以后有新的阅读材料, <span class="nb">按同样格式续写在后面.</span> </p>
+  <p><b>读法说明. </b>带边框的卡片是文献的<b>原文摘录</b> (英语或德语) (关键句子、定义、例句), 左上角标的是<b>书上印的页码</b>. 淡色底的框是<b>中文讲解</b>, 虚线框是文献之外的<b>补充</b>, 红框标出原文的错误或前后不一致. 书后练习题的参考答案放在标着「答案 (先自己做再看)」的折叠框里, 建议先自己做, 再点开对照. 这份合集按文献分节; 以后有新的阅读材料, <span class="nb">按同样格式续写在后面.</span> </p>
 </div>
 
 <!-- ======================= ÜBERSICHT ======================= -->
@@ -2106,7 +2111,7 @@ print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YO
   <span class="folie">S. 123 · Aufgabe I</span>
   <p>a) Charakterisieren Sie die Unterschiede von Phonem und Morphem.<br>b) In welchen der folgenden Wörter hat die Einheit <i>-en</i> Morphemcharakter und in welchen hat sie nur Phonemcharakter?<br><i>Rasen – Leben – leben – Uhren – Weiden – weiden – Melonen – arbeiten – Betten – betten</i></p>
 </div>
-<details><summary>答案</summary>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
   <p>a) 音位是音系学的最小单位, 只<b>区别</b>意义, 本身不是符号; 语素是形态学的最小单位, <b>承载</b>意义, 是最小的语言符号 (见 2.<span class="nb">1 的表).</span> </p>
   <div class="tablewrap"><table>
     <tr><th>词</th><th>-en 的身份</th><th>理由</th></tr>
@@ -2128,7 +2133,7 @@ print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YO
   <span class="folie">S. 123 · Aufgabe II</span>
   <p>a) Nennen Sie die drei Typen der Flexion?<br>b) Ordnen Sie die folgenden Wörter einem der drei Flexionstypen zu:<br><i>(die) Fahrt – lieber – (du) gehst – (die) Gänge – härter – (ich) fahre – hart – (wir) gehen – (am) härtesten – (des) Hauses – (sie) lieben – (die) Liebe – (am) liebsten – (den) Büchern – (er) schwimmt</i></p>
 </div>
-<details><summary>答案</summary>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
   <p>a) Deklination 变格、Konjugation 变位、Komparation <span class="nb">比较.</span> </p>
   <div class="tablewrap"><table>
     <tr><th class="wide">Deklination (名词) </th><th class="wide">Konjugation (动词) </th><th class="wide">Komparation (形容词/副词) </th></tr>
@@ -2147,7 +2152,7 @@ print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YO
   <span class="folie">S. 123 · Aufgabe III</span>
   <p>a) Welches sind die beiden Haupttypen der Wortbildung?<br>b) Ordnen Sie die folgenden Wörter einem dieser beiden Wortbildungstypen zu:<br><i>Feldmaus – Mäuschen – Beschuldigung – Schuldner – Burgmauer – häuslich – Landhaus – Gehäuse – Kerngehäuse</i></p>
 </div>
-<details><summary>答案</summary>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
   <p>a) Komposition 复合、Derivation <span class="nb">派生.</span> </p>
   <div class="tablewrap"><table>
     <tr><th>Komposition</th><th>Derivation</th></tr>
@@ -2160,7 +2165,7 @@ print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YO
   <span class="folie">S. 123–124 · Aufgabe IV</span>
   <p>a) Charakterisieren Sie den Unterschied zwischen lexikalischen Wörtern (Inhaltswörtern) und grammatischen Wörtern (Funktionswörtern).<br>b) Ordnen Sie die folgenden Wörter der Klasse lexikalischer oder grammatischer Wörter zu:<br><i>ich - Sinn - laufen - dass - das - rund - Arm - wegen - schmecken - morgens - Hund - später - grün - dessen</i></p>
 </div>
-<details><summary>答案</summary>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
   <p>a) 实词有独立的意义, 指称现实世界的事物、事件、性质, 构成<b>开放类</b> (名词、动词、形容词、副词); 虚词意义依附于别的成分, 主要表达成分之间的关系, 构成<b>封闭类</b> (代词、连词、介词、<span class="nb">限定词).</span> </p>
   <div class="tablewrap"><table>
     <tr><th class="wide">lexikalisch (实词) </th><th class="wide">grammatisch (虚词) </th></tr>
@@ -2173,7 +2178,7 @@ print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YO
   <span class="folie">S. 124 · Aufgabe V</span>
   <p>Zerlegen Sie die folgenden Wörter in ihre bedeutungstragenden Bestandteile (wenn möglich) und geben Sie für diese und die davor stehenden Artikel, Pronomen usw. an, ob sie freien oder gebundenen und ob sie lexikalischen oder grammatischen Morphemen zuzuordnen sind:<br><i>(die) Behausung - (sie) gehen - (fast) unbeschreiblich - (in)(der) Beratung - (sehr) sandig - (der) Besenstiel - (von) Autos - (recht)grünlich - (auf) Kisten - (die) Himbeere</i></p>
 </div>
-<details><summary>答案</summary>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
   <p>缩写: F = frei 自由, G = gebunden 黏着, lex = lexikalisch 词汇, gr = grammatisch 语法. 分类按本书图 9、10 的处理 (动词词干黏着, <span class="nb">派生词缀算语法语素).</span> </p>
   <div class="tablewrap"><table>
     <tr><th>词组</th><th>切分</th></tr>
@@ -2204,7 +2209,7 @@ print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YO
     <tr><td>g) <i>petatwewe</i></td><td>= große Matte</td><td>n) <i>koyamemeh</i></td><td>= Schweine</td></tr>
   </table></div>
 </div>
-<details><summary>答案</summary>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
   <p><b>第 1 步: 找最小对比对</b> (形式差一段, <span class="nb">意义差一项):</span> </p>
   <ul>
     <li>a : b : c (ikal-<b>wewe</b> / -<b>sosol</b> / -<b>cin</b>) 只差最后一段, 意义只差「大 / 老 / 小」→ wewe = groß, sosol = alt, <span class="nb">cin = klein.</span> </li>
@@ -2831,7 +2836,7 @@ print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YO
   <span class="folie">S. 147 · Aufgabe I</span>
   <p>a) Charakterisieren Sie den Unterschied zwischen präskriptiver und deskriptiver Grammatik.<br>b) Charakterisieren Sie den Unterschied zwischen traditioneller und formaler Grammatik.</p>
 </div>
-<details><summary>答案</summary>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
   <p>a) <b>präskriptiv 规定性</b>语法是一套<b>规范</b>, 告诉人怎样「正确」使用标准语 (如学校语法、Duden 的规范部分: 「wegen 要接属格」); <b>deskriptiv 描写性</b>语法<b>发现并描述</b>语言实际的规律, 包括口语和方言 (也记录「wegen dem Regen」这类与格用法). 现代语言学是描写性的 <span class="nb">(Lyons).</span> </p>
   <p>b) <b>traditionell 传统语法</b>用基于<b>内容</b>、凭直觉的定义 (名词 = 事物的名称, 动词 = 活动, 形容词 = 状态); <b>formal 形式语法</b>追求形式化: 用规则 (如逻辑演算) 描述, 而且单位的类别和关系要通过<b>形式上定义的操作</b> (分布、替换测试) 得出. 例: 传统语法很难说明 <i>Freiheit</i> 为什么是名词 (它不是「事物」); 形式语法说: 它能带冠词、按格变化、<span class="nb">出现在 NP 的中心位置.</span> </p>
 </details>
@@ -2840,7 +2845,7 @@ print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YO
   <span class="folie">S. 147 · Aufgabe II</span>
   <p>a) Beschreiben Sie die beiden Arten syntaktischer Relationen hinsichtlich ihrer Eigenschaften, sprachliche Einheiten zu strukturieren.<br>b) Erläutern Sie den Begriff und die Funktion der Distribution.</p>
 </div>
-<details><summary>答案</summary>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
   <p>a) <b>syntagmatisch 组合 (水平) 关系</b>: 句子里<b>前后相接</b>的单位之间的关系, 决定单位怎样组合成更大的结构; 句法<b>功能</b> (主语、宾语) 由它定义. 三种: 成分 (支配)、一致、依存. <b>paradigmatisch 聚合 (垂直) 关系</b>: 能在<b>同一位置互相替换</b>的单位之间的关系, 把单位归成<b>类</b>; 句法<b>范畴</b> (N, NP, V, VP) 由它定义. 例: <i>Ein Hai jagt den Taucher</i> 里, Hai 和 jagt 是组合关系 (主语和动词一致); Hai、Hund、Tiger 是聚合关系 <span class="nb">(同一位置可互换).</span> </p>
   <p>b) <b>Distribution 分布</b>是一个单位在更大单位里<b>所有可能出现的环境</b>的集合. 功能: 分布分析 (先切分, 再按分布归类) 用它找出聚合类和组合结构: 分布相同 (能在同样的环境出现) 的单位属于同一类. 工具是替换测试: <i>Der Hai frisst / sieht den Taucher</i> → frisst 和 sieht <span class="nb">同类.</span> </p>
 </details>
@@ -2849,7 +2854,7 @@ print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YO
   <span class="folie">S. 147 · Aufgabe III</span>
   <p>a) Zerlegen Sie die folgenden Sätze in ihre unmittelbaren Konstituenten.<br><i>Der Tag endet.</i><br><i>Ein Schauspieler betritt die Bühne.</i><br><i>Sie machen ein Picknick auf der Wiese.</i><br><i>Wir gehen zum Konzert auf dem Rathausplatz.</i><br>b) Bezeichnen Sie die ermittelten Konstituenten mit den entsprechenden Kategoriensymbolen.<br>c) Stellen Sie die Sätze in Form von einfachen Strukturbäumen dar (ohne X-bar Ebenen).</p>
 </div>
-<details><summary>答案</summary>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
   <p>a)–c) 一起回答. 每句先切成主语 NP 和 VP, <span class="nb">再往下切:</span> </p>
   <ul>
     <li>[<sub>S</sub> [<sub>NP</sub> [<sub>DET</sub> Der] [<sub>N</sub> Tag]] [<sub>VP</sub> [<sub>V</sub> <span class="nb">endet]]]</span> </li>
@@ -2870,7 +2875,7 @@ print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YO
   <span class="folie">S. 147 · Aufgabe IV</span>
   <p>a) Was fällt Ihnen an den folgenden Sätzen auf?<br><i>Er sieht den Mann mit dem Fernrohr.</i><br><i>Er kennt den Mann mit dem Fernrohr.</i><br>b) Entwickeln Sie die Strukturbäume, die diese Sätze korrekt repräsentieren.</p>
 </div>
-<details><summary>答案</summary>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
   <p>a) 两句表层结构完全相同, 但第一句<b>有歧义</b>, <span class="nb">第二句没有:</span> </p>
   <ul>
     <li><i>Er sieht den Mann mit dem Fernrohr</i>: ① 他<b>用</b>望远镜看那个人 (mit dem Fernrohr 是工具, 修饰 sieht); ② 他看见那个<b>拿着</b>望远镜的人 (mit dem Fernrohr 是 Mann <span class="nb">的定语).</span> </li>
@@ -2890,7 +2895,7 @@ print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YO
   <span class="folie">S. 147 · Aufgabe V</span>
   <p>a) Zeichnen Sie die Strukturbäume der folgenden Sätze (mit X-bar Ebenen).<br><i>Ein Mann parkt seinen Wagen vor der Einfahrt.</i><br><i>Sie fährt zur Arbeit nach Dortmund.</i><br><i>Wir hoffen, das Wetter wird besser.</i><br><i>Ich glaube, dass es Regen gibt.</i><br>b) Notieren Sie die PS-Regeln, die zur Bildung dieser Sätze verwendet wurden und bilden Sie neue Sätze mit Hilfe dieser Regeln.</p>
 </div>
-<details><summary>答案</summary>
+<details class="answer"><summary>答案 (先自己做再看) </summary>
   <p>a) 按 Abb. 8–10 的三层 (X, X', XP); 和 Abb. 10 一样, 没有更多分支的 P' 层省略, P 直接连到 PP. 补足语放在 X' 里, 说明语 (状语) 挂在 VP <span class="nb">这一层:</span> </p>
   <ul>
     <li>[<sub>S</sub> [<sub>NP</sub> [<sub>DET</sub> Ein] [<sub>N'</sub> [<sub>N</sub> Mann]]] [<sub>VP</sub> [<sub>V'</sub> [<sub>V</sub> parkt] [<sub>NP</sub> [<sub>DET</sub> seinen] [<sub>N'</sub> [<sub>N</sub> Wagen]]]] [<sub>PP</sub> [<sub>P</sub> vor] [<sub>NP</sub> [<sub>DET</sub> der] [<sub>N'</sub> [<sub>N</sub> <span class="nb">Einfahrt]]]]]]</span> </li>
