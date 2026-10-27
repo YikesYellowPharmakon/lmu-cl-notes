@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1109,6 +1106,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 12.1; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #e481b9 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #ef97c7; --syn-f: #fecdc8; --syn-s: #a1cd8c; --syn-n: #b8c3fe; --syn-b: #bf9ebf; --syn-c: #98868f; --syn-p: #98868f; }
+  html[data-mode="day"] { --syn-k: #9c3775; --syn-f: #752724; --syn-s: #3e731d; --syn-n: #5159ac; --syn-b: #674567; --syn-c: #76626d; --syn-p: #76626d; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1173,13 +1176,13 @@
 <div class="card de">
   <span class="folie">Aufgabenblatt 1 · Aufgabe 2</span>
   <p><b>Geben Sie in folgender Codezelle zu Ihrer Analyse des Satzes aus der vorherigen Aufgabe den entsprechenden Klammerausdruck an und generieren Sie anschließend den entsprechenden Syntaxbaum, indem Sie die Codezelle ausführen.</b></p>
-<pre>from nltk import Tree
+<pre data-lang="python"><span class="tk-k">from </span>nltk <span class="tk-k">import </span>Tree
 
-tree = Tree.fromstring("""
+tree = Tree.fromstring(<span class="tk-s">"""
 ...
-""")
+"""</span>)
 
-tree.pretty_print(unicodelines=True)</pre>
+tree.pretty_print(unicodelines=<span class="tk-n">True</span>)</pre>
 </div>
 <div class="zh">
   <p><b>翻译:</b> 在下面的代码单元格里, 为你在上一题中对句子的分析写出对应的括号表达式, 然后运行这个单元格, <span class="nb">生成对应的句法树.</span></p>
@@ -1187,7 +1190,7 @@ tree.pretty_print(unicodelines=True)</pre>
 </div>
 <details class="answer"><summary>答案 (先自己做再看)</summary>
   <p>参考答案里的括号式没有写标签, 词组用下划线连<span class="nb">成一个词:</span></p>
-<pre>tree = Tree.fromstring("""
+<pre data-lang="python">tree = Tree.fromstring(<span class="tk-s">"""
 (
     (
         (
@@ -1208,11 +1211,11 @@ tree.pretty_print(unicodelines=True)</pre>
         )
     )
 )
-""")
+"""</span>)
 
-tree.pretty_print(unicodelines=True)</pre>
+tree.pretty_print(unicodelines=<span class="tk-n">True</span>)</pre>
   <p>实际运行输出:</p>
-<pre>           ┌─────────────────┴────────────┐
+<pre data-lang="text">           ┌─────────────────┴────────────┐
            │
            │                 ┌────────────┴──────┐
            │                 │
@@ -1226,9 +1229,9 @@ Die_Kunst     des_Ausruhens ist ein_Teil     der_Kunst     des_Arbeitens
    ...             ...      ...   ...           ...             ...</pre>
   <p><b>为什么叶子下面有「...」:</b> 在 NLTK 的括号式里, 左括号后面的第一个词是<b>标签</b>. <code>(Die_Kunst)</code> 因此是一个标签为 Die_Kunst、<b>没有子节点</b>的节点 (我在 Python 里检查过: <code class="lc">Tree('Die_Kunst', [])</code>); pretty_print 用「...」表示空的子节点列表. 而 <code>(ist)</code> 外层那些没写标签的括号, 标签是空字符串, 所以图里上层节点没有名字. 这份答案的层级是对的, <span class="nb">只是画法不规范.</span></p>
   <p><b>规范的写法</b> (带范畴标签, 词作叶子), <span class="nb">与方框图的切分一致:</span></p>
-<pre>t = Tree.fromstring("(S (NP (NP Die Kunst) (NP des Ausruhens)) (VP (V ist) (NP (NP ein Teil) (NP (NP der Kunst) (NP des Arbeitens)))))")
-t.pretty_print(unicodelines=True)</pre>
-<pre>                              S
+<pre data-lang="python">t = Tree.fromstring(<span class="tk-s">"(S (NP (NP Die Kunst) (NP des Ausruhens)) (VP (V ist) (NP (NP ein Teil) (NP (NP der Kunst) (NP des Arbeitens)))))"</span>)
+t.pretty_print(unicodelines=<span class="tk-n">True</span>)</pre>
+<pre data-lang="text">                              S
                ┌──────────────┴──────────┐
                │                         VP
                │                     ┌───┴────────────┐
@@ -1250,12 +1253,12 @@ Die     Kunst     des     Ausruhens ist ein     Teil der     Kunst     des     A
   <span class="folie">Aufgabenblatt 1 · Aufgabe 3 (a)</span>
   <p><b>(a) Permutationstest</b></p>
   <p><b>Gegeben sei folgender Satz sowie die Resulte der systematischen Permutationen seiner Worttokens:</b></p>
-<pre>sentence = "der Postbote schrieb gestern"
+<pre data-lang="python">sentence = <span class="tk-s">"der Postbote schrieb gestern"
 
-permutations = list(itertools.permutations(sentence.split()))
-for (i, item) in enumerate(permutations):
-    print(i, item)</pre>
-<pre>0 ('der', 'Postbote', 'schrieb', 'gestern')
+</span>permutations = <span class="tk-b">list</span>(itertools.permutations(sentence.split()))
+<span class="tk-k">for </span>(i, item) <span class="tk-k">in </span><span class="tk-b">enumerate</span>(permutations):
+    <span class="tk-b">print</span>(i, item)</pre>
+<pre data-lang="text">0 ('der', 'Postbote', 'schrieb', 'gestern')
 1 ('der', 'Postbote', 'gestern', 'schrieb')
 2 ('der', 'schrieb', 'Postbote', 'gestern')
 3 ('der', 'schrieb', 'gestern', 'Postbote')
@@ -1287,8 +1290,8 @@ for (i, item) in enumerate(permutations):
 </div>
 <details class="answer"><summary>答案 (先自己做再看)</summary>
   <p>参考答案给出的合格排列 (另加原句 <span class="nb">0):</span></p>
-<pre>permutations[22], permutations[12], permutations[16]</pre>
-<pre>(('gestern', 'schrieb', 'der', 'Postbote'),
+<pre data-lang="text">permutations[22], permutations[12], permutations[16]</pre>
+<pre data-lang="text">(('gestern', 'schrieb', 'der', 'Postbote'),
  ('schrieb', 'der', 'Postbote', 'gestern'),
  ('schrieb', 'gestern', 'der', 'Postbote'))</pre>
   <ul>
@@ -1305,14 +1308,14 @@ for (i, item) in enumerate(permutations):
   <span class="folie">Aufgabenblatt 1 · Aufgabe 3 (b)</span>
   <p><b>(b) Eliminierungtest</b></p>
   <p><b>Gegeben sei folgender Satz sowie die Resultate der systematischen Elimierung je eines Worttokens:</b></p>
-<pre>sentence = "der Postbote schrieb gestern einen Brief"
+<pre data-lang="python">sentence = <span class="tk-s">"der Postbote schrieb gestern einen Brief"
 
-sentencelist = []
-for i in range(len((sentence.split()))):
+</span>sentencelist = []
+<span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-b">len</span>((sentence.split()))):
     sentencelist.append(sentence.split().copy())
     sentencelist[i].pop(i)
-    print(i, sentencelist[i])</pre>
-<pre>0 ['Postbote', 'schrieb', 'gestern', 'einen', 'Brief']
+    <span class="tk-b">print</span>(i, sentencelist[i])</pre>
+<pre data-lang="text">0 ['Postbote', 'schrieb', 'gestern', 'einen', 'Brief']
 1 ['der', 'schrieb', 'gestern', 'einen', 'Brief']
 2 ['der', 'Postbote', 'gestern', 'einen', 'Brief']
 3 ['der', 'Postbote', 'schrieb', 'einen', 'Brief']
@@ -1325,8 +1328,8 @@ for i in range(len((sentence.split()))):
   <p><b>思路:</b> 6 个结果里只看哪一个仍是完整的德语句子. 删除测试只能找出可以省略的成分 (SNS 01, <span class="nb">Folie 20–21).</span></p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看)</summary>
-<pre>sentencelist[3]</pre>
-<pre>['der', 'Postbote', 'schrieb', 'einen', 'Brief']</pre>
+<pre data-lang="text">sentencelist[3]</pre>
+<pre data-lang="text">['der', 'Postbote', 'schrieb', 'einen', 'Brief']</pre>
   <p>只有删掉 gestern 的第 3 个结果合格: 「Der Postbote schrieb einen Brief」. 由此确定 <b>gestern</b> 是一个成分, 而且是可省略的 (附加语, <span class="nb">时间状语).</span></p>
   <p>其他几个为什么不行: 0 和 4 删掉了冠词, 留下的光杆单数名词 (Postbote, Brief) 在德语里不能这样用; 1 删掉了主语名词, 只剩冠词; 2 删掉了限定动词; 5 删掉了名词, 冠词 einen <span class="nb">没有着落.</span></p>
   <p><b>易错:</b> 这里每次只删<b>一个词</b>, 所以测不出多词成分. 把「einen Brief」两个词一起删掉 (Der Postbote schrieb gestern) 也是合格的, 说明 einen Brief 也可省略 (schreiben 的宾语是可选补足语, 见 SNS 01 <span class="nb">Folie 30).</span></p>
@@ -1340,7 +1343,7 @@ for i in range(len((sentence.split()))):
   <span class="folie">Aufgabenblatt 1 · Aufgabe 4</span>
   <p><b>Verwenden Sie die folgenden Tests, um notwendige von nicht-notwendigen Satzgliedern zu unterscheiden.</b></p>
   <p><b>(a) <i>geschehens</i>-Test</b> &nbsp; <b>(b) Adverbialsatz-Test</b> &nbsp; <span class="nb"><b>(c) Eliminierungstest</b></span></p>
-<pre>sentence = ["der Kater", "frisst", "in der Nacht", "die Maus", "auf dem Dachboden"]</pre>
+<pre data-lang="python">sentence = [<span class="tk-s">"der Kater"</span>, <span class="tk-s">"frisst"</span>, <span class="tk-s">"in der Nacht"</span>, <span class="tk-s">"die Maus"</span>, <span class="tk-s">"auf dem Dachboden"</span>]</pre>
 </div>
 <div class="zh">
   <p><b>翻译:</b> 用下面三个测试区分必需的和非必需的句子成分: (a) geschehen 测试; (b) 状语从句测试; (c) 删除测试. 句子: 「der Kater frisst in der Nacht die Maus auf dem Dachboden」(公猫夜里在阁楼<span class="nb">上吃老鼠).</span></p>
@@ -1348,33 +1351,33 @@ for i in range(len((sentence.split()))):
 </div>
 <details class="answer"><summary>答案 (先自己做再看)</summary>
   <p><b>(a) geschehen 测试</b> (注释: 「Test funktioniert (-&gt; <span class="nb">Adjunkte)」):</span></p>
-<pre>test = sentence.pop(2)
-print(*sentence, ", und das geschieht ", "&lt;", test,  "&gt;")
+<pre data-lang="python">test = sentence.pop(<span class="tk-n">2</span>)
+<span class="tk-b">print</span>(*sentence, <span class="tk-s">", und das geschieht "</span>, <span class="tk-s">"&lt;"</span>, test,  <span class="tk-s">"&gt;"</span>)
 
-test = sentence.pop(3)
-print(*sentence, ", und das geschieht ", "&lt;", test,  "&gt;")</pre>
-<pre>der Kater frisst die Maus auf dem Dachboden , und das geschieht  &lt; in der Nacht &gt;
+test = sentence.pop(<span class="tk-n">3</span>)
+<span class="tk-b">print</span>(*sentence, <span class="tk-s">", und das geschieht "</span>, <span class="tk-s">"&lt;"</span>, test,  <span class="tk-s">"&gt;"</span>)</pre>
+<pre data-lang="text">der Kater frisst die Maus auf dem Dachboden , und das geschieht  &lt; in der Nacht &gt;
 der Kater frisst die Maus , und das geschieht  &lt; auf dem Dachboden &gt;</pre>
   <p>两句都合语法 → in der Nacht 和 auf dem Dachboden 都是附加语. (第二次 pop(3): 第一次 pop 之后列表只剩 4 项, 下标 3 正好是 auf dem <span class="nb">Dachboden.)</span></p>
   <p><b>(b) 状语从句测试:</b></p>
-<pre>test = sentence.pop(4)
-print(*sentence, ", als er ", "&lt;", test,  "&gt;", " war")</pre>
-<pre>der Kater frisst in der Nacht die Maus , als er  &lt; auf dem Dachboden &gt;  war</pre>
+<pre data-lang="python">test = sentence.pop(<span class="tk-n">4</span>)
+<span class="tk-b">print</span>(*sentence, <span class="tk-s">", als er "</span>, <span class="tk-s">"&lt;"</span>, test,  <span class="tk-s">"&gt;"</span>, <span class="tk-s">" war"</span>)</pre>
+<pre data-lang="text">der Kater frisst in der Nacht die Maus , als er  &lt; auf dem Dachboden &gt;  war</pre>
   <p>合语法 → auf dem Dachboden 是附加语. 对时间状语 (注释: 「Test funktioniert nicht bei temporalen <span class="nb">Adjunkten!」):</span></p>
-<pre>test = sentence.pop(2)
-print("*",*sentence, ", als er ", "&lt;", test,  "&gt;", " war")</pre>
-<pre>* der Kater frisst die Maus auf dem Dachboden , als er  &lt; in der Nacht &gt;  war</pre>
+<pre data-lang="python">test = sentence.pop(<span class="tk-n">2</span>)
+<span class="tk-b">print</span>(<span class="tk-s">"*"</span>,*sentence, <span class="tk-s">", als er "</span>, <span class="tk-s">"&lt;"</span>, test,  <span class="tk-s">"&gt;"</span>, <span class="tk-s">" war"</span>)</pre>
+<pre data-lang="text">* der Kater frisst die Maus auf dem Dachboden , als er  &lt; in der Nacht &gt;  war</pre>
   <p>不合语法, 但 in der Nacht 其实是附加语 —— 这正是 Folie 28 <span class="nb">说的例外.</span></p>
   <p><b>(c) 删除测试</b> (注释: 「Test funktioniert (-&gt; Adjunkt bzw. optionales <span class="nb">Komplement)」):</span></p>
-<pre>test = sentence.pop(2)
-print(*sentence, "&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;", test)
+<pre data-lang="python">test = sentence.pop(<span class="tk-n">2</span>)
+<span class="tk-b">print</span>(*sentence, <span class="tk-s">"&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>, test)
 
-test = sentence.pop(2)
-print(*sentence, "&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;", test)
+test = sentence.pop(<span class="tk-n">2</span>)
+<span class="tk-b">print</span>(*sentence, <span class="tk-s">"&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>, test)
 
-test = sentence.pop(2)
-print(*sentence, "&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;", test)</pre>
-<pre>der Kater frisst die Maus auf dem Dachboden &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; in der Nacht
+test = sentence.pop(<span class="tk-n">2</span>)
+<span class="tk-b">print</span>(*sentence, <span class="tk-s">"&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"</span>, test)</pre>
+<pre data-lang="text">der Kater frisst die Maus auf dem Dachboden &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; in der Nacht
 der Kater frisst auf dem Dachboden &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; die Maus
 der Kater frisst &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; auf dem Dachboden</pre>
   <p>三个成分依次删去, 句子始终合语法. in der Nacht 和 auf dem Dachboden 是附加语; die Maus 也能删 (der Kater frisst), 但它是 fressen 的宾语, 用 geschehen 测试 (*… und das geschieht die Maus) 会失败 → <span class="nb"><b>可选补足语</b>.</span></p>
@@ -1435,7 +1438,7 @@ der Kater frisst &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; auf dem Dachboden</pre>
   <p><b>思路:</b> 方框图从下往上读: 最后一行「Er | geht」是根节点的两个孩子; 「geht」那一格在上一行被拆成「kommt | daraus」, <span class="nb">依此类推.</span></p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看)</summary>
-<pre>tree = Tree.fromstring("""
+<pre data-lang="python">tree = Tree.fromstring(<span class="tk-s">"""
 (
     (Fischers_Fritz)
     (
@@ -1449,11 +1452,11 @@ der Kater frisst &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; auf dem Dachboden</pre>
         )
     )
 )
-""")
+"""</span>)
 
-tree.pretty_print(unicodelines=True)</pre>
+tree.pretty_print(unicodelines=<span class="tk-n">True</span>)</pre>
   <p>实际运行输出:</p>
-<pre>      ┌──────────────────────────┴──────────┐
+<pre data-lang="text">      ┌──────────────────────────┴──────────┐
       │
       │                ┌────────────────────┴───────┐
       │
@@ -1463,9 +1466,9 @@ Fischers_Fritz fischt     die_frischen_Fis     aus     dem_Fluss
       │          │               │              │          │
      ...        ...             ...            ...        ...</pre>
   <p>和作业单 1 一样, <code>(fischt)</code> 这类写法让每个词组成了没有子节点的节点 (所以下面有「...」); 长标签 die_frischen_Fische 被 pretty_print 折成了两行. 带范畴标签的规范写<span class="nb">法和输出:</span></p>
-<pre>t2 = Tree.fromstring("(S (NP Fischers Fritz) (VP (VP (V fischt) (NP die frischen Fische)) (PP (P aus) (NP dem Fluss))))")
-t2.pretty_print(unicodelines=True)</pre>
-<pre>                                     S
+<pre data-lang="python">t2 = Tree.fromstring(<span class="tk-s">"(S (NP Fischers Fritz) (VP (VP (V fischt) (NP die frischen Fische)) (PP (P aus) (NP dem Fluss))))"</span>)
+t2.pretty_print(unicodelines=<span class="tk-n">True</span>)</pre>
+<pre data-lang="text">                                     S
           ┌──────────────────────────┴───────┐
           │                                  VP
           │                    ┌─────────────┴─────────┐
@@ -1534,7 +1537,7 @@ Fischers     Fritz fischt die     frischen Fische aus dem     Fluss</pre>
     <tr><td class="wide">ein Buch über Fußball</td><td>16 ✓</td><td>17 ✓</td><td>18 *</td><td>✓ (NP)</td><td>✓</td><td>– (补足语)</td><td>宾语</td><td class="wide">不能删 (必需成分 = 补足语)</td></tr>
   </table></div>
   <p>表中编号对应的测试句 (&lt; &gt; 标出被替换、<span class="nb">移动或删除的位置):</span></p>
-<pre>## "Die Studierenden"
+<pre data-lang="text">## "Die Studierenden"
 # 1. ✓ am Ende des Semesters schenkten &lt;sie&gt; ihnen ein Buch über Fußball.
 # 2. ✓ &lt;die Studierenden&gt; schenkten ihnen &lt;am Ende des Semesters&gt; ein Buch über Fußball.
 # 3. * am Ende des Semesters schenkten &lt;&gt; ihnen ein Buch über Fußball.
@@ -1585,10 +1588,10 @@ Fischers     Fritz fischt die     frischen Fische aus dem     Fluss</pre>
   <p>HINWEIS: Als <b>Satzglieder</b> werden in der Germanistik die im Satz verschiebbaren (permutierbaren) Konstituenten mit zentraler syntaktischer Funktion (Subjekt, Objekt, Prädikat, Adverbial) bezeichnet, in die ein Satz unmittelbar zerlegt werden <span class="nb">kann.</span></p>
   <p><b>(a) <i>geschehens</i>-Test</b></p>
   <p><b>Gegeben sei folgender Satz, dessen drittes Satzglied den <i>geschehens</i>-Test besteht (der Satz bleibt wohlgeformt, das Satzglied ist als Adjunkt bestätigt). Es handelt sich hier bei <i>den ganzen Tag</i> um ein sog. Kasusadverbial (der Akkusativ dient im Deutschen neben der Kodierung von Objekt-Komplementen auch als obliquer Kasus zur Kodierung von Adverbialen).</b></p>
-<pre>sentence = ["er", "isst", "den ganzen Tag"]
+<pre data-lang="python">sentence = [<span class="tk-s">"er"</span>, <span class="tk-s">"isst"</span>, <span class="tk-s">"den ganzen Tag"</span>]
 
-sentence[0] + " " + sentence[1] + ", und das geschieht " + sentence[2]</pre>
-<pre>'er isst, und das geschieht den ganzen Tag'</pre>
+sentence[<span class="tk-n">0</span>] + <span class="tk-s">" " </span>+ sentence[<span class="tk-n">1</span>] + <span class="tk-s">", und das geschieht " </span>+ sentence[<span class="tk-n">2</span>]</pre>
+<pre data-lang="text">'er isst, und das geschieht den ganzen Tag'</pre>
   <p><b>Geben Sie (unter Erhalt der Wohlgeformtheit des Ausgangssatzes) ein alternatives drittes Satzglied an, so dass der <i>geschehens</i>-Test fehlschlägt.</b></p>
   <p><b>(b) Adverbialsatz-Test</b></p>
   <p><b>Funktioniert die Feststellung von <i>den ganzen Tag</i> als Adjunkt auch mit dem Adverbialsatz-Test?</b></p>
@@ -1610,32 +1613,32 @@ sentence[0] + " " + sentence[1] + ", und das geschieht " + sentence[2]</pre>
 </div>
 <details class="answer"><summary>答案 (先自己做再看)</summary>
   <p><b>(a)</b></p>
-<pre>sentence = ["er", "isst", "einen Kuchen"]
+<pre data-lang="python">sentence = [<span class="tk-s">"er"</span>, <span class="tk-s">"isst"</span>, <span class="tk-s">"einen Kuchen"</span>]
 
-sentence[0] + " " + sentence[1] + ", und das geschieht " + sentence[2]</pre>
-<pre>'er isst, und das geschieht einen Kuchen'</pre>
+sentence[<span class="tk-n">0</span>] + <span class="tk-s">" " </span>+ sentence[<span class="tk-n">1</span>] + <span class="tk-s">", und das geschieht " </span>+ sentence[<span class="tk-n">2</span>]</pre>
+<pre data-lang="text">'er isst, und das geschieht einen Kuchen'</pre>
   <p>这句不合语法 → einen Kuchen 不是附加语, 而是 essen 的 (可选) 宾语补足语. 注意 den ganzen Tag 和 einen Kuchen 都是宾格, 格相同, <span class="nb">功能不同.</span></p>
   <p><b>(b)</b></p>
-<pre>sentence = ["er", "isst", "den ganzen Tag"]
+<pre data-lang="python">sentence = [<span class="tk-s">"er"</span>, <span class="tk-s">"isst"</span>, <span class="tk-s">"den ganzen Tag"</span>]
 
-sentence[0] + " " + sentence[1] + ", als er " + sentence[2] + " war"</pre>
-<pre>'er isst, als er den ganzen Tag war'</pre>
+sentence[<span class="tk-n">0</span>] + <span class="tk-s">" " </span>+ sentence[<span class="tk-n">1</span>] + <span class="tk-s">", als er " </span>+ sentence[<span class="tk-n">2</span>] + <span class="tk-s">" war"</span></pre>
+<pre data-lang="text">'er isst, als er den ganzen Tag war'</pre>
   <p>不行: 测试是负面结果 (句子不合格). 原因: den ganzen Tag 虽然是附加语, 但状语从句测试对时间状语不适用. 提示: 句法测试原则上只能当作启发式方法 (Heuristik) 使用. 能通过的第三成分, <span class="nb">例如地点状语:</span></p>
-<pre>sentence = ["er", "isst", "in der S-Bahn"]
+<pre data-lang="python">sentence = [<span class="tk-s">"er"</span>, <span class="tk-s">"isst"</span>, <span class="tk-s">"in der S-Bahn"</span>]
 
-sentence[0] + " " + sentence[1] + ", als er " + sentence[2] + " war"</pre>
-<pre>'er isst, als er in der S-Bahn war'</pre>
+sentence[<span class="tk-n">0</span>] + <span class="tk-s">" " </span>+ sentence[<span class="tk-n">1</span>] + <span class="tk-s">", als er " </span>+ sentence[<span class="tk-n">2</span>] + <span class="tk-s">" war"</span></pre>
+<pre data-lang="text">'er isst, als er in der S-Bahn war'</pre>
   <p>结果: 句子合格 → 按这个测试, in der S-Bahn (在城铁上) <span class="nb">是附加语.</span></p>
   <p><b>(c)</b></p>
-<pre>sentence = ["er", "isst", "den ganzen Tag"]
+<pre data-lang="python">sentence = [<span class="tk-s">"er"</span>, <span class="tk-s">"isst"</span>, <span class="tk-s">"den ganzen Tag"</span>]
 
-sentence[0] + " " + sentence[1]</pre>
-<pre>'er isst'</pre>
+sentence[<span class="tk-n">0</span>] + <span class="tk-s">" " </span>+ sentence[<span class="tk-n">1</span>]</pre>
+<pre data-lang="text">'er isst'</pre>
   <p>可以: den ganzen Tag 能删而句子仍合格, 支持它是附加语. 但要注意: 可选补足语也能删, 如 er isst (einen Kuchen). 所以删除测试实际上只有在<b>失败</b>时才有用: 它能确定必有补足语. <span class="nb">换成必须带宾语的动词:</span></p>
-<pre>sentence = ["er", "bekommt", "eine Nachricht"]
+<pre data-lang="python">sentence = [<span class="tk-s">"er"</span>, <span class="tk-s">"bekommt"</span>, <span class="tk-s">"eine Nachricht"</span>]
 
-sentence[0] + " " + sentence[1]</pre>
-<pre>'er bekommt'</pre>
+sentence[<span class="tk-n">0</span>] + <span class="tk-s">" " </span>+ sentence[<span class="tk-n">1</span>]</pre>
+<pre data-lang="text">'er bekommt'</pre>
   <p>结果: *er bekommt 不合格 → eine Nachricht (一条消息) 是必有补足语 (必需的句子成分), 因为它不能在保持合格的前<span class="nb">提下省略.</span></p>
 </details>
 <div class="warn"><p><b>原文笔误:</b> 题干「dem <b>Elimierungstest</b>」应为 <span class="nb">Eliminierungstest.</span></p></div>

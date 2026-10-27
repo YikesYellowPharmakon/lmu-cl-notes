@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1107,6 +1104,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 14.1; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #e49a81 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #f99c7d; --syn-f: #f7d59f; --syn-s: #67d3cb; --syn-n: #ecb0e7; --syn-b: #ce9c9c; --syn-c: #9a8781; --syn-p: #9a8781; }
+  html[data-mode="day"] { --syn-k: #a63b0f; --syn-f: #5b3f05; --syn-s: #02736e; --syn-n: #8b4487; --syn-b: #744243; --syn-c: #79635c; --syn-p: #79635c; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1392,15 +1395,15 @@
 </div>
 <div class="add">
   <p>ELIZA 的核心可以用 EIP 学的正则表达式写出来 (示意, <span class="nb">不是原程序):</span> </p>
-<pre>import re
-def eliza(s):
-    m = re.match(r"You are (.*)\.", s)
-    if m:
-        x = m.group(1).replace("me", "YOU")
-        return f"WHAT MAKES YOU THINK I AM {x.upper()}"
-    return "PLEASE GO ON"
+<pre data-lang="python"><span class="tk-k">import </span>re
+<span class="tk-k">def </span><span class="tk-f">eliza</span>(s):
+    m = re.match(<span class="tk-s">r"You are (.*)\."</span>, s)
+    <span class="tk-k">if </span>m:
+        x = m.group(<span class="tk-n">1</span>).replace(<span class="tk-s">"me"</span>, <span class="tk-s">"YOU"</span>)
+        <span class="tk-k">return </span><span class="tk-s">f"WHAT MAKES YOU THINK I AM {</span>x.upper()<span class="tk-s">}"
+    </span><span class="tk-k">return </span><span class="tk-s">"PLEASE GO ON"
 
-print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YOU</pre>
+</span><span class="tk-b">print</span>(eliza(<span class="tk-s">"You are afraid of me."</span>))   <span class="tk-c"># WHAT MAKES YOU THINK I AM AFRAID OF YOU</span></pre>
   <p>上面的输出已在 Python 3 上运行核对. 真实的 ELIZA 规则更多 (按关键词排优先级、还有记忆), 但原理相同: 没有任何「理解」. Jurafsky &amp; Martin 第 2 章 (正则表达式) <span class="nb">会详细讲它.</span> </p>
 </div>
 
@@ -1481,7 +1484,7 @@ print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YO
 <div class="card de">
   <span class="folie">S. 1</span>
   <p>Morphology is the study of the internal structure of words.<sup>1</sup> Somewhat paradoxically, morphology is both the oldest and one of the youngest subdisciplines of grammar. It is the oldest because, as far as we know, the first linguists were primarily morphologists. The earliest extant grammatical texts are well-structured lists of morphological forms of Sumerian <span class="nb">words …</span></p>
-<pre>(1.1) badu       ‘he goes away’            ing̃en     ‘he went’
+<pre data-lang="text">(1.1) badu       ‘he goes away’            ing̃en     ‘he went’
       baduun     ‘I go away’               ing̃enen   ‘I went’
       bašidu     ‘he goes away to him’     inšig̃en   ‘he went to him’
       bašiduun   ‘I go away to him’        inšig̃enen ‘I went to him’
@@ -1571,7 +1574,7 @@ print(eliza("You are afraid of me."))   # WHAT MAKES YOU THINK I AM AFRAID OF YO
 </div>
 <div class="card de">
   <span class="folie">S. 4–5</span>
-<pre>(1.2) Yoruba
+<pre data-lang="text">(1.2) Yoruba
       Nwọn ó   maa  gbà pọ́nùn mẹ́wǎ lọ́sọ̀ọ̀sẹ̀.
       they fut prog get pound  ten   weekly
       ‘They will be getting £10 a week.’               (Rowlands 1969: 93)

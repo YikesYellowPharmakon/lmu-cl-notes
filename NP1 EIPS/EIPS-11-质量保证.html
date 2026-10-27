@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1095,6 +1092,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 8.5; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81cee4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #47caea; --syn-f: #c6dcfe; --syn-s: #d9ba70; --syn-n: #9adaa3; --syn-b: #7db7b8; --syn-c: #7c9096; --syn-p: #7c9096; }
+  html[data-mode="day"] { --syn-k: #0f6f84; --syn-f: #1a447f; --syn-s: #7b5f01; --syn-n: #1d7635; --syn-b: #105e60; --syn-c: #566d75; --syn-p: #566d75; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1227,11 +1230,11 @@
 <div class="card de">
   <span class="folie">Folie 7</span>
   <p><b>Beispiel Fehlerzustand, Fehlerwirkung und Fehlhandlung</b></p>
-<pre><code><span class="k">def</span> mittel(liste):
-  summe = 0;
-  <span class="k">for</span> eintrag <span class="k">in</span> liste:
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">mittel</span>(liste):
+  summe = <span class="tk-n">0</span>;
+  <span class="tk-k">for </span>eintrag <span class="tk-k">in </span>liste:
     summe += eintrag
-  <span class="k">return</span> summe // len(liste)</code></pre>
+  <span class="tk-k">return </span>summe // <span class="tk-b">len</span>(liste)</code></pre>
   <div class="tablewrap"><table>
     <tr><td><b>Fehlerwirkung</b></td><td class="wide">Aufruf von mittel auf [1,2] gibt 1 statt 1.5 zurück</td></tr>
     <tr><td><b>Fehlerzustand</b></td><td class="wide">Ganzzahldivision //</td></tr>
@@ -1398,14 +1401,14 @@
 <div class="card de">
   <span class="folie">Folie 18</span>
   <p><b>Beipspiel Primzahl</b></p>
-<pre><code><span class="k">def</span> ist_primzahl(n):
-    <span class="s">"""
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">ist_primzahl</span>(n):
+    <span class="tk-s">"""
     Testet ob eine Zahl eine Primzahl ist.
-    """</span>
-    <span class="k">for</span> i <span class="k">in</span> range(3, n):
-        <span class="k">if</span> n % i == 0:
-            <span class="k">return</span> False
-    <span class="k">return</span> True</code></pre>
+    """
+    </span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">3</span>, n):
+        <span class="tk-k">if </span>n % i == <span class="tk-n">0</span>:
+            <span class="tk-k">return </span><span class="tk-n">False
+    </span><span class="tk-k">return </span><span class="tk-n">True</span></code></pre>
 </div>
 <div class="zh">
   <p>一个要测试的素数函数: 试除 3 到 n−1, <span class="nb">有能整除的就不是素数.</span> </p>
@@ -1416,14 +1419,14 @@
 <div class="card de">
   <span class="folie">Folie 19</span>
   <p><b>Testfälle</b></p>
-<pre><code>print(ist_primzahl(6))   <span class="c"># Ergebnis: False</span>
+<pre data-lang="python"><code><span class="tk-b">print</span>(ist_primzahl(<span class="tk-n">6</span>))   <span class="tk-c"># Ergebnis: False
 
-print(ist_primzahl(2))   <span class="c"># Ergebnis: True</span>
+</span><span class="tk-b">print</span>(ist_primzahl(<span class="tk-n">2</span>))   <span class="tk-c"># Ergebnis: True
 
-print(ist_Primzahl(-6))  <span class="c"># Ergebnis: True</span></code></pre>
+</span><span class="tk-b">print</span>(ist_Primzahl(-<span class="tk-n">6</span>))  <span class="tk-c"># Ergebnis: True</span></code></pre>
   <p>Für negative ganze Zahlen liefert die Funktion immer True <span class="nb">zurück.</span></p>
-<pre><code>print(ist_Primzahl(0.5))
-<span class="c"># Ergebnis: range() integer end argument expected, got float.</span></code></pre>
+<pre data-lang="python"><code><span class="tk-b">print</span>(ist_Primzahl(<span class="tk-n">0.5</span>))
+<span class="tk-c"># Ergebnis: range() integer end argument expected, got float.</span></code></pre>
   <p>Ruft man die Funktionen mit Float-Zahlen auf, gibt es einen TypeError, weil range nicht für Float-Werte <span class="nb">definiert ist.</span></p>
 </div>
 <div class="zh">
@@ -1434,14 +1437,14 @@ print(ist_Primzahl(-6))  <span class="c"># Ergebnis: True</span></code></pre>
 <div class="card de">
   <span class="folie">Folie 20</span>
   <p><b>Explizite Überprüfung der Primzahl-Funktion</b></p>
-<pre><code><span class="k">if</span> ist_primzahl(3) == True <span class="k">and</span> ist_primzahl(6) ==
-    False <span class="k">and</span> ist_primzahl(10) == False:
-     print(<span class="s">"Test für Primzahl-Funktion erfolgreich"</span>)
-<span class="k">else</span>:
-     print(<span class="s">"Primzahl-Funktion liefert fehlerhafte
-         Werte"</span>)
+<pre data-lang="python"><code><span class="tk-k">if </span>ist_primzahl(<span class="tk-n">3</span>) == <span class="tk-n">True </span><span class="tk-k">and </span>ist_primzahl(<span class="tk-n">6</span>) ==
+    <span class="tk-n">False </span><span class="tk-k">and </span>ist_primzahl(<span class="tk-n">10</span>) == <span class="tk-n">False</span>:
+     <span class="tk-b">print</span>(<span class="tk-s">"Test für Primzahl-Funktion erfolgreich"</span>)
+<span class="tk-k">else</span>:
+     <span class="tk-b">print</span>(<span class="tk-s">"Primzahl-Funktion liefert fehlerhafte
+         </span>Werte<span class="tk-s">")
 
-<span class="c"># Ergebnis: Test für Primzahl-Funktion erfolgreich</span></code></pre>
+</span><span class="tk-c"># Ergebnis: Test für Primzahl-Funktion erfolgreich</span></code></pre>
 </div>
 <div class="zh">
   <p>把几个「输入 → 期望结果」写成一个条件, 自动判断是否全部通过. 实际运行: 条件为 True, 输出「erfolgreich <span class="nb">成功」.</span> </p>
@@ -1503,11 +1506,11 @@ print(ist_Primzahl(-6))  <span class="c"># Ergebnis: True</span></code></pre>
 </div>
 <div class="zh">
   <p><b>Assertion 断言</b>: <code class="lc">assert 条件, "说明"</code>. 运行到这里时检查条件; 为假就抛出 <code>AssertionError</code> 并带上说明文字; 为真什么都不做. 用途: 检查程序<b>不应出现</b>的状态, 防止自己的编程错误 (例: 平方根的结果一定 ≥ 0). 防范<b>别人</b>传进来的错误输入 (前置条件) 则用异常 (第 14 <span class="nb">章).</span> </p>
-<pre><code>&gt;&gt;&gt; y = -1
-&gt;&gt;&gt; assert y &gt;= 0, "unexpected result of sqrt"
-Traceback (most recent call last):
-  ...
-AssertionError: unexpected result of sqrt</code></pre>
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>y = -<span class="tk-n">1
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">assert </span>y &gt;= <span class="tk-n">0</span>, <span class="tk-s">"unexpected result of sqrt"
+</span>Traceback (most recent call last):
+  <span class="tk-c">...
+</span>AssertionError: unexpected result of sqrt</code></pre>
   <p>运行时检查通常只在开发阶段用: 用 <code>python -O</code> 运行时所有 assert <span class="nb">都会被跳过.</span> </p>
 </div>
 <div class="warn"><p><b>原文笔误: </b>「un<b>excepted</b> <span class="nb">result」应为「unexpected」.</span> </p></div>
@@ -1591,11 +1594,11 @@ AssertionError: unexpected result of sqrt</code></pre>
 <div class="card de">
   <span class="folie">Folie 28</span>
   <p>Aufgabe: Testen dieser <span class="nb">Methode</span></p>
-<pre><code><span class="s">""" Sucht das größte Element in einer Liste a
+<pre data-lang="python"><code><span class="tk-s">""" Sucht das größte Element in einer Liste a
     zwischen den Grenzen links und rechts
-"""</span>
-<span class="k">def</span> maximum(a, links, rechts):
-    <span class="k">pass</span></code></pre>
+"""
+</span><span class="tk-k">def </span><span class="tk-f">maximum</span>(a, links, rechts):
+    <span class="tk-k">pass</span></code></pre>
   <p>Natürlichsprachige Spezifikation! Unvollständig und <span class="nb">unpräzise:</span></p>
   <ul>
     <li>Was passiert bei a == <span class="nb">None</span></li>
@@ -1671,16 +1674,16 @@ AssertionError: unexpected result of sqrt</code></pre>
 <div class="card de">
   <span class="folie">Folie 32</span>
   <p><b>Beispiel: Maximum durch “Elimination” (1)</b></p>
-<pre><code><span class="c"># Nicht optimaler Code</span>
-<span class="k">def</span> maximum(a, links, rechts):
+<pre data-lang="python"><code><span class="tk-c"># Nicht optimaler Code
+</span><span class="tk-k">def </span><span class="tk-f">maximum</span>(a, links, rechts):
 
-    <span class="k">while</span> links &lt; rechts:
-        <span class="k">if</span> a[links] &lt; a[rechts]:
-            links += 1
-        <span class="k">else</span>:
-            rechts -= 1
+    <span class="tk-k">while </span>links &lt; rechts:
+        <span class="tk-k">if </span>a[links] &lt; a[rechts]:
+            links += <span class="tk-n">1
+        </span><span class="tk-k">else</span>:
+            rechts -= <span class="tk-n">1
 
-    <span class="k">return</span> a[links]</code></pre>
+    </span><span class="tk-k">return </span>a[links]</code></pre>
   <ol>
     <li>Anne Kaldewaij and Berry Schoenmakebs: Searching by elimination, <span class="nb">1990</span></li>
     <li>Edsger W. Dijkstra: Why numbering should start at zero, 1982 https://www.cs.utexas.edu/users/EWD/transcriptions/EWD08xx/EWD831.<span class="nb">html</span></li>
@@ -1720,8 +1723,8 @@ AssertionError: unexpected result of sqrt</code></pre>
   <span class="folie">Folie 34</span>
   <p><b>Beispiel für anforderungsorientierte, systematische Testfallerzeugung</b></p>
   <p>Anforderung</p>
-<pre><code><span class="k">def</span> ist_primzahl(n):
-    <span class="s">"""
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">ist_primzahl</span>(n):
+    <span class="tk-s">"""
     Testet ob eine Zahl eine Primzahl ist.
     """</span></code></pre>
   <div class="tablewrap"><table>
@@ -1781,26 +1784,26 @@ AssertionError: unexpected result of sqrt</code></pre>
 <div class="card de">
   <span class="folie">Folie 39</span>
   <p><b>pytest-modul: Maximum durch “Elimination”</b></p>
-<pre><code><span class="k">import</span> pytest
+<pre data-lang="python"><code><span class="tk-k">import </span>pytest
 
-<span class="k">def</span> test_maximum_ok():
-    <span class="s">"""Teste Beispiele"""</span>
-    <span class="k">assert</span> maximum([7],0,1) == 7
-    <span class="k">assert</span> maximum([2,7],0,1) == 2
-    <span class="k">assert</span> maximum([2,7],0,2) == 7
+<span class="tk-k">def </span><span class="tk-f">test_maximum_ok</span>():
+    <span class="tk-s">"""Teste Beispiele"""
+    </span><span class="tk-k">assert </span>maximum([<span class="tk-n">7</span>],<span class="tk-n">0</span>,<span class="tk-n">1</span>) == <span class="tk-n">7
+    </span><span class="tk-k">assert </span>maximum([<span class="tk-n">2</span>,<span class="tk-n">7</span>],<span class="tk-n">0</span>,<span class="tk-n">1</span>) == <span class="tk-n">2
+    </span><span class="tk-k">assert </span>maximum([<span class="tk-n">2</span>,<span class="tk-n">7</span>],<span class="tk-n">0</span>,<span class="tk-n">2</span>) == <span class="tk-n">7
 
-<span class="k">def</span> test_maximum_boundary_conditions():
-    <span class="s">"""Teste Grenzwerte"""</span>
-    <span class="k">with</span> pytest.raises(TypeError):
-        maximum(None,0,0)
-    <span class="k">with</span> pytest.raises(ValueError):
-        maximum([],0,0)
-    <span class="k">with</span> pytest.raises(ValueError):
-        maximum([1,2,3],0,0)
-    <span class="k">with</span> pytest.raises(IndexError):
-        maximum([1,2,3],-1,5)
+</span><span class="tk-k">def </span><span class="tk-f">test_maximum_boundary_conditions</span>():
+    <span class="tk-s">"""Teste Grenzwerte"""
+    </span><span class="tk-k">with </span>pytest.raises(TypeError):
+        maximum(<span class="tk-n">None</span>,<span class="tk-n">0</span>,<span class="tk-n">0</span>)
+    <span class="tk-k">with </span>pytest.raises(ValueError):
+        maximum([],<span class="tk-n">0</span>,<span class="tk-n">0</span>)
+    <span class="tk-k">with </span>pytest.raises(ValueError):
+        maximum([<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>],<span class="tk-n">0</span>,<span class="tk-n">0</span>)
+    <span class="tk-k">with </span>pytest.raises(IndexError):
+        maximum([<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>],-<span class="tk-n">1</span>,<span class="tk-n">5</span>)
 
-pytest.main([__file__]) <span class="c"># alle Tests in der aktuellen Datei</span></code></pre>
+pytest.main([__file__]) <span class="tk-c"># alle Tests in der aktuellen Datei</span></code></pre>
 </div>
 <div class="zh">
   <p>Folie 29 的表格直接写成 pytest 测试: 正常例子一个测试函数, 边界/异常情况一个测试函数. 最后一行 <code>pytest.main([__file__])</code> 让 pytest 运行当前文件里的所有测试 (<code>__file__</code> 是当前文件的路径), 在 Thonny 里点「运行」就能执行; 命令行里也可以直接 <span class="nb"><code class="lc">python -m pytest 文件名</code>.</span> </p>
@@ -1810,7 +1813,7 @@ pytest.main([__file__]) <span class="c"># alle Tests in der aktuellen Datei</spa
   <span class="folie">Folie 40</span>
   <p><b>pytest-modul (1): Maximum durch “Elimination”</b></p>
   <p>Ergebnis der <span class="nb">Testausfürung:</span></p>
-<pre>======================== short test summary info ========================
+<pre data-lang="output">======================== short test summary info ========================
 FAILED test_max.py::test_max1 - TypeError: 'NoneType' object is not subscriptable
 FAILED test_max.py::test_max2 - IndexError: list index out of range
 ========================== 2 failed in 0.24s ===========================</pre>
@@ -1828,28 +1831,28 @@ FAILED test_max.py::test_max2 - IndexError: list index out of range
   <span class="folie">Folie 41</span>
   <p><b>pytest-modul (2): Maximum durch “Elimination”</b></p>
   <p>1. Anpassung am <span class="nb">Code:</span></p>
-<pre><code><span class="k">def</span> maximum(a, links, rechts):
-    <span class="k">if</span> a <span class="k">is</span> None:
-        <span class="k">raise</span> TypeError(<span class="s">"Keine Liste"</span>)
-    <span class="k">if</span> links &gt;= rechts:
-        <span class="k">raise</span> ValueError(<span class="s">"Maximum für den leeren
-             Bereich nicht definiert"</span>)
-    <span class="k">if</span> links &lt; 0 <span class="k">and</span> rechts &gt; len(a):
-        <span class="k">raise</span> IndexError(<span class="s">"Grenzwerte ungültig"</span>)
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">maximum</span>(a, links, rechts):
+    <span class="tk-k">if </span>a <span class="tk-k">is </span><span class="tk-n">None</span>:
+        <span class="tk-k">raise </span>TypeError(<span class="tk-s">"Keine Liste"</span>)
+    <span class="tk-k">if </span>links &gt;= rechts:
+        <span class="tk-k">raise </span>ValueError(<span class="tk-s">"Maximum für den leeren
+             </span>Bereich nicht definiert<span class="tk-s">")
+    </span><span class="tk-k">if </span>links &lt; <span class="tk-n">0 </span><span class="tk-k">and </span>rechts &gt; <span class="tk-b">len</span>(a):
+        <span class="tk-k">raise </span>IndexError(<span class="tk-s">"Grenzwerte ungültig"</span>)
 
-    <span class="k">while</span> links &lt; rechts:
-        <span class="k">if</span> a[links] &lt; a[rechts]:
-            links += 1
-        <span class="k">else</span>:
-            rechts -= 1
-    <span class="k">assert</span> links == rechts
-    <span class="k">return</span> a[links]</code></pre>
+    <span class="tk-k">while </span>links &lt; rechts:
+        <span class="tk-k">if </span>a[links] &lt; a[rechts]:
+            links += <span class="tk-n">1
+        </span><span class="tk-k">else</span>:
+            rechts -= <span class="tk-n">1
+    </span><span class="tk-k">assert </span>links == rechts
+    <span class="tk-k">return </span>a[links]</code></pre>
 </div>
 <div class="card de">
   <span class="folie">Folie 42</span>
   <p><b>pytest-modul (3): Maximum durch “Elimination”</b></p>
   <p>Ergebnis der Testausführung nach der ersten <span class="nb">Anpassung:</span></p>
-<pre>======================== short test summary info ========================
+<pre data-lang="output">======================== short test summary info ========================
 FAILED test_max.py::test_max2 - IndexError: list index out of range
 ================== 1 failed, 1 passed in 0.15s ==================</pre>
 </div>
@@ -1862,30 +1865,30 @@ FAILED test_max.py::test_max2 - IndexError: list index out of range
   <span class="folie">Folie 43</span>
   <p><b>pytest-modul (4): Maximum durch “Elimination”</b></p>
   <p>2. Anpassung am <span class="nb">Code:</span></p>
-<pre><code><span class="k">def</span> maximum(a, links, rechts):
-    <span class="k">if</span> a <span class="k">is</span> None:
-        <span class="k">raise</span> TypeError(<span class="s">"Keine Liste"</span>)
-    <span class="k">if</span> links &gt;= rechts:
-        <span class="k">raise</span> ValueError(<span class="s">"Maximum für den leeren
-             Bereich nicht definiert"</span>)
-    <span class="k">if</span> links &lt; 0 <span class="k">or</span> rechts &gt; len(a):
-        <span class="k">raise</span> IndexError(<span class="s">"Grenzwerte ungültig"</span>)
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">maximum</span>(a, links, rechts):
+    <span class="tk-k">if </span>a <span class="tk-k">is </span><span class="tk-n">None</span>:
+        <span class="tk-k">raise </span>TypeError(<span class="tk-s">"Keine Liste"</span>)
+    <span class="tk-k">if </span>links &gt;= rechts:
+        <span class="tk-k">raise </span>ValueError(<span class="tk-s">"Maximum für den leeren
+             </span>Bereich nicht definiert<span class="tk-s">")
+    </span><span class="tk-k">if </span>links &lt; <span class="tk-n">0 </span><span class="tk-k">or </span>rechts &gt; <span class="tk-b">len</span>(a):
+        <span class="tk-k">raise </span>IndexError(<span class="tk-s">"Grenzwerte ungültig"</span>)
 
-    rechts -= 1 <span class="c"># angepasst Logik Fehler</span>
+    rechts -= <span class="tk-n">1 </span><span class="tk-c"># angepasst Logik Fehler
 
-    <span class="k">while</span> links &lt; rechts:
-        <span class="k">if</span> a[links] &lt; a[rechts]:
-            links += 1
-        <span class="k">else</span>:
-            rechts -= 1
-    <span class="k">assert</span> links == rechts
-    <span class="k">return</span> a[links]</code></pre>
+    </span><span class="tk-k">while </span>links &lt; rechts:
+        <span class="tk-k">if </span>a[links] &lt; a[rechts]:
+            links += <span class="tk-n">1
+        </span><span class="tk-k">else</span>:
+            rechts -= <span class="tk-n">1
+    </span><span class="tk-k">assert </span>links == rechts
+    <span class="tk-k">return </span>a[links]</code></pre>
 </div>
 <div class="card de">
   <span class="folie">Folie 44</span>
   <p><b>pytest-modul (3): Maximum durch “Elimination”</b></p>
   <p>Ergebnis der Testausführung nach der zweiten <span class="nb">Anpassung:</span></p>
-<pre>========================== test session starts ==========================
+<pre data-lang="output">========================== test session starts ==========================
 platform win32 -- Python 3.10.6, pytest-7.2.1, pluggy-1.0.0
 rootdir: C:\Users\
 collected 2 items
@@ -1956,7 +1959,7 @@ test_max.py ..                                                    [100%]
   <ul>
     <li>Ausführen der Abdeckungsmessung mit Systemterminal
       <ul><li>Werkzeuge (Menüleiste) → System Terminal <span class="nb">öffnen</span></li><li>Ausführung des Pythonprogramms &lt;datei&gt; mit Coverage Modul
-<pre>python -m coverage run [--branch] &lt;datei&gt;</pre></li></ul></li>
+<pre data-lang="shell">python -m coverage run [--branch] &lt;datei&gt;</pre></li></ul></li>
     <li>Standard: Messung von <span class="nb">Anweisungsabdeckung</span></li>
     <li>Option branch aktiviert zusätzlich Messung von <span class="nb">Zweigabedeckung</span></li>
     <li>Erzeugt .coverage Datei mit Messergebnissen für <span class="nb">Abdeckung</span></li>
@@ -1966,8 +1969,8 @@ test_max.py ..                                                    [100%]
   <span class="folie">Folie 49</span>
   <p><b>Ausgabe der Abdeckungsmessung auf Terminal</b></p>
   <p>nach durchgeführter Abdeckungsmessung mittels <span class="nb">Systemterminals</span></p>
-<pre>python -m coverage report</pre>
-<pre>Name                                Stmts   Miss Branch BrPart  Cover
+<pre data-lang="shell">python -m coverage report</pre>
+<pre data-lang="output">Name                                Stmts   Miss Branch BrPart  Cover
 ---------------------------------------------------------------------
 11-primzahl-partial-branches.py        10      1      4      1    86%
 ---------------------------------------------------------------------
@@ -1977,7 +1980,7 @@ TOTAL                                  10      1      4      1    86%</pre>
   <span class="folie">Folie 50</span>
   <p><b>Erzeugung des HTML Berichts</b></p>
   <p>nach durchgeführter Abdeckungsmessung mittels <span class="nb">Systemterminals</span></p>
-<pre>python -m coverage html</pre>
+<pre data-lang="shell">python -m coverage html</pre>
   <ul>
     <li>Übersicht gruppiert nach Dateien, Klassen, <span class="nb">Funktionen</span></li>
     <li>Pro Datei Code basierte Visualisierung der <span class="nb">Abdeckung</span></li>
@@ -1993,7 +1996,7 @@ TOTAL                                  10      1      4      1    86%</pre>
   </ol>
   <p>表格各列: Stmts 语句数、Miss 没执行的语句数、Branch 分支数、BrPart 只走了一个方向的分支数、<span class="nb">Cover 覆盖率.</span> </p>
   <p>自己做的例子: 对 Folie 18 的 ist_primzahl 加两行调用 <code>print(ist_primzahl(6))</code>、<code>print(ist_primzahl(2))</code>, 实际运行 <code class="lc">coverage run --branch</code> 和 <span class="nb"><code class="lc">coverage report -m</code>:</span> </p>
-<pre>Name      Stmts   Miss Branch BrPart  Cover   Missing
+<pre data-lang="output">Name      Stmts   Miss Branch BrPart  Cover   Missing
 -----------------------------------------------------
 prim.py       7      0      4      1    91%   6-&gt;5</pre>
   <p>所有语句都执行过 (Miss 0), 但有一个分支只走了一个方向: <code>6-&gt;5</code> 表示第 6 行的 if 从来没有「条件为假后回到第 5 行的 for 继续循环」. 因为 6 在 i = 3 时就整除了, 2 则根本不进循环. 加一个像 9 或 4 这样的输入就能补上这个分支. 这说明语句覆盖 100% <span class="nb">不等于分支覆盖 100%.</span> </p>

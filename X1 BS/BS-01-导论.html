@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1105,6 +1102,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 8; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81e4db 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #40d0c6; --syn-f: #ace4fe; --syn-s: #e8a5d4; --syn-n: #c1d185; --syn-b: #86b7a4; --syn-c: #7c918f; --syn-p: #7c918f; }
+  html[data-mode="day"] { --syn-k: #04736c; --syn-f: #054c64; --syn-s: #90417d; --syn-n: #5e6b06; --syn-b: #245f4b; --syn-c: #566f6c; --syn-p: #566f6c; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1313,14 +1316,14 @@
     <li>Programm starten
       <ul><li>In demselben Verzeichnis mit <span class="nb"><code>./binaerdatei</code></span></li></ul></li>
   </ul>
-<pre data-lang="c">#include &lt;stdio.h&gt;
+<pre data-lang="c"><span class="tk-c">#include &lt;stdio.h&gt;
 
-int main() {
-  printf("Hello World\n");
+</span><span class="tk-k">int </span><span class="tk-f">main</span>() {
+  printf(<span class="tk-s">"Hello World\n"</span>);
 }</pre>
   <p class="src">helloworld.c</p>
-<pre data-lang="shell">&gt; clang -o hello helloworld.c
-&gt; ./hello
+<pre data-lang="shell session"><span class="tk-p">&gt; </span>clang -o hello helloworld.c
+<span class="tk-p">&gt; </span>./hello
 Hello World
 &gt;</pre>
 </div>
@@ -1350,18 +1353,18 @@ Hello World
   <span class="folie">Folie 16</span>
   <p><b>Strukturierter Kontrollfluss</b></p>
   <p><code class="lc">if, for, while, do-while, break, continue</code></p>
-<pre data-lang="c">for (int i = 0; i &lt; 10; i++) {
-   if (i % 2 == 0)
-      continue;
-   if (i == 7)
-      break;
-   printf("%d", i);
+<pre data-lang="c"><span class="tk-k">for </span>(<span class="tk-k">int </span>i = <span class="tk-n">0</span>; i &lt; <span class="tk-n">10</span>; i++) {
+   <span class="tk-k">if </span>(i % <span class="tk-n">2 </span>== <span class="tk-n">0</span>)
+      <span class="tk-k">continue</span>;
+   <span class="tk-k">if </span>(i == <span class="tk-n">7</span>)
+      <span class="tk-k">break</span>;
+   printf(<span class="tk-s">"%d"</span>, i);
 }</pre>
   <p>Was gibt dieses <span class="nb">Programm aus?</span></p>
 </div>
 <div class="zh">
   <p>结构化控制流: <code>if</code>、<code>for</code>、<code>while</code>、<code>do-while</code>、<code>break</code>、<code>continue</code>, 写法和 Java 相同. 问题是这个程序输出什么. <span class="nb">实际运行:</span></p>
-<pre data-lang="shell">&gt; ./loop
+<pre data-lang="shell session"><span class="tk-p">&gt; </span>./loop
 135</pre>
   <p>偶数 (0, 2, 4, 6) 碰到 <code>continue</code>, 直接进入下一轮, 不打印. 1、3、5 打印. 到 7 时 <code>break</code> 跳出整个循环, 7、9 都不打印. <code>"%d"</code> 后面没有换行, 所以三个数字连在一起: <span class="nb"><code>135</code>.</span></p>
 </div>
@@ -1412,10 +1415,10 @@ Hello World
     <li>Bedingungen erwarten Ausdrücke eines Integer-Typs
       <ul><li>Dabei wird <code>0</code> als <code>false</code> <span class="nb">interpretiert</span></li><li>Alles andere als <code>true</code> (nicht <span class="nb">nur 1)</span></li></ul></li>
   </ul>
-<pre data-lang="c">int x;
-if (x) entspricht if (x != 0)
-if (!x) entspricht if (x == 0)
-Achtung: if (x == 1) entspricht nicht if (x)!</pre>
+<pre data-lang="c"><span class="tk-k">int </span>x;
+<span class="tk-k">if </span>(x) entspricht <span class="tk-k">if </span>(x != <span class="tk-n">0</span>)
+<span class="tk-k">if </span>(!x) entspricht <span class="tk-k">if </span>(x == <span class="tk-n">0</span>)
+Achtung: <span class="tk-k">if </span>(x == <span class="tk-n">1</span>) entspricht nicht <span class="tk-k">if </span>(x)!</pre>
 </div>
 <div class="zh">
   <p>C 原本没有专门的布尔类型. 布尔表达式 (<code>&amp;&amp;</code>、<code>||</code>、<code>&lt;</code> 等) 的类型是 <code>int</code>: 假是 0, 真是 1. 条件判断接受任何整数表达式: 0 当作假, <b>其他任何值</b>都当作真 (不只是 1). 所以 <code>if (x)</code> 等于 <code>if (x != 0)</code>, <code>if (!x)</code> 等于 <code>if (x == 0)</code>; 但 <code>if (x == 1)</code> <b>不</b>等于 <code>if (x)</code>: x = 5 时前者为假, <span class="nb">后者为真.</span></p>
@@ -1425,34 +1428,34 @@ Achtung: if (x == 1) entspricht nicht if (x)!</pre>
 <div class="card de">
   <span class="folie">Folie 19</span>
   <p><b>Boolean Beispiel</b></p>
-<pre data-lang="c">#include &lt;stdio.h&gt;
+<pre data-lang="c"><span class="tk-c">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 
-int main(void) {
-  int num;
-  printf("Enter an integer (can be zero):\n");
-  if (scanf("%d", &amp;num) != 1) {
-    printf("Could not parse a number!\n");
-    exit(1);
+</span><span class="tk-k">int </span><span class="tk-f">main</span>(<span class="tk-k">void</span>) {
+  <span class="tk-k">int </span>num;
+  printf(<span class="tk-s">"Enter an integer (can be zero):\n"</span>);
+  <span class="tk-k">if </span>(scanf(<span class="tk-s">"%d"</span>, &amp;num) != <span class="tk-n">1</span>) {
+    printf(<span class="tk-s">"Could not parse a number!\n"</span>);
+    exit(<span class="tk-n">1</span>);
   }
 
-    if (num) {
-      printf("That\'s not zero.\n");
-    } else {
-      printf("That\'s zero.\n");
+    <span class="tk-k">if </span>(num) {
+      printf(<span class="tk-s">"That\'s not zero.\n"</span>);
+    } <span class="tk-k">else </span>{
+      printf(<span class="tk-s">"That\'s zero.\n"</span>);
     }
 }</pre>
 </div>
 <div class="zh">
   <p>例子: 读入一个整数, 判断它是不是 0. <code class="lc">scanf("%d", &amp;num)</code> 从标准输入读一个十进制整数存进 num (要传 num 的<b>地址</b> <code>&amp;num</code>, 见后面的指针), 返回成功读到的项数; 不等于 1 说明输入不是数字, 用 <code>exit(1)</code> 以错误码 1 结束 (<code>exit</code> 来自 <code>stdlib.h</code>). 然后 <code>if (num)</code> 正是上一页的规则: 非 0 即真. 字符串里的 <code>\'</code> 是转义的单引号, 在双引号字符串里直接写 <code>'</code> <span class="nb">也可以.</span></p>
   <p>实际运行, 分别输入 0、<span class="nb">−3 和 abc:</span></p>
-<pre data-lang="shell">&gt; echo 0 | ./boolx
+<pre data-lang="shell session"><span class="tk-p">&gt; </span><span class="tk-b">echo </span><span class="tk-n">0 </span>| ./boolx
 Enter an integer (can be zero):
 That's zero.
-&gt; echo -3 | ./boolx
+<span class="tk-p">&gt; </span><span class="tk-b">echo </span>-3 | ./boolx
 Enter an integer (can be zero):
 That's not zero.
-&gt; echo abc | ./boolx; echo $?
+<span class="tk-p">&gt; </span><span class="tk-b">echo </span>abc | ./boolx; <span class="tk-b">echo </span>$?
 Enter an integer (can be zero):
 Could not parse a number!
 1</pre>
@@ -1465,14 +1468,14 @@ Could not parse a number!
   <ul>
     <li>Java erzwingt Initialisierung von lokalen Variablen, Felder von Objekten werden mit 0 <span class="nb">initialisiert</span></li>
   </ul>
-<pre data-lang="java">public class Test {
-    public static void main(String[] args) {
-        int x;
-        x = x + 1;
-        System.out.println(x);
+<pre data-lang="java"><span class="tk-k">public class </span><span class="tk-f">Test </span>{
+    <span class="tk-k">public static void </span><span class="tk-f">main</span>(String[] args) {
+        <span class="tk-k">int </span>x;
+        x = x + <span class="tk-n">1</span>;
+        System.<span class="tk-f">out</span>.<span class="tk-f">println</span>(x);
     }
 }</pre>
-<pre data-lang="shell">&gt; javac Test.java
+<pre data-lang="shell session"><span class="tk-p">&gt; </span>javac Test.java
 Test.java:4: error: variable x might not
 have been initialized
         x = x + 1;
@@ -1483,21 +1486,21 @@ have been initialized
     <li>Häufige Fehlerquelle, Verhalten wird <span class="nb">systemabhängig</span></li>
     <li>Daher: Variablen immer explizit <span class="nb">initialisieren</span></li>
   </ul>
-<pre data-lang="c">#include &lt;stdio.h&gt;
+<pre data-lang="c"><span class="tk-c">#include &lt;stdio.h&gt;
 
-int main() {
-    int x;
-    x = x + 1;
-    printf("%d\n", x);
+</span><span class="tk-k">int </span><span class="tk-f">main</span>() {
+    <span class="tk-k">int </span>x;
+    x = x + <span class="tk-n">1</span>;
+    printf(<span class="tk-s">"%d\n"</span>, x);
 }</pre>
-<pre data-lang="shell">&gt; clang -o test test.c
-&gt; ./test
+<pre data-lang="shell session"><span class="tk-p">&gt; </span>clang -o <span class="tk-b">test </span>test.c
+<span class="tk-p">&gt; </span>./test
 2</pre>
 </div>
 <div class="zh">
   <p>变量初始化: Java 强制局部变量在使用前初始化 (对象的字段自动初始化为 0), 上面的 Java 程序根本编译不过. C 允许读取未初始化的变量, 但这时的行为是<b>undefiniert 未定义</b>的: 是常见的错误来源, 结果取决于系统. 结论: <span class="nb">变量一律显式初始化.</span></p>
   <p>幻灯片上的运行结果是 2; 我在 M1 Mac 上用 clang 21 运行也恰好得到 <code>2</code>. 这个 2 没有任何保证: x 读到的是那块栈内存里碰巧残留的值 (这里是 1), 换编译器、换优化级别、换机器都可能不同. 默认编译时 clang 一声不吭; <span class="nb">加 <code>-Wall</code> 才会警告:</span></p>
-<pre data-lang="shell">&gt; clang -Wall -o test test.c
+<pre data-lang="shell session"><span class="tk-p">&gt; </span>clang -Wall -o <span class="tk-b">test </span>test.c
 test.c:4:9: warning: variable 'x' is uninitialized when used here [-Wuninitialized]
     4 |     x = x + 1;
       |         ^</pre>
@@ -1507,23 +1510,23 @@ test.c:4:9: warning: variable 'x' is uninitialized when used here [-Wuninitializ
 <div class="card de">
   <span class="folie">Folie 22</span>
   <p><b>Funktionsdeklarationen</b></p>
-<pre data-lang="c">void otherFun(void); /* forward declaration to tell compiler about otherFun              */
+<pre data-lang="c"><span class="tk-k">void </span><span class="tk-f">otherFun</span>(<span class="tk-k">void</span>); <span class="tk-c">/* forward declaration to tell compiler about otherFun              */
 
-int main() {
+</span><span class="tk-k">int </span><span class="tk-f">main</span>() {
 
-    int myVar = 0;
-    short myOtherVar = 5;
+    <span class="tk-k">int </span>myVar = <span class="tk-n">0</span>;
+    <span class="tk-k">short </span>myOtherVar = <span class="tk-n">5</span>;
 
-    /* declared below */
-    otherFun();
+    <span class="tk-c">/* declared below */
+    </span>otherFun();
 
-    return 12;
+    <span class="tk-k">return </span><span class="tk-n">12</span>;
 }
 
-void otherFun(void) {
-    /* do something */
-}</pre>
-<pre data-lang="shell">clang -o test test.c
+<span class="tk-k">void </span><span class="tk-f">otherFun</span>(<span class="tk-k">void</span>) {
+    <span class="tk-c">/* do something */
+</span>}</pre>
+<pre data-lang="shell session">clang -o test test.c
 test.c:8:5: error: call to undeclared function 'otherFun'; ISO C99 and
 later do not support implicit function declarations [-Wimplicit-
 function-declaration]
@@ -1566,12 +1569,12 @@ test.c:8:5: note: previous implicit declaration is here
   <p><b>Pointer in C</b></p>
   <ul>
     <li>Definition (Hier am Beispiel von Pointern auf <code>int</code>)
-<pre data-lang="c">int *pointer1, *pointer2;</pre></li>
+<pre data-lang="c"><span class="tk-k">int </span>*pointer1, *pointer2;</pre></li>
     <li>Zuweisung
-<pre data-lang="c">int var;
+<pre data-lang="c"><span class="tk-k">int </span>var;
 pointer1 = &amp;var; // Pointer auf var</pre></li>
     <li>Dereferenzierung
-<pre data-lang="c">*pointer1 = 5; // weist var den Wert 5 zu</pre></li>
+<pre data-lang="c">*pointer1 = <span class="tk-n">5</span>; // weist var den Wert <span class="tk-n">5 </span>zu</pre></li>
   </ul>
 </div>
 <div class="zh">
@@ -1583,28 +1586,28 @@ pointer1 = &amp;var; // Pointer auf var</pre></li>
   <span class="folie">Folie 25</span>
   <p><b>Beispiele</b></p>
   <div class="cols">
-<pre data-lang="c">// Nur die lokale Kopie von x ändert sich
-void inc(int x) {
-    x = x + 1;
+<pre data-lang="c"><span class="tk-c">// Nur die lokale Kopie von x ändert sich
+</span><span class="tk-k">void </span><span class="tk-f">inc</span>(<span class="tk-k">int </span>x) {
+    x = x + <span class="tk-n">1</span>;
 }
 
-int main() {
-    int n = 0;
+<span class="tk-k">int </span><span class="tk-f">main</span>() {
+    <span class="tk-k">int </span>n = <span class="tk-n">0</span>;
     inc(n);
-    printf("%d\n", n);
+    printf(<span class="tk-s">"%d\n"</span>, n);
 }
-// Prints 0</pre>
-<pre data-lang="c">// Der Pointer wird auf n dereferenziert
-void inc(int *x) {
-    *x = *x + 1;
+// Prints <span class="tk-n">0</span></pre>
+<pre data-lang="c"><span class="tk-c">// Der Pointer wird auf n dereferenziert
+</span><span class="tk-k">void </span><span class="tk-f">inc</span>(<span class="tk-k">int </span>*x) {
+    *x = *x + <span class="tk-n">1</span>;
 }
 
-int main() {
-    int n = 0;
+<span class="tk-k">int </span><span class="tk-f">main</span>() {
+    <span class="tk-k">int </span>n = <span class="tk-n">0</span>;
     inc(&amp;n);
-    printf("%d\n", n);
+    printf(<span class="tk-s">"%d\n"</span>, n);
 }
-// Prints 1</pre>
+// Prints <span class="tk-n">1</span></pre>
   </div>
 </div>
 <div class="zh">
@@ -1616,7 +1619,7 @@ int main() {
   <span class="folie">Folie 26</span>
   <p><b>Arrays</b></p>
   <ul><li>Leichter Unterschied zu <span class="nb">Java</span></li></ul>
-<pre data-lang="c">int numbers[10];
+<pre data-lang="c"><span class="tk-k">int </span>numbers[<span class="tk-n">10</span>];
 // Elementtyp  Bezeichner  Länge</pre>
   <ul>
     <li>Deklariert und allokiert ein neues (lokales) Array mit unbestimmtem <span class="nb">Inhalt</span></li>
@@ -1655,7 +1658,7 @@ int main() {
     <li>Kein gesonderter String-Typ
       <ul><li>Strings sind null-terminierte Arrays von Zeichen des Typs <span class="nb">char</span></li><li>Verbrauchen Länge + 1 <span class="nb">Bytes</span></li></ul></li>
   </ul>
-<pre data-lang="c">char name[] = "LMU";</pre>
+<pre data-lang="c"><span class="tk-k">char </span>name[] = <span class="tk-s">"LMU"</span>;</pre>
   <p>Interpretiert als “erzeuge ein passendes lokales Array und kopiere die angegebene String-Konstante <span class="nb">hinein”</span></p>
   <div class="tablewrap"><table class="nowrap">
     <tbody><tr><td>0x4C</td><td>0x4D</td><td>0x55</td><td>0x00</td></tr>
@@ -1674,7 +1677,7 @@ int main() {
     <li>Strings werden meistens nur über einen Zeiger (<i>Pointer</i>) auf ihren ersten Buchstaben referenziert
       <ul><li><code>char *</code> : Typ von Pointern auf <span class="nb">char</span></li><li><code>const char *</code>: Typ von Pointern auf char, wobei der Speicherinhalt nicht verändert werden <span class="nb">darf</span></li></ul></li>
   </ul>
-<pre data-lang="c">const char *name = "LMU";</pre>
+<pre data-lang="c"><span class="tk-k">const char </span>*name = <span class="tk-s">"LMU"</span>;</pre>
   <p>Interpretiert als „zeige auf den ersten <span class="nb">Buchstaben“</span></p>
   <div class="tablewrap"><table class="nowrap">
     <tbody><tr><td>0x4C</td><td>0x4D</td><td>0x55</td><td>0x00</td></tr>
@@ -1700,39 +1703,39 @@ int main() {
     <li>Beispiel: 2D-Punkte
       <ul><li>Java: Klassen mit zwei Feldern x <span class="nb">und y</span></li><li>C: struct mit zwei Feldern x <span class="nb">und y</span></li><li>C structs haben keine <span class="nb">Methoden</span></li></ul></li>
   </ul>
-<pre data-lang="c">int main() {
-    struct {
-        int x;    // struct field
-        int y;    // struct field
-    } myPointA; // variable name
-    …
-    myPointA.x = 4;
-    myPointA.y = 2;
+<pre data-lang="c"><span class="tk-k">int </span><span class="tk-f">main</span>() {
+    <span class="tk-k">struct </span>{
+        <span class="tk-k">int </span>x;    <span class="tk-c">// struct field
+        </span><span class="tk-k">int </span>y;    <span class="tk-c">// struct field
+    </span>} myPointA; <span class="tk-c">// variable name
+    </span>…
+    myPointA.x = <span class="tk-n">4</span>;
+    myPointA.y = <span class="tk-n">2</span>;
 }</pre>
   <p class="src">Folie 31: "Tag" für diesen struct Typ (rot eingekreist: <span class="nb"><code>point</code>)</span></p>
-<pre data-lang="c">int main() {
-    struct point {
-        int x;    // struct-Feld
-        int y;    // struct-Feld
-    } myPointA; // Variablenname
-    …
-    myPointA.x = 4;
-    myPointA.y = 2;
+<pre data-lang="c"><span class="tk-k">int </span><span class="tk-f">main</span>() {
+    <span class="tk-k">struct </span><span class="tk-f">point </span>{
+        <span class="tk-k">int </span>x;    <span class="tk-c">// struct-Feld
+        </span><span class="tk-k">int </span>y;    <span class="tk-c">// struct-Feld
+    </span>} myPointA; <span class="tk-c">// Variablenname
+    </span>…
+    myPointA.x = <span class="tk-n">4</span>;
+    myPointA.y = <span class="tk-n">2</span>;
 
-    struct point myPointB; // struct-Typ wird
-    myPointB.x = 4;        // über Tag verwendet
-    myPointB.y = 2;
+    <span class="tk-k">struct </span><span class="tk-f">point </span>myPointB; <span class="tk-c">// struct-Typ wird
+    </span>myPointB.x = <span class="tk-n">4</span>;        <span class="tk-c">// über Tag verwendet
+    </span>myPointB.y = <span class="tk-n">2</span>;
 }</pre>
   <p class="src">Folie 32</p>
-<pre data-lang="c">struct point {// Ein globaler struct Typ mit
-       int x;   // Tag kann in der gesamten
-       int y;   // Datei verwendet werden
-}; // Nur Semikolon am Ende
+<pre data-lang="c"><span class="tk-k">struct </span><span class="tk-f">point </span>{<span class="tk-c">// Ein globaler struct Typ mit
+       </span><span class="tk-k">int </span>x;   <span class="tk-c">// Tag kann in der gesamten
+       </span><span class="tk-k">int </span>y;   <span class="tk-c">// Datei verwendet werden
+</span>}; <span class="tk-c">// Nur Semikolon am Ende
 
-int main() {
-    struct point myPointB;
-    myPointB.x = 4;
-    myPointB.y = 2;
+</span><span class="tk-k">int </span><span class="tk-f">main</span>() {
+    <span class="tk-k">struct </span><span class="tk-f">point </span>myPointB;
+    myPointB.x = <span class="tk-n">4</span>;
+    myPointB.y = <span class="tk-n">2</span>;
 }</pre>
 </div>
 <div class="zh">
@@ -1749,10 +1752,10 @@ int main() {
     <li>Struct enthält zwei String Buffer (Char Arrays von Länge 20)
       <ul><li>Strings liegen im Struct zusammenhängend im <span class="nb">Speicher</span></li></ul></li>
   </ul>
-<pre data-lang="c">struct student {
-      char first_name[20];
-      char last_name[20];
-      unsigned long id;
+<pre data-lang="c"><span class="tk-k">struct </span><span class="tk-f">student </span>{
+      <span class="tk-k">char </span>first_name[<span class="tk-n">20</span>];
+      <span class="tk-k">char </span>last_name[<span class="tk-n">20</span>];
+      <span class="tk-k">unsigned long </span>id;
 };</pre>
 </div>
 <div class="zh">
@@ -1768,10 +1771,10 @@ int main() {
     <li>Struct enthält zwei String Pointer (Adresse des ersten Buchstaben des Strings)
       <ul><li>Die eigentlichen Strings sind außerhalb des Structs im Speicher, in ihren eigenen Speicherbereichen die getrennt verwaltet werden <span class="nb">müssen</span></li></ul></li>
   </ul>
-<pre data-lang="c">struct student_wp {
-     char *pFirst_name;
-     char *pLast_name;
-     unsigned long id;
+<pre data-lang="c"><span class="tk-k">struct </span><span class="tk-f">student_wp </span>{
+     <span class="tk-k">char </span>*pFirst_name;
+     <span class="tk-k">char </span>*pLast_name;
+     <span class="tk-k">unsigned long </span>id;
 };</pre>
 </div>
 <div class="zh">
@@ -1791,10 +1794,10 @@ int main() {
   <span class="folie">Folie 36</span>
   <p><b>Zugriffe auf Structs</b></p>
   <ul><li>Auf Felder eines Structs wird zugegriffen wie auf Felder in Java <span class="nb">Objekten</span></li></ul>
-<pre data-lang="c">struct student john;
-john.id = 123456;
-strcpy(john.first_name, "John");
-strcpy(john.last_name, "Smith");</pre>
+<pre data-lang="c"><span class="tk-k">struct </span><span class="tk-f">student </span>john;
+john.id = <span class="tk-n">123456</span>;
+strcpy(john.first_name, <span class="tk-s">"John"</span>);
+strcpy(john.last_name, <span class="tk-s">"Smith"</span>);</pre>
   <p>Kopiert String-Konstante "Smith" in den String Buffer (Char Array) innerhalb des <span class="nb">structs.</span></p>
 </div>
 <div class="zh">
@@ -1806,7 +1809,7 @@ strcpy(john.last_name, "Smith");</pre>
   <p><b>Pointer und Structs</b></p>
   <ul>
     <li>Häufig wird auf Structs auch über einen Pointer zugegriffen
-<pre data-lang="c">struct student *pStud;</pre></li>
+<pre data-lang="c"><span class="tk-k">struct </span><span class="tk-f">student </span>*pStud;</pre></li>
     <li>Zugriff auf ein Feld im Struct durch einen Pointer:
 <pre data-lang="c">(*pStud).id</pre></li>
     <li>Syntaktischer Zucker mit Pfeilnotation:
@@ -1827,7 +1830,7 @@ strcpy(john.last_name, "Smith");</pre>
       <ul><li>Pointer auf Pointer, <span class="nb">etc.</span></li></ul></li>
     <li><code>typedef</code> ermöglicht Typabkürzungen in C (wie <code>type</code> in <span class="nb">Haskell)</span></li>
   </ul>
-<pre data-lang="c">typedef unsigned long size_t;
+<pre data-lang="c"><span class="tk-k">typedef unsigned long size_t</span>;
 //      Type          Name</pre>
 </div>
 <div class="zh">
@@ -1859,10 +1862,10 @@ int main() {
 <div class="zh">
   <p>结构体最常和 typedef 一起用: <code class="lc">typedef struct { … } student_t;</code> 定义了类型简称 <code>student_t</code>, 之后直接写 <code class="lc">student_t john;</code>. 幻灯片把标签 <code>student</code> 划掉, 意思是: 有了 typedef, 标签可以省掉, 用<b>匿名</b>结构体也行; 但这时 <code class="lc">struct student john;</code> 就不能再用了 (也被划掉), <span class="nb">只能用简称.</span></p>
   <p><b>为什么链表需要标签:</b> typedef 不能递归使用. 链表节点要包含「指向同类节点的指针」, 而在结构体内部, typedef 的名字还没定义完, <span class="nb">只能用标签:</span></p>
-<pre data-lang="c">typedef struct node {
-    int value;
-    struct node *next;   /* student_t-style name not yet available here */
-} node_t;</pre>
+<pre data-lang="c"><span class="tk-k">typedef struct </span><span class="tk-f">node </span>{
+    <span class="tk-k">int </span>value;
+    <span class="tk-k">struct </span><span class="tk-f">node </span>*next;   <span class="tk-c">/* student_t-style name not yet available here */
+</span>} node_t;</pre>
   <p>(上面这段我编译过, 没有错误.) 名字后缀 <code>_t</code> 是常见的约定, <span class="nb">表示「这是一个类型」.</span></p>
 </div>
 
@@ -1881,7 +1884,7 @@ int main() {
     <li>Eingebaute Hilfe in Linux/Mac/Cygwin: man pages
       <ul><li>Definitive Informationen zu allen <span class="nb">Standardfunktionen</span></li><li>Im Terminal, <code class="lc">man Funktionsname</code> <span class="nb">eingeben</span></li></ul></li>
   </ul>
-<pre data-lang="shell">&gt; man strlen
+<pre data-lang="shell session"><span class="tk-p">&gt; </span>man strlen
 NAME
        strlen, strnlen - find length of string
 LIBRARY

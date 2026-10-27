@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1111,6 +1108,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 19.7; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #8e81e4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #b3abfe; --syn-f: #f8c9f6; --syn-s: #cfbf71; --syn-n: #75d7f2; --syn-b: #9aaad2; --syn-c: #8b8a9b; --syn-p: #8b8a9b; }
+  html[data-mode="day"] { --syn-k: #6150b2; --syn-f: #632c62; --syn-s: #736304; --syn-n: #0f6f84; --syn-b: #425179; --syn-c: #68677a; --syn-p: #68677a; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1636,16 +1639,16 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
 <div class="card de">
   <span class="folie">Slide 9–11</span>
   <p><b>Zero-shot</b>: The model predicts the answer given only a natural language description of the task. No gradient updates are <span class="nb">performed.</span></p>
-  <pre>1  Translate English to French:     ← task description
+  <pre data-lang="text">1  Translate English to French:     ← task description
 2  cheese =&gt;                        ← prompt</pre>
   <ul><li>No gradient <span class="nb">updates</span></li><li>Learning happens “on <span class="nb">the fly“</span></li><li>Model has to “understand“ the task <span class="nb">description</span></li></ul>
   <p><b>One-shot</b>: In addition to the task description, the model sees a single example of the task. No gradient updates are <span class="nb">performed.</span></p>
-  <pre>1  Translate English to French:     ← task description
+  <pre data-lang="text">1  Translate English to French:     ← task description
 2  sea otter =&gt; loutre de mer       ← example
 3  cheese =&gt;                        ← prompt</pre>
   <ul><li>No gradient <span class="nb">updates</span></li><li>Model has to “understand“ the task <span class="nb">description</span></li><li>Understanding supported by one <span class="nb">demonstration</span></li></ul>
   <p><b>Few-shot</b>: In addition to the task description, the model sees a few examples of the task. No gradient updates are <span class="nb">performed.</span></p>
-  <pre>1  Translate English to French:     ← task description
+  <pre data-lang="text">1  Translate English to French:     ← task description
 2  sea otter =&gt; loutre de mer       ← examples
 3  peppermint =&gt; menthe poivrée
 4  plush girafe =&gt; girafe peluche
@@ -1767,7 +1770,7 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
 <div class="card de">
   <span class="folie">Slide 1</span>
   <p>LAMBADA <span class="nb">task</span></p>
-  <pre>Context →           Fill in blank:
+  <pre data-lang="grammar">Context →           Fill in blank:
 
                     She held the torch in front of her.
 
@@ -1806,7 +1809,7 @@ Target Completion → step</pre>
 <h3 id="s74-qa">闭卷问答<br><span class="de-title">"Closed book" question answering</span></h3>
 <div class="card de">
   <span class="folie">Slide 3</span>
-  <pre>Context →           Q: 'Nude Descending A Staircase' is perhaps the most famous painting by
+  <pre data-lang="grammar">Context →           Q: 'Nude Descending A Staircase' is perhaps the most famous painting by
                     which 20th century artist?
 
                     A:
@@ -1871,7 +1874,7 @@ Target Completion → MARCEL DUCHAMP</pre>
 <h3 id="s74-wino">Winograd<br><span class="de-title">Winograd task</span></h3>
 <div class="card de">
   <span class="folie">Slide 6</span>
-  <pre>Correct Context →   Grace was happy to trade me her sweater for my jacket.  She thinks the
+  <pre data-lang="grammar">Correct Context →   Grace was happy to trade me her sweater for my jacket.  She thinks the
                     sweater
 Incorrect Context → Grace was happy to trade me her sweater for my jacket.  She thinks the
                     jacket
@@ -1905,7 +1908,7 @@ Target Completion → looks dowdy on her.</pre>
     <li>Multipe-Choice questions from 3rd to 9th grad science <span class="nb">exams</span></li>
     <li>Challenge version: Filtered to questions that simple statistical or information retrieval methods are unable to correctly <span class="nb">answer</span></li>
   </ul>
-  <pre>Context →          Question:  George wants to warm his hands quickly by rubbing them.  Which
+  <pre data-lang="grammar">Context →          Question:  George wants to warm his hands quickly by rubbing them.  Which
                    skin surface will produce the most heat?
                    Answer:
 Correct Answer →   dry palms
@@ -2006,7 +2009,7 @@ Incorrect Answer → palms covered with lotion</pre>
 <div class="card de">
   <span class="folie">Slide 15</span>
   <p>WiC (Word in Context) <span class="nb">task</span></p>
-  <pre>Context →           An outfitter provided everything needed for the safari.
+  <pre data-lang="grammar">Context →           An outfitter provided everything needed for the safari.
                     Before his first walking holiday, he went to a specialist outfitter to buy
                     some boots.
                     question:  Is the word 'outfitter' used in the same way in the two
@@ -2021,7 +2024,7 @@ Target Completion → no</pre>
 <div class="card de">
   <span class="folie">Slide 16</span>
   <p>COPA <span class="nb">task</span></p>
-  <pre>Context →          My body cast a shadow over the grass because
+  <pre data-lang="grammar">Context →          My body cast a shadow over the grass because
 Correct Answer →   the sun was rising.
 Incorrect Answer → the grass was cut.</pre>
 </div>
@@ -2032,7 +2035,7 @@ Incorrect Answer → the grass was cut.</pre>
 <div class="card de">
   <span class="folie">Slide 17</span>
   <p>WSC (Winograd Schema Challenge) <span class="nb">task</span></p>
-  <pre>Context →           Final Exam with Answer Key
+  <pre data-lang="grammar">Context →           Final Exam with Answer Key
                     Instructions:  Please carefully read the following passages.  For each
                     passage, you must identify which noun the pronoun marked in *bold* refers
                     to.
@@ -2062,7 +2065,7 @@ Target Completion → mr.  moncrieff</pre>
 <div class="card de">
   <span class="folie">Slide 19</span>
   <p>ANLI <span class="nb">task</span></p>
-  <pre>Context →          anli 3:  anli 3:  We shut the loophole which has American workers actually
+  <pre data-lang="grammar">Context →          anli 3:  anli 3:  We shut the loophole which has American workers actually
                    subsidizing the loss of their own job.  They just passed an expansion of
                    that loophole in the last few days:  $43 billion of giveaways, including
                    favors to the oil and gas industry and the people importing ceiling fans
@@ -2088,7 +2091,7 @@ Incorrect Answer → Neither</pre>
 <div class="card de">
   <span class="folie">Slide 21</span>
   <p>SAT analogies <span class="nb">task</span></p>
-  <pre>Context →          lull is to trust as
+  <pre data-lang="grammar">Context →          lull is to trust as
 Correct Answer →   cajole is to compliance
 Incorrect Answer → balk is to fortitude
 Incorrect Answer → betray is to loyalty

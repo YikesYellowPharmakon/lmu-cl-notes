@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1111,6 +1108,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 13.1; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #8e81e4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #b3abfe; --syn-f: #f8c9f6; --syn-s: #cfbf71; --syn-n: #75d7f2; --syn-b: #9aaad2; --syn-c: #8b8a9b; --syn-p: #8b8a9b; }
+  html[data-mode="day"] { --syn-k: #6150b2; --syn-f: #632c62; --syn-s: #736304; --syn-n: #0f6f84; --syn-b: #425179; --syn-c: #68677a; --syn-p: #68677a; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -3602,15 +3605,15 @@ c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></spa
 <div class="card de">
   <span class="folie">Slide 12</span>
   <p>Example – <span class="nb">Setup I</span></p>
-  <pre data-lang="python">import re, collections
+  <pre data-lang="python"><span class="tk-k">import </span>re, collections
 
-def get_stats(vocab):
-  pairs = collections.defaultdict(int)
-  for word, freq in vocab.items():
+<span class="tk-k">def </span><span class="tk-f">get_stats</span>(vocab):
+  pairs = collections.defaultdict(<span class="tk-b">int</span>)
+  <span class="tk-k">for </span>word, freq <span class="tk-k">in </span>vocab.items():
       symbols = word.split()
-      for i in range(len(symbols)-1):
-          pairs[symbols[i],symbols[i+1]] += freq
-  return pairs</pre>
+      <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-b">len</span>(symbols)-<span class="tk-n">1</span>):
+          pairs[symbols[i],symbols[i+<span class="tk-n">1</span>]] += freq
+  <span class="tk-k">return </span>pairs</pre>
 </div>
 <div class="zh">
   <p><code>get_stats</code> 统计所有相邻符号对的加权次数. 词表 <code>vocab</code> 的键是用<b>空格分开符号</b>的词 (如 <code class="lc">'l o w &lt;/w&gt;'</code>), 值是这个词在语料里的频次. 对每个词: <code>split()</code> 按空格拆成符号列表; 遍历每一对相邻符号, 把这个词的频次加到这对上. <code>defaultdict(int)</code> 让没出现过的键默认为 0, 可以直接 <code>+=</code>. 键 <code>symbols[i],symbols[i+1]</code> <span class="nb">是一个元组.</span></p>
@@ -3619,14 +3622,14 @@ def get_stats(vocab):
 <div class="card de">
   <span class="folie">Slide 13</span>
   <p>Example – <span class="nb">Setup II</span></p>
-  <pre data-lang="python">def merge_vocab(pair, v_in):
+  <pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">merge_vocab</span>(pair, v_in):
   v_out = {}
-  bigram = re.escape(' '.join(pair))
-  p = re.compile(r'(?&lt;!\S)' + bigram + r'(?!\S)')
-  for word in v_in:
-      w_out = p.sub(''.join(pair), word)
+  bigram = re.escape(<span class="tk-s">' '</span>.join(pair))
+  p = re.compile(<span class="tk-s">r'(?&lt;!\S)' </span>+ bigram + <span class="tk-s">r'(?!\S)'</span>)
+  <span class="tk-k">for </span>word <span class="tk-k">in </span>v_in:
+      w_out = p.sub(<span class="tk-s">''</span>.join(pair), word)
       v_out[w_out] = v_in[word]
-  return v_out</pre>
+  <span class="tk-k">return </span>v_out</pre>
 </div>
 <div class="zh">
   <p><code>merge_vocab</code> 在每个词里把选中的符号对合并. 例: <code class="lc">pair = ('e', 's')</code> 时, <code>' '.join(pair)</code> 是 <code>'e s'</code>, <code>re.escape</code> 转义其中的正则特殊字符 (符号里可能有 <code>.</code> 之类). 正则两端的 <code>(?&lt;!\S)</code> 和 <code>(?!\S)</code> 是否定的后顾 / 前瞻: 前后都不能紧挨着非空白字符, 保证匹配的是<b>完整的符号</b>. 没有这两个条件时, 如果某个词里已有符号 <code>'ne'</code>, 那么 <code>'ne s t'</code> 里的 <code>'e s'</code> 也会被匹配, 变成 <code>'nes t'</code>, 把不该合并的 ne 和 s 粘在一起; 加上条件后 <code>'ne s t'</code> 保持不变 (我用 Python 试过两种写法). 然后用 <code>''.join(pair)</code> (<code>'es'</code>) 替换, <span class="nb">频次照搬.</span></p>
@@ -3635,12 +3638,12 @@ def get_stats(vocab):
 <div class="card de">
   <span class="folie">Slide 14</span>
   <p>Example – <span class="nb">Merging I</span></p>
-  <pre data-lang="python">vocab = {'l o w &lt;/w&gt;' : 5,
+  <pre data-lang="python repl">vocab = {'l o w &lt;/w&gt;' : 5,
          'l o w e r &lt;/w&gt;' : 2,
          'n e w e s t &lt;/w&gt;' : 6,
          'w i d e s t &lt;/w&gt;' : 3}
 pairs = get_stats(vocab)
-&gt;&gt;&gt; print(pairs)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(pairs)
 defaultdict(&lt;class 'int'&gt;, {
    ('l', 'o'): 7, ('o', 'w'): 7, ('w', '&lt;/w&gt;'): 5,
    ('w', 'e'): 8, ('e', 'r'): 2, ('r', '&lt;/w&gt;'): 2,
@@ -3657,11 +3660,11 @@ defaultdict(&lt;class 'int'&gt;, {
 <div class="card de">
   <span class="folie">Slide 15</span>
   <p>Example – <span class="nb">Merging II</span></p>
-  <pre data-lang="python">best = max(pairs, key=pairs.get)
+  <pre data-lang="python repl">best = max(pairs, key=pairs.get)
 vocab = merge_vocab(best, vocab)
-&gt;&gt;&gt; print(best)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(best)
 ('e', 's')
-&gt;&gt;&gt; print(vocab)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(vocab)
 {'l o w &lt;/w&gt;': 5, 'l o w e r &lt;/w&gt;': 2,
  'n e w es t &lt;/w&gt;': 6, 'w i d es t &lt;/w&gt;': 3}</pre>
 </div>
@@ -3673,16 +3676,16 @@ vocab = merge_vocab(best, vocab)
 <div class="card de">
   <span class="folie">Slide 16</span>
   <p>Example – <span class="nb">Merging III</span></p>
-  <pre data-lang="python">vocab = {'l o w &lt;/w&gt;' : 5,
-         'l o w e r &lt;/w&gt;' : 2,
-         'n e w e s t &lt;/w&gt;' : 6,
-         'w i d e s t &lt;/w&gt;' : 3}
-num_merges = 10
-for i in range(num_merges):
+  <pre data-lang="python">vocab = {<span class="tk-s">'l o w &lt;/w&gt;' </span>: <span class="tk-n">5</span>,
+         <span class="tk-s">'l o w e r &lt;/w&gt;' </span>: <span class="tk-n">2</span>,
+         <span class="tk-s">'n e w e s t &lt;/w&gt;' </span>: <span class="tk-n">6</span>,
+         <span class="tk-s">'w i d e s t &lt;/w&gt;' </span>: <span class="tk-n">3</span>}
+num_merges = <span class="tk-n">10
+</span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(num_merges):
     pairs = get_stats(vocab)
-    best = max(pairs, key=pairs.get)
+    best = <span class="tk-b">max</span>(pairs, key=pairs.get)
     vocab = merge_vocab(best, vocab)
-    print(best)</pre>
+    <span class="tk-b">print</span>(best)</pre>
 </div>
 <div class="zh">
   <p>从原始词表重新开始, 循环 10 次: 每次重新统计、找最频繁的一对、合并、打印. 注意每次合并后都要<b>重新统计</b>, 因为新符号会产生新<span class="nb">的相邻对.</span></p>
@@ -3691,7 +3694,7 @@ for i in range(num_merges):
 <div class="card de">
   <span class="folie">Slide 17</span>
   <p>Example – Merging <span class="nb">steps</span></p>
-  <pre>('e', 's')
+  <pre data-lang="text">('e', 's')
 ('es', 't')
 ('est', '&lt;/w&gt;')
 ('l', 'o')

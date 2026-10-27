@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1095,6 +1092,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 14.5; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81cee4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #47caea; --syn-f: #c6dcfe; --syn-s: #d9ba70; --syn-n: #9adaa3; --syn-b: #7db7b8; --syn-c: #7c9096; --syn-p: #7c9096; }
+  html[data-mode="day"] { --syn-k: #0f6f84; --syn-f: #1a447f; --syn-s: #7b5f01; --syn-n: #1d7635; --syn-b: #105e60; --syn-c: #566d75; --syn-p: #566d75; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1179,11 +1182,11 @@
 <div class="card de">
   <span class="folie">Folie 7</span>
   <div class="cols">
-<pre><code><span class="k">def</span> linSearch(liste, element):
-    <span class="k">for</span> i <span class="k">in</span> range(len(liste)):
-        <span class="k">if</span> liste[i] == element:
-            <span class="k">return</span> True
-    <span class="k">return</span> False</code></pre>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">linSearch</span>(liste, element):
+    <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-b">len</span>(liste)):
+        <span class="tk-k">if </span>liste[i] == element:
+            <span class="tk-k">return </span><span class="tk-n">True
+    </span><span class="tk-k">return </span><span class="tk-n">False</span></code></pre>
     <div class="tablewrap"><table>
       <tr><th>X</th><th class="wide">Durchschnitt von 100 Messungen in Millisekunden</th></tr>
       <tr><td>10.000.000</td><td>2.82</td></tr>
@@ -1242,18 +1245,18 @@
 <h3 id="linsuche">线性查找的时间与空间<br><span class="de-title">Beispiel: Lineare Suche eines Elements in einer Liste (2)</span></h3>
 <div class="card de">
   <span class="folie">Folie 10</span>
-<pre><code>linSearch(liste, element):
-    <span class="k">for</span> i <span class="k">in</span> range(len(liste)):
-        <span class="k">if</span> liste[i] == elemnet:
-            <span class="k">return</span> True
-    <span class="k">return</span> False
+<pre data-lang="python"><code>linSearch(liste, element):
+    <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-b">len</span>(liste)):
+        <span class="tk-k">if </span>liste[i] == elemnet:
+            <span class="tk-k">return </span><span class="tk-n">True
+    </span><span class="tk-k">return </span><span class="tk-n">False
 
-Beispiel:
+</span>Beispiel:
 
-liste = [30,7,1,15,20,13,28,25]     <span class="c"># Zeit?</span>
-beispiel1 = linSearch(liste,30)     <span class="c"># Zeit?</span>
-beispiel2 = linSearch(liste,7)      <span class="c"># Zeit?</span>
-beispiel3 = linSearch(liste,23)     <span class="c"># Zeit?</span></code></pre>
+liste = [<span class="tk-n">30</span>,<span class="tk-n">7</span>,<span class="tk-n">1</span>,<span class="tk-n">15</span>,<span class="tk-n">20</span>,<span class="tk-n">13</span>,<span class="tk-n">28</span>,<span class="tk-n">25</span>]     <span class="tk-c"># Zeit?
+</span>beispiel1 = linSearch(liste,<span class="tk-n">30</span>)     <span class="tk-c"># Zeit?
+</span>beispiel2 = linSearch(liste,<span class="tk-n">7</span>)      <span class="tk-c"># Zeit?
+</span>beispiel3 = linSearch(liste,<span class="tk-n">23</span>)     <span class="tk-c"># Zeit?</span></code></pre>
 </div>
 <div class="zh">
   <p>同一个函数, 输入不同, 花的时间也不同: 找 30 (第一个元素) 最快, 找 7 (第二个) 稍慢, 找 23 (不存在) 要看完整个列表, 最慢. 三个调用的结果: True、True、<span class="nb">False.</span> </p>
@@ -1263,13 +1266,13 @@ beispiel3 = linSearch(liste,23)     <span class="c"># Zeit?</span></code></pre>
 <div class="card de">
   <span class="folie">Folie 11</span>
   <p><b>Beispiel: Lineare Suche eines Elements in einer Liste (3)</b></p>
-<pre><code>linSearch(liste, element):
-    i=0
-    <span class="k">while</span> i &lt; len(liste):
-        <span class="k">if</span> liste[i] == element:
-            <span class="k">return</span> True
-        i +=1
-    <span class="k">return</span> False</code></pre>
+<pre data-lang="python"><code>linSearch(liste, element):
+    i=<span class="tk-n">0
+    </span><span class="tk-k">while </span>i &lt; <span class="tk-b">len</span>(liste):
+        <span class="tk-k">if </span>liste[i] == element:
+            <span class="tk-k">return </span><span class="tk-n">True
+        </span>i +=<span class="tk-n">1
+    </span><span class="tk-k">return </span><span class="tk-n">False</span></code></pre>
   <p>Sei n = len(liste) und e bereits eine Zahl. Wir schätzen den maximalen Zeitbedarf des Aufrufs linSearch(liste,<span class="nb">e) ab</span></p>
   <ul>
     <li>1 für den ersten Schritt i <span class="nb">= 0</span></li>
@@ -1300,9 +1303,9 @@ beispiel3 = linSearch(liste,23)     <span class="c"># Zeit?</span></code></pre>
   <p>Speicherplatzbedarf</p>
   <ul><li>n+1 (für liste mit <span class="nb">len(liste))</span></li><li>1 für e</li><li>1 für i</li><li>1 für <span class="nb">Ergebnis</span></li></ul>
   <p>Speicherplatzbedarf gesamt = n + 4<br>Speicherplatzbedarf zusätzlich zur Eingabe: 2<br>Speicherplatzbedarf für verschiedene Aufrufe von linSearch:</p>
-<pre><code>liste = [30, 7, 1, 15, 20, 13, 28, 25]
-beispiel1 = linSearch(liste, 30) <span class="c"># Speicherplätze: 12</span>
-beispiel2 = linSearch(liste, 23) <span class="c"># Speicherplätze: 12</span></code></pre>
+<pre data-lang="python"><code>liste = [<span class="tk-n">30</span>, <span class="tk-n">7</span>, <span class="tk-n">1</span>, <span class="tk-n">15</span>, <span class="tk-n">20</span>, <span class="tk-n">13</span>, <span class="tk-n">28</span>, <span class="tk-n">25</span>]
+beispiel1 = linSearch(liste, <span class="tk-n">30</span>) <span class="tk-c"># Speicherplätze: 12
+</span>beispiel2 = linSearch(liste, <span class="tk-n">23</span>) <span class="tk-c"># Speicherplätze: 12</span></code></pre>
 </div>
 <div class="zh">
   <p>空间: 列表 n 个元素 + 1 个长度信息 = n+1; 参数 e 1 个; 循环变量 i 1 个; 返回值 1 个. 共 <b>n + 4</b>; 其中输入 (列表和 e) 本来就存在, 函数<b>额外</b>需要的只有 i 和结果, <span class="nb">即 <b>2</b>.</span> </p>
@@ -1590,7 +1593,7 @@ beispiel2 = linSearch(liste, 23) <span class="c"># Speicherplätze: 12</span></c
 <div class="card de">
   <span class="folie">Folie 29</span>
   <p>Sei liste ein geordnetes Liste mit den Grenzen j und k, d.h. liste[i] &lt; liste[i+1] für i = j, …, k; <span class="nb">also z.B.:</span></p>
-<pre>liste:  3   7   13  15  20  25  28  29
+<pre data-lang="text">liste:  3   7   13  15  20  25  28  29
         j  j+1  ···                  k</pre>
   <p>Algorithmus:<br>Um den Wert e in a zu suchen, teile die Liste in der Mitte und vergleicht e mit dem Element liste[mid] in der Mitte</p>
   <ul>
@@ -1608,22 +1611,22 @@ beispiel2 = linSearch(liste, 23) <span class="c"># Speicherplätze: 12</span></c
 <div class="card de">
   <span class="folie">Folie 30</span>
   <p><b>Binäre Suche in Python</b></p>
-<pre><code><span class="k">def</span> binarySearch(liste, element):
-    j = 0                          <span class="c"># linke Grenze</span>
-    k = len(liste) - 1             <span class="c"># rechte Grenze</span>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">binarySearch</span>(liste, element):
+    j = <span class="tk-n">0                          </span><span class="tk-c"># linke Grenze
+    </span>k = <span class="tk-b">len</span>(liste) - <span class="tk-n">1             </span><span class="tk-c"># rechte Grenze
 
-    <span class="c"># solange element nicht gefunden und liste leer</span>
-    <span class="k">while</span> j &lt;= k:
-        mid = j + (k-j) //2        <span class="c"># Mitte der Liste bzw. links davon</span>
-        <span class="k">if</span> element &lt; liste[mid]:   <span class="c"># element kleiner als das mittlere?</span>
-            k = mid -1             <span class="c"># ja, mache mit rechtem Teil weiter.</span>
-        <span class="k">elif</span> element &gt; liste[mid]: <span class="c"># element größer als das mittlere?</span>
-            j = mid +1             <span class="c"># ja, mache mit rechtem Teil weiter.</span>
-        <span class="k">else</span>:
-            <span class="k">return</span> True            <span class="c"># sonst: gefunden</span>
-    <span class="k">return</span> False
+    # solange element nicht gefunden und liste leer
+    </span><span class="tk-k">while </span>j &lt;= k:
+        mid = j + (k-j) //<span class="tk-n">2        </span><span class="tk-c"># Mitte der Liste bzw. links davon
+        </span><span class="tk-k">if </span>element &lt; liste[mid]:   <span class="tk-c"># element kleiner als das mittlere?
+            </span>k = mid -<span class="tk-n">1             </span><span class="tk-c"># ja, mache mit rechtem Teil weiter.
+        </span><span class="tk-k">elif </span>element &gt; liste[mid]: <span class="tk-c"># element größer als das mittlere?
+            </span>j = mid +<span class="tk-n">1             </span><span class="tk-c"># ja, mache mit rechtem Teil weiter.
+        </span><span class="tk-k">else</span>:
+            <span class="tk-k">return </span><span class="tk-n">True            </span><span class="tk-c"># sonst: gefunden
+    </span><span class="tk-k">return </span><span class="tk-n">False
 
-<span class="c"># Beispiel</span></code></pre>
+</span><span class="tk-c"># Beispiel</span></code></pre>
 </div>
 <div class="zh">
   <ul>
@@ -1691,7 +1694,7 @@ beispiel2 = linSearch(liste, 23) <span class="c"># Speicherplätze: 12</span></c
 <div class="card de">
   <span class="folie">Folie 35</span>
   <p><b>Bubble Sort: Beispiel</b></p>
-<pre>5   33  12  13  8   1
+<pre data-lang="text">5   33  12  13  8   1
 5   12  13  8   1   33     Nach dem ersten Durchlauf ist das größte Element an der richtige Stelle
 5   12  8   1   13  33     Nach dem zweiten Durchlauf sind die beiden größten Elemente an der richtigen Stelle
 5   8   1   12  13  33
@@ -1706,19 +1709,19 @@ beispiel2 = linSearch(liste, 23) <span class="c"># Speicherplätze: 12</span></c
 <div class="card de">
   <span class="folie">Folie 36</span>
   <p><b>Bubble Sort in Python</b></p>
-<pre><code><span class="k">def</span> bubbleSort(liste):
-    <span class="k">for</span> i <span class="k">in</span> range(len(liste)):
-        <span class="k">for</span> j <span class="k">in</span> range(0, len(liste) - i -1):
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">bubbleSort</span>(liste):
+    <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-b">len</span>(liste)):
+        <span class="tk-k">for </span>j <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">0</span>, <span class="tk-b">len</span>(liste) - i -<span class="tk-n">1</span>):
 
-            <span class="k">if</span> liste[j] &gt; liste[j+1]:
+            <span class="tk-k">if </span>liste[j] &gt; liste[j+<span class="tk-n">1</span>]:
 
                 temp = liste[j]
-                liste[j] = liste[j+1]
-                liste[j+1] = temp
+                liste[j] = liste[j+<span class="tk-n">1</span>]
+                liste[j+<span class="tk-n">1</span>] = temp
 
-beispiel = [-2, 45, 0, 11]
+beispiel = [-<span class="tk-n">2</span>, <span class="tk-n">45</span>, <span class="tk-n">0</span>, <span class="tk-n">11</span>]
 bubbleSort(beispiel)
-print(beispiel)</code></pre>
+<span class="tk-b">print</span>(beispiel)</code></pre>
 </div>
 <div class="zh">
   <p>外层 i 是已经排好的个数; 内层 j 从 0 到 n−i−2, 比较 liste[j] 和 liste[j+1], 反了就用 temp 交换. <code class="lc">len(liste) - i - 1</code>: 最后 i 个已就位, 不用再比. 函数直接修改列表 (in-place). 实际输出 <span class="nb"><code class="lc">[-2, 0, 11, 45]</code>.</span> </p>
@@ -1748,22 +1751,22 @@ print(beispiel)</code></pre>
   <span class="folie">Folie 38</span>
   <p><b>Bubble Sort, optimiert</b></p>
   <p>Wenn in einem Durchlauf keine Vertauschungen mehr passieren, dann ist das Feld bereits sortiert, und wir können <span class="nb">aufhören:</span></p>
-<pre><code><span class="k">def</span> bubbleSortOpt(liste):
-    <span class="k">for</span> i <span class="k">in</span> range(len(liste)):
-        notSwapped = True
-        <span class="k">for</span> j <span class="k">in</span> range(0, len(liste) - i -1):
-            <span class="k">if</span> liste[j] &gt; liste[j+1]:
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">bubbleSortOpt</span>(liste):
+    <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-b">len</span>(liste)):
+        notSwapped = <span class="tk-n">True
+        </span><span class="tk-k">for </span>j <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">0</span>, <span class="tk-b">len</span>(liste) - i -<span class="tk-n">1</span>):
+            <span class="tk-k">if </span>liste[j] &gt; liste[j+<span class="tk-n">1</span>]:
                 temp = liste[j]
-                liste[j] = liste[j+1]
-                liste[j+1] = temp
-                notSwapped = False
+                liste[j] = liste[j+<span class="tk-n">1</span>]
+                liste[j+<span class="tk-n">1</span>] = temp
+                notSwapped = <span class="tk-n">False
 
-        <span class="k">if</span> notSwapped:
-            <span class="k">return</span>
+        </span><span class="tk-k">if </span>notSwapped:
+            <span class="tk-k">return
 
-beispiel = [-2, 45, 0, 11]
+</span>beispiel = [-<span class="tk-n">2</span>, <span class="tk-n">45</span>, <span class="tk-n">0</span>, <span class="tk-n">11</span>]
 bubbleSortOpt(beispiel)
-print(beispiel)</code></pre>
+<span class="tk-b">print</span>(beispiel)</code></pre>
 </div>
 <div class="card de">
   <span class="folie">Folie 40</span>
@@ -1798,7 +1801,7 @@ print(beispiel)</code></pre>
 <div class="card de">
   <span class="folie">Folie 42</span>
   <p><b>Selection Sort: Beispiel</b></p>
-<pre>5   33  12  13  8   1
+<pre data-lang="text">5   33  12  13  8   1
 1   33  12  13  8   5
 1   5   12  13  8   33
 1   5   8   13  12  33
@@ -1813,23 +1816,23 @@ print(beispiel)</code></pre>
 <div class="card de">
   <span class="folie">Folie 43</span>
   <p><b>Selection Sort in Python</b></p>
-<pre><code><span class="k">def</span> selectionSort(liste):
-    <span class="k">for</span> i <span class="k">in</span> range(len(liste)):
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">selectionSort</span>(liste):
+    <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-b">len</span>(liste)):
         minIndex = selectMinIndex(liste, i)
         tmp = liste[i]
         liste[i] = liste[minIndex]
         liste[minIndex] = tmp
 
-<span class="k">def</span> selectMinIndex(liste, ab):
+<span class="tk-k">def </span><span class="tk-f">selectMinIndex</span>(liste, ab):
     minIndex = ab
-    <span class="k">for</span> i <span class="k">in</span> range(ab + 1, len(liste)):
-        <span class="k">if</span> liste[i] &lt; liste[minIndex]:
+    <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(ab + <span class="tk-n">1</span>, <span class="tk-b">len</span>(liste)):
+        <span class="tk-k">if </span>liste[i] &lt; liste[minIndex]:
             minIndex = i
-    <span class="k">return</span> minIndex
+    <span class="tk-k">return </span>minIndex
 
-beispiel = [-2, 45, 0, 11, -9]
+beispiel = [-<span class="tk-n">2</span>, <span class="tk-n">45</span>, <span class="tk-n">0</span>, <span class="tk-n">11</span>, -<span class="tk-n">9</span>]
 selectionSort(beispiel)
-print(beispiel)</code></pre>
+<span class="tk-b">print</span>(beispiel)</code></pre>
 </div>
 <div class="zh">
   <p>selectMinIndex 就是第 8 章的 find_min_index, 只是从下标 ab 开始找. selectionSort 每轮找最小值的下标, 再和位置 i 交换. 实际输出 <span class="nb"><code class="lc">[-9, -2, 0, 11, 45]</code>.</span> </p>
@@ -1874,7 +1877,7 @@ print(beispiel)</code></pre>
 <div class="card de">
   <span class="folie">Folie 46–48</span>
   <p><b>Insertion Sort: Beispiel</b></p>
-<pre>Am Anfang: Der erste Element ist immer schon sortiert:
+<pre data-lang="text">Am Anfang: Der erste Element ist immer schon sortiert:
 5   33  12  13  8   1
 Nächster Schritt: Füge 33 in den sortierten Bereich ein
 5   33  12  13  8   1
@@ -1910,19 +1913,19 @@ __  5   8   12  13  33
 <div class="card de">
   <span class="folie">Folie 49</span>
   <p><b>Insertion Sort in Python</b></p>
-<pre><code><span class="k">def</span> insertionSort(liste):
-    <span class="k">for</span> i <span class="k">in</span> range(1, len(liste)): <span class="c"># einzufügendes Element</span>
-        toInsert = liste[i]
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">insertionSort</span>(liste):
+    <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">1</span>, <span class="tk-b">len</span>(liste)): <span class="tk-c"># einzufügendes Element
+        </span>toInsert = liste[i]
         j = i
 
-        <span class="k">while</span> (j &gt; 0 <span class="k">and</span> liste[j-1] &gt; toInsert): <span class="c"># schiebe liste[j-1] um 1 nach rehts</span>
-            liste[j] = liste[j-1]
-            j -= 1
-        liste[j] = toInsert <span class="c"># Einfügeposition gefunden</span>
+        <span class="tk-k">while </span>(j &gt; <span class="tk-n">0 </span><span class="tk-k">and </span>liste[j-<span class="tk-n">1</span>] &gt; toInsert): <span class="tk-c"># schiebe liste[j-1] um 1 nach rehts
+            </span>liste[j] = liste[j-<span class="tk-n">1</span>]
+            j -= <span class="tk-n">1
+        </span>liste[j] = toInsert <span class="tk-c"># Einfügeposition gefunden
 
-l = [5, 33, 12, 13, 8, 1]
+</span>l = [<span class="tk-n">5</span>, <span class="tk-n">33</span>, <span class="tk-n">12</span>, <span class="tk-n">13</span>, <span class="tk-n">8</span>, <span class="tk-n">1</span>]
 insertionSort(l)
-print(l)</code></pre>
+<span class="tk-b">print</span>(l)</code></pre>
 </div>
 <div class="zh">
   <p>toInsert 存要插入的值; j 是当前空位. while: 空位左边还有元素 (<code>j &gt; 0</code>) 且那个元素比 toInsert 大, 就把它右移进空位, 空位左移一格. 结束后把 toInsert 放进空位. 实际输出 <span class="nb"><code class="lc">[1, 5, 8, 12, 13, 33]</code>.</span> </p>

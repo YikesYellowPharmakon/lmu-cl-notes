@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1095,6 +1092,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 11.5; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81cee4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #47caea; --syn-f: #c6dcfe; --syn-s: #d9ba70; --syn-n: #9adaa3; --syn-b: #7db7b8; --syn-c: #7c9096; --syn-p: #7c9096; }
+  html[data-mode="day"] { --syn-k: #0f6f84; --syn-f: #1a447f; --syn-s: #7b5f01; --syn-n: #1d7635; --syn-b: #105e60; --syn-c: #566d75; --syn-p: #566d75; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1204,15 +1207,15 @@
   <span class="folie">Folie 6</span>
   <p><b>Ausnahmesituationen erkennen (1)</b></p>
   <p>Beispiel: Berechnung der <span class="nb">Fakultät</span></p>
-<pre><code><span class="k">def</span> fact(n):
-    <span class="k">if</span> n==0:
-        <span class="k">return</span> 1
-    <span class="k">else</span>:
-        <span class="k">return</span> n*fact(n-1)
-<span class="c"># Ausführen</span>
-m = -1 <span class="c"># Negative Zahl</span>
-k = fact(m)
-print(<span class="s">"Fakultät von "</span> + str(m) + <span class="s">" ist "</span> + str(k)</code></pre>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">fact</span>(n):
+    <span class="tk-k">if </span>n==<span class="tk-n">0</span>:
+        <span class="tk-k">return </span><span class="tk-n">1
+    </span><span class="tk-k">else</span>:
+        <span class="tk-k">return </span>n*fact(n-<span class="tk-n">1</span>)
+<span class="tk-c"># Ausführen
+</span>m = -<span class="tk-n">1 </span><span class="tk-c"># Negative Zahl
+</span>k = fact(m)
+<span class="tk-b">print</span>(<span class="tk-s">"Fakultät von " </span>+ <span class="tk-b">str</span>(m) + <span class="tk-s">" ist " </span>+ <span class="tk-b">str</span>(k)</code></pre>
   <ul>
     <li>Es kann zu Nichtterminierung <span class="nb">kommen</span></li>
     <li>Diese Ausnahmesituation wird in der Methode fact nicht <span class="nb">erkannt</span></li>
@@ -1227,19 +1230,19 @@ print(<span class="s">"Fakultät von "</span> + str(m) + <span class="s">" ist "
 <div class="card de">
   <span class="folie">Folie 7</span>
   <p><b>Ausnahmesituationen erkennen (2)</b></p>
-<pre><code><span class="k">def</span> fact2(n):
-    <span class="k">if</span> n &lt; 0:
-        <span class="k">return</span> -1
-    <span class="k">elif</span> n == 0:
-        <span class="k">return</span> 1
-    <span class="k">else</span>:
-        <span class="k">return</span> n * fact2(n-1)
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">fact2</span>(n):
+    <span class="tk-k">if </span>n &lt; <span class="tk-n">0</span>:
+        <span class="tk-k">return </span>-<span class="tk-n">1
+    </span><span class="tk-k">elif </span>n == <span class="tk-n">0</span>:
+        <span class="tk-k">return </span><span class="tk-n">1
+    </span><span class="tk-k">else</span>:
+        <span class="tk-k">return </span>n * fact2(n-<span class="tk-n">1</span>)
 
-<span class="c"># Ausführung</span>
+<span class="tk-c"># Ausführung
 
-m = -2
-k = fact2(m)
-print(<span class="s">"Fakultät von "</span> + str(m) + <span class="s">" ist "</span> + str(k))</code></pre>
+</span>m = -<span class="tk-n">2
+</span>k = fact2(m)
+<span class="tk-b">print</span>(<span class="tk-s">"Fakultät von " </span>+ <span class="tk-b">str</span>(m) + <span class="tk-s">" ist " </span>+ <span class="tk-b">str</span>(k))</code></pre>
   <p>Die Ausnahmesituation n &lt; 0 wird in der Methode fact2 zwar erkannt, aber nicht adäquat an den Aufrufer <span class="nb">gemeldet.</span></p>
 </div>
 <div class="zh">
@@ -1249,26 +1252,26 @@ print(<span class="s">"Fakultät von "</span> + str(m) + <span class="s">" ist "
 <div class="card de">
   <span class="folie">Folie 8</span>
   <p><b>Ausnahmesituationen erkennen und Ausnahme auslösen</b></p>
-<pre><code><span class="k">def</span> fact3(n):
-    <span class="k">if</span> n &lt; 0:
-        <span class="k">raise</span> ValueError(<span class="s">"Eingabe darf nicht kleiner als 0 sein."</span>)
-    <span class="k">elif</span> n == 0:
-        <span class="k">return</span> 1
-    <span class="k">else</span>:
-        <span class="k">return</span> n * fact3(n-1)
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">fact3</span>(n):
+    <span class="tk-k">if </span>n &lt; <span class="tk-n">0</span>:
+        <span class="tk-k">raise </span>ValueError(<span class="tk-s">"Eingabe darf nicht kleiner als 0 sein."</span>)
+    <span class="tk-k">elif </span>n == <span class="tk-n">0</span>:
+        <span class="tk-k">return </span><span class="tk-n">1
+    </span><span class="tk-k">else</span>:
+        <span class="tk-k">return </span>n * fact3(n-<span class="tk-n">1</span>)
 
-<span class="c"># Ausführung</span>
+<span class="tk-c"># Ausführung
 
-m = -2
-k = fact3(m)
-print(<span class="s">"Fakultät von "</span> + str(m) + <span class="s">" ist "</span> + str(k))</code></pre>
+</span>m = -<span class="tk-n">2
+</span>k = fact3(m)
+<span class="tk-b">print</span>(<span class="tk-s">"Fakultät von " </span>+ <span class="tk-b">str</span>(m) + <span class="tk-s">" ist " </span>+ <span class="tk-b">str</span>(k))</code></pre>
   <p>Die Ausnahme wird in der Methode fact3 erkannt und eine Ausnahme wird erzeugt <span class="nb">(„geworfen“).</span></p>
 </div>
 <div class="card de">
   <span class="folie">Folie 9</span>
-<pre><code>    ...
-    <span class="k">if</span> n &lt; 0:
-        <span class="k">raise</span> ValueError(<span class="s">"Eingabe darf nicht kleiner als 0 sein."</span>)
+<pre data-lang="python"><code>    ...
+    <span class="tk-k">if </span>n &lt; <span class="tk-n">0</span>:
+        <span class="tk-k">raise </span>ValueError(<span class="tk-s">"Eingabe darf nicht kleiner als 0 sein."</span>)
     ...</code></pre>
   <ul>
     <li>Die Ausnahme enthält eine individuelle Information, die die Fehlersituation <span class="nb">beschreibt.</span></li>
@@ -1278,7 +1281,7 @@ print(<span class="s">"Fakultät von "</span> + str(m) + <span class="s">" ist "
 </div>
 <div class="zh">
   <p>第三版: 用 <code>raise</code> <b>抛出</b> (auslösen, 口语「werfen」) 一个异常. 异常对象带着描述错误的信息 (这里是那句德语). 抛出后函数立即中止, 不会返回一个看似正常的值; 如果没有人<b>处理</b>它, 整个程序中止, 控制台打印 Traceback <span class="nb">和错误信息:</span> </p>
-<pre>ValueError: Eingabe darf nicht kleiner als 0 sein.</pre>
+<pre data-lang="output">ValueError: Eingabe darf nicht kleiner als 0 sein.</pre>
   <p>好处: 调用者不可能「忘记检查」, 错误不会悄悄传下去; 想继续运行的话, 可以在调用处<b>捕获</b>异常 (Folie 19 <span class="nb">起).</span> </p>
 </div>
 <div class="warn"><p><b>幻灯片表述不准确: </b>Folie 9「werden die Methode und das Programm abgebrochen」只在异常<b>没有被处理</b>时成立, 下一句其实就在说可以处理. 另外 Python 里没有 Java 那样的「main-Programm」, 指的是模块顶层调用 fact3 的代码; fact、fact2、fact3 也是函数, 不是方法 (Methode 属于类, <span class="nb">第 5 章).</span> </p></div>
@@ -1295,12 +1298,12 @@ print(<span class="s">"Fakultät von "</span> + str(m) + <span class="s">" ist "
 <div class="card de">
   <span class="folie">Folie 11</span>
   <p><b>Beispiel Ganzzahl Eingabewert</b></p>
-<pre><code>n = int(input(<span class="s">"Bitte gebe eine Zahl ein: "</span>))
+<pre data-lang="python repl"><code>n = int(input("Bitte gebe eine Zahl ein: "))
 
-print(<span class="s">"Die eingegebene Zahl ist: "</span> + str(n))
+print("Die eingegebene Zahl ist: " + str(n))
 
-<span class="c"># Ausfuehrung</span>
-&gt;&gt;&gt; %Run -c $EDITOR_CONTENT
+# Ausfuehrung
+<span class="tk-p">&gt;&gt;&gt; </span>%Run -c $EDITOR_CONTENT
 Bitte gebe eine Zahl ein: zwei
 Traceback (most recent call last):
 File "&lt;string&gt;", line 2, in &lt;module&gt;
@@ -1314,17 +1317,17 @@ ValueError: invalid literal for int() with base 10: 'zwei'</code></pre>
 <div class="card de">
   <span class="folie">Folie 12</span>
   <p><b>Beispiel (1) Wurzelfunktion</b></p>
-<pre><code><span class="k">from</span> math <span class="k">import</span> sqrt
+<pre data-lang="python repl"><code>from math import sqrt
 
-<span class="k">def</span> quadratwurzel(n):
-    <span class="k">return</span> sqrt(n)
+def quadratwurzel(n):
+    return sqrt(n)
 
-n = int(input(<span class="s">"Bitte gebe eine Zahl ein: "</span>))
+n = int(input("Bitte gebe eine Zahl ein: "))
 
 print(quadratwurzel(n))
 
-<span class="c"># Ausführung</span>
-&gt;&gt;&gt; %Run -c $EDITOR_CONTENT
+# Ausführung
+<span class="tk-p">&gt;&gt;&gt; </span>%Run -c $EDITOR_CONTENT
 Bitte gebe eine Zahl ein: -2
 Traceback (most recent call last):
 File "&lt;string&gt;", line 7, in &lt;module&gt;
@@ -1339,18 +1342,18 @@ ValueError: math domain error</code></pre>
 <div class="card de">
   <span class="folie">Folie 13</span>
   <p><b>Beispiel (2) Fibonacci-Folge</b></p>
-<pre><code><span class="k">def</span> fib(n):
-    <span class="k">if</span> n == 0:
-        <span class="k">return</span> 0
-    <span class="k">elif</span> n == 1:
-        <span class="k">return</span> 1
-    <span class="k">else</span>:
-        <span class="k">return</span> fib(n-1) + fib(n-2)
+<pre data-lang="python repl"><code>def fib(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fib(n-1) + fib(n-2)
 
 print(fib(-1))
-<span class="c"># Ausführung</span>
+# Ausführung
 ...
-&gt;&gt;&gt; %Run -c $EDITOR_CONTENT
+<span class="tk-p">&gt;&gt;&gt; </span>%Run -c $EDITOR_CONTENT
 Traceback (most recent call last):
 File "&lt;string&gt;", line 7, in fib
 File "&lt;string&gt;", line 2, in fib
@@ -1364,29 +1367,29 @@ RecursionError: maximum recursion depth exceeded in comparison</code></pre>
 <div class="card de">
   <span class="folie">Folie 14</span>
   <p><b>Aufrufstack bei Exception</b></p>
-<pre><code><span class="k">def</span> methode2():
-    d = 0
-    a = 42 / 0
-    print(<span class="s">"d = "</span> + str(d) + <span class="s">", a = "</span> + str(a))
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">methode2</span>():
+    d = <span class="tk-n">0
+    </span>a = <span class="tk-n">42 </span>/ <span class="tk-n">0
+    </span><span class="tk-b">print</span>(<span class="tk-s">"d = " </span>+ <span class="tk-b">str</span>(d) + <span class="tk-s">", a = " </span>+ <span class="tk-b">str</span>(a))
 
-<span class="k">def</span> methode1():
+<span class="tk-k">def </span><span class="tk-f">methode1</span>():
     methode2()
-print(methode1())
-<span class="c"># Aufruf mit Ausgabe des Aufrufstacks</span>
-Traceback (most recent call last):
-  File "&lt;string&gt;", line 10, in &lt;module&gt;
-    print(methode1())
-  File "&lt;string&gt;", line 8, in methode1
+<span class="tk-b">print</span>(methode1())
+<span class="tk-c"># Aufruf mit Ausgabe des Aufrufstacks
+</span>Traceback (most recent call last):
+  File <span class="tk-s">"&lt;string&gt;"</span>, line <span class="tk-n">10</span>, <span class="tk-k">in </span>&lt;module&gt;
+    <span class="tk-b">print</span>(methode1())
+  File <span class="tk-s">"&lt;string&gt;"</span>, line <span class="tk-n">8</span>, <span class="tk-k">in </span>methode1
     methode2()
-  File "&lt;string&gt;", line 3, in methode2
-    a = 42 / 0
-ZeroDivisionError: integer division or modulo by zero</code></pre>
+  File <span class="tk-s">"&lt;string&gt;"</span>, line <span class="tk-n">3</span>, <span class="tk-k">in </span>methode2
+    a = <span class="tk-n">42 </span>/ <span class="tk-n">0
+</span>ZeroDivisionError: integer division <span class="tk-k">or </span>modulo by zero</code></pre>
   <p>Traceback einer Fehlermeldung lesen lernen, um herauszufinden, an welcher Stelle im Code ein Fehler <span class="nb">aufgetreten ist.</span></p>
 </div>
 <div class="zh">
   <p><b>调用栈</b> (第 12 章): 模块顶层调用 methode1, methode1 调用 methode2, methode2 里除以 0. Traceback 按「最近的调用在最后」(most recent call last) 列出每一层: 文件、行号、函数名和那一行代码; 最后一行是异常类型和信息. 读 Traceback: <b>先看最后一行</b> (什么错), <b>再往上看</b> (在哪里、<span class="nb">怎么调用到那里的).</span> </p>
   <p>3.15 实测 (行号按幻灯片上<span class="nb">的代码数):</span> </p>
-<pre>Traceback (most recent call last):
+<pre data-lang="output">Traceback (most recent call last):
   File "f14.py", line 8, in &lt;module&gt;
     print(methode1())
           ~~~~~~~~^^
@@ -1410,18 +1413,18 @@ ZeroDivisionError: division by zero</pre>
 <h2 id="vermeiden">避免异常<br><span class="de-title">Vermeiden von Ausnahmen</span></h2>
 <div class="card de">
   <span class="folie">Folie 15</span>
-<pre><code><span class="k">def</span> fact4(n):
-    <span class="k">if</span> n &lt; 0:
-        <span class="k">raise</span> ValueError(<span class="s">"Eingabe darf nicht kleiner als 0 sein."</span>)
-    <span class="k">elif</span> n == 0:
-        <span class="k">return</span> 1
-    <span class="k">else</span>:
-        <span class="k">return</span> n * fact4(n-1)
-<span class="c"># Ausführung</span>
-m = ...
-<span class="k">if</span> m &gt;= 0:
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">fact4</span>(n):
+    <span class="tk-k">if </span>n &lt; <span class="tk-n">0</span>:
+        <span class="tk-k">raise </span>ValueError(<span class="tk-s">"Eingabe darf nicht kleiner als 0 sein."</span>)
+    <span class="tk-k">elif </span>n == <span class="tk-n">0</span>:
+        <span class="tk-k">return </span><span class="tk-n">1
+    </span><span class="tk-k">else</span>:
+        <span class="tk-k">return </span>n * fact4(n-<span class="tk-n">1</span>)
+<span class="tk-c"># Ausführung
+</span>m = ...
+<span class="tk-k">if </span>m &gt;= <span class="tk-n">0</span>:
     k = fact4(m)
-    print(<span class="s">"Fakultät von "</span> + str(m) + <span class="s">" ist "</span> + str(k))</code></pre>
+    <span class="tk-b">print</span>(<span class="tk-s">"Fakultät von " </span>+ <span class="tk-b">str</span>(m) + <span class="tk-s">" ist " </span>+ <span class="tk-b">str</span>(k))</code></pre>
   <ul>
     <li>Die Ausnahme wird vermieden, indem vor dem Aufruf von fact4 getestet wird, ob das Argument größer gleich <span class="nb">0 ist.</span></li>
     <li>Es kann (diesbezüglich) keine Ausnahme mehr ausgelöst werden.
@@ -1496,11 +1499,11 @@ m = ...
 <div class="card de">
   <span class="folie">Folie 19</span>
   <p><b>Ausnahmebehandlung in Python</b></p>
-<pre><code><span class="k">for</span> x <span class="k">in</span> range(-3, 3):
-    <span class="k">try</span>:
-        print(1/x)
-    <span class="k">except</span> ZeroDivisionError <span class="k">as</span> e:
-        print(<span class="s">"Eine Ausnahme wurde abgefangen:"</span>, e)</code></pre>
+<pre data-lang="python"><code><span class="tk-k">for </span>x <span class="tk-k">in </span><span class="tk-b">range</span>(-<span class="tk-n">3</span>, <span class="tk-n">3</span>):
+    <span class="tk-k">try</span>:
+        <span class="tk-b">print</span>(<span class="tk-n">1</span>/x)
+    <span class="tk-k">except </span>ZeroDivisionError <span class="tk-k">as </span>e:
+        <span class="tk-b">print</span>(<span class="tk-s">"Eine Ausnahme wurde abgefangen:"</span>, e)</code></pre>
   <ul>
     <li>Tritt während der Ausführung des try-Blocks eine Ausnahme der Klasse ZeroDivisionError auf, so wird der Code des entsprechenden except-Blocks ausgeführt; danach setzt Python die Ausführung mit der ersten Zeile nach dem try-except-Block <span class="nb">fort.</span></li>
     <li>Bemerkung: Ausnahmen haben eine hierarchische Struktur, d. h. manche Ausnahmen sind Spezialisierungen von anderen. So ist beispielsweise ZeroDivisionError eine Abwandlung von <span class="nb">ArithmeticError.</span></li>
@@ -1508,7 +1511,7 @@ m = ...
 </div>
 <div class="zh">
   <p>x 取 −3 到 2. try 块里出现 ZeroDivisionError 时, 跳到对应的 except 块执行, 然后接着执行 try-except 之后的代码 (这里是下一轮循环), 程序不中止. <code>as e</code> 把异常对象绑定到变量 e, 打印 e 得到错误信息. <span class="nb">实际输出:</span> </p>
-<pre>-0.3333333333333333
+<pre data-lang="output">-0.3333333333333333
 -0.5
 -1.0
 Eine Ausnahme wurde abgefangen: division by zero
@@ -1521,14 +1524,14 @@ Eine Ausnahme wurde abgefangen: division by zero
   <span class="folie">Folie 20</span>
   <p><b>Ausnahmebehandlung in Python (2)</b></p>
   <p>Mit Hilfe der Ausnahmebehandlung können wir robusten Code für das Lesen eines Integers von der Eingabe <span class="nb">schreiben:</span></p>
-<pre><code><span class="k">while</span> True:
-    <span class="k">try</span>:
-        n = input(<span class="s">"Bitte gebe eine ganze Zahl ein: "</span>)
-        n = int(n)
-        <span class="k">break</span>
-    <span class="k">except</span> ValueError:
-        print(<span class="s">"Keine gültige Zahl, probiere es nochmals ..."</span>)
-print(<span class="s">"Großartig! Das war eine korrekte ganze Zahl"</span>)</code></pre>
+<pre data-lang="python"><code><span class="tk-k">while </span><span class="tk-n">True</span>:
+    <span class="tk-k">try</span>:
+        n = <span class="tk-b">input</span>(<span class="tk-s">"Bitte gebe eine ganze Zahl ein: "</span>)
+        n = <span class="tk-b">int</span>(n)
+        <span class="tk-k">break
+    except </span>ValueError:
+        <span class="tk-b">print</span>(<span class="tk-s">"Keine gültige Zahl, probiere es nochmals ..."</span>)
+<span class="tk-b">print</span>(<span class="tk-s">"Großartig! Das war eine korrekte ganze Zahl"</span>)</code></pre>
 </div>
 <div class="zh">
   <p>健壮地读入整数 (Folie 11 的改进版): 无限循环, 每轮尝试转换; 成功就 break 跳出; 转换失败 (ValueError) 时, int(n) 后面的 break 不会执行, 打印提示后进入下一轮重新输入. 这就是 EAFP: 不去检查字符串是不是数字, 直接转, <span class="nb">失败了再说.</span> </p>
@@ -1538,16 +1541,16 @@ print(<span class="s">"Großartig! Das war eine korrekte ganze Zahl"</span>)</co
   <span class="folie">Folie 21</span>
   <p><b>Behandlung von Ausnahmen: try und except</b></p>
   <p>Behandlung von Ausnahmen geschieht in Python mit der try-Anweisung. Damit ist es möglich Ausnahmen <span class="nb">abzufangen</span></p>
-<pre><code><span class="k">try</span>:
-    <span class="c"># Block für normalen Code</span>
+<pre data-lang="python"><code><span class="tk-k">try</span>:
+    <span class="tk-c"># Block für normalen Code
 
-<span class="k">except</span> Exception:
-    <span class="c"># Kommt es zu Ausnahmen, dann führe diesen Block aus</span>
+</span><span class="tk-k">except </span>Exception:
+    <span class="tk-c"># Kommt es zu Ausnahmen, dann führe diesen Block aus
 
-oder auch:
+</span>oder auch:
 
-<span class="k">except</span> Exception <span class="k">as</span> e:
-    <span class="c"># Kommt es zu Ausnahmen, dann führe diesen Block aus</span></code></pre>
+<span class="tk-k">except </span>Exception <span class="tk-k">as </span>e:
+    <span class="tk-c"># Kommt es zu Ausnahmen, dann führe diesen Block aus</span></code></pre>
 </div>
 <div class="card de">
   <span class="folie">Folie 22</span>
@@ -1647,13 +1650,13 @@ oder auch:
   <p>Dazu brauchen wir lediglich eine eigene Klasse zu erstellen, die von der Exception-Basisklasse Exception erbt, und dann ganz nach Anforderung weitere Attribute und Methoden zum Umgang mit Ihrer Exception <span class="nb">hinzuzufügen.</span></p>
   <p>Beispiel:</p>
   <ul><li>Klasse <span class="nb">Konto.</span></li><li>Es soll nicht möglich sein, ein negativen Betrag <span class="nb">einzuzahlen.</span></li><li>Implementierung:</li></ul>
-<pre><code><span class="k">class</span> Konto:
-    <span class="k">def</span> __init__(self, betrag):
-        <span class="k">if not</span> betrag &gt; 0:
-            <span class="k">raise</span> ValueError(<span class="s">"Betrag muss größer als 0 sein"</span>)
-        self.kontostand = betrag
-    <span class="k">def</span> abheben(self, betrag):
-        self.kontostand -= betrag</code></pre>
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Konto</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, betrag):
+        <span class="tk-k">if not </span>betrag &gt; <span class="tk-n">0</span>:
+            <span class="tk-k">raise </span>ValueError(<span class="tk-s">"Betrag muss größer als 0 sein"</span>)
+        <span class="tk-b">self</span>.kontostand = betrag
+    <span class="tk-k">def </span><span class="tk-f">abheben</span>(<span class="tk-b">self</span>, betrag):
+        <span class="tk-b">self</span>.kontostand -= betrag</code></pre>
 </div>
 <div class="zh">
   <p>用<b>继承</b> (第 7 章) 定义自己的异常类: 写一个继承 Exception 的类, <span class="nb">按需要加属性和方法.</span> </p>
@@ -1665,26 +1668,26 @@ oder auch:
   <span class="folie">Folie 27</span>
   <p><b>Benutzerdefinierte Ausnahmen (2)</b></p>
   <p>Das Überziehen des Kontos soll unterbunden und beim Versuch, mehr Geld abzuheben, als vorhanden ist, eine selbst definierte Ausnahme KontoException geworfen <span class="nb">werden.</span></p>
-<pre><code><span class="k">class</span> KontoException(Exception):
-    <span class="k">def</span> __init__(self, kontostand, betrag):
-        self.kontostand = kontostand
-        self.betrag = betrag</code></pre>
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">KontoException</span>(Exception):
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, kontostand, betrag):
+        <span class="tk-b">self</span>.kontostand = kontostand
+        <span class="tk-b">self</span>.betrag = betrag</code></pre>
 </div>
 <div class="card de">
   <span class="folie">Folie 28</span>
   <p><b>Benutzerdefinierte Ausnahmen (3)</b></p>
   <p>Wir modifizieren die Methode abheben der Klasse Konto dahingehend, dass bei einem ungültigen Abhebevorgang eine KontoException-Instanz geworfen <span class="nb">wird.</span></p>
-<pre><code><span class="k">class</span> Konto:
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Konto</span>:
 
-    <span class="k">def</span> __init__(self, betrag):
-        <span class="k">if not</span> betrag &gt; 0:
-            <span class="k">raise</span> ValueError(<span class="s">"Betrag muss größer als 0 sein"</span>)
-        self.kontostand = betrag
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, betrag):
+        <span class="tk-k">if not </span>betrag &gt; <span class="tk-n">0</span>:
+            <span class="tk-k">raise </span>ValueError(<span class="tk-s">"Betrag muss größer als 0 sein"</span>)
+        <span class="tk-b">self</span>.kontostand = betrag
 
-    <span class="k">def</span> abheben(self, betrag):
-        <span class="k">if</span> betrag &gt; self.kontostand:
-            <span class="k">raise</span> KontoException(self.kontostand, betrag)
-        self.kontostand -= betrag</code></pre>
+    <span class="tk-k">def </span><span class="tk-f">abheben</span>(<span class="tk-b">self</span>, betrag):
+        <span class="tk-k">if </span>betrag &gt; <span class="tk-b">self</span>.kontostand:
+            <span class="tk-k">raise </span>KontoException(<span class="tk-b">self</span>.kontostand, betrag)
+        <span class="tk-b">self</span>.kontostand -= betrag</code></pre>
 </div>
 <div class="zh">
   <p>不允许透支: 取款金额大于余额时, 抛出自己定义的 <b>KontoException</b>. 这个异常类继承 Exception, 额外存两个属性: 当时的余额和想取的金额, 处理异常的代码可以读取它们 (Folie 29). 自定义异常的好处: 调用者可以<b>专门</b>捕获「余额不足」, 和其他 ValueError <span class="nb">区分开.</span> </p>
@@ -1693,22 +1696,22 @@ oder auch:
 <div class="card de">
   <span class="folie">Folie 29</span>
   <p><b>Beispiel für Benutzerdefinierte Ausnahme</b></p>
-<pre><code><span class="c"># Beispiel</span>
-&gt;&gt;&gt; k = Konto(1000)
-&gt;&gt;&gt; k.abheben(2000)
+<pre data-lang="python repl"><code># Beispiel
+<span class="tk-p">&gt;&gt;&gt; </span>k = Konto(<span class="tk-n">1000</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>k.abheben(<span class="tk-n">2000</span>)
 Traceback (most recent call last):
 File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 File "&lt;stdin&gt;", line 7, in abheben
 KontoException: (1000, 2000)
 
-<span class="c"># Exception abfangen und bearbeiten</span>
-<span class="k">try</span>:
+# Exception abfangen und bearbeiten
+try:
     k.abheben(2000)
-<span class="k">except</span> KontoException <span class="k">as</span> e:
-    print(<span class="s">"Kontostand: "</span> + str(e.kontostand) + <span class="s">" Euro"</span>)
-    print(<span class="s">"Abheben von "</span> + str(e.betrag) + <span class="s">" Euro nicht möglich."</span>)
+except KontoException as e:
+    print("Kontostand: " + str(e.kontostand) + " Euro")
+    print("Abheben von " + str(e.betrag) + " Euro nicht möglich.")
 
-<span class="c"># Ausgabe</span>
+# Ausgabe
 Kontostand: 1000 Euro
 Abheben von 2000 Euro nicht möglich.</code></pre>
 </div>
@@ -1721,21 +1724,21 @@ Abheben von 2000 Euro nicht möglich.</code></pre>
   <span class="folie">Folie 30</span>
   <p><b>Beispiel für Benutzerdefinierte Ausnahme (2)</b></p>
   <p>Damit selbst definierte Ausnahme mit weiterführenden Informationen auch eine Fehlermeldung enthalten kann, muss sie die Special-Method str von Python <span class="nb">implementieren:</span></p>
-<pre><code><span class="k">class</span> KontoException(Exception):
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">KontoException</span>(Exception):
 
-    <span class="k">def</span> __init__(self, kontostand, betrag):
-        self.kontostand = kontostand
-        self.betrag = betrag
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, kontostand, betrag):
+        <span class="tk-b">self</span>.kontostand = kontostand
+        <span class="tk-b">self</span>.betrag = betrag
 
-    <span class="k">def</span> __str__(self):
-        <span class="k">return</span> <span class="s">"Kontostand zu niedrig"</span></code></pre>
+    <span class="tk-k">def </span><span class="tk-f">__str__</span>(<span class="tk-b">self</span>):
+        <span class="tk-k">return </span><span class="tk-s">"Kontostand zu niedrig"</span></code></pre>
 </div>
 <div class="card de">
   <span class="folie">Folie 31</span>
   <p><b>Beispiel für Benutzerdefinierte Ausnahme (3)</b></p>
   <p>Ein Traceback, der durch diese Exception verursacht wird, sieht <span class="nb">folgendermaßen aus:</span></p>
-<pre><code>&gt;&gt;&gt; k = Konto(1000)
-&gt;&gt;&gt; k.abheben(2000)
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>k = Konto(<span class="tk-n">1000</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>k.abheben(<span class="tk-n">2000</span>)
 Traceback (most recent call last):
 File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 File "&lt;stdin&gt;", line 7, in abheben
@@ -1757,14 +1760,14 @@ KontoException: Kontostand zu niedrig</code></pre>
     <li>Beispiel: Schließen einer im try-Block geöffneten <span class="nb">Datei</span></li>
     <li>Das kann man mit einem finally-Block erreichen, der in jedem Fall nach dem try-Block un der Ausnahmebehandlung ausgeführt <span class="nb">wird.</span></li>
   </ul>
-<pre><code><span class="k">try</span>:
-    <span class="c"># Block für normalen Code</span>
-<span class="k">except</span> Exception:
-    <span class="c"># Ausnahmebehandlung falls Exception aufgetreten ist</span>
-<span class="k">finally</span>:
-    <span class="c"># Code der in jedem Fall ausgeführt werden soll (nach</span>
-    <span class="c">#   normalem, Ende, nach Ausnahmebehandlung und nach</span>
-    <span class="c">#   Auslösung einer nicht behandelten Ausnahme)</span></code></pre>
+<pre data-lang="python"><code><span class="tk-k">try</span>:
+    <span class="tk-c"># Block für normalen Code
+</span><span class="tk-k">except </span>Exception:
+    <span class="tk-c"># Ausnahmebehandlung falls Exception aufgetreten ist
+</span><span class="tk-k">finally</span>:
+    <span class="tk-c"># Code der in jedem Fall ausgeführt werden soll (nach
+    #   normalem, Ende, nach Ausnahmebehandlung und nach
+    #   Auslösung einer nicht behandelten Ausnahme)</span></code></pre>
 </div>
 <div class="zh">
   <p><b>finally</b> 块<b>无论如何</b>都会执行: try 正常结束后、except 处理完后, 甚至异常没被处理、要继续往上传之前 (先执行 finally, 再传). 典型用途: 释放资源, 如关闭文件、<span class="nb">断开连接.</span> </p>
@@ -1774,19 +1777,19 @@ KontoException: Kontostand zu niedrig</code></pre>
 <div class="card de">
   <span class="folie">Folie 33</span>
   <p><b>Beispiel mit finally</b></p>
-<pre><code>k = Konto(1000)
+<pre data-lang="python"><code>k = Konto(<span class="tk-n">1000</span>)
 
-<span class="k">try</span>:
-    k.abheben(2000)
-<span class="k">except</span> KontoException <span class="k">as</span> e:
-    print(<span class="s">"Kontostand: "</span> + str(e.kontostand) + <span class="s">" Euro"</span>)
-    print(<span class="s">"Abheben von "</span> + str(e.betrag) + <span class="s">" Euro nicht möglich."</span>)
-<span class="k">finally</span>:
-    print(<span class="s">"Bitte entnehmen Sie Ihre Karte"</span>)
+<span class="tk-k">try</span>:
+    k.abheben(<span class="tk-n">2000</span>)
+<span class="tk-k">except </span>KontoException <span class="tk-k">as </span>e:
+    <span class="tk-b">print</span>(<span class="tk-s">"Kontostand: " </span>+ <span class="tk-b">str</span>(e.kontostand) + <span class="tk-s">" Euro"</span>)
+    <span class="tk-b">print</span>(<span class="tk-s">"Abheben von " </span>+ <span class="tk-b">str</span>(e.betrag) + <span class="tk-s">" Euro nicht möglich."</span>)
+<span class="tk-k">finally</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">"Bitte entnehmen Sie Ihre Karte"</span>)
 
-<span class="c"># Ausgabe</span>
-Kontostand: 1000 Euro
-Abheben von 2000 Euro nicht möglich.
+<span class="tk-c"># Ausgabe
+</span>Kontostand: <span class="tk-n">1000 </span>Euro
+Abheben von <span class="tk-n">2000 </span>Euro nicht möglich.
 Bitte entnehmen Sie Ihre Karte</code></pre>
 </div>
 <div class="zh">
@@ -1800,9 +1803,9 @@ Bitte entnehmen Sie Ihre Karte</code></pre>
   <span class="folie">Folie 34</span>
   <p>Hinter except darf auch ein Tupel von Fehlerklassen stehen, die dann jeweils mit demselben Code behandelt <span class="nb">werden.</span></p>
   <p>Wir können also beispielsweise <span class="nb">schreiben:</span></p>
-<pre><code><span class="k">except</span> (Fehlerklasse1, Fehlerklasse2) <span class="k">as</span> e:</code></pre>
+<pre data-lang="python"><code><span class="tk-k">except </span>(Fehlerklasse1, Fehlerklasse2) <span class="tk-k">as </span>e:</code></pre>
   <p>Beispiel:</p>
-<pre><code><span class="k">except</span> (ZeroDivisionError, ValueError) <span class="k">as</span> e:</code></pre>
+<pre data-lang="python"><code><span class="tk-k">except </span>(ZeroDivisionError, ValueError) <span class="tk-k">as </span>e:</code></pre>
   <p>Wenn ein Fehler auftritt, der auf wenigstens eine der Klassen im Tupel passt (im Beispiel also entweder ein ZeroDivisionError oder ein ValueError), betritt der Python-Interpreter die except-Umgebung und setzt nach dieser die Ausführung am Ende des try-except-Blocks <span class="nb">fort.</span></p>
 </div>
 <div class="zh">
@@ -1813,12 +1816,12 @@ Bitte entnehmen Sie Ihre Karte</code></pre>
   <span class="folie">Folie 35</span>
   <p><b>Mehrere Ausnahme-Blöcke</b></p>
   <p>Eine try-Anweisung kann mehr als ein except-Block für verschiedene Ausnahmen haben. Diese Schreibweise ermöglicht für jede Fehlerklasse einen eigenen Code zur Fehlerbehandlung zu <span class="nb">schreiben:</span></p>
-<pre><code><span class="k">try</span>:
-    <span class="c"># Block für normalen Code</span>
-<span class="k">except</span> Exception1:
-    <span class="c"># Kommt es zu Exception1, dann führe diesen Block aus</span>
-<span class="k">except</span> Exception2:
-    <span class="c"># Kommt es zu Exception2, dann führe diesen Block aus</span></code></pre>
+<pre data-lang="python"><code><span class="tk-k">try</span>:
+    <span class="tk-c"># Block für normalen Code
+</span><span class="tk-k">except </span>Exception1:
+    <span class="tk-c"># Kommt es zu Exception1, dann führe diesen Block aus
+</span><span class="tk-k">except </span>Exception2:
+    <span class="tk-c"># Kommt es zu Exception2, dann führe diesen Block aus</span></code></pre>
   <p>Achtung: Es wird höchstens eine Ausnahmeblock ausgeführt. Dabei wird nur der erste except-Block abgearbeitet, der zur ausgelösten Ausnahme <span class="nb">passt.</span></p>
 </div>
 <div class="zh">
@@ -1829,15 +1832,15 @@ Bitte entnehmen Sie Ihre Karte</code></pre>
 <div class="card de">
   <span class="folie">Folie 37</span>
   <p><b>Beispiel: Mehrere except-Blöcke</b></p>
-<pre><code><span class="k">try</span>:
-    print(1/0)
-<span class="k">except</span> ArithmeticError <span class="k">as</span> e:
-    print(<span class="s">"Arithmetic Unit Error"</span>)
-<span class="k">except</span> ZeroDivisionError <span class="k">as</span> e:
-    print(<span class="s">"Division by Zero."</span>)
+<pre data-lang="python"><code><span class="tk-k">try</span>:
+    <span class="tk-b">print</span>(<span class="tk-n">1</span>/<span class="tk-n">0</span>)
+<span class="tk-k">except </span>ArithmeticError <span class="tk-k">as </span>e:
+    <span class="tk-b">print</span>(<span class="tk-s">"Arithmetic Unit Error"</span>)
+<span class="tk-k">except </span>ZeroDivisionError <span class="tk-k">as </span>e:
+    <span class="tk-b">print</span>(<span class="tk-s">"Division by Zero."</span>)
 
-<span class="c"># Ausgabe</span>
-Arithmetic Unit Error</code></pre>
+<span class="tk-c"># Ausgabe
+</span>Arithmetic Unit Error</code></pre>
 </div>
 <div class="zh">
   <p>答案: 1/0 抛出 ZeroDivisionError, 它<b>也是</b> ArithmeticError (子类). 第一个 except 已经匹配, 所以输出「Arithmetic Unit Error」(实测), 第二个块<b>永远</b>执行不到. 正确的顺序: <span class="nb"><b>具体的子类写在前面, 一般的父类写在后面</b>.</span> </p>
@@ -1847,21 +1850,21 @@ Arithmetic Unit Error</code></pre>
   <span class="folie">Folie 38</span>
   <p><b>Kombination von try, except und finally</b></p>
   <p>finally und except können zusammen für denselben try-Block verwendet werden, wie im folgenden Python-Beispiel zu <span class="nb">sehen ist:</span></p>
-<pre><code><span class="k">try</span>:
-    x = float(input(<span class="s">"Deine Zahl: "</span>))
-    inverse = 1.0 / x
+<pre data-lang="python"><code><span class="tk-k">try</span>:
+    x = <span class="tk-b">float</span>(<span class="tk-b">input</span>(<span class="tk-s">"Deine Zahl: "</span>))
+    inverse = <span class="tk-n">1.0 </span>/ x
 
-<span class="k">except</span> ValueError:
-    print(<span class="s">"Das war wohl kein Zahl!"</span>)
+<span class="tk-k">except </span>ValueError:
+    <span class="tk-b">print</span>(<span class="tk-s">"Das war wohl kein Zahl!"</span>)
 
-<span class="k">except</span> ZeroDivisionError:
-    print(<span class="s">"Unendlich"</span>)
+<span class="tk-k">except </span>ZeroDivisionError:
+    <span class="tk-b">print</span>(<span class="tk-s">"Unendlich"</span>)
 
-<span class="k">finally</span>:
-    print(<span class="s">"""Vielleicht ist eine Ausnahme
+<span class="tk-k">finally</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">"""Vielleicht ist eine Ausnahme
     aufgetreten oder auch nicht."""</span>)
 
-print(<span class="s">"Die inverse Zahl: "</span>, inverse)</code></pre>
+<span class="tk-b">print</span>(<span class="tk-s">"Die inverse Zahl: "</span>, inverse)</code></pre>
 </div>
 <div class="zh">
   <p>两个 except 分别处理「输入不是数」和「输入是 0」, finally 总会执行. <span class="nb">实测三种输入:</span> </p>
@@ -1879,13 +1882,13 @@ print(<span class="s">"Die inverse Zahl: "</span>, inverse)</code></pre>
 <div class="card de">
   <span class="folie">Folie 39</span>
   <p>Um mit Dateien umzugehen, brauchen wir ein Handle auf die Datei. Das ist eine Variable, in der alle nötigen Hintergrund-Informationen (Speicherort, Dateigröße, Netzwerkdatei oder lokale Datei, ...) zusammengefasst sind. Es handelt sich also um eine Klasseninstanz, deren Eigenschaften wir im Folgenden oberflächlich kennen lernen <span class="nb">werden.</span></p>
-<pre><code><span class="c"># Syntax für das Öffnen einer Datei</span>
-<span class="c"># mit der Methode open</span>
+<pre data-lang="python"><code><span class="tk-c"># Syntax für das Öffnen einer Datei
+# mit der Methode open
 
-handle = open(Dateiname, Modus)
+</span>handle = <span class="tk-b">open</span>(Dateiname, Modus)
 
-<span class="c"># Beispiel</span>
-datei = open(<span class="s">"meineDatei.txt"</span>, <span class="s">"rt"</span>)</code></pre>
+<span class="tk-c"># Beispiel
+</span>datei = <span class="tk-b">open</span>(<span class="tk-s">"meineDatei.txt"</span>, <span class="tk-s">"rt"</span>)</code></pre>
   <p>Die Schlüsselfunktion für die Arbeit mit Dateien in Python ist die Funktion <span class="nb">open().</span></p>
 </div>
 <div class="card de">
@@ -1939,16 +1942,16 @@ datei = open(<span class="s">"meineDatei.txt"</span>, <span class="s">"rt"</span
   <span class="folie">Folie 42</span>
   <p><b>Dateien Lesen</b></p>
   <ul><li>Angenommen, wir haben die folgende Datei, die sich im gleichen Ordner wie Python <span class="nb">befindet:</span></li></ul>
-<pre><code><span class="c"># meineDatei.txt</span>
+<pre data-lang="text"><code># meineDatei.txt
 Hallo! Willkommen bei Python!
 Das ist eine Testdatei.
 Viel Spass!</code></pre>
   <ul><li>Die Funktion open() gibt ein Dateiobjekt zurück, das über eine read()-Methode zum Lesen des Dateiinhalts <span class="nb">verfügt:</span></li></ul>
-<pre><code>datei = open(<span class="s">"meineDatei.txt"</span>, <span class="s">"rt"</span>)
-print(datei.read())
+<pre data-lang="python"><code>datei = <span class="tk-b">open</span>(<span class="tk-s">"meineDatei.txt"</span>, <span class="tk-s">"rt"</span>)
+<span class="tk-b">print</span>(datei.read())
 
-<span class="c"># Ausgabe</span>
-Hallo! Willkommen bei Python!
+<span class="tk-c"># Ausgabe
+</span>Hallo! Willkommen bei Python!
 Das ist eine Testdatei.
 Viel Spass!</code></pre>
 </div>
@@ -1959,10 +1962,10 @@ Viel Spass!</code></pre>
     <li>Standardmäßig gibt die Methode read() den gesamten Text <span class="nb">zurück.</span></li>
     <li>Es lässt sich auch angeben, wie viele Zeichen zurückgeliefert werden sollen. <span class="nb">Beispiel:</span></li>
   </ul>
-<pre><code><span class="c">#Gib die ersten 6 Zeichen der Datei zurück:</span>
-<span class="c"># Text/Lesemodus</span>
-datei = open(<span class="s">"meineDatei.txt"</span>, <span class="s">"rt"</span>)
-print(datei.read(6))</code></pre>
+<pre data-lang="python"><code><span class="tk-c">#Gib die ersten 6 Zeichen der Datei zurück:
+# Text/Lesemodus
+</span>datei = <span class="tk-b">open</span>(<span class="tk-s">"meineDatei.txt"</span>, <span class="tk-s">"rt"</span>)
+<span class="tk-b">print</span>(datei.read(<span class="tk-n">6</span>))</code></pre>
   <ul>
     <li>read() wird typischerweise für lesen im Binärmodus <span class="nb">verwendet</span></li>
     <li>read(size) verschiebt den “Cursor”, also die aktuelle <span class="nb">Leseposition</span></li>
@@ -1997,15 +2000,15 @@ print(datei.read(6))</code></pre>
     <li>Diese liest die gesamte Datei, zerlegt sie dabei aber bereits an den Zeilenumbrüchen, und packt die Teile der Datei in einer <span class="nb">list</span></li>
     <li>Beispiel:</li>
   </ul>
-<pre><code><span class="c"># Text/Lesemodus</span>
-datei = open(<span class="s">"meineDatei.txt"</span>, <span class="s">"rt"</span>)
+<pre data-lang="python"><code><span class="tk-c"># Text/Lesemodus
+</span>datei = <span class="tk-b">open</span>(<span class="tk-s">"meineDatei.txt"</span>, <span class="tk-s">"rt"</span>)
 
 lines = datei.readlines()
 
-datei.close() <span class="c"># Methode zum Schließen einer Datei</span>
+datei.close() <span class="tk-c"># Methode zum Schließen einer Datei
 
-<span class="k">for</span> line <span class="k">in</span> lines:
-    print(line)</code></pre>
+</span><span class="tk-k">for </span>line <span class="tk-k">in </span>lines:
+    <span class="tk-b">print</span>(line)</code></pre>
 </div>
 <div class="zh">
   <ul>
@@ -2025,18 +2028,18 @@ datei.close() <span class="c"># Methode zum Schließen einer Datei</span>
     <li>Syntax: <span class="nb"><code>handle.write(text)</code></span></li>
     <li>Beispiel:</li>
   </ul>
-<pre><code><span class="c"># Text/Schreibmodus</span>
-datei = open(<span class="s">"meineDatei2.txt"</span>, <span class="s">"wt"</span>)
+<pre data-lang="python"><code><span class="tk-c"># Text/Schreibmodus
+</span>datei = <span class="tk-b">open</span>(<span class="tk-s">"meineDatei2.txt"</span>, <span class="tk-s">"wt"</span>)
 
-datei.write(<span class="s">"Some text\n"</span>)
-datei.write(<span class="s">"another line"</span> * 2 + <span class="s">"\n"</span>)
-datei.write(str(datei))
+datei.write(<span class="tk-s">"Some text\n"</span>)
+datei.write(<span class="tk-s">"another line" </span>* <span class="tk-n">2 </span>+ <span class="tk-s">"\n"</span>)
+datei.write(<span class="tk-b">str</span>(datei))
 
 datei.close()</code></pre>
 </div>
 <div class="zh">
   <p><code>write(text)</code> 把字符串写入文件. write 不会自动换行, 需要自己写 <code>\n</code>. <span class="nb">实测文件内容:</span> </p>
-<pre>Some text
+<pre data-lang="output">Some text
 another lineanother line
 &lt;_io.TextIOWrapper name='meineDatei2.txt' mode='wt' encoding='utf-8'&gt;</pre>
   <p>第二行: 字符串 * 2 是重复两次 (第 3 章), 中间没有空格. 第三行: str(datei) 是文件对象自身的文本表示, 可以看到文件名、模式和编码 (encoding 随系统而定). write 只接受字符串, <span class="nb">写数字要先 str().</span> </p>
@@ -2045,20 +2048,20 @@ another lineanother line
 <div class="card de">
   <span class="folie">Folie 47</span>
   <p><b>Beispiel mit mehreren Ausnahme-Blöcke</b></p>
-<pre><code><span class="k">try</span>:
-    f = open(<span class="s">"integers.txt"</span>)
+<pre data-lang="python"><code><span class="tk-k">try</span>:
+    f = <span class="tk-b">open</span>(<span class="tk-s">"integers.txt"</span>)
     s = f.readline()
-    i = int(s.strip())
-<span class="k">except</span> IOError <span class="k">as</span> e:
+    i = <span class="tk-b">int</span>(s.strip())
+<span class="tk-k">except </span>IOError <span class="tk-k">as </span>e:
     errno, strerror = e.args
-    print(<span class="s">"Zugriff auf Datei nicht moeglich"</span>)
-    print(<span class="s">"I/O error("</span> + str(errno) + <span class="s">"): "</span> + str(strerror))
-    <span class="c"># e can be printed directly without using .args:</span>
-    <span class="c"># print(e)</span>
-<span class="k">except</span> ValueError:
-    print(<span class="s">"Keine gueltige ganze Zahl."</span>)
-    <span class="k">raise</span>
-<span class="k">finally</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">"Zugriff auf Datei nicht moeglich"</span>)
+    <span class="tk-b">print</span>(<span class="tk-s">"I/O error(" </span>+ <span class="tk-b">str</span>(errno) + <span class="tk-s">"): " </span>+ <span class="tk-b">str</span>(strerror))
+    <span class="tk-c"># e can be printed directly without using .args:
+    # print(e)
+</span><span class="tk-k">except </span>ValueError:
+    <span class="tk-b">print</span>(<span class="tk-s">"Keine gueltige ganze Zahl."</span>)
+    <span class="tk-k">raise
+finally</span>:
     f.close()</code></pre>
 </div>
 <div class="zh">
@@ -2076,14 +2079,14 @@ another lineanother line
   <span class="folie">Folie 48</span>
   <p><b>Beispiel mehrteiliger except-Block</b></p>
   <p>Ein except-Block kann mehr als eine Ausnahme in einem Tupel von Fehlernamen nennen, wie wir im folgenden Beispiel sehen <span class="nb">können:</span></p>
-<pre><code><span class="k">try</span>:
-    f = open(<span class="s">'integers.txt'</span>)
+<pre data-lang="python"><code><span class="tk-k">try</span>:
+    f = <span class="tk-b">open</span>(<span class="tk-s">'integers.txt'</span>)
     s = f.readline()
-    i = int(s.strip())
-<span class="k">except</span> (IOError, ValueError):
-    print(<span class="s">"Keine gueltige ganze Zahl."</span>)
-    <span class="k">raise</span>
-<span class="k">finally</span>:
+    i = <span class="tk-b">int</span>(s.strip())
+<span class="tk-k">except </span>(IOError, ValueError):
+    <span class="tk-b">print</span>(<span class="tk-s">"Keine gueltige ganze Zahl."</span>)
+    <span class="tk-k">raise
+finally</span>:
     f.close()</code></pre>
 </div>
 <div class="zh">
@@ -2100,35 +2103,35 @@ another lineanother line
     <li>Ein else-Block muss nach allen except-Blöcken platziert <span class="nb">werden.</span></li>
     <li>Ein else-Block wird ausgeführt, wenn der try-Block keine Ausnahme <span class="nb">auslöst.</span></li>
   </ul>
-<pre><code><span class="k">try</span>:
+<pre data-lang="python"><code><span class="tk-k">try</span>:
     Block fuer normalen Code
-<span class="k">except</span> exceptions:
-    <span class="c"># Kommt es zu exceptions, dann führe diesen Block aus</span>
-<span class="k">else</span>:
-    <span class="c"># Gibt es keine Ausnahme, dann führe diesen Block aus.</span></code></pre>
+<span class="tk-k">except </span>exceptions:
+    <span class="tk-c"># Kommt es zu exceptions, dann führe diesen Block aus
+</span><span class="tk-k">else</span>:
+    <span class="tk-c"># Gibt es keine Ausnahme, dann führe diesen Block aus.</span></code></pre>
 </div>
 <div class="zh">
   <p>可选的 <b>else</b> 块写在所有 except 之后 (finally 之前): 只有 try 块<b>没有</b>抛出异常时才执行. <span class="nb">完整顺序:</span> </p>
-<pre><code><span class="k">try</span>:      <span class="c"># 可能出错的代码</span>
-<span class="k">except</span> …: <span class="c"># 出错时 (可多个)</span>
-<span class="k">else</span>:     <span class="c"># 没出错时</span>
-<span class="k">finally</span>:  <span class="c"># 无论如何</span></code></pre>
+<pre data-lang="python"><code><span class="tk-k">try</span>:      <span class="tk-c"># 可能出错的代码
+</span><span class="tk-k">except </span>…: <span class="tk-c"># 出错时 (可多个)
+</span><span class="tk-k">else</span>:     <span class="tk-c"># 没出错时
+</span><span class="tk-k">finally</span>:  <span class="tk-c"># 无论如何</span></code></pre>
   <p>为什么不把 else 的代码直接写在 try 的末尾? 因为那样它出的错也会被 except 接住, 而那些错并不是我们想处理的. try 块里只放<b>真正可能出错</b>的<span class="nb">那一两行.</span> </p>
 </div>
 
 <div class="card de">
   <span class="folie">Folie 50</span>
   <p><b>Beispiel Datei Schreiben mit else-Block</b></p>
-<pre><code><span class="k">try</span>:
-    f = open(<span class="s">"testdatei"</span>, <span class="s">"w"</span>) <span class="c">#</span>
-    f.write(<span class="s">'Test schreibe dies'</span>)
-<span class="k">except</span> IOError:
-    <span class="c"># Dies findet nur statt wenn ein IOError</span>
-    <span class="c">#    aufgetreten ist</span>
-    print(<span class="s">"Error: Konnte die Datei nicht beschreiben oder lesen"</span>)
-<span class="k">else</span>:
-    print(<span class="s">"Datei erfolgreich beschrieben"</span>)
-<span class="k">finally</span>:
+<pre data-lang="python"><code><span class="tk-k">try</span>:
+    f = <span class="tk-b">open</span>(<span class="tk-s">"testdatei"</span>, <span class="tk-s">"w"</span>) <span class="tk-c">#
+    </span>f.write(<span class="tk-s">'Test schreibe dies'</span>)
+<span class="tk-k">except </span>IOError:
+    <span class="tk-c"># Dies findet nur statt wenn ein IOError
+    #    aufgetreten ist
+    </span><span class="tk-b">print</span>(<span class="tk-s">"Error: Konnte die Datei nicht beschreiben oder lesen"</span>)
+<span class="tk-k">else</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">"Datei erfolgreich beschrieben"</span>)
+<span class="tk-k">finally</span>:
     f.close()</code></pre>
 </div>
 <div class="zh">
@@ -2139,21 +2142,21 @@ another lineanother line
   <span class="folie">Folie 51</span>
   <p><b>Beispiel Datei Lesen mit else-Block</b></p>
   <p>Wenn es mit dem Öffnen der Datei klappt, wird die Ausführung mit dem else-Block fortgesetzt. Erfolgt jedoch eine Ausnahme, wird der else-Block <span class="nb">übersprungen:</span></p>
-<pre><code><span class="k">import</span> sys
-filename = <span class="s">"4-fibonacci.py"</span>
-text = []
-<span class="k">try</span>:
-    fh = open(filename, <span class="s">'r'</span>)
-<span class="k">except</span> IOError:
-    print(<span class="s">'Datei laesst sich nicht oeffnen'</span>, filename)
-<span class="k">else</span>:
+<pre data-lang="python"><code><span class="tk-k">import </span>sys
+filename = <span class="tk-s">"4-fibonacci.py"
+</span>text = []
+<span class="tk-k">try</span>:
+    fh = <span class="tk-b">open</span>(filename, <span class="tk-s">'r'</span>)
+<span class="tk-k">except </span>IOError:
+    <span class="tk-b">print</span>(<span class="tk-s">'Datei laesst sich nicht oeffnen'</span>, filename)
+<span class="tk-k">else</span>:
     text = fh.readlines()
-<span class="k">finally</span>:
+<span class="tk-k">finally</span>:
     fh.close()
-<span class="k">if</span> text:
-print(text[6])
-<span class="c"># Ausgabe</span>
-return fib(n-1) + fib(n-2)</code></pre>
+<span class="tk-k">if </span>text:
+<span class="tk-b">print</span>(text[<span class="tk-n">6</span>])
+<span class="tk-c"># Ausgabe
+</span><span class="tk-k">return </span>fib(n-<span class="tk-n">1</span>) + fib(n-<span class="tk-n">2</span>)</code></pre>
 </div>
 <div class="zh">
   <p>读文件: 打开成功 → else 块读出所有行; 失败 → 打印提示, 跳过 else. 最后若列表非空, 打印第 7 行 (下标 6). 文件 4-fibonacci.py 是一个 fib 函数, 第 7 行正是 <code class="lc">return fib(n-1) + fib(n-2)</code>. try 里只放了 open, 读取放在 else 里, 正是 Folie 49 <span class="nb">讲的好习惯.</span> </p>
@@ -2173,14 +2176,14 @@ return fib(n-1) + fib(n-2)</code></pre>
   <span class="folie">Folie 52</span>
   <p>Anstelle von try-finally-Blöcken verwenden wir die <span class="nb">with-Anweisung.</span></p>
   <p>Hier ist ein Beispiel mit einer <span class="nb">Datei:</span></p>
-<pre><code><span class="k">def</span> ausgabeText(filename):
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">ausgabeText</span>(filename):
     text = []
-    <span class="k">with</span> open(filename, <span class="s">'r'</span>) <span class="k">as</span> fh:
+    <span class="tk-k">with </span><span class="tk-b">open</span>(filename, <span class="tk-s">'r'</span>) <span class="tk-k">as </span>fh:
         text = fh.readlines()
-    <span class="k">if</span> text:
-        print(text[6])
+    <span class="tk-k">if </span>text:
+        <span class="tk-b">print</span>(text[<span class="tk-n">6</span>])
 
-ausgabeText(<span class="s">"4-fibonacci.py"</span>)</code></pre>
+ausgabeText(<span class="tk-s">"4-fibonacci.py"</span>)</code></pre>
   <p>Selbst wenn ausgabeText eine Ausnahme auslöst, wird die Datei sofort ordnungsgemäß geschlossen, wenn der Bereich des with-Blocks beendet wird, unabhängig davon, ob die Ausnahme behandelt wurde oder <span class="nb">nicht.</span></p>
 </div>
 <div class="zh">
@@ -2192,25 +2195,25 @@ ausgabeText(<span class="s">"4-fibonacci.py"</span>)</code></pre>
 <div class="card de">
   <span class="folie">Folie 53</span>
   <p><b>Kombination aus try, except, else und finally</b></p>
-<pre><code><span class="k">def</span> int_frage():
-    <span class="s">"""Funktion zum Erfragen eines Integerwerts."""</span>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">int_frage</span>():
+    <span class="tk-s">"""Funktion zum Erfragen eines Integerwerts."""
 
-    <span class="k">while</span> True:
-        <span class="k">try</span>:
-            wert = int(input(<span class="s">"Bitte gebe eine Zahl ein: "</span>))
-        <span class="k">except</span>:
-            print(<span class="s">"Sieht aus, als ob du keine Zahl eingegeben hast!"</span>)
-            <span class="k">continue</span>
-        <span class="k">else</span>:
-            print(<span class="s">"Ja, das war eine Zahl!"</span>)
-            <span class="k">break</span>
-        <span class="k">finally</span>:
-            print(<span class="s">"Aber immerhin wurde ich ausgefuehrt!"</span>)
-        print(wert)</code></pre>
+    </span><span class="tk-k">while </span><span class="tk-n">True</span>:
+        <span class="tk-k">try</span>:
+            wert = <span class="tk-b">int</span>(<span class="tk-b">input</span>(<span class="tk-s">"Bitte gebe eine Zahl ein: "</span>))
+        <span class="tk-k">except</span>:
+            <span class="tk-b">print</span>(<span class="tk-s">"Sieht aus, als ob du keine Zahl eingegeben hast!"</span>)
+            <span class="tk-k">continue
+        else</span>:
+            <span class="tk-b">print</span>(<span class="tk-s">"Ja, das war eine Zahl!"</span>)
+            <span class="tk-k">break
+        finally</span>:
+            <span class="tk-b">print</span>(<span class="tk-s">"Aber immerhin wurde ich ausgefuehrt!"</span>)
+        <span class="tk-b">print</span>(wert)</code></pre>
 </div>
 <div class="zh">
   <p>四个块都用上: 输入不是整数 → except 打印提示, continue 开始下一轮; 是整数 → else 打印确认, break 跳出循环. 不管哪种, finally 都在 continue / break <b>真正生效之前</b>执行. 实测输入 "abc" 再输入 <span class="nb">"7":</span> </p>
-<pre>Bitte gebe eine Zahl ein: Sieht aus, als ob du keine Zahl eingegeben hast!
+<pre data-lang="output">Bitte gebe eine Zahl ein: Sieht aus, als ob du keine Zahl eingegeben hast!
 Aber immerhin wurde ich ausgefuehrt!
 Bitte gebe eine Zahl ein: Ja, das war eine Zahl!
 Aber immerhin wurde ich ausgefuehrt!</pre>
@@ -2231,10 +2234,10 @@ Aber immerhin wurde ich ausgefuehrt!</pre>
     <li>Die assert-Anweisung ist für Debug-Aufgaben <span class="nb">bestimmt</span></li>
     <li>Sie kann als abgekürzte Schreibweise für eine bedingte raise-Anweisung angesehen werden, d.h. eine Ausnahme wird nur dann generiert, wenn eine bestimmte Bedingung nicht <span class="nb">wahr ist.</span></li>
     <li>Ohne die assert-Anweisung:
-<pre><code><span class="k">if not</span> &lt;some_test&gt;:
-    <span class="k">raise</span> AssertionError(&lt;message&gt;)</code></pre></li>
+<pre data-lang="python"><code><span class="tk-k">if not </span>&lt;some_test&gt;:
+    <span class="tk-k">raise </span>AssertionError(&lt;message&gt;)</code></pre></li>
     <li>Semantisch äquivalent mit der assert-anweisung:
-<pre><code><span class="k">assert</span> &lt;some_test&gt;, &lt;message&gt;</code></pre></li>
+<pre data-lang="python"><code><span class="tk-k">assert </span>&lt;some_test&gt;, &lt;message&gt;</code></pre></li>
     <li>Falls &lt;some test&gt; als False ausgewertet wird, wird eine Ausnahme generiert und &lt;message&gt; wird <span class="nb">ausgegeben.</span></li>
   </ul>
 </div>
@@ -2242,8 +2245,8 @@ Aber immerhin wurde ich ausgefuehrt!</pre>
   <span class="folie">Folie 55</span>
   <p><b>Beispiel mit Assert-Anweisung</b></p>
   <p>Beispiel:</p>
-<pre><code>y = sqrt(x)
-<span class="k">assert</span> y &gt;= 0, <span class="s">"unexpected result of sqrt"</span></code></pre>
+<pre data-lang="python"><code>y = sqrt(x)
+<span class="tk-k">assert </span>y &gt;= <span class="tk-n">0</span>, <span class="tk-s">"unexpected result of sqrt"</span></code></pre>
   <p>Richtline:</p>
   <ul>
     <li>assert sollte in einem korrekten Programm niemals <span class="nb">fehlschlagen</span></li>

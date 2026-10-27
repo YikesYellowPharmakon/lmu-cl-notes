@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1102,6 +1099,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 17.0; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #e481b9 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #ef97c7; --syn-f: #fecdc8; --syn-s: #a1cd8c; --syn-n: #b8c3fe; --syn-b: #bf9ebf; --syn-c: #98868f; --syn-p: #98868f; }
+  html[data-mode="day"] { --syn-k: #9c3775; --syn-f: #752724; --syn-s: #3e731d; --syn-n: #5159ac; --syn-b: #674567; --syn-c: #76626d; --syn-p: #76626d; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1272,19 +1275,19 @@
 <div class="card de">
   <span class="folie">Folie 13</span>
   <p><b>Phrasenstrukturregeln (6)</b></p>
-  <div class="cols"><pre>S  → NP VP
+  <div class="cols"><pre data-lang="grammar">S  → NP VP
 VP → V
 VP → V NP
-VP → V NP NP</pre><pre>NP → DET N
+VP → V NP NP</pre><pre data-lang="grammar">NP → DET N
 NP → N</pre></div>
   <p><b>POS-Satzschemata (14)</b></p>
-  <div class="cols"><pre>S → DET N V
+  <div class="cols"><pre data-lang="grammar">S → DET N V
 S → DET N V DET N
 S → DET N V N
 S → DET N V DET N DET N
 S → DET N V DET N N
 S → DET N V N DET N
-S → DET N V N N</pre><pre>S → N V
+S → DET N V N N</pre><pre data-lang="grammar">S → N V
 S → N V DET N
 S → N V N
 S → N V DET N DET N
@@ -1692,7 +1695,7 @@ S → N V N N</pre></div>
 <h3>CFG 短语结构文法的例子<br><span class="de-title">Beispiel einer CFG-Phrasenstrukturgrammatik</span></h3>
 <div class="card de">
   <span class="folie">Folie 44</span>
-<pre>1 ###### Syntaktische Regeln ######
+<pre data-lang="grammar">1 ###### Syntaktische Regeln ######
 2 S → NP VP
 3 NP → DET N
 4 VP → V NP NP
@@ -1707,24 +1710,24 @@ S → N V N N</pre></div>
 </div>
 <div class="add">
   <p>在 NLTK 里要把箭头写成 <code>-&gt;</code>, 用 <code>CFG.fromstring</code> 读入 (幻灯片的 → 是排版效果). <span class="nb">完整可运行的写法:</span></p>
-<pre>import nltk
-grammar = nltk.CFG.fromstring("""
-S -> NP VP
-NP -> DET N
-VP -> V NP NP
-DET -> "der" | "die" | "das"
-N -> "Mann" | "Frau" | "Buch"
-V -> "gibt" | "schenkt"
-""")
+<pre data-lang="python"><span class="tk-k">import </span>nltk
+grammar = nltk.CFG.fromstring(<span class="tk-s">"""
+S -&gt; NP VP
+NP -&gt; DET N
+VP -&gt; V NP NP
+DET -&gt; "der" | "die" | "das"
+N -&gt; "Mann" | "Frau" | "Buch"
+V -&gt; "gibt" | "schenkt"
+"""</span>)
 parser = nltk.ChartParser(grammar)
-sent = "der Mann gibt der Frau das Buch".split()</pre>
+sent = <span class="tk-s">"der Mann gibt der Frau das Buch"</span>.split()</pre>
   <p>这份文法太宽松: 它不检查格和性. 我用 NLTK 枚举了它能生成的所有句子, 共 1458 个 (3 × 3 种主语 × 2 个动词 × 9 × 9 种宾语), 其中包括 *die Mann gibt das Frau der Buch 这样的错句. 要排除它们, 就要给范畴加上性、数、格特征, 这就是课程后面要讲的 <span class="nb">FCFG.</span></p>
 </div>
 
 <h3>NLTK 的分析结果<br><span class="de-title">Parsingergebnis NLTK</span></h3>
 <div class="card de">
   <span class="folie">Folie 45</span>
-<pre> 1
+<pre data-lang="text"> 1
  2   for tree in parser.parse(sent):
  3        print(tree);tree.pretty_print()
  4   #(S
@@ -1745,7 +1748,7 @@ sent = "der Mann gibt der Frau das Buch".split()</pre>
 <div class="zh">
   <p><code>parser.parse(sent)</code> 返回所有分析树 (这里只有一棵); <code>print(tree)</code> 打印括号表达式, <code>pretty_print()</code> 打印文字版的树. 第 4–6 行是括号式输出 (幻灯片加了 # 表示是输出), 第 8–16 <span class="nb">行是树形输出.</span></p>
   <p><b>核对:</b> 我用上面补充框里的文法实际运行 (NLTK 3.10.4), 括号式和树形输出与幻<span class="nb">灯片一致:</span></p>
-<pre>(S
+<pre data-lang="grammar">(S
   (NP (DET der) (N Mann))
   (VP (V gibt) (NP (DET der) (N Frau)) (NP (DET das) (N Buch))))
                    S
@@ -1814,7 +1817,7 @@ der     Mann gibt der     Frau das     Buch</pre>
   <p><b>Beispielableitung</b></p>
   <p><i>G = &lt; {das, Tier, Futter, sieht}, {S, NP, VP, DET, N, V}, S, R &gt;</i><br>
   <i>R = {S → NP VP, NP → DET N, VP → V NP, DET → das, N → Tier, N → Futter, V → sieht}</i></p>
-<pre>S  ⇒  NP VP                    (S → NP VP)
+<pre data-lang="grammar">S  ⇒  NP VP                    (S → NP VP)
    ⇒  DET N VP                 (NP → DET N)
    ⇒  das N VP                 (DET → das)
    ⇒  das Tier VP              (N → Tier)

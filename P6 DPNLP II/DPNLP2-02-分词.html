@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1111,6 +1108,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 10.5; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #e481d2 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #e69ad7; --syn-f: #fecccf; --syn-s: #b0c981; --syn-n: #acc7ff; --syn-b: #b9a0c6; --syn-c: #968792; --syn-p: #968792; }
+  html[data-mode="day"] { --syn-k: #943b86; --syn-f: #742633; --syn-s: #556e06; --syn-n: #3c5fad; --syn-b: #61476e; --syn-c: #746370; --syn-p: #746370; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>

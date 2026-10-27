@@ -1102,6 +1102,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 15.1; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #79c0ff 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #77befd; --syn-f: #d7d6ff; --syn-s: #d0be71; --syn-n: #7addc6; --syn-b: #82b3c8; --syn-c: #808e9b; --syn-p: #808e9b; }
+  html[data-mode="day"] { --syn-k: #0167a8; --syn-f: #42397c; --syn-s: #746203; --syn-n: #0c7462; --syn-b: #1f5a70; --syn-c: #5b6b7a; --syn-p: #5b6b7a; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1155,15 +1161,15 @@
   <p><b>换算关系</b>: 1 英尺 = 0.3048 米 (这是精确的定义值). 所以 米 ÷ 0.3048 = 英尺. 也可以写成 米 × 3.28084, 但那是近似值, 除以 0.<span class="nb">3048 更准.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>def in_fuss(meter):
-    return meter / 0.3048
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">in_fuss</span>(meter):
+    <span class="tk-k">return </span>meter / <span class="tk-n">0.3048
 
-meter = float(input('Länge in Metern: '))
-print(round(in_fuss(meter), 2))</pre>
-<pre>$ python3 fuss.py
+</span>meter = <span class="tk-b">float</span>(<span class="tk-b">input</span>(<span class="tk-s">'Länge in Metern: '</span>))
+<span class="tk-b">print</span>(<span class="tk-b">round</span>(in_fuss(meter), <span class="tk-n">2</span>))</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 fuss.py
 Länge in Metern: 1
 3.28
-$ python3 fuss.py
+<span class="tk-p">$ </span>python3 fuss.py
 Länge in Metern: 1.75
 5.74</pre>
   <p><b>逐行</b>: </p>
@@ -1195,16 +1201,16 @@ Länge in Metern: 1.75
   <p><b>思路</b>: 「不知道要重复几次, 直到某个条件才停」就用 <code>while True</code> + <code>break</code>, 和讲义 S. 198–200 的 <code>quit</code> 例子 (二进制输出) 是同一个模式. 空行就是 <code>input</code> 返回空字符串 <code>''</code>. 「verständlich ausgeben」是在要求用格式化字符串写一句完整的话, 而不是只打印一<span class="nb">个裸数字.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>def in_fahrenheit(celsius):
-    return celsius * 1.8 + 32
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">in_fahrenheit</span>(celsius):
+    <span class="tk-k">return </span>celsius * <span class="tk-n">1.8 </span>+ <span class="tk-n">32
 
-while True:
-    eingabe = input('Temperatur in Grad Celsius: ')
-    if eingabe == '':
-        break
-    celsius = float(eingabe)
-    print(f'{celsius} °C sind {in_fahrenheit(celsius):.1f} °F')</pre>
-<pre>$ python3 fahrenheit.py
+</span><span class="tk-k">while </span><span class="tk-n">True</span>:
+    eingabe = <span class="tk-b">input</span>(<span class="tk-s">'Temperatur in Grad Celsius: '</span>)
+    <span class="tk-k">if </span>eingabe == <span class="tk-s">''</span>:
+        <span class="tk-k">break
+    </span>celsius = <span class="tk-b">float</span>(eingabe)
+    <span class="tk-b">print</span>(<span class="tk-s">f'{</span>celsius<span class="tk-s">} °C sind {</span>in_fahrenheit(celsius)<span class="tk-s">:.1f} °F'</span>)</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 fahrenheit.py
 Temperatur in Grad Celsius: 0
 0.0 °C sind 32.0 °F
 Temperatur in Grad Celsius: 100
@@ -1241,27 +1247,27 @@ $</pre>
   <p>例: 1、2、4 → 3 / (1 + 0.5 + 0.25) = 3 / 1.75 ≈ 1.714. 它适合求「平均速率」: 去程 40 km/h、回程 60 km/h (路程相同), 平均速度是调和平均 48 km/h, <span class="nb">不是算术平均 50.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>def harmonisches_mittel(zahlen):
-    summe = 0
-    for x in zahlen:
-        summe += 1 / x
-    return len(zahlen) / summe
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">harmonisches_mittel</span>(zahlen):
+    summe = <span class="tk-n">0
+    </span><span class="tk-k">for </span>x <span class="tk-k">in </span>zahlen:
+        summe += <span class="tk-n">1 </span>/ x
+    <span class="tk-k">return </span><span class="tk-b">len</span>(zahlen) / summe
 
 zahlen = []
-while True:
-    eingabe = input('Zahl: ')
-    if eingabe == '':
-        break
-    zahlen.append(float(eingabe))
+<span class="tk-k">while </span><span class="tk-n">True</span>:
+    eingabe = <span class="tk-b">input</span>(<span class="tk-s">'Zahl: '</span>)
+    <span class="tk-k">if </span>eingabe == <span class="tk-s">''</span>:
+        <span class="tk-k">break
+    </span>zahlen.append(<span class="tk-b">float</span>(eingabe))
 
-print('Harmonisches Mittel:', harmonisches_mittel(zahlen))</pre>
-<pre>$ python3 harmonisch.py
+<span class="tk-b">print</span>(<span class="tk-s">'Harmonisches Mittel:'</span>, harmonisches_mittel(zahlen))</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 harmonisch.py
 Zahl: 1
 Zahl: 2
 Zahl: 4
 Zahl:
 Harmonisches Mittel: 1.7142857142857142
-$ python3 harmonisch.py
+<span class="tk-p">$ </span>python3 harmonisch.py
 Zahl: 40
 Zahl: 60
 Zahl:
@@ -1298,21 +1304,21 @@ Harmonisches Mittel: 47.99999999999999</pre>
   <p><b>思路</b> (按 Themen 用列表): 列表 <code>a</code> 先放 a<sub>0</sub> 和 a<sub>1</sub>, 然后用 <code class="lc">for i in range(2, n + 1)</code> 依次算出 a<sub>2</sub> … a<sub>n</sub> 追加进去. 这样列表下标正好等于数列下标, <code class="lc">a[i - 2] + a[i - 1]</code> 和公式 a<sub>n−2</sub> + a<sub>n−1</sub> <span class="nb">一一对应.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>def fibonacci(n):
-    a = [0, 1]
-    for i in range(2, n + 1):
-        a.append(a[i - 2] + a[i - 1])
-    print(f'a_{n} = {a[n]}')
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">fibonacci</span>(n):
+    a = [<span class="tk-n">0</span>, <span class="tk-n">1</span>]
+    <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">2</span>, n + <span class="tk-n">1</span>):
+        a.append(a[i - <span class="tk-n">2</span>] + a[i - <span class="tk-n">1</span>])
+    <span class="tk-b">print</span>(<span class="tk-s">f'a_{</span>n<span class="tk-s">} = {</span>a[n]<span class="tk-s">}'</span>)
 
-n = int(input('n: '))
+n = <span class="tk-b">int</span>(<span class="tk-b">input</span>(<span class="tk-s">'n: '</span>))
 fibonacci(n)</pre>
-<pre>$ python3 fibonacci.py
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 fibonacci.py
 n: 10
 a_10 = 55
-$ python3 fibonacci.py
+<span class="tk-p">$ </span>python3 fibonacci.py
 n: 0
 a_0 = 0
-$ python3 fibonacci.py
+<span class="tk-p">$ </span>python3 fibonacci.py
 n: 20
 a_20 = 6765</pre>
   <p><b>逐行</b>: </p>
@@ -1346,15 +1352,15 @@ a_20 = 6765</pre>
   <p><b>思路</b>: <b>Zinseszins 复利</b>就是「利滚利」: 每年的利息加进本金, 下一年按新本金计息. 所以用 <code>for</code> 循环跑「年数」次, 每次把本金乘以 (1 + 利率/100). 本金和利率可以有小数, 用 <code>float</code>; 年数是整数, 用 <code>int</code>, 因为 <code>range</code> <span class="nb">只接受整数.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>kapital = float(input('Startkapital in Euro: '))
-zinssatz = float(input('Zinssatz in Prozent: '))
-jahre = int(input('Laufzeit in Jahren: '))
+<pre data-lang="python">kapital = <span class="tk-b">float</span>(<span class="tk-b">input</span>(<span class="tk-s">'Startkapital in Euro: '</span>))
+zinssatz = <span class="tk-b">float</span>(<span class="tk-b">input</span>(<span class="tk-s">'Zinssatz in Prozent: '</span>))
+jahre = <span class="tk-b">int</span>(<span class="tk-b">input</span>(<span class="tk-s">'Laufzeit in Jahren: '</span>))
 
-for jahr in range(jahre):
-    kapital = kapital * (1 + zinssatz / 100)
+<span class="tk-k">for </span>jahr <span class="tk-k">in </span><span class="tk-b">range</span>(jahre):
+    kapital = kapital * (<span class="tk-n">1 </span>+ zinssatz / <span class="tk-n">100</span>)
 
-print(f'Kapital nach {jahre} Jahren: {kapital:.2f} Euro')</pre>
-<pre>$ python3 zins.py
+<span class="tk-b">print</span>(<span class="tk-s">f'Kapital nach {</span>jahre<span class="tk-s">} Jahren: {</span>kapital<span class="tk-s">:.2f} Euro'</span>)</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 zins.py
 Startkapital in Euro: 1000
 Zinssatz in Prozent: 5
 Laufzeit in Jahren: 10
@@ -1385,21 +1391,21 @@ Kapital nach 10 Jahren: 1628.89 Euro</pre>
   <p><b>思路</b>: 几个区间首尾相接, 用 <code class="lc">if … elif … elif … else</code> 从小到大判断. 因为 <code>elif</code> 只在前面条件都不成立时才检查, 所以第二个分支只需写 <code>bmi &lt; 25</code>, 不必再写 <span class="nb"><code>18.5 &lt;= bmi</code>.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>gewicht = float(input('Körpergewicht in kg: '))
-groesse = float(input('Körpergröße in m: '))
+<pre data-lang="python">gewicht = <span class="tk-b">float</span>(<span class="tk-b">input</span>(<span class="tk-s">'Körpergewicht in kg: '</span>))
+groesse = <span class="tk-b">float</span>(<span class="tk-b">input</span>(<span class="tk-s">'Körpergröße in m: '</span>))
 
-bmi = gewicht / groesse ** 2
-print(f'BMI: {bmi:.1f}')
+bmi = gewicht / groesse ** <span class="tk-n">2
+</span><span class="tk-b">print</span>(<span class="tk-s">f'BMI: {</span>bmi<span class="tk-s">:.1f}'</span>)
 
-if bmi &lt; 18.5:
-    print('Untergewicht')
-elif bmi &lt; 25:
-    print('Normalgewicht')
-elif bmi &lt; 30:
-    print('Übergewicht')
-else:
-    print('Adipositas')</pre>
-<pre>$ python3 bmi.py          $ python3 bmi.py          $ python3 bmi.py
+<span class="tk-k">if </span>bmi &lt; <span class="tk-n">18.5</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">'Untergewicht'</span>)
+<span class="tk-k">elif </span>bmi &lt; <span class="tk-n">25</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">'Normalgewicht'</span>)
+<span class="tk-k">elif </span>bmi &lt; <span class="tk-n">30</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">'Übergewicht'</span>)
+<span class="tk-k">else</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">'Adipositas'</span>)</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 bmi.py          $ python3 bmi.py          $ python3 bmi.py
 Körpergewicht in kg: 70   Körpergewicht in kg: 50   Körpergewicht in kg: 100
 Körpergröße in m: 1.80    Körpergröße in m: 1.80    Körpergröße in m: 1.80
 BMI: 21.6                 BMI: 15.4                 BMI: 30.9
@@ -1431,25 +1437,25 @@ Normalgewicht             Untergewicht              Adipositas</pre>
   </ul>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>import math
+<pre data-lang="python"><span class="tk-k">import </span>math
 
-def primzahlen_bis(n):
+<span class="tk-k">def </span><span class="tk-f">primzahlen_bis</span>(n):
     primzahlen = []
-    for zahl in range(2, n):
+    <span class="tk-k">for </span>zahl <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">2</span>, n):
         grenze = math.sqrt(zahl)
-        for p in primzahlen:
-            if p &gt; grenze:
+        <span class="tk-k">for </span>p <span class="tk-k">in </span>primzahlen:
+            <span class="tk-k">if </span>p &gt; grenze:
                 primzahlen.append(zahl)
-                break
-            if zahl % p == 0:
-                break
-        else:
+                <span class="tk-k">break
+            if </span>zahl % p == <span class="tk-n">0</span>:
+                <span class="tk-k">break
+        else</span>:
             primzahlen.append(zahl)
-    return primzahlen
+    <span class="tk-k">return </span>primzahlen
 
-n = int(input('n: '))
-print(primzahlen_bis(n))</pre>
-<pre>$ python3 prim.py
+n = <span class="tk-b">int</span>(<span class="tk-b">input</span>(<span class="tk-s">'n: '</span>))
+<span class="tk-b">print</span>(primzahlen_bis(n))</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 prim.py
 n: 30
 [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]</pre>
   <p><b>讲解</b>: 内层循环用已找到的素数 p 试除 zahl. p 超过 √zahl 还没有找到因子, zahl 就是素数, 加进列表并 <code>break</code>; 能整除就 <code>break</code> 跳过. 循环如果<b>没被 break 打断</b> (列表里所有素数都试完了), 会执行 <code>for … else</code> 的 <code>else</code>, 此时 zahl 也是素数: 这只发生在 2、3 <span class="nb">这样列表还很短的开头.</span> </p>
@@ -1480,23 +1486,23 @@ n: 30
   <p><b>思路</b>: 规则是「例外套例外」, 越靠后的例外越优先. 所以判断顺序要<b>倒过来</b>: 先看 400, 再看 100, 最后看 4. 「输入不是数字就结束」用字符串方法 <code>isdigit()</code> 检查: 全是数字字符才返回 <span class="nb">True.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>def ist_schaltjahr(jahr):
-    if jahr % 400 == 0:
-        return True
-    if jahr % 100 == 0:
-        return False
-    return jahr % 4 == 0
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">ist_schaltjahr</span>(jahr):
+    <span class="tk-k">if </span>jahr % <span class="tk-n">400 </span>== <span class="tk-n">0</span>:
+        <span class="tk-k">return </span><span class="tk-n">True
+    </span><span class="tk-k">if </span>jahr % <span class="tk-n">100 </span>== <span class="tk-n">0</span>:
+        <span class="tk-k">return </span><span class="tk-n">False
+    </span><span class="tk-k">return </span>jahr % <span class="tk-n">4 </span>== <span class="tk-n">0
 
-while True:
-    eingabe = input('Jahr: ')
-    if not eingabe.isdigit():
-        break
-    jahr = int(eingabe)
-    if ist_schaltjahr(jahr):
-        print(f'{jahr} ist ein Schaltjahr.')
-    else:
-        print(f'{jahr} ist kein Schaltjahr.')</pre>
-<pre>$ python3 schalt.py
+</span><span class="tk-k">while </span><span class="tk-n">True</span>:
+    eingabe = <span class="tk-b">input</span>(<span class="tk-s">'Jahr: '</span>)
+    <span class="tk-k">if not </span>eingabe.isdigit():
+        <span class="tk-k">break
+    </span>jahr = <span class="tk-b">int</span>(eingabe)
+    <span class="tk-k">if </span>ist_schaltjahr(jahr):
+        <span class="tk-b">print</span>(<span class="tk-s">f'{</span>jahr<span class="tk-s">} ist ein Schaltjahr.'</span>)
+    <span class="tk-k">else</span>:
+        <span class="tk-b">print</span>(<span class="tk-s">f'{</span>jahr<span class="tk-s">} ist kein Schaltjahr.'</span>)</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 schalt.py
 Jahr: 2024
 2024 ist ein Schaltjahr.
 Jahr: 1900
@@ -1535,35 +1541,35 @@ Jahr: ende</pre>
   </ul>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>NOTEN = [1.0, 1.3, 1.7, 2.0, 2.3, 2.7, 3.0, 3.3, 3.7, 4.0]
+<pre data-lang="python">NOTEN = [<span class="tk-n">1.0</span>, <span class="tk-n">1.3</span>, <span class="tk-n">1.7</span>, <span class="tk-n">2.0</span>, <span class="tk-n">2.3</span>, <span class="tk-n">2.7</span>, <span class="tk-n">3.0</span>, <span class="tk-n">3.3</span>, <span class="tk-n">3.7</span>, <span class="tk-n">4.0</span>]
 
-def runde(note):
-    """Rundet auf die nächstbessere zulässige Note."""
-    for erlaubt in reversed(NOTEN):
-        if erlaubt &lt;= note + 1e-9:
-            return erlaubt
-    return 1.0
+<span class="tk-k">def </span><span class="tk-f">runde</span>(note):
+    <span class="tk-s">"""Rundet auf die nächstbessere zulässige Note."""
+    </span><span class="tk-k">for </span>erlaubt <span class="tk-k">in </span><span class="tk-b">reversed</span>(NOTEN):
+        <span class="tk-k">if </span>erlaubt &lt;= note + <span class="tk-n">1e-9</span>:
+            <span class="tk-k">return </span>erlaubt
+    <span class="tk-k">return </span><span class="tk-n">1.0
 
-def note_berechnen(punkte, minp, maxp):
-    if punkte &lt; minp:
-        return 5.0
-    note = 1.0 + 3.3 * (maxp - punkte) / (maxp - minp)
-    return runde(note)
+</span><span class="tk-k">def </span><span class="tk-f">note_berechnen</span>(punkte, minp, maxp):
+    <span class="tk-k">if </span>punkte &lt; minp:
+        <span class="tk-k">return </span><span class="tk-n">5.0
+    </span>note = <span class="tk-n">1.0 </span>+ <span class="tk-n">3.3 </span>* (maxp - punkte) / (maxp - minp)
+    <span class="tk-k">return </span>runde(note)
 
-minp = int(input('Mindestpunktzahl: '))
-maxp = int(input('Maximalpunktzahl: '))
+minp = <span class="tk-b">int</span>(<span class="tk-b">input</span>(<span class="tk-s">'Mindestpunktzahl: '</span>))
+maxp = <span class="tk-b">int</span>(<span class="tk-b">input</span>(<span class="tk-s">'Maximalpunktzahl: '</span>))
 noten = []
-while True:
-    eingabe = input('Punkte: ')
-    if eingabe == '':
-        break
-    noten.append(note_berechnen(int(eingabe), minp, maxp))
+<span class="tk-k">while </span><span class="tk-n">True</span>:
+    eingabe = <span class="tk-b">input</span>(<span class="tk-s">'Punkte: '</span>)
+    <span class="tk-k">if </span>eingabe == <span class="tk-s">''</span>:
+        <span class="tk-k">break
+    </span>noten.append(note_berechnen(<span class="tk-b">int</span>(eingabe), minp, maxp))
 
-for i, note in enumerate(noten, 1):
-    print(f'{i:3}: {note:.1f}')
-if noten:
-    print(f'Durchschnitt: {sum(noten) / len(noten):.2f}')</pre>
-<pre>$ python3 noten.py
+<span class="tk-k">for </span>i, note <span class="tk-k">in </span><span class="tk-b">enumerate</span>(noten, <span class="tk-n">1</span>):
+    <span class="tk-b">print</span>(<span class="tk-s">f'{</span>i<span class="tk-s">:3}: {</span>note<span class="tk-s">:.1f}'</span>)
+<span class="tk-k">if </span>noten:
+    <span class="tk-b">print</span>(<span class="tk-s">f'Durchschnitt: {</span><span class="tk-b">sum</span>(noten) / <span class="tk-b">len</span>(noten)<span class="tk-s">:.2f}'</span>)</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 noten.py
 Mindestpunktzahl: 20
 Maximalpunktzahl: 40
 Punkte: 40
@@ -1622,29 +1628,29 @@ Durchschnitt: 2.88</pre>
   </ul>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>import random
-import string
+<pre data-lang="python"><span class="tk-k">import </span>random
+<span class="tk-k">import </span>string
 
-SONDERZEICHEN = '!#$%&amp;*+-=?@_'
-GRUPPEN = [string.ascii_lowercase, string.ascii_uppercase,
+SONDERZEICHEN = <span class="tk-s">'!#$%&amp;*+-=?@_'
+</span>GRUPPEN = [string.ascii_lowercase, string.ascii_uppercase,
            string.digits, SONDERZEICHEN]
-ALLE = ''.join(GRUPPEN)
+ALLE = <span class="tk-s">''</span>.join(GRUPPEN)
 
-def passwort():
-    laenge = random.randint(8, 12)
-    # aus jeder Gruppe ein Zeichen, damit die Bedingungen sicher erfüllt sind
-    zeichen = [random.choice(gruppe) for gruppe in GRUPPEN]
-    # der Rest beliebig aus dem ganzen Inventar
-    zeichen += [random.choice(ALLE) for _ in range(laenge - len(zeichen))]
-    random.shuffle(zeichen)   # sonst stünden die vier Pflichtzeichen immer vorne
-    return ''.join(zeichen)
+<span class="tk-k">def </span><span class="tk-f">passwort</span>():
+    laenge = random.randint(<span class="tk-n">8</span>, <span class="tk-n">12</span>)
+    <span class="tk-c"># aus jeder Gruppe ein Zeichen, damit die Bedingungen sicher erfüllt sind
+    </span>zeichen = [random.choice(gruppe) <span class="tk-k">for </span>gruppe <span class="tk-k">in </span>GRUPPEN]
+    <span class="tk-c"># der Rest beliebig aus dem ganzen Inventar
+    </span>zeichen += [random.choice(ALLE) <span class="tk-k">for </span>_ <span class="tk-k">in </span><span class="tk-b">range</span>(laenge - <span class="tk-b">len</span>(zeichen))]
+    random.shuffle(zeichen)   <span class="tk-c"># sonst stünden die vier Pflichtzeichen immer vorne
+    </span><span class="tk-k">return </span><span class="tk-s">''</span>.join(zeichen)
 
-print(passwort())</pre>
-<pre>$ python3 passwort.py
+<span class="tk-b">print</span>(passwort())</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 passwort.py
 A7xR9E!&amp;r@M6
-$ python3 passwort.py
+<span class="tk-p">$ </span>python3 passwort.py
 dV%nD_09V=mE
-$ python3 passwort.py
+<span class="tk-p">$ </span>python3 passwort.py
 wW38LwC@1o</pre>
   <p><b>核对</b>: 生成 20000 个密码逐一检查, 长度都在 8–12 之间, <span class="nb">四类字符都至少有一个.</span> </p>
   <p><b>易错</b>: ① <code>random.choice</code> 作用于字符串时每次取一个字符; ② <code>random.shuffle</code> 只能打乱<b>列表</b> (字符串不可变), 所以先放进列表, 最后用 <code>''.join</code> 拼回字符串; ③ <code>shuffle</code> 直接修改列表、返回 <code>None</code>, 不要写 <code class="lc">zeichen = random.shuffle(zeichen)</code>. </p>
@@ -1659,7 +1665,7 @@ wW38LwC@1o</pre>
   <span class="folie">Übung 4 · Aufgabe 2</span>
   <p class="themen">Themen: input, int, while, <span class="nb">divmod</span></p>
   <p>Collatz-Algorithmus:</p>
-<pre>Starte mit einer beliebigen ganzen Zahl n.
+<pre data-lang="text">Starte mit einer beliebigen ganzen Zahl n.
 Wiederhole
    Falls die Zahl gerade ist:   n := n/2
    Falls die Zahl ungerade ist: n := n*3+1
@@ -1672,21 +1678,21 @@ bis die Zahl gleich 1 ist.</pre>
   <p><b>思路</b>: 外层 <code>while True</code> 负责反复读入 (和上一张练习单的闰年题同一个模式); 内层 <code>while n != 1</code> 就是算法本身. 用 <code>divmod(n, 2)</code> 一次得到商和余数: 余数 0 是偶数, <span class="nb">商就是 n/2.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>while True:
-    eingabe = input('Zahl: ')
-    if not eingabe.isdigit() or int(eingabe) &lt; 1:
-        break
-    n = int(eingabe)
-    schritte = 0
-    while n != 1:
-        quotient, rest = divmod(n, 2)
-        if rest == 0:
+<pre data-lang="python"><span class="tk-k">while </span><span class="tk-n">True</span>:
+    eingabe = <span class="tk-b">input</span>(<span class="tk-s">'Zahl: '</span>)
+    <span class="tk-k">if not </span>eingabe.isdigit() <span class="tk-k">or </span><span class="tk-b">int</span>(eingabe) &lt; <span class="tk-n">1</span>:
+        <span class="tk-k">break
+    </span>n = <span class="tk-b">int</span>(eingabe)
+    schritte = <span class="tk-n">0
+    </span><span class="tk-k">while </span>n != <span class="tk-n">1</span>:
+        quotient, rest = <span class="tk-b">divmod</span>(n, <span class="tk-n">2</span>)
+        <span class="tk-k">if </span>rest == <span class="tk-n">0</span>:
             n = quotient
-        else:
-            n = 3 * n + 1
-        schritte += 1
-    print(f'terminiert nach {schritte} Schritten')</pre>
-<pre>$ python3 collatz.py
+        <span class="tk-k">else</span>:
+            n = <span class="tk-n">3 </span>* n + <span class="tk-n">1
+        </span>schritte += <span class="tk-n">1
+    </span><span class="tk-b">print</span>(<span class="tk-s">f'terminiert nach {</span>schritte<span class="tk-s">} Schritten'</span>)</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 collatz.py
 Zahl: 6
 terminiert nach 8 Schritten
 Zahl: 27
@@ -1725,25 +1731,25 @@ Zahl: x</pre>
   <p><b>思路</b>: 命令行参数在列表 <code>sys.argv</code> 里: <code>sys.argv[0]</code> 是脚本名, <code>sys.argv[1]</code> 是第一个参数, 而且是<b>字符串</b>, 要 <code>int(...)</code>. 「0 到 n」包含 n, 所以 <code>range(n + 1)</code>, while 条件是 <span class="nb"><code>i &lt;= n</code>.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>import sys
+<pre data-lang="python"><span class="tk-k">import </span>sys
 
-n = int(sys.argv[1])
+n = <span class="tk-b">int</span>(sys.argv[<span class="tk-n">1</span>])
 
-summe = 0
-i = 0
-while i &lt;= n:
+summe = <span class="tk-n">0
+</span>i = <span class="tk-n">0
+</span><span class="tk-k">while </span>i &lt;= n:
     summe += i
-    i += 1
-print('while:', summe)
+    i += <span class="tk-n">1
+</span><span class="tk-b">print</span>(<span class="tk-s">'while:'</span>, summe)
 
-summe = 0
-for i in range(n + 1):
+summe = <span class="tk-n">0
+</span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(n + <span class="tk-n">1</span>):
     summe += i
-print('for:  ', summe)
+<span class="tk-b">print</span>(<span class="tk-s">'for:  '</span>, summe)
 
-print('sum:  ', sum(range(n + 1)))
-print('Formel:', n * (n + 1) // 2)</pre>
-<pre>$ python3 summen.py 100
+<span class="tk-b">print</span>(<span class="tk-s">'sum:  '</span>, <span class="tk-b">sum</span>(<span class="tk-b">range</span>(n + <span class="tk-n">1</span>)))
+<span class="tk-b">print</span>(<span class="tk-s">'Formel:'</span>, n * (n + <span class="tk-n">1</span>) // <span class="tk-n">2</span>)</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 summen.py <span class="tk-n">100</span>
 while: 5050
 for:   5050
 sum:   5050
@@ -1780,28 +1786,28 @@ Formel: 5050</pre>
   </ul>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>def preis(alter):
-    if alter &lt;= 5:
-        return 0
-    if alter &lt;= 17 or alter &gt; 65:
-        return 8
-    if alter &lt; 28:
-        student = input('  Student? (j/n): ')
-        if student == 'j':
-            return 10
-    return 12
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">preis</span>(alter):
+    <span class="tk-k">if </span>alter &lt;= <span class="tk-n">5</span>:
+        <span class="tk-k">return </span><span class="tk-n">0
+    </span><span class="tk-k">if </span>alter &lt;= <span class="tk-n">17 </span><span class="tk-k">or </span>alter &gt; <span class="tk-n">65</span>:
+        <span class="tk-k">return </span><span class="tk-n">8
+    </span><span class="tk-k">if </span>alter &lt; <span class="tk-n">28</span>:
+        student = <span class="tk-b">input</span>(<span class="tk-s">'  Student? (j/n): '</span>)
+        <span class="tk-k">if </span>student == <span class="tk-s">'j'</span>:
+            <span class="tk-k">return </span><span class="tk-n">10
+    </span><span class="tk-k">return </span><span class="tk-n">12
 
-try:
-    while True:                                   # Endlosschleife: ein Kunde pro Durchlauf
-        summe = 0
-        anzahl = int(input('Wie viele Karten? '))
-        for i in range(1, anzahl + 1):
-            alter = int(input(f'Alter von Person {i}: '))
+</span><span class="tk-k">try</span>:
+    <span class="tk-k">while </span><span class="tk-n">True</span>:                                   <span class="tk-c"># Endlosschleife: ein Kunde pro Durchlauf
+        </span>summe = <span class="tk-n">0
+        </span>anzahl = <span class="tk-b">int</span>(<span class="tk-b">input</span>(<span class="tk-s">'Wie viele Karten? '</span>))
+        <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">1</span>, anzahl + <span class="tk-n">1</span>):
+            alter = <span class="tk-b">int</span>(<span class="tk-b">input</span>(<span class="tk-s">f'Alter von Person {</span>i<span class="tk-s">}: '</span>))
             summe += preis(alter)
-        print(f'Gesamtpreis: {summe} €\n')
-except KeyboardInterrupt:                         # STRG-c beendet die Kasse
-    print('\nKasse geschlossen.')</pre>
-<pre>$ python3 kino.py
+        <span class="tk-b">print</span>(<span class="tk-s">f'Gesamtpreis: {</span>summe<span class="tk-s">} €\n'</span>)
+<span class="tk-k">except </span>KeyboardInterrupt:                         <span class="tk-c"># STRG-c beendet die Kasse
+    </span><span class="tk-b">print</span>(<span class="tk-s">'\nKasse geschlossen.'</span>)</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 kino.py
 Wie viele Karten? 3
 Alter von Person 1: 4
 Alter von Person 2: 20
@@ -1846,37 +1852,37 @@ Kasse geschlossen.</pre>
   </ul>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>class Datum:
-    MONATE_DE = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli',
-                 'August', 'September', 'Oktober', 'November', 'Dezember']
-    MONATE_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-                 'August', 'September', 'October', 'November', 'December']
-    # Monatsname (klein geschrieben) -&gt; Nummer, für beide Sprachen
-    NUMMER = {name.lower(): i for i, name in enumerate(MONATE_DE, 1)}
-    NUMMER.update({name.lower(): i for i, name in enumerate(MONATE_EN, 1)})
+<pre data-lang="python"><span class="tk-k">class </span><span class="tk-f">Datum</span>:
+    MONATE_DE = [<span class="tk-s">'Januar'</span>, <span class="tk-s">'Februar'</span>, <span class="tk-s">'März'</span>, <span class="tk-s">'April'</span>, <span class="tk-s">'Mai'</span>, <span class="tk-s">'Juni'</span>, <span class="tk-s">'Juli'</span>,
+                 <span class="tk-s">'August'</span>, <span class="tk-s">'September'</span>, <span class="tk-s">'Oktober'</span>, <span class="tk-s">'November'</span>, <span class="tk-s">'Dezember'</span>]
+    MONATE_EN = [<span class="tk-s">'January'</span>, <span class="tk-s">'February'</span>, <span class="tk-s">'March'</span>, <span class="tk-s">'April'</span>, <span class="tk-s">'May'</span>, <span class="tk-s">'June'</span>, <span class="tk-s">'July'</span>,
+                 <span class="tk-s">'August'</span>, <span class="tk-s">'September'</span>, <span class="tk-s">'October'</span>, <span class="tk-s">'November'</span>, <span class="tk-s">'December'</span>]
+    <span class="tk-c"># Monatsname (klein geschrieben) -&gt; Nummer, für beide Sprachen
+    </span>NUMMER = {name.lower(): i <span class="tk-k">for </span>i, name <span class="tk-k">in </span><span class="tk-b">enumerate</span>(MONATE_DE, <span class="tk-n">1</span>)}
+    NUMMER.update({name.lower(): i <span class="tk-k">for </span>i, name <span class="tk-k">in </span><span class="tk-b">enumerate</span>(MONATE_EN, <span class="tk-n">1</span>)})
 
-    def __init__(self, tag, monat, jahr):
-        if isinstance(monat, str):
-            monat = self.NUMMER[monat.lower()]
-        self.tag = tag
-        self.monat = monat
-        self.jahr = jahr
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, tag, monat, jahr):
+        <span class="tk-k">if </span><span class="tk-b">isinstance</span>(monat, <span class="tk-b">str</span>):
+            monat = <span class="tk-b">self</span>.NUMMER[monat.lower()]
+        <span class="tk-b">self</span>.tag = tag
+        <span class="tk-b">self</span>.monat = monat
+        <span class="tk-b">self</span>.jahr = jahr
 
-    def deutsch(self):
-        return f'{self.tag}. {self.MONATE_DE[self.monat - 1]} {self.jahr}'
+    <span class="tk-k">def </span><span class="tk-f">deutsch</span>(<span class="tk-b">self</span>):
+        <span class="tk-k">return </span><span class="tk-s">f'{</span><span class="tk-b">self</span>.tag<span class="tk-s">}. {</span><span class="tk-b">self</span>.MONATE_DE[<span class="tk-b">self</span>.monat - <span class="tk-n">1</span>]<span class="tk-s">} {</span><span class="tk-b">self</span>.jahr<span class="tk-s">}'
 
-    def englisch(self):
-        return f'{self.MONATE_EN[self.monat - 1]} {self.tag}, {self.jahr}'
+    </span><span class="tk-k">def </span><span class="tk-f">englisch</span>(<span class="tk-b">self</span>):
+        <span class="tk-k">return </span><span class="tk-s">f'{</span><span class="tk-b">self</span>.MONATE_EN[<span class="tk-b">self</span>.monat - <span class="tk-n">1</span>]<span class="tk-s">} {</span><span class="tk-b">self</span>.tag<span class="tk-s">}, {</span><span class="tk-b">self</span>.jahr<span class="tk-s">}'
 
 
-if __name__ == '__main__':
-    for d in [Datum(19, 'Oktober', 2026), Datum(3, 'march', 2027), Datum(24, 12, 2026)]:
-        print(d.deutsch(), '|', d.englisch())</pre>
-<pre>$ python3 datum.py
+</span><span class="tk-k">if </span>__name__ == <span class="tk-s">'__main__'</span>:
+    <span class="tk-k">for </span>d <span class="tk-k">in </span>[Datum(<span class="tk-n">19</span>, <span class="tk-s">'Oktober'</span>, <span class="tk-n">2026</span>), Datum(<span class="tk-n">3</span>, <span class="tk-s">'march'</span>, <span class="tk-n">2027</span>), Datum(<span class="tk-n">24</span>, <span class="tk-n">12</span>, <span class="tk-n">2026</span>)]:
+        <span class="tk-b">print</span>(d.deutsch(), <span class="tk-s">'|'</span>, d.englisch())</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 datum.py
 19. Oktober 2026 | October 19, 2026
 3. März 2027 | March 3, 2027
 24. Dezember 2026 | December 24, 2026
-$ python3 -c "import datum"
+<span class="tk-p">$ </span>python3 -c <span class="tk-s">"import datum"</span>
 $</pre>
   <p><b>讲解</b>: <code>MONATE_DE</code>、<code>NUMMER</code> 写在类体里、方法外面, 属于<b>类</b>而不是某个实例, 所有 Datum 对象共用一份. 方法里通过 <code>self.NUMMER</code> 访问时, Python 先在实例上找, 找不到再去类上找. <code>import datum</code> 时没有任何输出, <span class="nb">说明测试代码没有执行.</span> </p>
   <p><b>易错</b>: ① 月份数字 10 对应下标 9, 要减 1; ② 字典推导式里 <code>enumerate</code> 不加起始值 1, 十月会被存成 9; ③ 把月份表写进 <code>__init__</code> (<code class="lc">self.MONATE = …</code>) 就变成每个实例各存一份, <span class="nb">违背题目要求.</span> </p>
@@ -1902,16 +1908,16 @@ $</pre>
   <p><b>思路 (递归)</b>: <code>divmod(n, 10)</code> 把 n 拆成「去掉最后一位的数」和「最后一位数字」: 305 → (30, 5). 前一部分<b>递归</b>转成字符串, 再把最后一位对应的字符接在后面. <b>递归出口</b>: 只剩一位数时 (商为 0) 直接返回那一位. 负数: 先处理负号, <span class="nb">再对 −n 递归.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>ZIFFERN = '0123456789'
+<pre data-lang="python">ZIFFERN = <span class="tk-s">'0123456789'
 
-def integer_als_string(n):
-    if n &lt; 0:
-        return '-' + integer_als_string(-n)
-    rest_zahl, ziffer = divmod(n, 10)
-    if rest_zahl == 0:
-        return ZIFFERN[ziffer]
-    return integer_als_string(rest_zahl) + ZIFFERN[ziffer]</pre>
-<pre>&gt;&gt;&gt; integer_als_string(0), integer_als_string(42), integer_als_string(-305)
+</span><span class="tk-k">def </span><span class="tk-f">integer_als_string</span>(n):
+    <span class="tk-k">if </span>n &lt; <span class="tk-n">0</span>:
+        <span class="tk-k">return </span><span class="tk-s">'-' </span>+ integer_als_string(-n)
+    rest_zahl, ziffer = <span class="tk-b">divmod</span>(n, <span class="tk-n">10</span>)
+    <span class="tk-k">if </span>rest_zahl == <span class="tk-n">0</span>:
+        <span class="tk-k">return </span>ZIFFERN[ziffer]
+    <span class="tk-k">return </span>integer_als_string(rest_zahl) + ZIFFERN[ziffer]</pre>
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>integer_als_string(<span class="tk-n">0</span>), integer_als_string(<span class="tk-n">42</span>), integer_als_string(-<span class="tk-n">305</span>)
 ('0', '42', '-305')</pre>
   <p><b>核对</b>: 对 −5000 到 4999 的每个整数和 <code>str(n)</code> 比较, <span class="nb">全部一致.</span> </p>
   <p><b>易错</b>: ① 递归出口写成 <code class="lc">if n == 0: return ''</code>, 那么 0 本身会得到空串; ② 对负数直接 <code class="lc">divmod(-305, 10)</code> 得 (−31, 5), Python 的整数除法向下取整, 结果会乱, <span class="nb">所以要先把负号拿出来.</span> </p>
@@ -1930,21 +1936,21 @@ def integer_als_string(n):
   <p><b>思路</b>: <code>divmod(x, 1)</code> 把 x 拆成整数部分和小数部分: 3.14 → (3.0, 0.14). 整数部分用上一题的函数. 小数部分递归地一位一位取: 乘以 10 再 <code>divmod(…, 1)</code>, 整数部分就是下一位数字, 剩下的小数继续递归, 最多 10 次. 最后把末尾多余的 0 <span class="nb">去掉.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>def nachkomma(x, stellen):
-    """Die ersten `stellen` Nachkommastellen von 0 &lt;= x &lt; 1 (rekursiv, ohne Rundung)."""
-    if stellen == 0 or x == 0:
-        return ''
-    ziffer, rest = divmod(x * 10, 1)
-    return ZIFFERN[int(ziffer)] + nachkomma(rest, stellen - 1)
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">nachkomma</span>(x, stellen):
+    <span class="tk-s">"""Die ersten `stellen` Nachkommastellen von 0 &lt;= x &lt; 1 (rekursiv, ohne Rundung)."""
+    </span><span class="tk-k">if </span>stellen == <span class="tk-n">0 </span><span class="tk-k">or </span>x == <span class="tk-n">0</span>:
+        <span class="tk-k">return </span><span class="tk-s">''
+    </span>ziffer, rest = <span class="tk-b">divmod</span>(x * <span class="tk-n">10</span>, <span class="tk-n">1</span>)
+    <span class="tk-k">return </span>ZIFFERN[<span class="tk-b">int</span>(ziffer)] + nachkomma(rest, stellen - <span class="tk-n">1</span>)
 
-def float_als_string(x):
-    if x &lt; 0:
-        return '-' + float_als_string(-x)
-    ganz, bruch = divmod(x, 1)
-    nk = nachkomma(bruch, 10).rstrip('0') or '0'
-    return integer_als_string(int(ganz)) + '.' + nk</pre>
-<pre>&gt;&gt;&gt; for x in [3.14, -2.5, 0.1, 100.0, 1/3, 3.3, 12.34]:
-...     print(x, '-&gt;', float_als_string(x))
+<span class="tk-k">def </span><span class="tk-f">float_als_string</span>(x):
+    <span class="tk-k">if </span>x &lt; <span class="tk-n">0</span>:
+        <span class="tk-k">return </span><span class="tk-s">'-' </span>+ float_als_string(-x)
+    ganz, bruch = <span class="tk-b">divmod</span>(x, <span class="tk-n">1</span>)
+    nk = nachkomma(bruch, <span class="tk-n">10</span>).rstrip(<span class="tk-s">'0'</span>) <span class="tk-k">or </span><span class="tk-s">'0'
+    </span><span class="tk-k">return </span>integer_als_string(<span class="tk-b">int</span>(ganz)) + <span class="tk-s">'.' </span>+ nk</pre>
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">for </span>x <span class="tk-k">in </span>[<span class="tk-n">3.14</span>, -<span class="tk-n">2.5</span>, <span class="tk-n">0.1</span>, <span class="tk-n">100.0</span>, <span class="tk-n">1</span>/<span class="tk-n">3</span>, <span class="tk-n">3.3</span>, <span class="tk-n">12.34</span>]:
+<span class="tk-p">...     </span><span class="tk-b">print</span>(x, <span class="tk-s">'-&gt;'</span>, float_als_string(x))
 3.14 -&gt; 3.14
 -2.5 -&gt; -2.5
 0.1 -&gt; 0.1
@@ -1969,38 +1975,38 @@ def float_als_string(x):
   <p><b>思路</b>: 用 <code>match x:</code> 按<b>类型</b>分情况 (<code>case list():</code> 匹配所有列表). 容器类型对每个元素<b>递归</b>调用 <code>als_string</code>, 再用 <code>', '.join</code> 拼起来, <span class="nb">外面加上对应的括号.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>def als_string(x):
-    match x:
-        case bool():                      # vor int prüfen: True ist auch ein int!
-            return 'True' if x else 'False'
-        case int() | float():
-            return str(x)
-        case str():
-            return "'" + x + "'"
-        case list():
-            return '[' + ', '.join(als_string(e) for e in x) + ']'
-        case tuple():
-            if len(x) == 1:
-                return '(' + als_string(x[0]) + ',)'
-            return '(' + ', '.join(als_string(e) for e in x) + ')'
-        case set():
-            if not x:
-                return 'set()'
-            return '{' + ', '.join(als_string(e) for e in x) + '}'
-        case dict():
-            return '{' + ', '.join(als_string(k) + ': ' + als_string(v)
-                                   for k, v in x.items()) + '}'
-        case None:
-            return 'None'
-        case _:
-            raise TypeError(f'Typ {type(x).__name__} wird nicht unterstützt')
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">als_string</span>(x):
+    <span class="tk-k">match </span>x:
+        <span class="tk-k">case </span><span class="tk-b">bool</span>():                      <span class="tk-c"># vor int prüfen: True ist auch ein int!
+            </span><span class="tk-k">return </span><span class="tk-s">'True' </span><span class="tk-k">if </span>x <span class="tk-k">else </span><span class="tk-s">'False'
+        </span><span class="tk-k">case </span><span class="tk-b">int</span>() | <span class="tk-b">float</span>():
+            <span class="tk-k">return </span><span class="tk-b">str</span>(x)
+        <span class="tk-k">case </span><span class="tk-b">str</span>():
+            <span class="tk-k">return </span><span class="tk-s">"'" </span>+ x + <span class="tk-s">"'"
+        </span><span class="tk-k">case </span><span class="tk-b">list</span>():
+            <span class="tk-k">return </span><span class="tk-s">'[' </span>+ <span class="tk-s">', '</span>.join(als_string(e) <span class="tk-k">for </span>e <span class="tk-k">in </span>x) + <span class="tk-s">']'
+        </span><span class="tk-k">case </span><span class="tk-b">tuple</span>():
+            <span class="tk-k">if </span><span class="tk-b">len</span>(x) == <span class="tk-n">1</span>:
+                <span class="tk-k">return </span><span class="tk-s">'(' </span>+ als_string(x[<span class="tk-n">0</span>]) + <span class="tk-s">',)'
+            </span><span class="tk-k">return </span><span class="tk-s">'(' </span>+ <span class="tk-s">', '</span>.join(als_string(e) <span class="tk-k">for </span>e <span class="tk-k">in </span>x) + <span class="tk-s">')'
+        </span><span class="tk-k">case </span><span class="tk-b">set</span>():
+            <span class="tk-k">if not </span>x:
+                <span class="tk-k">return </span><span class="tk-s">'set()'
+            </span><span class="tk-k">return </span><span class="tk-s">'{' </span>+ <span class="tk-s">', '</span>.join(als_string(e) <span class="tk-k">for </span>e <span class="tk-k">in </span>x) + <span class="tk-s">'}'
+        </span><span class="tk-k">case </span><span class="tk-b">dict</span>():
+            <span class="tk-k">return </span><span class="tk-s">'{' </span>+ <span class="tk-s">', '</span>.join(als_string(k) + <span class="tk-s">': ' </span>+ als_string(v)
+                                   <span class="tk-k">for </span>k, v <span class="tk-k">in </span>x.items()) + <span class="tk-s">'}'
+        </span><span class="tk-k">case </span><span class="tk-n">None</span>:
+            <span class="tk-k">return </span><span class="tk-s">'None'
+        </span><span class="tk-k">case _</span>:
+            <span class="tk-k">raise </span>TypeError(<span class="tk-s">f'Typ {</span><span class="tk-b">type</span>(x).__name__<span class="tk-s">} wird nicht unterstützt'</span>)
 
-if __name__ == '__main__':
-    tests = [[1, 2.5, 'a', True], (1,), (), {'x': [1, (2, 3)], 'y': None},
-             set(), {3}, [[], {}], False, -7]
-    for t in tests:
-        print(als_string(t), als_string(t) == str(t))</pre>
-<pre>$ python3 alsstring.py
+<span class="tk-k">if </span>__name__ == <span class="tk-s">'__main__'</span>:
+    tests = [[<span class="tk-n">1</span>, <span class="tk-n">2.5</span>, <span class="tk-s">'a'</span>, <span class="tk-n">True</span>], (<span class="tk-n">1</span>,), (), {<span class="tk-s">'x'</span>: [<span class="tk-n">1</span>, (<span class="tk-n">2</span>, <span class="tk-n">3</span>)], <span class="tk-s">'y'</span>: <span class="tk-n">None</span>},
+             <span class="tk-b">set</span>(), {<span class="tk-n">3</span>}, [[], {}], <span class="tk-n">False</span>, -<span class="tk-n">7</span>]
+    <span class="tk-k">for </span>t <span class="tk-k">in </span>tests:
+        <span class="tk-b">print</span>(als_string(t), als_string(t) == <span class="tk-b">str</span>(t))</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 alsstring.py
 [1, 2.5, 'a', True] True
 (1,) True
 () True
@@ -2028,7 +2034,7 @@ False True
   <p class="themen">Themen: class, __call__, enumerate, Dictionary Comprehension, <span class="nb">join</span></p>
   <p>Bei der Cäsar-Verschlüsselung werden zunächst alle Zeichen auf Zahlen abgebildet. Zur Verschlüsselung wird zu jeder Zahl ein Offset addiert. Dann werden die Zahlen wieder auf Buchstaben abgebildet und <span class="nb">ausgegeben.</span></p>
   <p>Beispiel mit 27 Zeichen (einschließlich Leerzeichen) und dem <span class="nb">Offset 5:</span></p>
-<pre>'hallo welt' ⇒ 8 1 12 12 15 0 23 5 12 20
+<pre data-lang="text">'hallo welt' ⇒ 8 1 12 12 15 0 23 5 12 20
              ⇒ 13 6 17 17 20 5 1 10 17 25 ⇒ 'mfqqteajqy'</pre>
   <p>Implementieren Sie eine Klasse <code>Kodierer</code>, welche die Cäsar-Verschlüsselung implementiert. Die init-Methode bekommt den Offset als Argument. Die Klasse besitzt außerdem eine Methode <code>__call__</code>, welche einen Text als Argument erhält und den kodierten Text <span class="nb">zurückgibt.</span></p>
   <p>Fügen Sie außerdem Code zum Testen der Klasse <span class="nb">hinzu.</span></p>
@@ -2043,25 +2049,25 @@ False True
   <p><b>思路</b>: 从例子能看出映射: 空格 = 0, a = 1, …, z = 26. 字符串 <code class="lc">' abcdefghijklmnopqrstuvwxyz'</code> 的下标正好就是这个编号; 反方向 (字符 → 编号) 用 <code>enumerate</code> <span class="nb">加字典推导式建一张表.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>class Kodierer:
-    ZEICHEN = ' abcdefghijklmnopqrstuvwxyz'                  # 27 Zeichen, ' ' = 0
-    NUMMER = {z: i for i, z in enumerate(ZEICHEN)}
+<pre data-lang="python"><span class="tk-k">class </span><span class="tk-f">Kodierer</span>:
+    ZEICHEN = <span class="tk-s">' abcdefghijklmnopqrstuvwxyz'                  </span><span class="tk-c"># 27 Zeichen, ' ' = 0
+    </span>NUMMER = {z: i <span class="tk-k">for </span>i, z <span class="tk-k">in </span><span class="tk-b">enumerate</span>(ZEICHEN)}
 
-    def __init__(self, offset):
-        self.offset = offset
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, offset):
+        <span class="tk-b">self</span>.offset = offset
 
-    def __call__(self, text):
-        n = len(self.ZEICHEN)
-        return ''.join(self.ZEICHEN[(self.NUMMER[z] + self.offset) % n]
-                       for z in text.lower())
+    <span class="tk-k">def </span><span class="tk-f">__call__</span>(<span class="tk-b">self</span>, text):
+        n = <span class="tk-b">len</span>(<span class="tk-b">self</span>.ZEICHEN)
+        <span class="tk-k">return </span><span class="tk-s">''</span>.join(<span class="tk-b">self</span>.ZEICHEN[(<span class="tk-b">self</span>.NUMMER[z] + <span class="tk-b">self</span>.offset) % n]
+                       <span class="tk-k">for </span>z <span class="tk-k">in </span>text.lower())
 
-if __name__ == '__main__':
-    kodiere = Kodierer(5)
-    print(repr(kodiere('hallo welt')))
-    dekodiere = Kodierer(-5)
-    print(repr(dekodiere(kodiere('hallo welt'))))
-    print(repr(kodiere('z')), repr(kodiere('xyz')))</pre>
-<pre>$ python3 caesar.py
+<span class="tk-k">if </span>__name__ == <span class="tk-s">'__main__'</span>:
+    kodiere = Kodierer(<span class="tk-n">5</span>)
+    <span class="tk-b">print</span>(<span class="tk-b">repr</span>(kodiere(<span class="tk-s">'hallo welt'</span>)))
+    dekodiere = Kodierer(-<span class="tk-n">5</span>)
+    <span class="tk-b">print</span>(<span class="tk-b">repr</span>(dekodiere(kodiere(<span class="tk-s">'hallo welt'</span>))))
+    <span class="tk-b">print</span>(<span class="tk-b">repr</span>(kodiere(<span class="tk-s">'z'</span>)), <span class="tk-b">repr</span>(kodiere(<span class="tk-s">'xyz'</span>)))</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 caesar.py
 'mfqqteajqy'
 'hallo welt'
 'd' 'bcd'</pre>
@@ -2105,52 +2111,52 @@ if __name__ == '__main__':
   </ul>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>from itertools import chain
+<pre data-lang="python"><span class="tk-k">from </span>itertools <span class="tk-k">import </span>chain
 
-class HashTabelle:
-    def __init__(self, groesse=10):
-        self.buckets = [[] for _ in range(groesse)]
-        self.anzahl = 0
+<span class="tk-k">class </span><span class="tk-f">HashTabelle</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, groesse=<span class="tk-n">10</span>):
+        <span class="tk-b">self</span>.buckets = [[] <span class="tk-k">for </span>_ <span class="tk-k">in </span><span class="tk-b">range</span>(groesse)]
+        <span class="tk-b">self</span>.anzahl = <span class="tk-n">0
 
-    def _bucket(self, key):
-        return self.buckets[hash(key) % len(self.buckets)]
+    </span><span class="tk-k">def </span><span class="tk-f">_bucket</span>(<span class="tk-b">self</span>, key):
+        <span class="tk-k">return </span><span class="tk-b">self</span>.buckets[<span class="tk-b">hash</span>(key) % <span class="tk-b">len</span>(<span class="tk-b">self</span>.buckets)]
 
-    def __getitem__(self, key):
-        for k, v in self._bucket(key):
-            if k == key:
-                return v
-        return None
+    <span class="tk-k">def </span><span class="tk-f">__getitem__</span>(<span class="tk-b">self</span>, key):
+        <span class="tk-k">for </span>k, v <span class="tk-k">in </span><span class="tk-b">self</span>._bucket(key):
+            <span class="tk-k">if </span>k == key:
+                <span class="tk-k">return </span>v
+        <span class="tk-k">return </span><span class="tk-n">None
 
-    def __setitem__(self, key, value):
-        bucket = self._bucket(key)
-        for i, (k, _) in enumerate(bucket):
-            if k == key:
+    </span><span class="tk-k">def </span><span class="tk-f">__setitem__</span>(<span class="tk-b">self</span>, key, value):
+        bucket = <span class="tk-b">self</span>._bucket(key)
+        <span class="tk-k">for </span>i, (k, _) <span class="tk-k">in </span><span class="tk-b">enumerate</span>(bucket):
+            <span class="tk-k">if </span>k == key:
                 bucket[i] = (key, value)
-                break
-        else:                                  # Schleife ohne break: Key ist neu
-            bucket.append((key, value))
-            self.anzahl += 1
-            if self.anzahl &gt; len(self.buckets):
-                self.resize()
+                <span class="tk-k">break
+        else</span>:                                  <span class="tk-c"># Schleife ohne break: Key ist neu
+            </span>bucket.append((key, value))
+            <span class="tk-b">self</span>.anzahl += <span class="tk-n">1
+            </span><span class="tk-k">if </span><span class="tk-b">self</span>.anzahl &gt; <span class="tk-b">len</span>(<span class="tk-b">self</span>.buckets):
+                <span class="tk-b">self</span>.resize()
 
-    def resize(self):
-        paare = list(chain(*self.buckets))
-        self.buckets = [[] for _ in range(2 * len(self.buckets))]
-        for k, v in paare:
-            self._bucket(k).append((k, v))
+    <span class="tk-k">def </span><span class="tk-f">resize</span>(<span class="tk-b">self</span>):
+        paare = <span class="tk-b">list</span>(chain(*<span class="tk-b">self</span>.buckets))
+        <span class="tk-b">self</span>.buckets = [[] <span class="tk-k">for </span>_ <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">2 </span>* <span class="tk-b">len</span>(<span class="tk-b">self</span>.buckets))]
+        <span class="tk-k">for </span>k, v <span class="tk-k">in </span>paare:
+            <span class="tk-b">self</span>._bucket(k).append((k, v))
 
-    def __str__(self):
-        paare = chain(*self.buckets)
-        return '{' + ', '.join(f'{k!r}: {v!r}' for k, v in paare) + '}'
+    <span class="tk-k">def </span><span class="tk-f">__str__</span>(<span class="tk-b">self</span>):
+        paare = chain(*<span class="tk-b">self</span>.buckets)
+        <span class="tk-k">return </span><span class="tk-s">'{' </span>+ <span class="tk-s">', '</span>.join(<span class="tk-s">f'{</span>k<span class="tk-s">!r}: {</span>v<span class="tk-s">!r}' </span><span class="tk-k">for </span>k, v <span class="tk-k">in </span>paare) + <span class="tk-s">'}'
 
-if __name__ == '__main__':
-    t = HashTabelle(4)
-    for i, wort in enumerate(['der', 'die', 'das', 'Haus', 'Baum', 'der']):
+</span><span class="tk-k">if </span>__name__ == <span class="tk-s">'__main__'</span>:
+    t = HashTabelle(<span class="tk-n">4</span>)
+    <span class="tk-k">for </span>i, wort <span class="tk-k">in </span><span class="tk-b">enumerate</span>([<span class="tk-s">'der'</span>, <span class="tk-s">'die'</span>, <span class="tk-s">'das'</span>, <span class="tk-s">'Haus'</span>, <span class="tk-s">'Baum'</span>, <span class="tk-s">'der'</span>]):
         t[wort] = i
-    print(t['der'], t['Haus'], t['fehlt'])
-    print(len(t.buckets), t.anzahl)
-    print(t)</pre>
-<pre>$ PYTHONHASHSEED=0 python3 hashtab.py
+    <span class="tk-b">print</span>(t[<span class="tk-s">'der'</span>], t[<span class="tk-s">'Haus'</span>], t[<span class="tk-s">'fehlt'</span>])
+    <span class="tk-b">print</span>(<span class="tk-b">len</span>(t.buckets), t.anzahl)
+    <span class="tk-b">print</span>(t)</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>PYTHONHASHSEED=<span class="tk-n">0 </span>python3 hashtab.py
 5 3 None
 8 5
 {'die': 1, 'Baum': 4, 'Haus': 3, 'der': 5, 'das': 2}</pre>
@@ -2184,29 +2190,29 @@ if __name__ == '__main__':
   <p><b>思路</b>: 递归出口是长度 ≤ 1 的列表 (本身就有序). 合并时比较两个列表的<b>第一个</b>元素, 较小的用 <code>pop(0)</code> 取出放进结果; 一边取完后, 另一边剩下的已经有序, 用 <code>extend</code> 整段接上. <code>randint</code> <span class="nb">用来生成测试数据.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>from random import randint
+<pre data-lang="python"><span class="tk-k">from </span>random <span class="tk-k">import </span>randint
 
-def merge_sort(liste):
-    if len(liste) &lt;= 1:
-        return liste
-    mitte = len(liste) // 2
-    links = merge_sort(liste[:mitte])
+<span class="tk-k">def </span><span class="tk-f">merge_sort</span>(liste):
+    <span class="tk-k">if </span><span class="tk-b">len</span>(liste) &lt;= <span class="tk-n">1</span>:
+        <span class="tk-k">return </span>liste
+    mitte = <span class="tk-b">len</span>(liste) // <span class="tk-n">2
+    </span>links = merge_sort(liste[:mitte])
     rechts = merge_sort(liste[mitte:])
     ergebnis = []
-    while links and rechts:
-        if links[0] &lt;= rechts[0]:
-            ergebnis.append(links.pop(0))
-        else:
-            ergebnis.append(rechts.pop(0))
-    ergebnis.extend(links)        # höchstens eine der beiden ist noch nicht leer
-    ergebnis.extend(rechts)
-    return ergebnis
+    <span class="tk-k">while </span>links <span class="tk-k">and </span>rechts:
+        <span class="tk-k">if </span>links[<span class="tk-n">0</span>] &lt;= rechts[<span class="tk-n">0</span>]:
+            ergebnis.append(links.pop(<span class="tk-n">0</span>))
+        <span class="tk-k">else</span>:
+            ergebnis.append(rechts.pop(<span class="tk-n">0</span>))
+    ergebnis.extend(links)        <span class="tk-c"># höchstens eine der beiden ist noch nicht leer
+    </span>ergebnis.extend(rechts)
+    <span class="tk-k">return </span>ergebnis
 
-if __name__ == '__main__':
-    zahlen = [randint(0, 99) for _ in range(15)]
-    print(zahlen)
-    print(merge_sort(zahlen))</pre>
-<pre>$ python3 merge.py
+<span class="tk-k">if </span>__name__ == <span class="tk-s">'__main__'</span>:
+    zahlen = [randint(<span class="tk-n">0</span>, <span class="tk-n">99</span>) <span class="tk-k">for </span>_ <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">15</span>)]
+    <span class="tk-b">print</span>(zahlen)
+    <span class="tk-b">print</span>(merge_sort(zahlen))</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 merge.py
 [14, 77, 15, 78, 57, 45, 51, 97, 99, 91, 29, 86, 79, 18, 77]
 [14, 15, 18, 29, 45, 51, 57, 77, 77, 78, 79, 86, 91, 97, 99]</pre>
   <p><b>核对</b>: 3000 个随机列表 (长度 0–60, 含负数和重复) 全部和 <code>sorted()</code> <span class="nb">结果相同.</span> </p>
@@ -2221,13 +2227,13 @@ if __name__ == '__main__':
   <span class="folie">Übung 8 · Aufgabe 2</span>
   <p class="themen">Themen: * und ** <span class="nb">Argumente</span></p>
   <p>Schreiben Sie eine Funktion <code>beschreibe_reise</code>, welche folgendermaßen aufgerufen <span class="nb">wird:</span></p>
-<pre>beschreibe_reise(
-   "Paris",                              # 1. obligatorisch (Ziel)
-   "Eiffelturm", "Louvre", "Notre-Dame", # 2. optional (Sehenswuerdigkeiten)
-   Dauer="5 Tage", Unterkunft="Hotel"    # 3. Keyword-Argumente (für Details)
-)</pre>
+<pre data-lang="python">beschreibe_reise(
+   <span class="tk-s">"Paris"</span>,                              <span class="tk-c"># 1. obligatorisch (Ziel)
+   </span><span class="tk-s">"Eiffelturm"</span>, <span class="tk-s">"Louvre"</span>, <span class="tk-s">"Notre-Dame"</span>, <span class="tk-c"># 2. optional (Sehenswuerdigkeiten)
+   </span>Dauer=<span class="tk-s">"5 Tage"</span>, Unterkunft=<span class="tk-s">"Hotel"    </span><span class="tk-c"># 3. Keyword-Argumente (für Details)
+</span>)</pre>
   <p>Die Funktion soll dann folgende Ausgabe <span class="nb">generieren:</span></p>
-<pre>Reiseziel: Paris
+<pre data-lang="text">Reiseziel: Paris
 
 Geplante Stopps:
  - Eiffelturm
@@ -2243,23 +2249,23 @@ Weitere Details:
   <p><b>思路</b>: 三种参数正好对应函数定义的三部分: 普通参数 <code>ziel</code>; <code>*stopps</code> 把多出来的<b>位置参数</b>收成一个元组; <code>**details</code> 把多出来的<b>关键字参数</b>收成一个字典 (键是参数名<span class="nb">的字符串).</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>def beschreibe_reise(ziel, *stopps, **details):
-    print(f'Reiseziel: {ziel}')
-    if stopps:
-        print('\nGeplante Stopps:')
-        for stopp in stopps:
-            print(f' - {stopp}')
-    if details:
-        print('\nWeitere Details:')
-        for schluessel, wert in details.items():
-            print(f' - {schluessel}: {wert}')
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">beschreibe_reise</span>(ziel, *stopps, **details):
+    <span class="tk-b">print</span>(<span class="tk-s">f'Reiseziel: {</span>ziel<span class="tk-s">}'</span>)
+    <span class="tk-k">if </span>stopps:
+        <span class="tk-b">print</span>(<span class="tk-s">'\nGeplante Stopps:'</span>)
+        <span class="tk-k">for </span>stopp <span class="tk-k">in </span>stopps:
+            <span class="tk-b">print</span>(<span class="tk-s">f' - {</span>stopp<span class="tk-s">}'</span>)
+    <span class="tk-k">if </span>details:
+        <span class="tk-b">print</span>(<span class="tk-s">'\nWeitere Details:'</span>)
+        <span class="tk-k">for </span>schluessel, wert <span class="tk-k">in </span>details.items():
+            <span class="tk-b">print</span>(<span class="tk-s">f' - {</span>schluessel<span class="tk-s">}: {</span>wert<span class="tk-s">}'</span>)
 
 beschreibe_reise(
-    "Paris",
-    "Eiffelturm", "Louvre", "Notre-Dame",
-    Dauer="5 Tage", Unterkunft="Hotel"
-)</pre>
-<pre>$ python3 reise.py
+    <span class="tk-s">"Paris"</span>,
+    <span class="tk-s">"Eiffelturm"</span>, <span class="tk-s">"Louvre"</span>, <span class="tk-s">"Notre-Dame"</span>,
+    Dauer=<span class="tk-s">"5 Tage"</span>, Unterkunft=<span class="tk-s">"Hotel"
+</span>)</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 reise.py
 Reiseziel: Paris
 
 Geplante Stopps:
@@ -2314,58 +2320,58 @@ Weitere Details:
   </ul>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>import math
-import sys
-from collections import defaultdict
+<pre data-lang="python"><span class="tk-k">import </span>math
+<span class="tk-k">import </span>sys
+<span class="tk-k">from </span>collections <span class="tk-k">import </span>defaultdict
 
-START, ENDE = '&lt;', '&gt;'          # Zeichen, die im Text selbst nicht vorkommen sollten
+START, ENDE = <span class="tk-s">'&lt;'</span>, <span class="tk-s">'&gt;'          </span><span class="tk-c"># Zeichen, die im Text selbst nicht vorkommen sollten
 
-class Sprachmodell:
-    def __init__(self, text):
-        freq = defaultdict(lambda: defaultdict(int))
-        for zeile in text.splitlines():
-            if not zeile:
-                continue
-            zeichen = START + zeile + ENDE
-            for a, b in zip(zeichen, zeichen[1:]):
-                freq[a][b] += 1
-        self.p = {}
-        for a, folger in freq.items():
-            gesamt = sum(folger.values())
-            self.p[a] = {b: f / gesamt for b, f in folger.items()}
+</span><span class="tk-k">class </span><span class="tk-f">Sprachmodell</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, text):
+        freq = defaultdict(<span class="tk-k">lambda</span>: defaultdict(<span class="tk-b">int</span>))
+        <span class="tk-k">for </span>zeile <span class="tk-k">in </span>text.splitlines():
+            <span class="tk-k">if not </span>zeile:
+                <span class="tk-k">continue
+            </span>zeichen = START + zeile + ENDE
+            <span class="tk-k">for </span>a, b <span class="tk-k">in </span><span class="tk-b">zip</span>(zeichen, zeichen[<span class="tk-n">1</span>:]):
+                freq[a][b] += <span class="tk-n">1
+        </span><span class="tk-b">self</span>.p = {}
+        <span class="tk-k">for </span>a, folger <span class="tk-k">in </span>freq.items():
+            gesamt = <span class="tk-b">sum</span>(folger.values())
+            <span class="tk-b">self</span>.p[a] = {b: f / gesamt <span class="tk-k">for </span>b, f <span class="tk-k">in </span>folger.items()}
 
-    def wahrscheinlichkeit(self, zeile):
+    <span class="tk-k">def </span><span class="tk-f">wahrscheinlichkeit</span>(<span class="tk-b">self</span>, zeile):
         zeichen = START + zeile + ENDE
-        p = 1.0
-        for a, b in zip(zeichen, zeichen[1:]):
-            p *= self.p.get(a, {}).get(b, 0.0)
-        return p
+        p = <span class="tk-n">1.0
+        </span><span class="tk-k">for </span>a, b <span class="tk-k">in </span><span class="tk-b">zip</span>(zeichen, zeichen[<span class="tk-n">1</span>:]):
+            p *= <span class="tk-b">self</span>.p.get(a, {}).get(b, <span class="tk-n">0.0</span>)
+        <span class="tk-k">return </span>p
 
-    def perplexity(self, text):
+    <span class="tk-k">def </span><span class="tk-f">perplexity</span>(<span class="tk-b">self</span>, text):
         werte = []
-        for zeile in text.splitlines():
-            p = self.wahrscheinlichkeit(zeile)
-            if p == 0.0:
-                werte.append(math.inf)       # unbekanntes Bigramm: log 0 ist nicht definiert
-            else:
-                werte.append(-math.log(p) / len(zeile))
-        return werte
+        <span class="tk-k">for </span>zeile <span class="tk-k">in </span>text.splitlines():
+            p = <span class="tk-b">self</span>.wahrscheinlichkeit(zeile)
+            <span class="tk-k">if </span>p == <span class="tk-n">0.0</span>:
+                werte.append(math.inf)       <span class="tk-c"># unbekanntes Bigramm: log 0 ist nicht definiert
+            </span><span class="tk-k">else</span>:
+                werte.append(-math.log(p) / <span class="tk-b">len</span>(zeile))
+        <span class="tk-k">return </span>werte
 
-if __name__ == '__main__':
-    with open(sys.argv[1], encoding='utf-8') as f:
+<span class="tk-k">if </span>__name__ == <span class="tk-s">'__main__'</span>:
+    <span class="tk-k">with </span><span class="tk-b">open</span>(sys.argv[<span class="tk-n">1</span>], encoding=<span class="tk-s">'utf-8'</span>) <span class="tk-k">as </span>f:
         modell = Sprachmodell(f.read())
-    while True:
-        zeile = input('Text: ')
-        if zeile == '':
-            break
-        print('p =', modell.wahrscheinlichkeit(zeile),
-              ' perplexity =', modell.perplexity(zeile)[0])</pre>
+    <span class="tk-k">while </span><span class="tk-n">True</span>:
+        zeile = <span class="tk-b">input</span>(<span class="tk-s">'Text: '</span>)
+        <span class="tk-k">if </span>zeile == <span class="tk-s">''</span>:
+            <span class="tk-k">break
+        </span><span class="tk-b">print</span>(<span class="tk-s">'p ='</span>, modell.wahrscheinlichkeit(zeile),
+              <span class="tk-s">' perplexity ='</span>, modell.perplexity(zeile)[<span class="tk-n">0</span>])</pre>
   <p>训练文件 <code>korpus.txt</code> (自己造的四<span class="nb">行小语料):</span> </p>
-<pre>der hund bellt
+<pre data-lang="text">der hund bellt
 die katze schlaeft
 der hund schlaeft
 die katze bellt nicht</pre>
-<pre>$ python3 sprachmodell.py korpus.txt
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 sprachmodell.py korpus.txt
 Text: der hund schlaeft
 p = 2.229625274892764e-06  perplexity = 0.7655104132221718
 Text: die katze
@@ -2409,28 +2415,28 @@ Text: </pre>
   <p>用 numpy 二维数组存表格, 切片很方便: <code>feld[z, :]</code> 是一行, <code>feld[:, s]</code> 是一列, <code class="lc">feld[bz:bz+3, bs:bs+3]</code> 是小方块. <code>itertools.chain</code> <span class="nb">把三者连在一起检查.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>import numpy as np
-from itertools import chain
+<pre data-lang="python"><span class="tk-k">import </span>numpy <span class="tk-k">as </span>np
+<span class="tk-k">from </span>itertools <span class="tk-k">import </span>chain
 
-def moeglich(feld, z, s, ziffer):
-    bz, bs = 3 * (z // 3), 3 * (s // 3)
-    belegt = chain(feld[z, :], feld[:, s], feld[bz:bz+3, bs:bs+3].flat)
-    return ziffer not in belegt
+<span class="tk-k">def </span><span class="tk-f">moeglich</span>(feld, z, s, ziffer):
+    bz, bs = <span class="tk-n">3 </span>* (z // <span class="tk-n">3</span>), <span class="tk-n">3 </span>* (s // <span class="tk-n">3</span>)
+    belegt = chain(feld[z, :], feld[:, s], feld[bz:bz+<span class="tk-n">3</span>, bs:bs+<span class="tk-n">3</span>].flat)
+    <span class="tk-k">return </span>ziffer <span class="tk-k">not in </span>belegt
 
-def loese(feld):
-    leer = np.argwhere(feld == 0)
-    if len(leer) == 0:
-        return True                          # alle Felder gefüllt
-    z, s = leer[0]
-    for ziffer in range(1, 10):
-        if moeglich(feld, z, s, ziffer):
+<span class="tk-k">def </span><span class="tk-f">loese</span>(feld):
+    leer = np.argwhere(feld == <span class="tk-n">0</span>)
+    <span class="tk-k">if </span><span class="tk-b">len</span>(leer) == <span class="tk-n">0</span>:
+        <span class="tk-k">return </span><span class="tk-n">True                          </span><span class="tk-c"># alle Felder gefüllt
+    </span>z, s = leer[<span class="tk-n">0</span>]
+    <span class="tk-k">for </span>ziffer <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">1</span>, <span class="tk-n">10</span>):
+        <span class="tk-k">if </span>moeglich(feld, z, s, ziffer):
             feld[z, s] = ziffer
-            if loese(feld):
-                return True
-            feld[z, s] = 0                   # Backtracking: Versuch zurücknehmen
-    return False
+            <span class="tk-k">if </span>loese(feld):
+                <span class="tk-k">return </span><span class="tk-n">True
+            </span>feld[z, s] = <span class="tk-n">0                   </span><span class="tk-c"># Backtracking: Versuch zurücknehmen
+    </span><span class="tk-k">return </span><span class="tk-n">False
 
-RAETSEL = """
+</span>RAETSEL = <span class="tk-s">"""
 530070000
 600195000
 098000060
@@ -2441,13 +2447,13 @@ RAETSEL = """
 000419005
 000080079"""
 
-if __name__ == '__main__':
-    feld = np.array([[int(c) for c in zeile] for zeile in RAETSEL.split()])
-    if loese(feld):
-        print(feld)
-    else:
-        print('keine Lösung')</pre>
-<pre>$ python3 sudoku.py
+</span><span class="tk-k">if </span>__name__ == <span class="tk-s">'__main__'</span>:
+    feld = np.array([[<span class="tk-b">int</span>(c) <span class="tk-k">for </span>c <span class="tk-k">in </span>zeile] <span class="tk-k">for </span>zeile <span class="tk-k">in </span>RAETSEL.split()])
+    <span class="tk-k">if </span>loese(feld):
+        <span class="tk-b">print</span>(feld)
+    <span class="tk-k">else</span>:
+        <span class="tk-b">print</span>(<span class="tk-s">'keine Lösung'</span>)</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 sudoku.py
 [[5 3 4 6 7 8 9 1 2]
  [6 7 2 1 9 5 3 4 8]
  [1 9 8 3 4 2 5 6 7]
@@ -2476,7 +2482,7 @@ if __name__ == '__main__':
   <span class="folie">Übung 11 · Aufgabe 1</span>
   <p class="themen">Themen: reguläre <span class="nb">Ausdrücke</span></p>
   <p>Extrahieren Sie aus XML-Dateien mit annotierten Texten die Daten und speichern Sie Token, Wortart mit morphosyntaktischen Merkmalen und Lemmata in einer dreispaltigen TSV-Datei mit Tabulatoren als Trennzeichen wie in folgendem <span class="nb">Beispiel:</span></p>
-<pre>ist       VAFIN.Ind.Pres.Sg.3         sein</pre>
+<pre data-lang="text">ist       VAFIN.Ind.Pres.Sg.3         sein</pre>
   <p>Einen Link zu den Daten finden Sie auf der Kursseite. Verwenden Sie reguläre Ausdrücke zur Extraktion der <span class="nb">Daten.</span></p>
 </div>
 <div class="zh">
@@ -2485,22 +2491,22 @@ if __name__ == '__main__':
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
   <p>课程网页上的数据这里拿不到, 下面假设每个词的格式是 <code class="lc">&lt;w lemma="…" pos="…"&gt;词形&lt;/w&gt;</code>. 拿到真实数据后, <b>只需按它的格式改正则</b>, <span class="nb">其余代码不变.</span> </p>
-<pre>import re
-import sys
+<pre data-lang="python"><span class="tk-k">import </span>re
+<span class="tk-k">import </span>sys
 
-# &lt;w lemma="sein" pos="VAFIN.Ind.Pres.Sg.3"&gt;ist&lt;/w&gt;
-WORT = re.compile(r'&lt;w\s+lemma="([^"]*)"\s+pos="([^"]*)"\s*&gt;([^&lt;]*)&lt;/w&gt;')
+<span class="tk-c"># &lt;w lemma="sein" pos="VAFIN.Ind.Pres.Sg.3"&gt;ist&lt;/w&gt;
+</span>WORT = re.compile(<span class="tk-s">r'&lt;w\s+lemma="([^"]*)"\s+pos="([^"]*)"\s*&gt;([^&lt;]*)&lt;/w&gt;'</span>)
 
-def extrahiere(eingabe, ausgabe):
-    with open(eingabe, encoding='utf-8') as f, \
-         open(ausgabe, 'w', encoding='utf-8') as out:
-        for lemma, pos, token in WORT.findall(f.read()):
-            print(token, pos, lemma, sep='\t', file=out)
+<span class="tk-k">def </span><span class="tk-f">extrahiere</span>(eingabe, ausgabe):
+    <span class="tk-k">with </span><span class="tk-b">open</span>(eingabe, encoding=<span class="tk-s">'utf-8'</span>) <span class="tk-k">as </span>f, \
+         <span class="tk-b">open</span>(ausgabe, <span class="tk-s">'w'</span>, encoding=<span class="tk-s">'utf-8'</span>) <span class="tk-k">as </span>out:
+        <span class="tk-k">for </span>lemma, pos, token <span class="tk-k">in </span>WORT.findall(f.read()):
+            <span class="tk-b">print</span>(token, pos, lemma, sep=<span class="tk-s">'\t'</span>, file=out)
 
-if __name__ == '__main__':
-    extrahiere(sys.argv[1], sys.argv[2])</pre>
+<span class="tk-k">if </span>__name__ == <span class="tk-s">'__main__'</span>:
+    extrahiere(sys.argv[<span class="tk-n">1</span>], sys.argv[<span class="tk-n">2</span>])</pre>
   <p>测试文件 <span class="nb"><code>beispiel.xml</code>:</span> </p>
-<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+<pre data-lang="text">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;text&gt;
  &lt;s id="s1"&gt;
   &lt;w lemma="das" pos="ART.Nom.Sg.Neut"&gt;Das&lt;/w&gt;
@@ -2510,8 +2516,8 @@ if __name__ == '__main__':
   &lt;w lemma="." pos="$."&gt;.&lt;/w&gt;
  &lt;/s&gt;
 &lt;/text&gt;</pre>
-<pre>$ python3 xml2tsv.py beispiel.xml beispiel.tsv
-$ cat beispiel.tsv            （→ 表示 Tab）
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 xml2tsv.py beispiel.xml beispiel.tsv
+<span class="tk-p">$ </span>cat beispiel.tsv            （→ 表示 Tab）
 Das→ART.Nom.Sg.Neut→das
 Wetter→NN.Nom.Sg.Neut→Wetter
 ist→VAFIN.Ind.Pres.Sg.3→sein
@@ -2556,46 +2562,46 @@ schön→ADJD.Pos→schön
   <p><b>思路</b>: 这道题的重点是<b>列表和集合的速度差</b>: <code>w in 列表</code> 要从头到尾逐个比较 (停用词表 128 个, 每个词最多比 128 次); <code>w in 集合</code> 用哈希直接定位 (Übung 7 的哈希表), <span class="nb">几乎一步完成.</span> </p>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>import re
-import timeit
-from collections import defaultdict
+<pre data-lang="python"><span class="tk-k">import </span>re
+<span class="tk-k">import </span>timeit
+<span class="tk-k">from </span>collections <span class="tk-k">import </span>defaultdict
 
-import matplotlib.pyplot as plt
-import requests
+<span class="tk-k">import </span>matplotlib.pyplot <span class="tk-k">as </span>plt
+<span class="tk-k">import </span>requests
 
-URL = 'https://tinyurl.com/evpxs6u8'
+URL = <span class="tk-s">'https://tinyurl.com/evpxs6u8'
 
-stoppwoerter = [w.strip("'") for w in requests.get(URL).text.split()]   # Liste; "'s" -&gt; "s"
+</span>stoppwoerter = [w.strip(<span class="tk-s">"'"</span>) <span class="tk-k">for </span>w <span class="tk-k">in </span>requests.get(URL).text.split()]   <span class="tk-c"># Liste; "'s" -&gt; "s"
 
-with open('alice.txt', encoding='utf-8') as f:
+</span><span class="tk-k">with </span><span class="tk-b">open</span>(<span class="tk-s">'alice.txt'</span>, encoding=<span class="tk-s">'utf-8'</span>) <span class="tk-k">as </span>f:
     text = f.read()
-# nur den Roman, ohne Lizenztext von Project Gutenberg
-text = text.split('*** START')[1].split('*** END')[0].lower()
-text = re.sub(r'[^a-z\s]', ' ', text)                 # Satzzeichen, Ziffern, Klammern … entfernen
-woerter = text.split()                                  # Whitespace als Wortgrenze
+<span class="tk-c"># nur den Roman, ohne Lizenztext von Project Gutenberg
+</span>text = text.split(<span class="tk-s">'*** START'</span>)[<span class="tk-n">1</span>].split(<span class="tk-s">'*** END'</span>)[<span class="tk-n">0</span>].lower()
+text = re.sub(<span class="tk-s">r'[^a-z\s]'</span>, <span class="tk-s">' '</span>, text)                 <span class="tk-c"># Satzzeichen, Ziffern, Klammern … entfernen
+</span>woerter = text.split()                                  <span class="tk-c"># Whitespace als Wortgrenze
 
-def filtern(stopp):
-    return [w for w in woerter if w not in stopp]
+</span><span class="tk-k">def </span><span class="tk-f">filtern</span>(stopp):
+    <span class="tk-k">return </span>[w <span class="tk-k">for </span>w <span class="tk-k">in </span>woerter <span class="tk-k">if </span>w <span class="tk-k">not in </span>stopp]
 
-zeit_liste = timeit.timeit(lambda: filtern(stoppwoerter), number=10) / 10
-stopp_set = set(stoppwoerter)
-zeit_set = timeit.timeit(lambda: filtern(stopp_set), number=10) / 10
-print(f'Liste: {zeit_liste*1000:.1f} ms   Set: {zeit_set*1000:.1f} ms   '
-      f'Faktor {zeit_liste/zeit_set:.0f}')
+zeit_liste = timeit.timeit(<span class="tk-k">lambda</span>: filtern(stoppwoerter), number=<span class="tk-n">10</span>) / <span class="tk-n">10
+</span>stopp_set = <span class="tk-b">set</span>(stoppwoerter)
+zeit_set = timeit.timeit(<span class="tk-k">lambda</span>: filtern(stopp_set), number=<span class="tk-n">10</span>) / <span class="tk-n">10
+</span><span class="tk-b">print</span>(<span class="tk-s">f'Liste: {</span>zeit_liste*<span class="tk-n">1000</span><span class="tk-s">:.1f} ms   Set: {</span>zeit_set*<span class="tk-n">1000</span><span class="tk-s">:.1f} ms   '
+      f'Faktor {</span>zeit_liste/zeit_set<span class="tk-s">:.0f}'</span>)
 
-haeufigkeit = defaultdict(int)
-for w in filtern(stopp_set):
-    haeufigkeit[w] += 1
+haeufigkeit = defaultdict(<span class="tk-b">int</span>)
+<span class="tk-k">for </span>w <span class="tk-k">in </span>filtern(stopp_set):
+    haeufigkeit[w] += <span class="tk-n">1
 
-sortiert = sorted(haeufigkeit.items(), key=lambda kv: kv[1], reverse=True)
-print(sortiert[:10])
+</span>sortiert = <span class="tk-b">sorted</span>(haeufigkeit.items(), key=<span class="tk-k">lambda </span>kv: kv[<span class="tk-n">1</span>], reverse=<span class="tk-n">True</span>)
+<span class="tk-b">print</span>(sortiert[:<span class="tk-n">10</span>])
 
-plt.plot(range(1, len(sortiert) + 1), [f for _, f in sortiert])
-plt.xscale('log'); plt.yscale('log')
-plt.xlabel('Rang'); plt.ylabel('Häufigkeit')
-plt.title('Alice in Wonderland')
-plt.savefig('alice.png')</pre>
-<pre>$ python3 woerter.py
+plt.plot(<span class="tk-b">range</span>(<span class="tk-n">1</span>, <span class="tk-b">len</span>(sortiert) + <span class="tk-n">1</span>), [f <span class="tk-k">for </span>_, f <span class="tk-k">in </span>sortiert])
+plt.xscale(<span class="tk-s">'log'</span>); plt.yscale(<span class="tk-s">'log'</span>)
+plt.xlabel(<span class="tk-s">'Rang'</span>); plt.ylabel(<span class="tk-s">'Häufigkeit'</span>)
+plt.title(<span class="tk-s">'Alice in Wonderland'</span>)
+plt.savefig(<span class="tk-s">'alice.png'</span>)</pre>
+<pre data-lang="shell session"><span class="tk-p">$ </span>python3 woerter.py
 Liste: 28.2 ms   Set: 0.8 ms   Faktor 35
 [('said', 462), ('alice', 400), ('little', 129), ('one', 104), ('know', 87), ('like', 85), ('would', 83), ('went', 83), ('could', 77), ('queen', 76)]</pre>
   <figure class="src-fig"><img src="data:image/png;base64,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" alt="程序画出的词频图：横轴词的排名、纵轴频次，双对数坐标下接近一条直线"><figcaption><span class="cs">程序输出的 alice.png:</span> <span class="nb"><span class="cs">双对数坐标下近似一条下降的直线</span></span></figcaption></figure>
@@ -2644,203 +2650,203 @@ Liste: 28.2 ms   Set: 0.8 ms   Faktor 35
   </ul>
 </div>
 <details class="answer"><summary>答案 (先自己做再看) </summary>
-<pre>import os
-import pickle
+<pre data-lang="python"><span class="tk-k">import </span>os
+<span class="tk-k">import </span>pickle
 
-DATEI = 'uni.pickle'
+DATEI = <span class="tk-s">'uni.pickle'
 
-class UniFehler(Exception):
-    """Fehler, die der Benutzer verursacht hat (unbekannte Nummer, Doppelbelegung …)."""
+</span><span class="tk-k">class </span><span class="tk-f">UniFehler</span>(Exception):
+    <span class="tk-s">"""Fehler, die der Benutzer verursacht hat (unbekannte Nummer, Doppelbelegung …)."""
 
-class Termin:
-    TAGE = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
+</span><span class="tk-k">class </span><span class="tk-f">Termin</span>:
+    TAGE = [<span class="tk-s">'Mo'</span>, <span class="tk-s">'Di'</span>, <span class="tk-s">'Mi'</span>, <span class="tk-s">'Do'</span>, <span class="tk-s">'Fr'</span>, <span class="tk-s">'Sa'</span>, <span class="tk-s">'So'</span>]
 
-    def __init__(self, tag, uhrzeit):
-        if tag not in self.TAGE:
-            raise UniFehler(f'unbekannter Wochentag: {tag}')
-        self.tag, self.uhrzeit = tag, uhrzeit
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, tag, uhrzeit):
+        <span class="tk-k">if </span>tag <span class="tk-k">not in </span><span class="tk-b">self</span>.TAGE:
+            <span class="tk-k">raise </span>UniFehler(<span class="tk-s">f'unbekannter Wochentag: {</span>tag<span class="tk-s">}'</span>)
+        <span class="tk-b">self</span>.tag, <span class="tk-b">self</span>.uhrzeit = tag, uhrzeit
 
-    def __eq__(self, other):
-        return (self.tag, self.uhrzeit) == (other.tag, other.uhrzeit)
+    <span class="tk-k">def </span><span class="tk-f">__eq__</span>(<span class="tk-b">self</span>, other):
+        <span class="tk-k">return </span>(<span class="tk-b">self</span>.tag, <span class="tk-b">self</span>.uhrzeit) == (other.tag, other.uhrzeit)
 
-    def __hash__(self):
-        return hash((self.tag, self.uhrzeit))
+    <span class="tk-k">def </span><span class="tk-f">__hash__</span>(<span class="tk-b">self</span>):
+        <span class="tk-k">return </span><span class="tk-b">hash</span>((<span class="tk-b">self</span>.tag, <span class="tk-b">self</span>.uhrzeit))
 
-    def __str__(self):
-        return f'{self.tag} {self.uhrzeit}'
+    <span class="tk-k">def </span><span class="tk-f">__str__</span>(<span class="tk-b">self</span>):
+        <span class="tk-k">return </span><span class="tk-s">f'{</span><span class="tk-b">self</span>.tag<span class="tk-s">} {</span><span class="tk-b">self</span>.uhrzeit<span class="tk-s">}'
 
-class Person:
-    def __init__(self, name):
-        self.name = name
+</span><span class="tk-k">class </span><span class="tk-f">Person</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, name):
+        <span class="tk-b">self</span>.name = name
 
-class Student(Person):
-    naechste_nummer = 1                       # Klassenvariable: Matrikelnummern hochzählen
+<span class="tk-k">class </span><span class="tk-f">Student</span>(Person):
+    naechste_nummer = <span class="tk-n">1                       </span><span class="tk-c"># Klassenvariable: Matrikelnummern hochzählen
 
-    def __init__(self, name, studiengang):
-        super().__init__(name)
-        self.nummer = Student.naechste_nummer
-        Student.naechste_nummer += 1
-        self.studiengang = studiengang
-        self.kursplan = set()                 # Kursnamen
+    </span><span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, name, studiengang):
+        <span class="tk-b">super</span>().<span class="tk-f">__init__</span>(name)
+        <span class="tk-b">self</span>.nummer = Student.naechste_nummer
+        Student.naechste_nummer += <span class="tk-n">1
+        </span><span class="tk-b">self</span>.studiengang = studiengang
+        <span class="tk-b">self</span>.kursplan = <span class="tk-b">set</span>()                 <span class="tk-c"># Kursnamen
 
-class Dozent(Person):
-    pass
+</span><span class="tk-k">class </span><span class="tk-f">Dozent</span>(Person):
+    <span class="tk-k">pass
 
-class Raum:
-    def __init__(self, name):
-        self.name = name
-        self.belegung = {}                    # Termin -&gt; Kursname
+class </span><span class="tk-f">Raum</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, name):
+        <span class="tk-b">self</span>.name = name
+        <span class="tk-b">self</span>.belegung = {}                    <span class="tk-c"># Termin -&gt; Kursname
 
-class Kurs:
-    def __init__(self, name):
-        self.name = name
-        self.dozent = None
-        self.termine = {}                     # Termin -&gt; Raumname
-        self.teilnehmer = set()               # Matrikelnummern
+</span><span class="tk-k">class </span><span class="tk-f">Kurs</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, name):
+        <span class="tk-b">self</span>.name = name
+        <span class="tk-b">self</span>.dozent = <span class="tk-n">None
+        </span><span class="tk-b">self</span>.termine = {}                     <span class="tk-c"># Termin -&gt; Raumname
+        </span><span class="tk-b">self</span>.teilnehmer = <span class="tk-b">set</span>()               <span class="tk-c"># Matrikelnummern
 
-class Studiengang:
-    def __init__(self, name):
-        self.name = name
-        self.kurse = set()
+</span><span class="tk-k">class </span><span class="tk-f">Studiengang</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, name):
+        <span class="tk-b">self</span>.name = name
+        <span class="tk-b">self</span>.kurse = <span class="tk-b">set</span>()
 
-class Univerwaltung:
-    def __init__(self):
-        self.studenten, self.dozenten, self.raeume = {}, {}, {}
-        self.kurse, self.studiengaenge = {}, {}
+<span class="tk-k">class </span><span class="tk-f">Univerwaltung</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>):
+        <span class="tk-b">self</span>.studenten, <span class="tk-b">self</span>.dozenten, <span class="tk-b">self</span>.raeume = {}, {}, {}
+        <span class="tk-b">self</span>.kurse, <span class="tk-b">self</span>.studiengaenge = {}, {}
 
-    # --- Hilfsfunktionen -------------------------------------------------
-    @staticmethod
-    def hole(tabelle, schluessel, was):
-        try:
-            return tabelle[schluessel]
-        except KeyError:
-            raise UniFehler(f'{was} {schluessel!r} existiert nicht') from None
+    <span class="tk-c"># --- Hilfsfunktionen -------------------------------------------------
+    </span><span class="tk-f">@staticmethod
+    </span><span class="tk-k">def </span><span class="tk-f">hole</span>(tabelle, schluessel, was):
+        <span class="tk-k">try</span>:
+            <span class="tk-k">return </span>tabelle[schluessel]
+        <span class="tk-k">except </span>KeyError:
+            <span class="tk-k">raise </span>UniFehler(<span class="tk-s">f'{</span>was<span class="tk-s">} {</span>schluessel<span class="tk-s">!r} existiert nicht'</span>) <span class="tk-k">from </span><span class="tk-n">None
 
-    @staticmethod
-    def neu(tabelle, schluessel, objekt, was):
-        if schluessel in tabelle:
-            raise UniFehler(f'{was} {schluessel!r} existiert schon')
+    </span><span class="tk-f">@staticmethod
+    </span><span class="tk-k">def </span><span class="tk-f">neu</span>(tabelle, schluessel, objekt, was):
+        <span class="tk-k">if </span>schluessel <span class="tk-k">in </span>tabelle:
+            <span class="tk-k">raise </span>UniFehler(<span class="tk-s">f'{</span>was<span class="tk-s">} {</span>schluessel<span class="tk-s">!r} existiert schon'</span>)
         tabelle[schluessel] = objekt
 
-    # --- Aktionen ----------------------------------------------------------
-    def immatrikulieren(self, name, studiengang):
-        self.hole(self.studiengaenge, studiengang, 'Studiengang')
+    <span class="tk-c"># --- Aktionen ----------------------------------------------------------
+    </span><span class="tk-k">def </span><span class="tk-f">immatrikulieren</span>(<span class="tk-b">self</span>, name, studiengang):
+        <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.studiengaenge, studiengang, <span class="tk-s">'Studiengang'</span>)
         s = Student(name, studiengang)
-        self.studenten[s.nummer] = s
-        return s.nummer
+        <span class="tk-b">self</span>.studenten[s.nummer] = s
+        <span class="tk-k">return </span>s.nummer
 
-    def kurs_neu(self, name):          self.neu(self.kurse, name, Kurs(name), 'Kurs')
-    def dozent_neu(self, name):        self.neu(self.dozenten, name, Dozent(name), 'Dozent')
-    def raum_neu(self, name):          self.neu(self.raeume, name, Raum(name), 'Raum')
-    def studiengang_neu(self, name):   self.neu(self.studiengaenge, name, Studiengang(name), 'Studiengang')
+    <span class="tk-k">def </span><span class="tk-f">kurs_neu</span>(<span class="tk-b">self</span>, name):          <span class="tk-b">self</span>.neu(<span class="tk-b">self</span>.kurse, name, Kurs(name), <span class="tk-s">'Kurs'</span>)
+    <span class="tk-k">def </span><span class="tk-f">dozent_neu</span>(<span class="tk-b">self</span>, name):        <span class="tk-b">self</span>.neu(<span class="tk-b">self</span>.dozenten, name, Dozent(name), <span class="tk-s">'Dozent'</span>)
+    <span class="tk-k">def </span><span class="tk-f">raum_neu</span>(<span class="tk-b">self</span>, name):          <span class="tk-b">self</span>.neu(<span class="tk-b">self</span>.raeume, name, Raum(name), <span class="tk-s">'Raum'</span>)
+    <span class="tk-k">def </span><span class="tk-f">studiengang_neu</span>(<span class="tk-b">self</span>, name):   <span class="tk-b">self</span>.neu(<span class="tk-b">self</span>.studiengaenge, name, Studiengang(name), <span class="tk-s">'Studiengang'</span>)
 
-    def kurs_zu_studiengang(self, kurs, sg):
-        self.hole(self.kurse, kurs, 'Kurs')
-        self.hole(self.studiengaenge, sg, 'Studiengang').kurse.add(kurs)
+    <span class="tk-k">def </span><span class="tk-f">kurs_zu_studiengang</span>(<span class="tk-b">self</span>, kurs, sg):
+        <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.kurse, kurs, <span class="tk-s">'Kurs'</span>)
+        <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.studiengaenge, sg, <span class="tk-s">'Studiengang'</span>).kurse.add(kurs)
 
-    def dozent_eintragen(self, kurs, dozent):
-        self.hole(self.dozenten, dozent, 'Dozent')
-        self.hole(self.kurse, kurs, 'Kurs').dozent = dozent
+    <span class="tk-k">def </span><span class="tk-f">dozent_eintragen</span>(<span class="tk-b">self</span>, kurs, dozent):
+        <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.dozenten, dozent, <span class="tk-s">'Dozent'</span>)
+        <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.kurse, kurs, <span class="tk-s">'Kurs'</span>).dozent = dozent
 
-    def termin_neu(self, kurs, raum, tag, uhrzeit):
-        k = self.hole(self.kurse, kurs, 'Kurs')
-        r = self.hole(self.raeume, raum, 'Raum')
+    <span class="tk-k">def </span><span class="tk-f">termin_neu</span>(<span class="tk-b">self</span>, kurs, raum, tag, uhrzeit):
+        k = <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.kurse, kurs, <span class="tk-s">'Kurs'</span>)
+        r = <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.raeume, raum, <span class="tk-s">'Raum'</span>)
         t = Termin(tag, uhrzeit)
-        if t in r.belegung:
-            raise UniFehler(f'Raum {raum} ist {t} schon von {r.belegung[t]} belegt')
+        <span class="tk-k">if </span>t <span class="tk-k">in </span>r.belegung:
+            <span class="tk-k">raise </span>UniFehler(<span class="tk-s">f'Raum {</span>raum<span class="tk-s">} ist {</span>t<span class="tk-s">} schon von {</span>r.belegung[t]<span class="tk-s">} belegt'</span>)
         r.belegung[t] = kurs
         k.termine[t] = raum
 
-    def anmelden(self, nummer, kurs):
-        s = self.hole(self.studenten, nummer, 'Student')
-        k = self.hole(self.kurse, kurs, 'Kurs')
-        for anderer in s.kursplan:                       # Terminüberschneidung?
-            gemeinsam = set(k.termine) &amp; set(self.kurse[anderer].termine)
-            if gemeinsam:
-                raise UniFehler(f'Überschneidung mit {anderer} am {gemeinsam.pop()}')
+    <span class="tk-k">def </span><span class="tk-f">anmelden</span>(<span class="tk-b">self</span>, nummer, kurs):
+        s = <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.studenten, nummer, <span class="tk-s">'Student'</span>)
+        k = <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.kurse, kurs, <span class="tk-s">'Kurs'</span>)
+        <span class="tk-k">for </span>anderer <span class="tk-k">in </span>s.kursplan:                       <span class="tk-c"># Terminüberschneidung?
+            </span>gemeinsam = <span class="tk-b">set</span>(k.termine) &amp; <span class="tk-b">set</span>(<span class="tk-b">self</span>.kurse[anderer].termine)
+            <span class="tk-k">if </span>gemeinsam:
+                <span class="tk-k">raise </span>UniFehler(<span class="tk-s">f'Überschneidung mit {</span>anderer<span class="tk-s">} am {</span>gemeinsam.pop()<span class="tk-s">}'</span>)
         s.kursplan.add(kurs)
         k.teilnehmer.add(nummer)
 
-    def abmelden(self, nummer, kurs):
-        s = self.hole(self.studenten, nummer, 'Student')
+    <span class="tk-k">def </span><span class="tk-f">abmelden</span>(<span class="tk-b">self</span>, nummer, kurs):
+        s = <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.studenten, nummer, <span class="tk-s">'Student'</span>)
         s.kursplan.discard(kurs)
-        self.hole(self.kurse, kurs, 'Kurs').teilnehmer.discard(nummer)
+        <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.kurse, kurs, <span class="tk-s">'Kurs'</span>).teilnehmer.discard(nummer)
 
-    def exmatrikulieren(self, nummer):
-        s = self.hole(self.studenten, nummer, 'Student')
-        for kurs in list(s.kursplan):
-            self.abmelden(nummer, kurs)
-        del self.studenten[nummer]
+    <span class="tk-k">def </span><span class="tk-f">exmatrikulieren</span>(<span class="tk-b">self</span>, nummer):
+        s = <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.studenten, nummer, <span class="tk-s">'Student'</span>)
+        <span class="tk-k">for </span>kurs <span class="tk-k">in </span><span class="tk-b">list</span>(s.kursplan):
+            <span class="tk-b">self</span>.abmelden(nummer, kurs)
+        <span class="tk-k">del </span><span class="tk-b">self</span>.studenten[nummer]
 
-    def termin_loeschen(self, kurs, tag, uhrzeit):
-        k = self.hole(self.kurse, kurs, 'Kurs')
+    <span class="tk-k">def </span><span class="tk-f">termin_loeschen</span>(<span class="tk-b">self</span>, kurs, tag, uhrzeit):
+        k = <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.kurse, kurs, <span class="tk-s">'Kurs'</span>)
         t = Termin(tag, uhrzeit)
-        raum = self.hole(k.termine, t, 'Termin')
-        del self.raeume[raum].belegung[t]
-        del k.termine[t]
+        raum = <span class="tk-b">self</span>.hole(k.termine, t, <span class="tk-s">'Termin'</span>)
+        <span class="tk-k">del </span><span class="tk-b">self</span>.raeume[raum].belegung[t]
+        <span class="tk-k">del </span>k.termine[t]
 
-    def kurs_loeschen(self, kurs):
-        k = self.hole(self.kurse, kurs, 'Kurs')
-        for t in list(k.termine):
-            self.termin_loeschen(kurs, t.tag, t.uhrzeit)
-        for nummer in list(k.teilnehmer):
-            self.abmelden(nummer, kurs)
-        for sg in self.studiengaenge.values():
+    <span class="tk-k">def </span><span class="tk-f">kurs_loeschen</span>(<span class="tk-b">self</span>, kurs):
+        k = <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.kurse, kurs, <span class="tk-s">'Kurs'</span>)
+        <span class="tk-k">for </span>t <span class="tk-k">in </span><span class="tk-b">list</span>(k.termine):
+            <span class="tk-b">self</span>.termin_loeschen(kurs, t.tag, t.uhrzeit)
+        <span class="tk-k">for </span>nummer <span class="tk-k">in </span><span class="tk-b">list</span>(k.teilnehmer):
+            <span class="tk-b">self</span>.abmelden(nummer, kurs)
+        <span class="tk-k">for </span>sg <span class="tk-k">in </span><span class="tk-b">self</span>.studiengaenge.values():
             sg.kurse.discard(kurs)
-        del self.kurse[kurs]
+        <span class="tk-k">del </span><span class="tk-b">self</span>.kurse[kurs]
 
-    def kurs_aus_studiengang(self, kurs, sg):
-        self.hole(self.studiengaenge, sg, 'Studiengang').kurse.discard(kurs)
+    <span class="tk-k">def </span><span class="tk-f">kurs_aus_studiengang</span>(<span class="tk-b">self</span>, kurs, sg):
+        <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.studiengaenge, sg, <span class="tk-s">'Studiengang'</span>).kurse.discard(kurs)
 
-    def dozent_loeschen(self, name):
-        self.hole(self.dozenten, name, 'Dozent')
-        for k in self.kurse.values():
-            if k.dozent == name:
-                k.dozent = None
-        del self.dozenten[name]
+    <span class="tk-k">def </span><span class="tk-f">dozent_loeschen</span>(<span class="tk-b">self</span>, name):
+        <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.dozenten, name, <span class="tk-s">'Dozent'</span>)
+        <span class="tk-k">for </span>k <span class="tk-k">in </span><span class="tk-b">self</span>.kurse.values():
+            <span class="tk-k">if </span>k.dozent == name:
+                k.dozent = <span class="tk-n">None
+        </span><span class="tk-k">del </span><span class="tk-b">self</span>.dozenten[name]
 
-    def studiengang_loeschen(self, name):
-        self.hole(self.studiengaenge, name, 'Studiengang')
-        if any(s.studiengang == name for s in self.studenten.values()):
-            raise UniFehler(f'im Studiengang {name} sind noch Studierende eingeschrieben')
-        del self.studiengaenge[name]
+    <span class="tk-k">def </span><span class="tk-f">studiengang_loeschen</span>(<span class="tk-b">self</span>, name):
+        <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.studiengaenge, name, <span class="tk-s">'Studiengang'</span>)
+        <span class="tk-k">if </span><span class="tk-b">any</span>(s.studiengang == name <span class="tk-k">for </span>s <span class="tk-k">in </span><span class="tk-b">self</span>.studenten.values()):
+            <span class="tk-k">raise </span>UniFehler(<span class="tk-s">f'im Studiengang {</span>name<span class="tk-s">} sind noch Studierende eingeschrieben'</span>)
+        <span class="tk-k">del </span><span class="tk-b">self</span>.studiengaenge[name]
 
-    # --- Anzeigen ---------------------------------------------------------
-    def zeige_student(self, nummer):
-        s = self.hole(self.studenten, nummer, 'Student')
-        return f'{s.nummer}: {s.name} ({s.studiengang}), Kurse: {sorted(s.kursplan)}'
+    <span class="tk-c"># --- Anzeigen ---------------------------------------------------------
+    </span><span class="tk-k">def </span><span class="tk-f">zeige_student</span>(<span class="tk-b">self</span>, nummer):
+        s = <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.studenten, nummer, <span class="tk-s">'Student'</span>)
+        <span class="tk-k">return </span><span class="tk-s">f'{</span>s.nummer<span class="tk-s">}: {</span>s.name<span class="tk-s">} ({</span>s.studiengang<span class="tk-s">}), Kurse: {</span><span class="tk-b">sorted</span>(s.kursplan)<span class="tk-s">}'
 
-    def zeige_dozent(self, name):
-        self.hole(self.dozenten, name, 'Dozent')
-        return f'{name}: {sorted(k.name for k in self.kurse.values() if k.dozent == name)}'
+    </span><span class="tk-k">def </span><span class="tk-f">zeige_dozent</span>(<span class="tk-b">self</span>, name):
+        <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.dozenten, name, <span class="tk-s">'Dozent'</span>)
+        <span class="tk-k">return </span><span class="tk-s">f'{</span>name<span class="tk-s">}: {</span><span class="tk-b">sorted</span>(k.name <span class="tk-k">for </span>k <span class="tk-k">in </span><span class="tk-b">self</span>.kurse.values() <span class="tk-k">if </span>k.dozent == name)<span class="tk-s">}'
 
-    def zeige_kurs(self, kurs):
-        k = self.hole(self.kurse, kurs, 'Kurs')
-        termine = ', '.join(f'{t} in {r}' for t, r in k.termine.items())
-        return f'{k.name}, Dozent: {k.dozent}, Termine: {termine}, Teilnehmer: {sorted(k.teilnehmer)}'
+    </span><span class="tk-k">def </span><span class="tk-f">zeige_kurs</span>(<span class="tk-b">self</span>, kurs):
+        k = <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.kurse, kurs, <span class="tk-s">'Kurs'</span>)
+        termine = <span class="tk-s">', '</span>.join(<span class="tk-s">f'{</span>t<span class="tk-s">} in {</span>r<span class="tk-s">}' </span><span class="tk-k">for </span>t, r <span class="tk-k">in </span>k.termine.items())
+        <span class="tk-k">return </span><span class="tk-s">f'{</span>k.name<span class="tk-s">}, Dozent: {</span>k.dozent<span class="tk-s">}, Termine: {</span>termine<span class="tk-s">}, Teilnehmer: {</span><span class="tk-b">sorted</span>(k.teilnehmer)<span class="tk-s">}'
 
-    def zeige_raum(self, raum):
-        r = self.hole(self.raeume, raum, 'Raum')
-        return f'{r.name}: ' + ', '.join(f'{t}: {k}' for t, k in r.belegung.items())
+    </span><span class="tk-k">def </span><span class="tk-f">zeige_raum</span>(<span class="tk-b">self</span>, raum):
+        r = <span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.raeume, raum, <span class="tk-s">'Raum'</span>)
+        <span class="tk-k">return </span><span class="tk-s">f'{</span>r.name<span class="tk-s">}: ' </span>+ <span class="tk-s">', '</span>.join(<span class="tk-s">f'{</span>t<span class="tk-s">}: {</span>k<span class="tk-s">}' </span><span class="tk-k">for </span>t, k <span class="tk-k">in </span>r.belegung.items())
 
-    def zeige_studiengang(self, sg):
-        return f'{sg}: {sorted(self.hole(self.studiengaenge, sg, "Studiengang").kurse)}'
+    <span class="tk-k">def </span><span class="tk-f">zeige_studiengang</span>(<span class="tk-b">self</span>, sg):
+        <span class="tk-k">return </span><span class="tk-s">f'{</span>sg<span class="tk-s">}: {</span><span class="tk-b">sorted</span>(<span class="tk-b">self</span>.hole(<span class="tk-b">self</span>.studiengaenge, sg, <span class="tk-s">"Studiengang"</span>).kurse)<span class="tk-s">}'
 
-    # --- Speichern / Laden ---------------------------------------------------
-    def speichern(self):
-        with open(DATEI, 'wb') as f:
-            pickle.dump((self, Student.naechste_nummer), f)
+    </span><span class="tk-c"># --- Speichern / Laden ---------------------------------------------------
+    </span><span class="tk-k">def </span><span class="tk-f">speichern</span>(<span class="tk-b">self</span>):
+        <span class="tk-k">with </span><span class="tk-b">open</span>(DATEI, <span class="tk-s">'wb'</span>) <span class="tk-k">as </span>f:
+            pickle.dump((<span class="tk-b">self</span>, Student.naechste_nummer), f)
 
-    @staticmethod
-    def laden():
-        if not os.path.exists(DATEI):
-            return Univerwaltung()
-        with open(DATEI, 'rb') as f:
+    <span class="tk-f">@staticmethod
+    </span><span class="tk-k">def </span><span class="tk-f">laden</span>():
+        <span class="tk-k">if not </span>os.path.exists(DATEI):
+            <span class="tk-k">return </span>Univerwaltung()
+        <span class="tk-k">with </span><span class="tk-b">open</span>(DATEI, <span class="tk-s">'rb'</span>) <span class="tk-k">as </span>f:
             uni, Student.naechste_nummer = pickle.load(f)
-        return uni
+        <span class="tk-k">return </span>uni
 
 
-MENUE = '''
+MENUE = <span class="tk-s">'''
  1 Student immatrikulieren      12 Kurs anzeigen
  2 neuen Kurs hinzufügen        13 Raum anzeigen
  3 neuen Dozenten hinzufügen    14 Studiengang anzeigen
@@ -2853,57 +2859,57 @@ MENUE = '''
 10 Student anzeigen             21 Studiengang löschen
 11 Dozent anzeigen              22 Programm beenden'''
 
-def main():
+</span><span class="tk-k">def </span><span class="tk-f">main</span>():
     uni = Univerwaltung.laden()
-    frage = input
-    nr = lambda: int(frage('Matrikelnummer: '))
-    # Nummer -&gt; (Funktion, Liste der Fragen, die vorher gestellt werden)
-    aktionen = {
-        1: (uni.immatrikulieren, [lambda: frage('Name: '), lambda: frage('Studiengang: ')]),
-        2: (uni.kurs_neu, [lambda: frage('Kurs: ')]),
-        3: (uni.dozent_neu, [lambda: frage('Dozent: ')]),
-        4: (uni.raum_neu, [lambda: frage('Raum: ')]),
-        5: (uni.studiengang_neu, [lambda: frage('Studiengang: ')]),
-        6: (uni.kurs_zu_studiengang, [lambda: frage('Kurs: '), lambda: frage('Studiengang: ')]),
-        7: (uni.dozent_eintragen, [lambda: frage('Kurs: '), lambda: frage('Dozent: ')]),
-        8: (uni.termin_neu, [lambda: frage('Kurs: '), lambda: frage('Raum: '),
-                             lambda: frage('Wochentag (Mo–So): '), lambda: frage('Uhrzeit: ')]),
-        9: (uni.anmelden, [nr, lambda: frage('Kurs: ')]),
-        10: (uni.zeige_student, [nr]),
-        11: (uni.zeige_dozent, [lambda: frage('Dozent: ')]),
-        12: (uni.zeige_kurs, [lambda: frage('Kurs: ')]),
-        13: (uni.zeige_raum, [lambda: frage('Raum: ')]),
-        14: (uni.zeige_studiengang, [lambda: frage('Studiengang: ')]),
-        15: (uni.abmelden, [nr, lambda: frage('Kurs: ')]),
-        16: (uni.exmatrikulieren, [nr]),
-        17: (uni.kurs_loeschen, [lambda: frage('Kurs: ')]),
-        18: (uni.kurs_aus_studiengang, [lambda: frage('Kurs: '), lambda: frage('Studiengang: ')]),
-        19: (uni.termin_loeschen, [lambda: frage('Kurs: '), lambda: frage('Wochentag: '),
-                                   lambda: frage('Uhrzeit: ')]),
-        20: (uni.dozent_loeschen, [lambda: frage('Dozent: ')]),
-        21: (uni.studiengang_loeschen, [lambda: frage('Studiengang: ')]),
+    frage = <span class="tk-b">input
+    </span>nr = <span class="tk-k">lambda</span>: <span class="tk-b">int</span>(frage(<span class="tk-s">'Matrikelnummer: '</span>))
+    <span class="tk-c"># Nummer -&gt; (Funktion, Liste der Fragen, die vorher gestellt werden)
+    </span>aktionen = {
+        <span class="tk-n">1</span>: (uni.immatrikulieren, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Name: '</span>), <span class="tk-k">lambda</span>: frage(<span class="tk-s">'Studiengang: '</span>)]),
+        <span class="tk-n">2</span>: (uni.kurs_neu, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Kurs: '</span>)]),
+        <span class="tk-n">3</span>: (uni.dozent_neu, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Dozent: '</span>)]),
+        <span class="tk-n">4</span>: (uni.raum_neu, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Raum: '</span>)]),
+        <span class="tk-n">5</span>: (uni.studiengang_neu, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Studiengang: '</span>)]),
+        <span class="tk-n">6</span>: (uni.kurs_zu_studiengang, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Kurs: '</span>), <span class="tk-k">lambda</span>: frage(<span class="tk-s">'Studiengang: '</span>)]),
+        <span class="tk-n">7</span>: (uni.dozent_eintragen, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Kurs: '</span>), <span class="tk-k">lambda</span>: frage(<span class="tk-s">'Dozent: '</span>)]),
+        <span class="tk-n">8</span>: (uni.termin_neu, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Kurs: '</span>), <span class="tk-k">lambda</span>: frage(<span class="tk-s">'Raum: '</span>),
+                             <span class="tk-k">lambda</span>: frage(<span class="tk-s">'Wochentag (Mo–So): '</span>), <span class="tk-k">lambda</span>: frage(<span class="tk-s">'Uhrzeit: '</span>)]),
+        <span class="tk-n">9</span>: (uni.anmelden, [nr, <span class="tk-k">lambda</span>: frage(<span class="tk-s">'Kurs: '</span>)]),
+        <span class="tk-n">10</span>: (uni.zeige_student, [nr]),
+        <span class="tk-n">11</span>: (uni.zeige_dozent, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Dozent: '</span>)]),
+        <span class="tk-n">12</span>: (uni.zeige_kurs, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Kurs: '</span>)]),
+        <span class="tk-n">13</span>: (uni.zeige_raum, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Raum: '</span>)]),
+        <span class="tk-n">14</span>: (uni.zeige_studiengang, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Studiengang: '</span>)]),
+        <span class="tk-n">15</span>: (uni.abmelden, [nr, <span class="tk-k">lambda</span>: frage(<span class="tk-s">'Kurs: '</span>)]),
+        <span class="tk-n">16</span>: (uni.exmatrikulieren, [nr]),
+        <span class="tk-n">17</span>: (uni.kurs_loeschen, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Kurs: '</span>)]),
+        <span class="tk-n">18</span>: (uni.kurs_aus_studiengang, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Kurs: '</span>), <span class="tk-k">lambda</span>: frage(<span class="tk-s">'Studiengang: '</span>)]),
+        <span class="tk-n">19</span>: (uni.termin_loeschen, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Kurs: '</span>), <span class="tk-k">lambda</span>: frage(<span class="tk-s">'Wochentag: '</span>),
+                                   <span class="tk-k">lambda</span>: frage(<span class="tk-s">'Uhrzeit: '</span>)]),
+        <span class="tk-n">20</span>: (uni.dozent_loeschen, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Dozent: '</span>)]),
+        <span class="tk-n">21</span>: (uni.studiengang_loeschen, [<span class="tk-k">lambda</span>: frage(<span class="tk-s">'Studiengang: '</span>)]),
     }
-    print(MENUE)
-    while True:
-        try:
-            wahl = int(frage('\nAktion: '))
-            if wahl == 22:
+    <span class="tk-b">print</span>(MENUE)
+    <span class="tk-k">while </span><span class="tk-n">True</span>:
+        <span class="tk-k">try</span>:
+            wahl = <span class="tk-b">int</span>(frage(<span class="tk-s">'\nAktion: '</span>))
+            <span class="tk-k">if </span>wahl == <span class="tk-n">22</span>:
                 uni.speichern()
-                print('gespeichert, Programm beendet')
-                break
-            funktion, fragen = aktionen[wahl]
-            ergebnis = funktion(*[f() for f in fragen])
-            if ergebnis is not None:
-                print(ergebnis)
-        except UniFehler as e:
-            print('Fehler:', e)
-        except (ValueError, KeyError):
-            print('Fehler: ungültige Eingabe')
+                <span class="tk-b">print</span>(<span class="tk-s">'gespeichert, Programm beendet'</span>)
+                <span class="tk-k">break
+            </span>funktion, fragen = aktionen[wahl]
+            ergebnis = funktion(*[f() <span class="tk-k">for </span>f <span class="tk-k">in </span>fragen])
+            <span class="tk-k">if </span>ergebnis <span class="tk-k">is not </span><span class="tk-n">None</span>:
+                <span class="tk-b">print</span>(ergebnis)
+        <span class="tk-k">except </span>UniFehler <span class="tk-k">as </span>e:
+            <span class="tk-b">print</span>(<span class="tk-s">'Fehler:'</span>, e)
+        <span class="tk-k">except </span>(ValueError, KeyError):
+            <span class="tk-b">print</span>(<span class="tk-s">'Fehler: ungültige Eingabe'</span>)
 
-if __name__ == '__main__':
+<span class="tk-k">if </span>__name__ == <span class="tk-s">'__main__'</span>:
     main()</pre>
   <p><b>运行测试</b> (输入用管道送进去, <span class="nb">下面只列关键几步):</span> </p>
-<pre>Aktion: 5 → Studiengang: CL
+<pre data-lang="grammar">Aktion: 5 → Studiengang: CL
 Aktion: 1 → Name: Anna, Studiengang: CL                → 1
 Aktion: 1 → Name: Ben,  Studiengang: Info              → Fehler: Studiengang 'Info' existiert nicht
 Aktion: 8 → EIP,  B001, Mo, 10:00

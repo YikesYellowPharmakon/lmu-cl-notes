@@ -1088,6 +1088,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 9; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #79c0ff 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #77befd; --syn-f: #d7d6ff; --syn-s: #d0be71; --syn-n: #7addc6; --syn-b: #82b3c8; --syn-c: #808e9b; --syn-p: #808e9b; }
+  html[data-mode="day"] { --syn-k: #0167a8; --syn-f: #42397c; --syn-s: #746203; --syn-n: #0c7462; --syn-b: #1f5a70; --syn-c: #5b6b7a; --syn-p: #5b6b7a; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1426,11 +1432,11 @@
 </div>
 <div class="add">
   <p>浮点数内部是<b>二进制</b>, 所以「指数」其实决定的是二进制小数点的位置; 很多十进制小数无法<span class="nb">精确表示:</span> </p>
-<pre>&gt;&gt;&gt; 0.1 + 0.2
-0.30000000000000004
-&gt;&gt;&gt; 0.1 + 0.2 == 0.3
-False
-&gt;&gt;&gt; import math; math.isclose(0.1 + 0.2, 0.3)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">0.1 </span>+ <span class="tk-n">0.2
+</span>0.30000000000000004
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">0.1 </span>+ <span class="tk-n">0.2 </span>== <span class="tk-n">0.3
+</span>False
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">import </span>math; math.isclose(<span class="tk-n">0.1 </span>+ <span class="tk-n">0.2</span>, <span class="tk-n">0.3</span>)
 True</pre>
   <p>因此<b>比较浮点数不要用 ==</b>, 用 <code>math.isclose</code> 或判断差的绝对<span class="nb">值足够小.</span> </p>
 </div>
@@ -1483,10 +1489,10 @@ True</pre>
 <div class="card de">
   <span class="folie">S. 25</span>
   <p>Starten Sie den Editor bspw. mit dem Befehl <code>code test.py</code> und <span class="nb">schreiben Sie:</span></p>
-<pre># test.py
-print("Hello world!")</pre>
+<pre data-lang="python"><span class="tk-c"># test.py
+</span><span class="tk-b">print</span>(<span class="tk-s">"Hello world!"</span>)</pre>
   <p>Speichern Sie die Datei. Öffnen Sie ein Terminal. Wechseln Sie in das Verzeichnis, in dem test.py gespeichert wurde, und führen den Befehl <span class="nb"><code>python test.py</code> aus:</span></p>
-<pre>&gt; python test.py
+<pre data-lang="text">&gt; python test.py
 Hello world!</pre>
   <p>In VS Code können Sie das Programm auch mit Run → Run Without Debugging <span class="nb">starten.</span></p>
   <p>Wenn Linux den Befehl python nicht kennt, müssen Sie stattdessen python3 schreiben oder am Ende der Datei <code>~/.bashrc</code> folgende Zeile hinzufügen: <span class="nb"><code class="lc">alias python=python3</code></span></p>
@@ -1536,7 +1542,7 @@ Hello world!</pre>
   <tr><td>Herdr</td><td class="wide">分屏. 打开 Ghostty 后输入 herdr. 默认先按 Ctrl+B, 松开, 再按下一个键. 从 <a href="https://herdr.dev">herdr.dev</a> 安装. </td></tr>
   <tr><td>Neovim</td><td class="wide">改文件. 命令是 nvim. 按 i 打字, Esc 之后输入 :w 保存. </td></tr>
 </table></div>
-<pre><code>mkdir -p ~/eip
+<pre data-lang="text"><code>mkdir -p ~/eip
 cd ~/eip
 python3 -m venv .venv
 source .venv/bin/activate
@@ -1561,12 +1567,12 @@ python hello.py</code></pre>
 <div class="card de">
   <span class="folie">S. 27</span>
   <p>Sie können Python auch interaktiv nutzen. Dazu öffnen Sie ein Terminalfenster und geben den Befehl <span class="nb">python ein.</span></p>
-<pre>&gt; python
-&gt;&gt;&gt; print("Hello world!")
+<pre data-lang="python repl">&gt; python
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(<span class="tk-s">"Hello world!"</span>)
 Hello world!
-&gt;&gt;&gt; 3+4*7
-31
-&gt;&gt;&gt; help(print)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">3</span>+<span class="tk-n">4</span>*<span class="tk-n">7
+</span>31
+<span class="tk-p">&gt;&gt;&gt; </span>help(<span class="tk-b">print</span>)
 Help on built-in function print in module builtins:
 print(*args, sep=' ', end='\n', file=None, flush=False)
 ...</pre>
@@ -1616,33 +1622,33 @@ print(*args, sep=' ', end='\n', file=None, flush=False)
 <div class="card de">
   <span class="folie">S. 30–43</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; 2 ** 3
-8
-&gt;&gt;&gt; (3 + 4) * 5
-35
-&gt;&gt;&gt; 2 + 3 == 5
-True
-&gt;&gt;&gt; 13 / 5
-2.6
-&gt;&gt;&gt; 13 // 5
-2
-&gt;&gt;&gt; 13 % 5
-3
-&gt;&gt;&gt; divmod(13, 5)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">2 </span>** <span class="tk-n">3
+</span>8
+<span class="tk-p">&gt;&gt;&gt; </span>(<span class="tk-n">3 </span>+ <span class="tk-n">4</span>) * <span class="tk-n">5
+</span>35
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">2 </span>+ <span class="tk-n">3 </span>== <span class="tk-n">5
+</span>True
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">13 </span>/ <span class="tk-n">5
+</span>2.6
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">13 </span>// <span class="tk-n">5
+</span>2
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">13 </span>% <span class="tk-n">5
+</span>3
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">divmod</span>(<span class="tk-n">13</span>, <span class="tk-n">5</span>)
 (2, 3)</pre>
-<pre>&gt;&gt;&gt; 2 + 3.0
-5.0
-&gt;&gt;&gt; 5 == 5.0
-True
-&gt;&gt;&gt; 'abc' + "def"
-'abcdef'
-&gt;&gt;&gt; 'cd' in 'abcdef'
-True
-&gt;&gt;&gt; 'cd' in 'abcdef' and 1 &gt;= 1.5
-False
-&gt;&gt;&gt; 1/0
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">2 </span>+ <span class="tk-n">3.0
+</span>5.0
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">5 </span>== <span class="tk-n">5.0
+</span>True
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'abc' </span>+ <span class="tk-s">"def"
+</span>'abcdef'
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'cd' </span><span class="tk-k">in </span><span class="tk-s">'abcdef'
+</span>True
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'cd' </span><span class="tk-k">in </span><span class="tk-s">'abcdef' </span><span class="tk-k">and </span><span class="tk-n">1 </span>&gt;= <span class="tk-n">1.5
+</span>False
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">1</span>/<span class="tk-n">0
+</span>Traceback (most recent call last):
+  File <span class="tk-b">"&lt;stdin&gt;"</span>, line <span class="tk-n">1</span>, in &lt;module&gt;
 ZeroDivisionError: division by zero</pre>
   </div>
 </div>
@@ -1675,30 +1681,30 @@ ZeroDivisionError: division by zero</pre>
   <span class="folie">S. 44–53</span>
   <p>Variablen speichern <span class="nb">Python-Objekte:</span></p>
   <div class="cols">
-<pre>&gt;&gt;&gt; a = 3
-&gt;&gt;&gt; b = 2
-&gt;&gt;&gt; a + b
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>a = <span class="tk-n">3
+</span><span class="tk-p">&gt;&gt;&gt; </span>b = <span class="tk-n">2
+</span><span class="tk-p">&gt;&gt;&gt; </span>a + b
 5
-&gt;&gt;&gt; a ** b
+<span class="tk-p">&gt;&gt;&gt; </span>a ** b
 9
-&gt;&gt;&gt; c = 'abc'
-&gt;&gt;&gt; d = 'def'
-&gt;&gt;&gt; c + d
+<span class="tk-p">&gt;&gt;&gt; </span>c = <span class="tk-s">'abc'
+</span><span class="tk-p">&gt;&gt;&gt; </span>d = <span class="tk-s">'def'
+</span><span class="tk-p">&gt;&gt;&gt; </span>c + d
 'abcdef'
-&gt;&gt;&gt; a + c
+<span class="tk-p">&gt;&gt;&gt; </span>a + c
 Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  File <span class="tk-b">"&lt;stdin&gt;"</span>, line <span class="tk-n">1</span>, in &lt;module&gt;
 TypeError: unsupported operand type(s) for +: 'int' and 'str'</pre>
-<pre>&gt;&gt;&gt; type(a)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">type</span>(a)
 &lt;class 'int'&gt;
-&gt;&gt;&gt; type(c)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">type</span>(c)
 &lt;class 'str'&gt;
 
-&gt;&gt;&gt; id(a)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">id</span>(a)
 11763944
-&gt;&gt;&gt; id(3)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">id</span>(<span class="tk-n">3</span>)
 11763944
-&gt;&gt;&gt; id(4)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">id</span>(<span class="tk-n">4</span>)
 11763976</pre>
   </div>
   <p><code>type(x)</code> liefert den Typ von x.<br><code>id(x)</code> liefert eine Nummer, welche das Objekt x eindeutig identifiziert.</p>
@@ -1720,17 +1726,17 @@ TypeError: unsupported operand type(s) for +: 'int' and 'str'</pre>
     <li>Eine Variable ist ein Verweis auf ein <span class="nb">Objekt.</span></li>
     <li>Der Typ des Objektes ist <span class="nb">beliebig.</span></li>
   </ul>
-<pre>n = 3
-n = 'Hallo'</pre>
+<pre data-lang="python">n = <span class="tk-n">3
+</span>n = <span class="tk-s">'Hallo'</span></pre>
   <p><b>Statische Typisierung</b> (bspw. <span class="nb">in C++)</span></p>
   <ul>
     <li>Jede Variable muss mit einem bestimmten Typ (int, float, string, etc.) deklariert werden, bevor sie verwendet werden <span class="nb">kann.</span></li>
   </ul>
-<pre>int n;
+<pre data-lang="text">int n;
 float f;
 string c;</pre>
   <ul><li>Die Variable kann keine Werte eines anderen Typs <span class="nb">speichern.</span></li></ul>
-<pre>int n;
+<pre data-lang="text">int n;
 n = 1.7; // Der Compiler meldet hier einen Fehler</pre>
 </div>
 <div class="zh">
@@ -1743,37 +1749,37 @@ n = 1.7; // Der Compiler meldet hier einen Fehler</pre>
 <div class="card de">
   <span class="folie">S. 55–71</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; bin(42)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">bin</span>(<span class="tk-n">42</span>)
 '0b101010'
-&gt;&gt;&gt; hex(42)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">hex</span>(<span class="tk-n">42</span>)
 '0x2a'
-&gt;&gt;&gt; 0b101010
-42
-&gt;&gt;&gt; 0x2a
-42
-&gt;&gt;&gt; int(3.7)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">0b101010
+</span>42
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">0x2a
+</span>42
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">int</span>(<span class="tk-n">3.7</span>)
 3
-&gt;&gt;&gt; int('17')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">int</span>(<span class="tk-s">'17'</span>)
 17
-&gt;&gt;&gt; round(3.14159265359, 2)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">round</span>(<span class="tk-n">3.14159265359</span>, <span class="tk-n">2</span>)
 3.14
-&gt;&gt;&gt; int('3.7')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">int</span>(<span class="tk-s">'3.7'</span>)
 ... invalid literal ...</pre>
-<pre>&gt;&gt;&gt; float(3)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">float</span>(<span class="tk-n">3</span>)
 3.0
-&gt;&gt;&gt; float('13e4')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">float</span>(<span class="tk-s">'13e4'</span>)
 130000.0
-&gt;&gt;&gt; str(13.70)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">str</span>(<span class="tk-n">13.70</span>)
 '13.7'
-&gt;&gt;&gt; 10 + 3.70
-13.7
-&gt;&gt;&gt; ord('a')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">10 </span>+ <span class="tk-n">3.70
+</span>13.7
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">ord</span>(<span class="tk-s">'a'</span>)
 97
-&gt;&gt;&gt; chr(97)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">chr</span>(<span class="tk-n">97</span>)
 'a'
-&gt;&gt;&gt; chr(ord('a') + 1)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">chr</span>(<span class="tk-b">ord</span>(<span class="tk-s">'a'</span>) + <span class="tk-n">1</span>)
 'b'
-&gt;&gt;&gt; ord('ab')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">ord</span>(<span class="tk-s">'ab'</span>)
 ... expected a character ...</pre>
   </div>
 </div>
@@ -1801,43 +1807,43 @@ n = 1.7; // Der Compiler meldet hier einen Fehler</pre>
 <div class="card de">
   <span class="folie">S. 72–86</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; liste = [1,2,4,8,16]
-&gt;&gt;&gt; liste[0]
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>liste = [<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">4</span>,<span class="tk-n">8</span>,<span class="tk-n">16</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-n">0</span>]
 1
-&gt;&gt;&gt; liste[2]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-n">2</span>]
 4
-&gt;&gt;&gt; len(liste)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">len</span>(liste)
 5
-&gt;&gt;&gt; liste[len(liste)-1]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-b">len</span>(liste)-<span class="tk-n">1</span>]
 16
-&gt;&gt;&gt; liste[-1]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[-<span class="tk-n">1</span>]
 16
-&gt;&gt;&gt; liste[-2]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[-<span class="tk-n">2</span>]
 8
-&gt;&gt;&gt; liste[1:3]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-n">1</span>:<span class="tk-n">3</span>]
 [2, 4]</pre>
-<pre>&gt;&gt;&gt; liste[:3]
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>liste[:<span class="tk-n">3</span>]
 [1, 2, 4]
-&gt;&gt;&gt; liste[3:]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-n">3</span>:]
 [8, 16]
-&gt;&gt;&gt; liste[-1:]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[-<span class="tk-n">1</span>:]
 [16]
-&gt;&gt;&gt; liste[0:5:2]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-n">0</span>:<span class="tk-n">5</span>:<span class="tk-n">2</span>]
 [1, 4, 16]
-&gt;&gt;&gt; liste[::2]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[::<span class="tk-n">2</span>]
 [1, 4, 16]
-&gt;&gt;&gt; liste[:]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[:]
 [1, 2, 4, 8, 16]
-&gt;&gt;&gt; liste[5]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-n">5</span>]
 Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  File <span class="tk-b">"&lt;stdin&gt;"</span>, line <span class="tk-n">1</span>, in &lt;module&gt;
 IndexError: list index out of range</pre>
   </div>
   <p><code>len</code> eingebaute Python-Funktion, anwendbar auf Listen, Tupel, Sets, <span class="nb">Dictionaries u.a.</span></p>
 </div>
 <div class="zh">
   <p>列表用方括号, 元素用逗号隔开. <span class="nb"><b>下标从 0 开始</b>:</span> </p>
-<pre>元素：    1    2    4    8   16
+<pre data-lang="text">元素：    1    2    4    8   16
 正下标：  0    1    2    3    4
 负下标： -5   -4   -3   -2   -1</pre>
   <ul>
@@ -1863,27 +1869,27 @@ IndexError: list index out of range</pre>
 <div class="card de">
   <span class="folie">S. 87–95</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; liste = [1,2,4,[8,16]]
-&gt;&gt;&gt; liste
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>liste = [<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">4</span>,[<span class="tk-n">8</span>,<span class="tk-n">16</span>]]
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [1, 2, 4, [8, 16]]
-&gt;&gt;&gt; liste2 = liste[-1]
-&gt;&gt;&gt; liste2
+<span class="tk-p">&gt;&gt;&gt; </span>liste2 = liste[-<span class="tk-n">1</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>liste2
 [8, 16]
-&gt;&gt;&gt; liste2[1]
+<span class="tk-p">&gt;&gt;&gt; </span>liste2[<span class="tk-n">1</span>]
 16
-&gt;&gt;&gt; liste[-1][1]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[-<span class="tk-n">1</span>][<span class="tk-n">1</span>]
 16
-&gt;&gt;&gt; liste[1][1]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-n">1</span>][<span class="tk-n">1</span>]
 Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  File <span class="tk-b">"&lt;stdin&gt;"</span>, line <span class="tk-n">1</span>, in &lt;module&gt;
 TypeError: 'int' object is not subscriptable</pre>
-<pre>&gt;&gt;&gt; liste = [1,2,3]
-&gt;&gt;&gt; liste + liste
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>liste = [<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>liste + liste
 [1, 2, 3, 1, 2, 3]
-&gt;&gt;&gt; liste * 3
-[1, 2, 3, 1, 2, 3, 1, 2, 3]
-&gt;&gt;&gt; 'abc' * 3
-'abcabcabc'</pre>
+<span class="tk-p">&gt;&gt;&gt; </span>liste * <span class="tk-n">3
+</span>[1, 2, 3, 1, 2, 3, 1, 2, 3]
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'abc' </span>* <span class="tk-n">3
+</span>'abcabcabc'</pre>
   </div>
 </div>
 <div class="zh">
@@ -1899,37 +1905,37 @@ TypeError: 'int' object is not subscriptable</pre>
 <div class="card de">
   <span class="folie">S. 96–106</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; liste = [1,2,4,8,16]
-&gt;&gt;&gt; liste[0] = liste[0] / 2
-&gt;&gt;&gt; liste
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>liste = [<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">4</span>,<span class="tk-n">8</span>,<span class="tk-n">16</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-n">0</span>] = liste[<span class="tk-n">0</span>] / <span class="tk-n">2
+</span><span class="tk-p">&gt;&gt;&gt; </span>liste
 [0.5, 2, 4, 8, 16]
-&gt;&gt;&gt; liste[0:2] = [1,2]
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-n">0</span>:<span class="tk-n">2</span>] = [<span class="tk-n">1</span>,<span class="tk-n">2</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [1, 2, 4, 8, 16]
 
-&gt;&gt;&gt; liste2 = liste
-&gt;&gt;&gt; liste2
+<span class="tk-p">&gt;&gt;&gt; </span>liste2 = liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste2
 [1, 2, 4, 8, 16]
-&gt;&gt;&gt; liste2[1] = 7
-&gt;&gt;&gt; liste2
+<span class="tk-p">&gt;&gt;&gt; </span>liste2[<span class="tk-n">1</span>] = <span class="tk-n">7
+</span><span class="tk-p">&gt;&gt;&gt; </span>liste2
 [1, 7, 4, 8, 16]
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [1, 7, 4, 8, 16]</pre>
-<pre>&gt;&gt;&gt; liste[0] = 5
-&gt;&gt;&gt; liste2
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-n">0</span>] = <span class="tk-n">5
+</span><span class="tk-p">&gt;&gt;&gt; </span>liste2
 [5, 7, 4, 8, 16]
-&gt;&gt;&gt; liste2 = liste[:]
-&gt;&gt;&gt; liste[0:2] = [1,2]
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste2 = liste[:]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-n">0</span>:<span class="tk-n">2</span>] = [<span class="tk-n">1</span>,<span class="tk-n">2</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [1, 2, 4, 8, 16]
-&gt;&gt;&gt; liste2
+<span class="tk-p">&gt;&gt;&gt; </span>liste2
 [5, 7, 4, 8, 16]
-&gt;&gt;&gt; liste2 = list(liste)
-&gt;&gt;&gt; liste2[0] = 9
-&gt;&gt;&gt; [liste, liste2]
+<span class="tk-p">&gt;&gt;&gt; </span>liste2 = <span class="tk-b">list</span>(liste)
+<span class="tk-p">&gt;&gt;&gt; </span>liste2[<span class="tk-n">0</span>] = <span class="tk-n">9
+</span><span class="tk-p">&gt;&gt;&gt; </span>[liste, liste2]
 [[1, 2, 4, 8, 16], [9, 2, 4, 8, 16]]
-&gt;&gt;&gt; liste[::2] = [0,0,0]
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste[::<span class="tk-n">2</span>] = [<span class="tk-n">0</span>,<span class="tk-n">0</span>,<span class="tk-n">0</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [0, 2, 0, 8, 0]</pre>
   </div>
   <p>⇒ <b>Objekte werden bei der Zuweisung zu einer Variablen nicht kopiert!</b></p>
@@ -1942,7 +1948,7 @@ TypeError: 'int' object is not subscriptable</pre>
     <li><b>要真正复制</b>: <code class="lc">liste2 = liste[:]</code> (全切片) 或 <code class="lc">liste2 = list(liste)</code> (或 <code>liste.copy()</code>). 复制后两者独立: 改 liste 不影响 liste2, <span class="nb">反之亦然.</span> </li>
     <li><code class="lc">liste[::2] = [0,0,0]</code>: 给带步长的切片赋值, 下标 0、2、4 被替换. 此时右边元素个数必须与切片长度<b>完全相等</b> (这里都是 3), 否则 <span class="nb">ValueError.</span> </li>
   </ol>
-<pre>liste2 = liste          liste2 = liste[:]
+<pre data-lang="text">liste2 = liste          liste2 = liste[:]
 liste ──┐               liste  ──▶ [1, 2, 4, 8, 16]
         ├─▶ [1,2,4,8,16]
 liste2 ─┘               liste2 ──▶ [1, 2, 4, 8, 16]   （另一个对象）</pre>
@@ -1981,37 +1987,37 @@ liste2 ─┘               liste2 ──▶ [1, 2, 4, 8, 16]   （另一个对�
 <div class="card de">
   <span class="folie">S. 108–121</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; []
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>[]
 []
-&gt;&gt;&gt; liste = list()
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste = <span class="tk-b">list</span>()
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 []
-&gt;&gt;&gt; dir(list)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">dir</span>(<span class="tk-b">list</span>)
 [..., 'append', 'clear', ...]
-&gt;&gt;&gt; help(list.append)
+<span class="tk-p">&gt;&gt;&gt; </span>help(<span class="tk-b">list</span>.append)
 Help on method_descriptor:
 append(self, object, /) ...
-&gt;&gt;&gt; liste.append(1)
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste.append(<span class="tk-n">1</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [1]
-&gt;&gt;&gt; liste.extend([2,3,4])
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste.extend([<span class="tk-n">2</span>,<span class="tk-n">3</span>,<span class="tk-n">4</span>])
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [1, 2, 3, 4]</pre>
-<pre>&gt;&gt;&gt; liste.pop()
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>liste.pop()
 4
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [1, 2, 3]
-&gt;&gt;&gt; liste.pop(0)
+<span class="tk-p">&gt;&gt;&gt; </span>liste.pop(<span class="tk-n">0</span>)
 1
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [2, 3]
-&gt;&gt;&gt; liste.insert(1,'x')
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste.insert(<span class="tk-n">1</span>,<span class="tk-s">'x'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [2, 'x', 3]
-&gt;&gt;&gt; liste.append([6,7])
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste.append([<span class="tk-n">6</span>,<span class="tk-n">7</span>])
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [2, 3, 'x', 4, 5, [6, 7]]
-&gt;&gt;&gt; liste[5][1]
+<span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-n">5</span>][<span class="tk-n">1</span>]
 7</pre>
   </div>
   <p><code>dir(list)</code> listet die Methoden der Klasse list auf.<br>Methoden, deren Name mit <code>__</code> beginnt, sollten extern nicht verwendet werden.</p>
@@ -2031,29 +2037,29 @@ append(self, object, /) ...
 <div class="card de">
   <span class="folie">S. 122–132</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; liste = [3,1,9,7,1,4]
-&gt;&gt;&gt; liste.count(1)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>liste = [<span class="tk-n">3</span>,<span class="tk-n">1</span>,<span class="tk-n">9</span>,<span class="tk-n">7</span>,<span class="tk-n">1</span>,<span class="tk-n">4</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>liste.count(<span class="tk-n">1</span>)
 2
-&gt;&gt;&gt; liste.index(1)
+<span class="tk-p">&gt;&gt;&gt; </span>liste.index(<span class="tk-n">1</span>)
 1
-&gt;&gt;&gt; liste.remove(1)
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste.remove(<span class="tk-n">1</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [3, 9, 7, 1, 4]
-&gt;&gt;&gt; liste.sort()
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste.sort()
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [1, 3, 4, 7, 9]
 &gt;&gt;&gt; liste.reverse()</pre>
-<pre>&gt;&gt;&gt; liste
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>liste
 [9, 7, 4, 3, 1]
-&gt;&gt;&gt; reversed(liste)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">reversed</span>(liste)
 &lt;list_reverseiterator object at ...&gt;
-&gt;&gt;&gt; list(reversed(liste))
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">list</span>(<span class="tk-b">reversed</span>(liste))
 [1, 3, 4, 7, 9]
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [9, 7, 4, 3, 1]
-&gt;&gt;&gt; sorted(liste)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">sorted</span>(liste)
 [1, 3, 4, 7, 9]
-&gt;&gt;&gt; liste.copy()
+<span class="tk-p">&gt;&gt;&gt; </span>liste.copy()
 [9, 7, 4, 3, 1]</pre>
   </div>
   <div class="tablewrap">
@@ -2092,43 +2098,43 @@ append(self, object, /) ...
 <div class="card de">
   <span class="folie">S. 133–152</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; ''
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">''
+</span>''
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">str</span>()
 ''
-&gt;&gt;&gt; str()
-''
-&gt;&gt;&gt; string = 'Hallo'
-&gt;&gt;&gt; string[3:5]
+<span class="tk-p">&gt;&gt;&gt; </span>string = <span class="tk-s">'Hallo'
+</span><span class="tk-p">&gt;&gt;&gt; </span>string[<span class="tk-n">3</span>:<span class="tk-n">5</span>]
 'lo'
-&gt;&gt;&gt; string[::2]
+<span class="tk-p">&gt;&gt;&gt; </span>string[::<span class="tk-n">2</span>]
 'Hlo'
-&gt;&gt;&gt; string[::-1]
+<span class="tk-p">&gt;&gt;&gt; </span>string[::-<span class="tk-n">1</span>]
 'ollaH'
-&gt;&gt;&gt; sorted(string)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">sorted</span>(string)
 ['a', 'H', 'l', 'l', 'o']
-&gt;&gt;&gt; string.upper()
+<span class="tk-p">&gt;&gt;&gt; </span>string.upper()
 'HALLO'
-&gt;&gt;&gt; string.lower()
+<span class="tk-p">&gt;&gt;&gt; </span>string.lower()
 'hallo'
-&gt;&gt;&gt; string[2] = 'z'
-... does not support item assignment</pre>
-<pre>&gt;&gt;&gt; 'abcdef'.isalpha()
+<span class="tk-p">&gt;&gt;&gt; </span>string[<span class="tk-n">2</span>] = <span class="tk-s">'z'
+</span>... does not support item assignment</pre>
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'abcdef'</span>.isalpha()
 True
-&gt;&gt;&gt; '12'.isdigit()
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'12'</span>.isdigit()
 True
-&gt;&gt;&gt; '12.3'.isdigit()
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'12.3'</span>.isdigit()
 False
-&gt;&gt;&gt; string.startswith('ha')
+<span class="tk-p">&gt;&gt;&gt; </span>string.startswith(<span class="tk-s">'ha'</span>)
 True
-&gt;&gt;&gt; string.endswith('llo')
+<span class="tk-p">&gt;&gt;&gt; </span>string.endswith(<span class="tk-s">'llo'</span>)
 True
-&gt;&gt;&gt; string.replace('l', 'L')
+<span class="tk-p">&gt;&gt;&gt; </span>string.replace(<span class="tk-s">'l'</span>, <span class="tk-s">'L'</span>)
 'haLLo'
-&gt;&gt;&gt; string.rjust(8)
+<span class="tk-p">&gt;&gt;&gt; </span>string.rjust(<span class="tk-n">8</span>)
 '   hallo'
-&gt;&gt;&gt; string.center(8)
+<span class="tk-p">&gt;&gt;&gt; </span>string.center(<span class="tk-n">8</span>)
 ' hallo  '
-&gt;&gt;&gt; 'hal' 'lo'
-'hallo'</pre>
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'hal' 'lo'
+</span>'hallo'</pre>
   </div>
 </div>
 <div class="zh">
@@ -2159,40 +2165,40 @@ True
 <div class="card de">
   <span class="folie">S. 153–170</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; ()
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>()
 ()
-&gt;&gt;&gt; [(1), (1,)]
+<span class="tk-p">&gt;&gt;&gt; </span>[(<span class="tk-n">1</span>), (<span class="tk-n">1</span>,)]
 [1, (1,)]
-&gt;&gt;&gt; tup = (1,2,4,2,1)
-&gt;&gt;&gt; tup
+<span class="tk-p">&gt;&gt;&gt; </span>tup = (<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">4</span>,<span class="tk-n">2</span>,<span class="tk-n">1</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>tup
 (1, 2, 4, 2, 1)
-&gt;&gt;&gt; tup[3:5]
+<span class="tk-p">&gt;&gt;&gt; </span>tup[<span class="tk-n">3</span>:<span class="tk-n">5</span>]
 (2, 1)
-&gt;&gt;&gt; tup.count(1)
+<span class="tk-p">&gt;&gt;&gt; </span>tup.count(<span class="tk-n">1</span>)
 2
-&gt;&gt;&gt; tup.index(2)
+<span class="tk-p">&gt;&gt;&gt; </span>tup.index(<span class="tk-n">2</span>)
 1
-&gt;&gt;&gt; list(tup)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">list</span>(tup)
 [1, 2, 4, 2, 1]
-&gt;&gt;&gt; tup[2] = 7
-...does not support item assignment</pre>
-<pre>&gt;&gt;&gt; s = set('hallo')
-&gt;&gt;&gt; s
+<span class="tk-p">&gt;&gt;&gt; </span>tup[<span class="tk-n">2</span>] = <span class="tk-n">7
+</span>...does not support item assignment</pre>
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>s = <span class="tk-b">set</span>(<span class="tk-s">'hallo'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>s
 {'h', 'a', 'l', 'o'}
-&gt;&gt;&gt; s.add('x')
-&gt;&gt;&gt; s
+<span class="tk-p">&gt;&gt;&gt; </span>s.add(<span class="tk-s">'x'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>s
 {'x', 'h', 'a', 'l', 'o'}
-&gt;&gt;&gt; s - {'x'}
+<span class="tk-p">&gt;&gt;&gt; </span>s - {<span class="tk-s">'x'</span>}
 {'h', 'a', 'l', 'o'}
-&gt;&gt;&gt; s | {'y','z'}
+<span class="tk-p">&gt;&gt;&gt; </span>s | {<span class="tk-s">'y'</span>,<span class="tk-s">'z'</span>}
 {'x', 'h', 'a', 'l', 'o', 'y', 'z'}
-&gt;&gt;&gt; s &amp; {'a','x','z'}
+<span class="tk-p">&gt;&gt;&gt; </span>s &amp; {<span class="tk-s">'a'</span>,<span class="tk-s">'x'</span>,<span class="tk-s">'z'</span>}
 {'x', 'a'}
-&gt;&gt;&gt; s.intersection({'a','x','z'})
+<span class="tk-p">&gt;&gt;&gt; </span>s.intersection({<span class="tk-s">'a'</span>,<span class="tk-s">'x'</span>,<span class="tk-s">'z'</span>})
 {'x', 'a'}
-&gt;&gt;&gt; s.union(['y','z'])
+<span class="tk-p">&gt;&gt;&gt; </span>s.union([<span class="tk-s">'y'</span>,<span class="tk-s">'z'</span>])
 {'x', 'h', 'a', 'l', 'o', 'y', 'z'}
-&gt;&gt;&gt; {'o','a'}.issubset('hallo')
+<span class="tk-p">&gt;&gt;&gt; </span>{<span class="tk-s">'o'</span>,<span class="tk-s">'a'</span>}.issubset(<span class="tk-s">'hallo'</span>)
 True</pre>
   </div>
 </div>
@@ -2228,16 +2234,16 @@ True</pre>
 <h2 id="ctrl">if、缩进与函数<br><span class="de-title"><span class="seg">Der if-Befehl ·</span> <span class="seg">Einrückung ·</span> <span class="seg">Funktionen</span></span></h2>
 <div class="card de">
   <span class="folie">S. 171–172</span>
-<pre># test.py
-x = 3
-y = 2
-if x &gt; y:
-  print('größer')
-elif x &lt; y:
-  print('kleiner')
-else:
-  print('gleich groß')</pre>
-<pre>&gt; python test.py
+<pre data-lang="python"><span class="tk-c"># test.py
+</span>x = <span class="tk-n">3
+</span>y = <span class="tk-n">2
+</span><span class="tk-k">if </span>x &gt; y:
+  <span class="tk-b">print</span>(<span class="tk-s">'größer'</span>)
+<span class="tk-k">elif </span>x &lt; y:
+  <span class="tk-b">print</span>(<span class="tk-s">'kleiner'</span>)
+<span class="tk-k">else</span>:
+  <span class="tk-b">print</span>(<span class="tk-s">'gleich groß'</span>)</pre>
+<pre data-lang="text">&gt; python test.py
 größer</pre>
   <ul>
     <li><code>elif: ...</code> und <code>else: ...</code> sind <span class="nb">optional.</span></li>
@@ -2257,13 +2263,13 @@ größer</pre>
 <div class="card de">
   <span class="folie">S. 173</span>
   <p>In Python ist die Einrückung einer Zeile (indentation) <span class="nb">wichtig:</span></p>
-<pre>if x &gt; y:
-   print('größer')
-   print('------')</pre>
+<pre data-lang="python"><span class="tk-k">if </span>x &gt; y:
+   <span class="tk-b">print</span>(<span class="tk-s">'größer'</span>)
+   <span class="tk-b">print</span>(<span class="tk-s">'------'</span>)</pre>
   <p>Das ist nicht <span class="nb">dasselbe wie:</span></p>
-<pre>if x &gt; y:
-   print('größer')
-print('------')</pre>
+<pre data-lang="python"><span class="tk-k">if </span>x &gt; y:
+   <span class="tk-b">print</span>(<span class="tk-s">'größer'</span>)
+<span class="tk-b">print</span>(<span class="tk-s">'------'</span>)</pre>
   <p>Im zweiten Beispiel wird <code>print('------')</code> immer <span class="nb">ausgeführt!</span></p>
 </div>
 <div class="zh">
@@ -2277,13 +2283,13 @@ print('------')</pre>
 
 <div class="card de">
   <span class="folie">S. 174–176</span>
-<pre>&gt;&gt;&gt; x = 3
-&gt;&gt;&gt; y = 3
-&gt;&gt;&gt; erg = 'größer' if x &gt; y else 'kleiner gleich'
-&gt;&gt;&gt; print(erg)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>x = <span class="tk-n">3
+</span><span class="tk-p">&gt;&gt;&gt; </span>y = <span class="tk-n">3
+</span><span class="tk-p">&gt;&gt;&gt; </span>erg = <span class="tk-s">'größer' </span><span class="tk-k">if </span>x &gt; y <span class="tk-k">else </span><span class="tk-s">'kleiner gleich'
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(erg)
 kleiner gleich
-&gt;&gt;&gt; erg = 'größer' if x &gt; y else ('kleiner' if x &lt; y else 'gleich')
-&gt;&gt;&gt; print(erg)
+<span class="tk-p">&gt;&gt;&gt; </span>erg = <span class="tk-s">'größer' </span><span class="tk-k">if </span>x &gt; y <span class="tk-k">else </span>(<span class="tk-s">'kleiner' </span><span class="tk-k">if </span>x &lt; y <span class="tk-k">else </span><span class="tk-s">'gleich'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(erg)
 gleich</pre>
   <ul>
     <li>Der Teil <code>else: ...</code> ist hier <span class="nb">obligatorisch.</span></li>
@@ -2304,20 +2310,20 @@ gleich</pre>
 <div class="card de">
   <span class="folie">S. 177–181</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; def sag_hallo():
-...    print('Hallo!')
-...
-&gt;&gt;&gt; sag_hallo()
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">def </span><span class="tk-f">sag_hallo</span>():
+<span class="tk-p">...    </span><span class="tk-b">print</span>(<span class="tk-s">'Hallo!'</span>)
+<span class="tk-p">...
+&gt;&gt;&gt; </span>sag_hallo()
 Hallo!
-&gt;&gt;&gt; sag_hallo
+<span class="tk-p">&gt;&gt;&gt; </span>sag_hallo
 &lt;function sag_hallo at 0x7ea5ab738680&gt;
-&gt;&gt;&gt; f = sag_hallo
-&gt;&gt;&gt; f()
+<span class="tk-p">&gt;&gt;&gt; </span>f = sag_hallo
+<span class="tk-p">&gt;&gt;&gt; </span>f()
 Hallo!</pre>
-<pre>&gt;&gt;&gt; def tu_nichts()
-...    pass
-...
-... tu_nichts()</pre>
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">def </span><span class="tk-f">tu_nichts</span>()
+<span class="tk-p">...    </span><span class="tk-k">pass
+</span><span class="tk-p">...
+</span>... tu_nichts()</pre>
   </div>
   <p>⇒ <b>Auch Funktionen sind in Python Objekte!</b></p>
   <ul>
@@ -2339,25 +2345,25 @@ Hallo!</pre>
 <div class="card de">
   <span class="folie">S. 182–188</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; def quadrat(x):
-...   return x * x
-...
-&gt;&gt;&gt; quadrat(3)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">def </span><span class="tk-f">quadrat</span>(x):
+<span class="tk-p">...   </span><span class="tk-k">return </span>x * x
+<span class="tk-p">...
+&gt;&gt;&gt; </span>quadrat(<span class="tk-n">3</span>)
 9
-&gt;&gt;&gt; quadrat(-4.0)
+<span class="tk-p">&gt;&gt;&gt; </span>quadrat(-<span class="tk-n">4.0</span>)
 16.0
-&gt;&gt;&gt; quadrat(3, 5)
-... quadrat() takes 1 positional
+<span class="tk-p">&gt;&gt;&gt; </span>quadrat(<span class="tk-n">3</span>, <span class="tk-n">5</span>)
+<span class="tk-p">... </span>quadrat() takes <span class="tk-n">1 </span>positional
 argument, but 2 were given</pre>
-<pre>&gt;&gt;&gt; def addiere(x, y):
-...   return x + y
-...
-&gt;&gt;&gt; addiere(3, 5)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">def </span><span class="tk-f">addiere</span>(x, y):
+<span class="tk-p">...   </span><span class="tk-k">return </span>x + y
+<span class="tk-p">...
+&gt;&gt;&gt; </span>addiere(<span class="tk-n">3</span>, <span class="tk-n">5</span>)
 8
-&gt;&gt;&gt; addiere('abc', 'def')
+<span class="tk-p">&gt;&gt;&gt; </span>addiere(<span class="tk-s">'abc'</span>, <span class="tk-s">'def'</span>)
 'abcdef'
-&gt;&gt;&gt; addiere(3)
-... missing 1 required positional
+<span class="tk-p">&gt;&gt;&gt; </span>addiere(<span class="tk-n">3</span>)
+<span class="tk-p">... </span>missing <span class="tk-n">1 </span>required positional
 argument: 'y'</pre>
   </div>
   <ul>
@@ -2391,41 +2397,41 @@ argument: 'y'</pre>
 <h3>局部变量与全局变量<br><span class="de-title">Lokale und globale Variablen</span></h3>
 <div class="card de">
   <span class="folie">S. 190–191</span>
-<pre># test.py
-z = 3
-def add(x, y):
+<pre data-lang="python"><span class="tk-c"># test.py
+</span>z = <span class="tk-n">3
+</span><span class="tk-k">def </span><span class="tk-f">add</span>(x, y):
    z = x + y
-   return z
+   <span class="tk-k">return </span>z
 result = add(z, z)
-print(result, z)</pre>
-<pre>&gt; python test.py
+<span class="tk-b">print</span>(result, z)</pre>
+<pre data-lang="text">&gt; python test.py
 6 3</pre>
   <p>⇒ x, y, z sind innerhalb der Funktion add lokale Variablen.<br>z ist außerhalb der Funktion add eine globale Variable mit anderem Wert.</p>
 </div>
 <div class="card de">
   <span class="folie">S. 192–193</span>
-<pre># test.py
-def plus_z(x):
-    return x + z
-z = 3
-result = plus_z(2)
-print(result)</pre>
-<pre>&gt; python test.py
+<pre data-lang="python"><span class="tk-c"># test.py
+</span><span class="tk-k">def </span><span class="tk-f">plus_z</span>(x):
+    <span class="tk-k">return </span>x + z
+z = <span class="tk-n">3
+</span>result = plus_z(<span class="tk-n">2</span>)
+<span class="tk-b">print</span>(result)</pre>
+<pre data-lang="text">&gt; python test.py
 5</pre>
   <p>⇒ z ist hier auch innerhalb der Funktion eine globale <span class="nb">Variable.</span></p>
   <p><b>Regel:</b> Eine Variable ist lokal, wenn ihr innerhalb der Funktion ein Wert zugewiesen wird, sonst <span class="nb">global.</span></p>
 </div>
 <div class="card de">
   <span class="folie">S. 194</span>
-<pre># test.py
-def add(x, y):
-   global z # neu
-   z = x + y
-   return z
-z = 3
-result = add(z, z)
-print(result, z)</pre>
-<pre>&gt; python test.py
+<pre data-lang="python"><span class="tk-c"># test.py
+</span><span class="tk-k">def </span><span class="tk-f">add</span>(x, y):
+   <span class="tk-k">global </span>z <span class="tk-c"># neu
+   </span>z = x + y
+   <span class="tk-k">return </span>z
+z = <span class="tk-n">3
+</span>result = add(z, z)
+<span class="tk-b">print</span>(result, z)</pre>
+<pre data-lang="text">&gt; python test.py
 6 6</pre>
   <p>⇒ x, y sind immer noch lokale Variablen. z ist jetzt auch in der Funktion eine globale <span class="nb">Variable.</span></p>
   <p>Globale Variablen sollten vermieden werden. Sie machen den Code <span class="nb">unübersichtlicher.</span></p>
@@ -2445,15 +2451,15 @@ print(result, z)</pre>
 <div class="card de">
   <span class="folie">S. 195</span>
   <p>Kommentare beginnt mit dem Zeichen # und enden am <span class="nb">Zeilenende</span></p>
-<pre>def addiere(x, y):
-    ''' addiert zwei Zahlen.
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">addiere</span>(x, y):
+    <span class="tk-s">''' addiert zwei Zahlen.
     Args:
         x (float): erster Summand
         y (float): zweiter Summand
     Returns:
         float: Summe der beiden Zahlen
     '''
-    return x + y # Hier erfolgt die Ausgabe</pre>
+    </span><span class="tk-k">return </span>x + y <span class="tk-c"># Hier erfolgt die Ausgabe</span></pre>
   <p>Die dreifachen Anführungszeichen ''' umschließen einen mehrzeiligen String. Wenn dieser direkt am Anfang einer Funktion oder Klasse steht, handelt es sich – wie im Beispiel – um einen Docstring. Python merkt sich den DocString, damit Entwicklungsumgebungen (auch VS Code) darauf zugreifen <span class="nb">können.</span></p>
 </div>
 <div class="zh">
@@ -2470,11 +2476,11 @@ print(result, z)</pre>
 <h2 id="loop">循环<br><span class="de-title"><span class="seg">while ·</span> <span class="seg">for ·</span> <span class="seg">range</span></span></h2>
 <div class="card de">
   <span class="folie">S. 196</span>
-<pre>i = 5
-while i &lt; 10:
-   print(i)
-   i = i + 1</pre>
-<pre>&gt; python test.py
+<pre data-lang="python">i = <span class="tk-n">5
+</span><span class="tk-k">while </span>i &lt; <span class="tk-n">10</span>:
+   <span class="tk-b">print</span>(i)
+   i = i + <span class="tk-n">1</span></pre>
+<pre data-lang="text">&gt; python test.py
 5
 6
 7
@@ -2484,16 +2490,16 @@ while i &lt; 10:
 </div>
 <div class="card de">
   <span class="folie">S. 197</span>
-<pre># fakultät.py
-def fakultät(x):
-    f = 1
-    i = 2
-    while i &lt;= x:
+<pre data-lang="python"><span class="tk-c"># fakultät.py
+</span><span class="tk-k">def </span><span class="tk-f">fakultät</span>(x):
+    f = <span class="tk-n">1
+    </span>i = <span class="tk-n">2
+    </span><span class="tk-k">while </span>i &lt;= x:
         f = f * i
-        i = i + 1
-    return f
-print(fakultät(0), fakultät(1), fakultät(2), fakultät(3))</pre>
-<pre>&gt; python test.py
+        i = i + <span class="tk-n">1
+    </span><span class="tk-k">return </span>f
+<span class="tk-b">print</span>(fakultät(<span class="tk-n">0</span>), fakultät(<span class="tk-n">1</span>), fakultät(<span class="tk-n">2</span>), fakultät(<span class="tk-n">3</span>))</pre>
+<pre data-lang="text">&gt; python test.py
 1 1 2 6</pre>
 </div>
 <div class="zh">
@@ -2513,22 +2519,22 @@ print(fakultät(0), fakultät(1), fakultät(2), fakultät(3))</pre>
 
 <div class="card de">
   <span class="folie">S. 198–200</span>
-<pre>def binär(zahl):
-   ergebnis = ''
-   while True:
-      zahl, rest = divmod(zahl, 2) # Quotient und Rest
-      ergebnis = str(rest) + ergebnis
-      if zahl == 0:
-         break # bricht die Schleife ab
-   return ergebnis
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">binär</span>(zahl):
+   ergebnis = <span class="tk-s">''
+   </span><span class="tk-k">while </span><span class="tk-n">True</span>:
+      zahl, rest = <span class="tk-b">divmod</span>(zahl, <span class="tk-n">2</span>) <span class="tk-c"># Quotient und Rest
+      </span>ergebnis = <span class="tk-b">str</span>(rest) + ergebnis
+      <span class="tk-k">if </span>zahl == <span class="tk-n">0</span>:
+         <span class="tk-k">break </span><span class="tk-c"># bricht die Schleife ab
+   </span><span class="tk-k">return </span>ergebnis
 
-while True: # Diese Schleife wird nur durch break beendet.
-   zahl = input('Zahl: ') # Der Benutzer gibt Zahl ein.
-   if zahl == 'quit':
-      break
-   if not zahl.isdigit():
-      continue # direkt zur nächsten Iteration
-   print(binär(int(zahl))) # geschachtelte Funktionen</pre>
+<span class="tk-k">while </span><span class="tk-n">True</span>: <span class="tk-c"># Diese Schleife wird nur durch break beendet.
+   </span>zahl = <span class="tk-b">input</span>(<span class="tk-s">'Zahl: '</span>) <span class="tk-c"># Der Benutzer gibt Zahl ein.
+   </span><span class="tk-k">if </span>zahl == <span class="tk-s">'quit'</span>:
+      <span class="tk-k">break
+   if not </span>zahl.isdigit():
+      <span class="tk-k">continue </span><span class="tk-c"># direkt zur nächsten Iteration
+   </span><span class="tk-b">print</span>(binär(<span class="tk-b">int</span>(zahl))) <span class="tk-c"># geschachtelte Funktionen</span></pre>
   <div class="tablewrap">
   <table>
     <tr><td><code>divmod(n, b)</code></td><td class="wide">liefert den Quotienten und den Rest der Division von n durch b.</td></tr>
@@ -2540,7 +2546,7 @@ while True: # Diese Schleife wird nur durch break beendet.
 </div>
 <div class="card de">
   <span class="folie">S. 201</span>
-<pre>&gt; python test.py
+<pre data-lang="text">&gt; python test.py
 Zahl: 13
 1101
 Zahl: 1
@@ -2571,16 +2577,16 @@ Zahl: quit</pre>
 
 <div class="card de">
   <span class="folie">S. 202–204</span>
-<pre># summe.py
-def summe(liste):
-   sum = 0
-   for zahl in liste:
-      sum += zahl # kurz für sum = sum + zahl
-   return sum
-s = summe([1,7,2,9])
-s2 = sum([1,7,2,9]) # vordefinierte Python-Funktion
-print(s, s2)</pre>
-<pre>&gt; python summe.py
+<pre data-lang="python"><span class="tk-c"># summe.py
+</span><span class="tk-k">def </span><span class="tk-f">summe</span>(liste):
+   <span class="tk-b">sum </span>= <span class="tk-n">0
+   </span><span class="tk-k">for </span>zahl <span class="tk-k">in </span>liste:
+      <span class="tk-b">sum </span>+= zahl <span class="tk-c"># kurz für sum = sum + zahl
+   </span><span class="tk-k">return </span><span class="tk-b">sum
+</span>s = summe([<span class="tk-n">1</span>,<span class="tk-n">7</span>,<span class="tk-n">2</span>,<span class="tk-n">9</span>])
+s2 = <span class="tk-b">sum</span>([<span class="tk-n">1</span>,<span class="tk-n">7</span>,<span class="tk-n">2</span>,<span class="tk-n">9</span>]) <span class="tk-c"># vordefinierte Python-Funktion
+</span><span class="tk-b">print</span>(s, s2)</pre>
+<pre data-lang="text">&gt; python summe.py
 19 19</pre>
   <p>Die for-Schleife iteriert über liste und weist nacheinander jedes Listenelement der Schleifen-Variablen <span class="nb">zahl zu.</span></p>
 </div>
@@ -2595,17 +2601,17 @@ print(s, s2)</pre>
 
 <div class="card de">
   <span class="folie">S. 205</span>
-<pre># fakultät.py
-def fakultät(x):
-    f = 1
-    for i in range(2, x+1):
+<pre data-lang="python"><span class="tk-c"># fakultät.py
+</span><span class="tk-k">def </span><span class="tk-f">fakultät</span>(x):
+    f = <span class="tk-n">1
+    </span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">2</span>, x+<span class="tk-n">1</span>):
         f = f * i
-    return f
-for n in range(4, 10, 2):
+    <span class="tk-k">return </span>f
+<span class="tk-k">for </span>n <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">4</span>, <span class="tk-n">10</span>, <span class="tk-n">2</span>):
    erg = fakultät(n)
-   # formatierte Stringausgabe
-   print(f'n: {n:2}\tfakultät(n): {erg:6}')</pre>
-<pre>&gt; python fakultät.py
+   <span class="tk-c"># formatierte Stringausgabe
+   </span><span class="tk-b">print</span>(<span class="tk-s">f'n: {</span>n<span class="tk-s">:2}\tfakultät(n): {</span>erg<span class="tk-s">:6}'</span>)</pre>
+<pre data-lang="text">&gt; python fakultät.py
 n:  4	fakultät(n):     24
 n:  6	fakultät(n):    720
 n:  8	fakultät(n):  40320</pre>
@@ -2623,39 +2629,39 @@ n:  8	fakultät(n):  40320</pre>
 <div class="card de">
   <span class="folie">S. 206–223</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; vorname = 'Ben'
-&gt;&gt;&gt; nachname = 'Schur'
-&gt;&gt;&gt; f'&gt; {vorname} {nachname}'
-'&gt; Ben Schur'
-&gt;&gt;&gt; f'Pi: {3.14159:.2f}'
-'Pi: 3.14'
-&gt;&gt;&gt; f'5 / 3 = {5/3:.2f}'
-'5 / 3 = 1.67'
-&gt;&gt;&gt; f'Rate: {0.2375:.1%}'
-'Rate: 23.8%'
-&gt;&gt;&gt; f'{vorname:8}'
-'Ben     '
-&gt;&gt;&gt; f'{vorname:&lt;8}'
-'Ben     '
-&gt;&gt;&gt; f'{vorname:^8}'
-'  Ben   '</pre>
-<pre>&gt;&gt;&gt; f'3 + 5 = {3 + 5}'
-'3 + 5 = 8'
-&gt;&gt;&gt; f'Einwohner: {14628913:,}'
-'Einwohner: 14,628,913'
-&gt;&gt;&gt; f'{vorname=}'
-"vorname='Ben'"
-&gt;&gt;&gt; f'{32:04}'
-'0032'
-&gt;&gt;&gt; f'''
-... Vorname: {vorname}
-... Nachname: {nachname}
-... '''
-'\nVorname: Ben\nNachname: Schur\n'
-&gt;&gt;&gt; f'{{vorname}} {{{vorname}}}'
-'{vorname} {Ben}'
-&gt;&gt;&gt; f"{vorname}'s"
-"Ben's"</pre>
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>vorname = <span class="tk-s">'Ben'
+</span><span class="tk-p">&gt;&gt;&gt; </span>nachname = <span class="tk-s">'Schur'
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f'&gt; {</span>vorname<span class="tk-s">} {</span>nachname<span class="tk-s">}'
+</span>'&gt; Ben Schur'
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f'Pi: {</span><span class="tk-n">3.14159</span><span class="tk-s">:.2f}'
+</span>'Pi: 3.14'
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f'5 / 3 = {</span><span class="tk-n">5</span>/<span class="tk-n">3</span><span class="tk-s">:.2f}'
+</span>'5 / 3 = 1.67'
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f'Rate: {</span><span class="tk-n">0.2375</span><span class="tk-s">:.1%}'
+</span>'Rate: 23.8%'
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f'{</span>vorname<span class="tk-s">:8}'
+</span>'Ben     '
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f'{</span>vorname<span class="tk-s">:&lt;8}'
+</span>'Ben     '
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f'{</span>vorname<span class="tk-s">:^8}'
+</span>'  Ben   '</pre>
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f'3 + 5 = {</span><span class="tk-n">3 </span>+ <span class="tk-n">5</span><span class="tk-s">}'
+</span>'3 + 5 = 8'
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f'Einwohner: {</span><span class="tk-n">14628913</span><span class="tk-s">:,}'
+</span>'Einwohner: 14,628,913'
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f'{</span>vorname<span class="tk-s">=}'
+</span>"vorname='Ben'"
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f'{</span><span class="tk-n">32</span><span class="tk-s">:04}'
+</span>'0032'
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f'''
+</span><span class="tk-p">... </span><span class="tk-s">Vorname: {</span>vorname<span class="tk-s">}
+</span><span class="tk-p">... </span><span class="tk-s">Nachname: {</span>nachname<span class="tk-s">}
+</span><span class="tk-p">... </span><span class="tk-s">'''
+</span>'\nVorname: Ben\nNachname: Schur\n'
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f'{{vorname}} {{{</span>vorname<span class="tk-s">}}}'
+</span>'{vorname} {Ben}'
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">f"{</span>vorname<span class="tk-s">}'s"
+</span>"Ben's"</pre>
   </div>
 </div>
 <div class="zh">
@@ -2719,15 +2725,15 @@ n:  8	fakultät(n):  40320</pre>
 <div class="card de">
   <span class="folie">S. 226</span>
   <p>Die Fakultäts-Funktion kann auch rekursiv definiert werden:<br>0! = 1<br>n! = n · (n − 1)! für n &gt; 0</p>
-<pre>def fakultät(n):
-   return 1 if n == 0 else n * fakultät(n-1)
-print(fakultät(3))</pre>
-<pre>6</pre>
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">fakultät</span>(n):
+   <span class="tk-k">return </span><span class="tk-n">1 </span><span class="tk-k">if </span>n == <span class="tk-n">0 </span><span class="tk-k">else </span>n * fakultät(n-<span class="tk-n">1</span>)
+<span class="tk-b">print</span>(fakultät(<span class="tk-n">3</span>))</pre>
+<pre data-lang="text">6</pre>
   <p>⇒ Funktionen können sich selbst aufrufen.<br>⇒ Ohne eine Abbruchbedingung entsteht eine Endlos-Rekursion!</p>
 </div>
 <div class="zh">
   <p><b>递归</b>: 函数调用自身. 递归定义有两部分: <b>基础情况</b> (0! = 1, 直接给答案) 和<b>递归情况</b> (n! = n · (n−1)!, <span class="nb">归结为更小的问题).</span> </p>
-<pre>fakultät(3)
+<pre data-lang="text">fakultät(3)
 = 3 * fakultät(2)
 = 3 * (2 * fakultät(1))
 = 3 * (2 * (1 * fakultät(0)))
@@ -2761,33 +2767,33 @@ print(fakultät(3))</pre>
 <div class="card de">
   <span class="folie">S. 228–242</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; 1 &lt; 2
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">1 </span>&lt; <span class="tk-n">2
+</span>True
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">1 </span>&lt; <span class="tk-n">2 </span>&lt; <span class="tk-n">3
+</span>True
+<span class="tk-p">&gt;&gt;&gt; </span>w = <span class="tk-n">1 </span>&lt; <span class="tk-n">2
+</span><span class="tk-p">&gt;&gt;&gt; </span>w
 True
-&gt;&gt;&gt; 1 &lt; 2 &lt; 3
-True
-&gt;&gt;&gt; w = 1 &lt; 2
-&gt;&gt;&gt; w
-True
-&gt;&gt;&gt; w + 1
-2
-&gt;&gt;&gt; l1 = [1,2]
-&gt;&gt;&gt; l2 = [1,2]
-&gt;&gt;&gt; l3 = l2
-&gt;&gt;&gt; l1 == l3
+<span class="tk-p">&gt;&gt;&gt; </span>w + <span class="tk-n">1
+</span>2
+<span class="tk-p">&gt;&gt;&gt; </span>l1 = [<span class="tk-n">1</span>,<span class="tk-n">2</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>l2 = [<span class="tk-n">1</span>,<span class="tk-n">2</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>l3 = l2
+<span class="tk-p">&gt;&gt;&gt; </span>l1 == l3
 True</pre>
-<pre>&gt;&gt;&gt; l2 is l3
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>l2 <span class="tk-k">is </span>l3
 True
-&gt;&gt;&gt; l1 is l3
+<span class="tk-p">&gt;&gt;&gt; </span>l1 <span class="tk-k">is </span>l3
 False
 
-&gt;&gt;&gt; True and 2
-2
-&gt;&gt;&gt; False and 2
-False
-&gt;&gt;&gt; True or 2
-True
-&gt;&gt;&gt; False or 2
-2</pre>
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">True </span><span class="tk-k">and </span><span class="tk-n">2
+</span>2
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">False </span><span class="tk-k">and </span><span class="tk-n">2
+</span>False
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">True </span><span class="tk-k">or </span><span class="tk-n">2
+</span>True
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">False </span><span class="tk-k">or </span><span class="tk-n">2
+</span>2</pre>
   </div>
   <div class="tablewrap">
   <table>
@@ -2836,35 +2842,35 @@ True
   <span class="folie">S. 244–254</span>
   <p>Dictionarys bilden Schlüssel (<b>Keys</b>) auf Werte (<b>Values</b>) ab: <code class="lc">dictionary[key] = value</code> &nbsp; <span class="nb"><code class="lc">häufigkeit['a'] = 12</code></span></p>
   <div class="cols">
-<pre>&gt;&gt;&gt; [dict(), {}]
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>[<span class="tk-b">dict</span>(), {}]
 [{}, {}]
-&gt;&gt;&gt; d = {'a':1, 'b':2}
-&gt;&gt;&gt; d
+<span class="tk-p">&gt;&gt;&gt; </span>d = {<span class="tk-s">'a'</span>:<span class="tk-n">1</span>, <span class="tk-s">'b'</span>:<span class="tk-n">2</span>}
+<span class="tk-p">&gt;&gt;&gt; </span>d
 {'a': 1, 'b': 2}
-&gt;&gt;&gt; d['c'] = 3
-&gt;&gt;&gt; d
+<span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'c'</span>] = <span class="tk-n">3
+</span><span class="tk-p">&gt;&gt;&gt; </span>d
 {'a': 1, 'b': 2, 'c': 3}
-&gt;&gt;&gt; d['c'] += 1
-&gt;&gt;&gt; d
+<span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'c'</span>] += <span class="tk-n">1
+</span><span class="tk-p">&gt;&gt;&gt; </span>d
 {'a': 1, 'b': 2, 'c': 4}
-&gt;&gt;&gt; del d['a'], d['b']
-&gt;&gt;&gt; d
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">del </span>d[<span class="tk-s">'a'</span>], d[<span class="tk-s">'b'</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>d
 {'c': 4}</pre>
-<pre>&gt;&gt;&gt; d[(1,2)] = {'VfB':'top'}
-&gt;&gt;&gt; d
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>d[(<span class="tk-n">1</span>,<span class="tk-n">2</span>)] = {<span class="tk-s">'VfB'</span>:<span class="tk-s">'top'</span>}
+<span class="tk-p">&gt;&gt;&gt; </span>d
 {'c': 4, (1, 2): {'VfB': 'top'}}
-&gt;&gt;&gt; d['a'] += 1
-...KeyError: 'a'
-&gt;&gt;&gt; d[{1,2}] = 1
-...unhashable type: 'set'
-&gt;&gt;&gt; d = {}
-&gt;&gt;&gt; d[frozenset({1,2})] = 1
-&gt;&gt;&gt; d
+<span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'a'</span>] += <span class="tk-n">1
+</span>...KeyError: 'a'
+<span class="tk-p">&gt;&gt;&gt; </span>d[{<span class="tk-n">1</span>,<span class="tk-n">2</span>}] = <span class="tk-n">1
+</span>...unhashable type: 'set'
+<span class="tk-p">&gt;&gt;&gt; </span>d = {}
+<span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-b">frozenset</span>({<span class="tk-n">1</span>,<span class="tk-n">2</span>})] = <span class="tk-n">1
+</span><span class="tk-p">&gt;&gt;&gt; </span>d
 {frozenset({1, 2}): 1}
-&gt;&gt;&gt; pers_info = {
-...   'vorname': 'Ben',
-...   'nachname': 'Schur',
-...   'Geburtstag': '1.1.2000',
+<span class="tk-p">&gt;&gt;&gt; </span>pers_info = {
+<span class="tk-p">...   </span><span class="tk-s">'vorname'</span>: <span class="tk-s">'Ben'</span>,
+<span class="tk-p">...   </span><span class="tk-s">'nachname'</span>: <span class="tk-s">'Schur'</span>,
+<span class="tk-p">...   </span><span class="tk-s">'Geburtstag'</span>: <span class="tk-s">'1.1.2000'</span>,
 ... }</pre>
   </div>
 </div>
@@ -2887,12 +2893,12 @@ True
 <h3>用字典统计频率<br><span class="de-title">Häufigkeiten mit einem Dictionary berechnen</span></h3>
 <div class="card de">
   <span class="folie">S. 255–256</span>
-<pre># charcounts.py
-def character_counts(string):
+<pre data-lang="python"><span class="tk-c"># charcounts.py
+</span><span class="tk-k">def </span><span class="tk-f">character_counts</span>(string):
    f = {}
-   for char in string: # prüft ob char in string enthalten ist
-      f[char] = f[char] + 1 if char in f else 1
-   return f</pre>
+   <span class="tk-k">for </span>char <span class="tk-k">in </span>string: <span class="tk-c"># prüft ob char in string enthalten ist
+      </span>f[char] = f[char] + <span class="tk-n">1 </span><span class="tk-k">if </span>char <span class="tk-k">in </span>f <span class="tk-k">else </span><span class="tk-n">1
+   </span><span class="tk-k">return </span>f</pre>
   <p>statt: <code class="lc">f[char] + 1 if char in f else 1</code><br>geht auch: <code class="lc">f.get(char, 0) + 1</code></p>
 </div>
 <div class="zh">
@@ -2909,16 +2915,16 @@ def character_counts(string):
 <h2 id="datei">模块、库与文件<br><span class="de-title"><span class="seg">Module ·</span> <span class="seg">Bibliotheken ·</span> <span class="seg">Dateien</span></span></h2>
 <div class="card de">
   <span class="folie">S. 257</span>
-<pre>import charcounts
-while True:
-   string = input('Bitte einen String eingeben: ')
+<pre data-lang="python"><span class="tk-k">import </span>charcounts
+<span class="tk-k">while </span><span class="tk-n">True</span>:
+   string = <span class="tk-b">input</span>(<span class="tk-s">'Bitte einen String eingeben: '</span>)
    d = charcounts.character_counts(string)
-   if string == 'quit':
-      break
-   if string == '':
-      continue
-   for char in d.keys():
-      print(char, d[char])</pre>
+   <span class="tk-k">if </span>string == <span class="tk-s">'quit'</span>:
+      <span class="tk-k">break
+   if </span>string == <span class="tk-s">''</span>:
+      <span class="tk-k">continue
+   for </span>char <span class="tk-k">in </span>d.keys():
+      <span class="tk-b">print</span>(char, d[char])</pre>
   <div class="tablewrap">
   <table>
     <tr><td><code>import datei</code></td><td class="wide">importiert alle Funktionen und globalen Variablen aus datei.py.</td></tr>
@@ -2929,11 +2935,11 @@ while True:
 <div class="card de">
   <span class="folie">S. 258</span>
   <p>statt</p>
-<pre>import charcounts
+<pre data-lang="python"><span class="tk-k">import </span>charcounts
 ...
    d = charcounts.character_counts(string)</pre>
   <p>geht <span class="nb">auch</span></p>
-<pre>from charcounts import character_counts
+<pre data-lang="python"><span class="tk-k">from </span>charcounts <span class="tk-k">import </span>character_counts
 ...
    d = character_counts(string)</pre>
 </div>
@@ -2950,27 +2956,27 @@ while True:
 <div class="card de">
   <span class="folie">S. 259–267</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; letters = set('gkskg')
-&gt;&gt;&gt; letters
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>letters = <span class="tk-b">set</span>(<span class="tk-s">'gkskg'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>letters
 {'s', 'k', 'g'}
-&gt;&gt;&gt; enumerate(letters)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">enumerate</span>(letters)
 &lt;enumerate object ...&gt;
-&gt;&gt;&gt; list(enumerate(letters))
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">list</span>(<span class="tk-b">enumerate</span>(letters))
 [(0, 's'), (1, 'k'), (2, 'g')]
-&gt;&gt;&gt; letterindex = {}
-&gt;&gt;&gt; for pair in enumerate(letters):
-...    i, letter = pair
-...    letterindex[letter] = i
-...
-&gt;&gt;&gt; letterindex
+<span class="tk-p">&gt;&gt;&gt; </span>letterindex = {}
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">for </span>pair <span class="tk-k">in </span><span class="tk-b">enumerate</span>(letters):
+<span class="tk-p">...    </span>i, letter = pair
+<span class="tk-p">...    </span>letterindex[letter] = i
+<span class="tk-p">...
+&gt;&gt;&gt; </span>letterindex
 {'s': 0, 'k': 1, 'g': 2}</pre>
-<pre>&gt;&gt;&gt; letterindex.keys()
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>letterindex.keys()
 dict_keys(['s', 'k', 'g'])
-&gt;&gt;&gt; list(letterindex.keys())
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">list</span>(letterindex.keys())
 ['s', 'k', 'g']
-&gt;&gt;&gt; list(letterindex.values())
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">list</span>(letterindex.values())
 [0, 1, 2]
-&gt;&gt;&gt; list(letterindex.items())
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">list</span>(letterindex.items())
 [('s', 0), ('k', 1), ('g', 2)]</pre>
   </div>
 </div>
@@ -2996,18 +3002,18 @@ dict_keys(['s', 'k', 'g'])
 </div>
 <div class="card de">
   <span class="folie">S. 269</span>
-<pre># charcount.py
-from collections import defaultdict
-def character_counts(string):
-   count = defaultdict(int)
-   for char in string:
-      count[char] += 1
-   return count</pre>
+<pre data-lang="python"><span class="tk-c"># charcount.py
+</span><span class="tk-k">from </span>collections <span class="tk-k">import </span>defaultdict
+<span class="tk-k">def </span><span class="tk-f">character_counts</span>(string):
+   count = defaultdict(<span class="tk-b">int</span>)
+   <span class="tk-k">for </span>char <span class="tk-k">in </span>string:
+      count[char] += <span class="tk-n">1
+   </span><span class="tk-k">return </span>count</pre>
   <p>noch einfacher mit einem <span class="nb">Counter-Objekt:</span></p>
-<pre># charcount2.py
-from collections import Counter
-def character_counts(string):
-   return Counter(string)</pre>
+<pre data-lang="python"><span class="tk-c"># charcount2.py
+</span><span class="tk-k">from </span>collections <span class="tk-k">import </span>Counter
+<span class="tk-k">def </span><span class="tk-f">character_counts</span>(string):
+   <span class="tk-k">return </span>Counter(string)</pre>
 </div>
 <div class="zh">
   <p>Python 有大量现成的<b>库</b>. <b>标准库</b>随 Python 一起安装, 无需另装; <code>collections</code> <span class="nb">就是其中之一.</span> </p>
@@ -3020,14 +3026,14 @@ def character_counts(string):
 
 <div class="card de">
   <span class="folie">S. 270</span>
-<pre>datei = open('input.txt', 'rt') # zum Lesen öffnen
-text = datei.read()
+<pre data-lang="python">datei = <span class="tk-b">open</span>(<span class="tk-s">'input.txt'</span>, <span class="tk-s">'rt'</span>) <span class="tk-c"># zum Lesen öffnen
+</span>text = datei.read()
 datei.close()
-datei = open('output.txt', 'w') # zum Schreiben öffnen
-datei.write(text)
+datei = <span class="tk-b">open</span>(<span class="tk-s">'output.txt'</span>, <span class="tk-s">'w'</span>) <span class="tk-c"># zum Schreiben öffnen
+</span>datei.write(text)
 datei.close()
-datei = open('output.txt', 'a') # zum Anfügen öffnen
-print(text, end='', file=datei)
+datei = <span class="tk-b">open</span>(<span class="tk-s">'output.txt'</span>, <span class="tk-s">'a'</span>) <span class="tk-c"># zum Anfügen öffnen
+</span><span class="tk-b">print</span>(text, end=<span class="tk-s">''</span>, file=datei)
 datei.close()</pre>
   <div class="tablewrap">
   <table>
@@ -3061,14 +3067,14 @@ datei.close()</pre>
 
 <div class="card de">
   <span class="folie">S. 271</span>
-<pre># word-frequencies.py
-freq = defaultdict(int)
-with open('test.txt', 'r') as file:
-   for line in file:
+<pre data-lang="python"><span class="tk-c"># word-frequencies.py
+</span>freq = defaultdict(<span class="tk-b">int</span>)
+<span class="tk-k">with </span><span class="tk-b">open</span>(<span class="tk-s">'test.txt'</span>, <span class="tk-s">'r'</span>) <span class="tk-k">as </span>file:
+   <span class="tk-k">for </span>line <span class="tk-k">in </span>file:
       line = line.strip()
       words = line.split()
-      for word in words:
-         freq[word] += 1</pre>
+      <span class="tk-k">for </span>word <span class="tk-k">in </span>words:
+         freq[word] += <span class="tk-n">1</span></pre>
   <ul>
     <li><code>with</code> erzeugt einen Kontextmanager, der die Datei automatisch <span class="nb">schließt</span></li>
     <li><code>strip</code> löscht Whitespace am Beginn und Ende einer <span class="nb">Zeile</span></li>
@@ -3093,17 +3099,17 @@ with open('test.txt', 'r') as file:
 
 <div class="card de">
   <span class="folie">S. 272–278</span>
-<pre>&gt;&gt;&gt; '\t  abc  \n\t'.strip()
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'\t  abc  \n\t'</span>.strip()
 'abc'
-&gt;&gt;&gt; '\t  abc  \n\t'.strip(' \t\r\n')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'\t  abc  \n\t'</span>.strip(<span class="tk-s">' \t\r\n'</span>)
 'abc'
-&gt;&gt;&gt; '\t  abc  \n\t'.rstrip(' \t\r\n')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'\t  abc  \n\t'</span>.rstrip(<span class="tk-s">' \t\r\n'</span>)
 '\t  abc'
-&gt;&gt;&gt; '\t  abc  \n\t'.lstrip(' \t\r\n')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'\t  abc  \n\t'</span>.lstrip(<span class="tk-s">' \t\r\n'</span>)
 'abc  \n\t'
-&gt;&gt;&gt; 'abcdefghaa '.strip('ba')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'abcdefghaa '</span>.strip(<span class="tk-s">'ba'</span>)
 cdefgh
-&gt;&gt;&gt; 'abcdefghaa '.strip('ba')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'abcdefghaa '</span>.strip(<span class="tk-s">'ba'</span>)
 'cdefghaa '</pre>
 </div>
 <div class="zh">
@@ -3119,8 +3125,8 @@ cdefgh
 <div class="card de">
   <span class="folie">S. 279–285</span>
   <p>Der open-Befehl besitzt viele mögliche <span class="nb">Argumente:</span></p>
-<pre>open(file, mode='r', buffering=-1, encoding=None, errors=None,
-     newline=None, closefd=True, opener=None)</pre>
+<pre data-lang="python"><span class="tk-b">open</span>(file, mode=<span class="tk-s">'r'</span>, buffering=-<span class="tk-n">1</span>, encoding=<span class="tk-n">None</span>, errors=<span class="tk-n">None</span>,
+     newline=<span class="tk-n">None</span>, closefd=<span class="tk-n">True</span>, opener=<span class="tk-n">None</span>)</pre>
   <ul>
     <li>Alle Argumente außer file sind <span class="nb">optional.</span></li>
     <li>Fehlende Argumente werden durch Defaultwerte ersetzt bspw. mode <span class="nb">durch 'r'.</span></li>
@@ -3151,14 +3157,14 @@ cdefgh
 
 <div class="card de">
   <span class="folie">S. 286–289</span>
-<pre>&gt;&gt;&gt; def increment(zahl, incr=1):
-...    return zahl + incr
-...
-&gt;&gt;&gt; increment(3, 1)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">def </span><span class="tk-f">increment</span>(zahl, incr=<span class="tk-n">1</span>):
+<span class="tk-p">...    </span><span class="tk-k">return </span>zahl + incr
+<span class="tk-p">...
+&gt;&gt;&gt; </span>increment(<span class="tk-n">3</span>, <span class="tk-n">1</span>)
 4
-&gt;&gt;&gt; increment(3, 2)
+<span class="tk-p">&gt;&gt;&gt; </span>increment(<span class="tk-n">3</span>, <span class="tk-n">2</span>)
 5
-&gt;&gt;&gt; increment(3)
+<span class="tk-p">&gt;&gt;&gt; </span>increment(<span class="tk-n">3</span>)
 4</pre>
 </div>
 <div class="zh">
@@ -3184,21 +3190,21 @@ cdefgh
 </div>
 <div class="card de">
   <span class="folie">S. 291</span>
-<pre>class Student:
-   def __init__(self, mnr, vname, nname, studium):
-      self.matrikelnummer = mnr
-      self.vorname = vname
-      self.nachname = nname
-      self.studiengang = studium
+<pre data-lang="python"><span class="tk-k">class </span><span class="tk-f">Student</span>:
+   <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, mnr, vname, nname, studium):
+      <span class="tk-b">self</span>.matrikelnummer = mnr
+      <span class="tk-b">self</span>.vorname = vname
+      <span class="tk-b">self</span>.nachname = nname
+      <span class="tk-b">self</span>.studiengang = studium
 
-   def name(self):
-      return self.vorname + ' ' + self.nachname
+   <span class="tk-k">def </span><span class="tk-f">name</span>(<span class="tk-b">self</span>):
+      <span class="tk-k">return </span><span class="tk-b">self</span>.vorname + <span class="tk-s">' ' </span>+ <span class="tk-b">self</span>.nachname
 
-if __name__ == "__main__":
-   # wird nicht ausgeführt, wenn die Datei als Modul importiert wird
-   student = Student('123456', 'Ben', 'Schur', 'BSc Computerlinguistik')
-   print(student.name())</pre>
-<pre>&gt; python student.py
+<span class="tk-k">if </span>__name__ == <span class="tk-s">"__main__"</span>:
+   <span class="tk-c"># wird nicht ausgeführt, wenn die Datei als Modul importiert wird
+   </span>student = Student(<span class="tk-s">'123456'</span>, <span class="tk-s">'Ben'</span>, <span class="tk-s">'Schur'</span>, <span class="tk-s">'BSc Computerlinguistik'</span>)
+   <span class="tk-b">print</span>(student.name())</pre>
+<pre data-lang="text">&gt; python student.py
 Ben Schur</pre>
 </div>
 <div class="zh">
@@ -3215,19 +3221,19 @@ Ben Schur</pre>
 
 <div class="card de">
   <span class="folie">S. 292–294</span>
-<pre># incrementer.py
-class Incrementer:
-   def __init__(self, incr=1):
-      self.increment = incr
+<pre data-lang="python"><span class="tk-c"># incrementer.py
+</span><span class="tk-k">class </span><span class="tk-f">Incrementer</span>:
+   <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, incr=<span class="tk-n">1</span>):
+      <span class="tk-b">self</span>.increment = incr
 
-   def __call__(self, zahl):
-      return zahl + self.increment
+   <span class="tk-k">def </span><span class="tk-f">__call__</span>(<span class="tk-b">self</span>, zahl):
+      <span class="tk-k">return </span>zahl + <span class="tk-b">self</span>.increment
 
-increment = Incrementer(2)
-print(increment.__call__(10))
+increment = Incrementer(<span class="tk-n">2</span>)
+<span class="tk-b">print</span>(increment.<span class="tk-f">__call__</span>(<span class="tk-n">10</span>))
 increment = Incrementer()
-print(increment(10))</pre>
-<pre>&gt; python incrementer.py
+<span class="tk-b">print</span>(increment(<span class="tk-n">10</span>))</pre>
+<pre data-lang="text">&gt; python incrementer.py
 12
 11</pre>
   <p><code>__call__</code> Methode, welche die Klasseninstanzen zu Funktionen <span class="nb">macht.</span></p>
@@ -3243,20 +3249,20 @@ print(increment(10))</pre>
 
 <div class="card de">
   <span class="folie">S. 295–297</span>
-<pre># student.py
-class Student:
-    def __init__(self, vorname, nachname, matrikelnummer, studienfach):
-        self.vorname = vorname
-        self.nachname = nachname
-        self.matrikelnummer = matrikelnummer
-        self.studienfach = studienfach
+<pre data-lang="python"><span class="tk-c"># student.py
+</span><span class="tk-k">class </span><span class="tk-f">Student</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, vorname, nachname, matrikelnummer, studienfach):
+        <span class="tk-b">self</span>.vorname = vorname
+        <span class="tk-b">self</span>.nachname = nachname
+        <span class="tk-b">self</span>.matrikelnummer = matrikelnummer
+        <span class="tk-b">self</span>.studienfach = studienfach
 
-    def __str__(self):
-        return f'{self.nachname}, {self.vorname} ({self.matrikelnummer})'
+    <span class="tk-k">def </span><span class="tk-f">__str__</span>(<span class="tk-b">self</span>):
+        <span class="tk-k">return </span><span class="tk-s">f'{</span><span class="tk-b">self</span>.nachname<span class="tk-s">}, {</span><span class="tk-b">self</span>.vorname<span class="tk-s">} ({</span><span class="tk-b">self</span>.matrikelnummer<span class="tk-s">})'
 
-student = Student('Ben', 'Schur', 1234567, 'Computerlinguistik')
-print(student)</pre>
-<pre>&gt; python student.py
+</span>student = Student(<span class="tk-s">'Ben'</span>, <span class="tk-s">'Schur'</span>, <span class="tk-n">1234567</span>, <span class="tk-s">'Computerlinguistik'</span>)
+<span class="tk-b">print</span>(student)</pre>
+<pre data-lang="text">&gt; python student.py
 Schur, Ben (1234567)</pre>
   <p><code>__str__</code> gibt eine Stringrepräsentation der Instanz <span class="nb">zurück.</span></p>
 </div>
@@ -3269,16 +3275,16 @@ Schur, Ben (1234567)</pre>
 <div class="card de">
   <span class="folie">S. 298</span>
   <p>Neben Instanz-Attributen gibt es auch Klassen-Attribute, deren Wert für alle Instanzen <span class="nb">derselbe ist.</span></p>
-<pre># student.py
-class Student:
-    nächste_nummer = 100000 # Klassen-Attribut
+<pre data-lang="python"><span class="tk-c"># student.py
+</span><span class="tk-k">class </span><span class="tk-f">Student</span>:
+    nächste_nummer = <span class="tk-n">100000 </span><span class="tk-c"># Klassen-Attribut
 
-    def __init__(self, vorname, nachname, studienfach):
-        self.vorname = vorname # Instanz-Attribut
-        self.nachname = nachname
-        self.studienfach = studienfach
-        self.matrikelnummer = Student.nächste_nummer
-        Student.nächste_nummer += 1</pre>
+    </span><span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, vorname, nachname, studienfach):
+        <span class="tk-b">self</span>.vorname = vorname <span class="tk-c"># Instanz-Attribut
+        </span><span class="tk-b">self</span>.nachname = nachname
+        <span class="tk-b">self</span>.studienfach = studienfach
+        <span class="tk-b">self</span>.matrikelnummer = Student.nächste_nummer
+        Student.nächste_nummer += <span class="tk-n">1</span></pre>
 </div>
 <div class="zh">
   <ul>
@@ -3293,15 +3299,15 @@ class Student:
 <h3 id="printbef">print 的参数<br><span class="de-title">print-Befehle</span></h3>
 <div class="card de">
   <span class="folie">S. 299–304</span>
-<pre>&gt;&gt;&gt; print(*[1,2,3])
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(*[<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>])
 1 2 3
-&gt;&gt;&gt; print('Hello', end=' ')
-&gt;&gt;&gt; print('world')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(<span class="tk-s">'Hello'</span>, end=<span class="tk-s">' '</span>)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(<span class="tk-s">'world'</span>)
 Hello world
-&gt;&gt;&gt; print(1,2,3, sep='\t')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>, sep=<span class="tk-s">'\t'</span>)
 1	2	3
-&gt;&gt;&gt; print('Hello world', file=file)          # Ausgabe in eine Datei
-&gt;&gt;&gt; print('Hello world', file=file, flush=True)   # Ausgabe in eine Datei ohne Pufferung</pre>
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(<span class="tk-s">'Hello world'</span>, file=file)          <span class="tk-c"># Ausgabe in eine Datei
+</span>&gt;&gt;&gt; print('Hello world', file=file, flush=True)   # Ausgabe in eine Datei ohne Pufferung</pre>
   <p><code>*</code> Dieser Operator ersetzt eine Liste durch die Folge seiner <span class="nb">Elemente.</span></p>
 </div>
 <div class="zh">
@@ -3320,19 +3326,19 @@ Hello world
 
 <div class="card de">
   <span class="folie">S. 305–311</span>
-<pre>for i in [0,1,2,3,4,5,6,7,8,9]:
-   print(i, end=' ')                 # 0 1 2 3 4 5 6 7 8 9
-for i in range(10):
-   print(i, end=' ')                 # 0 1 2 3 4 5 6 7 8 9
-for i in range(0,10,2):
-   print(i, end=' ')                 # 0 2 4 6 8
-for letter in 'Hallo':
-   print(letter, end=' ')            # H a l l o
-for i, letter in enumerate('Hi'):
-   print((i, letter))                # (0, 'H')  (1, 'i')
-for zahl, ziffer in zip([1,2], '123'):
-   print((i, ziffer), end=' ')       # (1, '1')
-   print(i, ziffer)                  # (2, '2')</pre>
+<pre data-lang="python"><span class="tk-k">for </span>i <span class="tk-k">in </span>[<span class="tk-n">0</span>,<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>,<span class="tk-n">4</span>,<span class="tk-n">5</span>,<span class="tk-n">6</span>,<span class="tk-n">7</span>,<span class="tk-n">8</span>,<span class="tk-n">9</span>]:
+   <span class="tk-b">print</span>(i, end=<span class="tk-s">' '</span>)                 <span class="tk-c"># 0 1 2 3 4 5 6 7 8 9
+</span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">10</span>):
+   <span class="tk-b">print</span>(i, end=<span class="tk-s">' '</span>)                 <span class="tk-c"># 0 1 2 3 4 5 6 7 8 9
+</span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">0</span>,<span class="tk-n">10</span>,<span class="tk-n">2</span>):
+   <span class="tk-b">print</span>(i, end=<span class="tk-s">' '</span>)                 <span class="tk-c"># 0 2 4 6 8
+</span><span class="tk-k">for </span>letter <span class="tk-k">in </span><span class="tk-s">'Hallo'</span>:
+   <span class="tk-b">print</span>(letter, end=<span class="tk-s">' '</span>)            <span class="tk-c"># H a l l o
+</span><span class="tk-k">for </span>i, letter <span class="tk-k">in </span><span class="tk-b">enumerate</span>(<span class="tk-s">'Hi'</span>):
+   <span class="tk-b">print</span>((i, letter))                <span class="tk-c"># (0, 'H')  (1, 'i')
+</span><span class="tk-k">for </span>zahl, ziffer <span class="tk-k">in </span><span class="tk-b">zip</span>([<span class="tk-n">1</span>,<span class="tk-n">2</span>], <span class="tk-s">'123'</span>):
+   <span class="tk-b">print</span>((i, ziffer), end=<span class="tk-s">' '</span>)       <span class="tk-c"># (1, '1')
+   </span><span class="tk-b">print</span>(i, ziffer)                  <span class="tk-c"># (2, '2')</span></pre>
 </div>
 <div class="zh">
   <ul>
@@ -3347,26 +3353,26 @@ for zahl, ziffer in zip([1,2], '123'):
 <div class="card de">
   <span class="folie">S. 312–317</span>
   <div class="cols">
-<pre>&gt;&gt;&gt; a = 10
-&gt;&gt;&gt; del a
-&gt;&gt;&gt; print(a)
-... name 'a' is not defined
-&gt;&gt;&gt; liste = [1,2,3]
-&gt;&gt;&gt; del liste[1]
-&gt;&gt;&gt; liste
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>a = <span class="tk-n">10
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">del </span>a
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(a)
+<span class="tk-p">... </span>name <span class="tk-s">'a' </span><span class="tk-k">is not </span>defined
+<span class="tk-p">&gt;&gt;&gt; </span>liste = [<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>]
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">del </span>liste[<span class="tk-n">1</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>liste
 [1, 3]
-&gt;&gt;&gt; d = {'a':1, 'b':2, 'c':3}
-&gt;&gt;&gt; del d['b']
-&gt;&gt;&gt; d
+<span class="tk-p">&gt;&gt;&gt; </span>d = {<span class="tk-s">'a'</span>:<span class="tk-n">1</span>, <span class="tk-s">'b'</span>:<span class="tk-n">2</span>, <span class="tk-s">'c'</span>:<span class="tk-n">3</span>}
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">del </span>d[<span class="tk-s">'b'</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>d
 {'a': 1, 'c': 3}</pre>
-<pre>&gt;&gt;&gt; class Cls:
-...    def __init__(self):
-...       self.attr = 'wert'
-&gt;&gt;&gt; c = Cls()
-&gt;&gt;&gt; c.attr
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">class </span><span class="tk-f">Cls</span>:
+<span class="tk-p">...    </span><span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>):
+<span class="tk-p">...       </span><span class="tk-b">self</span>.attr = <span class="tk-s">'wert'
+</span><span class="tk-p">&gt;&gt;&gt; </span>c = Cls()
+<span class="tk-p">&gt;&gt;&gt; </span>c.attr
 'wert'
-&gt;&gt;&gt; del c.attr
-&gt;&gt;&gt; c.attr
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">del </span>c.attr
+<span class="tk-p">&gt;&gt;&gt; </span>c.attr
 'Cls' object has no attribute 'attr'</pre>
   </div>
 </div>
@@ -3379,15 +3385,15 @@ for zahl, ziffer in zip([1,2], '123'):
 <h2 id="sort">排序、lambda、生成器与推导式<br><span class="de-title"><span class="seg">Sortieren ·</span> <span class="seg">Lambda ·</span> <span class="seg">Generatoren ·</span> <span class="seg">Comprehensions</span></span></h2>
 <div class="card de">
   <span class="folie">S. 318–323</span>
-<pre>&gt;&gt;&gt; sorted([7,1,5,2,3,5])
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">sorted</span>([<span class="tk-n">7</span>,<span class="tk-n">1</span>,<span class="tk-n">5</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>,<span class="tk-n">5</span>])
 [1, 2, 3, 5, 5, 7]
-&gt;&gt;&gt; sorted([7,1,5,2,3,5], reverse=True)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">sorted</span>([<span class="tk-n">7</span>,<span class="tk-n">1</span>,<span class="tk-n">5</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>,<span class="tk-n">5</span>], reverse=<span class="tk-n">True</span>)
 [7, 5, 5, 3, 2, 1]
-&gt;&gt;&gt; sorted(['x', 'ab', 'o', 'LMU', '12', 'PAGS'])
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">sorted</span>([<span class="tk-s">'x'</span>, <span class="tk-s">'ab'</span>, <span class="tk-s">'o'</span>, <span class="tk-s">'LMU'</span>, <span class="tk-s">'12'</span>, <span class="tk-s">'PAGS'</span>])
 ['12', 'LMU', 'PAGS', 'ab', 'o', 'x']
-&gt;&gt;&gt; sorted(['x', 'ab', 'o', 'LMU', '12', 'PAGS'], key=len)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">sorted</span>([<span class="tk-s">'x'</span>, <span class="tk-s">'ab'</span>, <span class="tk-s">'o'</span>, <span class="tk-s">'LMU'</span>, <span class="tk-s">'12'</span>, <span class="tk-s">'PAGS'</span>], key=<span class="tk-b">len</span>)
 ['x', 'o', 'ab', '12', 'LMU', 'PAGS']
-&gt;&gt;&gt; sorted(['x', 'ab', 'o', 'LMU', 12, 'PAGS'])
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">sorted</span>([<span class="tk-s">'x'</span>, <span class="tk-s">'ab'</span>, <span class="tk-s">'o'</span>, <span class="tk-s">'LMU'</span>, <span class="tk-n">12</span>, <span class="tk-s">'PAGS'</span>])
 ... '&lt;' not supported between instances of 'int' and 'str'</pre>
 </div>
 <div class="zh">
@@ -3403,17 +3409,17 @@ for zahl, ziffer in zip([1,2], '123'):
 
 <div class="card de">
   <span class="folie">S. 324–328</span>
-<pre>&gt;&gt;&gt; d = {'c':75, 'b':21, 'd':33, 'a':113}
-&gt;&gt;&gt; sorted(d.items())
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>d = {<span class="tk-s">'c'</span>:<span class="tk-n">75</span>, <span class="tk-s">'b'</span>:<span class="tk-n">21</span>, <span class="tk-s">'d'</span>:<span class="tk-n">33</span>, <span class="tk-s">'a'</span>:<span class="tk-n">113</span>}
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">sorted</span>(d.items())
 [('a', 113), ('b', 21), ('c', 75), ('d', 33)]
-&gt;&gt;&gt; def get_key(x):
-...    return x[1]
-...
-&gt;&gt;&gt; sorted(d.items(), key=get_key)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">def </span><span class="tk-f">get_key</span>(x):
+<span class="tk-p">...    </span><span class="tk-k">return </span>x[<span class="tk-n">1</span>]
+<span class="tk-p">...
+&gt;&gt;&gt; </span><span class="tk-b">sorted</span>(d.items(), key=get_key)
 [('b', 21), ('d', 33), ('c', 75), ('a', 113)]
-&gt;&gt;&gt; sorted(d.items(), key=lambda x: -x[1])
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">sorted</span>(d.items(), key=<span class="tk-k">lambda </span>x: -x[<span class="tk-n">1</span>])
 [('a', 113), ('c', 75), ('d', 33), ('b', 21)]
-&gt;&gt;&gt; max(d.items(), key=lambda x: x[1])
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">max</span>(d.items(), key=<span class="tk-k">lambda </span>x: x[<span class="tk-n">1</span>])
 ('a', 113)</pre>
 </div>
 <div class="zh">
@@ -3429,18 +3435,18 @@ for zahl, ziffer in zip([1,2], '123'):
 <div class="card de">
   <span class="folie">S. 329–330</span>
   <p>Einlesen einer tsv-Datei (mit Tabulatoren als <span class="nb">Trennzeichen)</span></p>
-<pre>def tsv_reader(file):
-   return [line.rstrip('\n').split('\t') for line in file]</pre>
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">tsv_reader</span>(file):
+   <span class="tk-k">return </span>[line.rstrip(<span class="tk-s">'\n'</span>).split(<span class="tk-s">'\t'</span>) <span class="tk-k">for </span>line <span class="tk-k">in </span>file]</pre>
   <p>Nachteil: Bei großen Dateien wird viel Speicherplatz verbraucht.<br>Alternative: ein Generator</p>
-<pre>def tsv_reader(file):
-   for line in file:
-      yield line.rstrip('\n').split('\t')
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">tsv_reader</span>(file):
+   <span class="tk-k">for </span>line <span class="tk-k">in </span>file:
+      <span class="tk-k">yield </span>line.rstrip(<span class="tk-s">'\n'</span>).split(<span class="tk-s">'\t'</span>)
 
-with open('beispiel.tsv', 'rt', encoding='utf-8') as file:
-   for row in tsv_reader(file):
-      print(*row)
+<span class="tk-k">with </span><span class="tk-b">open</span>(<span class="tk-s">'beispiel.tsv'</span>, <span class="tk-s">'rt'</span>, encoding=<span class="tk-s">'utf-8'</span>) <span class="tk-k">as </span>file:
+   <span class="tk-k">for </span>row <span class="tk-k">in </span>tsv_reader(file):
+      <span class="tk-b">print</span>(*row)
 
-tsv_reader(file)[10] # Fehler, Generatoren sind nicht indexierbar</pre>
+tsv_reader(file)[<span class="tk-n">10</span>] <span class="tk-c"># Fehler, Generatoren sind nicht indexierbar</span></pre>
 </div>
 <div class="zh">
   <ul>
@@ -3455,30 +3461,30 @@ tsv_reader(file)[10] # Fehler, Generatoren sind nicht indexierbar</pre>
 <div class="card de">
   <span class="folie">S. 331–333</span>
   <p>Berechnung einer Liste von <span class="nb">Quadratzahlen</span></p>
-<pre>quadrat = []
-for i in range(10):
+<pre data-lang="python">quadrat = []
+<span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">10</span>):
    quadrat.append(i*i)</pre>
   <p>Dieselbe Aufgabe kann eleganter mit einer List Comprehension gelöst <span class="nb">werden:</span></p>
-<pre>quadrat = [i*i for i in range(10)]</pre>
+<pre data-lang="python">quadrat = [i*i <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">10</span>)]</pre>
   <p>Auch ein Generator-Ausdruck ist <span class="nb">möglich:</span></p>
-<pre>quadrat = (i*i for i in range(10))</pre>
+<pre data-lang="python">quadrat = (i*i <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">10</span>))</pre>
 </div>
 <div class="card de">
   <span class="folie">S. 334–340</span>
-<pre>&gt;&gt;&gt; [round(math.log(x), 3) for x in range(1,5)]
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>[<span class="tk-b">round</span>(math.log(x), <span class="tk-n">3</span>) <span class="tk-k">for </span>x <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">1</span>,<span class="tk-n">5</span>)]
 [0.0, 0.693, 1.099, 1.386]
-&gt;&gt;&gt; [chr(x) for x in range(70,80)]
+<span class="tk-p">&gt;&gt;&gt; </span>[<span class="tk-b">chr</span>(x) <span class="tk-k">for </span>x <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">70</span>,<span class="tk-n">80</span>)]
 ['F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O']
-&gt;&gt;&gt; [[0 for _ in range(3)] for _ in range(2)]
+<span class="tk-p">&gt;&gt;&gt; </span>[[<span class="tk-n">0 </span><span class="tk-k">for </span>_ <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">3</span>)] <span class="tk-k">for </span>_ <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">2</span>)]
 [[0, 0, 0], [0, 0, 0]]
-&gt;&gt;&gt; liste = [[0] * 3] * 2
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste = [[<span class="tk-n">0</span>] * <span class="tk-n">3</span>] * <span class="tk-n">2
+</span><span class="tk-p">&gt;&gt;&gt; </span>liste
 [[0, 0, 0], [0, 0, 0]]
-&gt;&gt;&gt; liste[0][0] = 1
-&gt;&gt;&gt; liste
+<span class="tk-p">&gt;&gt;&gt; </span>liste[<span class="tk-n">0</span>][<span class="tk-n">0</span>] = <span class="tk-n">1
+</span><span class="tk-p">&gt;&gt;&gt; </span>liste
 [[1, 0, 0], [1, 0, 0]]
-&gt;&gt;&gt; letters = 'abcdefg'
-&gt;&gt;&gt; {letter:i for i, letter in enumerate(letters)}
+<span class="tk-p">&gt;&gt;&gt; </span>letters = <span class="tk-s">'abcdefg'
+</span><span class="tk-p">&gt;&gt;&gt; </span>{letter:i <span class="tk-k">for </span>i, letter <span class="tk-k">in </span><span class="tk-b">enumerate</span>(letters)}
 {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6}</pre>
   <p>Konvention: Der Variablenname <code>_</code> wird verwendet, wenn die Syntax eine Variable verlangt, die nicht weiter benötigt <span class="nb">wird.</span></p>
 </div>
@@ -3496,17 +3502,17 @@ for i in range(10):
 
 <div class="card de">
   <span class="folie">S. 341–345</span>
-<pre>&gt;&gt;&gt; from itertools import chain
-&gt;&gt;&gt; liste1 = [1, 2, 3]
-&gt;&gt;&gt; liste2 = [4, 5, 6]
-&gt;&gt;&gt; chain(liste1, liste2)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">from </span>itertools <span class="tk-k">import </span>chain
+<span class="tk-p">&gt;&gt;&gt; </span>liste1 = [<span class="tk-n">1</span>, <span class="tk-n">2</span>, <span class="tk-n">3</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>liste2 = [<span class="tk-n">4</span>, <span class="tk-n">5</span>, <span class="tk-n">6</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>chain(liste1, liste2)
 &lt;itertools.chain ...&gt;
-&gt;&gt;&gt; list(chain(liste1, liste2))
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">list</span>(chain(liste1, liste2))
 [1, 2, 3, 4, 5, 6]
-&gt;&gt;&gt; liste = ['Hello', 'World']
-&gt;&gt;&gt; ' '.join(liste)
+<span class="tk-p">&gt;&gt;&gt; </span>liste = [<span class="tk-s">'Hello'</span>, <span class="tk-s">'World'</span>]
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">' '</span>.join(liste)
 'Hello World'
-&gt;&gt;&gt; ''.join(liste)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">''</span>.join(liste)
 'HelloWorld'</pre>
   <p><b>chain:</b> verkettet Iterables<br><b>join:</b> konkateniert Strings mit einem Trennzeichen dazwischen</p>
 </div>
@@ -3521,40 +3527,40 @@ for i in range(10):
 <div class="card de">
   <span class="folie">S. 346</span>
   <p>Mit Hilfe von pickle können Python-Datenstrukturen einfach in einer Datei gespeichert und wieder ausgelesen <span class="nb">werden.</span></p>
-<pre>import pickle
-class Auto:
-    def __init__(self, marke, modell, baujahr):
-        self.marke = marke
-        self.modell = modell
-        self.baujahr = baujahr
+<pre data-lang="python"><span class="tk-k">import </span>pickle
+<span class="tk-k">class </span><span class="tk-f">Auto</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, marke, modell, baujahr):
+        <span class="tk-b">self</span>.marke = marke
+        <span class="tk-b">self</span>.modell = modell
+        <span class="tk-b">self</span>.baujahr = baujahr
 
-    def speichern(self, filename):
+    <span class="tk-k">def </span><span class="tk-f">speichern</span>(<span class="tk-b">self</span>, filename):
         attribute = {
-            'marke': self.marke,
-            'modell': self.modell,
-            'baujahr': self.baujahr,
+            <span class="tk-s">'marke'</span>: <span class="tk-b">self</span>.marke,
+            <span class="tk-s">'modell'</span>: <span class="tk-b">self</span>.modell,
+            <span class="tk-s">'baujahr'</span>: <span class="tk-b">self</span>.baujahr,
         }
-        with open(filename, 'wb') as file:
+        <span class="tk-k">with </span><span class="tk-b">open</span>(filename, <span class="tk-s">'wb'</span>) <span class="tk-k">as </span>file:
             pickle.dump(attribute, file)</pre>
 </div>
 <div class="card de">
   <span class="folie">S. 347</span>
-<pre>    @classmethod
-    def aus_datei(cls, filename):
-        with open(filename, 'rb') as file:
+<pre data-lang="python">    <span class="tk-f">@classmethod
+    </span><span class="tk-k">def </span><span class="tk-f">aus_datei</span>(<span class="tk-b">cls</span>, filename):
+        <span class="tk-k">with </span><span class="tk-b">open</span>(filename, <span class="tk-s">'rb'</span>) <span class="tk-k">as </span>file:
             attribute = pickle.load(file)
-        return cls(
-            attribute['marke'],
-            attribute['modell'],
-            attribute['baujahr'],
+        <span class="tk-k">return </span><span class="tk-b">cls</span>(
+            attribute[<span class="tk-s">'marke'</span>],
+            attribute[<span class="tk-s">'modell'</span>],
+            attribute[<span class="tk-s">'baujahr'</span>],
         )
 
-if __name__ == '__main__':
-    auto = Auto('Renault', 'R4', 1985)
-    auto.speichern('auto.pkl')
-    auto2 = Auto.aus_datei('auto.pkl')
-    print(auto2.marke, auto2.modell, auto2.baujahr)</pre>
-<pre>Renault R4 1985</pre>
+<span class="tk-k">if </span>__name__ == <span class="tk-s">'__main__'</span>:
+    auto = Auto(<span class="tk-s">'Renault'</span>, <span class="tk-s">'R4'</span>, <span class="tk-n">1985</span>)
+    auto.speichern(<span class="tk-s">'auto.pkl'</span>)
+    auto2 = Auto.aus_datei(<span class="tk-s">'auto.pkl'</span>)
+    <span class="tk-b">print</span>(auto2.marke, auto2.modell, auto2.baujahr)</pre>
+<pre data-lang="text">Renault R4 1985</pre>
 </div>
 <div class="zh">
   <ul>
@@ -3571,10 +3577,10 @@ if __name__ == '__main__':
 <div class="card de">
   <span class="folie">S. 348–350</span>
 <p><code>arguments.py</code>:</p>
-<pre>#!/usr/bin/python3
-import sys
-print(' '.join(sys.argv))</pre>
-<pre>&gt; chmod +x arguments.py
+<pre data-lang="python"><span class="tk-c">#!/usr/bin/python3
+</span><span class="tk-k">import </span>sys
+<span class="tk-b">print</span>(<span class="tk-s">' '</span>.join(sys.argv))</pre>
+<pre data-lang="text">&gt; chmod +x arguments.py
 &gt; ./arguments.py arg1 arg2
 arguments.py arg1 arg2</pre>
   <p><code>sys.argv</code> Liste mit dem Programmnamen und den Kommandozeilen-Argumenten</p>
@@ -3591,24 +3597,24 @@ arguments.py arg1 arg2</pre>
 <div class="card de">
   <span class="folie">S. 351</span>
   <p>Optionale Argumente verarbeitet man am besten mit dem Modul <span class="nb">Argparse.</span></p>
-<pre># myprogram.py
-import argparse
-parser = argparse.ArgumentParser(description='my great program')
-# Definition of an obligatory argument (positional argument)
-parser.add_argument('file', help='argument file')
-# Definition of some optional arguments
-parser.add_argument('-n', '--number', type=int, default=1,
-                    help='an optional numeric argument')
-parser.add_argument('-q', '--quiet', action='store_true', default=False,
-                    help='suppress messages')
+<pre data-lang="python"><span class="tk-c"># myprogram.py
+</span><span class="tk-k">import </span>argparse
+parser = argparse.ArgumentParser(description=<span class="tk-s">'my great program'</span>)
+<span class="tk-c"># Definition of an obligatory argument (positional argument)
+</span>parser.add_argument(<span class="tk-s">'file'</span>, help=<span class="tk-s">'argument file'</span>)
+<span class="tk-c"># Definition of some optional arguments
+</span>parser.add_argument(<span class="tk-s">'-n'</span>, <span class="tk-s">'--number'</span>, <span class="tk-b">type</span>=<span class="tk-b">int</span>, default=<span class="tk-n">1</span>,
+                    help=<span class="tk-s">'an optional numeric argument'</span>)
+parser.add_argument(<span class="tk-s">'-q'</span>, <span class="tk-s">'--quiet'</span>, action=<span class="tk-s">'store_true'</span>, default=<span class="tk-n">False</span>,
+                    help=<span class="tk-s">'suppress messages'</span>)
 args = parser.parse_args()
-print(args.file, args.number, args.quiet)</pre>
-<pre>&gt; python myprogram.py datei.txt
+<span class="tk-b">print</span>(args.file, args.number, args.quiet)</pre>
+<pre data-lang="text">&gt; python myprogram.py datei.txt
 datei.txt 1 False</pre>
 </div>
 <div class="card de">
   <span class="folie">S. 352–357</span>
-<pre>&gt; python myprogram.py
+<pre data-lang="text">&gt; python myprogram.py
 usage: myprogram.py [-h] [-n NUMBER] [-q] file
 myprogram.py: error: the following arguments are required: file
 &gt; python myprogram.py datei.txt -n 3
@@ -3646,16 +3652,16 @@ datei.txt 5 False</pre>
 </div>
 <div class="card de">
   <span class="folie">S. 360</span>
-<pre># test.py
-import sys
-print('Dein Name:', end=' ', file=sys.stdout, flush=True)
+<pre data-lang="python"><span class="tk-c"># test.py
+</span><span class="tk-k">import </span>sys
+<span class="tk-b">print</span>(<span class="tk-s">'Dein Name:'</span>, end=<span class="tk-s">' '</span>, file=sys.stdout, flush=<span class="tk-n">True</span>)
 name = sys.stdin.readline().strip()
-if name == '':
-   sys.stderr.write('\nFehler: Leere Eingabe!\n')
-else:
-   sys.stdout.write(f'\nHallo {name}!\n')</pre>
+<span class="tk-k">if </span>name == <span class="tk-s">''</span>:
+   sys.stderr.write(<span class="tk-s">'\nFehler: Leere Eingabe!\n'</span>)
+<span class="tk-k">else</span>:
+   sys.stdout.write(<span class="tk-s">f'\nHallo {</span>name<span class="tk-s">}!\n'</span>)</pre>
   <div class="cols">
-<pre>&gt; python test.py
+<pre data-lang="text">&gt; python test.py
 Dein Name: Ben
 
 Hallo Ben!
@@ -3663,7 +3669,7 @@ Hallo Ben!
 &gt; python test.py
 Dein Name:
 Fehler: Leere Eingabe!</pre>
-<pre>&gt; echo Ben | python test.py
+<pre data-lang="text">&gt; echo Ben | python test.py
 Dein Name:
 Hallo Ben!
 
@@ -3687,11 +3693,11 @@ Fehler: Leere Eingabe!</pre>
 <div class="card de">
   <span class="folie">S. 361–364</span>
   <p>ermöglicht Eingaben von Tastatur, Pipes oder <span class="nb">Argumentdateien.</span></p>
-<pre># test.py
-import fileinput
-for line in fileinput.input():
-   print(line.strip())</pre>
-<pre>&gt; python test.py                       # Eingabe von der Tastatur
+<pre data-lang="python"><span class="tk-c"># test.py
+</span><span class="tk-k">import </span>fileinput
+<span class="tk-k">for </span>line <span class="tk-k">in </span>fileinput.input():
+   <span class="tk-b">print</span>(line.strip())</pre>
+<pre data-lang="text">&gt; python test.py                       # Eingabe von der Tastatur
 Hello!
 Hello!
 &gt; echo 'Hello!' | python test.py       # Eingabe von einer Pipe
@@ -3709,14 +3715,14 @@ world!</pre>
 <div class="card de">
   <span class="folie">S. 365</span>
   <p>In Unix gibt es den Befehl tr für <span class="nb">Zeichenersetzungen:</span></p>
-<pre>&gt; echo 'Hallo!' | tr 'aol' 'oak'
+<pre data-lang="text">&gt; echo 'Hallo!' | tr 'aol' 'oak'
 Hokka!</pre>
   <p>Dasselbe geht auch in Python, ist aber etwas <span class="nb">umständlicher:</span></p>
-<pre>&gt;&gt;&gt; tabelle = str.maketrans('aol','oak')
-&gt;&gt;&gt; 'Hallo!'.translate(tabelle)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>tabelle = <span class="tk-b">str</span>.maketrans(<span class="tk-s">'aol'</span>,<span class="tk-s">'oak'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'Hallo!'</span>.translate(tabelle)
 'Hokka!'</pre>
   <p>Mit der replace-Methode kann ein Teilstring durch einen anderen Teilstring ersetzt <span class="nb">werden:</span></p>
-<pre>&gt;&gt;&gt; 'Hallo!'.replace('allo','ow')
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'Hallo!'</span>.replace(<span class="tk-s">'allo'</span>,<span class="tk-s">'ow'</span>)
 'How!'</pre>
 </div>
 <div class="zh">
@@ -3734,7 +3740,7 @@ Hokka!</pre>
 <div class="card de">
   <span class="folie">S. 366</span>
   <p>Mit regulären Ausdrücken kann nicht nur nach einer bestimmten Zeichenfolge wie schmid@cis.lmu.de gesucht werden sondern nach <span class="nb">Mustern:</span></p>
-<pre>[a-zA-Z0-9]+@([A-Za-z0-9]+\.)+[A-Za-z]+</pre>
+<pre data-lang="text">[a-zA-Z0-9]+@([A-Za-z0-9]+\.)+[A-Za-z]+</pre>
   <div class="tablewrap">
   <table>
     <tr><td><code>[a-zA-Z0-9]+</code></td><td>Benutzername</td></tr>
@@ -3767,24 +3773,24 @@ Hokka!</pre>
 <div class="card de">
   <span class="folie">S. 367</span>
   <p>In Python gibt es für reguläre Ausdrücke das <span class="nb">Paket <code>re</code>:</span></p>
-<pre>import sys
-import re
-alpha = '[a-zA-Z]'
-alnum = '[a-zA-Z0-9]'
-topdomain = rf'{alpha}+'
-domain = rf'({alnum}+\-)*{alnum}+\.'
-username = rf'({alnum}+[.-_])*{alnum}+'
-# $ markiert das Stringende
-regex = re.compile(rf'{username}@({domain})+{topdomain}$')
-emailadresse = sys.argv[1]
-if regex.match(emailadresse):
-   print('OK')
-else:
-   print('Fehler')</pre>
+<pre data-lang="python"><span class="tk-k">import </span>sys
+<span class="tk-k">import </span>re
+alpha = <span class="tk-s">'[a-zA-Z]'
+</span>alnum = <span class="tk-s">'[a-zA-Z0-9]'
+</span>topdomain = <span class="tk-s">rf'{</span>alpha<span class="tk-s">}+'
+</span>domain = <span class="tk-s">rf'({</span>alnum<span class="tk-s">}+\-)*{</span>alnum<span class="tk-s">}+\.'
+</span>username = <span class="tk-s">rf'({</span>alnum<span class="tk-s">}+[.-_])*{</span>alnum<span class="tk-s">}+'
+</span><span class="tk-c"># $ markiert das Stringende
+</span>regex = re.compile(<span class="tk-s">rf'{</span>username<span class="tk-s">}@({</span>domain<span class="tk-s">})+{</span>topdomain<span class="tk-s">}$'</span>)
+emailadresse = sys.argv[<span class="tk-n">1</span>]
+<span class="tk-k">if </span>regex.match(emailadresse):
+   <span class="tk-b">print</span>(<span class="tk-s">'OK'</span>)
+<span class="tk-k">else</span>:
+   <span class="tk-b">print</span>(<span class="tk-s">'Fehler'</span>)</pre>
 </div>
 <div class="card de">
   <span class="folie">S. 368–374</span>
-<pre>&gt; python check.py schmid@cis.lmu.de
+<pre data-lang="text">&gt; python check.py schmid@cis.lmu.de
 OK
 &gt; python check.py schmid@cis..de
 Fehler
@@ -3808,21 +3814,21 @@ Fehler</pre>
 
 <div class="card de">
   <span class="folie">S. 375–381</span>
-<pre>&gt;&gt;&gt; import re
-&gt;&gt;&gt; regex = re.compile(r'([a-z]+)@([a-z]+\.)+([a-z]+)')
-&gt;&gt;&gt; match = regex.match('schmid@cis.lmu.de')
-&gt;&gt;&gt; match
-&lt;re.Match object; span=(0, 17), match='schmid@cis.lmu.de'&gt;
-&gt;&gt;&gt; match.groups()
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">import </span>re
+<span class="tk-p">&gt;&gt;&gt; </span>regex = re.compile(<span class="tk-s">r'([a-z]+)@([a-z]+\.)+([a-z]+)'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>match = regex.match(<span class="tk-s">'schmid@cis.lmu.de'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">match
+</span>&lt;re.Match object; span=(0, 17), match='schmid@cis.lmu.de'&gt;
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">match</span>.groups()
 ('schmid', 'lmu.', 'de')
-&gt;&gt;&gt; match.group(1)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">match</span>.group(<span class="tk-n">1</span>)
 'schmid'
-&gt;&gt;&gt; match.group(2,3)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">match</span>.group(<span class="tk-n">2</span>,<span class="tk-n">3</span>)
 ('lmu.', 'de')
-&gt;&gt;&gt; match.group(0)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">match</span>.group(<span class="tk-n">0</span>)
 'schmid@cis.lmu.de'
-&gt;&gt;&gt; match = regex.match('schmid@cis.lmu.de-uk')
-&gt;&gt;&gt; match.group(0,1,2,3)
+<span class="tk-p">&gt;&gt;&gt; </span>match = regex.match(<span class="tk-s">'schmid@cis.lmu.de-uk'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">match</span>.group(<span class="tk-n">0</span>,<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>)
 ('schmid@cis.lmu.de', 'schmid', 'lmu.', 'de')</pre>
 </div>
 <div class="zh">
@@ -3837,22 +3843,22 @@ Fehler</pre>
 
 <div class="card de">
   <span class="folie">S. 382–390</span>
-<pre>&gt;&gt;&gt; re.sub(r'&lt;.*&gt;', '', 'ein &lt;b&gt;Beispiel&lt;/b&gt;-Text')
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>re.sub(<span class="tk-s">r'&lt;.*&gt;'</span>, <span class="tk-s">''</span>, <span class="tk-s">'ein &lt;b&gt;Beispiel&lt;/b&gt;-Text'</span>)
 'ein -Text'
-&gt;&gt;&gt; re.sub(r'&lt;.*?&gt;', '', 'ein &lt;b&gt;Beispiel&lt;/b&gt;-Text')
+<span class="tk-p">&gt;&gt;&gt; </span>re.sub(<span class="tk-s">r'&lt;.*?&gt;'</span>, <span class="tk-s">''</span>, <span class="tk-s">'ein &lt;b&gt;Beispiel&lt;/b&gt;-Text'</span>)
 'ein Beispiel-Text'
-&gt;&gt;&gt; match = re.search(r'(&lt;.*?&gt;)', 'ein &lt;b&gt;Beispiel&lt;/b&gt;-Text')
-&gt;&gt;&gt; match.group(0, 1)
+<span class="tk-p">&gt;&gt;&gt; </span>match = re.search(<span class="tk-s">r'(&lt;.*?&gt;)'</span>, <span class="tk-s">'ein &lt;b&gt;Beispiel&lt;/b&gt;-Text'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">match</span>.group(<span class="tk-n">0</span>, <span class="tk-n">1</span>)
 ('&lt;b&gt;', '&lt;b&gt;')
-&gt;&gt;&gt; match.span()
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">match</span>.span()
 (4, 7)
-&gt;&gt;&gt; re.findall(r'.+', 'CIS\nLMU\nDE\n')
+<span class="tk-p">&gt;&gt;&gt; </span>re.findall(<span class="tk-s">r'.+'</span>, <span class="tk-s">'CIS\nLMU\nDE\n'</span>)
 ['CIS', 'LMU', 'DE']
-&gt;&gt;&gt; re.findall(r'.+', 'CIS\nLMU\nDE\n', flags=re.S)
+<span class="tk-p">&gt;&gt;&gt; </span>re.findall(<span class="tk-s">r'.+'</span>, <span class="tk-s">'CIS\nLMU\nDE\n'</span>, flags=re.S)
 ['CIS\nLMU\nDE\n']
-&gt;&gt;&gt; re.findall(r'^[a-z]', 'CIS\nLMU\nDE\n', flags=re.I)
+<span class="tk-p">&gt;&gt;&gt; </span>re.findall(<span class="tk-s">r'^[a-z]'</span>, <span class="tk-s">'CIS\nLMU\nDE\n'</span>, flags=re.I)
 ['C']
-&gt;&gt;&gt; re.findall(r'^[a-z]', 'CIS\nLMU\nDE\n', flags=re.I|re.M)
+<span class="tk-p">&gt;&gt;&gt; </span>re.findall(<span class="tk-s">r'^[a-z]'</span>, <span class="tk-s">'CIS\nLMU\nDE\n'</span>, flags=re.I|re.M)
 ['C', 'L', 'D']</pre>
 </div>
 <div class="zh">
@@ -3882,19 +3888,19 @@ Fehler</pre>
 <div class="card de">
   <span class="folie">S. 391–399</span>
   <p><b>Non-capturing Groups</b></p>
-<pre>&gt;&gt;&gt; re.match(r'(.+)(def)', 'abcdef').groups()
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>re.match(<span class="tk-s">r'(.+)(def)'</span>, <span class="tk-s">'abcdef'</span>).groups()
 ('abc', 'def')
-&gt;&gt;&gt; re.match(r'(?:.+)(def)', 'abcdef').groups()
+<span class="tk-p">&gt;&gt;&gt; </span>re.match(<span class="tk-s">r'(?:.+)(def)'</span>, <span class="tk-s">'abcdef'</span>).groups()
 ('def',)</pre>
   <p><b>Lookbehind</b></p>
-<pre>&gt;&gt;&gt; re.match(r'(.+)(?&lt;=bc)(.+)', 'abcdef').group(0,1,2)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>re.match(<span class="tk-s">r'(.+)(?&lt;=bc)(.+)'</span>, <span class="tk-s">'abcdef'</span>).group(<span class="tk-n">0</span>,<span class="tk-n">1</span>,<span class="tk-n">2</span>)
 ('abcdef', 'abc', 'def')
-&gt;&gt;&gt; re.match(r'(...+?)(?&lt;!bc)(.+)', 'abcdef').group(0,1,2)
+<span class="tk-p">&gt;&gt;&gt; </span>re.match(<span class="tk-s">r'(...+?)(?&lt;!bc)(.+)'</span>, <span class="tk-s">'abcdef'</span>).group(<span class="tk-n">0</span>,<span class="tk-n">1</span>,<span class="tk-n">2</span>)
 ('abcdef', 'abcd', 'ef')</pre>
   <p><b>Lookahead</b></p>
-<pre>&gt;&gt;&gt; re.match(r'(.+?)(?=de)(.+)', 'abcdef').group(0,1,2)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>re.match(<span class="tk-s">r'(.+?)(?=de)(.+)'</span>, <span class="tk-s">'abcdef'</span>).group(<span class="tk-n">0</span>,<span class="tk-n">1</span>,<span class="tk-n">2</span>)
 ('abcdef', 'abc', 'def')
-&gt;&gt;&gt; re.match(r'(.+?)(?!de)(...+)', 'abcdef').group(0,1,2)
+<span class="tk-p">&gt;&gt;&gt; </span>re.match(<span class="tk-s">r'(.+?)(?!de)(...+)'</span>, <span class="tk-s">'abcdef'</span>).group(<span class="tk-n">0</span>,<span class="tk-n">1</span>,<span class="tk-n">2</span>)
 ('abcdef', 'a', 'bcdef')</pre>
 </div>
 <div class="zh">
@@ -3924,12 +3930,12 @@ Fehler</pre>
 <div class="card de">
   <span class="folie">S. 400</span>
   <p>Wenn in Python ein Fehler auftritt bspw. Division durch 0, so wird eine Exception ausgelöst. Python bricht dann ab und gibt eine Fehlermeldung aus, die anzeigt, wo der Fehler <span class="nb">aufgetreten ist.</span></p>
-<pre># division.py
-import sys
-divident = float(sys.argv[1])
-divisor = float(sys.argv[2])
-print(divident/divisor)</pre>
-<pre>&gt; python division.py 10 0
+<pre data-lang="python"><span class="tk-c"># division.py
+</span><span class="tk-k">import </span>sys
+divident = <span class="tk-b">float</span>(sys.argv[<span class="tk-n">1</span>])
+divisor = <span class="tk-b">float</span>(sys.argv[<span class="tk-n">2</span>])
+<span class="tk-b">print</span>(divident/divisor)</pre>
+<pre data-lang="text">&gt; python division.py 10 0
 Traceback (most recent call last):
   File "/home/schmid/tmp/division.py", line 6, in &lt;module&gt;
     print(divident/divisor)
@@ -3939,22 +3945,22 @@ ZeroDivisionError: float division by zero</pre>
 <div class="card de">
   <span class="folie">S. 401</span>
   <p>Exceptions können aber auch im Programm abgefangen <span class="nb">werden:</span></p>
-<pre># division.py
-import sys
-try:
-   divident = float(sys.argv[1])
-   divisor = float(sys.argv[2])
-except ValueError:
-   print('Die Argumente müssen zwei Zahlen in Ziffern sein!')
-   sys.exit(1)
-try:
-   print(divident/divisor)
-except ZeroDivisionError as e:
-   print(e)</pre>
+<pre data-lang="python"><span class="tk-c"># division.py
+</span><span class="tk-k">import </span>sys
+<span class="tk-k">try</span>:
+   divident = <span class="tk-b">float</span>(sys.argv[<span class="tk-n">1</span>])
+   divisor = <span class="tk-b">float</span>(sys.argv[<span class="tk-n">2</span>])
+<span class="tk-k">except </span>ValueError:
+   <span class="tk-b">print</span>(<span class="tk-s">'Die Argumente müssen zwei Zahlen in Ziffern sein!'</span>)
+   sys.exit(<span class="tk-n">1</span>)
+<span class="tk-k">try</span>:
+   <span class="tk-b">print</span>(divident/divisor)
+<span class="tk-k">except </span>ZeroDivisionError <span class="tk-k">as </span>e:
+   <span class="tk-b">print</span>(e)</pre>
 </div>
 <div class="card de">
   <span class="folie">S. 402–405</span>
-<pre>&gt; python division.py 10 5
+<pre data-lang="text">&gt; python division.py 10 5
 2.0
 &gt; python division.py 10 fünf
 Die Argumente müssen zwei Zahlen in Ziffern sein!
@@ -3983,39 +3989,39 @@ Durch 0 kann nicht dividiert werden!</pre>
 
 <div class="card de">
   <span class="folie">S. 406</span>
-<pre># http-error.py
-import sys
-error_code = sys.argv[1]
-match error_code:
-    case '400':
-        print("Bad request")
-    case '401'|'403':
-        print("Forbidden")
-    case '404':
-        print("Not found")
-    case '418':
-        print("I'm a teapot")
-    case _:
-        print("Etwas anderes ist schiefgelaufen")</pre>
-<pre>&gt; python http-error.py 404
+<pre data-lang="python"><span class="tk-c"># http-error.py
+</span><span class="tk-k">import </span>sys
+error_code = sys.argv[<span class="tk-n">1</span>]
+<span class="tk-k">match </span>error_code:
+    <span class="tk-k">case </span><span class="tk-s">'400'</span>:
+        <span class="tk-b">print</span>(<span class="tk-s">"Bad request"</span>)
+    <span class="tk-k">case </span><span class="tk-s">'401'</span>|<span class="tk-s">'403'</span>:
+        <span class="tk-b">print</span>(<span class="tk-s">"Forbidden"</span>)
+    <span class="tk-k">case </span><span class="tk-s">'404'</span>:
+        <span class="tk-b">print</span>(<span class="tk-s">"Not found"</span>)
+    <span class="tk-k">case </span><span class="tk-s">'418'</span>:
+        <span class="tk-b">print</span>(<span class="tk-s">"I'm a teapot"</span>)
+    <span class="tk-k">case _</span>:
+        <span class="tk-b">print</span>(<span class="tk-s">"Etwas anderes ist schiefgelaufen"</span>)</pre>
+<pre data-lang="text">&gt; python http-error.py 404
 Not found</pre>
 </div>
 <div class="card de">
   <span class="folie">S. 407</span>
   <p>Die einzelnen Fälle können auch komplexere Ausdrücke mit Variablen <span class="nb">sein:</span></p>
-<pre>import sys
-point = [float(v) for v in sys.argv[1:]]
-match point:
-    case (0, 0):
-        print('origin')
-    case (x, 0):
-        print(f'X={x}')
-    case (0, y):
-        print(f'Y={y}')
-    case (x, y):
-        print(f'X={x}, Y={y}')
-    case _:
-        print('Etwas anderes ist schiefgelaufen')</pre>
+<pre data-lang="python"><span class="tk-k">import </span>sys
+point = [<span class="tk-b">float</span>(v) <span class="tk-k">for </span>v <span class="tk-k">in </span>sys.argv[<span class="tk-n">1</span>:]]
+<span class="tk-k">match </span>point:
+    <span class="tk-k">case </span>(<span class="tk-n">0</span>, <span class="tk-n">0</span>):
+        <span class="tk-b">print</span>(<span class="tk-s">'origin'</span>)
+    <span class="tk-k">case </span>(x, <span class="tk-n">0</span>):
+        <span class="tk-b">print</span>(<span class="tk-s">f'X={</span>x<span class="tk-s">}'</span>)
+    <span class="tk-k">case </span>(<span class="tk-n">0</span>, y):
+        <span class="tk-b">print</span>(<span class="tk-s">f'Y={</span>y<span class="tk-s">}'</span>)
+    <span class="tk-k">case </span>(x, y):
+        <span class="tk-b">print</span>(<span class="tk-s">f'X={</span>x<span class="tk-s">}, Y={</span>y<span class="tk-s">}'</span>)
+    <span class="tk-k">case _</span>:
+        <span class="tk-b">print</span>(<span class="tk-s">'Etwas anderes ist schiefgelaufen'</span>)</pre>
 </div>
 <div class="zh">
   <p><b>match … case</b> (Python 3.10 起, 「结构化模式匹配」): 把一个值依次和各个 case 的<b>模式</b>比较, <span class="nb">执行第一个匹配的分支.</span> </p>
@@ -4030,18 +4036,18 @@ match point:
 
 <div class="card de">
   <span class="folie">S. 408</span>
-<pre>import sys
-passwort = 'hillbilly'
-for _ in range(3):
-    eingabe = input('Passwort: ')
-    if eingabe == passwort:
-        print('Zugriff gewährt')
-        break
-    print('falsch')
-else:
-    # wird nur ausgeführt, wenn die Schleife bis zum Ende durchlief
-    print('Zugriff gesperrt! Zu viele Fehlversuche!')
-    sys.exit(1) # Programmabbruch</pre>
+<pre data-lang="python"><span class="tk-k">import </span>sys
+passwort = <span class="tk-s">'hillbilly'
+</span><span class="tk-k">for </span>_ <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">3</span>):
+    eingabe = <span class="tk-b">input</span>(<span class="tk-s">'Passwort: '</span>)
+    <span class="tk-k">if </span>eingabe == passwort:
+        <span class="tk-b">print</span>(<span class="tk-s">'Zugriff gewährt'</span>)
+        <span class="tk-k">break
+    </span><span class="tk-b">print</span>(<span class="tk-s">'falsch'</span>)
+<span class="tk-k">else</span>:
+    <span class="tk-c"># wird nur ausgeführt, wenn die Schleife bis zum Ende durchlief
+    </span><span class="tk-b">print</span>(<span class="tk-s">'Zugriff gesperrt! Zu viele Fehlversuche!'</span>)
+    sys.exit(<span class="tk-n">1</span>) <span class="tk-c"># Programmabbruch</span></pre>
   <p>Der while-Befehl kann ebenso mit einer else-Klausel kombiniert <span class="nb">werden.</span></p>
 </div>
 <div class="zh">
@@ -4065,43 +4071,43 @@ else:
 </div>
 <div class="card de">
   <span class="folie">S. 410–411</span>
-<pre>class Produkt: # Elternklasse
-    def __init__(self, nummer, preis):
-        self.nummer = nummer
-        self.preis = preis
-        self.stückzahl = 0
+<pre data-lang="python"><span class="tk-k">class </span><span class="tk-f">Produkt</span>: <span class="tk-c"># Elternklasse
+    </span><span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, nummer, preis):
+        <span class="tk-b">self</span>.nummer = nummer
+        <span class="tk-b">self</span>.preis = preis
+        <span class="tk-b">self</span>.stückzahl = <span class="tk-n">0
 
-    def einkauf(self, stückzahl):
-        self.stückzahl += stückzahl
+    </span><span class="tk-k">def </span><span class="tk-f">einkauf</span>(<span class="tk-b">self</span>, stückzahl):
+        <span class="tk-b">self</span>.stückzahl += stückzahl
 
-    def verkauf(self, stückzahl):
-        if self.stückzahl &lt; stückzahl:
-            raise Exception('zuwenig Produkte vorrätig')
-        self.stückzahl -= stückzahl
+    <span class="tk-k">def </span><span class="tk-f">verkauf</span>(<span class="tk-b">self</span>, stückzahl):
+        <span class="tk-k">if </span><span class="tk-b">self</span>.stückzahl &lt; stückzahl:
+            <span class="tk-k">raise </span>Exception(<span class="tk-s">'zuwenig Produkte vorrätig'</span>)
+        <span class="tk-b">self</span>.stückzahl -= stückzahl
 
-class Brett(Produkt): # Unterklasse
-    def __init__(self, nummer, preis, material, länge, breite, tiefe):
-        super().__init__(nummer, preis)
-        self.material = material
-        self.länge = länge
-        self.breite = breite
-        self.tiefe = tiefe
+<span class="tk-k">class </span><span class="tk-f">Brett</span>(Produkt): <span class="tk-c"># Unterklasse
+    </span><span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, nummer, preis, material, länge, breite, tiefe):
+        <span class="tk-b">super</span>().<span class="tk-f">__init__</span>(nummer, preis)
+        <span class="tk-b">self</span>.material = material
+        <span class="tk-b">self</span>.länge = länge
+        <span class="tk-b">self</span>.breite = breite
+        <span class="tk-b">self</span>.tiefe = tiefe
 
-class Schrauben(Produkt):
-    def __init__(self, nummer, preis, packungsgröße, material, länge,
+<span class="tk-k">class </span><span class="tk-f">Schrauben</span>(Produkt):
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, nummer, preis, packungsgröße, material, länge,
                  dicke, kopftyp):
-        super().__init__(nummer, preis)
-        self.material = material
-        self.packungsgröße = packungsgröße
-        self.länge = länge
-        self.dicke = dicke
-        self.kopftyp = kopftyp
+        <span class="tk-b">super</span>().<span class="tk-f">__init__</span>(nummer, preis)
+        <span class="tk-b">self</span>.material = material
+        <span class="tk-b">self</span>.packungsgröße = packungsgröße
+        <span class="tk-b">self</span>.länge = länge
+        <span class="tk-b">self</span>.dicke = dicke
+        <span class="tk-b">self</span>.kopftyp = kopftyp
 
-schrauben = Schrauben(12345, 2.5, 20, 'verzinkt', 50, 4.5, 'Torx')
-schrauben.einkauf(5)
-print(f'noch vorhanden: {schrauben.stückzahl} Stück')
-schrauben.verkauf(7)</pre>
-<pre>&gt; python produkte.py
+schrauben = Schrauben(<span class="tk-n">12345</span>, <span class="tk-n">2.5</span>, <span class="tk-n">20</span>, <span class="tk-s">'verzinkt'</span>, <span class="tk-n">50</span>, <span class="tk-n">4.5</span>, <span class="tk-s">'Torx'</span>)
+schrauben.einkauf(<span class="tk-n">5</span>)
+<span class="tk-b">print</span>(<span class="tk-s">f'noch vorhanden: {</span>schrauben.stückzahl<span class="tk-s">} Stück'</span>)
+schrauben.verkauf(<span class="tk-n">7</span>)</pre>
+<pre data-lang="text">&gt; python produkte.py
 noch vorhanden: 5 Stück
 ...
 Exception: zuwenig Produkte vorrätig</pre>
@@ -4131,12 +4137,12 @@ Exception: zuwenig Produkte vorrätig</pre>
 </div>
 <div class="card de">
   <span class="folie">S. 413–414</span>
-<pre>def addiere(x: float, y: float) -&gt; float:
-    return x + y
-print(addiere(3, 5))
-print(addiere(2, -4.8))
-print(addiere(2, 'drei'))</pre>
-<pre>&gt; python addiere.py
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">addiere</span>(x: <span class="tk-b">float</span>, y: <span class="tk-b">float</span>) -&gt; <span class="tk-b">float</span>:
+    <span class="tk-k">return </span>x + y
+<span class="tk-b">print</span>(addiere(<span class="tk-n">3</span>, <span class="tk-n">5</span>))
+<span class="tk-b">print</span>(addiere(<span class="tk-n">2</span>, -<span class="tk-n">4.8</span>))
+<span class="tk-b">print</span>(addiere(<span class="tk-n">2</span>, <span class="tk-s">'drei'</span>))</pre>
+<pre data-lang="text">&gt; python addiere.py
 8
 -2.8
 ... unsupported operand type(s) for +: 'int' and 'str'</pre>
@@ -4156,20 +4162,20 @@ print(addiere(2, 'drei'))</pre>
 <div class="card de">
   <span class="folie">S. 415</span>
   <p>Ein Decorator ändert das Verhalten einer Funktion, ohne den Code zu <span class="nb">verändern.</span></p>
-<pre># test.py
-def changecase(func):
-   ''' schreibt den Ausgabetext von func in Großbuchstaben '''
-   def newfunc(*args, **kwargs):
+<pre data-lang="python"><span class="tk-c"># test.py
+</span><span class="tk-k">def </span><span class="tk-f">changecase</span>(func):
+   <span class="tk-s">''' schreibt den Ausgabetext von func in Großbuchstaben '''
+   </span><span class="tk-k">def </span><span class="tk-f">newfunc</span>(*args, **kwargs):
       result = func(*args, **kwargs)
-      return result.upper()
-   return newfunc
+      <span class="tk-k">return </span>result.upper()
+   <span class="tk-k">return </span>newfunc
 
-@changecase
-def myfunction():
-   return 'Hello World!'
+<span class="tk-f">@changecase
+</span><span class="tk-k">def </span><span class="tk-f">myfunction</span>():
+   <span class="tk-k">return </span><span class="tk-s">'Hello World!'
 
-print(myfunction())</pre>
-<pre>&gt; python test.py
+</span><span class="tk-b">print</span>(myfunction())</pre>
+<pre data-lang="text">&gt; python test.py
 HELLO WORLD!</pre>
 </div>
 <div class="zh">
@@ -4179,38 +4185,38 @@ HELLO WORLD!</pre>
     <li>changecase 内部定义了新函数 newfunc: 先调用原函数 func, 再把结果转成大写. 返回的是 newfunc, 于是之后调用 myfunction() 实际执行的是 <span class="nb">newfunc.</span> </li>
     <li><b><code>*args</code></b> 收集任意多个<b>位置参数</b>成元组; <b><code>**kwargs</code></b> 收集任意多个<b>关键字参数</b>成字典. 调用时 <code class="lc">func(*args, **kwargs)</code> 再把它们<b>解包</b>原样传下去, 因此 newfunc 能包装任何参数形<span class="nb">式的函数.</span> </li>
   </ul>
-<pre>def f(*args, **kwargs):
-    print(args, kwargs)
-f(1, 2, a=3)     # (1, 2) {'a': 3}</pre>
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">f</span>(*args, **kwargs):
+    <span class="tk-b">print</span>(args, kwargs)
+f(<span class="tk-n">1</span>, <span class="tk-n">2</span>, a=<span class="tk-n">3</span>)     <span class="tk-c"># (1, 2) {'a': 3}</span></pre>
 </div>
 
 <div class="card de">
   <span class="folie">S. 416</span>
   <p>In Python3.10 und höher gibt es den Decorator dataclass. Er fügt automatisch die Methoden <code>__init__</code>, <code>__repr__</code> und <code>__eq__</code> zur Klasse <span class="nb">hinzu.</span></p>
-<pre># mietwagen.py
-from dataclasses import dataclass
+<pre data-lang="python"><span class="tk-c"># mietwagen.py
+</span><span class="tk-k">from </span>dataclasses <span class="tk-k">import </span>dataclass
 
-@dataclass
-class Mietwagen:
-    hersteller: str
-    model: str
-    baujahr: int
-    typ: str = 'PKW' # Attribute mit Defaultwert müssen am Ende kommen
+<span class="tk-f">@dataclass
+</span><span class="tk-k">class </span><span class="tk-f">Mietwagen</span>:
+    hersteller: <span class="tk-b">str
+    </span>model: <span class="tk-b">str
+    </span>baujahr: <span class="tk-b">int
+    </span>typ: <span class="tk-b">str </span>= <span class="tk-s">'PKW' </span><span class="tk-c"># Attribute mit Defaultwert müssen am Ende kommen
 
-print(Mietwagen('Volvo', 'FH 16 Aero', 2025, 'LKW'))
-print(Mietwagen('Peugeot', 308, '2020')) # 2 Typfehler</pre>
+</span><span class="tk-b">print</span>(Mietwagen(<span class="tk-s">'Volvo'</span>, <span class="tk-s">'FH 16 Aero'</span>, <span class="tk-n">2025</span>, <span class="tk-s">'LKW'</span>))
+<span class="tk-b">print</span>(Mietwagen(<span class="tk-s">'Peugeot'</span>, <span class="tk-n">308</span>, <span class="tk-s">'2020'</span>)) <span class="tk-c"># 2 Typfehler</span></pre>
   <p>Die Type Hints sind obligatorisch, obwohl Python nicht prüft, ob sie eingehalten <span class="nb">werden.</span></p>
 </div>
 <div class="card de">
   <span class="folie">S. 417</span>
   <p><code>slots=True</code>: Python speichert die Attribute effizient in einer Liste statt in einem Dictionary. Neue Attribute können aber nicht hinzugefügt <span class="nb">werden.</span></p>
-<pre>@dataclass(slots=True, frozen=True) # frozen=True =&gt; immutable
-class Mietwagen:
-    hersteller: str
-    model: str
-    baujahr: int
-    typ: str = 'PKW'</pre>
-<pre>&gt; python mietwagen.py
+<pre data-lang="python"><span class="tk-f">@dataclass</span>(slots=<span class="tk-n">True</span>, frozen=<span class="tk-n">True</span>) <span class="tk-c"># frozen=True =&gt; immutable
+</span><span class="tk-k">class </span><span class="tk-f">Mietwagen</span>:
+    hersteller: <span class="tk-b">str
+    </span>model: <span class="tk-b">str
+    </span>baujahr: <span class="tk-b">int
+    </span>typ: <span class="tk-b">str </span>= <span class="tk-s">'PKW'</span></pre>
+<pre data-lang="text">&gt; python mietwagen.py
 Mietwagen(hersteller='Volvo', model='FH 16 Aero', baujahr=2025, typ='LKW')
 Mietwagen(hersteller='Peugeot', model=308, baujahr='2020', typ='PKW')</pre>
 </div>
@@ -4229,25 +4235,25 @@ Mietwagen(hersteller='Peugeot', model=308, baujahr='2020', typ='PKW')</pre>
 <div class="card de">
   <span class="folie">S. 418</span>
   <p>Methoden, die nicht auf die Attribute zugreifen, können als statisch deklariert <span class="nb">werden.</span></p>
-<pre>import math
-from dataclasses import dataclass
+<pre data-lang="python"><span class="tk-k">import </span>math
+<span class="tk-k">from </span>dataclasses <span class="tk-k">import </span>dataclass
 
-@dataclass(slots=True, frozen=True)
-class Quader:
-    breite: float
-    höhe: float
-    tiefe: float
+<span class="tk-f">@dataclass</span>(slots=<span class="tk-n">True</span>, frozen=<span class="tk-n">True</span>)
+<span class="tk-k">class </span><span class="tk-f">Quader</span>:
+    breite: <span class="tk-b">float
+    </span>höhe: <span class="tk-b">float
+    </span>tiefe: <span class="tk-b">float
 
-    @staticmethod
-    def _fläche(x, y): # hier kein self-Argument!
-        return x * y
+    </span><span class="tk-f">@staticmethod
+    </span><span class="tk-k">def </span><span class="tk-f">_fläche</span>(x, y): <span class="tk-c"># hier kein self-Argument!
+        </span><span class="tk-k">return </span>x * y
 
-    def oberfläche(self):
-        return (2 * self._fläche(self.breite, self.höhe)
-                + 2 * self._fläche(self.höhe, self.tiefe)
-                + 2 * self._fläche(self.breite, self.tiefe))
+    <span class="tk-k">def </span><span class="tk-f">oberfläche</span>(<span class="tk-b">self</span>):
+        <span class="tk-k">return </span>(<span class="tk-n">2 </span>* <span class="tk-b">self</span>._fläche(<span class="tk-b">self</span>.breite, <span class="tk-b">self</span>.höhe)
+                + <span class="tk-n">2 </span>* <span class="tk-b">self</span>._fläche(<span class="tk-b">self</span>.höhe, <span class="tk-b">self</span>.tiefe)
+                + <span class="tk-n">2 </span>* <span class="tk-b">self</span>._fläche(<span class="tk-b">self</span>.breite, <span class="tk-b">self</span>.tiefe))
 
-print(Quader(5,2,3).oberfläche())</pre>
+<span class="tk-b">print</span>(Quader(<span class="tk-n">5</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>).oberfläche())</pre>
 </div>
 <div class="zh">
   <ul>
@@ -4349,19 +4355,19 @@ print(Quader(5,2,3).oberfläche())</pre>
 
 <div class="card de">
   <span class="folie">S. 444–446</span>
-<pre>def funktion(argument1, argument2, argument3,
-             argument5=None, argument6=''):
-    pass
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">funktion</span>(argument1, argument2, argument3,
+             argument5=<span class="tk-n">None</span>, argument6=<span class="tk-s">''</span>):
+    <span class="tk-k">pass
 
-tokenisierter_text = [
-    [line.split() for line in paragraph.split('\n')]
-    for paragraph in text.split('\n\n')
+</span>tokenisierter_text = [
+    [line.split() <span class="tk-k">for </span>line <span class="tk-k">in </span>paragraph.split(<span class="tk-s">'\n'</span>)]
+    <span class="tk-k">for </span>paragraph <span class="tk-k">in </span>text.split(<span class="tk-s">'\n\n'</span>)
 ]
 
 summe = (
-    2 * quaderbreite * quaderhöhe
-    + 2 * quaderbreite * quadertiefe
-    + 2 * quaderhöhe * quadertiefe
+    <span class="tk-n">2 </span>* quaderbreite * quaderhöhe
+    + <span class="tk-n">2 </span>* quaderbreite * quadertiefe
+    + <span class="tk-n">2 </span>* quaderhöhe * quadertiefe
 )</pre>
 </div>
 <div class="zh">
@@ -4385,11 +4391,11 @@ summe = (
     <tr><td><code>getsizeof(obj)</code></td><td class="wide">liefert die Speichergröße des Objektes.</td></tr>
   </table>
   </div>
-<pre>&gt;&gt;&gt; sys.getsizeof(1)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>sys.getsizeof(<span class="tk-n">1</span>)
 28
-&gt;&gt;&gt; sys.getsizeof(1111111111)
+<span class="tk-p">&gt;&gt;&gt; </span>sys.getsizeof(<span class="tk-n">1111111111</span>)
 32
-&gt;&gt;&gt; sys.getsizeof('1')
+<span class="tk-p">&gt;&gt;&gt; </span>sys.getsizeof(<span class="tk-s">'1'</span>)
 44</pre>
 </div>
 <div class="zh">
@@ -4405,7 +4411,7 @@ summe = (
 <div class="card de">
   <span class="folie">S. 457–461</span>
   <p>Funktionen: <code class="lc">sqrt pow exp log sin cos tan</code><br>Konstanten: <code>pi e inf nan</code><br>Rundungen: <code class="lc">ceil floor trunc</code><br>Produkt: <code>prod(zahlen)</code> (ähnlich der sum-Operation)</p>
-<pre>&gt;&gt;&gt; math.prod([1, 2, 3, 4, 5])
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>math.prod([<span class="tk-n">1</span>, <span class="tk-n">2</span>, <span class="tk-n">3</span>, <span class="tk-n">4</span>, <span class="tk-n">5</span>])
 120</pre>
 </div>
 <div class="zh">
@@ -4426,9 +4432,9 @@ summe = (
     <tr><td><code>namedtuple</code></td><td class="wide">Tupel, dessen Elemente mit Namen adressiert werden können</td></tr>
   </table>
   </div>
-<pre>&gt;&gt;&gt; Punkt = collections.namedtuple('Punkt', ['x', 'y'])
-&gt;&gt;&gt; punkt = Punkt(3, 4)
-&gt;&gt;&gt; print(f'x={punkt.x} y={punkt.y}')
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>Punkt = collections.namedtuple(<span class="tk-s">'Punkt'</span>, [<span class="tk-s">'x'</span>, <span class="tk-s">'y'</span>])
+<span class="tk-p">&gt;&gt;&gt; </span>punkt = Punkt(<span class="tk-n">3</span>, <span class="tk-n">4</span>)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(<span class="tk-s">f'x={</span>punkt.x<span class="tk-s">} y={</span>punkt.y<span class="tk-s">}'</span>)
 x=3 y=4</pre>
 </div>
 <div class="zh">
@@ -4448,11 +4454,11 @@ x=3 y=4</pre>
     <tr><td class="wide"><code class="lc">sample(liste, k)</code></td><td class="wide">wählt zufällig k Elemente ohne Zurücklegen</td></tr>
   </table>
   </div>
-<pre>&gt;&gt;&gt; random.choices([1,2,3], k=4)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>random.choices([<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>], k=<span class="tk-n">4</span>)
 [3, 3, 2, 2]
-&gt;&gt;&gt; random.sample([1,2,3], 3)
+<span class="tk-p">&gt;&gt;&gt; </span>random.sample([<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>], <span class="tk-n">3</span>)
 [1, 3, 2]
-&gt;&gt;&gt; random.sample([1,2,3], 4)
+<span class="tk-p">&gt;&gt;&gt; </span>random.sample([<span class="tk-n">1</span>,<span class="tk-n">2</span>,<span class="tk-n">3</span>], <span class="tk-n">4</span>)
 ...Sample larger than population...</pre>
 </div>
 <div class="zh">
@@ -4468,23 +4474,23 @@ x=3 y=4</pre>
 
 <div class="card de">
   <span class="folie">S. 476–483</span>
-<pre>&gt;&gt;&gt; from pathlib import Path
-&gt;&gt;&gt; path = Path('dir/subdir/datei.txt')
-&gt;&gt;&gt; path
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">from </span>pathlib <span class="tk-k">import </span>Path
+<span class="tk-p">&gt;&gt;&gt; </span>path = Path(<span class="tk-s">'dir/subdir/datei.txt'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>path
 PosixPath('dir/subdir/datei.txt')
-&gt;&gt;&gt; path.name
+<span class="tk-p">&gt;&gt;&gt; </span>path.name
 'datei.txt'
-&gt;&gt;&gt; path.stem
+<span class="tk-p">&gt;&gt;&gt; </span>path.stem
 'datei'
-&gt;&gt;&gt; path.suffix
+<span class="tk-p">&gt;&gt;&gt; </span>path.suffix
 '.txt'
-&gt;&gt;&gt; path.parent
+<span class="tk-p">&gt;&gt;&gt; </span>path.parent
 PosixPath('dir/subdir')
-&gt;&gt;&gt; path.parts
+<span class="tk-p">&gt;&gt;&gt; </span>path.parts
 ('dir', 'subdir', 'datei.txt')
-&gt;&gt;&gt; Path.home()
+<span class="tk-p">&gt;&gt;&gt; </span>Path.home()
 PosixPath('/home/schmid')
-&gt;&gt;&gt; Path.cwd()
+<span class="tk-p">&gt;&gt;&gt; </span>Path.cwd()
 PosixPath('/home/schmid/tmp')</pre>
 </div>
 <div class="zh">
@@ -4500,19 +4506,19 @@ PosixPath('/home/schmid/tmp')</pre>
     <li>Array-Operationen</li>
     <li>viele integrierte Funktionen (statistische Tests, Fourier-Transformation, ...)</li>
   </ul>
-<pre>&gt;&gt;&gt; m = np.random.rand(3,4).round(2)
-&gt;&gt;&gt; m
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>m = np.random.rand(<span class="tk-n">3</span>,<span class="tk-n">4</span>).round(<span class="tk-n">2</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>m
 array([[0.96, 0.49, 0.69, 0.72],
        [0.59, 0.98, 0.27, 0.06],
        [0.31, 0.96, 0.97, 0.18]])
-&gt;&gt;&gt; m+5
-array([[5.96, 5.49, 5.69, 5.72],
+<span class="tk-p">&gt;&gt;&gt; </span>m+<span class="tk-n">5
+</span>array([[5.96, 5.49, 5.69, 5.72],
        [5.59, 5.98, 5.27, 5.06],
        [5.31, 5.96, 5.97, 5.18]])
-&gt;&gt;&gt; m.T
-...
-&gt;&gt;&gt; m.dot(m.T)  # Matrixprodukt
-...</pre>
+<span class="tk-p">&gt;&gt;&gt; </span>m.T
+<span class="tk-p">...
+&gt;&gt;&gt; </span>m.dot(m.T)  <span class="tk-c"># Matrixprodukt
+</span>...</pre>
 </div>
 <div class="zh">
   <ul>
@@ -4531,17 +4537,17 @@ array([[5.96, 5.49, 5.69, 5.72],
     <li>importiert CSV-Dateien, Excel-Tabellen, <span class="nb">SQL-Tabellen</span></li>
     <li>basiert auf <span class="nb">Numpy</span></li>
   </ul>
-<pre>&gt;&gt;&gt; import pandas as pd
-&gt;&gt;&gt; datentypen = {'Alter': int, 'Gehalt': float}
-&gt;&gt;&gt; df = pd.read_csv('mitarbeiter.csv', dtype=datentypen)
-&gt;&gt;&gt; df
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">import </span>pandas <span class="tk-k">as </span>pd
+<span class="tk-p">&gt;&gt;&gt; </span>datentypen = {<span class="tk-s">'Alter'</span>: <span class="tk-b">int</span>, <span class="tk-s">'Gehalt'</span>: <span class="tk-b">float</span>}
+<span class="tk-p">&gt;&gt;&gt; </span>df = pd.read_csv(<span class="tk-s">'mitarbeiter.csv'</span>, dtype=datentypen)
+<span class="tk-p">&gt;&gt;&gt; </span>df
             Name  Abteilung  Alter   Gehalt
 0  Stefan Müller         IT     32  85000.0
 1   Gretel Maier  Marketing     25  45000.0
-&gt;&gt;&gt; df[df['Alter'] &lt; 30]   # jünger als 30
-           Name  Abteilung  Alter   Gehalt
+<span class="tk-p">&gt;&gt;&gt; </span>df[df[<span class="tk-s">'Alter'</span>] &lt; <span class="tk-n">30</span>]   <span class="tk-c"># jünger als 30
+</span>           Name  Abteilung  Alter   Gehalt
 1  Gretel Maier  Marketing     25  45000.0
-&gt;&gt;&gt; df[(df['Abteilung'] == 'IT') &amp; (df['Gehalt'] &gt; 50000)]
+<span class="tk-p">&gt;&gt;&gt; </span>df[(df[<span class="tk-s">'Abteilung'</span>] == <span class="tk-s">'IT'</span>) &amp; (df[<span class="tk-s">'Gehalt'</span>] &gt; <span class="tk-n">50000</span>)]
             Name Abteilung  Alter   Gehalt
 0  Stefan Müller        IT     32  85000.0</pre>
 </div>
@@ -4579,28 +4585,28 @@ array([[5.96, 5.49, 5.69, 5.72],
 <div class="card de">
   <span class="folie">S. 504–505</span>
   <figure class="src-fig"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABE0AAALBCAIAAAAiX8jvAAAACXBIWXMAAA7EAAAOxAGVKw4bAABx40lEQVR4nOzdC5yMdf/4/z1aa7FiUeS4EhJFDrnbu9Dxq27dKaJ0U0T1r3Ry6PSIb3JIpFDRt4OSW5JTDhWSlENt6Sc5hhxyZrGLPc3n/xmX5pr5zOzsjJ2dz1zXvJ6Pedz3zjXXXPPesa3r5Zq5JkYAAAAAgL3E6B4AAAAAAEKMzgEAAABgN3QOAAAAALuhcwAAAADYDZ0DAAAAwG7oHAAAAAB2Q+cAAAAAsBs6BwAAAIDd0DkAAAAA7IbOAQAAAGA3dA4AAAAAu6FzAAAAANgNnQMAAADAbugcAAAAAHZD5wAAAACwGzoHAAAAgN3QOQAAAADshs4BAAAAYDd0DgAAAAC7oXMAAAAA2A2dAwAAAMBu6BwAAAAAdkPnAAAAALAbOgcAAACA3dA5AAAAAOyGzgEAAABgN3QOAAAAALuhcwAAAADYDZ0DAAAAwG7oHAAAAAB2Q+cAAAAAsBs6BwAAAIDd0DkAAAAA7IbOAQAAAGA3dA4AAAAAu6FzAAAAANgNnQMAAADAbugcAAAAAHYTiZ2zaNGi2bNn/wQAAADAslasWPHRRx8dOXJES1NEYudUqFAhBgAAAID1zZo1S0tTRGLnNG/evHXr1l8DAAAAsKxx48bJzlm9erWWpojEzvnHP/7xP//zP7qnAAAAAHD+vvvuO9k5/+///T8tj07nAAAAAAg9OkdF5wAAAABWR+eo6BwAAADA6ugcFZ0DAAAAWB2do6JzAAAAAKujc1R0DgAAAGB1dI6KzgEAwFoKCwtzc3PPAIga+fn5xf5moHNUdA4AAFYhC+fPP//c8PsGLly4RNtl48aNx44d8/P7gc5R0TkAAFiCw+HYunWr3N05ePDgqVOndP/7MoDwOXHixPYd2+V//n5Sh85R0TkAAFjC8ePH5V6OLBzdgwDQY+efO+UvAYfD4fNWOkdF5wAAYAl79uyRuzi6pwCgTU5OjvwlkJuX6/NWOkdF5wAAYAnbd2zfvGWz7ikAaHPmzBnZOfJ/fd5K56joHAAALEF2zpYtW3RPAUAbOic4dA4AAJZA5wBRjs4JDp0DAIAl0DlAlKNzgkPnAABgCXQOEOXonODQOQAAWII9OmfdunUDz/rwww+9by0oKBgyZIi89cUXXwz/bECEo3OCQ+cAAGAJ9uicTz75JOas8uXL5+TkKLcuWLDAuLVixYpaxguPt956S36P8qnQPQgshs4JDp0DAIAl2Klz6tatK/936tSpyq133HGH7J+yZcvSOYA3Oic4dA4AAJYQys45eVKMHy8yMkRamqheXdx6q5g+XeTnh2bjfhmd07dv3xo1alx77bXuNx06dCgxMfH++++veJbPu2dlZe3YsaOo/TxjIz///PPevXt93pqTkyP3Av/444+CgoISfBMeTp8+LUc6fvy4/9XkzNu2bZPjiQA6R463e/fu/fv3h2pI2AOdE5xI6Zzt28Xnn4v588W+fbpHAQAgEoWsc9avF7VqiZgY9dKmjThwIATb98vonP79+w8aNCg2Nnbnzp2um8aPHy9vWrlypc/O+eijjxo1ahTzN7n3snHjRvcVFi1aVL9+fdcKKSkp11xzjYwQ49bNmzfLq65bExISmjZt+uuvv8qbsrOzq1Sp8u9//9u1qVOnTqWlpVWqVGnBggWuhW+//bZcMm/ePNeSn376KSMjIz4+3thmkyZN5syZ4z5S165d5V327NnTs2dP+Yhyne7du998883Jycny63LlylX624kTJ4y7yLaR95I3GdusVq3a6NGjCwsLS/KcwzbonODo75yFC0WzZh6/Z6+7TmRm6hwJAIDIE5rO2b1bVK3qI3KMS8OGcq8/FMMWydU5MjzkF8OGDXPdJMOjQYMG8gvvznn55Zflyunp6a+88srkyZMHDBggSyA1NVVuxFjh559/liFRvXr1kSNH/ve///34448fffTRSy65xDjMcvLkyZo1ayYmJso7yptmzJjx/PPPX3311a6Mad26tWyP3Nxc4+rixYuNzHjkkUdcM9x2221yiXFARpzNqrJly8oZnnzySTnS8OHDL774YrnCzJkzXXeRu1hyidzXuuiiiwYOHDhq1Kh33nln2rRpnTt3lsu7des26m/GQ2/fvr1WrVpxcXGyiyZNmjRu3DijzR588MFQ/znAkuic4GjunNGjff+eTUoSn32mbSoAACJPaDrn9tuLjBzj8vTToRi2SK7OkV/L0qhbt66xPDMzUy6XGSO8Okc2TGxsbIsWLWSuuBYuWbJErt+lSxfj6qBBg+RV2R4+H/Srr76Stw4ZMkRZ7nA43O++YsUK4+ozzzwjY+PKK69s0qSJ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+Reilkuwe9Rffvml3BVzf+HWZ599JpfIXT3/d3zxxRe9z9WrWLx4sZ8tyB0enz1jnNZs5syZfu47ePDgBQsWyEQ5duzY2rVr7777bnkXude7wetfW41jU4bU1NTnn3/eu9+MffemTZu+/PLL8gvZfq6bjh49WqVKlZSUFFlfd54l99H9DHbixIntnow3kCgLHSXeVXrrrbfklhs0aOA/R1evXi1Xk7uXynKjc5RzjomzO6Kup0tufMqUKd7bfPLJJ+WtjzzyyI033ii/mDx5crHT7ty50/3bNw7lrVy50n2hfKqL3Y44240u1157bSBnzwv8p8VA55QWi3ZObq649FLzl+wHH+geCACAUmaPzpE73Onp6e5Hb4yTTYVh56xz587ygbw/AsXonHlBnt3o/vvvl/fq1auXz1uPHz8u9/hlpch12rRp4/2xM4899pix61yrVi33HW7ZLaM8yQ70M4aRH8Xy846abdu2LXHj85QJcoa4uLiLL774jz/+8PekCPHbb7/Jh7vqqquU5UV1juHgwYNz58698sor5TovvPCCcmteXl7r1q2Nb6Rr167+BzCU/OifO/nHt3v37rfffrtq1aryefCf0z75/2mhc0qLRTtHOF/oaf6STUsTR47oHggAgNLks3OefFLceafOy/jxQX8jr776aszfJ+fdvn17bGzs1VdfXey9lH+h98n/v9Ab+5ree5M333yzXP7NN98E9V0YR07q1avnf7VbbrlFruZ9ome5M2rsbY8dOzaox1XImlIOasltNm7cWFlY1J6x8DwAJXnvFs6ZMycxMbFmzZqyiIqd58CBA0a8Kct/+eUXuVzmip/7yhirVq1afHy89wvMJk6caIynvAiwKMrRv3/+858xZ48ZBn70z6effvrJT6354f+nhc4pLdbtHKlHDzN1HnhA9zQAAJQmG5yHwHD48OGkpKS2bduKv3eyp06dWuy9Sv4v9KNHj/Z5uEBWgVz+119/BfVdGJ8j6b1Dr5gwYUKM13tacnNzmzVrFhcXV758+QsuuKDk5wFzFxPk+3PWr18/083KlSvdb/3yyy9l5KSlpbl/kowfBQUFKSkp8i7Km4s+/vhjOdgDxe2uGe+hWrRokfvCrVu3yifK+AGQxXIeH0YUqvOtScZHmp48eTKoe/n/aaFzSoulO2ffPpGaaqbOd9/pHggAgFJjm86R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" alt="幻灯片原图（S. 505）：示例程序画出的图"><figcaption><span class="cs">幻灯片原图 (S.</span> <span class="cs">505):</span> <span class="nb"><span class="cs">示例程序画出的图</span></span></figcaption></figure>
-<pre>import matplotlib.pyplot as plt
-import numpy as np
-from scipy.optimize import curve_fit
+<pre data-lang="python"><span class="tk-k">import </span>matplotlib.pyplot <span class="tk-k">as </span>plt
+<span class="tk-k">import </span>numpy <span class="tk-k">as </span>np
+<span class="tk-k">from </span>scipy.optimize <span class="tk-k">import </span>curve_fit
 
-def funktion(x, a, b, c):
-    return a * x**2 + b * x + c
+<span class="tk-k">def </span><span class="tk-f">funktion</span>(x, a, b, c):
+    <span class="tk-k">return </span>a * x**<span class="tk-n">2 </span>+ b * x + c
 
-# Messwerte mit Rauschen erzeugen
-x = np.linspace(-5, 5, 20)
-y = funktion(x, 0.5, -2, 5) + np.random.normal(-1, 1, size=20)
-# optimale Werte für a, b und c aus Messwerten ableiten
-popt, pcov = curve_fit(funktion, x, y)
-a_opt, b_opt, c_opt = popt # berechnete Parameter
+<span class="tk-c"># Messwerte mit Rauschen erzeugen
+</span>x = np.linspace(-<span class="tk-n">5</span>, <span class="tk-n">5</span>, <span class="tk-n">20</span>)
+y = funktion(x, <span class="tk-n">0.5</span>, -<span class="tk-n">2</span>, <span class="tk-n">5</span>) + np.random.normal(-<span class="tk-n">1</span>, <span class="tk-n">1</span>, size=<span class="tk-n">20</span>)
+<span class="tk-c"># optimale Werte für a, b und c aus Messwerten ableiten
+</span>popt, pcov = curve_fit(funktion, x, y)
+a_opt, b_opt, c_opt = popt <span class="tk-c"># berechnete Parameter
 # X-Werte für eine glatte Kurve generieren
-x_kurve = np.linspace(-5, 5, 100)
+</span>x_kurve = np.linspace(-<span class="tk-n">5</span>, <span class="tk-n">5</span>, <span class="tk-n">100</span>)
 y_kurve = funktion(x_kurve, a_opt, b_opt, c_opt)
-# Visualisierung mit Matplotlib
-plt.figure(figsize=(10, 6))
-plt.scatter(x, y, color="red", label="Messwerte", zorder=3)
-plt.plot(x_kurve, y_kurve, color="blue", linewidth=2,
-         label=f"y = {a_opt:.2f}x² + {b_opt:.2f}x + {c_opt:.2f}")
-plt.legend(fontsize=11)
+<span class="tk-c"># Visualisierung mit Matplotlib
+</span>plt.figure(figsize=(<span class="tk-n">10</span>, <span class="tk-n">6</span>))
+plt.scatter(x, y, color=<span class="tk-s">"red"</span>, label=<span class="tk-s">"Messwerte"</span>, zorder=<span class="tk-n">3</span>)
+plt.plot(x_kurve, y_kurve, color=<span class="tk-s">"blue"</span>, linewidth=<span class="tk-n">2</span>,
+         label=<span class="tk-s">f"y = {</span>a_opt<span class="tk-s">:.2f}x² + {</span>b_opt<span class="tk-s">:.2f}x + {</span>c_opt<span class="tk-s">:.2f}"</span>)
+plt.legend(fontsize=<span class="tk-n">11</span>)
 plt.show()</pre>
   
 </div>
@@ -4627,7 +4633,7 @@ plt.show()</pre>
 <div class="card de">
   <span class="folie">S. 507–512</span>
   <p>Sie haben ein Programm myprogram.py geschrieben, welches pandas <span class="nb">benötigt.</span></p>
-<pre># Erstellen Sie im aktuellen Projektverzeichnis eine virtuelle Umgebung:
+<pre data-lang="text"># Erstellen Sie im aktuellen Projektverzeichnis eine virtuelle Umgebung:
 python3 -m venv .venv
 # Aktivieren Sie die virtuelle Umgebung:
 source .venv/bin/activate
@@ -4642,14 +4648,14 @@ deactivate</pre>
 </div>
 <div class="card de">
   <span class="folie">S. 513</span>
-<pre>source .venv/bin/activate   # Erneutes Aktivieren einer virtuellen Umgebung
+<pre data-lang="text">source .venv/bin/activate   # Erneutes Aktivieren einer virtuellen Umgebung
 python myprogram.py         # Ausführen des Programms
 deactivate                  # Verlassen der virtuellen Umgebung</pre>
 </div>
 <div class="card de">
   <span class="folie">S. 514–519</span>
   <p>Kopieren Sie myprogram.py und requirements.txt auf den anderen Rechner und wechseln Sie in das Verzeichnis, in dem sich die beiden Dateien <span class="nb">befinden.</span></p>
-<pre>python3 -m venv .venv                # Erstellen Sie eine virtuelle Umgebung
+<pre data-lang="text">python3 -m venv .venv                # Erstellen Sie eine virtuelle Umgebung
 source .venv/bin/activate            # Aktivieren Sie die virtuelle Umgebung
 pip install -r requirements.txt      # Installieren Sie die benötigten Python-Pakete
 python myprogram.py                  # Testen Sie das Programm

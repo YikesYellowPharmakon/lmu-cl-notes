@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1095,6 +1092,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 8; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81cee4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #47caea; --syn-f: #c6dcfe; --syn-s: #d9ba70; --syn-n: #9adaa3; --syn-b: #7db7b8; --syn-c: #7c9096; --syn-p: #7c9096; }
+  html[data-mode="day"] { --syn-k: #0f6f84; --syn-f: #1a447f; --syn-s: #7b5f01; --syn-n: #1d7635; --syn-b: #105e60; --syn-c: #566d75; --syn-p: #566d75; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1220,15 +1223,15 @@
 <div class="card de">
   <span class="folie">Folie 8</span>
   <p><b>Rekursive Berechnung der Fakultät in Python</b></p>
-<pre><code><span class="k">def</span> fac(n):
-    <span class="k">if</span> (n == 0):
-        <span class="k">return</span> 1              <span class="c"># Basisfall</span>
-    <span class="k">else</span>:
-        <span class="k">return</span> (n             <span class="c"># selbst gelöster Teil</span>
-                * fac(n-1))    <span class="c"># rekursiver Aufruf</span>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">fac</span>(n):
+    <span class="tk-k">if </span>(n == <span class="tk-n">0</span>):
+        <span class="tk-k">return </span><span class="tk-n">1              </span><span class="tk-c"># Basisfall
+    </span><span class="tk-k">else</span>:
+        <span class="tk-k">return </span>(n             <span class="tk-c"># selbst gelöster Teil
+                </span>* fac(n-<span class="tk-n">1</span>))    <span class="tk-c"># rekursiver Aufruf
 
-<span class="c"># Ausführung</span>
-print(fac(5))</code></pre>
+# Ausführung
+</span><span class="tk-b">print</span>(fac(<span class="tk-n">5</span>))</code></pre>
 </div>
 <div class="zh">
   <p>递归定义几乎一字不差地翻译成 Python: n == 0 时返回 1; 否则返回 n · fac(n−1). <span class="nb">输出 <b>120</b> (实际运行).</span> </p>
@@ -1283,15 +1286,15 @@ print(fac(5))</code></pre>
   <span class="folie">Folie 16</span>
   <p>Der Aufruf einer rekursiven Methode terminiert, wenn nach endlich vielen rekursiven Aufrufen ein Abbruchfall erreicht <span class="nb">wird.</span></p>
   <p>Beispiele:</p>
-<pre><code><span class="k">def</span> nonterm1(n):
-    <span class="k">return</span> n * nonterm1(n-1)</code></pre>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">nonterm1</span>(n):
+    <span class="tk-k">return </span>n * nonterm1(n-<span class="tk-n">1</span>)</code></pre>
   <p>Aufruf von nonterm1(10) terminiert nicht, da kein Abbruchfall erreicht wird, in Python erhalten wir den folgenden Fehler:<br><code class="lc">RecursionError: maximum recursion depth exceeded</code></p>
-<pre><code><span class="k">def</span> fac(n):
-    <span class="k">if</span> n == 0:
-        <span class="k">return</span> 1              <span class="c"># Basisfall</span>
-    <span class="k">else</span>:
-        <span class="k">return</span> (n             <span class="c"># selbst gelöster Teil</span>
-                * fac(n-1))    <span class="c"># rekursiver Aufruf</span></code></pre>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">fac</span>(n):
+    <span class="tk-k">if </span>n == <span class="tk-n">0</span>:
+        <span class="tk-k">return </span><span class="tk-n">1              </span><span class="tk-c"># Basisfall
+    </span><span class="tk-k">else</span>:
+        <span class="tk-k">return </span>(n             <span class="tk-c"># selbst gelöster Teil
+                </span>* fac(n-<span class="tk-n">1</span>))    <span class="tk-c"># rekursiver Aufruf</span></code></pre>
   <p>fac(x) terminiert für x ≥ 0, aber nicht für x <span class="nb">&lt; 0!</span></p>
 </div>
 <div class="zh">
@@ -1305,19 +1308,19 @@ print(fac(5))</code></pre>
 <div class="card de">
   <span class="folie">Folie 17</span>
   <p><b>Beispiele</b></p>
-<pre><code><span class="k">def</span> nonterm2(n):
-   <span class="k">if</span> n == 0:
-        <span class="k">return</span> 0
-   <span class="k">else</span>:
-        <span class="k">return</span> nonterm2(n-2)</code></pre>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">nonterm2</span>(n):
+   <span class="tk-k">if </span>n == <span class="tk-n">0</span>:
+        <span class="tk-k">return </span><span class="tk-n">0
+   </span><span class="tk-k">else</span>:
+        <span class="tk-k">return </span>nonterm2(n-<span class="tk-n">2</span>)</code></pre>
   <p>terminiert für gerade positive Zahlen, aber nicht für ungerade oder negative <span class="nb">Zahlen.</span></p>
-<pre><code><span class="k">def</span> collatz(n):
-    <span class="k">if</span> n==1:
-        <span class="k">return</span> 1
-    <span class="k">elif</span> n%2 == 0:
-        <span class="k">return</span> collatz(n/2)
-    <span class="k">else</span>:
-        <span class="k">return</span> collatz(3*n+1)</code></pre>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">collatz</span>(n):
+    <span class="tk-k">if </span>n==<span class="tk-n">1</span>:
+        <span class="tk-k">return </span><span class="tk-n">1
+    </span><span class="tk-k">elif </span>n%<span class="tk-n">2 </span>== <span class="tk-n">0</span>:
+        <span class="tk-k">return </span>collatz(n/<span class="tk-n">2</span>)
+    <span class="tk-k">else</span>:
+        <span class="tk-k">return </span>collatz(<span class="tk-n">3</span>*n+<span class="tk-n">1</span>)</code></pre>
   <p>Bis heute ist nicht bewiesen, ob diese Funktion für jede positive natürliche Zahl terminiert (siehe <span class="nb">Collatz-Vermutung)</span></p>
 </div>
 <div class="zh">
@@ -1336,13 +1339,13 @@ print(fac(5))</code></pre>
   <p><b>Rekursion und Iteration (1)</b></p>
   <p>Zu jedem rekursiven Algorithmus gibt es einen semantisch äquivalenten iterativen Algorithmus, d.h. einen Algorithmus mit Wiederholungsanweisungen, der dasselbe Problem <span class="nb">löst.</span></p>
   <p>Beispiel: Fakultät <span class="nb">iterativ:</span></p>
-<pre><code><span class="k">def</span> facIterativ(n):
-    result = 1
-    <span class="k">while</span> n != 0:
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">facIterativ</span>(n):
+    result = <span class="tk-n">1
+    </span><span class="tk-k">while </span>n != <span class="tk-n">0</span>:
         result = result * n
-        n -= 1
+        n -= <span class="tk-n">1
 
-    <span class="k">return</span> result</code></pre>
+    </span><span class="tk-k">return </span>result</code></pre>
   <p>Vorteil des iterativen Algorithmus: Der Stack wächst nicht linear, sondern benötigt nur zwei Speicherplätze (für result <span class="nb">und n).</span></p>
 </div>
 <div class="card de">
@@ -1425,7 +1428,7 @@ print(fac(5))</code></pre>
 <div class="card de">
   <span class="folie">Folie 24</span>
   <p><b>Pseudo-Algorithmus</b></p>
-<pre>verschiebe(n,start,ziel,hilf)
+<pre data-lang="pseudocode">verschiebe(n,start,ziel,hilf)
 
     1. Wenn n &gt; 1, dann verschiebe(n-1,start,hilf,ziel)
     2. Schiebe Scheibe n von start auf ziel
@@ -1439,12 +1442,12 @@ print(fac(5))</code></pre>
 <div class="zh">
   <p>伪代码: 参数 start、ziel、hilf 的<b>角色</b>在递归调用里互换, 这是关键: 第一次递归 ziel 和 hilf 对调, 第二次 start 和 hilf 对调. n = 1 时跳过两个递归调用, 只移一个盘子. 每个递归步骤有<b>两个</b>递归调用 (树形递归, <span class="nb">Folie 29).</span> </p>
   <p>Python 实现 (练习课里会写; 这里只用于核对上面的 7 <span class="nb">步):</span> </p>
-<pre><code>def verschiebe(n, start, ziel, hilf):
-    if n &gt; 1:
-        verschiebe(n-1, start, hilf, ziel)
-    print("Scheibe", n, ":", start, "-&gt;", ziel)
-    if n &gt; 1:
-        verschiebe(n-1, hilf, ziel, start)</code></pre>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">verschiebe</span>(n, start, ziel, hilf):
+    <span class="tk-k">if </span>n &gt; <span class="tk-n">1</span>:
+        verschiebe(n-<span class="tk-n">1</span>, start, hilf, ziel)
+    <span class="tk-b">print</span>(<span class="tk-s">"Scheibe"</span>, n, <span class="tk-s">":"</span>, start, <span class="tk-s">"-&gt;"</span>, ziel)
+    <span class="tk-k">if </span>n &gt; <span class="tk-n">1</span>:
+        verschiebe(n-<span class="tk-n">1</span>, hilf, ziel, start)</code></pre>
   <p>移动次数: T(1) = 1, T(n) = 2·T(n−1) + 1, 所以 T(n) = 2<sup>n</sup> − 1 (n = 3 时 7 步). 这是<b>指数</b>复杂度, 而且是最优的, <span class="nb">不可能更少.</span> </p>
 </div>
 
@@ -1456,11 +1459,11 @@ print(fac(5))</code></pre>
   <p><b>Fibonacci-Zahlen: Rekursiv</b></p>
   <ul><li>Rekursive Definition der Fibonacci-Zahlen:<br>fib(0) = 1<br>fib(1) = 1<br>fib(n) = fib(n − 2) + fib(n − 1) für alle n ∈ ℕ mit n ≥ 2</li>
   <li>Python-Implementierung als rekursive Methode:
-<pre><code><span class="k">def</span> fib(n):
-    <span class="k">if</span> n &lt;= 1:
-        <span class="k">return</span> 1
-    <span class="k">else</span>:
-        <span class="k">return</span> fib(n-2) + fib(n-1)</code></pre></li></ul>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">fib</span>(n):
+    <span class="tk-k">if </span>n &lt;= <span class="tk-n">1</span>:
+        <span class="tk-k">return </span><span class="tk-n">1
+    </span><span class="tk-k">else</span>:
+        <span class="tk-k">return </span>fib(n-<span class="tk-n">2</span>) + fib(n-<span class="tk-n">1</span>)</code></pre></li></ul>
 </div>
 <div class="zh">
   <p>斐波那契数: 前两个是 1, 之后每个等于前两个之和: 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 (实际运行 fib(0)…fib(9)). 有<b>两个</b>基本情况 (n = 0 和 n = 1), <span class="nb">因为递归要往回看两步.</span> </p>
@@ -1496,18 +1499,18 @@ print(fac(5))</code></pre>
   <span class="folie">Folie 28</span>
   <p><b>Fibonacci-Zahlen iterativ berechnen</b></p>
   <p>Idee: Berechne von fib(0) und fib(1) beginnend <span class="nb">aufsteigend:</span></p>
-<pre><code><span class="k">def</span> fibIterativ(n):
-    fibIMinus2 = 1 <span class="c"># fib(0) = 1</span>
-    fibIMinus1 = 1 <span class="c"># fib(1) = 1</span>
-    fibI = 1
-    <span class="k">for</span> i <span class="k">in</span> range(2, n+1):
-        <span class="c"># fib(i) = fib(i-2) + fib(i-1)</span>
-        fibI = fibIMinus2 + fibIMinus1
-        <span class="c"># Verschiebe i um 1:</span>
-        fibIMinus2 = fibIMinus1 <span class="c"># fib(i-2) wird fib(i-1)</span>
-        fibIMinus1 = fibI       <span class="c"># fib(i-1) wird fib(i)</span>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">fibIterativ</span>(n):
+    fibIMinus2 = <span class="tk-n">1 </span><span class="tk-c"># fib(0) = 1
+    </span>fibIMinus1 = <span class="tk-n">1 </span><span class="tk-c"># fib(1) = 1
+    </span>fibI = <span class="tk-n">1
+    </span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">2</span>, n+<span class="tk-n">1</span>):
+        <span class="tk-c"># fib(i) = fib(i-2) + fib(i-1)
+        </span>fibI = fibIMinus2 + fibIMinus1
+        <span class="tk-c"># Verschiebe i um 1:
+        </span>fibIMinus2 = fibIMinus1 <span class="tk-c"># fib(i-2) wird fib(i-1)
+        </span>fibIMinus1 = fibI       <span class="tk-c"># fib(i-1) wird fib(i)
 
-    <span class="k">return</span> fibI</code></pre>
+    </span><span class="tk-k">return </span>fibI</code></pre>
   <p>Die Zeitkomplexität ist linear, d.h. in O(n) (da die for-Schleife n − 1 mal durchlaufen wird und jeder Schleifendurchlauf konstante Zeit benötigt.<br>Die Speicherplatzkomplexität ist konstant, d.h. in O(1), da nur konstant viele Variablen verwendet werden.</p>
 </div>
 <div class="zh">
@@ -1537,13 +1540,13 @@ print(fac(5))</code></pre>
 <div class="card de">
   <span class="folie">Folie 30</span>
   <p><b>Die Ackermann-Funktion</b></p>
-<pre><code><span class="k">def</span> ack(n, m):
-    <span class="k">if</span> n == 0:
-        <span class="k">return</span> m+1
-    <span class="k">elif</span> m == 0:
-        <span class="k">return</span> ack(n-1,1)
-    <span class="k">else</span>:
-        <span class="k">return</span> ack(n-1, ack(n,m-1))   <span class="c"># verschachtelte Rekursion</span></code></pre>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">ack</span>(n, m):
+    <span class="tk-k">if </span>n == <span class="tk-n">0</span>:
+        <span class="tk-k">return </span>m+<span class="tk-n">1
+    </span><span class="tk-k">elif </span>m == <span class="tk-n">0</span>:
+        <span class="tk-k">return </span>ack(n-<span class="tk-n">1</span>,<span class="tk-n">1</span>)
+    <span class="tk-k">else</span>:
+        <span class="tk-k">return </span>ack(n-<span class="tk-n">1</span>, ack(n,m-<span class="tk-n">1</span>))   <span class="tk-c"># verschachtelte Rekursion</span></code></pre>
   <ul>
     <li>Die Ackermann-Funktion wächst extrem <span class="nb">schnell</span></li>
     <li>Sie ist das klassische Beispiel für eine berechenbare, terminierende Funktion, die nicht primitiv-rekursiv ist (erfunden 1926 von <span class="nb">Ackermann)</span></li>
@@ -1559,7 +1562,7 @@ print(fac(5))</code></pre>
 <div class="card de">
   <span class="folie">Folie 31</span>
   <p><b>Rekursionsform Türme von Hanoi</b></p>
-<pre>1. Wenn n &gt; 1, dann verschiebe(n-1,start,hilf,ziel)
+<pre data-lang="pseudocode">1. Wenn n &gt; 1, dann verschiebe(n-1,start,hilf,ziel)
 2. Schiebe Scheibe n von start auf ziel
 3. Wenn n &gt; 1, dann verschiebe(n-1,hilf,ziel,start)</pre>
   </div>
@@ -1605,7 +1608,7 @@ print(fac(5))</code></pre>
 <div class="card de">
   <span class="folie">Folie 34</span>
   <p><b>Quicksort: Beispiel</b></p>
-<pre>65  43  92  26  75  13
+<pre data-lang="text">65  43  92  26  75  13
         Wähle Pivot, z.B. 65
 65  43  92  26  75  13
         Partitioniere anhand des Pivots
@@ -1621,20 +1624,20 @@ Sortiere beide Teillisten rekursiv mit Quicksort
 <div class="card de">
   <span class="folie">Folie 35</span>
   <p><b>Implementierung in Python</b></p>
-<pre><code><span class="k">def</span> quicksort(listeX):
-    <span class="c"># sortiere alle Elemente der Liste:</span>
-    qsort(listeX, 0, len(listeX)-1)
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">quicksort</span>(listeX):
+    <span class="tk-c"># sortiere alle Elemente der Liste:
+    </span>qsort(listeX, <span class="tk-n">0</span>, <span class="tk-b">len</span>(listeX)-<span class="tk-n">1</span>)
 
-<span class="k">def</span> qsort(listeX, left, right):
-    <span class="c"># sortiere den Teilbereich von left bis right in liste</span>
-    <span class="k">if</span> left &lt; right:      <span class="c"># mehr als ein Element zu sortieren</span>
-        <span class="c"># wähle erstes Element als Pivot</span>
-        pivot = listeX[left]
-        <span class="c"># partitioniere anhand des Pivot-Elements</span>
-        pivotIndex = partition(listeX, left, right, pivot)
-        <span class="c"># sortiere linken und rechten Teil rekursiv</span>
-        qsort(listeX, left, pivotIndex-1)
-        qsort(listeX, pivotIndex+1, right)</code></pre>
+<span class="tk-k">def </span><span class="tk-f">qsort</span>(listeX, left, right):
+    <span class="tk-c"># sortiere den Teilbereich von left bis right in liste
+    </span><span class="tk-k">if </span>left &lt; right:      <span class="tk-c"># mehr als ein Element zu sortieren
+        # wähle erstes Element als Pivot
+        </span>pivot = listeX[left]
+        <span class="tk-c"># partitioniere anhand des Pivot-Elements
+        </span>pivotIndex = partition(listeX, left, right, pivot)
+        <span class="tk-c"># sortiere linken und rechten Teil rekursiv
+        </span>qsort(listeX, left, pivotIndex-<span class="tk-n">1</span>)
+        qsort(listeX, pivotIndex+<span class="tk-n">1</span>, right)</code></pre>
   <p>Es fehlt noch die Methode: <span class="nb">partition</span></p>
 </div>
 <div class="zh">
@@ -1656,27 +1659,27 @@ Sortiere beide Teillisten rekursiv mit Quicksort
 </div>
 <div class="card de">
   <span class="folie">Folie 37</span>
-<pre><code><span class="k">def</span> partition(listeX, left, right, pivot):
-    <span class="c"># erstelle Kopie des zu sortierenden Teils</span>
-    copy = listeX[left:right+1]
-    pivotIndex = left-1
-    writePos = left
-    <span class="k">for</span> i <span class="k">in</span> range(len(copy)): <span class="c"># Schreibe linken Teil</span>
-        <span class="k">if</span> copy[i] &lt; pivot:
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">partition</span>(listeX, left, right, pivot):
+    <span class="tk-c"># erstelle Kopie des zu sortierenden Teils
+    </span>copy = listeX[left:right+<span class="tk-n">1</span>]
+    pivotIndex = left-<span class="tk-n">1
+    </span>writePos = left
+    <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-b">len</span>(copy)): <span class="tk-c"># Schreibe linken Teil
+        </span><span class="tk-k">if </span>copy[i] &lt; pivot:
             listeX[writePos] = copy[i]
-            pivotIndex += 1
-            writePos += 1
-    <span class="c"># Schreibe alle Elemente gleich zum Pivot</span>
-    <span class="k">for</span> i <span class="k">in</span> range(len(copy)):
-        <span class="k">if</span> copy[i] == pivot:
+            pivotIndex += <span class="tk-n">1
+            </span>writePos += <span class="tk-n">1
+    </span><span class="tk-c"># Schreibe alle Elemente gleich zum Pivot
+    </span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-b">len</span>(copy)):
+        <span class="tk-k">if </span>copy[i] == pivot:
             listeX[writePos] = copy[i]
-            pivotIndex += 1
-            writePos += 1
-    <span class="k">for</span> i <span class="k">in</span> range(len(copy)): <span class="c"># Schreibe rechten Teil</span>
-        <span class="k">if</span> copy[i] &gt; pivot:
+            pivotIndex += <span class="tk-n">1
+            </span>writePos += <span class="tk-n">1
+    </span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-b">len</span>(copy)): <span class="tk-c"># Schreibe rechten Teil
+        </span><span class="tk-k">if </span>copy[i] &gt; pivot:
             listeX[writePos] = copy[i]
-            writePos += 1
-    <span class="k">return</span> pivotIndex</code></pre>
+            writePos += <span class="tk-n">1
+    </span><span class="tk-k">return </span>pivotIndex</code></pre>
 </div>
 <div class="zh">
   <p>简单的划分方法: 先把这一段复制一份 (切片 copy), 然后扫描副本<b>三遍</b>, 依次把「小于」「等于」「大于」基准的元素写回原列表. writePos 是下一个写入位置. pivotIndex 跟着「小于」和「等于」的个数增长, 最后指向<b>最后一个</b>等于基<span class="nb">准的元素.</span> </p>
@@ -1718,29 +1721,29 @@ Sortiere beide Teillisten rekursiv mit Quicksort
 <div class="card de">
   <span class="folie">Folie 40</span>
   <p><b>Partitionieren ohne zusätzlichen Platzbedarf (2)</b></p>
-<pre><code><span class="k">def</span> swap(listeX, l, r):
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">swap</span>(listeX, l, r):
     tmp = listeX[l]
     listeX[l] = listeX[r]
     listeX[r] = tmp
-<span class="k">def</span> partition(listeX, left, right, pivot):
-    <span class="c"># in-place partition, geht davon aus, dass pivot in listeX[left] ist</span>
-    l = left+1     <span class="c"># fange links neben dem Pivot an</span>
-    r = right      <span class="c"># fange rechts ganz rechts an</span>
-    proceed = True <span class="c"># vertausche weiter?</span>
-    <span class="k">while</span> proceed:
-        <span class="k">while</span> l &lt;= right <span class="k">and</span> listeX[l] &lt; pivot:
-            l += 1 <span class="c"># schiebe l nach links bis ein zu großes Element gefunden</span>
-        <span class="k">while</span> r &gt;= left <span class="k">and</span> listeX[r] &gt; pivot:
-            r -= 1 <span class="c"># schiebe r nach rechts bis ein zu kleines Element gefunden</span>
-        <span class="k">if</span> l &lt; r:
-            swap(listeX,l,r) <span class="c"># vertausche listeX[l] und listeX[r]</span>
-            l += 1
-            r -= 1 <span class="c"># schiebe l nach links und r nach rechts</span>
-        <span class="k">else</span>:
-            proceed = False <span class="c"># stoppe</span>
-    <span class="c"># setze Pivot an die richtige Position</span>
-    swap(listeX,left,r) <span class="c"># r ist das erste zu kleine Element von rechts</span>
-    <span class="k">return</span> r</code></pre>
+<span class="tk-k">def </span><span class="tk-f">partition</span>(listeX, left, right, pivot):
+    <span class="tk-c"># in-place partition, geht davon aus, dass pivot in listeX[left] ist
+    </span>l = left+<span class="tk-n">1     </span><span class="tk-c"># fange links neben dem Pivot an
+    </span>r = right      <span class="tk-c"># fange rechts ganz rechts an
+    </span>proceed = <span class="tk-n">True </span><span class="tk-c"># vertausche weiter?
+    </span><span class="tk-k">while </span>proceed:
+        <span class="tk-k">while </span>l &lt;= right <span class="tk-k">and </span>listeX[l] &lt; pivot:
+            l += <span class="tk-n">1 </span><span class="tk-c"># schiebe l nach links bis ein zu großes Element gefunden
+        </span><span class="tk-k">while </span>r &gt;= left <span class="tk-k">and </span>listeX[r] &gt; pivot:
+            r -= <span class="tk-n">1 </span><span class="tk-c"># schiebe r nach rechts bis ein zu kleines Element gefunden
+        </span><span class="tk-k">if </span>l &lt; r:
+            swap(listeX,l,r) <span class="tk-c"># vertausche listeX[l] und listeX[r]
+            </span>l += <span class="tk-n">1
+            </span>r -= <span class="tk-n">1 </span><span class="tk-c"># schiebe l nach links und r nach rechts
+        </span><span class="tk-k">else</span>:
+            proceed = <span class="tk-n">False </span><span class="tk-c"># stoppe
+    # setze Pivot an die richtige Position
+    </span>swap(listeX,left,r) <span class="tk-c"># r ist das erste zu kleine Element von rechts
+    </span><span class="tk-k">return </span>r</code></pre>
 </div>
 <div class="zh">
   <p>代码细节: </p>

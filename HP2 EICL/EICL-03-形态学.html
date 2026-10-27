@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1102,6 +1099,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 11.1; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #e49a81 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #f99c7d; --syn-f: #f7d59f; --syn-s: #67d3cb; --syn-n: #ecb0e7; --syn-b: #ce9c9c; --syn-c: #9a8781; --syn-p: #9a8781; }
+  html[data-mode="day"] { --syn-k: #a63b0f; --syn-f: #5b3f05; --syn-s: #02736e; --syn-n: #8b4487; --syn-b: #744243; --syn-c: #79635c; --syn-p: #79635c; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1416,7 +1419,7 @@
     <li><i>touched</i> = <i>touch</i> + 屈折后缀 <i>-ed</i>. <i>touch</i> 在这里同时是词根、词干和基础, <span class="nb">所以三个名称都写上了.</span> </li>
   </ol>
   <p>把 1–3 拼起来就是 <i>untouchables</i> <span class="nb">的完整结构:</span> </p>
-<pre>[[un [touch able]] s]</pre>
+<pre data-lang="text">[[un [touch able]] s]</pre>
   <p>树里出现的 <b>Stamm 词干</b>: 指加屈折词缀的那个基础 (词根加上所有派生词缀). 所以 <i>untouchable</i> 是 <i>untouchables</i> 的词干, <span class="nb">但不是词根.</span> </p>
 </div>
 
@@ -1545,7 +1548,7 @@
     <tr><td>Dativ</td><td colspan="2">-em</td><td rowspan="2">-er</td><td>-en</td></tr>
     <tr><td>Genitiv</td><td colspan="2">-en</td><td>-er</td></tr>
   </table></div>
-<pre>klein+er        klein+e      klein+es        klein+e
+<pre data-lang="text">klein+er        klein+e      klein+es        klein+e
 klein+es/en     klein+er     klein+es/en     klein+er
 klein+em        klein+er     klein+em        klein+en
 klein+en        klein+e      klein+es        klein+e

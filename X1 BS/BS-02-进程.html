@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1105,6 +1102,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 11.0; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81e4db 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #40d0c6; --syn-f: #ace4fe; --syn-s: #e8a5d4; --syn-n: #c1d185; --syn-b: #86b7a4; --syn-c: #7c918f; --syn-p: #7c918f; }
+  html[data-mode="day"] { --syn-k: #04736c; --syn-f: #054c64; --syn-s: #90417d; --syn-n: #5e6b06; --syn-b: #245f4b; --syn-c: #566f6c; --syn-p: #566f6c; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1564,64 +1567,64 @@ Anwendungen:   Prozess B …</pre>
 <div class="card de">
   <span class="folie">Folie 36</span>
   <p><b>Unix-Shells mit fork / exec (pseudocode)</b></p>
-<pre data-lang="c">while (1) {
-    char *cmd = getcmd();
-    pid_t pid = fork();
-    if (pid == 0) {
-        // Wir sind im Kindprozess. Hier könnten ggf. stdin/stdout umgelenkt werden.
+<pre data-lang="c"><span class="tk-k">while </span>(<span class="tk-n">1</span>) {
+    <span class="tk-k">char </span>*cmd = getcmd();
+    <span class="tk-k">pid_t </span>pid = fork();
+    <span class="tk-k">if </span>(pid == <span class="tk-n">0</span>) {
+        <span class="tk-c">// Wir sind im Kindprozess. Hier könnten ggf. stdin/stdout umgelenkt werden.
         // exec überschreibt das aktuelle Programm mit dem neuen und startet es
-        exec(cmd);
-        // exec kehrt nur bei einem Fehler zurück
-        printf("ERROR: Could not execute %s\n", cmd);
-        exit(1);
-    } if (pid == -1) {
-        // fork ist fehlgeschlagen (z.B. zu viele aktive Prozesse)
-        printf("ERROR: Fork failed\n");
-        exit(1);
-    } else {
-        // fork hat eine PID zurückgegeben, d.h. wir sind im Elternprozess
+        </span>exec(cmd);
+        <span class="tk-c">// exec kehrt nur bei einem Fehler zurück
+        </span>printf(<span class="tk-s">"ERROR: Could not execute %s\n"</span>, cmd);
+        exit(<span class="tk-n">1</span>);
+    } <span class="tk-k">if </span>(pid == <span class="tk-n">-1</span>) {
+        <span class="tk-c">// fork ist fehlgeschlagen (z.B. zu viele aktive Prozesse)
+        </span>printf(<span class="tk-s">"ERROR: Fork failed\n"</span>);
+        exit(<span class="tk-n">1</span>);
+    } <span class="tk-k">else </span>{
+        <span class="tk-c">// fork hat eine PID zurückgegeben, d.h. wir sind im Elternprozess
         // Warte auf Beendigung des Kindprozesses, der NULL-Parameter ignoriert dessen Status
-        wait(NULL);
+        </span>wait(<span class="tk-b">NULL</span>);
     }
 }</pre>
 </div>
 <div class="zh">
   <p>shell 的核心就是这个循环: 读一条命令; fork 出一个子进程; 根据 fork 的返回值分三种情况. 返回 0: 这里是<b>子进程</b>, 这时可以先重定向标准输入输出 (shell 的 <code>&gt;</code>、<code>|</code> 就是在这里实现的), 然后 exec 换成要运行的程序. exec 成功就<b>不会返回</b> (当前程序已经被替换掉了), 所以 exec 后面的代码只在出错时才执行: 打印错误并以 1 退出. 返回 −1: fork 失败 (例如活动进程太多). 返回正数: 这里是<b>父进程</b>, 返回值是子进程的 PID; shell 用 <code>wait(NULL)</code> 等子进程结束 (NULL 表示不关心它的返回状态), <span class="nb">然后读下一条命令.</span></p>
   <p>我把伪代码换成真实的函数 (<code>execlp</code>、<code>waitpid</code>) 写成一个小程序, 让它运行一条命令 <code>echo hi</code> <span class="nb">和一条不存在的命令:</span></p>
-<pre data-lang="c">#include &lt;stdio.h&gt;
+<pre data-lang="c"><span class="tk-c">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;sys/wait.h&gt;
 
-void run(char *cmd, char *arg) {
-    pid_t pid = fork();
-    if (pid == 0) {
-        execlp(cmd, cmd, arg, (char *)NULL);
-        printf("ERROR: Could not execute %s\n", cmd);
-        exit(1);
-    } else if (pid == -1) {
-        printf("ERROR: Fork failed\n");
-        exit(1);
-    } else {
-        int status;
-        waitpid(pid, &amp;status, 0);
-        printf("[parent %d] child %d exited with %d\n", getpid(), pid, WEXITSTATUS(status));
+</span><span class="tk-k">void </span><span class="tk-f">run</span>(<span class="tk-k">char </span>*cmd, <span class="tk-k">char </span>*arg) {
+    <span class="tk-k">pid_t </span>pid = fork();
+    <span class="tk-k">if </span>(pid == <span class="tk-n">0</span>) {
+        execlp(cmd, cmd, arg, (<span class="tk-k">char </span>*)<span class="tk-b">NULL</span>);
+        printf(<span class="tk-s">"ERROR: Could not execute %s\n"</span>, cmd);
+        exit(<span class="tk-n">1</span>);
+    } <span class="tk-k">else if </span>(pid == <span class="tk-n">-1</span>) {
+        printf(<span class="tk-s">"ERROR: Fork failed\n"</span>);
+        exit(<span class="tk-n">1</span>);
+    } <span class="tk-k">else </span>{
+        <span class="tk-k">int </span>status;
+        waitpid(pid, &amp;status, <span class="tk-n">0</span>);
+        printf(<span class="tk-s">"[parent %d] child %d exited with %d\n"</span>, getpid(), pid, WEXITSTATUS(status));
     }
 }
 
-int main(void) {
-    run("echo", "hi");
-    run("no_such_cmd", NULL);
+<span class="tk-k">int </span><span class="tk-f">main</span>(<span class="tk-k">void</span>) {
+    run(<span class="tk-s">"echo"</span>, <span class="tk-s">"hi"</span>);
+    run(<span class="tk-s">"no_such_cmd"</span>, <span class="tk-b">NULL</span>);
 }</pre>
   <p>在终端里直接运行, <span class="nb">输出是预期的四行:</span></p>
-<pre data-lang="shell">&gt; ./shell
+<pre data-lang="shell session"><span class="tk-p">&gt; </span>./shell
 hi
 [parent 73077] child 73078 exited with 0
 ERROR: Could not execute no_such_cmd
 [parent 73077] child 73080 exited with 1</pre>
   <p>子进程 exec 成功时, echo 打印 hi 并以 0 结束; 命令不存在时, exec 返回, 子进程打印错误并 <code>exit(1)</code>, 父进程读到退出码 1 (<code>WEXITSTATUS</code> 从 status 里取出 exit <span class="nb">的参数).</span></p>
   <p><b>一个意外:</b> 把输出重定向到文件或管道时 (<code>./shell | cat</code>), <span class="nb">结果多了一行:</span></p>
-<pre data-lang="shell">&gt; ./shell | cat
+<pre data-lang="shell session"><span class="tk-p">&gt; </span>./shell | cat
 hi
 [parent 72530] child 72569 exited with 0
 ERROR: Could not execute no_such_cmd

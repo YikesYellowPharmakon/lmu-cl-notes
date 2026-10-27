@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1107,6 +1104,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 10.1; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81e4ba 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #63d0a4; --syn-f: #99ebf4; --syn-s: #d6aaeb; --syn-n: #dcc77a; --syn-b: #94b594; --syn-c: #7f9188; --syn-p: #7f9188; }
+  html[data-mode="day"] { --syn-k: #0d7554; --syn-f: #024f56; --syn-s: #7e4996; --syn-n: #766202; --syn-b: #395d3a; --syn-c: #596f64; --syn-p: #596f64; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1193,7 +1196,7 @@
 </div>
 <details class="answer"><summary>答案 (先自己做再看)</summary>
   <p><b>运行</b> (输入用管道送进去, <span class="nb">固定随机种子):</span></p>
-<pre>$ printf 'Hello\nI need some help\nquit\n' | python3 eliza.py
+<pre data-lang="shell session"><span class="tk-p">$ </span><span class="tk-b">printf </span><span class="tk-s">'Hello\nI need some help\nquit\n' </span>| python3 eliza.py
 Therapist
 ---------
 Talk to the program by typing in plain English, using normal upper-
@@ -1245,25 +1248,25 @@ Hello.  How are you feeling today?
 </div>
 <details class="answer"><summary>答案 (先自己做再看)</summary>
   <p><b>加的规则</b> (示例): 打招呼 Hi/Hey; 考试话题; I like …. 另外把 <code>Yes</code> 改成 <code>Yes\b(.*)</code>, 修掉 Yesterday 的问题 (<code>\b</code> <span class="nb">是词边界).</span></p>
-<pre>new = (
-    (r"(?:Hi|Hey)\b(.*)",
-        ("Hi... what brings you here today?",
-         "Hey, how are you feeling today?")),
-    (r"(.*)\b(exam|test)s?\b(.*)",
-        ("Are you worried about the %2?",
-         "How do you usually prepare for the %2?")),
-    (r"I like (.*)",
-        ("What do you like about %1?",
-         "How long have you liked %1?")),
+<pre data-lang="python">new = (
+    (<span class="tk-s">r"(?:Hi|Hey)\b(.*)"</span>,
+        (<span class="tk-s">"Hi... what brings you here today?"</span>,
+         <span class="tk-s">"Hey, how are you feeling today?"</span>)),
+    (<span class="tk-s">r"(.*)\b(exam|test)s?\b(.*)"</span>,
+        (<span class="tk-s">"Are you worried about the %2?"</span>,
+         <span class="tk-s">"How do you usually prepare for the %2?"</span>)),
+    (<span class="tk-s">r"I like (.*)"</span>,
+        (<span class="tk-s">"What do you like about %1?"</span>,
+         <span class="tk-s">"How long have you liked %1?"</span>)),
 )</pre>
   <p>直接改 eliza.py 时, 把这三项抄进 <code>pairs</code> 的最前面即可. 为了比较顺序, 我把同样的规则分别放在三个位置, <span class="nb">用同一个随机种子运行:</span></p>
-<pre>pairs = list(eliza.pairs)
-i = [p[0] for p in pairs].index(r"Yes")
-pairs[i] = (r"Yes\b(.*)", pairs[i][1])                          # Yesterday ≠ Yes
-front = Chat(list(new) + pairs, reflections)                     # new rules first
-back  = Chat(pairs[:-1] + list(new) + pairs[-1:], reflections)   # after the old rules, before (.*)
-end   = Chat(pairs + list(new), reflections)                     # at the very end</pre>
-<pre>'Hi'
+<pre data-lang="python">pairs = <span class="tk-b">list</span>(eliza.pairs)
+i = [p[<span class="tk-n">0</span>] <span class="tk-k">for </span>p <span class="tk-k">in </span>pairs].index(<span class="tk-s">r"Yes"</span>)
+pairs[i] = (<span class="tk-s">r"Yes\b(.*)"</span>, pairs[i][<span class="tk-n">1</span>])                          <span class="tk-c"># Yesterday ≠ Yes
+</span>front = Chat(<span class="tk-b">list</span>(new) + pairs, reflections)                     <span class="tk-c"># new rules first
+</span>back  = Chat(pairs[:-<span class="tk-n">1</span>] + <span class="tk-b">list</span>(new) + pairs[-<span class="tk-n">1</span>:], reflections)   <span class="tk-c"># after the old rules, before (.*)
+</span>end   = Chat(pairs + <span class="tk-b">list</span>(new), reflections)                     <span class="tk-c"># at the very end</span></pre>
+<pre data-lang="text">'Hi'
    front: Hey, how are you feeling today?
    before (.*): Hey, how are you feeling today?
    end: hi.

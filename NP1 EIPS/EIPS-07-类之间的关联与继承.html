@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1095,6 +1092,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 12.9; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81cee4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #47caea; --syn-f: #c6dcfe; --syn-s: #d9ba70; --syn-n: #9adaa3; --syn-b: #7db7b8; --syn-c: #7c9096; --syn-p: #7c9096; }
+  html[data-mode="day"] { --syn-k: #0f6f84; --syn-f: #1a447f; --syn-s: #7b5f01; --syn-n: #1d7635; --syn-b: #105e60; --syn-c: #566d75; --syn-p: #566d75; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1156,7 +1159,7 @@
 <div class="card de">
   <span class="folie">Folie 4</span>
   <p><b>Klassendiagramm in UML von Klasse Flug</b></p>
-<pre>┌─────────────────────────────────────────┐
+<pre data-lang="diagram">┌─────────────────────────────────────────┐
 │                  Flug                   │
 ├─────────────────────────────────────────┤
 │ abflug: str                             │
@@ -1170,18 +1173,18 @@
 <div class="card de">
   <span class="folie">Folie 5</span>
   <p><b>Beispiel Klasse Flug</b></p>
-<pre><code><span class="k">class</span> Flug:
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Flug</span>:
 
-    <span class="k">def</span> __init__(self, abflug, ankunft, flugnummer):
-        self.abflug = abflug
-        self.ankunft = ankunft
-        self.flugnummer = flugnummer
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, abflug, ankunft, flugnummer):
+        <span class="tk-b">self</span>.abflug = abflug
+        <span class="tk-b">self</span>.ankunft = ankunft
+        <span class="tk-b">self</span>.flugnummer = flugnummer
 
-    <span class="k">def</span> flug_info(self):
-        print(<span class="s">"\nInformationen zum Flug:\n"</span>)
-        print(<span class="s">"Von         "</span> + self.abflug)
-        print(<span class="s">"Nach        "</span> + self.ankunft)
-        print(<span class="s">"Flug-Id: "</span> + self.flugnummer)</code></pre>
+    <span class="tk-k">def </span><span class="tk-f">flug_info</span>(<span class="tk-b">self</span>):
+        <span class="tk-b">print</span>(<span class="tk-s">"\nInformationen zum Flug:\n"</span>)
+        <span class="tk-b">print</span>(<span class="tk-s">"Von         " </span>+ <span class="tk-b">self</span>.abflug)
+        <span class="tk-b">print</span>(<span class="tk-s">"Nach        " </span>+ <span class="tk-b">self</span>.ankunft)
+        <span class="tk-b">print</span>(<span class="tk-s">"Flug-Id: " </span>+ <span class="tk-b">self</span>.flugnummer)</code></pre>
 </div>
 <div class="zh">
   <p>第 6 章的 Flug 类, 属性 abfahrt 改名为更准确的 abflug (飞机起飞). <span class="nb">代码和类图对应.</span> </p>
@@ -1191,7 +1194,7 @@
 <div class="card de">
   <span class="folie">Folie 6</span>
   <p><b>Klassendiagramm in UML von Klasse Kunde</b></p>
-<pre>┌─────────────────────────────────────────────┐
+<pre data-lang="diagram">┌─────────────────────────────────────────────┐
 │                    Kunde                    │
 ├─────────────────────────────────────────────┤
 │ vorname: str                                │
@@ -1207,41 +1210,41 @@
 <div class="card de">
   <span class="folie">Folie 7</span>
   <p><b>Beispiel: Klasse Kunde</b></p>
-<pre><code><span class="k">class</span> Kunde:
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Kunde</span>:
 
-    <span class="k">def</span> __init__(self, vorname, name, anschrift, telefon):
-        self.vorname = vorname
-        self.name = name
-        self.anschrift = anschrift
-        self.telefon = telefon
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, vorname, name, anschrift, telefon):
+        <span class="tk-b">self</span>.vorname = vorname
+        <span class="tk-b">self</span>.name = name
+        <span class="tk-b">self</span>.anschrift = anschrift
+        <span class="tk-b">self</span>.telefon = telefon
 
-    <span class="k">def</span> kunde_anlegen(self):
-        <span class="c"># noch ein weiteres Attribut anlegen:</span>
-        self.kunden_nr = int(input(<span class="s">"Bitte geben Sie
-            eine Kundennummer ein: "</span>))
-        print(<span class="s">"KundeID: "</span> + str(self.kunden_nr))
+    <span class="tk-k">def </span><span class="tk-f">kunde_anlegen</span>(<span class="tk-b">self</span>):
+        <span class="tk-c"># noch ein weiteres Attribut anlegen:
+        </span><span class="tk-b">self</span>.kunden_nr = <span class="tk-b">int</span>(<span class="tk-b">input</span>(<span class="tk-s">"Bitte geben Sie
+            </span>eine Kundennummer ein: <span class="tk-s">"))
+        </span><span class="tk-b">print</span>(<span class="tk-s">"KundeID: " </span>+ <span class="tk-b">str</span>(<span class="tk-b">self</span>.kunden_nr))
 
-    <span class="k">def</span> kunde_info(self):
-        print(<span class="s">"Vorname:    "</span> + self.vorname)
-        print(<span class="s">"Name:       "</span> + self.name)
-        print(<span class="s">"Anschrift: "</span> + self.anschrift)
-        print(<span class="s">"Tel.Nr.:    "</span> + self.telefon)</code></pre>
+    <span class="tk-k">def </span><span class="tk-f">kunde_info</span>(<span class="tk-b">self</span>):
+        <span class="tk-b">print</span>(<span class="tk-s">"Vorname:    " </span>+ <span class="tk-b">self</span>.vorname)
+        <span class="tk-b">print</span>(<span class="tk-s">"Name:       " </span>+ <span class="tk-b">self</span>.name)
+        <span class="tk-b">print</span>(<span class="tk-s">"Anschrift: " </span>+ <span class="tk-b">self</span>.anschrift)
+        <span class="tk-b">print</span>(<span class="tk-s">"Tel.Nr.:    " </span>+ <span class="tk-b">self</span>.telefon)</code></pre>
 </div>
 <div class="card de">
   <span class="folie">Folie 8</span>
   <p><b>Benutzung der Klasse Kunde</b></p>
   <p>Beispielprogramm</p>
-<pre><code><span class="c"># Objekterzeugung</span>
-kundin = Kunde(<span class="s">"Petra"</span>, <span class="s">"Müller"</span>, <span class="s">"Maxstr. 3"</span>,
-    <span class="s">"089-1"</span>)
+<pre data-lang="python"><code><span class="tk-c"># Objekterzeugung
+</span>kundin = Kunde(<span class="tk-s">"Petra"</span>, <span class="tk-s">"Müller"</span>, <span class="tk-s">"Maxstr. 3"</span>,
+    <span class="tk-s">"089-1"</span>)
 
-<span class="c"># Attributzugriff</span>
-print(kundin.name)
+<span class="tk-c"># Attributzugriff
+</span><span class="tk-b">print</span>(kundin.name)
 
-<span class="c"># Methodenaufruf</span>
-kundin.kunde_anlegen()</code></pre>
+<span class="tk-c"># Methodenaufruf
+</span>kundin.kunde_anlegen()</code></pre>
   <p>Ausführung</p>
-<pre>Müller
+<pre data-lang="output">Müller
 Bitte geben Sie eine Kundennummer ein: 123
 Kunden-ID: 123</pre>
 </div>
@@ -1253,7 +1256,7 @@ Kunden-ID: 123</pre>
 <div class="card de">
   <span class="folie">Folie 9</span>
   <p><b>Klassendiagramm in UML für Reise</b></p>
-<pre>┌───────────────────────────┐
+<pre data-lang="diagram">┌───────────────────────────┐
 │           Reise           │
 ├───────────────────────────┤
 │ ziel: str                 │
@@ -1266,35 +1269,35 @@ Kunden-ID: 123</pre>
 <div class="card de">
   <span class="folie">Folie 10</span>
   <p><b>Klasse Reise in Python</b></p>
-<pre><code><span class="k">class</span> Reise:
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Reise</span>:
 
-    <span class="k">def</span> __init__(self, ziel, datum):
-        <span class="c"># Objektattribute</span>
-        self.reise_nr = reise_nr
-        self.datum = datum
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, ziel, datum):
+        <span class="tk-c"># Objektattribute
+        </span><span class="tk-b">self</span>.reise_nr = reise_nr
+        <span class="tk-b">self</span>.datum = datum
 
-    <span class="k">def</span> reise_buchen(self, kunde, flug):
-        <span class="c"># weitere Attribute anlegen</span>
-        self.kunde = kunde
-        self.flug = flug
+    <span class="tk-k">def </span><span class="tk-f">reise_buchen</span>(<span class="tk-b">self</span>, kunde, flug):
+        <span class="tk-c"># weitere Attribute anlegen
+        </span><span class="tk-b">self</span>.kunde = kunde
+        <span class="tk-b">self</span>.flug = flug
 
-            print(<span class="s">"Sie haben folgende Reise gebucht:"</span>)
-            print(<span class="s">"Ziel: "</span> + str(self.ziel))
-            print(<span class="s">"Datum: "</span> + str(self.datum))
-            self.kunde.kunde_info()
-            self.flug.flug_info()</code></pre>
+            <span class="tk-b">print</span>(<span class="tk-s">"Sie haben folgende Reise gebucht:"</span>)
+            <span class="tk-b">print</span>(<span class="tk-s">"Ziel: " </span>+ <span class="tk-b">str</span>(<span class="tk-b">self</span>.ziel))
+            <span class="tk-b">print</span>(<span class="tk-s">"Datum: " </span>+ <span class="tk-b">str</span>(<span class="tk-b">self</span>.datum))
+            <span class="tk-b">self</span>.kunde.kunde_info()
+            <span class="tk-b">self</span>.flug.flug_info()</code></pre>
 </div>
 <div class="card de">
   <span class="folie">Folie 11</span>
   <p><b>Reise buchen</b></p>
   <p>Beispielprogramm</p>
-<pre><code>kundin = Kunde(<span class="s">"Petra"</span>,<span class="s">"Müller"</span>,<span class="s">"Maxstr. 3"</span>,<span class="s">"089-1"</span>)
-flug   = Flug(<span class="s">"Mülnchen"</span>,<span class="s">"Belgrad"</span>,<span class="s">"F303"</span>)
+<pre data-lang="python"><code>kundin = Kunde(<span class="tk-s">"Petra"</span>,<span class="tk-s">"Müller"</span>,<span class="tk-s">"Maxstr. 3"</span>,<span class="tk-s">"089-1"</span>)
+flug   = Flug(<span class="tk-s">"Mülnchen"</span>,<span class="tk-s">"Belgrad"</span>,<span class="tk-s">"F303"</span>)
 
-reise = Reise(12, <span class="s">"06-12-24"</span>)
+reise = Reise(<span class="tk-n">12</span>, <span class="tk-s">"06-12-24"</span>)
 reise.reise_buchen(kundin, flug)</code></pre>
   <p>Ausführung</p>
-<pre>Sie haben folgende Reise gebucht:
+<pre data-lang="output">Sie haben folgende Reise gebucht:
 Reise Nr. 12
 Reisedatum: 06-12-24
 Vorname:    Petra
@@ -1349,16 +1352,16 @@ Flug-ID: F003</pre>
 <h2 id="konten">例子: 银行账户<br><span class="de-title">Beispiel: Klasse für Bankkonten</span></h2>
 <div class="card de">
   <span class="folie">Folie 15</span>
-<pre><code><span class="k">class</span> Bankkonto:
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Bankkonto</span>:
 
-    <span class="k">def</span> __init__(self, anfangsbetrag):
-        self.kontostand = anfangsbetrag
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, anfangsbetrag):
+        <span class="tk-b">self</span>.kontostand = anfangsbetrag
 
-    <span class="k">def</span> einzahlen(self, betrag):
-        self.kontostand += betrag
+    <span class="tk-k">def </span><span class="tk-f">einzahlen</span>(<span class="tk-b">self</span>, betrag):
+        <span class="tk-b">self</span>.kontostand += betrag
 
-    <span class="k">def</span> abheben(self, betrag):
-        self.kontoStand -= betrag</code></pre>
+    <span class="tk-k">def </span><span class="tk-f">abheben</span>(<span class="tk-b">self</span>, betrag):
+        <span class="tk-b">self</span>.kontoStand -= betrag</code></pre>
 </div>
 <div class="zh">
   <p>普通银行账户: 属性 kontostand (余额), 方法 einzahlen (存款) 和 abheben <span class="nb">(取款).</span> </p>
@@ -1369,15 +1372,15 @@ Flug-ID: F003</pre>
   <span class="folie">Folie 16</span>
   <p><b>Beispiel: Klasse für Bankkonten (2)</b></p>
   <div class="cols">
-<pre><code><span class="k">class</span> Bankkonto:
-    <span class="k">def</span> __init__(self, anfangsbetrag):
-        self.kontostand = anfangsbetrag
-    <span class="k">def</span> einzahlen(self, betrag):
-        self.kontostand += betrag
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Bankkonto</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, anfangsbetrag):
+        <span class="tk-b">self</span>.kontostand = anfangsbetrag
+    <span class="tk-k">def </span><span class="tk-f">einzahlen</span>(<span class="tk-b">self</span>, betrag):
+        <span class="tk-b">self</span>.kontostand += betrag
 
-    <span class="k">def</span> abheben(self, betrag):
-        self.kontostand -= betrag</code></pre>
-<pre>Grafische Darstellung in UML
+    <span class="tk-k">def </span><span class="tk-f">abheben</span>(<span class="tk-b">self</span>, betrag):
+        <span class="tk-b">self</span>.kontostand -= betrag</code></pre>
+<pre data-lang="diagram">Grafische Darstellung in UML
 ┌──────────────────────────┐
 │        Bankkonto         │
 ├──────────────────────────┤
@@ -1393,26 +1396,26 @@ Flug-ID: F003</pre>
 <div class="card de">
   <span class="folie">Folie 17</span>
   <p><b>Beispiel: Klasse für Sparkonto</b></p>
-<pre><code><span class="k">class</span> Sparkonto:
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Sparkonto</span>:
 
-    <span class="k">def</span> __init__(self, anfangsbetrag,
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, anfangsbetrag,
         zinssatz):
-        self.kontostand = anfangsbetrag
-        self.zinssatz = zinssatz
+        <span class="tk-b">self</span>.kontostand = anfangsbetrag
+        <span class="tk-b">self</span>.zinssatz = zinssatz
 
-    <span class="c"># Neue Methode:</span>
-    <span class="k">def</span> zinsen_anrechnen(self):
+    <span class="tk-c"># Neue Methode:
+    </span><span class="tk-k">def </span><span class="tk-f">zinsen_anrechnen</span>(<span class="tk-b">self</span>):
         zinsen =
-            self.kontostand * self.zinssatz /100.0
-        self.kontostand += zinsen
+            <span class="tk-b">self</span>.kontostand * <span class="tk-b">self</span>.zinssatz /<span class="tk-n">100.0
+        </span><span class="tk-b">self</span>.kontostand += zinsen
 
-    <span class="c"># Einzahlen / Abheben wie normales</span>
-        Bankkonto
-    <span class="k">def</span> einzahlen(self, betrag):
-        self.kontostand += betrag
+    <span class="tk-c"># Einzahlen / Abheben wie normales
+        </span>Bankkonto
+    <span class="tk-k">def </span><span class="tk-f">einzahlen</span>(<span class="tk-b">self</span>, betrag):
+        <span class="tk-b">self</span>.kontostand += betrag
 
-    <span class="k">def</span> abheben(self, betrag):
-        self.kontostand -= betrag</code></pre>
+    <span class="tk-k">def </span><span class="tk-f">abheben</span>(<span class="tk-b">self</span>, betrag):
+        <span class="tk-b">self</span>.kontostand -= betrag</code></pre>
 </div>
 <div class="zh">
   <p><b>Sparkonto 储蓄账户</b>: 比普通账户多一个属性 zinssatz (利率, 百分数) 和一个方法 zinsen_anrechnen (计息: 余额 × 利率 / 100 加到余额上). einzahlen、abheben 和 Bankkonto 一模一样, <span class="nb">只是复制了一遍.</span> </p>
@@ -1422,7 +1425,7 @@ Flug-ID: F003</pre>
 <div class="card de">
   <span class="folie">Folie 18</span>
   <p><b>Beispiel: Klassendiagramm für Sparkonto</b></p>
-<pre>Grafische Darstellung in UML
+<pre data-lang="diagram">Grafische Darstellung in UML
 ┌───────────────────────────────────┐
 │            Sparkonto              │
 ├───────────────────────────────────┤
@@ -1440,7 +1443,7 @@ Flug-ID: F003</pre>
   <span class="folie">Folie 19</span>
   <p><b>Vergleiche Sparkonto und Bankkonto Klassen</b></p>
   <div class="cols">
-<pre>┌───────────────────────────────────┐
+<pre data-lang="diagram">┌───────────────────────────────────┐
 │            Sparkonto              │
 ├───────────────────────────────────┤
 │ kontostand: float                 │
@@ -1451,7 +1454,7 @@ Flug-ID: F003</pre>
 │ einzahlen(betrag)                 │
 │ abheben(betrag)                   │
 └───────────────────────────────────┘</pre>
-<pre>┌──────────────────────────┐
+<pre data-lang="diagram">┌──────────────────────────┐
 │        Bankkonto         │
 ├──────────────────────────┤
 │ kontostand: float        │
@@ -1470,19 +1473,19 @@ Flug-ID: F003</pre>
 <div class="card de">
   <span class="folie">Folie 20</span>
   <p><b>Beispiel: Klasse für Girokonto</b></p>
-<pre><code><span class="k">class</span> Girokonto:
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Girokonto</span>:
 
-    <span class="k">def</span> __init__(self, anfangsbetrag, gebühr):
-        self.kontostand = anfangsbetrag
-        self.gebühr = gebühr
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, anfangsbetrag, gebühr):
+        <span class="tk-b">self</span>.kontostand = anfangsbetrag
+        <span class="tk-b">self</span>.gebühr = gebühr
 
-    <span class="k">def</span> einzahlen(betrag):
-        self.kontostand += betrag
-        self.kontostand -= self.gebühr
+    <span class="tk-k">def </span><span class="tk-f">einzahlen</span>(betrag):
+        <span class="tk-b">self</span>.kontostand += betrag
+        <span class="tk-b">self</span>.kontostand -= <span class="tk-b">self</span>.gebühr
 
-    <span class="k">def</span> abheben(betrag):
-        self.kontostand -= betrag
-        self.kontostand -= self.gebühr</code></pre>
+    <span class="tk-k">def </span><span class="tk-f">abheben</span>(betrag):
+        <span class="tk-b">self</span>.kontostand -= betrag
+        <span class="tk-b">self</span>.kontostand -= <span class="tk-b">self</span>.gebühr</code></pre>
 </div>
 <div class="zh">
   <p><b>Girokonto 活期/往来账户</b>: 每次存取款都扣一笔 gebühr (手续费). 和 Bankkonto 的属性相同 (多了 gebühr), einzahlen、abheben <span class="nb">的<b>名字相同但做法不同</b>.</span> </p>
@@ -1493,20 +1496,20 @@ Flug-ID: F003</pre>
   <span class="folie">Folie 21</span>
   <p><b>Beispiel: Klasse für Girokonto (2)</b></p>
   <div class="cols">
-<pre><code><span class="k">class</span> Girokonto:
-    <span class="k">def</span> __init__(self, anfangsbetrag,
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Girokonto</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, anfangsbetrag,
          gebühr):
-        self.kontostand = anfangsbetrag
-        self.gebühr = gebühr
+        <span class="tk-b">self</span>.kontostand = anfangsbetrag
+        <span class="tk-b">self</span>.gebühr = gebühr
 
-    <span class="k">def</span> einzahlen(betrag):
-        self.kontostand += betrag
-        self.kontostand -= self.gebühr
+    <span class="tk-k">def </span><span class="tk-f">einzahlen</span>(betrag):
+        <span class="tk-b">self</span>.kontostand += betrag
+        <span class="tk-b">self</span>.kontostand -= <span class="tk-b">self</span>.gebühr
 
-    <span class="k">def</span> abheben(betrag):
-        self.kontostand -= betrag
-        self.kontostand -= self.gebühr</code></pre>
-<pre>Grafische Darstellung in UML
+    <span class="tk-k">def </span><span class="tk-f">abheben</span>(betrag):
+        <span class="tk-b">self</span>.kontostand -= betrag
+        <span class="tk-b">self</span>.kontostand -= <span class="tk-b">self</span>.gebühr</code></pre>
+<pre data-lang="diagram">Grafische Darstellung in UML
 ┌───────────────────────────────┐
 │          Girokonto            │
 ├───────────────────────────────┤
@@ -1524,7 +1527,7 @@ Flug-ID: F003</pre>
   <span class="folie">Folie 22</span>
   <p><b>Vergleiche Girokonto und Bankkonto Klassen</b></p>
   <div class="cols">
-<pre>┌───────────────────────────────┐
+<pre data-lang="diagram">┌───────────────────────────────┐
 │          Girokonto            │
 ├───────────────────────────────┤
 │ kontostand: float             │
@@ -1534,7 +1537,7 @@ Flug-ID: F003</pre>
 │ einzahlen(betrag)             │
 │ abheben(betrag)               │
 └───────────────────────────────┘</pre>
-<pre>┌──────────────────────────┐
+<pre data-lang="diagram">┌──────────────────────────┐
 │        Bankkonto         │
 ├──────────────────────────┤
 │ kontostand: float        │
@@ -1614,7 +1617,7 @@ Flug-ID: F003</pre>
 <div class="card de">
   <span class="folie">Folie 28</span>
   <p><b>Grammatik für Klassendeklaration (mit Vererbung)</b></p>
-<pre><code>ClassDecl   = "class" Identifier [ "(" Identifier ")" ] ":" ClassBody
+<pre data-lang="grammar"><code>ClassDecl   = "class" Identifier [ "(" Identifier ")" ] ":" ClassBody
 ClassBody   = ConstructorDecl|MethodDecl
 MethodDecl  = Header Block
 Header      = "def" Identifier "(" "self" [ "," FormalParam ] ")" ":"
@@ -1633,16 +1636,16 @@ FormalParam = Identifier { "," Identifier }</code></pre>
 <div class="card de">
   <span class="folie">Folie 29</span>
   <p><b>Erbende Klasse Sparkonto in Python</b></p>
-<pre><code><span class="k">class</span> Sparkonto(Bankkonto):
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Sparkonto</span>(Bankkonto):
 
-    <span class="k">def</span> __init__(self, anfangsbetrag, zinssatz):
-        <span class="s">"""Initialisierung ueber Oberklasse Bankkonto"""</span>
-        super().__init__(anfangsbetrag)
-        self.zinssatz = zinssatz
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, anfangsbetrag, zinssatz):
+        <span class="tk-s">"""Initialisierung ueber Oberklasse Bankkonto"""
+        </span><span class="tk-b">super</span>().<span class="tk-f">__init__</span>(anfangsbetrag)
+        <span class="tk-b">self</span>.zinssatz = zinssatz
 
-    <span class="k">def</span> zinsen_anrechnen(self):
-        zinsen = self.kontostand * self.zinssatz/100.0
-        self.kontostand += zinsen</code></pre>
+    <span class="tk-k">def </span><span class="tk-f">zinsen_anrechnen</span>(<span class="tk-b">self</span>):
+        zinsen = <span class="tk-b">self</span>.kontostand * <span class="tk-b">self</span>.zinssatz/<span class="tk-n">100.0
+        </span><span class="tk-b">self</span>.kontostand += zinsen</code></pre>
   <ul><li>Ein Sparkonto <b>erbt</b> alle Attribute und Methoden eines Bankkontos und fügt eigene <span class="nb">hinzu.</span></li></ul>
   <figure class="src-fig"><img src="data:image/png;base64,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" alt="UML: Sparkonto erbt von Bankkonto"><figcaption><span class="cs">幻灯片原图 (Folie 29):</span> <span class="cs">子类指向父类,</span> <span class="nb"><span class="cs">箭头是空心三角.</span></span></figcaption></figure>
 </div>
@@ -1702,14 +1705,14 @@ FormalParam = Identifier { "," Identifier }</code></pre>
   <span class="folie">Folie 33</span>
   <p><b>Beispiel: Benutzung von Sparkonto</b></p>
   <p>Beispielcode</p>
-<pre><code>konto = Sparkonto(200, 5)       <span class="c"># 200 Euro, 5% Zinssatz</span>
-print(konto.kontostand)          <span class="c"># geerbtes Attribut</span>
-print(konto.zinssatz)            <span class="c"># neues Attribut</span>
-konto.einzahlen(100)             <span class="c"># geerbte Methode</span>
-konto.zinsen_anrechnen()         <span class="c"># neue Methode</span>
-print(konto.__dict__)            <span class="c"># Attribute von konto</span></code></pre>
+<pre data-lang="python"><code>konto = Sparkonto(<span class="tk-n">200</span>, <span class="tk-n">5</span>)       <span class="tk-c"># 200 Euro, 5% Zinssatz
+</span><span class="tk-b">print</span>(konto.kontostand)          <span class="tk-c"># geerbtes Attribut
+</span><span class="tk-b">print</span>(konto.zinssatz)            <span class="tk-c"># neues Attribut
+</span>konto.einzahlen(<span class="tk-n">100</span>)             <span class="tk-c"># geerbte Methode
+</span>konto.zinsen_anrechnen()         <span class="tk-c"># neue Methode
+</span><span class="tk-b">print</span>(konto.__dict__)            <span class="tk-c"># Attribute von konto</span></code></pre>
   <p>Ausführung</p>
-<pre>200
+<pre data-lang="output">200
 5
 {'kontostand': 315.0, 'zinssatz': 5}</pre>
   <p>Das Attribut __dict__ zeigt alle Attribute eines Objekts als „Dictionary“ (nächste <span class="nb">Vorlesung)</span></p>
@@ -1723,16 +1726,16 @@ print(konto.__dict__)            <span class="c"># Attribute von konto</span></c
   <span class="folie">Folie 34</span>
   <p><b>Bemerkung</b></p>
   <p>Da Python eine dynamische Typisierung hat, kann es leicht zu Fehlern kommen. <span class="nb">Beispiel:</span></p>
-<pre><code>konto1 = Sparkonto(450,1)
-konto2 = Bankkonto(200)
+<pre data-lang="python"><code>konto1 = Sparkonto(<span class="tk-n">450</span>,<span class="tk-n">1</span>)
+konto2 = Bankkonto(<span class="tk-n">200</span>)
 
 konto1.zinsen_anrechnen()
-print(konto1.kontostand)
+<span class="tk-b">print</span>(konto1.kontostand)
 
 konto2.zinsen_anrechnen()
-print(konto2.kontostand)</code></pre>
+<span class="tk-b">print</span>(konto2.kontostand)</code></pre>
   <p>Ausgabe</p>
-<pre>454.5
+<pre data-lang="output">454.5
 AttributeError: 'Bankkonto' object has no
                 attribute 'zinsen_anrechnen'</pre>
 </div>
@@ -1771,27 +1774,27 @@ AttributeError: 'Bankkonto' object has no
 <div class="card de">
   <span class="folie">Folie 37</span>
   <p><b>Beispiel: Girokonto</b></p>
-<pre><code><span class="k">class</span> Girokonto(Bankkonto):
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Girokonto</span>(Bankkonto):
 
-    <span class="k">def</span> __init__(self, anfangsbetrag, gebühr):
-        super().__init__(anfangsbetrag)
-        self.gebühr = gebühr
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, anfangsbetrag, gebühr):
+        <span class="tk-b">super</span>().<span class="tk-f">__init__</span>(anfangsbetrag)
+        <span class="tk-b">self</span>.gebühr = gebühr
 
-    <span class="c"># Überschreiben der Methode</span>
-    <span class="c"># Funktionalität anpassen</span>
-    <span class="k">def</span> einzahlen(self, betrag):
-        <span class="c"># Wiederverwendung der Methode der Oberklasse</span>
-        super().einzahlen(betrag)
-        <span class="c"># zusätzliche Berechnung</span>
-        self.kontostand -= self.gebühr
+    <span class="tk-c"># Überschreiben der Methode
+    # Funktionalität anpassen
+    </span><span class="tk-k">def </span><span class="tk-f">einzahlen</span>(<span class="tk-b">self</span>, betrag):
+        <span class="tk-c"># Wiederverwendung der Methode der Oberklasse
+        </span><span class="tk-b">super</span>().einzahlen(betrag)
+        <span class="tk-c"># zusätzliche Berechnung
+        </span><span class="tk-b">self</span>.kontostand -= <span class="tk-b">self</span>.gebühr
 
-    <span class="c"># ...</span></code></pre>
+    <span class="tk-c"># ...</span></code></pre>
 </div>
 <div class="zh">
   <p>重写的 einzahlen 先用 <code class="lc">super().einzahlen(betrag)</code> <b>重用</b>父类的存款逻辑, 再扣手续费. 这样存款的核心逻辑仍只写在 Bankkonto 一处. <code># ...</code> 表示 abheben <span class="nb">照此写法省略了:</span> </p>
-<pre><code>    def abheben(self, betrag):
-        super().abheben(betrag)
-        self.kontostand -= self.gebühr</code></pre>
+<pre data-lang="python"><code>    <span class="tk-k">def </span><span class="tk-f">abheben</span>(<span class="tk-b">self</span>, betrag):
+        <span class="tk-b">super</span>().abheben(betrag)
+        <span class="tk-b">self</span>.kontostand -= <span class="tk-b">self</span>.gebühr</code></pre>
 </div>
 
 <div class="card de">
@@ -1807,16 +1810,16 @@ AttributeError: 'Bankkonto' object has no
 <div class="card de">
   <span class="folie">Folie 39</span>
   <p><b>Beispiel: GiroKonto verwenden</b></p>
-<pre><code>sparkonto = Sparkonto(100, 1.2)
-girokonto = Girokonto(100, 0.02) <span class="c"># 2 Cent Gebühr</span>
-sparkonto.einzahlen(100)
-sparkonto.abheben(100)
-girokonto.einzahlen(100)
-girokonto.abheben(100)
-print(<span class="s">"Sparkonto: "</span> + str(sparkonto.kontostand))
-print(<span class="s">"Girokonto: "</span> + str(girokonto.kontostand))</code></pre>
+<pre data-lang="python"><code>sparkonto = Sparkonto(<span class="tk-n">100</span>, <span class="tk-n">1.2</span>)
+girokonto = Girokonto(<span class="tk-n">100</span>, <span class="tk-n">0.02</span>) <span class="tk-c"># 2 Cent Gebühr
+</span>sparkonto.einzahlen(<span class="tk-n">100</span>)
+sparkonto.abheben(<span class="tk-n">100</span>)
+girokonto.einzahlen(<span class="tk-n">100</span>)
+girokonto.abheben(<span class="tk-n">100</span>)
+<span class="tk-b">print</span>(<span class="tk-s">"Sparkonto: " </span>+ <span class="tk-b">str</span>(sparkonto.kontostand))
+<span class="tk-b">print</span>(<span class="tk-s">"Girokonto: " </span>+ <span class="tk-b">str</span>(girokonto.kontostand))</code></pre>
   <p>Ausgabe</p>
-<pre>Sparkonto: 100
+<pre data-lang="output">Sparkonto: 100
 Girokonto: 99.96000000000002</pre>
   <p>Beachte: Zahl 99.96 kann nicht präzise als float dargestellt werden.<br>Variante: Decimal für beliebig genaue Kommazahlen</p>
 </div>
@@ -1852,11 +1855,11 @@ Girokonto: 99.96000000000002</pre>
     <li>C 里定义了 m → 用 C 的; 没定义 → 去 C 的父类里找, 再找父类的父类……直到 <span class="nb">object.</span> </li>
   </ol>
   <p>这个选择在<b>运行时</b>才做, 所以叫<span class="nb"><b>dynamische Bindung 动态绑定</b>.</span> </p>
-<pre><code>&gt;&gt;&gt; konten = [Bankkonto(100), Girokonto(100, 1)]
-&gt;&gt;&gt; for k in konten:
-...     k.einzahlen(10)
-...
-&gt;&gt;&gt; [k.kontostand for k in konten]
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>konten = [Bankkonto(<span class="tk-n">100</span>), Girokonto(<span class="tk-n">100</span>, <span class="tk-n">1</span>)]
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">for </span>k <span class="tk-k">in </span>konten:
+<span class="tk-p">...     </span>k.einzahlen(<span class="tk-n">10</span>)
+<span class="tk-p">...
+&gt;&gt;&gt; </span>[k.kontostand <span class="tk-k">for </span>k <span class="tk-k">in </span>konten]
 [110, 109]</code></pre>
   <p>同一行 <code>k.einzahlen(10)</code>, 第一次执行的是 Bankkonto 的版本, 第二次是 Girokonto 重写的版本 (多扣 1). 这正是继承 + 重写的威力: 调用方不必知道具体是<span class="nb">哪种账户.</span> </p>
 </div>
@@ -1867,35 +1870,35 @@ Girokonto: 99.96000000000002</pre>
 <h2 id="spezial">重写特殊方法<br><span class="de-title">Spezielle Methoden überschreiben</span></h2>
 <div class="card de">
   <span class="folie">Folie 42</span>
-<pre><code><span class="k">class</span> Buch:
-    <span class="s">"""Beispielklasse zur Demonstration spezieller
-       Methoden."""</span>
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Buch</span>:
+    <span class="tk-s">"""Beispielklasse zur Demonstration spezieller
+       Methoden."""
 
-    <span class="k">def</span> __init__(self, titel, autor, seiten):
-        <span class="s">"""Initialisierung von Buch mit titel,
-        autor und seiten."""</span>
-        self.titel = titel
-        self.autor = autor
-        self.seiten = seiten
+    </span><span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, titel, autor, seiten):
+        <span class="tk-s">"""Initialisierung von Buch mit titel,
+        autor und seiten."""
+        </span><span class="tk-b">self</span>.titel = titel
+        <span class="tk-b">self</span>.autor = autor
+        <span class="tk-b">self</span>.seiten = seiten
 
-    <span class="k">def</span> __str__(self):
-        <span class="s">"""Darstellung einer Instanz als String
-        (spezielle Methode) wird überschrieben."""</span>
-        <span class="k">return</span> self.autor + <span class="s">": "</span> + self.titel</code></pre>
+    <span class="tk-k">def </span><span class="tk-f">__str__</span>(<span class="tk-b">self</span>):
+        <span class="tk-s">"""Darstellung einer Instanz als String
+        (spezielle Methode) wird überschrieben."""
+        </span><span class="tk-k">return </span><span class="tk-b">self</span>.autor + <span class="tk-s">": " </span>+ <span class="tk-b">self</span>.titel</code></pre>
 </div>
 <div class="card de">
   <span class="folie">Folie 43</span>
   <p><b>Spezielle Methoden überschreiben (Fortsetzung)</b></p>
-<pre><code>    <span class="k">def</span> __len__(self):
-        <span class="s">"""Darstellung der Laenge einer Instanz
-        (spezielle Methode) wird überschrieben."""</span>
-        <span class="k">return</span> self.seiten
+<pre data-lang="python"><code>    <span class="tk-k">def </span><span class="tk-f">__len__</span>(<span class="tk-b">self</span>):
+        <span class="tk-s">"""Darstellung der Laenge einer Instanz
+        (spezielle Methode) wird überschrieben."""
+        </span><span class="tk-k">return </span><span class="tk-b">self</span>.seiten
 
-    <span class="k">def</span> __eq__(self, other):
-        <span class="s">"""Vergleich zwei Instanz
-        (spezielle Methode) wird überschrieben."""</span>
-        <span class="k">return</span> self.titel == other.titel <span class="k">and</span>
-            self.autor == other.autor</code></pre>
+    <span class="tk-k">def </span><span class="tk-f">__eq__</span>(<span class="tk-b">self</span>, other):
+        <span class="tk-s">"""Vergleich zwei Instanz
+        (spezielle Methode) wird überschrieben."""
+        </span><span class="tk-k">return </span><span class="tk-b">self</span>.titel == other.titel <span class="tk-k">and
+            </span><span class="tk-b">self</span>.autor == other.autor</code></pre>
   <p>Die __eq__-Methode, wir verwendet, um zwei Objekte anhand ihrer Werte zu vergleichen. Python ruft automatisch die __eq__-Methode einer Klasse auf, wenn Sie den ==-Operator verwenden, um die Instanzen der Klasse zu <span class="nb">vergleichen.</span></p>
 </div>
 <div class="zh">
@@ -1914,17 +1917,17 @@ Girokonto: 99.96000000000002</pre>
   <span class="folie">Folie 44</span>
   <p><b>Beispiel Buch</b></p>
   <p>Ausfürung:</p>
-<pre><code>buch1 = Buch(<span class="s">"Python - kurz &amp; gut"</span>, <span class="s">"Mark Lutz"</span>, 955)
-buch2 = Buch(<span class="s">"Learning Python"</span>, <span class="s">"Mark Lutz"</span>, 123)
-buch3 = Buch(<span class="s">"Learning Python"</span>, <span class="s">"Mark Lutz"</span>, 124) <span class="c"># !!</span>
+<pre data-lang="python"><code>buch1 = Buch(<span class="tk-s">"Python - kurz &amp; gut"</span>, <span class="tk-s">"Mark Lutz"</span>, <span class="tk-n">955</span>)
+buch2 = Buch(<span class="tk-s">"Learning Python"</span>, <span class="tk-s">"Mark Lutz"</span>, <span class="tk-n">123</span>)
+buch3 = Buch(<span class="tk-s">"Learning Python"</span>, <span class="tk-s">"Mark Lutz"</span>, <span class="tk-n">124</span>) <span class="tk-c"># !!
 
-<span class="c"># Spezielle Methoden</span>
-print(buch1)
-print(len(buch1))
-print(buch1 == buch2)
-print(buch2 == buch3)</code></pre>
+# Spezielle Methoden
+</span><span class="tk-b">print</span>(buch1)
+<span class="tk-b">print</span>(<span class="tk-b">len</span>(buch1))
+<span class="tk-b">print</span>(buch1 == buch2)
+<span class="tk-b">print</span>(buch2 == buch3)</code></pre>
   <p>Ausgabe:</p>
-<pre>Mark Lutz: Python - kurz &amp; gut
+<pre data-lang="output">Mark Lutz: Python - kurz &amp; gut
 955
 False
 True   # Seitenzahl wird nicht mit __eq__ verglichen</pre>

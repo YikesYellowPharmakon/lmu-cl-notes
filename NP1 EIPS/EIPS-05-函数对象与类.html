@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1095,6 +1092,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 10.7; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81cee4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #47caea; --syn-f: #c6dcfe; --syn-s: #d9ba70; --syn-n: #9adaa3; --syn-b: #7db7b8; --syn-c: #7c9096; --syn-p: #7c9096; }
+  html[data-mode="day"] { --syn-k: #0f6f84; --syn-f: #1a447f; --syn-s: #7b5f01; --syn-n: #1d7635; --syn-b: #105e60; --syn-c: #566d75; --syn-p: #566d75; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1154,19 +1157,19 @@
 <div class="card de">
   <span class="folie">Folie 3</span>
   <p><b>Wdhlg. Quadratische Gleichungen</b></p>
-<pre><code><span class="k">from</span> math <span class="k">import</span> *
+<pre data-lang="python"><code><span class="tk-k">from </span>math <span class="tk-k">import </span>*
 
-a = 4
-b = 12
-c = 7
+a = <span class="tk-n">4
+</span>b = <span class="tk-n">12
+</span>c = <span class="tk-n">7
 
-<span class="c"># Löse a * x * x + b * x + c = 0</span>
+</span><span class="tk-c"># Löse a * x * x + b * x + c = 0
 
-<span class="c"># Formel:</span>
-x1 = (-b + sqrt(b**2 - 4*a*c))/(2*a)
-print(x1)
+# Formel:
+</span>x1 = (-b + sqrt(b**<span class="tk-n">2 </span>- <span class="tk-n">4</span>*a*c))/(<span class="tk-n">2</span>*a)
+<span class="tk-b">print</span>(x1)
 
-x2 = (-b - sqrt(b**2 - 4*a*c))/(2*a)</code></pre>
+x2 = (-b - sqrt(b**<span class="tk-n">2 </span>- <span class="tk-n">4</span>*a*c))/(<span class="tk-n">2</span>*a)</code></pre>
   <ul><li><code>sqrt()</code> Eingebaute Funktion in Python Modul, die die Quadratwurzel einer Zahl zurück <span class="nb">gibt.</span></li></ul>
 </div>
 <div class="zh">
@@ -1181,10 +1184,10 @@ x2 = (-b - sqrt(b**2 - 4*a*c))/(2*a)</code></pre>
   <ul>
     <li>Die Python-Standardbibliothek stellt eine Reihe von mathematischen Funktionen zur <span class="nb">Verfügung</span></li>
     <li>Zum Beispiel:
-<pre><code><span class="k">from</span> math <span class="k">import</span> *
-y = sqrt(x)     <span class="c"># Wurzel von x</span>
-i = round(y)    <span class="c"># gerundeter Wert</span>
-u = max(z,10.0) <span class="c"># Maximum von z und 10.0</span></code></pre></li>
+<pre data-lang="python"><code><span class="tk-k">from </span>math <span class="tk-k">import </span>*
+y = sqrt(x)     <span class="tk-c"># Wurzel von x
+</span>i = <span class="tk-b">round</span>(y)    <span class="tk-c"># gerundeter Wert
+</span>u = <span class="tk-b">max</span>(z,<span class="tk-n">10.0</span>) <span class="tk-c"># Maximum von z und 10.0</span></code></pre></li>
     <li>Siehe Python Dokumentation von Math Modul für weitere Funktionen: https://docs.python.org/3/library/math.<span class="nb">html</span></li>
   </ul>
 </div>
@@ -1198,19 +1201,19 @@ u = max(z,10.0) <span class="c"># Maximum von z und 10.0</span></code></pre></li
   <p>Beispiel: Summe der ersten 100 <span class="nb">Zahlen</span></p>
   <div class="cols">
     <div><p>Lösung mit <span class="nb">while-Schleife</span></p>
-<pre><code>summe = 0
-i = 1
-<span class="k">while</span> i &lt;= 100:
+<pre data-lang="python"><code>summe = <span class="tk-n">0
+</span>i = <span class="tk-n">1
+</span><span class="tk-k">while </span>i &lt;= <span class="tk-n">100</span>:
     summe = summe + i
-    i = i + 1
-print(summe)</code></pre></div>
+    i = i + <span class="tk-n">1
+</span><span class="tk-b">print</span>(summe)</code></pre></div>
     <div><p>Lösung mit <span class="nb">for-Schleife</span></p>
-<pre><code>summe = 0 <span class="c"># Akkumulator</span>
+<pre data-lang="python"><code>summe = <span class="tk-n">0 </span><span class="tk-c"># Akkumulator
 
-<span class="k">for</span> i <span class="k">in</span> range(1,101):
+</span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">1</span>,<span class="tk-n">101</span>):
     summe = summe + i
 
-print(summe)</code></pre></div>
+<span class="tk-b">print</span>(summe)</code></pre></div>
   </div>
   <ul><li>Die range-Funktion erzeugt eine Sequenz von Zahlen, die oft im Zusammenhang mit for-Schleifen verwendet wird.<br>Beispiel:<br><code>range(1,5)</code> =<sub>σ</sub> [1,2,3,4]</li></ul>
 </div>
@@ -1222,9 +1225,9 @@ print(summe)</code></pre></div>
   <span class="folie">Folie 6</span>
   <p><b>Beispiel mit Funktion sum()</b></p>
   <p>Lösung mit der <span class="nb">Funktion sum()</span></p>
-<pre><code>zahlen = range(1,101)
-summe = sum(zahlen)
-print(summe)</code></pre>
+<pre data-lang="python"><code>zahlen = <span class="tk-b">range</span>(<span class="tk-n">1</span>,<span class="tk-n">101</span>)
+summe = <span class="tk-b">sum</span>(zahlen)
+<span class="tk-b">print</span>(summe)</code></pre>
   <p>summe =<sub>σ</sub> <span class="nb">5050</span></p>
 </div>
 <div class="zh">
@@ -1256,24 +1259,24 @@ print(summe)</code></pre>
 <div class="card de">
   <span class="folie">Folie 9</span>
   <p><b>Funktion Quadratische Gleichung</b></p>
-<pre><code><span class="k">from</span> math <span class="k">import</span> *
+<pre data-lang="python"><code><span class="tk-k">from </span>math <span class="tk-k">import </span>*
 
-<span class="k">def</span> quad_gleichung(a, b, c):
+<span class="tk-k">def </span><span class="tk-f">quad_gleichung</span>(a, b, c):
 
-    x1 = (-b + sqrt(b**2 - 4*a*c))/(2*a)
+    x1 = (-b + sqrt(b**<span class="tk-n">2 </span>- <span class="tk-n">4</span>*a*c))/(<span class="tk-n">2</span>*a)
 
-    x2 = (-b - sqrt(b**2 - 4*a*c))/(2*a)
+    x2 = (-b - sqrt(b**<span class="tk-n">2 </span>- <span class="tk-n">4</span>*a*c))/(<span class="tk-n">2</span>*a)
 
-    print(<span class="s">"1. Nullstelle: "</span> + str(x1))
-    print(<span class="s">"2. Nullstelle: "</span> + str(x2))
+    <span class="tk-b">print</span>(<span class="tk-s">"1. Nullstelle: " </span>+ <span class="tk-b">str</span>(x1))
+    <span class="tk-b">print</span>(<span class="tk-s">"2. Nullstelle: " </span>+ <span class="tk-b">str</span>(x2))
 
-quad_gleichung(4, 12, 7)</code></pre>
+quad_gleichung(<span class="tk-n">4</span>, <span class="tk-n">12</span>, <span class="tk-n">7</span>)</code></pre>
   <ul><li><code>**</code> ist der Potenzoperator<br>Exponent – linker Operand potenziert mit rechts</li></ul>
 </div>
 <div class="zh">
   <p><b>定义函数</b>: <code class="lc">def 名字(参数1, 参数2, …):</code>, 下面缩进的块是<b>函数体</b>. 定义本身不执行函数体, <span class="nb">只是把这段代码记下来.</span> </p>
   <p><b>调用函数</b>: <code class="lc">quad_gleichung(4, 12, 7)</code>, 这时 a、b、c 分别得到 4、12、7, 然后执行函数体. <span class="nb">输出:</span> </p>
-<pre>1. Nullstelle: -0.7928932188134524
+<pre data-lang="output">1. Nullstelle: -0.7928932188134524
 2. Nullstelle: -2.2071067811865475</pre>
   <p>Nullstelle = 零点 (使函数值为 0 的 x). <code>**</code>: 左操作数的右操作数次方, <span class="nb"><code>b**2</code> = b².</span> </p>
 </div>
@@ -1282,24 +1285,24 @@ quad_gleichung(4, 12, 7)</code></pre>
 <div class="card de">
   <span class="folie">Folie 10</span>
   <p><b>Beispiele: Funktion int_sortierung()</b></p>
-<pre><code><span class="k">def</span> int_sortierung(x,y,z):
-    <span class="k">if</span> x &gt; y:
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">int_sortierung</span>(x,y,z):
+    <span class="tk-k">if </span>x &gt; y:
         tmp = x
         x = y
         y = tmp
 
-    <span class="k">if</span> y &gt; z:
+    <span class="tk-k">if </span>y &gt; z:
         tmp = y
         y = z
         z = tmp
 
-    <span class="k">if</span> x &gt; y:
+    <span class="tk-k">if </span>x &gt; y:
         tmp = x
         x = y
         y = tmp
-    print(<span class="s">"Die richtige Reihenfolge ist "</span> + str(x) +
-        <span class="s">","</span> + str(y) + <span class="s">","</span>+ str(z))
-int_sortierung(3,5,1)</code></pre>
+    <span class="tk-b">print</span>(<span class="tk-s">"Die richtige Reihenfolge ist " </span>+ <span class="tk-b">str</span>(x) +
+        <span class="tk-s">"," </span>+ <span class="tk-b">str</span>(y) + <span class="tk-s">","</span>+ <span class="tk-b">str</span>(z))
+int_sortierung(<span class="tk-n">3</span>,<span class="tk-n">5</span>,<span class="tk-n">1</span>)</code></pre>
   <p>Ausgabe: <code class="lc">Die richtige Reihenfolge ist 1,3,5</code></p>
 </div>
 <div class="zh">
@@ -1317,30 +1320,30 @@ int_sortierung(3,5,1)</code></pre>
 <div class="card de">
   <span class="folie">Folie 11</span>
   <p><b>Beispiele(2): Benzin- und Ölverbrauch</b></p>
-<pre><code><span class="k">def</span> benzin_verbrauch(fahrtstrecke, benzin_pro100km):
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">benzin_verbrauch</span>(fahrtstrecke, benzin_pro100km):
 
     heutiger_benzinverbrauch = fahrtstrecke *
-        benzin_pro100km / 100
+        benzin_pro100km / <span class="tk-n">100
 
-    <span class="k">return</span> heutiger_benzinverbrauch
+    </span><span class="tk-k">return </span>heutiger_benzinverbrauch
 
-<span class="k">def</span> öl_verbrauch(fahrtstrecke, öl_pro1000km):
+<span class="tk-k">def </span><span class="tk-f">öl_verbrauch</span>(fahrtstrecke, öl_pro1000km):
 
     heutiger_ölverbrauch = fahrtstrecke *
-        öl_pro1000km / 1000
+        öl_pro1000km / <span class="tk-n">1000
 
-    <span class="k">return</span> heutiger_ölverbrauch
+    </span><span class="tk-k">return </span>heutiger_ölverbrauch
 
-print(<span class="s">"Der heutige Benzinverbrauch ist "</span> +
-    str(benzin_verbrauch(100.13,6.7)))
+<span class="tk-b">print</span>(<span class="tk-s">"Der heutige Benzinverbrauch ist " </span>+
+    <span class="tk-b">str</span>(benzin_verbrauch(<span class="tk-n">100.13</span>,<span class="tk-n">6.7</span>)))
 
-print(<span class="s">"Der heutige Ölverbrauch ist "</span> +
-    str(öl_verbrauch(100.13,0.6)))</code></pre>
+<span class="tk-b">print</span>(<span class="tk-s">"Der heutige Ölverbrauch ist " </span>+
+    <span class="tk-b">str</span>(öl_verbrauch(<span class="tk-n">100.13</span>,<span class="tk-n">0.6</span>)))</code></pre>
 </div>
 <div class="zh">
   <p>新东西: <b>return</b>. 前面的 quad_gleichung 只是 print 结果; 这两个函数用 <code>return</code> 把结果<b>交还</b>给调用者, 调用表达式 <code class="lc">benzin_verbrauch(100.13, 6.7)</code> 的值就是这个结果, 可以继续参与运算 (这里用 str <span class="nb">转成字符串拼接).</span> </p>
   <p>实际输出: </p>
-<pre>Der heutige Benzinverbrauch ist 6.70871
+<pre data-lang="output">Der heutige Benzinverbrauch ist 6.70871
 Der heutige Ölverbrauch ist 0.06007799999999999</pre>
   <p>第二个数末尾的 …99999 又是浮点误差 (数学上是 0.<span class="nb">060078).</span> </p>
 </div>
@@ -1349,15 +1352,15 @@ Der heutige Ölverbrauch ist 0.06007799999999999</pre>
 <div class="card de">
   <span class="folie">Folie 12</span>
   <p><b>Beispiele(3): Pizza Service</b></p>
-<pre><code><span class="k">def</span> pizza(grundpreis, anzahl_belagsorten, belagpreis):
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">pizza</span>(grundpreis, anzahl_belagsorten, belagpreis):
 
     gesamtpreis = grundpreis + anzahl_belagsorten *
         belagpreis
 
-        <span class="k">return</span> gesamtpreis
+        <span class="tk-k">return </span>gesamtpreis
 
-print(<span class="s">"Die Pizza kostet in Euro:"</span> + str(pizza(5.5,
-    23, 0.75)))</code></pre>
+<span class="tk-b">print</span>(<span class="tk-s">"Die Pizza kostet in Euro:" </span>+ <span class="tk-b">str</span>(pizza(<span class="tk-n">5.5</span>,
+    <span class="tk-n">23</span>, <span class="tk-n">0.75</span>)))</code></pre>
 </div>
 <div class="zh">
   <p>总价 = 底价 + 配料种数 × 每种配料价格. pizza(5.5, 23, 0.75) = 5.5 + 23 × 0.75 = 5.5 + 17.25 = 22.75. 按正确缩进运行的输出: <code class="lc">Die Pizza kostet in Euro:22.75</code> (冒号后没有空格, <span class="nb">因为字符串里没写).</span> </p>
@@ -1368,24 +1371,24 @@ print(<span class="s">"Die Pizza kostet in Euro:"</span> + str(pizza(5.5,
 <div class="card de">
   <span class="folie">Folie 13</span>
   <p><b>Beispiel(4): Steuern USA</b></p>
-<pre><code><span class="k">def</span> berechne_gehalt_netto(gehalt_brutto, verheiratet):
-    <span class="k">if</span> verheiratet:
-        <span class="k">if</span> gehalt_brutto &lt;= 18550:
-            steuern = 0.1 * gehalt_brutto
-        <span class="k">elif</span> gehalt_brutto &lt;= 75300:
-            steuern = 0.15 * gehalt_brutto
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">berechne_gehalt_netto</span>(gehalt_brutto, verheiratet):
+    <span class="tk-k">if </span>verheiratet:
+        <span class="tk-k">if </span>gehalt_brutto &lt;= <span class="tk-n">18550</span>:
+            steuern = <span class="tk-n">0.1 </span>* gehalt_brutto
+        <span class="tk-k">elif </span>gehalt_brutto &lt;= <span class="tk-n">75300</span>:
+            steuern = <span class="tk-n">0.15 </span>* gehalt_brutto
         ....
-    <span class="k">else</span>:
-        <span class="k">if</span> gehalt_brutto &lt;= 9275:
-            steuern = 0.1 * gehalt_brutto
-        <span class="k">elif</span> gehaltBrutto &lt;= 37650:
-            steuern = 0.15 * gehalt_brutto
+    <span class="tk-k">else</span>:
+        <span class="tk-k">if </span>gehalt_brutto &lt;= <span class="tk-n">9275</span>:
+            steuern = <span class="tk-n">0.1 </span>* gehalt_brutto
+        <span class="tk-k">elif </span>gehaltBrutto &lt;= <span class="tk-n">37650</span>:
+            steuern = <span class="tk-n">0.15 </span>* gehalt_brutto
         ....
-        <span class="k">else</span>:
-            steuern = 0.396 * gehalt_brutto
+        <span class="tk-k">else</span>:
+            steuern = <span class="tk-n">0.396 </span>* gehalt_brutto
     gehalt_netto = gehalt_brutto - steuern
-    <span class="k">return</span> gehalt_netto
-print(berechne_gehalt_netto(123456.78, True))</code></pre>
+    <span class="tk-k">return </span>gehalt_netto
+<span class="tk-b">print</span>(berechne_gehalt_netto(<span class="tk-n">123456.78</span>, <span class="tk-n">True</span>))</code></pre>
 </div>
 <div class="zh">
   <p>按婚姻状况和收入档次算税, 再算税后工资 (netto = brutto − steuern). 函数体里有嵌套的 if/elif/else, 函数结尾用 return 返回结果. <code>....</code> 表示省略了中间的档次 (不是 Python <span class="nb">代码).</span> </p>
@@ -1396,15 +1399,15 @@ print(berechne_gehalt_netto(123456.78, True))</code></pre>
 <h3 id="grammatik">函数定义的文法<br><span class="de-title">Grammatik für Funktionsdefinition</span></h3>
 <div class="card de">
   <span class="folie">Folie 14</span>
-<pre><code>FunktionDecl = Header Block
+<pre data-lang="grammar"><code>FunktionDecl = Header Block
 Header       = "def" Identifier "(" [ FormalParam ] ")" ":"
 FormalParam  = Identifier { "," Identifier }
 Block        = { Statement }</code></pre>
   <ul><li>Der Identifier im Header ist hier der Name der <span class="nb">Funktion.</span></li></ul>
   <p>Beispiel:</p>
-<pre><code><span class="k">def</span> summe(zahl):
-    zahlen = range(1,zahl+1)
-    <span class="k">return</span> sum(zahlen)</code></pre>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">summe</span>(zahl):
+    zahlen = <span class="tk-b">range</span>(<span class="tk-n">1</span>,zahl+<span class="tk-n">1</span>)
+    <span class="tk-k">return </span><span class="tk-b">sum</span>(zahlen)</code></pre>
 </div>
 <div class="zh">
   <p>函数定义 = <b>Header 头部</b> + 块. 头部: <code>def</code>、函数名、括号里可选的<b>formale Parameter 形式参数</b> (用逗号分隔的标识符)、<span class="nb">冒号.</span> </p>
@@ -1416,7 +1419,7 @@ Block        = { Statement }</code></pre>
   <span class="folie">Folie 15</span>
   <p><b>Erweiterte Grammatik für Ausdrücke mit Funktionsaufruf</b></p>
   <p>Im Folgenden Wird das in Kapitel 3 eingeführte Konzept für Ausdrücke <span class="nb">erweitert.</span></p>
-<pre><code>Expression       = Variable|Value|...
+<pre data-lang="grammar"><code>Expression       = Variable|Value|...
                   |UnOp Expression|"(" Expression ")"
                   |FunctionCall
 Variable         = NamedVariable
@@ -1434,7 +1437,7 @@ ActualParameters = Expression { "," Expression }</code></pre>
 <div class="card de">
   <span class="folie">Folie 16</span>
   <p>Syntax:</p>
-<pre><code>Statement       = ...
+<pre data-lang="grammar"><code>Statement       = ...
                  |ReturnStatement   (Return-Anweisung)
 ...
 ReturnStatement = "return" [ Expression ]</code></pre>
@@ -1454,35 +1457,35 @@ ReturnStatement = "return" [ Expression ]</code></pre>
   <p>规则: 有返回值的函数, <b>每一条执行路径</b>上都要有带表达式的 return. 例如 if 分支里 return 了, else 分支也要 <span class="nb">return.</span> </p>
 </div>
 <div class="add"><p>Python 不会强制检查这条规则: 如果某条路径没有 return 就走到了函数末尾, 函数返回特殊值 <code>None</code>. 不写 return 的函数 (如 quad_gleichung) 也返回 None. 这类 bug 常表现为后面出现 <span class="nb"><code class="lc">TypeError: … 'NoneType'</code>.</span> </p>
-<pre><code>&gt;&gt;&gt; def f(x):
-...     if x &gt; 0:
-...         return 1
-...
-&gt;&gt;&gt; print(f(-5))
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">def </span><span class="tk-f">f</span>(x):
+<span class="tk-p">...     </span><span class="tk-k">if </span>x &gt; <span class="tk-n">0</span>:
+<span class="tk-p">...         </span><span class="tk-k">return </span><span class="tk-n">1
+</span><span class="tk-p">...
+&gt;&gt;&gt; </span><span class="tk-b">print</span>(f(-<span class="tk-n">5</span>))
 None</code></pre></div>
 
 <h3 id="prim">例子: 素数测试<br><span class="de-title">Beispiel: Primzahl Test</span></h3>
 <div class="card de">
   <span class="folie">Folie 17</span>
-<pre><code><span class="c"># Funktionsdefinition</span>
-<span class="k">def</span> ist_primzahl(n):
+<pre data-lang="python"><code><span class="tk-c"># Funktionsdefinition
+</span><span class="tk-k">def </span><span class="tk-f">ist_primzahl</span>(n):
 
-    prim = True
+    prim = <span class="tk-n">True
 
-    k = 2
+    </span>k = <span class="tk-n">2
 
-    <span class="k">while</span> k * k &lt;= n <span class="k">and</span> prim:
+    </span><span class="tk-k">while </span>k * k &lt;= n <span class="tk-k">and </span>prim:
 
-        <span class="k">if</span> n % k == 0:
+        <span class="tk-k">if </span>n % k == <span class="tk-n">0</span>:
 
-            prim = False
+            prim = <span class="tk-n">False
 
-        k = k +1
+        </span>k = k +<span class="tk-n">1
 
-    <span class="k">return</span> prim
+    </span><span class="tk-k">return </span>prim
 
-<span class="c"># Funktionsaufruf</span>
-print(ist_primzahl(13))</code></pre>
+<span class="tk-c"># Funktionsaufruf
+</span><span class="tk-b">print</span>(ist_primzahl(<span class="tk-n">13</span>))</code></pre>
 </div>
 <div class="zh">
   <p>判断 n 是不是<b>Primzahl 素数</b>: 从 k = 2 开始试除, 只要找到一个能整除 n 的 k, <span class="nb">n 就不是素数.</span> </p>
@@ -1518,13 +1521,13 @@ print(ist_primzahl(13))</code></pre>
 <div class="card de">
   <span class="folie">Folie 19</span>
   <p><b>Funktion Primzahl-Test (2)</b></p>
-<pre><code><span class="k">def</span> ist_primzahl(n):
-    <span class="k">for</span> i <span class="k">in</span> range(2, int(sqrt(n))+1):
-        <span class="k">if</span> (n % i) == 0:
-            <span class="k">return</span> False
-    <span class="k">return</span> True
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">ist_primzahl</span>(n):
+    <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">2</span>, <span class="tk-b">int</span>(sqrt(n))+<span class="tk-n">1</span>):
+        <span class="tk-k">if </span>(n % i) == <span class="tk-n">0</span>:
+            <span class="tk-k">return </span><span class="tk-n">False
+    </span><span class="tk-k">return </span><span class="tk-n">True
 
-print(ist_primzahl(15))</code></pre>
+</span><span class="tk-b">print</span>(ist_primzahl(<span class="tk-n">15</span>))</code></pre>
   <p>Auswertung:</p>
   <ul>
     <li>Seien n, i lokale <span class="nb">Variablen.</span></li>
@@ -1541,17 +1544,17 @@ print(ist_primzahl(15))</code></pre>
 <div class="card de">
   <span class="folie">Folie 20</span>
   <p><b>Rückgabewert Negative Eingabe?</b></p>
-<pre><code><span class="k">def</span> ist_primzahl(n):
-    <span class="k">for</span> i <span class="k">in</span> range(2, int(sqrt(n))+1):
-        <span class="k">if</span> (n % i) == 0:
-            <span class="k">return</span> False
-    <span class="k">return</span> True
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">ist_primzahl</span>(n):
+    <span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">2</span>, <span class="tk-b">int</span>(sqrt(n))+<span class="tk-n">1</span>):
+        <span class="tk-k">if </span>(n % i) == <span class="tk-n">0</span>:
+            <span class="tk-k">return </span><span class="tk-n">False
+    </span><span class="tk-k">return </span><span class="tk-n">True
 
-print(ist_primzahl(-1))</code></pre>
+</span><span class="tk-b">print</span>(ist_primzahl(-<span class="tk-n">1</span>))</code></pre>
   </div>
 <div class="zh">
   <p>问: 输入 −1 时返回什么? <b>答案: 什么都不返回, 程序报错</b>. 第一步就要算 <code>sqrt(-1)</code>, 负数没有实数平方根, math.sqrt 抛出 <code>ValueError</code>. Python 3.<span class="nb">15 的实际信息:</span> </p>
-<pre>ValueError: expected a nonnegative input, got -1.0</pre>
+<pre data-lang="output">ValueError: expected a nonnegative input, got -1.0</pre>
   <p>(较早的 Python 版本里这条信息是 <code class="lc">ValueError: math domain error</code>.) 对比 Folie 17 的 while 版本: 它不用 sqrt, 输入 −1 时返回 True. 两个「等价」的函数在边界上<span class="nb">行为不同.</span> </p>
 </div>
 
@@ -1576,14 +1579,14 @@ print(ist_primzahl(-1))</code></pre>
   <p>fläche_kreis(5) = 3.14 × 5² <span class="nb">= 78.5.</span> </p>
 </div>
 <div class="warn"><p><b>幻灯片的说法对 Python 不成立: </b>「übergeordnete Variablen dürfen nicht noch einmal definiert werden 不允许重新定义」是 Java 等语言里局部变量的规则. 在 Python 里, 函数体中给一个和外层同名的变量赋值是<b>允许的</b>: 这会创建一个新的局部变量, 在函数里<b>遮住</b>外层的同名变量, 外层变量本身不变. <span class="nb">实际运行:</span> </p>
-<pre><code>&gt;&gt;&gt; pi = 3.14
-&gt;&gt;&gt; def f():
-...     pi = 3
-...     return pi
-...
-&gt;&gt;&gt; f()
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>pi = <span class="tk-n">3.14
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">def </span><span class="tk-f">f</span>():
+<span class="tk-p">...     </span>pi = <span class="tk-n">3
+</span><span class="tk-p">...     </span><span class="tk-k">return </span>pi
+<span class="tk-p">...
+&gt;&gt;&gt; </span>f()
 3
-&gt;&gt;&gt; pi
+<span class="tk-p">&gt;&gt;&gt; </span>pi
 3.14</code></pre>
 <p>所以考试按幻灯片答, 写程序时要知道 Python 的实际行为: 函数里赋值的名字都是局部的 (除非用 <code>global</code> <span class="nb">声明).</span> </p></div>
 
@@ -1643,14 +1646,14 @@ print(ist_primzahl(-1))</code></pre>
 <h2 id="point">例子: 点的类<br><span class="de-title">Beispiel: Klasse für Punkte</span></h2>
 <div class="card de">
   <span class="folie">Folie 25</span>
-<pre><code><span class="k">class</span> Point:
-    <span class="k">def</span> __init__(self, x0, y0):
-        self.x = x0
-        self.y = y0
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Point</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, x0, y0):
+        <span class="tk-b">self</span>.x = x0
+        <span class="tk-b">self</span>.y = y0
 
-    <span class="k">def</span> move(self, dx, dy):
-        self.x += dx
-        self.y += dy</code></pre>
+    <span class="tk-k">def </span><span class="tk-f">move</span>(<span class="tk-b">self</span>, dx, dy):
+        <span class="tk-b">self</span>.x += dx
+        <span class="tk-b">self</span>.y += dy</code></pre>
   <p>Wir gehen die Definition stückchenweise <span class="nb">durch!</span></p>
 </div>
 <div class="zh">
@@ -1660,7 +1663,7 @@ print(ist_primzahl(-1))</code></pre>
 <div class="card de">
   <span class="folie">Folie 26</span>
   <p><b>Beispiel: Klasse für Punkte (2)</b></p>
-<pre><code><span class="k">class</span> Punkt:</code></pre>
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Punkt</span>:</code></pre>
   <p class="src">(Beschriftungen: <i>class</i> = Schlüsselwort, <i>Punkt</i> = <span class="nb">Klassenname)</span></p>
   <ul>
     <li>Die Klassendefinition besteht aus zwei Teile: den Kopf und dem <span class="nb">Körper.</span></li>
@@ -1676,10 +1679,10 @@ print(ist_primzahl(-1))</code></pre>
 <div class="card de">
   <span class="folie">Folie 27</span>
   <p><b>Beispiel: Klasse für Punkte (3)</b></p>
-<pre><code>...
-    <span class="k">def</span> __init__(self, x0, y0):
-        self.x = x0
-        self.y = y0
+<pre data-lang="python"><code>...
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, x0, y0):
+        <span class="tk-b">self</span>.x = x0
+        <span class="tk-b">self</span>.y = y0
 ...</code></pre>
   <p class="src">(Beschriftungen: <i>def</i> = Schlüsselwort, <i>self, x0, y0</i> = formale Parameter, der Rumpf = <span class="nb">Objektinitialisierung)</span></p>
   <ul>
@@ -1702,10 +1705,10 @@ print(ist_primzahl(-1))</code></pre>
 <div class="card de">
   <span class="folie">Folie 28</span>
   <p><b>Beispiel: Klasse für Punkte (4)</b></p>
-<pre><code>...
-    <span class="k">def</span> __init__(self, x0, y0):
-        self.x = x0
-        self.y = y0
+<pre data-lang="python"><code>...
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, x0, y0):
+        <span class="tk-b">self</span>.x = x0
+        <span class="tk-b">self</span>.y = y0
 ...</code></pre>
   <p class="src">(Beschriftungen: <i>self</i> = vordefinierte lokale Variable self; <i>self.y</i> = Zugriff auf y-Koordinate von <span class="nb">self)</span></p>
   <ul>
@@ -1720,10 +1723,10 @@ print(ist_primzahl(-1))</code></pre>
 <div class="card de">
   <span class="folie">Folie 29</span>
   <p><b>Beispiel: Klasse für Punkte (5)</b></p>
-<pre><code>...
-    <span class="k">def</span> move(self, dx, dy):
-        self.x += dx
-        self.y += dy
+<pre data-lang="python"><code>...
+    <span class="tk-k">def </span><span class="tk-f">move</span>(<span class="tk-b">self</span>, dx, dy):
+        <span class="tk-b">self</span>.x += dx
+        <span class="tk-b">self</span>.y += dy
 ...</code></pre>
   <p class="src">(Beschriftungen: Methodendefinition; „Methode liefert nichts <span class="nb">zurück“)</span></p>
 </div>
@@ -1734,12 +1737,12 @@ print(ist_primzahl(-1))</code></pre>
 <div class="card de">
   <span class="folie">Folie 30</span>
   <p><b>Benutzung der Klasse Point</b></p>
-<pre><code>p1 = Point(7, -4)
-print(<span class="s">"x-Koordinate von p1 = "</span> + str(p1.x))
-print(<span class="s">"y-Koordinate von p1 = "</span> + str(p1.y))
-p1.move(-2,1)
-print(<span class="s">"x-Koordinate von p1 = "</span> + str(p1.x))
-print(<span class="s">"y-Koordinate von p1 = "</span> + str(p1.y))</code></pre>
+<pre data-lang="python"><code>p1 = Point(<span class="tk-n">7</span>, -<span class="tk-n">4</span>)
+<span class="tk-b">print</span>(<span class="tk-s">"x-Koordinate von p1 = " </span>+ <span class="tk-b">str</span>(p1.x))
+<span class="tk-b">print</span>(<span class="tk-s">"y-Koordinate von p1 = " </span>+ <span class="tk-b">str</span>(p1.y))
+p1.move(-<span class="tk-n">2</span>,<span class="tk-n">1</span>)
+<span class="tk-b">print</span>(<span class="tk-s">"x-Koordinate von p1 = " </span>+ <span class="tk-b">str</span>(p1.x))
+<span class="tk-b">print</span>(<span class="tk-s">"y-Koordinate von p1 = " </span>+ <span class="tk-b">str</span>(p1.y))</code></pre>
   <p>Bemerkungen:</p>
   <ul>
     <li>p1 ist ein erzeugtes <span class="nb">Objekt</span></li>
@@ -1748,7 +1751,7 @@ print(<span class="s">"y-Koordinate von p1 = "</span> + str(p1.y))</code></pre>
 </div>
 <div class="zh">
   <p><code>Point(7, -4)</code> 创建一个点对象, 存进 p1. <code>p1.x</code> 读属性. <code>p1.move(-2, 1)</code> 调用方法: 这时 self = p1, dx = −2, dy = 1. <span class="nb">实际输出:</span> </p>
-<pre>x-Koordinate von p1 = 7
+<pre data-lang="output">x-Koordinate von p1 = 7
 y-Koordinate von p1 = -4
 x-Koordinate von p1 = 5
 y-Koordinate von p1 = -3</pre>
@@ -1757,30 +1760,30 @@ y-Koordinate von p1 = -3</pre>
 <div class="card de">
   <span class="folie">Folie 31</span>
   <p><b>Mit Docsting kommentierte Klasse „Point“</b></p>
-<pre><code><span class="k">class</span> Point:
-    <span class="s">"""Diese Klasse dient zu Repräsentation eines Punkts"""</span>
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">Point</span>:
+    <span class="tk-s">"""Diese Klasse dient zu Repräsentation eines Punkts"""
 
-    <span class="k">def</span> __init__(self, x0, y0):
-        <span class="s">"""Konstruktor und Initilisierung eines Punktes,
+    </span><span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, x0, y0):
+        <span class="tk-s">"""Konstruktor und Initilisierung eines Punktes,
            wobei dessen x- und y-Koordinate gegeben sein müssen.
            Parameters:
            x0 (int): x-Koordinate des Punktes
            y0 (int): y-Koordinate des Punktes
-        """</span>
-        self.x = x0
-        self.y = y0
+        """
+        </span><span class="tk-b">self</span>.x = x0
+        <span class="tk-b">self</span>.y = y0
 
-    <span class="k">def</span> move(self, dx, dy):
-        <span class="s">"""Diese Methode verschiebt den Punkt um dx auf der x-Achse
+    <span class="tk-k">def </span><span class="tk-f">move</span>(<span class="tk-b">self</span>, dx, dy):
+        <span class="tk-s">"""Diese Methode verschiebt den Punkt um dx auf der x-Achse
         und dy auf der y-Achse
         Parameters:
         dx (int): Distanz der Verschiebung auf der x-Achse
         dy (int): Distanz der Verschiebung auf der y-Achse
-        """</span>
-        self.x += dx
-        self.y += dy</code></pre>
+        """
+        </span><span class="tk-b">self</span>.x += dx
+        <span class="tk-b">self</span>.y += dy</code></pre>
   <p>Aufruf zum Erstellen der <span class="nb">Dokumentation:</span></p>
-<pre><code>help(<span class="s">"Point"</span>)</code></pre>
+<pre data-lang="python"><code>help(<span class="tk-s">"Point"</span>)</code></pre>
 </div>
 <div class="zh">
   <p>和第 1 章的函数一样, 类和方法也可以写 <b>Docstring</b>: 紧跟在 <code>class</code> 行或 <code>def</code> 行下面的三引号字符串. 惯例写清楚: 做什么、每个参数的含义和类型. help <span class="nb">会把它们整理成文档.</span> </p>
@@ -1790,7 +1793,7 @@ y-Koordinate von p1 = -3</pre>
 <div class="card de">
   <span class="folie">Folie 32</span>
   <p><b>Ausgabe von help(Point)</b></p>
-<pre>&gt;&gt;&gt; help(Point)
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>help(Point)
 Help on class Point in module __main__:
 
 class Point(builtins.object)
@@ -1824,26 +1827,26 @@ class Point(builtins.object)
 <h2 id="line">例子: 线段的类<br><span class="de-title">Klasse für Linien (benutzt Point)</span></h2>
 <div class="card de">
   <span class="folie">Folie 33</span>
-<pre><code><span class="k">from</span> math <span class="k">import</span> *
+<pre data-lang="python"><code><span class="tk-k">from </span>math <span class="tk-k">import </span>*
 
-<span class="k">class</span> Line:
+<span class="tk-k">class </span><span class="tk-f">Line</span>:
 
-    <span class="k">def</span> __init__(self,s,e):
-        self.start = s
-        self.end = e
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>,s,e):
+        <span class="tk-b">self</span>.start = s
+        <span class="tk-b">self</span>.end = e
 
-    <span class="k">def</span> move(self, dx, dy):
-        self.start.move(dx, dy)
-        self.end.move(dx, dy)
+    <span class="tk-k">def </span><span class="tk-f">move</span>(<span class="tk-b">self</span>, dx, dy):
+        <span class="tk-b">self</span>.start.move(dx, dy)
+        <span class="tk-b">self</span>.end.move(dx, dy)
 
-    <span class="k">def</span> length(self):
-        startX = self.start.x
-        endX   = self.end.x
-        diffX = abs(startX - endX)
-        startY = self.start.y
-        endY   = self.end.y
-        diffY = abs(startY - endY)
-        <span class="k">return</span> sqrt(diffX * diffX + diffY * diffY)</code></pre>
+    <span class="tk-k">def </span><span class="tk-f">length</span>(<span class="tk-b">self</span>):
+        startX = <span class="tk-b">self</span>.start.x
+        endX   = <span class="tk-b">self</span>.end.x
+        diffX = <span class="tk-b">abs</span>(startX - endX)
+        startY = <span class="tk-b">self</span>.start.y
+        endY   = <span class="tk-b">self</span>.end.y
+        diffY = <span class="tk-b">abs</span>(startY - endY)
+        <span class="tk-k">return </span>sqrt(diffX * diffX + diffY * diffY)</code></pre>
 </div>
 <div class="zh">
   <p>Line 的属性 start 和 end 本身是 <b>Point 对象</b>: 对象的属性可以是<span class="nb">别的对象.</span> </p>
@@ -1856,20 +1859,20 @@ class Point(builtins.object)
 <div class="card de">
   <span class="folie">Folie 34</span>
   <p><b>Benutzung der Klasse Line</b></p>
-<pre><code>p1 = Point(2,3)
-p2 = Point(4,6)
+<pre data-lang="python"><code>p1 = Point(<span class="tk-n">2</span>,<span class="tk-n">3</span>)
+p2 = Point(<span class="tk-n">4</span>,<span class="tk-n">6</span>)
 l1 = Line(p1, p2)
 
-print(<span class="s">"x-Koordinate von start.x = "</span> + str(l1.start.x))
-print(<span class="s">"y-Koordinate von start.y = "</span> + str(l1.start.y))
-print(<span class="s">"Koordinaten end: "</span> + str(l1.end.__dict__))
-print(l1.length())</code></pre>
+<span class="tk-b">print</span>(<span class="tk-s">"x-Koordinate von start.x = " </span>+ <span class="tk-b">str</span>(l1.start.x))
+<span class="tk-b">print</span>(<span class="tk-s">"y-Koordinate von start.y = " </span>+ <span class="tk-b">str</span>(l1.start.y))
+<span class="tk-b">print</span>(<span class="tk-s">"Koordinaten end: " </span>+ <span class="tk-b">str</span>(l1.end.__dict__))
+<span class="tk-b">print</span>(l1.length())</code></pre>
   <ul><li>Bemerkung:<br>Mit dem Attributenzugriff <code>.__dict__</code> können alle Attributwerte eines Objektes ausgegeben werden.</li></ul>
 </div>
 <div class="card de">
   <span class="folie">Folie 35</span>
   <p><b>Benutzung der Klasse Line (2): Ausgabe</b></p>
-<pre>x-Koordinate von l1.start = 2
+<pre data-lang="output">x-Koordinate von l1.start = 2
 y-Koordinate von l1.start = 3
 Koordinaten von l1.end = {'x': 4, 'y': 6}
 Die Länge von l1 = 3.605551275463989</pre>
@@ -1877,7 +1880,7 @@ Die Länge von l1 = 3.605551275463989</pre>
 <div class="zh">
   <p><code>__dict__</code> 是每个对象都有的特殊属性: 一个字典, 列出这个对象的所有属性和值. 长度 = √((4−2)² + (6−3)²) = √13 ≈ 3.<span class="nb">6056.</span> </p>
   <p>实际运行 Folie 34 的代码, <span class="nb">输出是:</span> </p>
-<pre>x-Koordinate von start.x = 2
+<pre data-lang="output">x-Koordinate von start.x = 2
 y-Koordinate von start.y = 3
 Koordinaten end: {'x': 4, 'y': 6}
 3.605551275463989</pre>
@@ -1887,7 +1890,7 @@ Koordinaten end: {'x': 4, 'y': 6}
 <div class="card de">
   <span class="folie">Folie 36</span>
   <p><b>Grammatik für Klassendeklaration (ohne Vererbung)</b></p>
-<pre><code>ClassDecl   = "class" Identifier ClassBody
+<pre data-lang="grammar"><code>ClassDecl   = "class" Identifier ClassBody
 ClassBody   = ConstructorDecl|MethodDecl
 MethodDecl  = Header Block
 Header      = "def" Identifier "(" "self" [ "," FormalParam ] ")" ":"
@@ -1970,7 +1973,7 @@ FormalParam = Identifier { "," Identifier }</code></pre>
 <div class="card de">
   <span class="folie">Folie 41</span>
   <p>Im Folgenden werden die in Kapitel 3 eingeführten Konzepte für Typen und Ausdrücke <span class="nb">erweitert.</span></p>
-<pre><code>Type      = PrimitiveType|ClassType
+<pre data-lang="grammar"><code>Type      = PrimitiveType|ClassType
 ClassType = Identifier</code></pre>
   <ul><li>Mit jeder Klassendeklarationen wird ein neuer Typ eingeführt (Klassentyp), der den Namen der <span class="nb">Klasse hat</span></li></ul>
 </div>
@@ -1997,12 +2000,12 @@ ClassType = Identifier</code></pre>
   <p>「对象 ≠ 类类型的值」: 对象在堆上, <span class="nb">值是指向它的引用.</span> </p>
 </div>
 <div class="add"><p>严格说, Python 的 <code>==</code> 默认比较是否为同一对象, 但类可以自己定义 <code>__eq__</code> 方法改成比较内容 (str、list 等内置类型就是比较内容的). 专门比较「是不是同一个对象」的运算符是 <code>is</code>. 本课的类没有定义 __eq__, 所以 == <span class="nb">比较的就是引用.</span> </p>
-<pre><code>&gt;&gt;&gt; p = Point(1, 2)
-&gt;&gt;&gt; q = Point(1, 2)
-&gt;&gt;&gt; p == q, p is q
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>p = Point(<span class="tk-n">1</span>, <span class="tk-n">2</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>q = Point(<span class="tk-n">1</span>, <span class="tk-n">2</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>p == q, p <span class="tk-k">is </span>q
 (False, False)
-&gt;&gt;&gt; r = p
-&gt;&gt;&gt; r == p
+<span class="tk-p">&gt;&gt;&gt; </span>r = p
+<span class="tk-p">&gt;&gt;&gt; </span>r == p
 True</code></pre></div>
 
 <div class="card de">
@@ -2080,7 +2083,7 @@ True</code></pre></div>
 <h2 id="ausdruck">类相关的新表达式<br><span class="de-title">Erweiterte Grammatik für Ausdrücke im Kontext von Klassendeklarationen</span></h2>
 <div class="card de">
   <span class="folie">Folie 48</span>
-<pre><code>Expression      = Variable|Value|Expression BinOp Expression
+<pre data-lang="grammar"><code>Expression      = Variable|Value|Expression BinOp Expression
                  |UnOp Expression|"(" Expression ")"
                  |Expression "if" Expression "else" Expression
                  |FunctionCall
@@ -2107,7 +2110,7 @@ Value           = IntegerValue|FloatingPointValue
 <div class="card de">
   <span class="folie">Folie 49</span>
   <p><b>Syntax für Methodenaufruf- &amp; Objekterzeugungsausdrücke</b></p>
-<pre><code>MethodCall            = Expression "." Identifier "(" [ ActualParameters ] ")"
+<pre data-lang="grammar"><code>MethodCall            = Expression "." Identifier "(" [ ActualParameters ] ")"
 ActualParameters      = Expression { "," Expression }
 InstanceCreation      = ClassInstanceCreation
 ClassInstanceCreation = ClassType "(" [ ActualParameters ] ")"</code></pre>
@@ -2136,7 +2139,7 @@ ClassInstanceCreation = ClassType "(" [ ActualParameters ] ")"</code></pre>
 <div class="card de">
   <span class="folie">Folie 51</span>
   <p><b>Attributzugriff</b></p>
-<pre><code>FieldAccess = Expression "." Identifier</code></pre>
+<pre data-lang="grammar"><code>FieldAccess = Expression "." Identifier</code></pre>
   <ul>
     <li>Der Ausdruck Expression muss einen Klassentyp haben und der Identifier muss ein Attribut der Klasse (oder einer Oberklasse, vgl. später) <span class="nb">bezeichnen.</span></li>
     <li>Das Attribut muss im aktuellen Kontext sichtbar <span class="nb">sein.</span></li>
@@ -2173,14 +2176,14 @@ ClassInstanceCreation = ClassType "(" [ ActualParameters ] ")"</code></pre>
 </div>
 <div class="zh">
   <p>如果 p 的值是 None (不指向任何对象), 求 <code>p.x</code> 时运行出错. Python <span class="nb">的实际报错:</span> </p>
-<pre>AttributeError: 'NoneType' object has no attribute 'x'</pre>
+<pre data-lang="output">AttributeError: 'NoneType' object has no attribute 'x'</pre>
   <p>这个错误很常见, 典型原因是一个函数忘了 return (返回了 None), <span class="nb">后面又对结果访问属性.</span> </p>
 </div>
 
 <div class="card de">
   <span class="folie">Folie 54</span>
   <p><b>Methodenaufruf-Ausdruck</b></p>
-<pre><code>MethodCall       = Expression "." Identifier "(" [ ActualParameters ] ")"
+<pre data-lang="grammar"><code>MethodCall       = Expression "." Identifier "(" [ ActualParameters ] ")"
 ActualParameters = Expression { "," Expression }</code></pre>
   <p>Ein Methodenaufruf-Ausdruck hat also die Form e.m(a<sub>1</sub>,...,<span class="nb">a<sub>n</sub>)</span></p>
   <ul>
@@ -2215,7 +2218,7 @@ ActualParameters = Expression { "," Expression }</code></pre>
 <div class="card de">
   <span class="folie">Folie 56</span>
   <p><b>Objekterzeugungsausdruck</b></p>
-<pre><code>ClassInstanceCreation = ClassType "(" [ ActualParameters ] ")"</code></pre>
+<pre data-lang="grammar"><code>ClassInstanceCreation = ClassType "(" [ ActualParameters ] ")"</code></pre>
   <p>Ein Objekterzeugungsausdruck hat also die Form C(a<sub>1</sub>,...,<span class="nb">a<sub>n</sub>)</span></p>
   <ul>
     <li>C muss eine deklarierte Klasse <span class="nb">sein.</span></li>
@@ -2236,10 +2239,10 @@ ActualParameters = Expression { "," Expression }</code></pre>
 </div>
 <div class="zh">
   <p>类里没写 __init__ 时, 可以用不带参数的 <code>C()</code> 创建对象 (默认构造), 这个对象一开始没有任何属性. 反过来, 写了 <code class="lc">__init__(self, x0, y0)</code> 以后就<b>不能</b>再用 <span class="nb"><code>Point()</code>:</span> </p>
-<pre><code>&gt;&gt;&gt; Point()
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>Point()
 Traceback (most recent call last):
-  ...
-TypeError: Point.__init__() missing 2 required positional arguments: 'x0' and 'y0'</code></pre>
+  <span class="tk-c">...
+</span>TypeError: Point.__init__() missing 2 required positional arguments: 'x0' and 'y0'</code></pre>
 </div>
 
 <div class="card de">
@@ -2277,24 +2280,24 @@ TypeError: Point.__init__() missing 2 required positional arguments: 'x0' and 'y
 <div class="card de">
   <span class="folie">Folie 60</span>
   <p><b>Typberechnung</b></p>
-<pre><code><span class="k">from</span> math <span class="k">import</span> *
+<pre data-lang="python"><code><span class="tk-k">from </span>math <span class="tk-k">import </span>*
 
-<span class="k">class</span> Line:
+<span class="tk-k">class </span><span class="tk-f">Line</span>:
 
-    <span class="k">def</span> __init__(self,s,e):
-        self.start = s
-        self.end = e
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>,s,e):
+        <span class="tk-b">self</span>.start = s
+        <span class="tk-b">self</span>.end = e
 
     ...
 
-    <span class="k">def</span> length(self):
+    <span class="tk-k">def </span><span class="tk-f">length</span>(<span class="tk-b">self</span>):
         startX =
-            self.start.x
-        endX   = self.end.x
+            <span class="tk-b">self</span>.start.x
+        endX   = <span class="tk-b">self</span>.end.x
         diffX = startX −
             endX
         ...
-        <span class="k">return</span> sqrt(diffX *
+        <span class="tk-k">return </span>sqrt(diffX *
             diffX + diffY *
             diffY)</code></pre>
   </div>

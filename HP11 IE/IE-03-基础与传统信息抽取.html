@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1105,6 +1102,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 18.0; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #dd81e4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #de9ce2; --syn-f: #ffcbd6; --syn-s: #bcc679; --syn-n: #a2cbfe; --syn-b: #b3a2ca; --syn-c: #948795; --syn-p: #948795; }
+  html[data-mode="day"] { --syn-k: #8c3f92; --syn-f: #72263e; --syn-s: #626a08; --syn-n: #2664ab; --syn-b: #5b4872; --syn-c: #726373; --syn-p: #726373; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -2275,9 +2278,9 @@ Interiors r very attractive.</pre>
   <p>编码方法: 把码位写成二进制, 按位数补足前导 0, 从左到右填进模式里的 x. 例 ç = U+00E7 = 231, 11 位二进制是 000 1110 0111, 前 5 位 00011 填进 110xxxxx 得 <b>11000011</b>, 后 6 位 100111 填进 10xxxxxx 得 <b>10100111</b>, <span class="nb">即字节 C3 A7.</span></p>
   <p>解码: 看每个字节的开头几位: 0 开头 = 单字节字符; 110 开头 = 后面跟 1 个字节; 1110 开头 = 后面跟 2 个字节; 11110 开头 = 后面跟 3 个字节; 10 开头 = <b>后续字节</b>, 单独出现是非法的. 所以 UTF-8 是<b>自同步</b>的: 从任意位置开始, 跳过 10 开头的字节就能找到下一个字<span class="nb">符的开头.</span></p>
   <p>最大优点: ASCII 字符 (0–127) 在 UTF-8 中的字节与 ASCII 完全相同, 所以纯英文的 ASCII 文件本身就是合法的 UTF-8. 实测 (Python 3.<span class="nb">15):</span></p>
-<pre data-lang="python">for ch in ['f', 'a', 'ç', 'α', '中', '😀']:
-    b = ch.encode('utf-8')
-    print(ch, hex(ord(ch)), len(b), ' '.join(f'{x:08b}' for x in b))</pre>
+<pre data-lang="python"><span class="tk-k">for </span>ch <span class="tk-k">in </span>[<span class="tk-s">'f'</span>, <span class="tk-s">'a'</span>, <span class="tk-s">'ç'</span>, <span class="tk-s">'α'</span>, <span class="tk-s">'中'</span>, <span class="tk-s">'😀'</span>]:
+    b = ch.encode(<span class="tk-s">'utf-8'</span>)
+    <span class="tk-b">print</span>(ch, <span class="tk-b">hex</span>(<span class="tk-b">ord</span>(ch)), <span class="tk-b">len</span>(b), <span class="tk-s">' '</span>.join(<span class="tk-s">f'{</span>x<span class="tk-s">:08b}' </span><span class="tk-k">for </span>x <span class="tk-k">in </span>b))</pre>
 <pre data-lang="text">f 0x66 1 01100110
 a 0x61 1 01100001
 ç 0xe7 2 11000011 10100111
@@ -2340,21 +2343,21 @@ J. Smith     20937
   </div>
   <p>File formats: • TSV file (values separated by tabulator) • CSV (values separated by <span class="nb">comma)</span></p>
   <p><b>Sources: Semi-Structured</b></p>
-<pre data-lang="xml">&lt;catalog&gt;
+<pre data-lang="xml"><span class="tk-k">&lt;catalog&gt;
   &lt;cd&gt;
     &lt;title&gt;
-      Empire Burlesque
-    &lt;/title&gt;
+      </span>Empire Burlesque
+    <span class="tk-k">&lt;/title&gt;
     &lt;artist&gt;
       &lt;firstName&gt;
-        Bob
-      &lt;/firstName&gt;
+        </span>Bob
+      <span class="tk-k">&lt;/firstName&gt;
       &lt;lastName&gt;
-        Dylan
-      &lt;/lastName&gt;
+        </span>Dylan
+      <span class="tk-k">&lt;/lastName&gt;
     &lt;artist&gt;
   &lt;/cd&gt;
-...</pre>
+</span>...</pre>
   <p>→ Information Extraction → Title: Empire Burlesque · Artist: <span class="nb">Bob Dylan</span></p>
   <p>File formats: • XML file (Extensible Markup Language) • YAML (Yaml Ain’t a Markup <span class="nb">Language)</span></p>
   <p><b>Sources: “Unstructured”</b></p>
@@ -2363,9 +2366,9 @@ J. Smith     20937
   <p>File formats: • HTML file • text file • word processing <span class="nb">document</span></p>
   <p><b>Sources: Mixed</b></p>
   <p class="src">(Screenshot eines Personalverzeichnisses: „Barto, Andrew G. (413) 545-2109 barto@cs.umass.edu CS276 · Professor. Computational neuroscience, reinforcement learning, adaptive motor control, artificial neural networks, adaptive and learning control, motor development.“ — „Berger, Emery D. (413) 577-4211 emery@cs.umass.edu CS344 · Assistant <span class="nb">Professor.“)</span></p>
-<pre data-lang="html">&lt;table&gt;
-  &lt;tr&gt;
-    &lt;td&gt; Professor.
+<pre data-lang="html">&lt;<span class="tk-k">table</span>&gt;
+  &lt;<span class="tk-k">tr</span>&gt;
+    &lt;<span class="tk-k">td</span>&gt; Professor.
          Computational
          Neuroscience,
          ...

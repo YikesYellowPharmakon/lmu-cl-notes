@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1104,6 +1101,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 17.0; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81e48d 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #82cc89; --syn-f: #9cece3; --syn-s: #c4b0f7; --syn-n: #dfc679; --syn-b: #a1b289; --syn-c: #839183; --syn-p: #839183; }
+  html[data-mode="day"] { --syn-k: #09782a; --syn-f: #06504b; --syn-s: #6c50a3; --syn-n: #786001; --syn-b: #485a2e; --syn-c: #5e6e5f; --syn-p: #5e6e5f; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1207,44 +1210,44 @@
 <h2 id="code">动手看问题: 课程给的「比 DBS 更好的软件」<br><span class="de-title">Codebeispiele aus der VL: my_better_than_dbs_software.py</span></h2>
 <div class="card de">
   <span class="folie">Codebeispiel · my_better_than_dbs_software.py (Auszug)</span>
-<pre data-lang="python">def addRecord(rec, data):
-    if (len(rec) != len(data[0])):
-        print("error")
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">addRecord</span>(rec, data):
+    <span class="tk-k">if </span>(<span class="tk-b">len</span>(rec) != <span class="tk-b">len</span>(data[<span class="tk-n">0</span>])):
+        <span class="tk-b">print</span>(<span class="tk-s">"error"</span>)
         sys.exit()
     data.append(rec)
 
-def readFile(fname, data):
-    with open(fname, newline='') as csvfile:
-        for row in csv.reader(csvfile, delimiter=',', quotechar='|'):
-            # ignore "deleted entries"
-            if not(",".join(row).startswith("#")):
+<span class="tk-k">def </span><span class="tk-f">readFile</span>(fname, data):
+    <span class="tk-k">with </span><span class="tk-b">open</span>(fname, newline=<span class="tk-s">''</span>) <span class="tk-k">as </span>csvfile:
+        <span class="tk-k">for </span>row <span class="tk-k">in </span>csv.reader(csvfile, delimiter=<span class="tk-s">','</span>, quotechar=<span class="tk-s">'|'</span>):
+            <span class="tk-c"># ignore "deleted entries"
+            </span><span class="tk-k">if not</span>(<span class="tk-s">","</span>.join(row).startswith(<span class="tk-s">"#"</span>)):
                 data.append(row)
 
-def getCoursesTakenByStudentName(name):
-    fname = name.split()[0]
-    lname = name.split()[1]
-    # identify student id
-    studentId = -1
-    for i,item in enumerate(students):
-        if fname == item[1] and lname == item[2]:
-            studentId = int(item[0])
-    if (studentId &lt; 0):
-        print("error")
-        return
+<span class="tk-k">def </span><span class="tk-f">getCoursesTakenByStudentName</span>(name):
+    fname = name.split()[<span class="tk-n">0</span>]
+    lname = name.split()[<span class="tk-n">1</span>]
+    <span class="tk-c"># identify student id
+    </span>studentId = -<span class="tk-n">1
+    </span><span class="tk-k">for </span>i,item <span class="tk-k">in </span><span class="tk-b">enumerate</span>(students):
+        <span class="tk-k">if </span>fname == item[<span class="tk-n">1</span>] <span class="tk-k">and </span>lname == item[<span class="tk-n">2</span>]:
+            studentId = <span class="tk-b">int</span>(item[<span class="tk-n">0</span>])
+    <span class="tk-k">if </span>(studentId &lt; <span class="tk-n">0</span>):
+        <span class="tk-b">print</span>(<span class="tk-s">"error"</span>)
+        <span class="tk-k">return
 
-    # (2) identify course ids
-    course_ids = []
-    for i,item in enumerate(enrollments[1:]):
-        if int(item[0]) == studentId:
-            course_ids.append(item[3])
+    </span><span class="tk-c"># (2) identify course ids
+    </span>course_ids = []
+    <span class="tk-k">for </span>i,item <span class="tk-k">in </span><span class="tk-b">enumerate</span>(enrollments[<span class="tk-n">1</span>:]):
+        <span class="tk-k">if </span><span class="tk-b">int</span>(item[<span class="tk-n">0</span>]) == studentId:
+            course_ids.append(item[<span class="tk-n">3</span>])
 
-    # (3) resolve course ids to course names
-    taken_courses = []
-    for i,item in enumerate(courses[1:]):
-        for c in course_ids:
-            if item[0] == c:
-                taken_courses.append(item[1])
-    return taken_courses</pre>
+    <span class="tk-c"># (3) resolve course ids to course names
+    </span>taken_courses = []
+    <span class="tk-k">for </span>i,item <span class="tk-k">in </span><span class="tk-b">enumerate</span>(courses[<span class="tk-n">1</span>:]):
+        <span class="tk-k">for </span>c <span class="tk-k">in </span>course_ids:
+            <span class="tk-k">if </span>item[<span class="tk-n">0</span>] == c:
+                taken_courses.append(item[<span class="tk-n">1</span>])
+    <span class="tk-k">return </span>taken_courses</pre>
   <p class="src">Daten: students.csv (Student ID, First Name, Last Name, Age, Gender, Department, Year, GPA), enrollments.csv (Student ID, First Name, Last Name, Course ID), courses.csv (Course ID, Course Title, Department, Instructor, Credits, <span class="nb">Semester).</span></p>
 </div>
 <div class="zh">
@@ -1253,13 +1256,13 @@ def getCoursesTakenByStudentName(name):
 </div>
 <div class="card de">
   <span class="folie">Ausgabe (selbst ausgeführt)</span>
-<pre data-lang="python">&gt;&gt;&gt; initialLoading()
-&gt;&gt;&gt; getCoursesTakenByStudentName('John Smith')
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>initialLoading()
+<span class="tk-p">&gt;&gt;&gt; </span>getCoursesTakenByStudentName(<span class="tk-s">'John Smith'</span>)
 ['Data Structures', 'Differential Equations', 'Differential Equations']
-&gt;&gt;&gt; getCoursesTakenByStudentName('Max Mustermann')
+<span class="tk-p">&gt;&gt;&gt; </span>getCoursesTakenByStudentName(<span class="tk-s">'Max Mustermann'</span>)
 error
-&gt;&gt;&gt; addRecord(['abc','Martha','Miller','24','Female','Nursing','2nd','TwoPointO'], students)
-&gt;&gt;&gt; getCoursesTakenByStudentName('Martha Miller')
+<span class="tk-p">&gt;&gt;&gt; </span>addRecord([<span class="tk-s">'abc'</span>,<span class="tk-s">'Martha'</span>,<span class="tk-s">'Miller'</span>,<span class="tk-s">'24'</span>,<span class="tk-s">'Female'</span>,<span class="tk-s">'Nursing'</span>,<span class="tk-s">'2nd'</span>,<span class="tk-s">'TwoPointO'</span>], students)
+<span class="tk-p">&gt;&gt;&gt; </span>getCoursesTakenByStudentName(<span class="tk-s">'Martha Miller'</span>)
 ValueError: invalid literal for int() with base 10: 'abc'</pre>
 </div>
 <div class="zh">
@@ -1272,23 +1275,23 @@ ValueError: invalid literal for int() with base 10: 'abc'</pre>
 </div>
 <div class="add">
   <p>同样的任务交给数据库系统. 用课件推荐的 <b>DuckDB</b> 直接对这三个 CSV 文件写一条 SQL <span class="nb">(实际运行结果):</span></p>
-<pre data-lang="sql">SELECT DISTINCT c."Course Title"
-FROM 'students.csv' s
-JOIN 'enrollments.csv' e ON s."Student ID" = e."Student ID"
-JOIN 'courses.csv' c     ON e."Course ID"  = c."Course ID"
-WHERE s."First Name" = 'John' AND s."Last Name" = 'Smith'
-ORDER BY 1;
+<pre data-lang="sql"><span class="tk-k">SELECT DISTINCT c</span>.<span class="tk-s">"Course Title"
+</span><span class="tk-k">FROM </span><span class="tk-s">'students.csv' </span>s
+<span class="tk-k">JOIN </span><span class="tk-s">'enrollments.csv' </span>e <span class="tk-k">ON </span>s.<span class="tk-s">"Student ID" </span>= e.<span class="tk-s">"Student ID"
+</span><span class="tk-k">JOIN </span><span class="tk-s">'courses.csv' </span><span class="tk-k">c     ON </span>e.<span class="tk-s">"Course ID"  </span>= <span class="tk-k">c</span>.<span class="tk-s">"Course ID"
+</span><span class="tk-k">WHERE </span>s.<span class="tk-s">"First Name" </span>= <span class="tk-s">'John' </span><span class="tk-k">AND </span>s.<span class="tk-s">"Last Name" </span>= <span class="tk-s">'Smith'
+</span><span class="tk-k">ORDER BY </span><span class="tk-n">1</span>;
 
 ┌────────────────────────┐
 │      Course Title      │
 ├────────────────────────┤
-│ Data Structures        │
+│ <span class="tk-k">Data </span>Structures        │
 │ Differential Equations │
 └────────────────────────┘</pre>
   <p>三步循环变成一条声明式查询, <code>DISTINCT</code> 去掉了重复. 再看完整性: 先建一张有类型的表 (就是后面 Folie 26 的 DDL 例子), 学号想写 <code>'abc'</code> <span class="nb">会被直接拒绝:</span></p>
-<pre data-lang="sql">CREATE TABLE Assistent (PersNr INTEGER, Name VARCHAR(80), Abteilung VARCHAR(200));
-INSERT INTO Assistent VALUES ('abc', 'Martha', 'Pflege');
--- ConversionException: Could not convert string 'abc' to INT32</pre>
+<pre data-lang="sql"><span class="tk-k">CREATE TABLE </span>Assistent (PersNr <span class="tk-b">INTEGER</span>, Name <span class="tk-b">VARCHAR</span>(<span class="tk-n">80</span>), Abteilung <span class="tk-b">VARCHAR</span>(<span class="tk-n">200</span>));
+<span class="tk-k">INSERT INTO </span>Assistent <span class="tk-k">VALUES </span>(<span class="tk-s">'abc'</span>, <span class="tk-s">'Martha'</span>, <span class="tk-s">'Pflege'</span>);
+<span class="tk-c">-- ConversionException: Could not convert string 'abc' to INT32</span></pre>
   <p>注意: 直接读 CSV 时 DuckDB 会把 Credits 列推断成文本 (因为有 <code>blub</code>), 所以类型检查要靠事先定义好的表结构 (模式). 这正是后面「模式」一<span class="nb">节的意义.</span></p>
 </div>
 
@@ -1562,10 +1565,10 @@ INSERT INTO Assistent VALUES ('abc', 'Martha', 'Pflege');
     <li>Datenspeicher- und Definitionssprache – spezielle Form der DDL zur Festlegung von Speicherstrukturen und Zugriffsmethoden, die vom DBS verwendet <span class="nb">werden</span></li>
   </ul>
   <p><b>Beispiel (SQL)</b></p>
-<pre data-lang="sql">CREATE TABLE Assistent (
-    PersNr INTEGER,
-    Name VARCHAR(80),
-    Abteilung VARCHAR(200)
+<pre data-lang="sql"><span class="tk-k">CREATE TABLE </span>Assistent (
+    PersNr <span class="tk-b">INTEGER</span>,
+    Name <span class="tk-b">VARCHAR</span>(<span class="tk-n">80</span>),
+    Abteilung <span class="tk-b">VARCHAR</span>(<span class="tk-n">200</span>)
 );</pre>
 </div>
 <div class="card de">
@@ -1577,8 +1580,8 @@ INSERT INTO Assistent VALUES ('abc', 'Martha', 'Pflege');
       <ul><li>Prozedural – Benutzer gibt an, <b>wie</b> die gewünschten Daten abgerufen <span class="nb">werden</span></li><li>Deklarativ – Benutzer gibt an, <b>welche</b> Daten benötigt werden, aber nicht, wie sie abgerufen werden <span class="nb">sollen</span></li><li>Deklarativ ≡ <span class="nb">nicht-prozedural</span></li></ul></li>
   </ul>
   <p><b>Beispiel (SQL)</b></p>
-<pre data-lang="sql">INSERT INTO KUNDEN VALUES ('Scott','Tiger','Munich') -- Einfuegeoperation
-SELECT * FROM KUNDEN WHERE VORNAME = 'Scott'     -- Abfrage</pre>
+<pre data-lang="sql"><span class="tk-k">INSERT INTO </span>KUNDEN <span class="tk-k">VALUES </span>(<span class="tk-s">'Scott'</span>,<span class="tk-s">'Tiger'</span>,<span class="tk-s">'Munich'</span>) <span class="tk-c">-- Einfuegeoperation
+</span><span class="tk-k">SELECT </span>* <span class="tk-k">FROM </span>KUNDEN <span class="tk-k">WHERE </span>VORNAME = <span class="tk-s">'Scott'     </span><span class="tk-c">-- Abfrage</span></pre>
 </div>
 <div class="zh">
   <p>数据库语言<span class="nb">分两部分:</span></p>
@@ -1587,9 +1590,9 @@ SELECT * FROM KUNDEN WHERE VORNAME = 'Scott'     -- Abfrage</pre>
     <li><b>DML (数据操纵语言)</b>: 查询和修改<b>实例</b>. 分两类: <b>prozedural 过程式</b> (写清楚<b>怎样</b>取数据, 就像示例 Python 程序里的三层循环) 和 <b>deklarativ 声明式</b> (只写<b>要什么</b>数据, 怎么取由 DBMS 决定). 声明式 ≡ 非过程式. <span class="nb">SQL 是声明式的.</span></li>
   </ul>
   <p>两个例子实际运行 (DuckDB; 幻灯片没有给 KUNDEN 的表定义, <span class="nb">我按三个值补了一个):</span></p>
-<pre data-lang="sql">CREATE TABLE KUNDEN (VORNAME VARCHAR, NACHNAME VARCHAR, STADT VARCHAR);
-INSERT INTO KUNDEN VALUES ('Scott','Tiger','Munich');
-SELECT * FROM KUNDEN WHERE VORNAME = 'Scott';
+<pre data-lang="sql"><span class="tk-k">CREATE TABLE </span>KUNDEN (VORNAME <span class="tk-b">VARCHAR</span>, NACHNAME <span class="tk-b">VARCHAR</span>, STADT <span class="tk-b">VARCHAR</span>);
+<span class="tk-k">INSERT INTO </span>KUNDEN <span class="tk-k">VALUES </span>(<span class="tk-s">'Scott'</span>,<span class="tk-s">'Tiger'</span>,<span class="tk-s">'Munich'</span>);
+<span class="tk-k">SELECT </span>* <span class="tk-k">FROM </span>KUNDEN <span class="tk-k">WHERE </span>VORNAME = <span class="tk-s">'Scott'</span>;
 
 ┌─────────┬──────────┬─────────┐
 │ VORNAME │ NACHNAME │  STADT  │

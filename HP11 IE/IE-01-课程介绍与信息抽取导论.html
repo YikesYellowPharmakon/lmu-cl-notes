@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1104,6 +1101,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 20.0; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #dd81e4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #de9ce2; --syn-f: #ffcbd6; --syn-s: #bcc679; --syn-n: #a2cbfe; --syn-b: #b3a2ca; --syn-c: #948795; --syn-p: #948795; }
+  html[data-mode="day"] { --syn-k: #8c3f92; --syn-f: #72263e; --syn-s: #626a08; --syn-n: #2664ab; --syn-b: #5b4872; --syn-c: #726373; --syn-p: #726373; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1446,7 +1449,7 @@
 <div class="card de">
   <span class="folie">Slide 26 (= Slide 43)</span>
   <p>Student dialogs during a collaborative task in chemistry <span class="nb">education</span></p>
-<pre>{"episode_id": "D3G2SM5",
+<pre data-lang="text">{"episode_id": "D3G2SM5",
 "smno": "SM5",
 "entities": [
 {"entity": "mmHg",

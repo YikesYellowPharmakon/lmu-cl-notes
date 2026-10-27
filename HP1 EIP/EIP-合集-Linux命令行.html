@@ -1088,6 +1088,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 21.8; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #79c0ff 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #77befd; --syn-f: #d7d6ff; --syn-s: #d0be71; --syn-n: #7addc6; --syn-b: #82b3c8; --syn-c: #808e9b; --syn-p: #808e9b; }
+  html[data-mode="day"] { --syn-k: #0167a8; --syn-f: #42397c; --syn-s: #746203; --syn-n: #0c7462; --syn-b: #1f5a70; --syn-c: #5b6b7a; --syn-p: #5b6b7a; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1173,20 +1179,20 @@
 
 <h3>④ 用 ssh 登录<br><span class="de-title">ssh CIP-Kennung@remote.cip.ifi.lmu.de</span></h3>
 <div class="zh">
-<pre>ssh 你的CIP用户名@remote.cip.ifi.lmu.de</pre>
+<pre data-lang="text">ssh 你的CIP用户名@remote.cip.ifi.lmu.de</pre>
 <ol>
   <li><b>第一次连接</b>时, ssh 会显示服务器的指纹并问 <code class="lc">Are you sure you want to continue connecting (yes/no/[fingerprint])?</code>, 输入完整的 <code>yes</code> 回车. <span class="nb">之后不会再问.</span> </li>
   <li>输入 CIP 密码. <b>输入时屏幕上什么都不显示</b>, 没有星号也没有圆点, 这是正常的; <span class="nb">照常输完按回车.</span> </li>
   <li>登录成功后提示符会变成服务器的样子. <span class="nb">验证一下:</span> </li>
 </ol>
-<pre>uname -s
+<pre data-lang="text">uname -s
 Linux</pre>
 <p><code>uname</code> 打印操作系统信息, <code>-s</code> 只要系统名. 看到 <code>Linux</code>, 说明你输入的命令已经在 CIP 服务器上执行, <span class="nb">而不是在自己的电脑上.</span> </p>
 </div>
 
 <h3>⑤ 每次练习的固定流程<br><span class="de-title">Routine</span></h3>
 <div class="zh">
-<pre>ssh 你的CIP用户名@remote.cip.ifi.lmu.de   # 1. 登录
+<pre data-lang="text">ssh 你的CIP用户名@remote.cip.ifi.lmu.de   # 1. 登录
 mkdir -p ~/uebung                         # 2. 只有第一次需要：建练习目录
 cd ~/uebung                               # 3. 进入练习目录
 ...                                       # 4. 照着书练习
@@ -1217,7 +1223,7 @@ exit                                      # 5. 退出，回到自己电脑的终
 </div>
 <div class="add">
   <p><b>在自己电脑和服务器之间传文件</b>用 <code>scp</code> (在<b>自己电脑</b>的终端里执行, <span class="nb">不是在服务器上):</span> </p>
-<pre>scp aufgabe1.py 你的CIP用户名@remote.cip.ifi.lmu.de:~/uebung/     # 上传
+<pre data-lang="text">scp aufgabe1.py 你的CIP用户名@remote.cip.ifi.lmu.de:~/uebung/     # 上传
 scp 你的CIP用户名@remote.cip.ifi.lmu.de:~/uebung/aufgabe1.py .   # 下载到当前目录</pre>
   <p>冒号后面是服务器上的路径; 最后的 <code>.</code> 表示「当前目录」 (第 2 <span class="nb">章).</span> </p>
 </div>
@@ -1267,7 +1273,7 @@ scp 你的CIP用户名@remote.cip.ifi.lmu.de:~/uebung/aufgabe1.py .   # 下载�
 <h3>第一次敲键盘: 提示符<br><span class="de-title">Making Your First Keystrokes</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 4</span>
-<pre>[me@linuxbox ~]$
+<pre data-lang="text">[me@linuxbox ~]$
 [me@linuxbox ~]$ kaekfjaeifj
 bash: kaekfjaeifj: command not found</pre>
   <p>“This is called a <b>shell prompt</b> … it will typically include your <i>username@machinename</i>, followed by the current working directory … and a dollar sign.” “If the last character of the prompt is a hash mark (<code>#</code>) rather than a dollar sign, the terminal session has <span class="nb"><b>superuser privileges</b>.”</span></p>
@@ -1302,7 +1308,7 @@ bash: kaekfjaeifj: command not found</pre>
 <h3>几个简单命令<br><span class="de-title">Try Some Simple Commands</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 5–6</span>
-<pre>[me@linuxbox ~]$ date
+<pre data-lang="text">[me@linuxbox ~]$ date
 Fri Feb  2 15:09:41 EST 2018
 [me@linuxbox ~]$ cal
     February 2018
@@ -1350,7 +1356,7 @@ Mem:    513712     503976       9736          0       5312     122916
 <h2 id="nav">第 2 章 · 在文件系统里导航<br><span class="de-title">2 Navigation</span></h2>
 <div class="card de" lang="en">
   <span class="folie">S. 7</span>
-<pre>pwd   Print name of current working directory
+<pre data-lang="text">pwd   Print name of current working directory
 cd    Change directory
 ls    List directory contents</pre>
 </div>
@@ -1370,7 +1376,7 @@ ls    List directory contents</pre>
 <h3>当前工作目录<br><span class="de-title">The Current Working Directory</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 8</span>
-<pre>[me@linuxbox ~]$ pwd
+<pre data-lang="text">[me@linuxbox ~]$ pwd
 /home/me</pre>
   <p>“At any given time, we are inside a single directory … The directory we are standing in is called the <b>current working directory</b>.” When we log in, it is set to our <b>home directory</b> — “the only place a regular user is allowed to write <span class="nb">files.”</span></p>
 </div>
@@ -1381,7 +1387,7 @@ ls    List directory contents</pre>
 <h3>列出目录内容<br><span class="de-title">Listing the Contents of a Directory</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 9</span>
-<pre>[me@linuxbox ~]$ ls
+<pre data-lang="text">[me@linuxbox ~]$ ls
 Desktop  Documents  Music  Pictures  Public  Templates  Videos</pre>
 </div>
 <div class="zh"><p><code>ls</code> 列出当前目录里的文件和子目录; 它也能列别的目录, <span class="nb">第 3 章细讲.</span> </p></div>
@@ -1390,7 +1396,7 @@ Desktop  Documents  Music  Pictures  Public  Templates  Videos</pre>
 <div class="card de" lang="en">
   <span class="folie">S. 9</span>
   <p>“An <b>absolute pathname</b> begins with the root directory and follows the tree branch by branch until the path to the desired directory or file is <span class="nb">completed.”</span></p>
-<pre>[me@linuxbox ~]$ cd /usr/bin
+<pre data-lang="text">[me@linuxbox ~]$ cd /usr/bin
 [me@linuxbox bin]$ pwd
 /usr/bin</pre>
 </div>
@@ -1403,7 +1409,7 @@ Desktop  Documents  Music  Pictures  Public  Templates  Videos</pre>
 <div class="card de" lang="en">
   <span class="folie">S. 9–10</span>
   <p>“… a <b>relative pathname</b> starts from the working directory.” “The <code>.</code> notation refers to the working directory, and the <code>..</code> notation refers to the working directory’s parent <span class="nb">directory.”</span></p>
-<pre>[me@linuxbox bin]$ cd ..
+<pre data-lang="text">[me@linuxbox bin]$ cd ..
 [me@linuxbox usr]$ pwd
 /usr
 [me@linuxbox usr]$ cd ./bin
@@ -1452,7 +1458,7 @@ Desktop  Documents  Music  Pictures  Public  Templates  Videos</pre>
 <h2 id="explore">第 3 章 · 探索系统<br><span class="de-title">3 Exploring the System</span></h2>
 <div class="card de" lang="en">
   <span class="folie">S. 13</span>
-<pre>ls    List directory contents
+<pre data-lang="text">ls    List directory contents
 file  Determine file type
 less  View file contents</pre>
 </div>
@@ -1460,7 +1466,7 @@ less  View file contents</pre>
 <h3>ls 的更多用法<br><span class="de-title">More Fun with ls</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 14</span>
-<pre>[me@linuxbox ~]$ ls /usr
+<pre data-lang="text">[me@linuxbox ~]$ ls /usr
 bin  games  include  lib  local  sbin  share  src
 [me@linuxbox ~]$ ls ~ /usr
 /home/me:
@@ -1478,9 +1484,9 @@ drwxrwxr-x 2 me me 4096 2017-10-26 17:20 Desktop
 <h3>选项与参数<br><span class="de-title">Options and Arguments</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 14–15</span>
-<pre>command -options arguments</pre>
+<pre data-lang="text">command -options arguments</pre>
   <p>“Most commands use options, which consist of a single character preceded by a dash, for example, <code>-l</code>. Many commands, however, including those from the GNU Project, also support <b>long options</b>, consisting of a word preceded by two dashes. Also, many commands allow multiple short options to be strung <span class="nb">together.”</span></p>
-<pre>[me@linuxbox ~]$ ls -lt
+<pre data-lang="text">[me@linuxbox ~]$ ls -lt
 [me@linuxbox ~]$ ls -lt --reverse</pre>
   <p>Note: Command options, like filenames in Linux, are case <span class="nb">sensitive.</span></p>
 </div>
@@ -1513,7 +1519,7 @@ drwxrwxr-x 2 me me 4096 2017-10-26 17:20 Desktop
 <h3>长格式逐列解读<br><span class="de-title">A Longer Look at Long Format</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 15–16</span>
-<pre>-rw-r--r-- 1 root root   32059 2017-04-03 11:05 oo-cd-cover.odf</pre>
+<pre data-lang="text">-rw-r--r-- 1 root root   32059 2017-04-03 11:05 oo-cd-cover.odf</pre>
   <div class="tablewrap"><table>
     <tr><th>Field</th><th>Meaning</th></tr>
     <tr><td><code>-rw-r--r--</code></td><td class="wide">Access rights. The first character indicates the type of file (<code>-</code> regular file, <code>d</code> directory); then three characters each for the owner, the group, and everyone else.</td></tr>
@@ -1532,7 +1538,7 @@ drwxrwxr-x 2 me me 4096 2017-10-26 17:20 Desktop
 <h3>用 file 判断文件类型<br><span class="de-title">Determining a File’s Type with file</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 16</span>
-<pre>[me@linuxbox ~]$ file picture.jpg
+<pre data-lang="text">[me@linuxbox ~]$ file picture.jpg
 picture.jpg: JPEG image data, JFIF standard 1.01</pre>
   <p>“… one of the common ideas in Unix-like operating systems such as Linux is that <span class="nb"><b>‘everything is a file.’</b>”</span></p>
 </div>
@@ -1541,7 +1547,7 @@ picture.jpg: JPEG image data, JFIF standard 1.01</pre>
 <h3>用 less 查看文本<br><span class="de-title">Viewing File Contents with less</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 17–18</span>
-<pre>less filename
+<pre data-lang="text">less filename
 [me@linuxbox ~]$ less /etc/passwd</pre>
   <div class="tablewrap"><table>
     <tr><th>Command</th><th class="wide">Action (Table 3-3)</th></tr>
@@ -1611,7 +1617,7 @@ picture.jpg: JPEG image data, JFIF standard 1.01</pre>
 <h3>符号链接与硬链接 (初识) <br><span class="de-title"><span class="seg">Symbolic Links ·</span> <span class="seg">Hard Links</span></span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 21–22</span>
-<pre>lrwxrwxrwx 1 root root   11 2018-08-11 07:34 libc.so.6 -&gt; libc-2.6.so</pre>
+<pre data-lang="text">lrwxrwxrwx 1 root root   11 2018-08-11 07:34 libc.so.6 -&gt; libc-2.6.so</pre>
   <p>“Notice how the first letter of the listing is <code>l</code> and the entry seems to have two filenames? This is a special kind of a file called a <b>symbolic link</b> (also known as a soft link or <span class="nb">symlink).”</span></p>
   <p>Scenario: install <code>foo-2.6</code>, create a symlink <code>foo</code> → <code>foo-2.6</code>; to upgrade, point <code>foo</code> to <code>foo-2.7</code>; to roll back, point it <span class="nb">back.</span></p>
 </div>
@@ -1625,13 +1631,13 @@ picture.jpg: JPEG image data, JFIF standard 1.01</pre>
 <h2 id="files">第 4 章 · 操作文件和目录<br><span class="de-title">4 Manipulating Files and Directories</span></h2>
 <div class="card de" lang="en">
   <span class="folie">S. 23–24</span>
-<pre>cp     Copy files and directories
+<pre data-lang="text">cp     Copy files and directories
 mv     Move/rename files and directories
 mkdir  Create directories
 rm     Remove files and directories
 ln     Create hard and symbolic links</pre>
   <p>Why not a file manager? “The answer is power and flexibility.” — copy only HTML files that don’t exist in the destination or are <span class="nb">newer:</span></p>
-<pre>cp -u *.html destination</pre>
+<pre data-lang="text">cp -u *.html destination</pre>
 </div>
 <div class="zh"><p>简单的事图形界面也能做; 复杂条件的批量操作 (「只复制目标里没有或比目标新的 HTML 文件」) 命令行一行搞定. 这一行用到了两样东西: 通配符 <code>*.html</code> 和 <code>cp</code> 的 <code>-u</code> 选项, <span class="nb">下面依次讲.</span> </p></div>
 
@@ -1682,7 +1688,7 @@ ln     Create hard and symbolic links</pre>
 <h3>mkdir: 建目录<br><span class="de-title">mkdir — Create Directories</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 26</span>
-<pre>mkdir directory...
+<pre data-lang="text">mkdir directory...
 mkdir dir1
 mkdir dir1 dir2 dir3</pre>
   <p>“… when three periods follow an argument in the description of a command …, it means that the argument can be <span class="nb">repeated.”</span></p>
@@ -1692,7 +1698,7 @@ mkdir dir1 dir2 dir3</pre>
 <h3>cp: 复制<br><span class="de-title">cp — Copy Files and Directories</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 26–27</span>
-<pre>cp item1 item2
+<pre data-lang="text">cp item1 item2
 cp item... directory</pre>
   <div class="tablewrap"><table>
     <tr><th>Option</th><th>Meaning</th></tr>
@@ -1724,7 +1730,7 @@ cp item... directory</pre>
 <h3>mv: 移动与改名<br><span class="de-title">mv — Move and Rename Files</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 27–28</span>
-<pre>mv item1 item2
+<pre data-lang="text">mv item1 item2
 mv item... directory</pre>
   <p>“In either case, the original filename no longer exists after the operation.” Options <code>-i</code>, <code>-u</code>, <span class="nb"><code>-v</code> as for <code>cp</code>.</span></p>
   <div class="tablewrap"><table>
@@ -1739,7 +1745,7 @@ mv item... directory</pre>
 <h3>rm: 删除<br><span class="de-title">rm — Remove Files and Directories</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 28–30</span>
-<pre>rm item...</pre>
+<pre data-lang="text">rm item...</pre>
   <div class="tablewrap"><table>
     <tr><th>Option</th><th>Meaning</th></tr>
     <tr><td class="wide"><code class="lc">-i, --interactive</code></td><td class="wide">Prompt for confirmation before deleting. Otherwise rm will silently delete files.</td></tr>
@@ -1748,7 +1754,7 @@ mv item... directory</pre>
     <tr><td><code>-v, --verbose</code></td><td class="wide">Display informative messages.</td></tr>
   </table></div>
   <p><b>Be Careful with rm!</b> “Unix-like operating systems such as Linux do not have an undelete <span class="nb">command.”</span></p>
-<pre>rm *.html      # correct
+<pre data-lang="pseudocode">rm *.html      # correct
 rm * .html     # deletes ALL files, then complains that there is no file called .html</pre>
   <p>Tip: test the wildcard first with <code>ls</code>, then press the up arrow and replace <code>ls</code> <span class="nb">with <code>rm</code>.</span></p>
 </div>
@@ -1761,7 +1767,7 @@ rm * .html     # deletes ALL files, then complains that there is no file called 
 <h3>ln: 创建链接<br><span class="de-title">ln — Create Links</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 30–31</span>
-<pre>ln file link        # hard link
+<pre data-lang="text">ln file link        # hard link
 ln -s item link     # symbolic link</pre>
   <p><b>Hard links:</b> “By default, every file has a single hard link that gives the file its name. When we create a hard link, we create an additional directory entry for a file.” Limitations: a hard link cannot reference a file outside its own file system; a hard link may not reference a directory. The file’s contents continue to exist “until all links to the file are <span class="nb">deleted.”</span></p>
   <p><b>Symbolic links</b> “work by creating a special type of file that contains a text pointer to the referenced file or directory” — similar to a Windows shortcut. If the target is deleted, the link is <span class="nb"><b>broken</b>.</span></p>
@@ -1780,7 +1786,7 @@ ln -s item link     # symbolic link</pre>
 <h3>动手: 搭一个练习场<br><span class="de-title">Building a Playground</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 31–33</span>
-<pre>[me@linuxbox ~]$ cd
+<pre data-lang="text">[me@linuxbox ~]$ cd
 [me@linuxbox ~]$ mkdir playground
 [me@linuxbox ~]$ cd playground
 [me@linuxbox playground]$ mkdir dir1 dir2
@@ -1814,7 +1820,7 @@ cp: overwrite `./passwd'?
 <h3>实验: 硬链接与 inode<br><span class="de-title">Creating Hard Links</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 33–34</span>
-<pre>[me@linuxbox playground]$ ln fun fun-hard
+<pre data-lang="text">[me@linuxbox playground]$ ln fun fun-hard
 [me@linuxbox playground]$ ln fun dir1/fun-hard
 [me@linuxbox playground]$ ln fun dir2/fun-hard
 [me@linuxbox playground]$ ls -l
@@ -1833,7 +1839,7 @@ cp: overwrite `./passwd'?
 <h3>实验: 符号链接<br><span class="de-title">Creating Symbolic Links</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 34–35</span>
-<pre>[me@linuxbox playground]$ ln -s fun fun-sym
+<pre data-lang="text">[me@linuxbox playground]$ ln -s fun fun-sym
 [me@linuxbox playground]$ ln -s ../fun dir1/fun-sym
 [me@linuxbox playground]$ ln -s ../fun dir2/fun-sym
 [me@linuxbox playground]$ ls -l dir1
@@ -1851,7 +1857,7 @@ lrwxrwxrwx 1 me   me      6 2018-01-15 15:17 fun-sym -&gt; ../fun
 <h3>实验: 删除<br><span class="de-title">Removing Files and Directories</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 35–36</span>
-<pre>[me@linuxbox playground]$ rm fun-hard
+<pre data-lang="text">[me@linuxbox playground]$ rm fun-hard
 -rw-r--r-- 3 me   me   1650 2018-01-10 16:33 fun
 [me@linuxbox playground]$ rm -i fun
 rm: remove regular file `fun'?
@@ -1879,7 +1885,7 @@ fun-sym: No such file or directory
 <h2 id="cmds">第 5 章 · 与命令打交道<br><span class="de-title">5 Working with Commands</span></h2>
 <div class="card de" lang="en">
   <span class="folie">S. 39</span>
-<pre>type     Indicate how a command name is interpreted
+<pre data-lang="text">type     Indicate how a command name is interpreted
 which    Display which executable program will be executed
 help     Get help for shell builtins
 man      Display a command’s manual page
@@ -1914,7 +1920,7 @@ alias    Create an alias for a command</pre>
 <h3>type 与 which<br><span class="de-title">Identifying Commands</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 40–41</span>
-<pre>[me@linuxbox ~]$ type type
+<pre data-lang="text">[me@linuxbox ~]$ type type
 type is a shell builtin
 [me@linuxbox ~]$ type ls
 ls is aliased to `ls --color=tty'
@@ -1934,12 +1940,12 @@ cp is /bin/cp
 <h3>查文档: help、--help、man<br><span class="de-title">Getting a Command’s Documentation</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 41–42</span>
-<pre>[me@linuxbox ~]$ help cd
+<pre data-lang="text">[me@linuxbox ~]$ help cd
 cd: cd [-L|[-P [-e]] [-@]] [dir]
     Change the shell working directory.
     …</pre>
   <p>“When square brackets appear in the description of a command’s syntax, they indicate <b>optional items</b>. A vertical bar character indicates <span class="nb"><b>mutually exclusive items</b>.”</span></p>
-<pre>[me@linuxbox ~]$ mkdir --help
+<pre data-lang="text">[me@linuxbox ~]$ mkdir --help
 Usage: mkdir [OPTION] DIRECTORY...
 Create the DIRECTORY(ies), if they do not already exist.
   -m, --mode=MODE   set file mode (as in chmod), not a=rwx – umask
@@ -1960,7 +1966,7 @@ Create the DIRECTORY(ies), if they do not already exist.
 
 <div class="card de" lang="en">
   <span class="folie">S. 42–43</span>
-<pre>man program
+<pre data-lang="text">man program
 man section search_term
 [me@linuxbox ~]$ man 5 passwd</pre>
   <p>Man pages contain: a title · a synopsis of the command’s syntax · a description of the command’s purpose · a listing and description of each option. They “do not usually include examples and are intended as a reference, not a tutorial.” <code>man</code> uses <code>less</code> to display the <span class="nb">page.</span></p>
@@ -1984,7 +1990,7 @@ man section search_term
 <h3>apropos、whatis、info、/usr/share/doc<br><span class="de-title"><span class="seg">apropos ·</span> <span class="seg">whatis ·</span> <span class="seg">info ·</span> <span class="seg">README</span></span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 44–46</span>
-<pre>[me@linuxbox ~]$ apropos partition
+<pre data-lang="text">[me@linuxbox ~]$ apropos partition
 fdisk (8)            - manipulate disk partition table
 …
 [me@linuxbox ~]$ whatis ls
@@ -2005,7 +2011,7 @@ ls                   (1)  - list directory contents
 <h3>用 alias 造自己的命令<br><span class="de-title">Creating Our Own Commands with alias</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 46–48</span>
-<pre>command1; command2; command3...
+<pre data-lang="text">command1; command2; command3...
 [me@linuxbox ~]$ cd /usr; ls; cd -
 bin  games  include  lib  local  sbin  share  src
 /home/me
@@ -2039,7 +2045,7 @@ alias ls='ls --color=tty'</pre>
 <h2 id="redir">第 6 章 · 重定向<br><span class="de-title">6 Redirection</span></h2>
 <div class="card de" lang="en">
   <span class="folie">S. 49</span>
-<pre>cat   Concatenate files
+<pre data-lang="text">cat   Concatenate files
 sort  Sort lines of text
 uniq  Report or omit repeated lines
 grep  Print lines matching a pattern
@@ -2068,7 +2074,7 @@ tee   Read from standard input and write to standard output and files</pre>
 <h3>重定向标准输出: &gt; 与 &gt;&gt;<br><span class="de-title">Redirecting Standard Output</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 50–51</span>
-<pre>[me@linuxbox ~]$ ls -l /usr/bin &gt; ls-output.txt
+<pre data-lang="text">[me@linuxbox ~]$ ls -l /usr/bin &gt; ls-output.txt
 [me@linuxbox ~]$ ls -l /bin/usr &gt; ls-output.txt
 ls: cannot access /bin/usr: No such file or directory
 [me@linuxbox ~]$ ls -l ls-output.txt
@@ -2090,14 +2096,14 @@ ls: cannot access /bin/usr: No such file or directory
 <h3>重定向标准错误<br><span class="de-title">Redirecting Standard Error</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 52–53</span>
-<pre>[me@linuxbox ~]$ ls -l /bin/usr 2&gt; ls-error.txt
+<pre data-lang="text">[me@linuxbox ~]$ ls -l /bin/usr 2&gt; ls-error.txt
 [me@linuxbox ~]$ ls -l /bin/usr &gt; ls-output.txt 2&gt;&amp;1
 [me@linuxbox ~]$ ls -l /bin/usr &amp;&gt; ls-output.txt
 [me@linuxbox ~]$ ls -l /bin/usr &amp;&gt;&gt; ls-output.txt
 [me@linuxbox ~]$ ls -l /bin/usr 2&gt; /dev/null</pre>
   <p>“… the shell references them internally as <b>file descriptors 0, 1, and 2</b>, <span class="nb">respectively.”</span></p>
   <p><b>The order of the redirections is significant.</b> “The redirection of standard error must always occur after redirecting standard output or it doesn’t <span class="nb">work.”</span></p>
-<pre>&gt;ls-output.txt 2&gt;&amp;1    # stderr goes to ls-output.txt
+<pre data-lang="text">&gt;ls-output.txt 2&gt;&amp;1    # stderr goes to ls-output.txt
 2&gt;&amp;1 &gt;ls-output.txt    # stderr goes to the screen</pre>
 </div>
 <div class="zh">
@@ -2114,7 +2120,7 @@ ls: cannot access /bin/usr: No such file or directory
 <h3>重定向标准输入: cat 与 &lt;<br><span class="de-title"><span class="seg">Redirecting Standard Input ·</span> <span class="seg">cat</span></span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 53–55</span>
-<pre>cat filename
+<pre data-lang="text">cat filename
 cat movie.mpeg.0* &gt; movie.mpeg
 [me@linuxbox ~]$ cat
 The quick brown fox jumped over the lazy dog.
@@ -2137,7 +2143,7 @@ The quick brown fox jumped over the lazy dog.</pre>
 <h3>管道<br><span class="de-title">Pipelines</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 55</span>
-<pre>command1 | command2
+<pre data-lang="text">command1 | command2
 [me@linuxbox ~]$ ls -l /usr/bin | less</pre>
   <p>“Using the pipe operator <code>|</code>, the standard output of one command can be piped into the standard input of <span class="nb">another.”</span></p>
 </div>
@@ -2146,7 +2152,7 @@ The quick brown fox jumped over the lazy dog.</pre>
 <h3>&gt; 和 | 的区别<br><span class="de-title">The Difference Between &gt; and |</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 56</span>
-<pre>command1 &gt; file1
+<pre data-lang="text">command1 &gt; file1
 command1 | command2
 # cd /usr/bin
 # ls &gt; less</pre>
@@ -2160,7 +2166,7 @@ command1 | command2
 <h3>过滤器: sort、uniq、wc、grep、head、tail、tee<br><span class="de-title">Filters</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 55–59</span>
-<pre>[me@linuxbox ~]$ ls /bin /usr/bin | sort | less
+<pre data-lang="text">[me@linuxbox ~]$ ls /bin /usr/bin | sort | less
 [me@linuxbox ~]$ ls /bin /usr/bin | sort | uniq | less
 [me@linuxbox ~]$ ls /bin /usr/bin | sort | uniq -d | less
 [me@linuxbox ~]$ wc ls-output.txt
@@ -2205,7 +2211,7 @@ gunzip
 <div class="card de" lang="en">
   <span class="folie">S. 61–62</span>
   <p>“Each time we type a command and press the enter key, bash performs several substitutions upon the text before it carries out our command … The process that makes this happen is called <span class="nb"><b>expansion</b>.”</span></p>
-<pre>[me@linuxbox ~]$ echo this is a test
+<pre data-lang="text">[me@linuxbox ~]$ echo this is a test
 this is a test
 [me@linuxbox ~]$ echo *
 Desktop Documents ls-output.txt Music Pictures Public Templates Videos</pre>
@@ -2219,7 +2225,7 @@ Desktop Documents ls-output.txt Music Pictures Public Templates Videos</pre>
 <h3>路径名展开<br><span class="de-title">Pathname Expansion</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 62–63</span>
-<pre>[me@linuxbox ~]$ echo D*
+<pre data-lang="text">[me@linuxbox ~]$ echo D*
 Desktop Documents
 [me@linuxbox ~]$ echo *s
 Documents Pictures Templates Videos
@@ -2240,7 +2246,7 @@ Desktop Documents Music Pictures Public Templates Videos
 <h3>波浪号展开<br><span class="de-title">Tilde Expansion</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 63–64</span>
-<pre>[me@linuxbox ~]$ echo ~
+<pre data-lang="text">[me@linuxbox ~]$ echo ~
 /home/me
 [me@linuxbox ~]$ echo ~foo
 /home/foo</pre>
@@ -2250,7 +2256,7 @@ Desktop Documents Music Pictures Public Templates Videos
 <h3>算术展开<br><span class="de-title">Arithmetic Expansion</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 64–65</span>
-<pre>$((expression))
+<pre data-lang="text">$((expression))
 [me@linuxbox ~]$ echo $((2 + 2))
 4
 [me@linuxbox ~]$ echo $(($((5**2)) * 3))
@@ -2271,7 +2277,7 @@ with 1 left over.</pre>
 <h3>花括号展开<br><span class="de-title">Brace Expansion</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 65–66</span>
-<pre>[me@linuxbox ~]$ echo Front-{A,B,C}-Back
+<pre data-lang="text">[me@linuxbox ~]$ echo Front-{A,B,C}-Back
 Front-A-Back Front-B-Back Front-C-Back
 [me@linuxbox ~]$ echo Number_{1..5}
 Number_1 Number_2 Number_3 Number_4 Number_5
@@ -2298,7 +2304,7 @@ aA1b aA2b aB3b aB4b
 <h3>参数展开<br><span class="de-title">Parameter Expansion</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 66</span>
-<pre>[me@linuxbox ~]$ echo $USER
+<pre data-lang="text">[me@linuxbox ~]$ echo $USER
 me
 [me@linuxbox ~]$ printenv | less
 [me@linuxbox ~]$ echo $SUER
@@ -2313,7 +2319,7 @@ me
 <h3>命令替换<br><span class="de-title">Command Substitution</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 67</span>
-<pre>[me@linuxbox ~]$ echo $(ls)
+<pre data-lang="text">[me@linuxbox ~]$ echo $(ls)
 Desktop Documents ls-output.txt Music Pictures Public Templates Videos
 [me@linuxbox ~]$ ls -l $(which cp)
 -rwxr-xr-x 1 root root 71516 2007-12-05 08:58 /bin/cp
@@ -2328,7 +2334,7 @@ Desktop Documents ls-output.txt Music Pictures Public Templates Videos
 <h3>引号: 控制展开<br><span class="de-title">Quoting</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 67–68</span>
-<pre>[me@linuxbox ~]$ echo this is a     test
+<pre data-lang="text">[me@linuxbox ~]$ echo this is a     test
 this is a test
 [me@linuxbox ~]$ echo The total is $100.00
 The total is 00.00</pre>
@@ -2347,7 +2353,7 @@ The total is 00.00</pre>
 <div class="card de" lang="en">
   <span class="folie">S. 68–69</span>
   <p>“If we place text inside double quotes, all the special characters used by the shell lose their special meaning … The exceptions are <code>$</code> (dollar sign), <code>\</code> (backslash), and <code>`</code> (backtick). This means that word splitting, pathname expansion, tilde expansion, and brace expansion are suppressed; however, parameter expansion, arithmetic expansion, and command substitution are still <span class="nb">carried out.”</span></p>
-<pre>[me@linuxbox ~]$ ls -l two words.txt
+<pre data-lang="text">[me@linuxbox ~]$ ls -l two words.txt
 ls: cannot access two: No such file or directory
 ls: cannot access words.txt: No such file or directory
 [me@linuxbox ~]$ ls -l "two words.txt"
@@ -2378,7 +2384,7 @@ Su Mo Tu We Th Fr Sa
 <h3>单引号与转义<br><span class="de-title"><span class="seg">Single Quotes ·</span> <span class="seg">Escaping Characters</span></span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 69–70</span>
-<pre>[me@linuxbox ~]$ echo text ~/*.txt {a,b} $(echo foo) $((2+2)) $USER
+<pre data-lang="text">[me@linuxbox ~]$ echo text ~/*.txt {a,b} $(echo foo) $((2+2)) $USER
 text /home/me/ls-output.txt a b foo 4 me
 [me@linuxbox ~]$ echo "text ~/*.txt {a,b} $(echo foo) $((2+2)) $USER"
 text ~/*.txt {a,b} foo 4 me
@@ -2414,7 +2420,7 @@ The balance for user me is: $5.00
     <tr><td><code>\r</code></td><td class="wide">Carriage return</td></tr>
     <tr><td><code>\t</code></td><td>Tab</td></tr>
   </table></div>
-<pre>sleep 10; echo -e "Time's up\a"
+<pre data-lang="text">sleep 10; echo -e "Time's up\a"
 sleep 10; echo "Time's up" $'\a'</pre>
   <p>“Adding the <code>-e</code> option to <code>echo</code> will enable interpretation of escape sequences. You can also place them inside <span class="nb"><code>$' '</code>.”</span></p>
 </div>
@@ -2430,7 +2436,7 @@ sleep 10; echo "Time's up" $'\a'</pre>
 <div class="card de" lang="en">
   <span class="folie">S. 73–74</span>
   <p>“… one of the most cherished goals of the command line is <b>laziness</b> — doing the most work with the fewest number of keystrokes.” bash uses a library called <b>Readline</b> to implement command line editing. Some <span>alt</span> key sequences may be intercepted by <span class="nb">the GUI.</span></p>
-<pre>clear    Clear the terminal screen
+<pre data-lang="text">clear    Clear the terminal screen
 history  Display or manipulate the history list</pre>
 </div>
 <div class="zh"><p>命令行编辑由 <b>Readline</b> 库提供. 不必全背, 挑几个常用的练熟即可. Mac 终端里 <kbd>Alt</kbd> 对应 <kbd>Option</kbd>, 但要在终端设置里勾选「将 Option 键用作 Meta 键」才生效; 不方便时可以「先按一下 <kbd>Esc</kbd> 再按字母」代替 Alt (书 S. <span class="nb">75 的 Meta 键说明).</span> </p></div>
@@ -2470,7 +2476,7 @@ history  Display or manipulate the history list</pre>
 <h3>自动补全<br><span class="de-title">Completion</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 76–77</span>
-<pre>[me@linuxbox ~]$ ls l&lt;tab&gt;    →  ls ls-output.txt
+<pre data-lang="grammar">[me@linuxbox ~]$ ls l&lt;tab&gt;    →  ls ls-output.txt
 [me@linuxbox ~]$ ls D&lt;tab&gt;    →  (nothing: ambiguous)
 [me@linuxbox ~]$ ls Do&lt;tab&gt;   →  ls Documents</pre>
   <p>“For completion to be successful, the ‘clue’ you give it has to be unambiguous.” Completion also works on variables (<code>$</code>), usernames (<code>~</code>), commands (first word) and hostnames (<code>@</code>, from <code>/etc/hosts</code>). <code>alt-?</code>: list possible completions (or press tab twice); <code>alt-*</code>: insert all possible completions. <b>Programmable completion</b> adds rules for specific <span class="nb">applications.</span></p>
@@ -2480,7 +2486,7 @@ history  Display or manipulate the history list</pre>
 <h3>使用历史<br><span class="de-title">Using History</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 77–79</span>
-<pre>[me@linuxbox ~]$ history | less
+<pre data-lang="text">[me@linuxbox ~]$ history | less
 [me@linuxbox ~]$ history | grep /usr/bin
    88  ls -l /usr/bin &gt; ls-output.txt
 [me@linuxbox ~]$ !88
@@ -2520,7 +2526,7 @@ history  Display or manipulate the history list</pre>
 <h3>script: 录下整个会话<br><span class="de-title">script</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 80</span>
-<pre>script file</pre>
+<pre data-lang="text">script file</pre>
   <p>“… record an entire shell session and store it in a file … If no file is specified, the file <code>typescript</code> is <span class="nb">used.”</span></p>
 </div>
 <div class="zh"><p><code>script 文件名</code> 开始录制, 之后屏幕上的输入和输出都存进文件, 输入 <code>exit</code> 结束录制. 交作业要附终端记录<span class="nb">时很方便.</span> </p></div>
@@ -2531,7 +2537,7 @@ history  Display or manipulate the history list</pre>
 <div class="card de" lang="en">
   <span class="folie">S. 81–82</span>
   <p>Unix-tradition systems are “not only multitasking systems but also <b>multiuser</b> systems.” “… remote users can log in via <code>ssh</code> (secure shell) and operate the <span class="nb">computer.”</span></p>
-<pre>id      Display user identity
+<pre data-lang="text">id      Display user identity
 chmod   Change a file’s mode
 umask   Set the default file permissions
 su      Run a shell as another user
@@ -2545,7 +2551,7 @@ passwd  Change a user’s password</pre>
 <h3>属主、组成员和其他所有人<br><span class="de-title">Owners, Group Members, and Everybody Else</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 82–83</span>
-<pre>[me@linuxbox ~]$ file /etc/shadow
+<pre data-lang="text">[me@linuxbox ~]$ file /etc/shadow
 /etc/shadow: regular file, no read permission
 [me@linuxbox ~]$ less /etc/shadow
 /etc/shadow: Permission denied
@@ -2566,7 +2572,7 @@ uid=500(me) gid=500(me) groups=500(me)</pre>
 <h3>读、写、执行<br><span class="de-title">Reading, Writing, and Executing</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 83–84</span>
-<pre>[me@linuxbox ~]$ &gt; foo.txt
+<pre data-lang="text">[me@linuxbox ~]$ &gt; foo.txt
 [me@linuxbox ~]$ ls -l foo.txt
 -rw-rw-r-- 1 me    me   0 2018-03-06 14:52 foo.txt</pre>
   <div class="tablewrap"><table>
@@ -2577,7 +2583,7 @@ uid=500(me) gid=500(me) groups=500(me)</pre>
     <tr><td><code>c</code></td><td class="wide">A character special file … such as a terminal or <code>/dev/null</code>.</td></tr>
     <tr><td><code>b</code></td><td class="wide">A block special file … such as a hard drive or DVD drive.</td></tr>
   </table></div>
-<pre>Owner  Group  World
+<pre data-lang="text">Owner  Group  World
 rwx    rwx    rwx</pre>
 </div>
 <div class="card de" lang="en">
@@ -2629,7 +2635,7 @@ rwx    rwx    rwx</pre>
     <tr><td>6</td><td>110</td><td><code>rw-</code></td></tr>
     <tr><td>7</td><td>111</td><td><code>rwx</code></td></tr>
   </table></div>
-<pre>[me@linuxbox ~]$ chmod 600 foo.txt
+<pre data-lang="text">[me@linuxbox ~]$ chmod 600 foo.txt
 [me@linuxbox ~]$ ls -l foo.txt
 -rw------- 1 me    me   0 2018-03-06 14:52 foo.txt</pre>
   <p>Common ones: 7 (<code>rwx</code>), 6 (<code>rw-</code>), 5 (<code>r-x</code>), 4 (<code>r--</code>), <span class="nb">and 0 (<code>---</code>).</span></p>
@@ -2678,7 +2684,7 @@ rwx    rwx    rwx</pre>
 <h3>umask: 默认权限<br><span class="de-title">umask: Set Default Permissions</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 89–90</span>
-<pre>[me@linuxbox ~]$ umask
+<pre data-lang="text">[me@linuxbox ~]$ umask
 0002
 [me@linuxbox ~]$ &gt; foo.txt
 [me@linuxbox ~]$ ls -l foo.txt
@@ -2713,7 +2719,7 @@ Result               --- rw- r-- r--</pre>
 <div class="card de" lang="en">
   <span class="folie">S. 90–91</span>
   <p><b>setuid</b> (octal 4000): on an executable, “it changes the effective user ID from that of the real user … to that of the program’s owner.” <b>setgid</b> (2000): on a directory, “newly created files in the directory will be given the group ownership of the directory.” <b>sticky bit</b> (1000): on a directory, “it prevents users from deleting or renaming files unless the user is either the owner of the directory, the owner of the file, or the superuser” — e.g. <span class="nb"><code>/tmp</code>.</span></p>
-<pre>chmod u+s program    → -rwsr-xr-x
+<pre data-lang="grammar">chmod u+s program    → -rwsr-xr-x
 chmod g+s dir        → drwxrwsr-x
 chmod +t dir         → drwxrwxrwt</pre>
 </div>
@@ -2732,7 +2738,7 @@ chmod +t dir         → drwxrwxrwt</pre>
 <div class="card de" lang="en">
   <span class="folie">S. 91–93</span>
   <p>Three ways: log out and back in · <code>su</code> · <span class="nb"><code>sudo</code>.</span></p>
-<pre>su [-[l]] [user]
+<pre data-lang="text">su [-[l]] [user]
 [me@linuxbox ~]$ su -
 Password:
 [root@linuxbox ~]# exit
@@ -2763,7 +2769,7 @@ User me may run the following commands on this host:
 <h3>chown 与 chgrp<br><span class="de-title"><span class="seg">chown: Change File Owner and Group ·</span> <span class="seg">chgrp</span></span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 94–95</span>
-<pre>chown [owner][:[group]] file...</pre>
+<pre data-lang="text">chown [owner][:[group]] file...</pre>
   <div class="tablewrap"><table>
     <tr><th>Argument</th><th>Results</th></tr>
     <tr><td><code>bob</code></td><td class="wide">Changes the ownership of the file to user bob.</td></tr>
@@ -2771,7 +2777,7 @@ User me may run the following commands on this host:
     <tr><td><code>:admins</code></td><td class="wide">Changes the group owner to admins. The file owner is unchanged.</td></tr>
     <tr><td><code>bob:</code></td><td class="wide">Changes the owner to bob and the group owner to the login group of user bob.</td></tr>
   </table></div>
-<pre>[janet@linuxbox ~]$ sudo cp myfile.txt ~tony
+<pre data-lang="text">[janet@linuxbox ~]$ sudo cp myfile.txt ~tony
 [janet@linuxbox ~]$ sudo ls -l ~tony/myfile.txt
  -rw-r--r-- 1 root  root  root 2018-03-20 14:30 /home/tony/myfile.txt
 [janet@linuxbox ~]$ sudo chown tony: ~tony/myfile.txt
@@ -2791,7 +2797,7 @@ User me may run the following commands on this host:
 <h3>实战: 建一个共享目录<br><span class="de-title">Exercising Our Privileges</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 95–97</span>
-<pre>[bill@linuxbox ~]$ sudo mkdir /usr/local/share/Music
+<pre data-lang="text">[bill@linuxbox ~]$ sudo mkdir /usr/local/share/Music
 [bill@linuxbox ~]$ ls -ld /usr/local/share/Music
 drwxr-xr-x 2 root root 4096 2018-03-21 18:05 /usr/local/share/Music
 [bill@linuxbox ~]$ sudo chown :music /usr/local/share/Music
@@ -2827,7 +2833,7 @@ drwxrwsr-x 2 bill   music 4096 2018-03-24 20:24 test_dir
 <h3>改密码<br><span class="de-title">Changing Your Password</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 97–98</span>
-<pre>passwd [user]
+<pre data-lang="text">passwd [user]
 [me@linuxbox ~]$ passwd
 (current) UNIX password:
 New UNIX password:
@@ -2845,7 +2851,7 @@ BAD PASSWORD: it is based on a dictionary word</pre>
 <div class="card de" lang="en">
   <span class="folie">S. 99–100</span>
   <p>Modern operating systems “create the illusion of doing more than one thing at once by rapidly switching from one executing program to another. The kernel manages this through the use of <span class="nb"><b>processes</b>.”</span></p>
-<pre>ps        Report a snapshot of current processes
+<pre data-lang="text">ps        Report a snapshot of current processes
 top       Display tasks
 jobs      List active jobs
 bg        Place a job in the background
@@ -2873,7 +2879,7 @@ shutdown  Shut down or reboot the system</pre>
 <h3>查看进程: ps<br><span class="de-title">Viewing Processes</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 100–102</span>
-<pre>[me@linuxbox ~]$ ps
+<pre data-lang="text">[me@linuxbox ~]$ ps
   PID TTY          TIME CMD
  5198 pts/1    00:00:00 bash
 10129 pts/1    00:00:00 ps
@@ -2917,7 +2923,7 @@ root      1  0.0  0.0   2136   644 ?        Ss   Mar05   0:31 init
 <h3>动态查看: top<br><span class="de-title">Viewing Processes Dynamically with top</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 102–104</span>
-<pre>top - 14:59:20 up  6:30,  2 users,  load average: 0.07, 0.02, 0.00
+<pre data-lang="text">top - 14:59:20 up  6:30,  2 users,  load average: 0.07, 0.02, 0.00
 Tasks: 109 total,   1 running, 106 sleeping,   0 stopped,   2 zombie
 Cpu(s):  0.7%us,  1.0%sy,  0.0%ni, 98.3%id,  0.0%wa,  0.0%hi,  0.0%si
 Mem:    319496k total,   314860k used,     4636k free,    19392k buff
@@ -2941,7 +2947,7 @@ Swap:   875500k total,   149128k used,   726372k free,   114676k cach
 <h3>控制进程: 前台、后台、作业<br><span class="de-title">Controlling Processes</span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 104–106</span>
-<pre>[me@linuxbox ~]$ xlogo
+<pre data-lang="text">[me@linuxbox ~]$ xlogo
 [me@linuxbox ~]$ xlogo &amp;
 [1] 28236
 [me@linuxbox ~]$ jobs
@@ -2974,7 +2980,7 @@ xlogo
 <h3>信号与 kill<br><span class="de-title"><span class="seg">Signals ·</span> <span class="seg">Sending Signals to Processes with kill</span></span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 107–109</span>
-<pre>kill -signal PID...
+<pre data-lang="text">kill -signal PID...
 [me@linuxbox ~]$ xlogo &amp;
 [1] 28401
 [me@linuxbox ~]$ kill 28401
@@ -3014,7 +3020,7 @@ xlogo
 <h3>killall 与关机<br><span class="de-title"><span class="seg">killall ·</span> <span class="seg">Shutting Down the System</span></span></h3>
 <div class="card de" lang="en">
   <span class="folie">S. 109–110</span>
-<pre>killall [-u user] [-signal] name...
+<pre data-lang="text">killall [-u user] [-signal] name...
 [me@linuxbox ~]$ killall xlogo
 [1]-  Terminated              xlogo
 [2]+  Terminated              xlogo

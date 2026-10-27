@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1095,6 +1092,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 8.5; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81cee4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #47caea; --syn-f: #c6dcfe; --syn-s: #d9ba70; --syn-n: #9adaa3; --syn-b: #7db7b8; --syn-c: #7c9096; --syn-p: #7c9096; }
+  html[data-mode="day"] { --syn-k: #0f6f84; --syn-f: #1a447f; --syn-s: #7b5f01; --syn-n: #1d7635; --syn-b: #105e60; --syn-c: #566d75; --syn-p: #566d75; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1400,14 +1403,14 @@
 <div class="card de">
   <span class="folie">Folie 21</span>
   <p>Import-Syntax für <span class="nb">Pakete:</span></p>
-<pre><code><span class="c"># Alle Module eines Pakets importieren</span>
-<span class="k">import</span> paket
+<pre data-lang="python"><code><span class="tk-c"># Alle Module eines Pakets importieren
+</span><span class="tk-k">import </span>paket
 
-<span class="c"># Einzelne Module eines Pakets importieren</span>
-<span class="k">import</span> paket.modulname
+<span class="tk-c"># Einzelne Module eines Pakets importieren
+</span><span class="tk-k">import </span>paket.modulname
 
-<span class="c"># Alternativ</span>
-<span class="k">from</span> paket <span class="k">import</span> modulname</code></pre>
+<span class="tk-c"># Alternativ
+</span><span class="tk-k">from </span>paket <span class="tk-k">import </span>modulname</code></pre>
 </div>
 <div class="zh">
   <ul>
@@ -1420,7 +1423,7 @@
 <div class="card de">
   <span class="folie">Folie 22</span>
   <p><b>Empfohlene Paket-Struktur</b></p>
-<pre>sound/                          Top-level package
+<pre data-lang="text">sound/                          Top-level package
       __init__.py               Initialize the sound package
       formats/                  Subpackage for file format conversions
               __init__.py
@@ -1455,11 +1458,11 @@
   <p class="src">(Abbildung: Verzeichnisbaum wie <span class="nb">Folie 22)</span></p>
   <p>Hinweis: Die <code>__init__.py</code>-Dateien sind erforderlich, damit Python die Verzeichnisse, welche die Datei enthalten, als Packages <span class="nb">behandelt.</span></p>
   <p>Beispiele:</p>
-<pre><code><span class="c"># Einzelne Module aus dem Package importieren</span>
-<span class="k">from</span> sound.effects <span class="k">import</span> echo
-<span class="k">import</span> sound.effects.echo <span class="c"># Alternativ</span>
-<span class="c"># Direkter Import der gewünschten Funktion</span>
-<span class="k">from</span> sound.effects.echo <span class="k">import</span> echofilter</code></pre>
+<pre data-lang="python"><code><span class="tk-c"># Einzelne Module aus dem Package importieren
+</span><span class="tk-k">from </span>sound.effects <span class="tk-k">import </span>echo
+<span class="tk-k">import </span>sound.effects.echo <span class="tk-c"># Alternativ
+# Direkter Import der gewünschten Funktion
+</span><span class="tk-k">from </span>sound.effects.echo <span class="tk-k">import </span>echofilter</code></pre>
 </div>
 <div class="zh">
   <p>三种导入写法, 用法的区别 (在临时目录里建了 sound/effects/echo.py, 内含函数 echofilter, <span class="nb">三种都实测可用):</span> </p>
@@ -1694,11 +1697,11 @@
   <p><b>Reguläre Ausdrücke in Python – Alternative und Klammerung</b></p>
   <ul>
     <li>Alternative mit | Operator<br>
-<pre><code><span class="s">"0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9"</span> <span class="c"># Ziffern</span>
-<span class="s">"Mo | Di | Mi | Do | Fr | Sa | So"</span> <span class="c"># Wochentage</span></code></pre></li>
+<pre data-lang="text"><code>"0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9" # Ziffern
+"Mo | Di | Mi | Do | Fr | Sa | So" # Wochentage</code></pre></li>
     <li>Klammerung zur
       <ul><li>Gruppierung</li><li>Sicherstellung der <span class="nb">Auswertungsreihenfolge</span></li></ul>
-<pre><code><span class="s">"Klausur (6 | 9) ECTS"</span></code></pre></li>
+<pre data-lang="text"><code>"Klausur (6 | 9) ECTS"</code></pre></li>
   </ul>
 </div>
 <div class="zh">
@@ -1751,15 +1754,15 @@
   <p><b>Reguläre Ausdrücke in Python – Wiederholung</b></p>
   <ul>
     <li>Beliebige Wiederholung mittels * bzw. +<br>
-<pre><code><span class="s">"2180[0-9]*"</span> <span class="c"># beliebige bzw. keine Durchwahl</span>
-<span class="s">"2180[0-9]+"</span> <span class="c"># beliebige Durchwahl</span></code></pre></li>
+<pre data-lang="text"><code>"2180[0-9]*" # beliebige bzw. keine Durchwahl
+"2180[0-9]+" # beliebige Durchwahl</code></pre></li>
     <li>Optional mittels ?<br>
-<pre><code><span class="s">"(089)?2180"</span> <span class="c"># Optionale Vorwahl</span></code></pre></li>
+<pre data-lang="text"><code>"(089)?2180" # Optionale Vorwahl</code></pre></li>
     <li>Wiederholungen im Bereich [min, max]<br>
-<pre><code><span class="s">"[A-Z]{1,3}"</span>     <span class="c"># Ortskennung KFZ</span>
-<span class="s">"[0-9]{5}"</span>       <span class="c"># Postleitzahl</span>
-<span class="s">"X{1,}L"</span>         <span class="c"># große Kleidergröße</span>
-<span class="s">"X{,2}S"</span>         <span class="c"># kleine Kleidergröße</span></code></pre></li>
+<pre data-lang="text"><code>"[A-Z]{1,3}"     # Ortskennung KFZ
+"[0-9]{5}"       # Postleitzahl
+"X{1,}L"         # große Kleidergröße
+"X{,2}S"         # kleine Kleidergröße</code></pre></li>
   </ul>
 </div>
 <div class="zh">
@@ -1787,14 +1790,14 @@
     <li>Parameter<ol><li>Regulärer Ausdruck als <span class="nb">String</span></li><li>Zu prüfender <span class="nb">String</span></li></ol></li>
     <li>Rückgabewert<ul><li>Objekt der Klasse <span class="nb">Match</span></li><li>None falls String nicht Teil der <span class="nb">Sprache</span></li></ul></li>
   </ul>
-<pre><code><span class="k">import</span> re
+<pre data-lang="python"><code><span class="tk-k">import </span>re
 
-eingabe = input(<span class="s">"Geburtsdatum\n"</span>)
-ergebnis = re.fullmatch(<span class="s">"\d{2}\.\d{2}\.\d{4}"</span>, eingabe)
-<span class="k">if</span> ergebnis == None:
-    print(<span class="s">"Geburtsdatum nicht im Format tt.mm.jjjj"</span>)
-<span class="k">else</span>:
-    print(ergebnis)</code></pre>
+eingabe = <span class="tk-b">input</span>(<span class="tk-s">"Geburtsdatum\n"</span>)
+ergebnis = re.fullmatch(<span class="tk-s">"\d{2}\.\d{2}\.\d{4}"</span>, eingabe)
+<span class="tk-k">if </span>ergebnis == <span class="tk-n">None</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">"Geburtsdatum nicht im Format tt.mm.jjjj"</span>)
+<span class="tk-k">else</span>:
+    <span class="tk-b">print</span>(ergebnis)</code></pre>
 </div>
 <div class="zh">
   <p><code class="lc">re.fullmatch(模式, 字符串)</code>: 检查<b>整个</b>字符串是否属于正则表达式描述的语言 (第 2 章的「词属于语言」). 属于则返回一个 <b>Match 对象</b>, <span class="nb">否则返回 None.</span> </p>
@@ -1815,15 +1818,15 @@ ergebnis = re.fullmatch(<span class="s">"\d{2}\.\d{2}\.\d{4}"</span>, eingabe)
     <li>start und end für Anfangsposition und Endposition des gefunden Teilstrings im <span class="nb">Suchstring</span></li>
     <li>group für Rückgabe des gefundenen Teilstrings, <span class="nb">etc.</span></li>
   </ul>
-<pre><code><span class="k">import</span> re
+<pre data-lang="python"><code><span class="tk-k">import </span>re
 
-eingabe = input(<span class="s">"Geburtsdatum\n"</span>)
-ergebnis = re.fullmatch(<span class="s">"\d{2}\.\d{2}\.\d{4}"</span>, eingabe)
-<span class="k">if</span> ergebnis:
-    print(ergebnis.start())
-    print(ergebnis.end())
-    print(eingabe[ergebnis.start():ergebnis.end()])
-    print(ergebnis.group())</code></pre>
+eingabe = <span class="tk-b">input</span>(<span class="tk-s">"Geburtsdatum\n"</span>)
+ergebnis = re.fullmatch(<span class="tk-s">"\d{2}\.\d{2}\.\d{4}"</span>, eingabe)
+<span class="tk-k">if </span>ergebnis:
+    <span class="tk-b">print</span>(ergebnis.start())
+    <span class="tk-b">print</span>(ergebnis.end())
+    <span class="tk-b">print</span>(eingabe[ergebnis.start():ergebnis.end()])
+    <span class="tk-b">print</span>(ergebnis.group())</code></pre>
 </div>
 <div class="zh">
   <p>Match 对象的方法: <code>start()</code> 匹配的起始位置, <code>end()</code> 结束位置 (不含, 和切片一样), <code>group()</code> 匹配到的子串. 所以 <code>eingabe[start():end()]</code> 和 <code>group()</code> 相同. 输入 "01.02.2003" 实测输出 0、10、01.02.2003、01.02.2003. 用 fullmatch 时 start 总是 0、end 总是整个长度; 这些方法在 search (下一页) 里才真正有用. <code>if ergebnis:</code> 利用 None 为假、<span class="nb">Match 对象为真.</span> </p>
@@ -1839,14 +1842,14 @@ ergebnis = re.fullmatch(<span class="s">"\d{2}\.\d{2}\.\d{4}"</span>, eingabe)
     <li>Parameter<ol><li>Regulärer Ausdruck als <span class="nb">String</span></li><li>Zu durchsuchenden <span class="nb">String</span></li></ol></li>
     <li>Rückgabewert<ul><li>Objekt der Klasse <span class="nb">Match</span></li><li>None falls nichts <span class="nb">gefunden</span></li></ul></li>
   </ul>
-<pre><code><span class="k">import</span> re
+<pre data-lang="python"><code><span class="tk-k">import </span>re
 
-eingabe = input(<span class="s">"Geburtsdatum\n"</span>)
-ergebnis = re.search(<span class="s">"\.\d{2}"</span>, eingabe)
-<span class="k">if</span> ergebnis:
-    print(ergebnis.group())
-<span class="k">else</span>:
-    print(<span class="s">"Nicht gefunden"</span>)</code></pre>
+eingabe = <span class="tk-b">input</span>(<span class="tk-s">"Geburtsdatum\n"</span>)
+ergebnis = re.search(<span class="tk-s">"\.\d{2}"</span>, eingabe)
+<span class="tk-k">if </span>ergebnis:
+    <span class="tk-b">print</span>(ergebnis.group())
+<span class="tk-k">else</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">"Nicht gefunden"</span>)</code></pre>
 </div>
 <div class="zh">
   <p><code class="lc">re.search(模式, 字符串)</code>: 在字符串中找<b>第一个</b>匹配模式的<b>子串</b> (不要求整个字符串匹配). 找到返回 Match 对象, 否则 None. 例: 模式「点 + 两位数字」, 输入 "01.02.2003" 实测找到 <code>.02</code> (第一个点后面的月份; 第二个点后面的「.20」排在后面, 不返回); 输入 "2003" → Nicht <span class="nb">gefunden.</span> </p>
@@ -1863,10 +1866,10 @@ ergebnis = re.search(<span class="s">"\.\d{2}"</span>, eingabe)
     <li>Parameter<ol><li>Regulärer Ausdruck als <span class="nb">String</span></li><li>Beschreibung der Ersetzung als <span class="nb">String</span></li><li>Zu verändernden <span class="nb">String</span></li></ol></li>
     <li>Rückgabewert: veränderter <span class="nb">String</span></li>
   </ul>
-<pre><code><span class="k">import</span> re
+<pre data-lang="python"><code><span class="tk-k">import </span>re
 
-satzteil = <span class="s">"6 ECTS oder 9 ECTS"</span>
-print(re.sub(<span class="s">"ECTS"</span>, <span class="s">"CP"</span>, satzteil)) <span class="c"># 6 CP oder 9 CP</span></code></pre>
+satzteil = <span class="tk-s">"6 ECTS oder 9 ECTS"
+</span><span class="tk-b">print</span>(re.sub(<span class="tk-s">"ECTS"</span>, <span class="tk-s">"CP"</span>, satzteil)) <span class="tk-c"># 6 CP oder 9 CP</span></code></pre>
 </div>
 <div class="zh">
   <p><code class="lc">re.sub(模式, 替换, 字符串)</code>: 把所有 (互不重叠的) 匹配都替换掉, 返回<b>新</b>字符串 (字符串不可变, 第 8 章, 原字符串不变). 实测输出 <code>6 CP oder 9 CP</code>. 这个例子的模式只是普通文字, 用 <code>str.replace</code> 也行; 正则的用处在于模式可以是一类字符串, 例如 <code class="lc">re.sub(r"\d+", "#", "6 ECTS oder 9 ECTS")</code> 得到「# ECTS oder # <span class="nb">ECTS」.</span> </p>

@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1095,6 +1092,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 10.9; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81cee4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #47caea; --syn-f: #c6dcfe; --syn-s: #d9ba70; --syn-n: #9adaa3; --syn-b: #7db7b8; --syn-c: #7c9096; --syn-p: #7c9096; }
+  html[data-mode="day"] { --syn-k: #0f6f84; --syn-f: #1a447f; --syn-s: #7b5f01; --syn-n: #1d7635; --syn-b: #105e60; --syn-c: #566d75; --syn-p: #566d75; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1169,7 +1172,7 @@
   <ul>
     <li><b>Anweisungen (Statements, Befehle)</b> sind die Grundelemente imperativer Programmiersprachen zur Festlegung (Kontrolle) des Ablaufs eines <span class="nb">Programms.</span></li>
     <li><b>Syntax</b> (wird im Laufe der Vorlesung noch erweitert)
-<pre><code>Statement = Assignment   (Zuweisung)
+<pre data-lang="grammar"><code>Statement = Assignment   (Zuweisung)
           | Conditional  (Fallunterscheidung)
           | Iteration    (Wiederholung)
 Block     = Statement { Statement }</code></pre></li>
@@ -1242,9 +1245,9 @@ Block     = Statement { Statement }</code></pre></li>
 <div class="zh">
   <p><b>复合赋值</b>: <code>x op= e</code> 是 <code>x = x op e</code> 的简写, op 可以是 + − * / // <span class="nb">% ** 等.</span> </p>
   <p>易错: 右边的表达式<b>整体</b>先算, 相当于加了括号. <code>x *= 2 + 3</code> 是 <code class="lc">x = x * (2 + 3)</code>, <span class="nb">不是 <code>x * 2 + 3</code>.</span> </p>
-<pre><code>&gt;&gt;&gt; x = 4
-&gt;&gt;&gt; x *= 2 + 3
-&gt;&gt;&gt; x
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>x = <span class="tk-n">4
+</span><span class="tk-p">&gt;&gt;&gt; </span>x *= <span class="tk-n">2 </span>+ <span class="tk-n">3
+</span><span class="tk-p">&gt;&gt;&gt; </span>x
 20</code></pre>
   <p>Python 没有 C <span class="nb">语言的 <code>x++</code>.</span> </p>
 </div>
@@ -1254,13 +1257,13 @@ Block     = Statement { Statement }</code></pre></li>
   <p><b>Mehrfache Zuweisung der selben Variablen</b></p>
   <p>Beachte:<br>In Python können Variablen beliebig <b>neu definiert</b> werden. Durch die dynamische Typisierung bekommt eine Variable automatisch den neuen Typ des zuweisenden Werts.</p>
   <p>Beispiel:</p>
-<pre><code>x = 7
-x = 8
-print(x)
-x = <span class="s">"Hallo"</span>
-print(x)</code></pre>
+<pre data-lang="python"><code>x = <span class="tk-n">7
+</span>x = <span class="tk-n">8
+</span><span class="tk-b">print</span>(x)
+x = <span class="tk-s">"Hallo"
+</span><span class="tk-b">print</span>(x)</code></pre>
   <p>Ausgabe:</p>
-<pre>8
+<pre data-lang="output">8
 Hallo</pre>
 </div>
 <div class="zh">
@@ -1285,15 +1288,15 @@ Hallo</pre>
 <div class="card de">
   <span class="folie">Folie 11</span>
   <p><b>Beispiel: Ausführung der Anweisungen eines Blocks</b></p>
-<pre><code>σ0 = []
-kontostand = 160 <span class="c"># Initialer Kontostand</span>
-σ1 = [(kontostand,160,int)]
-abhebe_gebühr = 3.95
-σ2 = [(kontostand,160,int),(abhebe_gebühr,3.95,float)]
+<pre data-lang="python"><code>σ0 = []
+kontostand = <span class="tk-n">160 </span><span class="tk-c"># Initialer Kontostand
+</span>σ1 = [(kontostand,<span class="tk-n">160</span>,<span class="tk-b">int</span>)]
+abhebe_gebühr = <span class="tk-n">3.95
+</span>σ2 = [(kontostand,<span class="tk-n">160</span>,<span class="tk-b">int</span>),(abhebe_gebühr,<span class="tk-n">3.95</span>,<span class="tk-b">float</span>)]
 kontostand = kontostand - abhebe_gebühr
-σ3 = [(kontostand,156.05,float),(abhebe_gebühr,3.95,float)]
-kontostand = kontostand - 100 <span class="c"># Abheben von 100 €</span>
-σ4 = [(kontostand,56.05,float),(abhebe_gebühr,3.95,float)]</code></pre>
+σ3 = [(kontostand,<span class="tk-n">156.05</span>,<span class="tk-b">float</span>),(abhebe_gebühr,<span class="tk-n">3.95</span>,<span class="tk-b">float</span>)]
+kontostand = kontostand - <span class="tk-n">100 </span><span class="tk-c"># Abheben von 100 €
+</span>σ4 = [(kontostand,<span class="tk-n">56.05</span>,<span class="tk-b">float</span>),(abhebe_gebühr,<span class="tk-n">3.95</span>,<span class="tk-b">float</span>)]</code></pre>
 </div>
 <div class="zh">
   <p>四条语句, 每条执行后写出状态 (σ 那几行不是代码, <span class="nb">是注解):</span> </p>
@@ -1304,11 +1307,11 @@ kontostand = kontostand - 100 <span class="c"># Abheben von 100 €</span>
   </ul>
 </div>
 <div class="warn"><p><b>幻灯片小错 (浮点精度): </b>在 Python 里实际执行这四行, 最后 kontostand 的值是 <code>56.05000000000001</code>, 不是精确的 56.05 (3.95 在二进制里只能近似存储, 见第 3 章 Folie 17). 幻灯片写的 56.05 是数学上的值. 写状态时一般按数学值写, 但程序 print 出来会看到这个误差. 处理钱时通常用整数 (分) 或 <code>decimal</code> <span class="nb">模块.</span> </p>
-<pre><code>&gt;&gt;&gt; kontostand = 160
-&gt;&gt;&gt; abhebe_gebühr = 3.95
-&gt;&gt;&gt; kontostand = kontostand - abhebe_gebühr
-&gt;&gt;&gt; kontostand = kontostand - 100
-&gt;&gt;&gt; kontostand
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>kontostand = <span class="tk-n">160
+</span><span class="tk-p">&gt;&gt;&gt; </span>abhebe_gebühr = <span class="tk-n">3.95
+</span><span class="tk-p">&gt;&gt;&gt; </span>kontostand = kontostand - abhebe_gebühr
+<span class="tk-p">&gt;&gt;&gt; </span>kontostand = kontostand - <span class="tk-n">100
+</span><span class="tk-p">&gt;&gt;&gt; </span>kontostand
 56.05000000000001</code></pre></div>
 
 <div class="card de">
@@ -1316,7 +1319,7 @@ kontostand = kontostand - 100 <span class="c"># Abheben von 100 €</span>
   <p><b>Ausführen von Blöcken</b></p>
   <p>Der durch einen Block bewirkte Zustandsübergang erfolgt also durch Hintereinanderausführung der Zustandsübergänge der einzelnen <span class="nb">Anweisungen.</span></p>
   <p>Allgemein: Die Ausführung eines <span class="nb">Blocks</span></p>
-<pre>σ0
+<pre data-lang="pseudocode">σ0
 Statement 1
   ⋮
 Statement n
@@ -1334,7 +1337,7 @@ Statement n
 <div class="card de">
   <span class="folie">Folie 13</span>
   <p>Syntax:</p>
-<pre><code>Statement   = Conditional|…
+<pre data-lang="grammar"><code>Statement   = Conditional|…
 Block       = Statement { Statement }
 
 Conditional = "if" Expression ":" Block
@@ -1342,9 +1345,9 @@ Conditional = "if" Expression ":" Block
               [ "else:" Block ]</code></pre>
   <div class="cols">
     <div><p>Beispiel</p>
-<pre><code><span class="k">if</span> x &gt;= 0:
+<pre data-lang="python"><code><span class="tk-k">if </span>x &gt;= <span class="tk-n">0</span>:
     y = x
-<span class="k">else</span>:
+<span class="tk-k">else</span>:
     y = -x</code></pre></div>
     <div><p>Beachte:</p>
     <ul><li>Gruppierung durch <span class="nb">Einrückung</span></li><li>jeweils 4 Leerzeichen pro <span class="nb">Unterblock</span></li><li>beliebig tiefe Schachtelung <span class="nb">möglich</span></li></ul></div>
@@ -1359,9 +1362,9 @@ Conditional = "if" Expression ":" Block
 <div class="card de">
   <span class="folie">Folie 14</span>
   <p>Beispiel:</p>
-<pre><code><span class="k">if</span> x &gt;= 0:
+<pre data-lang="python"><code><span class="tk-k">if </span>x &gt;= <span class="tk-n">0</span>:
     y = x
-<span class="k">else</span>:
+<span class="tk-k">else</span>:
     y = -x</code></pre>
   <p>Ausführung:</p>
   <ul>
@@ -1398,13 +1401,13 @@ Conditional = "if" Expression ":" Block
   <span class="folie">Folie 16</span>
   <p><b>Beispiele</b></p>
   <p>Beispiel 1:</p>
-<pre><code><span class="k">if</span> kontostand &gt;= betrag:
+<pre data-lang="python"><code><span class="tk-k">if </span>kontostand &gt;= betrag:
     kontostand = kontostand - abhebe_gebühr
     kontostand = kontostand - betrag</code></pre>
   <p>Beispiel 2:</p>
-<pre><code><span class="k">if</span> kontostand &gt;= betrag:
+<pre data-lang="python"><code><span class="tk-k">if </span>kontostand &gt;= betrag:
     kontostand = kontostand - betrag - abhebe_gebühr
-<span class="k">else</span>:
+<span class="tk-k">else</span>:
     kontostand = kontostand - betrag - abhebe_gebühr
     kontostand = kontostand - überzieh_gebühr</code></pre>
 </div>
@@ -1414,7 +1417,7 @@ Conditional = "if" Expression ":" Block
     <li><b>例 2</b>: 余额够时扣金额和手续费; 不够时也允许取 (透支), 但除了金额和手续费, 还要扣<span class="nb"><b>Überziehgebühr 透支费</b>.</span> </li>
   </ul>
   <p>例 2 两个分支的第一行完全相同, 可以改写成「先判断, <span class="nb">后统一扣款」:</span> </p>
-<pre><code>if kontostand &lt; betrag:
+<pre data-lang="python"><code><span class="tk-k">if </span>kontostand &lt; betrag:
     kontostand = kontostand - überzieh_gebühr
 kontostand = kontostand - betrag - abhebe_gebühr</code></pre>
   <p>判断必须放在扣款<b>之前</b>, 因为条件要用扣款前的余额. 如果先扣款再写 <code class="lc">if kontostand &lt; 0</code>, 余额介于 betrag 和 betrag + abhebe_gebühr 之间时结果就不同了 (原程序不收透支费, <span class="nb">改写后会收).</span> </p>
@@ -1424,15 +1427,15 @@ kontostand = kontostand - betrag - abhebe_gebühr</code></pre>
 <div class="card de">
   <span class="folie">Folie 18</span>
   <p>Fallunterscheidungen können geschachtelt <span class="nb">werden:</span></p>
-<pre><code><span class="k">if</span> konto_gesperrt:
-    print(<span class="s">"Konto gesperrt!"</span>)
-<span class="k">else</span>:
-    <span class="k">if</span> kontostand &gt;= betrag:
+<pre data-lang="python"><code><span class="tk-k">if </span>konto_gesperrt:
+    <span class="tk-b">print</span>(<span class="tk-s">"Konto gesperrt!"</span>)
+<span class="tk-k">else</span>:
+    <span class="tk-k">if </span>kontostand &gt;= betrag:
         kontostand = kontostand - betrag
         kontostand -= abhebe_gebühr
-        print(<span class="s">"Abhebung erfolgreich."</span>)
-    <span class="k">else</span>:
-        print(<span class="s">"Konto nicht gedeckt."</span>)</code></pre>
+        <span class="tk-b">print</span>(<span class="tk-s">"Abhebung erfolgreich."</span>)
+    <span class="tk-k">else</span>:
+        <span class="tk-b">print</span>(<span class="tk-s">"Konto nicht gedeckt."</span>)</code></pre>
 </div>
 <div class="zh">
   <p><b>嵌套</b>: else 的块里又是一个完整的 if-else. 逻辑: 账户被冻结 → 提示冻结; 否则再看余额够不够. 内层 if 多缩进一层 (8 <span class="nb">个空格).</span> </p>
@@ -1442,14 +1445,14 @@ kontostand = kontostand - betrag - abhebe_gebühr</code></pre>
 <div class="card de">
   <span class="folie">Folie 19</span>
   <p><b>Serie von Fallunterscheidungen</b></p>
-<pre><code><span class="k">if</span> konto_gesperrt:
-    print(<span class="s">"Konto gesperrt!"</span>)
-<span class="k">elif</span> kontostand &gt;= betrag:
+<pre data-lang="python"><code><span class="tk-k">if </span>konto_gesperrt:
+    <span class="tk-b">print</span>(<span class="tk-s">"Konto gesperrt!"</span>)
+<span class="tk-k">elif </span>kontostand &gt;= betrag:
     kontostand = kontostand - betrag
     kontostand -= abhebe_gebühr
-    print(<span class="s">"Abhebung erfolgreich."</span>)
-<span class="k">else</span>:
-    print(<span class="s">"Konto nicht gedeckt."</span>)</code></pre>
+    <span class="tk-b">print</span>(<span class="tk-s">"Abhebung erfolgreich."</span>)
+<span class="tk-k">else</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">"Konto nicht gedeckt."</span>)</code></pre>
   <ul>
     <li>elif ist die Kurzform von <span class="nb"><code class="lc">else: if Expression:</code></span></li>
     <li>spart <span class="nb">Einrückungen</span></li>
@@ -1464,14 +1467,14 @@ kontostand = kontostand - betrag - abhebe_gebühr</code></pre>
   <span class="folie">Folie 20</span>
   <p><b>Serie von Fallunterscheidungen</b></p>
   <p>Beispiel: für eine Anzahl von Spielern, welche Art von Tischtennis kann gespielt <span class="nb">werden?</span></p>
-<pre><code><span class="k">if</span> spieler &lt;= 1:
-    print(<span class="s">"kein Spiel"</span>)
-<span class="k">elif</span> spieler == 2:
-    print(<span class="s">"Duell"</span>)
-<span class="k">elif</span> spieler == 4:
-    print(<span class="s">"Doppel oder Rundlauf"</span>)
-<span class="k">else</span>:
-    print(<span class="s">"Rundlauf: "</span> + str(spieler) + <span class="s">" Spieler"</span>)</code></pre>
+<pre data-lang="python"><code><span class="tk-k">if </span>spieler &lt;= <span class="tk-n">1</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">"kein Spiel"</span>)
+<span class="tk-k">elif </span>spieler == <span class="tk-n">2</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">"Duell"</span>)
+<span class="tk-k">elif </span>spieler == <span class="tk-n">4</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">"Doppel oder Rundlauf"</span>)
+<span class="tk-k">else</span>:
+    <span class="tk-b">print</span>(<span class="tk-s">"Rundlauf: " </span>+ <span class="tk-b">str</span>(spieler) + <span class="tk-s">" Spieler"</span>)</code></pre>
   <ul>
     <li>je nach Wert der Variable spieler wird die <b>erste passende</b> Verzweigung <span class="nb">ausgeführt</span></li>
     <li>Beachte: kein Spezialfall für spieler == 3, dann Ausgabe <span class="nb"><code class="lc">Rundlauf: 3 Spieler</code></span></li>
@@ -1498,7 +1501,7 @@ kontostand = kontostand - betrag - abhebe_gebühr</code></pre>
   <span class="folie">Folie 21</span>
   <p>Wir unterscheiden 2 Arten von Wiederholungsanweisungen:</p>
   <p>Syntax:</p>
-<pre><code>Iteration = WhileStatement
+<pre data-lang="grammar"><code>Iteration = WhileStatement
           | ForStatement</code></pre>
   <p>Mit den dann zur Verfügung stehenden Anweisungen (insbesondere while-Anweisungen) können <b>alle berechenbaren Funktionen</b> programmiert <span class="nb">werden!</span></p>
 </div>
@@ -1512,10 +1515,10 @@ kontostand = kontostand - betrag - abhebe_gebühr</code></pre>
   <p><b>While-Anweisungen</b></p>
   <p>Syntax:<br><code class="lc">WhileStatement = "while" Expression ":" Block</code></p>
   <p>Beispiel:</p>
-<pre><code>i = 0
-<span class="k">while</span> i &lt; 100:
-    print(i)
-    i = i + 1</code></pre>
+<pre data-lang="python"><code>i = <span class="tk-n">0
+</span><span class="tk-k">while </span>i &lt; <span class="tk-n">100</span>:
+    <span class="tk-b">print</span>(i)
+    i = i + <span class="tk-n">1</span></code></pre>
   <p>Ausführung:<br>Solange die Auswertung von Expression den Wert True ergibt, wird Block immer wieder ausgeführt.</p>
 </div>
 <div class="zh">
@@ -1544,21 +1547,21 @@ kontostand = kontostand - betrag - abhebe_gebühr</code></pre>
   <p><b>While-Anweisungen: Beispiele (1)</b></p>
   <ul>
     <li>Zahlen von 0 bis 99 ausgeben
-<pre><code>i = 0
-<span class="k">while</span> i &lt; 100:
-    print(i)
-    i = i + 1
+<pre data-lang="python"><code>i = <span class="tk-n">0
+</span><span class="tk-k">while </span>i &lt; <span class="tk-n">100</span>:
+    <span class="tk-b">print</span>(i)
+    i = i + <span class="tk-n">1
 
-print(i)         <span class="c"># Abbruch wenn i == 100</span></code></pre></li>
+</span><span class="tk-b">print</span>(i)         <span class="tk-c"># Abbruch wenn i == 100</span></code></pre></li>
     <li>Summe der Zahlen von 0 bis 100
-<pre><code>i = 1
-summe = 0
+<pre data-lang="python"><code>i = <span class="tk-n">1
+</span>summe = <span class="tk-n">0
 
-<span class="k">while</span> i &lt;= 100:
-    summe = summe + i       <span class="c"># Zwischensumme erweitern</span>
-    i = i + 1               <span class="c"># i erhöhen</span>
+</span><span class="tk-k">while </span>i &lt;= <span class="tk-n">100</span>:
+    summe = summe + i       <span class="tk-c"># Zwischensumme erweitern
+    </span>i = i + <span class="tk-n">1               </span><span class="tk-c"># i erhöhen
 
-print(summe)                <span class="c"># Ausgabe: 5050</span></code></pre></li>
+</span><span class="tk-b">print</span>(summe)                <span class="tk-c"># Ausgabe: 5050</span></code></pre></li>
   </ul>
 </div>
 <div class="zh">
@@ -1573,14 +1576,14 @@ print(summe)                <span class="c"># Ausgabe: 5050</span></code></pre><
   <span class="folie">Folie 25</span>
   <p><b>While-Anweisungen: Beispiele (2)</b></p>
   <p>Beispiel: Quersumme einer Zahl <span class="nb">berechnen</span></p>
-<pre><code>x = 352
-digitSum = 0 <span class="c"># Zwischenergebnis</span>
+<pre data-lang="python"><code>x = <span class="tk-n">352
+</span>digitSum = <span class="tk-n">0 </span><span class="tk-c"># Zwischenergebnis
 
-<span class="k">while</span> x &gt; 0:
-    digitSum = digitSum + x % 10
-    x = x // 10
+</span><span class="tk-k">while </span>x &gt; <span class="tk-n">0</span>:
+    digitSum = digitSum + x % <span class="tk-n">10
+    </span>x = x // <span class="tk-n">10
 
-print(digitSum)</code></pre>
+</span><span class="tk-b">print</span>(digitSum)</code></pre>
 </div>
 <div class="zh">
   <p><b>Quersumme 各位数字之和</b>. 技巧: <code>x % 10</code> 取出最后一位, <code>x // 10</code> <span class="nb">去掉最后一位.</span> </p>
@@ -1603,11 +1606,11 @@ print(digitSum)</code></pre>
     <li>Formulierung des <span class="nb">Schleifenrumpfes</span></li>
     <li>Prüfen, dass die Schleifenbedingung nach endlich vielen Ausführungen des Rumpfes nicht mehr erfüllt ist.<br>Anderenfalls terminiert die While-Anweisung nicht!</li>
   </ol>
-<pre><code>x = 352
-digitSum = 0
+<pre data-lang="python"><code>x = <span class="tk-n">352
+</span>digitSum = <span class="tk-n">0
 
-<span class="k">while</span> x &gt; 0:            <span class="c"># Terminiert NICHT!</span>
-    digitSum = digitSum + x % 10</code></pre>
+</span><span class="tk-k">while </span>x &gt; <span class="tk-n">0</span>:            <span class="tk-c"># Terminiert NICHT!
+    </span>digitSum = digitSum + x % <span class="tk-n">10</span></code></pre>
 </div>
 <div class="zh">
   <p>写 while <span class="nb">循环的四步:</span> </p>
@@ -1630,23 +1633,23 @@ digitSum = 0
     <li>Variablen und Anfangswerte:<br>Verwende Variablen i zum Zählen (initial 1), factorial für das Ergebnis (initial 1), und n für die Zahl n.</li>
     <li>Schleifenbedingung: Zähler ist noch nicht größer als n, d.h. <span class="nb"><code>i &lt;= n</code>.</span></li>
     <li>Schleifenrumpf: Multipliziere Ergebnis mit dem Zähler und erhöhe den Zähler:
-<pre><code>factorial = factorial * i
-i += 1</code></pre></li>
+<pre data-lang="python"><code>factorial = factorial * i
+i += <span class="tk-n">1</span></code></pre></li>
     <li>Terminiert die Schleife? Ja, denn i wird in jedem Durchlauf erhöht und n verändert sich <span class="nb">nicht.</span></li>
   </ol>
 </div>
 <div class="card de">
   <span class="folie">Folie 28</span>
   <p><b>Beispiel: Fakultät einer Zahl</b></p>
-<pre><code>n = 5
-i = 1
-factorial = 1
+<pre data-lang="python"><code>n = <span class="tk-n">5
+</span>i = <span class="tk-n">1
+</span>factorial = <span class="tk-n">1
 
-<span class="k">while</span> i &lt;= n:
+</span><span class="tk-k">while </span>i &lt;= n:
     factorial = factorial * i
-    i += 1
+    i += <span class="tk-n">1
 
-print(factorial)</code></pre>
+</span><span class="tk-b">print</span>(factorial)</code></pre>
 </div>
 <div class="zh">
   <p><b>Fakultät 阶乘</b> n! = 1·2·…·n, 规定 0! = 1. 按 Folie 26 的四步设计: 初始值 i = 1、factorial = 1 (乘法的累积变量初值是 1, 加法是 0); 条件 i &lt;= n; 循环体乘上 i 再让 i 加 1; 终止性: i 每轮增大而 n 不变, <span class="nb">早晚超过 n.</span> </p>
@@ -1661,12 +1664,12 @@ print(factorial)</code></pre>
   <span class="folie">Folie 29</span>
   <ul>
     <li>Häufige Form einer While-Schleife ist:
-<pre><code>i = start <span class="c"># Initialisierung einer Zählervariablen</span>
-<span class="k">while</span> i &lt;= end: <span class="c"># Grenze fuer den Zähler</span>
-    ...
-    i += 1 <span class="c"># konstante Änderung des Zählers (hier +1)</span></code></pre></li>
+<pre data-lang="python"><code>i = start <span class="tk-c"># Initialisierung einer Zählervariablen
+</span><span class="tk-k">while </span>i &lt;= end: <span class="tk-c"># Grenze fuer den Zähler
+    </span>...
+    i += <span class="tk-n">1 </span><span class="tk-c"># konstante Änderung des Zählers (hier +1)</span></code></pre></li>
     <li>Abkürzende Schreibweise durch eine For-Anweisung:
-<pre><code><span class="k">for</span> i <span class="k">in</span> Bereich / Sequenz:
+<pre data-lang="python"><code><span class="tk-k">for </span>i <span class="tk-k">in </span>Bereich / Sequenz:
     ...</code></pre></li>
   </ul>
 </div>
@@ -1680,23 +1683,23 @@ print(factorial)</code></pre>
   <p>Beispiel: Summe der ersten 100 <span class="nb">Zahlen</span></p>
   <div class="cols">
     <div><p>Lösung mit <span class="nb">while-Schleife</span></p>
-<pre><code>summe = 0
-i = 1
+<pre data-lang="python"><code>summe = <span class="tk-n">0
+</span>i = <span class="tk-n">1
 
-<span class="k">while</span> i &lt;= 100:
+</span><span class="tk-k">while </span>i &lt;= <span class="tk-n">100</span>:
     summe = summe + i
-    i = i + 1
+    i = i + <span class="tk-n">1
 
-print(summe)</code></pre></div>
+</span><span class="tk-b">print</span>(summe)</code></pre></div>
     <div><p>Lösung mit <span class="nb">for-Schleife</span></p>
-<pre><code>summe = 0
+<pre data-lang="python"><code>summe = <span class="tk-n">0
 
 
-<span class="k">for</span> i <span class="k">in</span> range(1, 101):
+</span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">1</span>, <span class="tk-n">101</span>):
     summe = summe + i
 
 
-print(summe)</code></pre></div>
+<span class="tk-b">print</span>(summe)</code></pre></div>
   </div>
   <ul>
     <li><code>range(a,b)</code> bezeichnet die Sequenz von Zahlen a,a+1,...,b-1
@@ -1712,24 +1715,24 @@ print(summe)</code></pre></div>
   <span class="folie">Folie 31</span>
   <p><b>For-Schleife: Beispiele (2)</b></p>
   <div class="cols">
-<pre><code>n = 5
-fact = 1 <span class="c"># factorial</span>
+<pre data-lang="python"><code>n = <span class="tk-n">5
+</span>fact = <span class="tk-n">1 </span><span class="tk-c"># factorial
 
-i = 1
-<span class="k">while</span> i &lt;= n:
+</span>i = <span class="tk-n">1
+</span><span class="tk-k">while </span>i &lt;= n:
     fact = fact * i
-    i += 1
+    i += <span class="tk-n">1
 
-print(fact)</code></pre>
-<pre><code>n = 5
-fact = 1 <span class="c"># factorial</span>
+</span><span class="tk-b">print</span>(fact)</code></pre>
+<pre data-lang="python"><code>n = <span class="tk-n">5
+</span>fact = <span class="tk-n">1 </span><span class="tk-c"># factorial
 
 
-<span class="k">for</span> i <span class="k">in</span> range(1, n+1):
+</span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">1</span>, n+<span class="tk-n">1</span>):
     fact = fact * i
 
 
-print(fact)</code></pre>
+<span class="tk-b">print</span>(fact)</code></pre>
   </div>
 </div>
 <div class="zh">
@@ -1741,24 +1744,24 @@ print(fact)</code></pre>
   <p><b>For-Schleife: Beispiele (3)</b></p>
   <p>Beispiel: Schleifen können auch rückwärts <span class="nb">zählen</span></p>
   <div class="cols">
-<pre><code>n = 5
-fact = 1 <span class="c"># factorial</span>
+<pre data-lang="python"><code>n = <span class="tk-n">5
+</span>fact = <span class="tk-n">1 </span><span class="tk-c"># factorial
 
-i = n
-<span class="k">while</span> i &gt; 0:
+</span>i = n
+<span class="tk-k">while </span>i &gt; <span class="tk-n">0</span>:
     fact = fact * i
-    i -= 1
+    i -= <span class="tk-n">1
 
-print(fact)</code></pre>
-<pre><code>n = 5
-fact = 1 <span class="c"># factorial</span>
+</span><span class="tk-b">print</span>(fact)</code></pre>
+<pre data-lang="python"><code>n = <span class="tk-n">5
+</span>fact = <span class="tk-n">1 </span><span class="tk-c"># factorial
 
 
-<span class="k">for</span> i <span class="k">in</span> range(n, 0, -1):
+</span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(n, <span class="tk-n">0</span>, -<span class="tk-n">1</span>):
     fact = fact * i
 
 
-print(fact)</code></pre>
+<span class="tk-b">print</span>(fact)</code></pre>
   </div>
   <ul>
     <li><code>range(a,b,c)</code> mit optionalem dritten Parameter c für Schrittweite, hier: <span class="nb">c=-1.</span></li>
@@ -1767,11 +1770,11 @@ print(fact)</code></pre>
 </div>
 <div class="zh">
   <p>第三个参数是<b>Schrittweite 步长</b>. 步长为负时倒数: <code class="lc">range(5, 0, -1)</code> = 5, 4, 3, 2, 1 (0 仍然<b>不包含</b>). 结果仍是 5·4·3·2·1 <span class="nb">= 120.</span> </p>
-<pre><code>&gt;&gt;&gt; list(range(5, 0, -1))
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">list</span>(<span class="tk-b">range</span>(<span class="tk-n">5</span>, <span class="tk-n">0</span>, -<span class="tk-n">1</span>))
 [5, 4, 3, 2, 1]
-&gt;&gt;&gt; list(range(0, 10, 2))
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">list</span>(<span class="tk-b">range</span>(<span class="tk-n">0</span>, <span class="tk-n">10</span>, <span class="tk-n">2</span>))
 [0, 2, 4, 6, 8]
-&gt;&gt;&gt; range(0, 10, 2)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">range</span>(<span class="tk-n">0</span>, <span class="tk-n">10</span>, <span class="tk-n">2</span>)
 range(0, 10, 2)</code></pre>
   <p>注意最后一行: range 本身不是列表, 直接显示只会显示 <code class="lc">range(0, 10, 2)</code>; 要看到具体的数, 用 <code>list(…)</code> 转换. 幻灯片写 =<sub>σ</sub> [0,2,4,6,<span class="nb">8] 是指它包含的元素.</span> </p>
 </div>
@@ -1780,19 +1783,19 @@ range(0, 10, 2)</code></pre>
   <span class="folie">Folie 33</span>
   <p><b>For-Schleife: Beispiel (4)</b></p>
   <p>Im Schleifenrumpf einer For-Anweisung kann selbst wieder eine For-Anweisung stehen. Man spricht von geschachteltem For, bzw. allgemein von geschachtelten <span class="nb">Schleifen.</span></p>
-<pre><code>n = 5
-<span class="k">for</span> i <span class="k">in</span> range(n):
-    <span class="k">for</span> j <span class="k">in</span> range(i):
-        print(<span class="s">"*"</span>)
+<pre data-lang="python"><code>n = <span class="tk-n">5
+</span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(n):
+    <span class="tk-k">for </span>j <span class="tk-k">in </span><span class="tk-b">range</span>(i):
+        <span class="tk-b">print</span>(<span class="tk-s">"*"</span>)
 
-    print() <span class="c"># Zeilenvorschub</span></code></pre>
+    <span class="tk-b">print</span>() <span class="tk-c"># Zeilenvorschub</span></code></pre>
 </div>
 <div class="zh">
   <p><b>嵌套循环</b>: 外层每走一轮, 内层就完整地走一遍. 外层 i = 0…4; 内层 j 走 i 次, 每次输出一个 *; 内层结束后 <code>print()</code> 输出一个换行 (它和内层 for 对齐, <span class="nb">属于外层循环体).</span> </p>
   <p>本意是打印一个三角形: <span class="nb">第 i 行有 i 个星号.</span> </p>
 </div>
 <div class="warn"><p><b>幻灯片错误: </b><code>print("*")</code> 每次调用都会自动换行, 所以星号不会排在同一行, 而是每个星号单独一行, 每组之间再隔一个空行. 实际输出 (Python 3.<span class="nb">15):</span> </p>
-<pre>
+<pre data-lang="output">
 *
 
 *
@@ -1816,15 +1819,15 @@ range(0, 10, 2)</code></pre>
     <li>In Python wird die for-Schleife zur Iteration über einer Sequenz von Objekten <span class="nb">verwendet.</span></li>
     <li>Beispiele für Seqenzen sind Ranges, Zeichenketten, Listen und Tupel (werden später detailliert <span class="nb">betrachtet).</span></li>
   </ul>
-<pre><code>string = <span class="s">"Hallo Welt!"</span> <span class="c"># Zeichenkette</span>
+<pre data-lang="python"><code>string = <span class="tk-s">"Hallo Welt!" </span><span class="tk-c"># Zeichenkette
 
-<span class="k">for</span> character <span class="k">in</span> string:
-    print(character)
+</span><span class="tk-k">for </span>character <span class="tk-k">in </span>string:
+    <span class="tk-b">print</span>(character)
 
-languages = [<span class="s">"Java"</span>, <span class="s">"C++"</span>, <span class="s">"Perl"</span>, <span class="s">"Python"</span>] <span class="c"># Liste</span>
+languages = [<span class="tk-s">"Java"</span>, <span class="tk-s">"C++"</span>, <span class="tk-s">"Perl"</span>, <span class="tk-s">"Python"</span>] <span class="tk-c"># Liste
 
-<span class="k">for</span> language <span class="k">in</span> languages:
-    print(language)</code></pre>
+</span><span class="tk-k">for </span>language <span class="tk-k">in </span>languages:
+    <span class="tk-b">print</span>(language)</code></pre>
 </div>
 <div class="zh">
   <p>Python 的 for 其实是「对一个<b>序列</b>里的每个元素做一次」. range 只是序列的一种; 字符串、列表、<span class="nb">元组也是序列.</span> </p>
@@ -1841,18 +1844,18 @@ languages = [<span class="s">"Java"</span>, <span class="s">"C++"</span>, <span 
   <p><b>For-Schleife: Beispiel (6)</b></p>
   <p>Beispiel: Quersumme einer Zahl <span class="nb">berechnen</span></p>
   <div class="cols">
-<pre><code>x = 352
-digitSum = 0
-<span class="k">while</span> x &gt; 0:
-    digitSum += x % 10
-    x = x // 10
-print(digitSum)</code></pre>
-<pre><code>x = 352
-digitSum = 0
-<span class="k">for</span> ziffer <span class="k">in</span> str(x):
-    digitSum += int(ziffer)
+<pre data-lang="python"><code>x = <span class="tk-n">352
+</span>digitSum = <span class="tk-n">0
+</span><span class="tk-k">while </span>x &gt; <span class="tk-n">0</span>:
+    digitSum += x % <span class="tk-n">10
+    </span>x = x // <span class="tk-n">10
+</span><span class="tk-b">print</span>(digitSum)</code></pre>
+<pre data-lang="python"><code>x = <span class="tk-n">352
+</span>digitSum = <span class="tk-n">0
+</span><span class="tk-k">for </span>ziffer <span class="tk-k">in </span><span class="tk-b">str</span>(x):
+    digitSum += <span class="tk-b">int</span>(ziffer)
 
-print(digitSum)</code></pre>
+<span class="tk-b">print</span>(digitSum)</code></pre>
   </div>
 </div>
 <div class="zh">
@@ -1866,11 +1869,11 @@ print(digitSum)</code></pre>
 </div>
 <div class="zh">
   <p>for 循环会不会不终止? 对 range、字符串、元组这类<b>有限</b>序列遍历时, for 一定终止: 元素个数在开始时就确定了, 循环体里改循环变量 i <span class="nb">也不影响下一轮取的值.</span> </p>
-<pre><code>&gt;&gt;&gt; for i in range(3):
-...     print(i)
-...     i = 100
-...
-0
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">3</span>):
+<span class="tk-p">...     </span><span class="tk-b">print</span>(i)
+<span class="tk-p">...     </span>i = <span class="tk-n">100
+</span><span class="tk-p">...
+</span>0
 1
 2</code></pre>
   <p>(遍历一个列表时在循环体里不断往这个列表里追加元素, 才可能停不下来; <span class="nb">列表在后面的章节讲.)</span> </p>

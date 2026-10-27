@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1095,6 +1092,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 10.9; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81cee4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #47caea; --syn-f: #c6dcfe; --syn-s: #d9ba70; --syn-n: #9adaa3; --syn-b: #7db7b8; --syn-c: #7c9096; --syn-p: #7c9096; }
+  html[data-mode="day"] { --syn-k: #0f6f84; --syn-f: #1a447f; --syn-s: #7b5f01; --syn-n: #1d7635; --syn-b: #105e60; --syn-c: #566d75; --syn-p: #566d75; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1349,7 +1352,7 @@
     <li>Dann ist b<sub>n</sub> b<sub>n−1</sub> … b<sub>0</sub> die Binärdarstellung <span class="nb">von D.</span></li>
   </ul>
   <p><b>Beispiel:</b> <span class="nb">Dezimalzahl 26</span></p>
-  <pre><code>26 : 2 = 13, Rest 0
+  <pre data-lang="text"><code>26 : 2 = 13, Rest 0
 13 : 2 =  6, Rest 1
  6 : 2 =  3, Rest 0
  3 : 2 =  1, Rest 1
@@ -1426,7 +1429,7 @@
     <li>Gegeben: Eine natürliche Zahl (größer null) in <span class="nb">Dezimaldarstellung</span></li>
     <li>Gesucht: Binärdarstellung der gegebenen natürlichen <span class="nb">Zahl</span></li>
   </ul>
-  <pre><code>Setze binZahl auf leeren String und initialisiere zahl mit Eingabe
+  <pre data-lang="pseudocode"><code>Setze binZahl auf leeren String und initialisiere zahl mit Eingabe
 Wiederhole solange zahl größer null
     Ganzzahlige Division von zahl durch 2
     Füge Rest an den Anfang von binZahl
@@ -1456,7 +1459,7 @@ Wiederhole solange zahl größer null
 <h3 id="ablauf">逐步执行演示 (以 26 为例) <br><span class="de-title">Ablauf am Beispiel</span></h3>
 <div class="card de">
   <span class="folie">Folie 15 (animation, 23 steps) </span>
-  <pre><code>Initialisiere „binZahl“ als leeren String
+  <pre data-lang="pseudocode"><code>Initialisiere „binZahl“ als leeren String
 Solange „zahl“ größer null ist:
     Führe ganzzahlige Division von „zahl“ durch.
     Füge Rest der Ganzzahldivision an Anfang von „binZahl“ an.
@@ -1484,17 +1487,17 @@ Solange „zahl“ größer null ist:
 <h3>用 Python 写出来<br><span class="de-title">Umrechnung in Python</span></h3>
 <div class="card de">
   <span class="folie">Folie 16</span>
-<pre><code><span class="k">def</span> dezimalZuBinärString(zahl):
-    binZahl = <span class="s">""</span> <span class="c"># Initialisierung</span>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">dezimalZuBinärString</span>(zahl):
+    binZahl = <span class="tk-s">"" </span><span class="tk-c"># Initialisierung
 
-    <span class="k">while</span> zahl != 0: <span class="c"># Wiederhole</span>
-        <span class="c"># Rest</span>
-        rest = zahl % 2
-        <span class="c"># Rest an Anfang</span>
-        binZahl = str(rest) + binZahl
-        zahl = zahl // 2 <span class="c"># Ganzzahlquotient</span>
+    </span><span class="tk-k">while </span>zahl != <span class="tk-n">0</span>: <span class="tk-c"># Wiederhole
+        # Rest
+        </span>rest = zahl % <span class="tk-n">2
+        </span><span class="tk-c"># Rest an Anfang
+        </span>binZahl = <span class="tk-b">str</span>(rest) + binZahl
+        zahl = zahl // <span class="tk-n">2 </span><span class="tk-c"># Ganzzahlquotient
 
-    <span class="k">return</span> binZahl</code></pre>
+    </span><span class="tk-k">return </span>binZahl</code></pre>
 </div>
 <div class="zh">
   <p><b>逐行解释: </b></p>
@@ -1696,18 +1699,18 @@ Solange „zahl“ größer null ist:
 </div>
 <div class="add">
   <p>同一件事「求 1 到 n <span class="nb">的和」的两种写法:</span> </p>
-<pre><code><span class="c"># 命令式：告诉计算机「怎么做」——变量被反复改写，用循环</span>
-<span class="k">def</span> summe(n):
-    s = 0
-    i = 1
-    <span class="k">while</span> i &lt;= n:
+<pre data-lang="python"><code><span class="tk-c"># 命令式：告诉计算机「怎么做」——变量被反复改写，用循环
+</span><span class="tk-k">def </span><span class="tk-f">summe</span>(n):
+    s = <span class="tk-n">0
+    </span>i = <span class="tk-n">1
+    </span><span class="tk-k">while </span>i &lt;= n:
         s = s + i
-        i = i + 1
-    <span class="k">return</span> s
+        i = i + <span class="tk-n">1
+    </span><span class="tk-k">return </span>s
 
-<span class="c"># 函数式风格：描述「是什么」——sum(n) = n + sum(n-1)，用递归</span>
-<span class="k">def</span> summe_rek(n):
-    <span class="k">return</span> 0 <span class="k">if</span> n == 0 <span class="k">else</span> n + summe_rek(n - 1)</code></pre>
+<span class="tk-c"># 函数式风格：描述「是什么」——sum(n) = n + sum(n-1)，用递归
+</span><span class="tk-k">def </span><span class="tk-f">summe_rek</span>(n):
+    <span class="tk-k">return </span><span class="tk-n">0 </span><span class="tk-k">if </span>n == <span class="tk-n">0 </span><span class="tk-k">else </span>n + summe_rek(n - <span class="tk-n">1</span>)</code></pre>
 </div>
 
 <h3 id="typ">类型<br><span class="de-title">Typisierung bei Programmiersprachen</span></h3>
@@ -1765,14 +1768,14 @@ Solange „zahl“ größer null ist:
 </div>
 <div class="add">
   <p>在 Python <span class="nb">里亲手试一试:</span> </p>
-<pre><code><span class="c"># 动态：同一个变量先后存不同类型的值，完全合法</span>
-x = 5          <span class="c"># x 现在是 int</span>
-x = <span class="s">"Hallo"</span>    <span class="c"># x 现在是 str</span>
+<pre data-lang="python"><code><span class="tk-c"># 动态：同一个变量先后存不同类型的值，完全合法
+</span>x = <span class="tk-n">5          </span><span class="tk-c"># x 现在是 int
+</span>x = <span class="tk-s">"Hallo"    </span><span class="tk-c"># x 现在是 str
 
-<span class="c"># 强：不会自动把 "7" 当成 7</span>
-<span class="s">"7"</span> + 7        <span class="c"># TypeError: can only concatenate str (not "int") to str</span>
-int(<span class="s">"7"</span>) + 7   <span class="c"># 14   ← 必须显式转换</span>
-<span class="s">"7"</span> + str(7)   <span class="c"># '77' ← 或者反过来转换</span></code></pre>
+# 强：不会自动把 "7" 当成 7
+</span><span class="tk-s">"7" </span>+ <span class="tk-n">7        </span><span class="tk-c"># TypeError: can only concatenate str (not "int") to str
+</span><span class="tk-b">int</span>(<span class="tk-s">"7"</span>) + <span class="tk-n">7   </span><span class="tk-c"># 14   ← 必须显式转换
+</span><span class="tk-s">"7" </span>+ <span class="tk-b">str</span>(<span class="tk-n">7</span>)   <span class="tk-c"># '77' ← 或者反过来转换</span></code></pre>
   <p>对比弱类型的 JavaScript: <code>"7" * 2</code> 得 <code>14</code>, <code>"7" + 2</code> 却得 <code>"72"</code>, 这正是幻灯片说的「可<span class="nb">能不安全」.</span> </p>
   <div class="tablewrap">
   <table>
@@ -1963,16 +1966,16 @@ int(<span class="s">"7"</span>) + 7   <span class="c"># 14   ← 必须显式转
 <h3>语法错误的例子<br><span class="de-title">Beispiele für Syntaxfehler</span></h3>
 <div class="card de">
   <span class="folie">Folie 35</span>
-<pre><code><span class="k">def</span> dezimalZuBinärString(zahl):
-    binZahl = <span class="s">""</span>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">dezimalZuBinärString</span>(zahl):
+    binZahl = <span class="tk-s">""
 
-    <span class="c"># vergessener Doppelpunkt</span>
-    <span class="k">while</span> zahl != 0
-        rest = zahl % 2
-        binZahl = str(rest) + binZahl
-        zahl = zahl // 2
+    </span><span class="tk-c"># vergessener Doppelpunkt
+    </span><span class="tk-k">while </span>zahl != <span class="tk-n">0
+        </span>rest = zahl % <span class="tk-n">2
+        </span>binZahl = <span class="tk-b">str</span>(rest) + binZahl
+        zahl = zahl // <span class="tk-n">2
 
-    <span class="k">return</span> binZahl</code></pre>
+    </span><span class="tk-k">return </span>binZahl</code></pre>
 </div>
 <div class="zh">
   <p><b>错误: </b><code class="lc">while zahl != 0</code> 行末<b>忘了冒号</b>. Python 规定 <code>while</code>、<code>if</code>、<code>def</code> 等语句后面必须跟冒号, <span class="nb">再接缩进的代码块.</span> </p>
@@ -1983,16 +1986,16 @@ int(<span class="s">"7"</span>) + 7   <span class="c"># 14   ← 必须显式转
 <h3>语义错误的例子<br><span class="de-title">Beispiele für semantische Fehler</span></h3>
 <div class="card de">
   <span class="folie">Folie 36</span>
-<pre><code><span class="k">def</span> dezimalZuBinärString(zahl):
-    binZahl = <span class="s">""</span>
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">dezimalZuBinärString</span>(zahl):
+    binZahl = <span class="tk-s">""
 
-    <span class="k">while</span> zahl &gt; 0:
-        rest = zahl % 2
-        binZahl = str(rest) + binZahl
-        <span class="c"># keine Ganzzahldivision</span>
-        zahl = zahl / 2
+    </span><span class="tk-k">while </span>zahl &gt; <span class="tk-n">0</span>:
+        rest = zahl % <span class="tk-n">2
+        </span>binZahl = <span class="tk-b">str</span>(rest) + binZahl
+        <span class="tk-c"># keine Ganzzahldivision
+        </span>zahl = zahl / <span class="tk-n">2
 
-    <span class="k">return</span> binZahl</code></pre>
+    </span><span class="tk-k">return </span>binZahl</code></pre>
 </div>
 <div class="zh">
   <p><b>错误: </b>最后一行用了 <code>/</code> 而不是 <code>//</code>, <span class="nb">也就是「<b>不是整数除法</b>」.</span> </p>
@@ -2026,10 +2029,10 @@ int(<span class="s">"7"</span>) + 7   <span class="c"># 14   ← 必须显式转
   <span class="folie">Folie 38</span>
   <p>Durch <code class="lc"># Hier steht ein Kommentar</code> wird der Text ab <code>#</code> bis zum Ende der Zeile zum <span class="nb">Kommentar.</span></p>
   <p>Beispiel:</p>
-<pre><code>...
-rest = zahl % 2   <span class="c"># Rest</span>
-zahl = zahl // 2  <span class="c"># Ganzzahlquotient</span>
-...</code></pre>
+<pre data-lang="python"><code>...
+rest = zahl % <span class="tk-n">2   </span><span class="tk-c"># Rest
+</span>zahl = zahl // <span class="tk-n">2  </span><span class="tk-c"># Ganzzahlquotient
+</span>...</code></pre>
 </div>
 <div class="zh">
   <p><b>规则: </b>从 <code>#</code> 开始<b>到这一行结束</b>的所有文字都是注释, Python <span class="nb">执行时完全忽略.</span> </p>
@@ -2042,18 +2045,18 @@ zahl = zahl // 2  <span class="c"># Ganzzahlquotient</span>
   <span class="folie">Folie 39</span>
   <p>Mehrzeilige Kommentare haben zu Beginn jeder Zeile <span class="nb">ein <code>#</code></span></p>
   <p>Beispiel:</p>
-<pre><code>print(<span class="s">"Hallo!"</span>)
-<span class="c"># Wir schreiben hier einen Kommentar</span>
-<span class="c"># der über mehrere Zeilen geht.</span>
-<span class="c"># Wo hört er nur auf?</span>
-<span class="c"># print("Nocheinmal: Hallo!")</span>
-<span class="c"># Was druckt dieses Programm nur aus?</span>
-print(<span class="s">"Ein letztes Mal: Hallo!"</span>)</code></pre>
+<pre data-lang="python"><code><span class="tk-b">print</span>(<span class="tk-s">"Hallo!"</span>)
+<span class="tk-c"># Wir schreiben hier einen Kommentar
+# der über mehrere Zeilen geht.
+# Wo hört er nur auf?
+# print("Nocheinmal: Hallo!")
+# Was druckt dieses Programm nur aus?
+</span><span class="tk-b">print</span>(<span class="tk-s">"Ein letztes Mal: Hallo!"</span>)</code></pre>
 </div>
 <div class="zh">
   <p><b>规则: </b>Python 没有专门的多行注释符号; 多行注释就是<span class="nb"><b>每一行开头都写一个 <code>#</code></b>.</span> </p>
   <p><b>幻灯片的提问「Was druckt dieses Programm nur aus?」 (这个程序到底打印什么?) 答案: </b></p>
-<pre><code>Hallo!
+<pre data-lang="output"><code>Hallo!
 Ein letztes Mal: Hallo!</code></pre>
   <p>中间 5 行都以 <code>#</code> 开头, 全部是注释. 其中 <code class="lc"># print("Nocheinmal: Hallo!")</code> 虽然看起来像代码, 但因为前面有 <code>#</code>, <b>不会执行</b>. 这叫「<b>注释掉</b>」一行代码, 调试时常用: 暂时让某行失效, <span class="nb">又不用删掉它.</span> </p>
   <p> (「Wo hört er nur auf?」= 它到底在哪里结束? 答: 在最后一个以 <code>#</code> <span class="nb">开头的行结束.)</span> </p>
@@ -2062,19 +2065,19 @@ Ein letztes Mal: Hallo!</code></pre>
 <h3>带注释的转换程序<br><span class="de-title">Umrechnung kommentiert</span></h3>
 <div class="card de">
   <span class="folie">Folie 40</span>
-<pre><code><span class="c"># Diese Methode implementiert die Umrechnung</span>
-<span class="c"># von Dezimal- zu Binärrepräsentation.</span>
-<span class="k">def</span> dezimalZuBinärString(zahl):
-    binZahl = <span class="s">""</span> <span class="c"># Initialisierung</span>
+<pre data-lang="python"><code><span class="tk-c"># Diese Methode implementiert die Umrechnung
+# von Dezimal- zu Binärrepräsentation.
+</span><span class="tk-k">def </span><span class="tk-f">dezimalZuBinärString</span>(zahl):
+    binZahl = <span class="tk-s">"" </span><span class="tk-c"># Initialisierung
 
-    <span class="k">while</span> zahl != 0: <span class="c"># Wiederhole</span>
-        <span class="c"># Rest</span>
-        rest = zahl % 2
-        <span class="c"># Rest an Anfang</span>
-        binZahl = str(rest) + binZahl
-        zahl = zahl // 2 <span class="c"># Ganzzahlquotient</span>
+    </span><span class="tk-k">while </span>zahl != <span class="tk-n">0</span>: <span class="tk-c"># Wiederhole
+        # Rest
+        </span>rest = zahl % <span class="tk-n">2
+        </span><span class="tk-c"># Rest an Anfang
+        </span>binZahl = <span class="tk-b">str</span>(rest) + binZahl
+        zahl = zahl // <span class="tk-n">2 </span><span class="tk-c"># Ganzzahlquotient
 
-    <span class="k">return</span> binZahl</code></pre>
+    </span><span class="tk-k">return </span>binZahl</code></pre>
 </div>
 <div class="zh">
   <p>同一个程序, <span class="nb">三种注释位置都用上了:</span> </p>
@@ -2092,7 +2095,7 @@ Ein letztes Mal: Hallo!</code></pre>
   <ul>
     <li>Das externe Programm <b>pydoc3</b> erzeugt aus Python-Quellcode eine <span class="nb">HTML-Dokumentation.</span></li>
     <li>Dabei werden nur sogenannte <b>Docstring-Kommentare</b> sichtbar
-<pre><code><span class="s">"""
+<pre data-lang="python"><code><span class="tk-s">"""
 Ein Docstring-Kommentar
 """</span></code></pre></li>
     <li><b>Tags:</b> Spezielle Schlüsselwörter, die mit <code>:</code> beginnen und in der Dokumentation verwendet werden können<br><code>:param</code>, <code>:type</code>, <code>:return</code>, …</li>
@@ -2118,25 +2121,25 @@ Ein Docstring-Kommentar
 <h3>带 Docstring 的例子<br><span class="de-title">Beispiel mit Docstring-Kommentaren</span></h3>
 <div class="card de">
   <span class="folie">Folie 42</span>
-<pre><code><span class="k">def</span> dezimalZuBinärString(zahl):
-    <span class="s">"""
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">dezimalZuBinärString</span>(zahl):
+    <span class="tk-s">"""
     Konvertiert zahl in die Binärdarstellung.
     :param zahl: zu konvertierende Dezimalzahl
     :type zahl: int
     Returns:
      :str Binärdarstellung von zahl
-    """</span>
+    """
 
-    binZahl = <span class="s">""</span> <span class="c"># Initialisierung</span>
+    </span>binZahl = <span class="tk-s">"" </span><span class="tk-c"># Initialisierung
 
-    <span class="k">while</span> zahl != 0: <span class="c"># Wiederhole</span>
-        <span class="c"># Rest</span>
-        rest = zahl % 2
-        <span class="c"># Rest an Anfang</span>
-        binZahl = str(rest) + binZahl
-        zahl = zahl // 2 <span class="c"># Ganzzahlquotient</span>
+    </span><span class="tk-k">while </span>zahl != <span class="tk-n">0</span>: <span class="tk-c"># Wiederhole
+        # Rest
+        </span>rest = zahl % <span class="tk-n">2
+        </span><span class="tk-c"># Rest an Anfang
+        </span>binZahl = <span class="tk-b">str</span>(rest) + binZahl
+        zahl = zahl // <span class="tk-n">2 </span><span class="tk-c"># Ganzzahlquotient
 
-    <span class="k">return</span> binZahl</code></pre>
+    </span><span class="tk-k">return </span>binZahl</code></pre>
 </div>
 <div class="zh">
   <p><b>Docstring 逐行翻译: </b></p>
@@ -2158,7 +2161,7 @@ Ein Docstring-Kommentar
 </div>
 <div class="add">
   <p>标准的 reStructuredText 写法是用 <code>:return:</code> 和 <code>:rtype:</code> <span class="nb">描述返回值:</span> </p>
-<pre><code><span class="s">"""
+<pre data-lang="python"><code><span class="tk-s">"""
 Konvertiert zahl in die Binärdarstellung.
 
 :param zahl: zu konvertierende Dezimalzahl
@@ -2171,7 +2174,7 @@ Konvertiert zahl in die Binärdarstellung.
 <h3>生成的网页<br><span class="de-title">Erzeugte Webseite</span></h3>
 <div class="card de">
   <span class="folie">Folie 43 (screenshot) </span>
-<pre><code>dezimal_konverter_doc                       index
+<pre data-lang="output"><code>dezimal_konverter_doc                       index
                                             /home/ubuntu24/dezimal_konverter_doc.py
 Functions
     dezimalZuBinärString(zahl)
@@ -2193,7 +2196,7 @@ Functions
 <h3>在 Shell 中查看文档<br><span class="de-title">Aufruf Dokumentation in der Shell</span></h3>
 <div class="card de">
   <span class="folie">Folie 44 (screenshot) </span>
-<pre><code>&gt;&gt;&gt; help("dezimal_konverter_doc")
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>help(<span class="tk-s">"dezimal_konverter_doc"</span>)
 Help on module dezimal_konverter_doc:
 
 NAME

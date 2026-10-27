@@ -102,7 +102,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin: 8px 0; }
@@ -1087,6 +1086,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 21.7; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #8192e4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #a1b2fd; --syn-f: #edccff; --syn-s: #dcb870; --syn-n: #6fdae5; --syn-b: #91add1; --syn-c: #878b9c; --syn-p: #878b9c; }
+  html[data-mode="day"] { --syn-k: #4b58b7; --syn-f: #5a306e; --syn-s: #7f5d02; --syn-n: #0e7179; --syn-b: #365478; --syn-c: #63687b; --syn-p: #63687b; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1377,15 +1382,15 @@
 <div class="card orig">
   <span class="slide">Slide 22</span>
   <p>The REPL (Read-Eval-Print Loop) is Python’s interactive language shell. You can invoke it on the shell like <span class="nb">this:</span></p>
-<pre><code>$ python
-&gt;&gt;&gt; x = 'world'
-&gt;&gt;&gt; print('hello', x)
+<pre data-lang="python repl"><code>$ python
+<span class="tk-p">&gt;&gt;&gt; </span>x = <span class="tk-s">'world'
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(<span class="tk-s">'hello'</span>, x)
 hello world
-&gt;&gt;&gt; x = 3 - 3 * 6 + 2
-&gt;&gt;&gt; x
+<span class="tk-p">&gt;&gt;&gt; </span>x = <span class="tk-n">3 </span>- <span class="tk-n">3 </span>* <span class="tk-n">6 </span>+ <span class="tk-n">2
+</span><span class="tk-p">&gt;&gt;&gt; </span>x
 -13
-&gt;&gt;&gt; x = 'a' * 10
-&gt;&gt;&gt; x
+<span class="tk-p">&gt;&gt;&gt; </span>x = <span class="tk-s">'a' </span>* <span class="tk-n">10
+</span><span class="tk-p">&gt;&gt;&gt; </span>x
 'aaaaaaaaaa'
 &gt;&gt;&gt; quit()</code></pre>
 </div>
@@ -1411,7 +1416,7 @@ hello world
     <li>Variables consist of: a data type, a variable name and a variable <span class="nb">value</span></li>
     <li>Assignment of value to variable: <code class="lc">var_name = value</code>, e.g., <code>num = 17</code>, automatically determines the variable type (here: <span class="nb">int)</span></li>
   </ul>
-<pre><code># Python:
+<pre data-lang="text"><code># Python:
 num = 17
 
 # Java:
@@ -1472,13 +1477,13 @@ int num = 17;</code></pre>
       <ul>
         <li><code>+</code> addition, <code>-</code> <span class="nb">subtraction</span></li>
         <li><code>*</code>, <code>/</code>, <code>//</code> multiplication, division
-<pre><code>&gt;&gt;&gt; 1/4  # Floating number division
-0.25
-&gt;&gt;&gt; 1//4 # Integer division
-0</code></pre></li>
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">1</span>/<span class="tk-n">4  </span><span class="tk-c"># Floating number division
+</span>0.25
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">1</span>//<span class="tk-n">4 </span><span class="tk-c"># Integer division
+</span>0</code></pre></li>
         <li><code>**</code> exponentiation
-<pre><code>&gt;&gt;&gt; 10**2
-100</code></pre></li>
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">10</span>**<span class="tk-n">2
+</span>100</code></pre></li>
         <li><code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code> <span class="nb">comparison</span></li>
         <li><code>!=</code>, <code>==</code> <span class="nb">(in)equality</span></li>
       </ul></li>
@@ -1509,7 +1514,7 @@ int num = 17;</code></pre>
     <li>Textual data in Python is handled with <code>str</code> objects, <span class="nb">or strings.</span></li>
     <li><b>Immutable</b> sequence of single <span class="nb">characters</span></li>
   </ul>
-<pre><code>s1="first line\nsecond line"          # double quotes
+<pre data-lang="text"><code>s1="first line\nsecond line"          # double quotes
 s2=r"first line\nstill first line"    # raw string
 s3="""first line
 second line""".                       # triple quotes (may span multiple lines)
@@ -1542,8 +1547,8 @@ s4='using different quotes'           # single quotes
 <div class="card orig">
   <span class="slide">Slide 27</span>
   <p>Strings are Unicode UTF-8 by default in <span class="nb">Python3:</span></p>
-<pre><code>&gt;&gt;&gt; x = 'B\u00e4ume'
-&gt;&gt;&gt; print(x)
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>x = <span class="tk-s">'B\u00e4ume'
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(x)
 Bäume</code></pre>
 </div>
 <div class="zh">
@@ -1654,7 +1659,7 @@ Bäume</code></pre>
 </div>
 <div class="zh">
   <p><b>下标从 0 开始</b>, <span class="nb">负数下标从末尾往前数:</span> </p>
-<pre><code>  字符：   t    h    e
+<pre data-lang="text"><code>  字符：   t    h    e
 正下标：   0    1    2
 负下标：  -3   -2   -1</code></pre>
   <ul>
@@ -1801,10 +1806,10 @@ Bäume</code></pre>
     <li><b><code>sort()</code></b>: <span class="nb"><b>就地</b>排序.</span> </li>
   </ul>
   <p><b>「就地」是关键概念: </b>这些方法<b>直接修改原列表</b>, 返回值是 <code>None</code>. <span class="nb">常见错误:</span> </p>
-<pre><code>l = [3, 1, 2]
-l = l.sort()     # 错！sort() 返回 None，l 变成了 None
-l.sort()         # 对：直接改 l，l 现在是 [1, 2, 3]
-m = sorted(l)    # 想保留原列表就用 sorted()，它返回新列表</code></pre>
+<pre data-lang="python"><code>l = [<span class="tk-n">3</span>, <span class="tk-n">1</span>, <span class="tk-n">2</span>]
+l = l.sort()     <span class="tk-c"># 错！sort() 返回 None，l 变成了 None
+</span>l.sort()         <span class="tk-c"># 对：直接改 l，l 现在是 [1, 2, 3]
+</span>m = <span class="tk-b">sorted</span>(l)    <span class="tk-c"># 想保留原列表就用 sorted()，它返回新列表</span></code></pre>
 </div>
 <div class="warn">
   <p><b>幻灯片错误: </b><code>l.sort()</code> 那一行在 Python 3 中<b>会报错</b>: <code class="lc">TypeError: '&lt;' not supported between instances of 'str' and 'int'</code>. 列表里同时有数字和字符串, Python 3 不知道 123 和 'spam' 谁大, 无法排序. 表中的 <code class="lc">[1.23, 123, 'spam']</code> 是 Python 2 的行为. 只有全是数字或全是字符串的列表才能 <span class="nb"><code>sort()</code>.</span> </p>
@@ -1821,7 +1826,7 @@ m = sorted(l)    # 想保留原列表就用 sorted()，它返回新列表</code>
 </div>
 <div class="zh">
   <p>列表里可以再放列表, 就能表示<b>矩阵</b> <span class="nb">(二维表格):</span> </p>
-<pre><code>         列0 列1 列2
+<pre data-lang="grammar"><code>         列0 列1 列2
 M[0] → [  1,  2,  3 ]
 M[1] → [  4,  5,  6 ]     M[1][2] = 6
 M[2] → [  7,  8,  9 ]</code></pre>
@@ -1862,16 +1867,16 @@ M[2] → [  7,  8,  9 ]</code></pre>
 <h3>字典操作 I: 取值、修改、KeyError<br><span class="de-title">Dictionary operations I</span></h3>
 <div class="card orig">
   <span class="slide">Slide 40–42</span>
-<pre><code>&gt;&gt;&gt; d = {'food':'Spam', 'quantity':4, 'color':'pink'}
-&gt;&gt;&gt; d['food']
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>d = {<span class="tk-s">'food'</span>:<span class="tk-s">'Spam'</span>, <span class="tk-s">'quantity'</span>:<span class="tk-n">4</span>, <span class="tk-s">'color'</span>:<span class="tk-s">'pink'</span>}
+<span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'food'</span>]
 #Fetch value of key 'food'
 'Spam'
-&gt;&gt;&gt; d['quantity'] += 1 #Add 1 to the value of 'quantity'
-&gt;&gt;&gt; d
+<span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'quantity'</span>] += <span class="tk-n">1 </span><span class="tk-c">#Add 1 to the value of 'quantity'
+</span><span class="tk-p">&gt;&gt;&gt; </span>d
 d = {'food':'Spam', 'quantity':5, 'color':'pink'}
-&gt;&gt;&gt; d['num'] += 1
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+<span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'num'</span>] += <span class="tk-n">1
+</span>Traceback (most recent call last):
+  File <span class="tk-b">"&lt;stdin&gt;"</span>, line <span class="tk-n">1</span>, in &lt;module&gt;
 KeyError: 'num'</code></pre>
 </div>
 <div class="zh">
@@ -1888,32 +1893,32 @@ KeyError: 'num'</code></pre>
 </div>
 <div class="add">
   <p>避免 KeyError 的三种常用写法 <span class="nb">(词频统计时必用):</span> </p>
-<pre><code>counts = {}
-w = 'the'
-# 1. 先判断
-if w in counts:
-    counts[w] += 1
-else:
-    counts[w] = 1
-# 2. get 带默认值
-counts[w] = counts.get(w, 0) + 1
-# 3. defaultdict（见后面「模块」一节）
-from collections import defaultdict
-counts = defaultdict(int)
-counts[w] += 1          # 不存在的键自动从 0 开始</code></pre>
+<pre data-lang="python"><code>counts = {}
+w = <span class="tk-s">'the'
+</span><span class="tk-c"># 1. 先判断
+</span><span class="tk-k">if </span>w <span class="tk-k">in </span>counts:
+    counts[w] += <span class="tk-n">1
+</span><span class="tk-k">else</span>:
+    counts[w] = <span class="tk-n">1
+</span><span class="tk-c"># 2. get 带默认值
+</span>counts[w] = counts.get(w, <span class="tk-n">0</span>) + <span class="tk-n">1
+</span><span class="tk-c"># 3. defaultdict（见后面「模块」一节）
+</span><span class="tk-k">from </span>collections <span class="tk-k">import </span>defaultdict
+counts = defaultdict(<span class="tk-b">int</span>)
+counts[w] += <span class="tk-n">1          </span><span class="tk-c"># 不存在的键自动从 0 开始</span></code></pre>
 </div>
 
 <h3>字典操作 II: 通过赋值建键<br><span class="de-title">Dictionary operations II</span></h3>
 <div class="card orig">
   <span class="slide">Slide 43</span>
-<pre><code>&gt;&gt;&gt; d = {}
-&gt;&gt;&gt; d['name'] = 'Bob'
-&gt;&gt;&gt; #Create keys by assignment
-&gt;&gt;&gt; d['job'] = 'researcher'
-&gt;&gt;&gt; d['age'] = 40
-&gt;&gt;&gt; d
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>d = {}
+<span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'name'</span>] = <span class="tk-s">'Bob'
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-c">#Create keys by assignment
+</span><span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'job'</span>] = <span class="tk-s">'researcher'
+</span><span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'age'</span>] = <span class="tk-n">40
+</span><span class="tk-p">&gt;&gt;&gt; </span>d
 d = {'name':'Bob', 'job':'researcher', 'age':40}
-&gt;&gt;&gt; print(d['name'])
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(d[<span class="tk-s">'name'</span>])
 Bob</code></pre>
 </div>
 <div class="zh">
@@ -1923,16 +1928,16 @@ Bob</code></pre>
 <h3>字典操作 III: update、get、pop<br><span class="de-title">Dictionary operations III</span></h3>
 <div class="card orig">
   <span class="slide">Slide 44</span>
-<pre><code>&gt;&gt;&gt; d = {'name': 'Bob'}
-&gt;&gt;&gt; d2 = {'age': 40, 'job': 'researcher'}
-&gt;&gt;&gt; d.update(d2)
-&gt;&gt;&gt; d
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>d = {<span class="tk-s">'name'</span>: <span class="tk-s">'Bob'</span>}
+<span class="tk-p">&gt;&gt;&gt; </span>d2 = {<span class="tk-s">'age'</span>: <span class="tk-n">40</span>, <span class="tk-s">'job'</span>: <span class="tk-s">'researcher'</span>}
+<span class="tk-p">&gt;&gt;&gt; </span>d.update(d2)
+<span class="tk-p">&gt;&gt;&gt; </span>d
 {'job': 'researcher', 'age': 40, 'name': 'Bob'}
-&gt;&gt;&gt; d.get('job')
+<span class="tk-p">&gt;&gt;&gt; </span>d.get(<span class="tk-s">'job'</span>)
 'researcher'
-&gt;&gt;&gt; d.pop('age')
+<span class="tk-p">&gt;&gt;&gt; </span>d.pop(<span class="tk-s">'age'</span>)
 40
-&gt;&gt;&gt; d
+<span class="tk-p">&gt;&gt;&gt; </span>d
 {'job': 'researcher', 'name': 'Bob'}</code></pre>
 </div>
 <div class="zh">
@@ -1949,19 +1954,19 @@ Bob</code></pre>
 <h3>字典操作 IV–V: del 与新增<br><span class="de-title">Dictionary operations IV–V</span></h3>
 <div class="card orig">
   <span class="slide">Slide 45–46</span>
-<pre><code>&gt;&gt;&gt; d = {'name': 'Bob', 'age': 40, 'job': 'researcher'}
-&gt;&gt;&gt; d
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>d = {<span class="tk-s">'name'</span>: <span class="tk-s">'Bob'</span>, <span class="tk-s">'age'</span>: <span class="tk-n">40</span>, <span class="tk-s">'job'</span>: <span class="tk-s">'researcher'</span>}
+<span class="tk-p">&gt;&gt;&gt; </span>d
 {'job': 'researcher', 'age': 40, 'name': 'Bob'}
-&gt;&gt;&gt; d['job']
+<span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'job'</span>]
 'researcher'
 # alternative to pop: &gt;&gt;&gt; d.pop('age')
-&gt;&gt;&gt; del d['age']
-&gt;&gt;&gt; d
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">del </span>d[<span class="tk-s">'age'</span>]
+<span class="tk-p">&gt;&gt;&gt; </span>d
 {'name': 'bob', 'job': 'researcher'}
 
-&gt;&gt;&gt; d = {'name': 'Bob', 'age': 40, 'job': 'researcher'}
-&gt;&gt;&gt; d['gender'] = "male"
-&gt;&gt;&gt; d
+<span class="tk-p">&gt;&gt;&gt; </span>d = {<span class="tk-s">'name'</span>: <span class="tk-s">'Bob'</span>, <span class="tk-s">'age'</span>: <span class="tk-n">40</span>, <span class="tk-s">'job'</span>: <span class="tk-s">'researcher'</span>}
+<span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'gender'</span>] = <span class="tk-s">"male"
+</span><span class="tk-p">&gt;&gt;&gt; </span>d
 {'job': 'researcher', 'age': 40, 'name': 'Bob', 'gender': 'male'}</code></pre>
 </div>
 <div class="zh">
@@ -1977,23 +1982,23 @@ Bob</code></pre>
 <h3>字典的其他构造方式与常用方法<br><span class="de-title">Dictionary operations – Alternatives</span></h3>
 <div class="card orig">
   <span class="slide">Slide 47</span>
-<pre><code>&gt;&gt;&gt; #Alternative construction techniques:
-&gt;&gt;&gt; d = dict(name='Bob', age=40)
-&gt;&gt;&gt; d = dict([('name', 'Bob'), ('age', 40)])
-&gt;&gt;&gt; d = dict(zip(['name', 'age'], ['Bob', 40]))
-&gt;&gt;&gt; d
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-c">#Alternative construction techniques:
+</span><span class="tk-p">&gt;&gt;&gt; </span>d = <span class="tk-b">dict</span>(name=<span class="tk-s">'Bob'</span>, age=<span class="tk-n">40</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>d = <span class="tk-b">dict</span>([(<span class="tk-s">'name'</span>, <span class="tk-s">'Bob'</span>), (<span class="tk-s">'age'</span>, <span class="tk-n">40</span>)])
+<span class="tk-p">&gt;&gt;&gt; </span>d = <span class="tk-b">dict</span>(<span class="tk-b">zip</span>([<span class="tk-s">'name'</span>, <span class="tk-s">'age'</span>], [<span class="tk-s">'Bob'</span>, <span class="tk-n">40</span>]))
+<span class="tk-p">&gt;&gt;&gt; </span>d
 {'age': 40, 'name': 'Bob'}
-&gt;&gt;&gt; #Check membership of a key
-&gt;&gt;&gt; 'age' in d
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-c">#Check membership of a key
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'age' </span><span class="tk-k">in </span>d
 True
-&gt;&gt;&gt; d.keys()
+<span class="tk-p">&gt;&gt;&gt; </span>d.keys()
 #Get keys
 ['age', 'name']
-&gt;&gt;&gt; d.values() #Get values
-[40, 'Bob']
-&gt;&gt;&gt; d.items() #Get all keys and values
-[('age', 40), ('name', 'Bob')]
-&gt;&gt;&gt; len(d)
+<span class="tk-p">&gt;&gt;&gt; </span>d.values() <span class="tk-c">#Get values
+</span>[40, 'Bob']
+<span class="tk-p">&gt;&gt;&gt; </span>d.items() <span class="tk-c">#Get all keys and values
+</span>[('age', 40), ('name', 'Bob')]
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">len</span>(d)
 #Number of entries
 2</code></pre>
 </div>
@@ -2022,14 +2027,14 @@ True
     <li>Tuples are like lists but <b>immutable</b> (like <span class="nb">strings)</span></li>
     <li>Used to represent fixed collections of <span class="nb">items</span></li>
   </ul>
-<pre><code>&gt;&gt;&gt; t = (1, 2, 3, 4) #A 4-item tuple
-&gt;&gt;&gt; len(t) #Length
-4
-&gt;&gt;&gt; t + (5, 6) #Concatenation
-(1, 2, 3, 4, 5, 6)
-&gt;&gt;&gt; t[0] #Indexing, slicing and more
-1
-&gt;&gt;&gt; len(t)
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>t = (<span class="tk-n">1</span>, <span class="tk-n">2</span>, <span class="tk-n">3</span>, <span class="tk-n">4</span>) <span class="tk-c">#A 4-item tuple
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">len</span>(t) <span class="tk-c">#Length
+</span>4
+<span class="tk-p">&gt;&gt;&gt; </span>t + (<span class="tk-n">5</span>, <span class="tk-n">6</span>) <span class="tk-c">#Concatenation
+</span>(1, 2, 3, 4, 5, 6)
+<span class="tk-p">&gt;&gt;&gt; </span>t[<span class="tk-n">0</span>] <span class="tk-c">#Indexing, slicing and more
+</span>1
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">len</span>(t)
 ???</code></pre>
 </div>
 <div class="zh">
@@ -2048,15 +2053,15 @@ True
     <li>Unordered collections of unique and immutable <span class="nb">objects</span></li>
     <li>Efficient check (∼ constant time), whether object is contained <span class="nb">in set.</span></li>
   </ul>
-<pre><code>&gt;&gt;&gt; set([1, 2, 3, 4, 3])
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">set</span>([<span class="tk-n">1</span>, <span class="tk-n">2</span>, <span class="tk-n">3</span>, <span class="tk-n">4</span>, <span class="tk-n">3</span>])
 {1, 2, 3, 4}
-&gt;&gt;&gt; set('spaam')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">set</span>(<span class="tk-s">'spaam'</span>)
 {'a', 'p', 's', 'm'}
-&gt;&gt;&gt; {1, 2, 3, 4}
+<span class="tk-p">&gt;&gt;&gt; </span>{<span class="tk-n">1</span>, <span class="tk-n">2</span>, <span class="tk-n">3</span>, <span class="tk-n">4</span>}
 {1, 2, 3, 4}
-&gt;&gt;&gt; S = {'s', 'p', 'a', 'm'}
-&gt;&gt;&gt; S.add('element')
-&gt;&gt;&gt; S
+<span class="tk-p">&gt;&gt;&gt; </span>S = {<span class="tk-s">'s'</span>, <span class="tk-s">'p'</span>, <span class="tk-s">'a'</span>, <span class="tk-s">'m'</span>}
+<span class="tk-p">&gt;&gt;&gt; </span>S.add(<span class="tk-s">'element'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>S
 {'a', 'p', 's', 'm', 'element'}</code></pre>
 </div>
 <div class="zh">
@@ -2075,15 +2080,15 @@ True
 
 <div class="card orig">
   <span class="slide">Slide 50</span>
-<pre><code>&gt;&gt;&gt; s1 = set(['s', 'p', 'a', 'm', 'element'])
-&gt;&gt;&gt; 'element' in s1
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>s1 = <span class="tk-b">set</span>([<span class="tk-s">'s'</span>, <span class="tk-s">'p'</span>, <span class="tk-s">'a'</span>, <span class="tk-s">'m'</span>, <span class="tk-s">'element'</span>])
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'element' </span><span class="tk-k">in </span>s1
 True
-&gt;&gt;&gt; 'spam' in s1
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">'spam' </span><span class="tk-k">in </span>s1
 False
-&gt;&gt;&gt; s2 = set('ham')
-&gt;&gt;&gt; s1.intersection(s2)
+<span class="tk-p">&gt;&gt;&gt; </span>s2 = <span class="tk-b">set</span>(<span class="tk-s">'ham'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>s1.intersection(s2)
 {'m', 'a'}
-&gt;&gt;&gt; s1.union(s2)
+<span class="tk-p">&gt;&gt;&gt; </span>s1.union(s2)
 {'s', 'm', 'h', 'element', 'p', 'a'}</code></pre>
   <p>⇒ intersection and union return a new set, the original sets stay <span class="nb">unchanged</span></p>
   <p>Also check the difference: <code>s1.difference(s2)</code> vs. <span class="nb"><code>s2.difference(s1)</code></span></p>
@@ -2125,15 +2130,15 @@ False
   </table>
   </div>
   <p><b>为什么区分很重要: </b>可变对象被两个变量共享时, 通过一个变量修改, <span class="nb">另一个也会「变」:</span> </p>
-<pre><code>a = [1, 2]
-b = a          # b 和 a 指向同一个列表
-b.append(3)
-print(a)       # [1, 2, 3]  ← a 也变了！
+<pre data-lang="python"><code>a = [<span class="tk-n">1</span>, <span class="tk-n">2</span>]
+b = a          <span class="tk-c"># b 和 a 指向同一个列表
+</span>b.append(<span class="tk-n">3</span>)
+<span class="tk-b">print</span>(a)       <span class="tk-c"># [1, 2, 3]  ← a 也变了！
 
-x = 'hi'
-y = x
-y = y + '!'    # 字符串不可变，这里是造了新字符串给 y
-print(x)       # 'hi'  ← x 不受影响</code></pre>
+</span>x = <span class="tk-s">'hi'
+</span>y = x
+y = y + <span class="tk-s">'!'    </span><span class="tk-c"># 字符串不可变，这里是造了新字符串给 y
+</span><span class="tk-b">print</span>(x)       <span class="tk-c"># 'hi'  ← x 不受影响</span></code></pre>
   <p>「newly coded objects」指下周要讲的、自己用 <code>class</code> 定义的对象, <span class="nb">默认是可变的.</span> </p>
 </div>
 
@@ -2142,10 +2147,10 @@ print(x)       # 'hi'  ← x 不受影响</code></pre>
 <h2 id="flow">控制流: if 语句<br><span class="de-title">Control flow: if-statements</span></h2>
 <div class="card orig">
   <span class="slide">Slide 52</span>
-<pre><code>&gt;&gt;&gt; if x &lt; 10:
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">if </span>x &lt; <span class="tk-n">10</span>:
         print("too low")
 ...
-&gt;&gt;&gt; if color == "red":
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">if </span>color == <span class="tk-s">"red"</span>:
         print("You selected red")
     else:
         print("Choose a color")</code></pre>
@@ -2161,13 +2166,13 @@ print(x)       # 'hi'  ← x 不受影响</code></pre>
 
 <div class="card orig">
   <span class="slide">Slide 53</span>
-<pre><code>&gt;&gt;&gt; x = 'killer rabbit'
-... if x == 'roger':
-...     print('a shave and a haircut')
-... elif x == 'bugs':
-...     print('whats up?')
-... else:
-...     print('run away!')
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>x = <span class="tk-s">'killer rabbit'
+</span><span class="tk-p">... </span><span class="tk-k">if </span>x == <span class="tk-s">'roger'</span>:
+<span class="tk-p">...     </span><span class="tk-b">print</span>(<span class="tk-s">'a shave and a haircut'</span>)
+<span class="tk-p">... </span><span class="tk-k">elif </span>x == <span class="tk-s">'bugs'</span>:
+<span class="tk-p">...     </span><span class="tk-b">print</span>(<span class="tk-s">'whats up?'</span>)
+<span class="tk-p">... </span><span class="tk-k">else</span>:
+<span class="tk-p">...     </span><span class="tk-b">print</span>(<span class="tk-s">'run away!'</span>)
 run away!</code></pre>
   <p><b>Note!</b> The <code>elif</code> statement is the equivalent of <code>else if</code> in Java or <code>elsif</code> in <span class="nb">Perl.</span></p>
 </div>
@@ -2181,15 +2186,15 @@ run away!</code></pre>
 <h3>while 循环<br><span class="de-title">Control flow: While loops</span></h3>
 <div class="card orig">
   <span class="slide">Slide 54</span>
-<pre><code>&gt;&gt;&gt; while True:
-...     print('Type Ctrl-C to stop me!')
-...
-&gt;&gt;&gt; x = 'spam'
-... while x: #while x is not empty
-...     print(x)
-...     x = x[1:]
-...
-spam
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">while </span><span class="tk-n">True</span>:
+<span class="tk-p">...     </span><span class="tk-b">print</span>(<span class="tk-s">'Type Ctrl-C to stop me!'</span>)
+<span class="tk-p">...
+&gt;&gt;&gt; </span>x = <span class="tk-s">'spam'
+</span><span class="tk-p">... </span><span class="tk-k">while </span>x: <span class="tk-c">#while x is not empty
+</span><span class="tk-p">...     </span><span class="tk-b">print</span>(x)
+<span class="tk-p">...     </span>x = x[<span class="tk-n">1</span>:]
+<span class="tk-p">...
+</span>spam
 pam
 am
 m</code></pre>
@@ -2219,15 +2224,15 @@ m</code></pre>
 <div class="card orig">
   <span class="slide">Slide 55</span>
   <p>The for loop is a generic iterator in Python: it can step through the items in any ordered sequence or other iterable objects (strings, lists, tuples, and other built-in iterables, as well as new user-defined <span class="nb">iterables).</span></p>
-<pre><code>l = [1, 2, 3, 4]
-for i in l:
-    print(i)
-for i in range(0, len(l)):
-    print(i)
-for i in range(0, 5):
-    print(i)
-for i in range(0, 5)[1:-1]:
-    print(i)</code></pre>
+<pre data-lang="python"><code>l = [<span class="tk-n">1</span>, <span class="tk-n">2</span>, <span class="tk-n">3</span>, <span class="tk-n">4</span>]
+<span class="tk-k">for </span>i <span class="tk-k">in </span>l:
+    <span class="tk-b">print</span>(i)
+<span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">0</span>, <span class="tk-b">len</span>(l)):
+    <span class="tk-b">print</span>(i)
+<span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">0</span>, <span class="tk-n">5</span>):
+    <span class="tk-b">print</span>(i)
+<span class="tk-k">for </span>i <span class="tk-k">in </span><span class="tk-b">range</span>(<span class="tk-n">0</span>, <span class="tk-n">5</span>)[<span class="tk-n">1</span>:-<span class="tk-n">1</span>]:
+    <span class="tk-b">print</span>(i)</code></pre>
 </div>
 <div class="zh">
   <p>Python 的 for 是<b>通用迭代器</b>: 它能逐个取出任何<b>可迭代对象</b>里的元素, 包括字符串 (逐个字符)、列表、元组、字典 (逐个键)、集合、文件 (逐行), 以及以后自定义的可迭代对象. 它和 C/Java 的「计数式」for 不同, <span class="nb"><b>直接遍历元素</b>.</span> </p>
@@ -2251,11 +2256,11 @@ for i in range(0, 5)[1:-1]:
 <h2 id="file">文件读写<br><span class="de-title">Files</span></h2>
 <div class="card orig">
   <span class="slide">Slide 56 · Read file line by line</span>
-<pre><code># the 'with' notation makes sure that the file
+<pre data-lang="python repl"><code># the 'with' notation makes sure that the file
 # is properly closed at the end
-&gt;&gt;&gt; with open('dog_breeds.txt', 'r') as reader:
-&gt;&gt;&gt;     # Read &amp; print the entire file
-&gt;&gt;&gt;     print(reader.read())
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">with </span><span class="tk-b">open</span>(<span class="tk-s">'dog_breeds.txt'</span>, <span class="tk-s">'r'</span>) <span class="tk-k">as </span>reader:
+<span class="tk-p">&gt;&gt;&gt;     </span><span class="tk-c"># Read &amp; print the entire file
+</span><span class="tk-p">&gt;&gt;&gt;     </span><span class="tk-b">print</span>(reader.read())
 Pug
 Jack Russell Terrier
 English Springer Spaniel
@@ -2276,29 +2281,29 @@ Boxer</code></pre>
   <p>标题虽然写「line by line」, 例子里的 <code>read()</code> 实际上是一次读完. 真正逐行读的写法见<span class="nb">下方补充.</span> </p>
 </div>
 <div class="add">
-<pre><code>with open('dog_breeds.txt', 'r', encoding='utf-8') as f:
-    for line in f:              # 文件对象可迭代，每次取一行
-        print(line.strip())     # strip() 去掉行尾的 '\n'
+<pre data-lang="python"><code><span class="tk-k">with </span><span class="tk-b">open</span>(<span class="tk-s">'dog_breeds.txt'</span>, <span class="tk-s">'r'</span>, encoding=<span class="tk-s">'utf-8'</span>) <span class="tk-k">as </span>f:
+    <span class="tk-k">for </span>line <span class="tk-k">in </span>f:              <span class="tk-c"># 文件对象可迭代，每次取一行
+        </span><span class="tk-b">print</span>(line.strip())     <span class="tk-c"># strip() 去掉行尾的 '\n'
 
 # 或者一次读成「行的列表」
-with open('dog_breeds.txt', encoding='utf-8') as f:
-    lines = f.readlines()       # ['Pug\n', 'Jack Russell Terrier\n', ...]</code></pre>
+</span><span class="tk-k">with </span><span class="tk-b">open</span>(<span class="tk-s">'dog_breeds.txt'</span>, encoding=<span class="tk-s">'utf-8'</span>) <span class="tk-k">as </span>f:
+    lines = f.readlines()       <span class="tk-c"># ['Pug\n', 'Jack Russell Terrier\n', ...]</span></code></pre>
   <p>处理大语料时用 <code>for line in f</code>, 它不会一次把整个文件<span class="nb">读进内存.</span> </p>
 </div>
 
 <div class="card orig">
   <span class="slide">Slide 57 · Write file line by line</span>
-<pre><code>file_name = 'outfile.txt'
-lines = ['line1', 'second line', 'another line', 'last one']
+<pre data-lang="python"><code>file_name = <span class="tk-s">'outfile.txt'
+</span>lines = [<span class="tk-s">'line1'</span>, <span class="tk-s">'second line'</span>, <span class="tk-s">'another line'</span>, <span class="tk-s">'last one'</span>]
 
-with open(file_name, mode='w') as f:
-    for line in lines:
-        f.write(line + '\n')
+<span class="tk-k">with </span><span class="tk-b">open</span>(file_name, mode=<span class="tk-s">'w'</span>) <span class="tk-k">as </span>f:
+    <span class="tk-k">for </span>line <span class="tk-k">in </span>lines:
+        f.write(line + <span class="tk-s">'\n'</span>)
 
-#The default input/output encodings are dependent on the system's
+<span class="tk-c">#The default input/output encodings are dependent on the system's
 # locale settings. You should set it explicitly in the call to
 # open(...).
-# &gt;&gt;&gt; with open('x.txt', 'w', encoding='utf-8') as f:</code></pre>
+# &gt;&gt;&gt; with open('x.txt', 'w', encoding='utf-8') as f:</span></code></pre>
 </div>
 <div class="zh">
   <ul>
@@ -2343,12 +2348,12 @@ with open(file_name, mode='w') as f:
 <div class="card orig">
   <span class="slide">Slide 60</span>
   <p>Functions are defined using the <code>def</code> keyword. They can have zero or more arguments and may return a <span class="nb">result.</span></p>
-<pre><code>def function_name(arg1, arg2, ..., argN):
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">function_name</span>(arg1, arg2, ..., argN):
     statements...
-    return result</code></pre>
+    <span class="tk-k">return </span>result</code></pre>
   <p>To call a function use <code class="lc">function_name(arg1, arg2, ...)</code>.</p>
-<pre><code>&gt;&gt;&gt; print('today') # calling build in function print
-today</code></pre>
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(<span class="tk-s">'today'</span>) <span class="tk-c"># calling build in function print
+</span>today</code></pre>
 </div>
 <div class="zh">
   <ul>
@@ -2358,30 +2363,30 @@ today</code></pre>
     <li><b>调用</b>: 函数名加括号和实参, 如 <code>print('today')</code>, print 是 Python <span class="nb"><b>内置函数</b>.</span> </li>
   </ul>
   <p><b>区分 return 和 print: </b><code>return</code> 把结果<b>交回给调用者</b>, 可以存进变量继续用; <code>print</code> 只是<b>显示在屏幕上</b>, 函数的返回值仍是 <span class="nb">None.</span> </p>
-<pre><code>def f(x):
-    return x * 2
-def g(x):
-    print(x * 2)
+<pre data-lang="python"><code><span class="tk-k">def </span><span class="tk-f">f</span>(x):
+    <span class="tk-k">return </span>x * <span class="tk-n">2
+</span><span class="tk-k">def </span><span class="tk-f">g</span>(x):
+    <span class="tk-b">print</span>(x * <span class="tk-n">2</span>)
 
-a = f(3)   # a 是 6
-b = g(3)   # 屏幕显示 6，但 b 是 None</code></pre>
+a = f(<span class="tk-n">3</span>)   <span class="tk-c"># a 是 6
+</span>b = g(<span class="tk-n">3</span>)   <span class="tk-c"># 屏幕显示 6，但 b 是 None</span></code></pre>
 </div>
 
 <h3>函数也是对象<br><span class="de-title">Function objects</span></h3>
 <div class="card orig">
   <span class="slide">Slide 61</span>
   <p>Functions are normal python objects – they can be bound to other variables, be put into lists or dictionaries and even be used as parameter for other <span class="nb">functions.</span></p>
-<pre><code>&gt;&gt;&gt; def add(x, y):
-...   return x + y
-&gt;&gt;&gt; def mul(x, y):
-...   return x * y
-&gt;&gt;&gt; def do(x, y, f):
-...   return f(x, y)
-&gt;&gt;&gt; f = mul # Bind the variable f to the function mul.
-&gt;&gt;&gt; f(3, 5)
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">def </span><span class="tk-f">add</span>(x, y):
+<span class="tk-p">...   </span><span class="tk-k">return </span>x + y
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">def </span><span class="tk-f">mul</span>(x, y):
+<span class="tk-p">...   </span><span class="tk-k">return </span>x * y
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">def </span><span class="tk-f">do</span>(x, y, f):
+<span class="tk-p">...   </span><span class="tk-k">return </span>f(x, y)
+<span class="tk-p">&gt;&gt;&gt; </span>f = mul <span class="tk-c"># Bind the variable f to the function mul.
+</span><span class="tk-p">&gt;&gt;&gt; </span>f(<span class="tk-n">3</span>, <span class="tk-n">5</span>)
 15
-&gt;&gt;&gt; f = add # Bind the variable f to the function add.
-&gt;&gt;&gt; do(8, 4, f)
+<span class="tk-p">&gt;&gt;&gt; </span>f = add <span class="tk-c"># Bind the variable f to the function add.
+</span><span class="tk-p">&gt;&gt;&gt; </span>do(<span class="tk-n">8</span>, <span class="tk-n">4</span>, f)
 12</code></pre>
 </div>
 <div class="zh">
@@ -2396,15 +2401,15 @@ b = g(3)   # 屏幕显示 6，但 b 是 None</code></pre>
 
 <div class="card orig">
   <span class="slide">Slide 62 · Function objects II</span>
-<pre><code>&gt;&gt;&gt; # Put the functions into a dictionary.
-&gt;&gt;&gt; d = {}
-&gt;&gt;&gt; d['addiere'] = add
-&gt;&gt;&gt; d['multipliziere'] = mul
-&gt;&gt;&gt; print(d)
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-c"># Put the functions into a dictionary.
+</span><span class="tk-p">&gt;&gt;&gt; </span>d = {}
+<span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'addiere'</span>] = add
+<span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'multipliziere'</span>] = mul
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(d)
 {'addiere': &lt;function add at 0x7f21432cd8b0&gt;,
  'multipliziere': &lt;function mul at 0x7f214472f670&gt;}
-&gt;&gt;&gt; # Call a function using its names in the dictionary.
-&gt;&gt;&gt; d['multipliziere'](3, 14)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-c"># Call a function using its names in the dictionary.
+</span><span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'multipliziere'</span>](<span class="tk-n">3</span>, <span class="tk-n">14</span>)
 42</code></pre>
 </div>
 <div class="zh">
@@ -2459,11 +2464,11 @@ b = g(3)   # 屏幕显示 6，但 b 是 None</code></pre>
     <li><code>from</code>: allows clients to fetch particular names from a <span class="nb">module</span></li>
     <li><code>as</code>: lets you rename imported <span class="nb">names</span></li>
   </ul>
-<pre><code>&gt;&gt;&gt; import collections #imports entire module
-# import specific part of module
-&gt;&gt;&gt; from collections import defaultdict
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">import </span>collections <span class="tk-c">#imports entire module
+</span># import specific part of module
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">from </span>collections <span class="tk-k">import </span>defaultdict
 # exercise to check what this module does :)
-&gt;&gt;&gt; d = defaultdict(int)
+<span class="tk-p">&gt;&gt;&gt; </span>d = defaultdict(<span class="tk-b">int</span>)
 &gt;&gt;&gt; import numpy as np # as short name</code></pre>
 </div>
 <div class="zh">
@@ -2477,9 +2482,9 @@ b = g(3)   # 屏幕显示 6，但 b 是 None</code></pre>
   </div>
   <p><b>幻灯片留的练习: <code>defaultdict</code> 是做什么的? </b></p>
   <p><code>defaultdict</code> 是一种<b>带默认值的字典</b>. <code>defaultdict(int)</code> 表示: 访问一个不存在的键时, 不报 KeyError, 而是自动调用 <code>int()</code> 生成默认值. <code>int()</code> 不带参数返回 <b>0</b>, <span class="nb">于是:</span> </p>
-<pre><code>&gt;&gt;&gt; d = defaultdict(int)
-&gt;&gt;&gt; d['num'] += 1       # 普通字典这里会 KeyError（见 Slide 42）
-&gt;&gt;&gt; d
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>d = defaultdict(<span class="tk-b">int</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>d[<span class="tk-s">'num'</span>] += <span class="tk-n">1       </span><span class="tk-c"># 普通字典这里会 KeyError（见 Slide 42）
+</span><span class="tk-p">&gt;&gt;&gt; </span>d
 defaultdict(&lt;class 'int'&gt;, {'num': 1})</code></pre>
   <p>这正好解决了前面 <code>d['num'] += 1</code> 的 KeyError 问题, 是<b>词频统计</b>的标准写法. 类似地, <code>defaultdict(list)</code> 的默认值是空列表, <span class="nb">常用于分组.</span> </p>
 </div>
@@ -2487,18 +2492,18 @@ defaultdict(&lt;class 'int'&gt;, {'num': 1})</code></pre>
 <h3>在虚拟环境中安装模块<br><span class="de-title">Installing modules locally in a virtual environment</span></h3>
 <div class="card orig">
   <span class="slide">Slide 66</span>
-<pre><code># Create the virtual environment in the `env` folder.
+<pre data-lang="python repl"><code># Create the virtual environment in the `env` folder.
 # Very useful to have diverse Python environments
 $ python3 -m venv env
 $ source env/bin/activate
 $ pip install nltk
 $ python3
-&gt;&gt;&gt; import nltk
-&gt;&gt;&gt; from nltk.corpus import stopwords
-&gt;&gt;&gt; nltk.corpus.download('stopwords')
-&gt;&gt;&gt; stopwords.words('english')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">import </span>nltk
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">from </span>nltk.corpus <span class="tk-k">import </span>stopwords
+<span class="tk-p">&gt;&gt;&gt; </span>nltk.corpus.download(<span class="tk-s">'stopwords'</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>stopwords.words(<span class="tk-s">'english'</span>)
 ['i', 'me', 'my', ...]
-&gt;&gt;&gt; quit()
+<span class="tk-p">&gt;&gt;&gt; </span>quit()
 # Deactivate the virtual environment.
 $ deactivate</code></pre>
 </div>
@@ -2576,7 +2581,7 @@ $ deactivate</code></pre>
     <li>These examples are run and the results are compared against the expected <span class="nb">value.</span></li>
   </ul>
   <p><code>example_module.py</code></p>
-<pre><code>def square(x):
+<pre data-lang="python repl"><code>def square(x):
     """
     Return the square of x.
     &gt;&gt;&gt; square(2)
@@ -2600,7 +2605,7 @@ $ deactivate</code></pre>
 <h3>运行测试<br><span class="de-title">Running the tests</span></h3>
 <div class="card orig">
   <span class="slide">Slide 72</span>
-<pre><code>$ python3 -m doctest -v example_module.py
+<pre data-lang="shell session"><code><span class="tk-p">$ </span>python3 -m doctest -v example_module.py
 Trying:
     square(2)
 Expecting:
@@ -2632,8 +2637,8 @@ $</code></pre>
 </div>
 <div class="add">
   <p>在 Python 3.13 及以后版本, 摘要的措辞略有变化 (例如单数写成 <code class="lc">1 item had no tests</code>), 含义相同. 也可以在文件末尾加上下面几行, 直接 <code class="lc">python3 example_module.py</code> 就运行 <span class="nb">doctest:</span> </p>
-<pre><code>if __name__ == "__main__":
-    import doctest
+<pre data-lang="python"><code><span class="tk-k">if </span>__name__ == <span class="tk-s">"__main__"</span>:
+    <span class="tk-k">import </span>doctest
     doctest.testmod()</code></pre>
 </div>
 
@@ -2671,7 +2676,7 @@ $</code></pre>
 
 <div class="card orig">
   <span class="slide">Slide 74 · TDD: Initial empty implementation</span>
-<pre><code>def square(x):
+<pre data-lang="python repl"><code>def square(x):
     """
     Return the square of x.
     &gt;&gt;&gt; square(2)
@@ -2683,7 +2688,7 @@ $</code></pre>
 </div>
 <div class="card orig">
   <span class="slide">Slide 75 · Initially the tests fail</span>
-<pre><code>$ python3 -m doctest -v example_module.py
+<pre data-lang="shell session"><code><span class="tk-p">$ </span>python3 -m doctest -v example_module.py
 Trying:
     square(2)
 Expecting:
@@ -2801,12 +2806,12 @@ $</code></pre>
     <li><b><code>==</code> 比较值 (内容)</b>: <span class="nb">两边看起来一样就为真.</span> </li>
     <li><b><code>is</code> 比较身份</b>: 两边是否是<span class="nb"><b>内存中的同一个对象</b>.</span> </li>
   </ul>
-<pre><code>a = [1, 2]
-b = [1, 2]
+<pre data-lang="python"><code>a = [<span class="tk-n">1</span>, <span class="tk-n">2</span>]
+b = [<span class="tk-n">1</span>, <span class="tk-n">2</span>]
 c = a
-a == b    # True ：内容相同
-a is b    # False：是分别创建的两个列表
-a is c    # True ：c 和 a 指向同一个列表</code></pre>
+a == b    <span class="tk-c"># True ：内容相同
+</span>a <span class="tk-k">is </span>b    <span class="tk-c"># False：是分别创建的两个列表
+</span>a <span class="tk-k">is </span>c    <span class="tk-c"># True ：c 和 a 指向同一个列表</span></code></pre>
   <p>「同一个对象」意味着通过一个名字修改, 另一个也会变 (见前面「可变与不可变」). <b>判断 None 时惯用 <code>x is None</code></b>, 因为 None 在整个程序里只有一个. 比较数字、字符串的值应该用 <code>==</code>, <span class="nb">不要用 <code>is</code>.</span> </p>
 </div>
 
@@ -2814,7 +2819,7 @@ a is c    # True ：c 和 a 指向同一个列表</code></pre>
 <div class="card orig">
   <span class="slide">Slide 79</span>
   <p><code>test_square.py</code></p>
-<pre><code>1  import unittest
+<pre data-lang="text"><code>1  import unittest
 2  from example_module import square
 3
 4  class SquareTest(unittest.TestCase):
@@ -2834,7 +2839,7 @@ a is c    # True ：c 和 a 指向同一个列表</code></pre>
 
 <div class="card orig">
   <span class="slide">Slide 80 · Example: running the tests initially</span>
-<pre><code>$ python3 -m unittest -v test_square.py
+<pre data-lang="shell session"><code><span class="tk-p">$ </span>python3 -m unittest -v test_square.py
 testCalculation (test_square.SquareTest) ... FAIL
 
 ======================================================================
@@ -2853,7 +2858,7 @@ $</code></pre>
 </div>
 <div class="card orig">
   <span class="slide">Slide 81 · Example: running the tests with implemented functionality</span>
-<pre><code>$ python3 -m unittest -v test_square.py
+<pre data-lang="shell session"><code><span class="tk-p">$ </span>python3 -m unittest -v test_square.py
 testCalculation (test_square.SquareTest) ... ok
 
 ----------------------------------------------------------------------
@@ -2891,17 +2896,17 @@ $</code></pre>
 </div>
 <div class="card orig">
   <span class="slide">Slide 83 · Example using setUp and tearDown</span>
-<pre><code>class SquareTest(unittest.TestCase):
-    def setUp(self):
-        self.inputs_outputs = [(0,0),(-1,1),(2,4)]
+<pre data-lang="python"><code><span class="tk-k">class </span><span class="tk-f">SquareTest</span>(unittest.TestCase):
+    <span class="tk-k">def </span><span class="tk-f">setUp</span>(<span class="tk-b">self</span>):
+        <span class="tk-b">self</span>.inputs_outputs = [(<span class="tk-n">0</span>,<span class="tk-n">0</span>),(-<span class="tk-n">1</span>,<span class="tk-n">1</span>),(<span class="tk-n">2</span>,<span class="tk-n">4</span>)]
 
-    def testCalculation(self):
-        for i,o in self.inputs_outputs:
-            self.assertEqual(square(i),o)
+    <span class="tk-k">def </span><span class="tk-f">testCalculation</span>(<span class="tk-b">self</span>):
+        <span class="tk-k">for </span>i,o <span class="tk-k">in </span><span class="tk-b">self</span>.inputs_outputs:
+            <span class="tk-b">self</span>.assertEqual(square(i),o)
 
-    def tearDown(self):
-        # Just as an example.
-        self.inputs_outputs = None</code></pre>
+    <span class="tk-k">def </span><span class="tk-f">tearDown</span>(<span class="tk-b">self</span>):
+        <span class="tk-c"># Just as an example.
+        </span><span class="tk-b">self</span>.inputs_outputs = <span class="tk-n">None</span></code></pre>
 </div>
 <div class="zh">
   <p>如果测试类里写了这两个特殊名字的方法, <span class="nb">框架会<b>自动识别并调用</b>:</span> </p>
@@ -2951,12 +2956,12 @@ $</code></pre>
 <div class="card orig">
   <span class="slide">Slide 86 · Unicode strings</span>
   <p>Strings are Unicode UTF-8 by default in <span class="nb">Python3:</span></p>
-<pre><code>&gt;&gt;&gt; x = 'B\u00e4ume'
-&gt;&gt;&gt; print(x)
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>x = <span class="tk-s">'B\u00e4ume'
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(x)
 Bäume</code></pre>
   <p>Let’s convert from UTF-8 to <span class="nb">binary:</span></p>
-<pre><code>&gt;&gt;&gt; y = x.encode('utf-8') # same as x.encode()
-&gt;&gt;&gt; print(y)
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>y = x.encode(<span class="tk-s">'utf-8'</span>) <span class="tk-c"># same as x.encode()
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(y)
 b'B\xc3\xa4ume'</code></pre>
   <ul>
     <li><code>\x</code> tells Python to interpret the next two characters as hex <span class="nb">values.</span></li>
@@ -2978,19 +2983,19 @@ b'B\xc3\xa4ume'</code></pre>
 
 <div class="card orig">
   <span class="slide">Slide 87 · Character Encodings</span>
-<pre><code>&gt;&gt;&gt; import sys    # imports the module
-&gt;&gt;&gt; sys.stdout.encoding
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">import </span>sys    <span class="tk-c"># imports the module
+</span><span class="tk-p">&gt;&gt;&gt; </span>sys.stdout.encoding
 'utf-8'
-&gt;&gt;&gt; # alternatively:
-&gt;&gt;&gt; import locale
-&gt;&gt;&gt; locale.getpreferredencoding()
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-c"># alternatively:
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">import </span>locale
+<span class="tk-p">&gt;&gt;&gt; </span>locale.getpreferredencoding()
 'UTF-8'
 
-&gt;&gt;&gt; # get unicode code point for a letter in decimal
-&gt;&gt;&gt; ord('a')
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-c"># get unicode code point for a letter in decimal
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">ord</span>(<span class="tk-s">'a'</span>)
 97
-&gt;&gt;&gt; # convert back to character
-&gt;&gt;&gt; chr(97)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-c"># convert back to character
+</span><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">chr</span>(<span class="tk-n">97</span>)
 'a'</code></pre>
 </div>
 <div class="zh">
@@ -3005,8 +3010,8 @@ b'B\xc3\xa4ume'</code></pre>
 <div class="card orig">
   <span class="slide">Slide 88 · UTF-8 Encoding</span>
   <p>Example <span class="nb">continued…</span></p>
-<pre><code># Decode binary back to string:
-&gt;&gt;&gt; str(b"\x42\xc3\xa4\x75\x6d\x65", "utf-8")
+<pre data-lang="python repl"><code># Decode binary back to string:
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">str</span>(<span class="tk-s">b"\x42\xc3\xa4\x75\x6d\x65"</span>, <span class="tk-s">"utf-8"</span>)
 'Bäume'</code></pre>
   <p>How does conversion from unicode to binary <span class="nb">work?</span></p>
   <ul>
@@ -3021,7 +3026,7 @@ b'B\xc3\xa4ume'</code></pre>
 </div>
 <div class="zh">
   <p><b>解码</b>: <code class="lc">str(字节串, "utf-8")</code> 把字节按 UTF-8 规则还原成字符串, 等价于 <code>b"…".decode("utf-8")</code>. <span class="nb"><b>编码与解码</b>是一对:</span> </p>
-<pre><code>'Bäume'  ──encode('utf-8')──▶  b'B\xc3\xa4ume'
+<pre data-lang="text"><code>'Bäume'  ──encode('utf-8')──▶  b'B\xc3\xa4ume'
          ◀──decode('utf-8')──</code></pre>
   <p>用错编码解码就会出现乱码, 例如把 UTF-8 字节按 Latin-1 解码, <span class="nb">ä 会变成 <code>Ã¤</code>.</span> </p>
   <p><b>为什么要用变长编码? </b></p>

@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1095,6 +1092,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 16.7; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81cee4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #47caea; --syn-f: #c6dcfe; --syn-s: #d9ba70; --syn-n: #9adaa3; --syn-b: #7db7b8; --syn-c: #7c9096; --syn-p: #7c9096; }
+  html[data-mode="day"] { --syn-k: #0f6f84; --syn-f: #1a447f; --syn-s: #7b5f01; --syn-n: #1d7635; --syn-b: #105e60; --syn-c: #566d75; --syn-p: #566d75; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1189,11 +1192,11 @@
 <div class="zh">
   <p>两条直线 y = a<sub>1</sub>x + b<sub>1</sub> 和 y = a<sub>2</sub>x + b<sub>2</sub> 的交点: 让两个 y 相等, 移项得 (a<sub>1</sub> − a<sub>2</sub>)x = b<sub>2</sub> − b<sub>1</sub>, 所以 x = (b<sub>2</sub> − b<sub>1</sub>)/(a<sub>1</sub> − a<sub>2</sub>). 再代回任一条直线<span class="nb">就得到 y.</span> </p>
   <p>写成 <span class="nb">Python:</span> </p>
-<pre><code>&gt;&gt;&gt; a1, b1, a2, b2 = 2.0, 1.0, -1.0, 4.0
-&gt;&gt;&gt; x = (b2 - b1) / (a1 - a2)
-&gt;&gt;&gt; x
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>a1, b1, a2, b2 = <span class="tk-n">2.0</span>, <span class="tk-n">1.0</span>, -<span class="tk-n">1.0</span>, <span class="tk-n">4.0
+</span><span class="tk-p">&gt;&gt;&gt; </span>x = (b2 - b1) / (a1 - a2)
+<span class="tk-p">&gt;&gt;&gt; </span>x
 1.0
-&gt;&gt;&gt; a1 * x + b1
+<span class="tk-p">&gt;&gt;&gt; </span>a1 * x + b1
 3.0</code></pre>
   <p>易错: a<sub>1</sub> = a<sub>2</sub> 时两条线平行, 分母为 0, 程序会报 ZeroDivisionError (见 <span class="nb"><a href="#fehler">Folie 48</a>).</span> </p>
 </div>
@@ -1263,7 +1266,7 @@
 <h2 id="int">整数<br><span class="de-title">Grammatik für positive ganze Dezimalzahlen</span></h2>
 <div class="card de">
   <span class="folie">Folie 9</span>
-<pre><code>DecimalIntegerLiteral = DecimalNumeral
+<pre data-lang="grammar"><code>DecimalIntegerLiteral = DecimalNumeral
 DecimalNumeral        = "0"|NonZeroDigit [ Digits ]
                         |NonZeroDigit Underscores Digits
 NonZeroDigit          = "1"|"2"|…|"9"
@@ -1281,10 +1284,10 @@ Underscores           = "_"|{ "_" }</code></pre>
     <li>和第 2 章一样, 不允许前导零: <span class="nb"><code>007</code> 不合法.</span> </li>
   </ul>
   <p>实际试一下: </p>
-<pre><code>&gt;&gt;&gt; 100_000
-100000
-&gt;&gt;&gt; 1_000_000 + 1
-1000001</code></pre>
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">100_000
+</span>100000
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">1_000_000 </span>+ <span class="tk-n">1
+</span>1000001</code></pre>
 </div>
 <div class="warn">
   <p><b>幻灯片文法和 Python 实际规则不一致: </b></p>
@@ -1298,7 +1301,7 @@ Underscores           = "_"|{ "_" }</code></pre>
 <div class="card de">
   <span class="folie">Folie 10</span>
   <p><b>Binär-, Okta- und Hexadezimale Darstellung</b></p>
-<pre>integer      ::=  decinteger | bininteger | octinteger | hexinteger
+<pre data-lang="grammar">integer      ::=  decinteger | bininteger | octinteger | hexinteger
 decinteger   ::=  nonzerodigit (["_"] digit)* | "0"+ (["_"] "0")*
 bininteger   ::=  "0" ("b" | "B") (["_"] bindigit)+
 octinteger   ::=  "0" ("o" | "O") (["_"] octdigit)+
@@ -1325,26 +1328,26 @@ hexdigit     ::=  digit | "a"..."f" | "A"..."F"</pre>
 <div class="card de">
   <span class="folie">Folie 11</span>
   <p><b>Demonstration: Literale für positive ganze Dezimalzahlen</b></p>
-<pre><code>&gt;&gt;&gt; 00000
-0
-&gt;&gt;&gt; 100_000
-100000
-&gt;&gt;&gt; 0b1010
-10
-&gt;&gt;&gt; 0xaff
-2815</code></pre>
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">00000
+</span>0
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">100_000
+</span>100000
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">0b1010
+</span>10
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">0xaff
+</span>2815</code></pre>
 </div>
 <div class="zh">
   <p>Shell 里输入一个字面量, Python 总是用<b>十进制</b>显示它的值. 0xaff = 10·16² + 15·16 + 15 = 2560 + 240 + 15 = <span class="nb">2815.</span> </p>
   <p>补充两个反例 <span class="nb">(实际运行):</span> </p>
-<pre><code>&gt;&gt;&gt; 007
-  File "&lt;stdin&gt;", line 1
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">007
+</span>  File <span class="tk-b">"&lt;stdin&gt;"</span>, line <span class="tk-n">1
     007
-    ^
+    </span>^
 SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers
-&gt;&gt;&gt; 1__0
-  File "&lt;stdin&gt;", line 1
-    1__0
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">1</span>__0
+  File <span class="tk-b">"&lt;stdin&gt;"</span>, line <span class="tk-n">1
+    1</span>__0
      ^
 SyntaxError: invalid decimal literal</code></pre>
   <p>报错信息说明: 很多老语言 (C) 把 <code>007</code> 当八进制, Python 3 为了避免误会, 干脆禁止非零的前导零, <span class="nb">要八进制就写 <code>0o7</code>.</span> </p>
@@ -1404,7 +1407,7 @@ SyntaxError: invalid decimal literal</code></pre>
     <li>addiere 1</li>
   </ol>
   <p>Beispiel: Zweierkomplementdarstellung von -56 als 32bit <span class="nb">Zahl</span></p>
-<pre>1  |−56| = 56 = 0000 0000 0000 0000 0000 0000 0011 1000
+<pre data-lang="text">1  |−56| = 56 = 0000 0000 0000 0000 0000 0000 0011 1000
 2  Invertieren   1111 1111 1111 1111 1111 1111 1100 0111
 3  Addiere 1     1111 1111 1111 1111 1111 1111 1100 0111
              +                                         1
@@ -1419,7 +1422,7 @@ SyntaxError: invalid decimal literal</code></pre>
     <li>结果<b>加 1</b>. </li>
   </ol>
   <p>例 −56 (32 位): 56 = 32 + 16 + 8 = 111000. 取反后末尾是 …1100 0111, 加 1 时从最右边起 1+1 进位, 连续三次进位 (图里的 111 是进位), 得到 …1100 1000. 用 Python 核对 (<code class="lc">&amp; 0xFFFFFFFF</code> 取最低 32 <span class="nb">位):</span> </p>
-<pre><code>&gt;&gt;&gt; format(-56 &amp; 0xFFFFFFFF, '032b')
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">format</span>(-<span class="tk-n">56 </span>&amp; <span class="tk-n">0xFFFFFFFF</span>, <span class="tk-s">'032b'</span>)
 '11111111111111111111111111001000'</code></pre>
   <p>为什么这样就对: 取反等于用 2<sup>n+1</sup> − 1 减去原数, 再加 1 就是 2<sup>n+1</sup> − |Z|, 正是 Folie 13 下面说的规律. 补码的好处是加法电路不用区分正负: 56 + (−56) 按普通二进制相加, 溢出的最高位丢掉, <span class="nb">正好是 0.</span> </p>
   <p>小测: 4 位补码里 −5 是多少? 5 = 0101 → 取反 1010 → 加 1 → <b>1011</b>, 和 Folie 13 <span class="nb">的表一致.</span> </p>
@@ -1439,8 +1442,8 @@ SyntaxError: invalid decimal literal</code></pre>
 <div class="zh">
   <p>Python 的 int <b>没有固定位数</b>: 数需要多少位就自动用多少位, 不会溢出. C、Java 的 int 一般固定 32 位, 超过 2<sup>31</sup> − 1 会出错或绕回负数, Python <span class="nb">没有这个问题.</span> </p>
   <p>例子 2<sup>2<sup>20</sup></sup> = 2<sup>1048576</sup>: 二进制有 1 048 577 位 (约 100 万), 十进制有 315 653 位. 「1 Mio. Stellen」指的是二进制位数. <span class="nb">实际运行核对:</span> </p>
-<pre><code>&gt;&gt;&gt; x = 2 ** (2 ** 20)
-&gt;&gt;&gt; x.bit_length()
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>x = <span class="tk-n">2 </span>** (<span class="tk-n">2 </span>** <span class="tk-n">20</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>x.bit_length()
 1048577</code></pre>
   <p>平时写程序几乎不需要关心内部表示, 只有做位运算 (<code>&amp;</code>、<code>|</code>, 见 <a href="#praez">Folie 33</a>) <span class="nb">时才用得上.</span> </p>
 </div>
@@ -1460,9 +1463,9 @@ SyntaxError: invalid decimal literal</code></pre>
     <li><b>Sequences 序列</b>: Immutable 不可变 (str 字符串、tuple 元组、bytes 字节串) 和 Mutable 可变 (list 列表、<span class="nb">bytearray).</span> </li>
   </ul>
   <p>「Python 里一切都是对象」: 连 3 和 True 都是对象, <span class="nb">有自己的类型和方法.</span> </p>
-<pre><code>&gt;&gt;&gt; True + True
-2
-&gt;&gt;&gt; isinstance(True, int)
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">True </span>+ <span class="tk-n">True
+</span>2
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">isinstance</span>(<span class="tk-n">True</span>, <span class="tk-b">int</span>)
 True</code></pre>
 </div>
 
@@ -1484,10 +1487,10 @@ True</code></pre>
   <p><b>Gleitkommazahl 浮点数</b>: 占 8 字节, 数值范围大约从 10<sup>−324</sup> (最接近 0 的正数) 到 10<sup>308</sup> (最大), 精度约 15–16 <span class="nb">位有效数字.</span> </p>
   <p>写法: 小数点用<b>点</b> (−0.73), 科学计数法用 <b>e</b> 或 <b>E</b>, 两者没有区别: −7.3E-1 = −7.3e-1 = −7.3 × 10<sup>−1</sup> = −0.<span class="nb">73.</span> </p>
   <p><b>大小和精度都有限</b>, 这是和 int 的根本区别. <span class="nb">经典例子:</span> </p>
-<pre><code>&gt;&gt;&gt; 0.1 + 0.2
-0.30000000000000004
-&gt;&gt;&gt; 0.1 + 0.2 == 0.3
-False</code></pre>
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">0.1 </span>+ <span class="tk-n">0.2
+</span>0.30000000000000004
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">0.1 </span>+ <span class="tk-n">0.2 </span>== <span class="tk-n">0.3
+</span>False</code></pre>
   <p>原因: 0.1 在二进制里是无限循环小数, 只能存一个近似值. 所以比较浮点数时不要用 <code>==</code>, <span class="nb">而要看差是否足够小.</span> </p>
 </div>
 <div class="warn"><p><b>幻灯片错误: </b>「8 Byte (<b>364</b> bit)」应为「8 Byte (<b>64</b> bit)」, 1 字节 = 8 位, <span class="nb">8 × 8 = 64.</span> </p></div>
@@ -1513,19 +1516,19 @@ False</code></pre>
 <div class="card de">
   <span class="folie">Folie 19</span>
   <p><b>Beispiel Gleitkommazahlen</b></p>
-<pre><code>&gt;&gt;&gt; .4e7
-4000000.0
-&gt;&gt;&gt; 4.2e-4
-0.00042
-&gt;&gt;&gt; 1.7e308
-1.7e+308
-&gt;&gt;&gt; 1.8e308
-inf
-&gt;&gt;&gt; 4.3E-4
-0.00043
-&gt;&gt;&gt; 4.3e-4
-0.00043
-&gt;&gt;&gt; type(.4e7)
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">.4e7
+</span>4000000.0
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">4.2e-4
+</span>0.00042
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">1.7e308
+</span>1.7e+308
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">1.8e308
+</span>inf
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">4.3E-4
+</span>0.00043
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">4.3e-4
+</span>0.00043
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">type</span>(<span class="tk-n">.4e7</span>)
 &lt;class 'float'&gt;</code></pre>
 </div>
 <div class="zh">
@@ -1540,16 +1543,16 @@ inf
 <div class="card de">
   <span class="folie">Folie 20</span>
   <p><b>Beispiel komplexe Zahlen</b></p>
-<pre><code>ComplexValue  = RealPart|ImaginaryPart|RealPart "+" ImaginaryPart
+<pre data-lang="grammar"><code>ComplexValue  = RealPart|ImaginaryPart|RealPart "+" ImaginaryPart
 RealPart      = IntegerValue|FloatingPointValue
 ImaginaryPart = IntegerValue "j"|IntegerValue "J"|
                 FloatingPointValue "j"|FloatingPointValue "J"</code></pre>
 </div>
 <div class="zh">
   <p>复数的文法: 实部、虚部, 或「实部 + 虚部」. 虚部是一个数后面跟 <code>j</code> 或 <code>J</code> (Python 用工程上的 j 表示虚数单位, 而不是数学里的 i). 例: <code>2 + 9j</code>、<span class="nb"><code>3.5J</code>.</span> </p>
-<pre><code>&gt;&gt;&gt; (2 + 9j) * 1j
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>(<span class="tk-n">2 </span>+ <span class="tk-n">9</span>j) * <span class="tk-n">1</span>j
 (-9+2j)
-&gt;&gt;&gt; type(2 + 9j)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">type</span>(<span class="tk-n">2 </span>+ <span class="tk-n">9</span>j)
 &lt;class 'complex'&gt;</code></pre>
   <p>本课很少用复数, 知道它属于 Numbers <span class="nb">就够了.</span> </p>
 </div>
@@ -1583,10 +1586,10 @@ ImaginaryPart = IntegerValue "j"|IntegerValue "J"|
     <li>两个参数的类型可以不同 (<code>2 + 3.4</code>), 结果的类型也可以和<span class="nb">参数不同.</span> </li>
     <li>最重要的一点: <code>/</code> <b>永远</b>返回 float, 即使能整除: <code>6 / 2</code> 是 <span class="nb"><code>3.0</code> 而不是 3.</span> </li>
   </ul>
-<pre><code>&gt;&gt;&gt; 6 / 2
-3.0
-&gt;&gt;&gt; 6 // 2
-3</code></pre>
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">6 </span>/ <span class="tk-n">2
+</span>3.0
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">6 </span>// <span class="tk-n">2
+</span>3</code></pre>
 </div>
 <div class="add"><p>幻灯片没列的: 乘方 <code>**</code> (<code>2 ** 10</code> = 1024). 另外 <code>%</code> 和 <code>//</code> 对复数不能用, 会报 TypeError; 「auf int, float, complex」只对前四种运算<span class="nb">完全成立.</span> </p></div>
 
@@ -1605,10 +1608,10 @@ ImaginaryPart = IntegerValue "j"|IntegerValue "J"|
   <p>整除和余数总是满足: <b>n = (n // m) · m + n % m</b>. 例: <span class="nb">14 = 3 · 4 + 2.</span> </p>
   <p><code>15.0 // 4.0</code> 结果是 <code>3.0</code>: 参数是 float, 结果也是 float, 但值已经取整. 以上数字都实际运<span class="nb">行核对过.</span> </p>
   <p><b>易错 (负数)</b>: // 是<b>向下</b>取整 (朝负无穷), <span class="nb">不是向 0 截断:</span> </p>
-<pre><code>&gt;&gt;&gt; -7 // 2
--4
-&gt;&gt;&gt; -7 % 2
-1</code></pre>
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>-<span class="tk-n">7 </span>// <span class="tk-n">2
+</span>-4
+<span class="tk-p">&gt;&gt;&gt; </span>-<span class="tk-n">7 </span>% <span class="tk-n">2
+</span>1</code></pre>
   <p>−3.5 向下取整是 −4; 余数 = −7 − (−4)·2 = 1. 所以 Python 的余数和除数同号. 这一点和 C、Java 不同 (它们得 −3 和 <span class="nb">−1).</span> </p>
 </div>
 
@@ -1659,12 +1662,12 @@ ImaginaryPart = IntegerValue "j"|IntegerValue "J"|
   </ul>
 </div>
 <div class="warn"><p><b>幻灯片的说法对 Python 不成立: </b>幻灯片说 not、and、or 的参数<b>必须</b>是 bool, and/or 的结果<b>也是</b> bool. 在 Python 里, 任何值都能用作参数 (0、空串、空列表、None 算假, 其余算真); 而 and/or <b>返回的是两个参数之一</b>, 不一定是 bool. 只有 not 总是返回 bool. <span class="nb">实际运行:</span> </p>
-<pre><code>&gt;&gt;&gt; 3 and 5
-5
-&gt;&gt;&gt; 0 or "x"
-'x'
-&gt;&gt;&gt; not 7
-False</code></pre>
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">3 </span><span class="tk-k">and </span><span class="tk-n">5
+</span>5
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">0 </span><span class="tk-k">or </span><span class="tk-s">"x"
+</span>'x'
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">not </span><span class="tk-n">7
+</span>False</code></pre>
 <p>只要参数确实是 bool, 结果也一定是 bool, 所以幻灯片的规则在本课的「类型正确的表达式」里可以照用. 另外第一条里「das Ergebnis ist <b>aber</b> vom Typ bool」的「aber」用词不通, 应是「ebenfalls <span class="nb">同样」.</span> </p></div>
 
 <div class="card de">
@@ -1703,12 +1706,12 @@ False</code></pre>
     <li>Claudia sagt: „Anna und Bettina <span class="nb">lügen.“</span></li>
   </ol>
   <p>Wer lügt <span class="nb">denn nun?</span></p>
-<pre><code>...
+<pre data-lang="python"><code>...
 aLügt = ...; bLügt = ...; cLügt = ...
-alleAussagen = ( <span class="k">not</span> ( aLügt ) == bLügt )         <span class="c"># Aussage 1</span>
-  <span class="k">and</span> ( <span class="k">not</span> ( bLügt ) == ( aLügt <span class="k">or</span> cLügt ) ) <span class="c"># Aussage 2</span>
-  <span class="k">and</span> ( <span class="k">not</span> ( cLügt ) == ( aLügt <span class="k">and</span> bLügt ) ) <span class="c"># Aussage 3</span>
-...</code></pre>
+alleAussagen = ( <span class="tk-k">not </span>( aLügt ) == bLügt )         <span class="tk-c"># Aussage 1
+  </span><span class="tk-k">and </span>( <span class="tk-k">not </span>( bLügt ) == ( aLügt <span class="tk-k">or </span>cLügt ) ) <span class="tk-c"># Aussage 2
+  </span><span class="tk-k">and </span>( <span class="tk-k">not </span>( cLügt ) == ( aLügt <span class="tk-k">and </span>bLügt ) ) <span class="tk-c"># Aussage 3
+</span>...</code></pre>
   <p>Ausprobieren aller möglichen Belegungen zeigt, dass alleAussagen nur wahr <span class="nb">wird bei:</span></p>
   <p><code class="lc">aLügt = True; bLügt = False; cLügt = True</code></p>
 </div>
@@ -1731,9 +1734,9 @@ alleAussagen = ( <span class="k">not</span> ( aLügt ) == bLügt )         <span
 <div class="zh">
   <p><b>Short circuit evaluation 短路求值</b>: and 左边已经是 False → 结果一定是 False, 右边不再计算; or 左边已经是 True → 结果一定是 True, <span class="nb">右边不再计算.</span> </p>
   <p>所以 <code class="lc">(0 == 1) and (100/0 &gt; 1)</code> 不会报错: 左边 False, 右边的除以 0 根本没执行. 交换顺序后先算 100/0, 立刻 ZeroDivisionError (运行时错误). 这说明 and/or <b>不满足交换律</b> (在会出错或有<span class="nb">副作用时).</span> </p>
-<pre><code>&gt;&gt;&gt; (0 == 1) and (100/0 &gt; 1)
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>(<span class="tk-n">0 </span>== <span class="tk-n">1</span>) <span class="tk-k">and </span>(<span class="tk-n">100</span>/<span class="tk-n">0 </span>&gt; <span class="tk-n">1</span>)
 False
-&gt;&gt;&gt; (0 == 0) or (100/0 &gt; 1)
+<span class="tk-p">&gt;&gt;&gt; </span>(<span class="tk-n">0 </span>== <span class="tk-n">0</span>) <span class="tk-k">or </span>(<span class="tk-n">100</span>/<span class="tk-n">0 </span>&gt; <span class="tk-n">1</span>)
 True</code></pre>
   <p>实际用途: <code class="lc">n != 0 and 100/n &gt; 1</code>, <span class="nb">先排除 n = 0 再除.</span> </p>
 </div>
@@ -1772,9 +1775,9 @@ True</code></pre>
     <li><b>反斜杠 \ 转义</b> (Escaping): 在字符串里表示特殊字符. <code>\"</code> = 双引号本身, <code>\n</code> = 换行, <code>\t</code> = 制表符, <span class="nb"><code>\\</code> = 反斜杠本身.</span> </li>
   </ul>
   <p>第二个例子: <code>"\""</code> 是只含一个双引号的字符串. 拼接后 Shell 显示 <code>'x"'</code>: Python 显示字符串时自动选单引号, 这样里面的双引号就<span class="nb">不用转义.</span> </p>
-<pre><code>&gt;&gt;&gt; "x" + "\""
-'x"'
-&gt;&gt;&gt; print("x" + "\"")
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-s">"x" </span>+ <span class="tk-s">"\""
+</span>'x"'
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">print</span>(<span class="tk-s">"x" </span>+ <span class="tk-s">"\""</span>)
 x"</code></pre>
   <p>Shell 直接显示的是字符串的「表示形式」(带引号), print 输出的是内容本身 <span class="nb">(不带引号).</span> </p>
 </div>
@@ -1796,7 +1799,7 @@ x"</code></pre>
 <div class="card de">
   <span class="folie">Folie 32</span>
   <p><b>Grammatik für Ausdrücke</b></p>
-<pre><code>Expression    = Variable|Value|Expression BinOp Expression
+<pre data-lang="grammar"><code>Expression    = Variable|Value|Expression BinOp Expression
                |UnOp Expression|"(" Expression ")"
 Variable      = NamedVariable
 NamedVariable = Identifier
@@ -1843,8 +1846,8 @@ Type          = PrimitiveType</code></pre>
   </div>
   <p>Höherer Präzedenzwert bedeutet:<br>Der Operator zieht die Argumente an sich:</p>
   <p>Beispiel:</p>
-<pre><code>(((((3 + (5 * 4)) &gt; (((-2) - 2) &amp; 4)) &lt; (1 + 2))
-    and True) or (float(11.1) == 11.1))</code></pre>
+<pre data-lang="python"><code>(((((<span class="tk-n">3 </span>+ (<span class="tk-n">5 </span>* <span class="tk-n">4</span>)) &gt; (((-<span class="tk-n">2</span>) - <span class="tk-n">2</span>) &amp; <span class="tk-n">4</span>)) &lt; (<span class="tk-n">1 </span>+ <span class="tk-n">2</span>))
+    <span class="tk-k">and </span><span class="tk-n">True</span>) <span class="tk-k">or </span>(<span class="tk-b">float</span>(<span class="tk-n">11.1</span>) == <span class="tk-n">11.1</span>))</code></pre>
 </div>
 <div class="zh">
   <p><b>Präzedenz 优先级</b>决定运算符的<b>Bindungsstärke 结合强度</b>: 数字越大, 运算符越「把两边的参数拉到自己身边」, 越先算. 有了优先级就可以省掉<span class="nb">很多括号.</span> </p>
@@ -1858,9 +1861,9 @@ Type          = PrimitiveType</code></pre>
 </div>
 <div class="warn">
   <p><b>幻灯片错误 (比较运算符的括号): </b>幻灯片把 <code class="lc">23 &gt; 4 &lt; 3</code> 加括号成 <code class="lc">((23 &gt; 4) &lt; 3)</code>, 当成「先比较一次, 再拿 True 和 3 比」. 但 Python 的比较运算符会<b>链接 (chaining)</b>: <code class="lc">a &gt; b &lt; c</code> 的意思是 <code class="lc">(a &gt; b) and (b &lt; c)</code>, 中间的 b 只算一次. 所以正确的理解是 <code class="lc">(23 &gt; 4) and (4 &lt; 3)</code> = True and False = <b>False</b>; 按幻灯片的括号却是 <code>True &lt; 3</code> = <code>1 &lt; 3</code> = <b>True</b>. <span class="nb">实际运行:</span> </p>
-<pre><code>&gt;&gt;&gt; 3 + 5 * 4 &gt; -2 - 2 &amp; 4 &lt; 1 + 2
-False
-&gt;&gt;&gt; (((3 + (5 * 4)) &gt; (((-2) - 2) &amp; 4)) &lt; (1 + 2))
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">3 </span>+ <span class="tk-n">5 </span>* <span class="tk-n">4 </span>&gt; -<span class="tk-n">2 </span>- <span class="tk-n">2 </span>&amp; <span class="tk-n">4 </span>&lt; <span class="tk-n">1 </span>+ <span class="tk-n">2
+</span>False
+<span class="tk-p">&gt;&gt;&gt; </span>(((<span class="tk-n">3 </span>+ (<span class="tk-n">5 </span>* <span class="tk-n">4</span>)) &gt; (((-<span class="tk-n">2</span>) - <span class="tk-n">2</span>) &amp; <span class="tk-n">4</span>)) &lt; (<span class="tk-n">1 </span>+ <span class="tk-n">2</span>))
 True</code></pre>
   <p>整个表达式最后因为 <code class="lc">or (float(11.1) == 11.1)</code> 为 True, 两种理解的总结果都是 True, 碰巧没有差别. 这也是 Folie 2 里「Ist der Ausdruck 3&lt;x&lt;10 erlaubt?」的答案: 允许, 而且意思是 3 &lt; x and x &lt; <span class="nb">10.</span> </p>
 </div>
@@ -1886,9 +1889,9 @@ True</code></pre>
   </ul>
   <p>Syntax der Variablenzuweisung:<br><code class="lc">VariableAssignment = NamedVariable [ "=" Expression ]</code></p>
   <p>Beispiel:</p>
-<pre><code>total   = -5
-quadrat = -5.0 * total
-aussage = False</code></pre>
+<pre data-lang="python"><code>total   = -<span class="tk-n">5
+</span>quadrat = -<span class="tk-n">5.0 </span>* total
+aussage = <span class="tk-n">False</span></code></pre>
 </div>
 <div class="zh">
   <p><b>Variable 变量</b>: 一个「容器」(内存里的一块地方), 程序运行时装着某个类型<span class="nb">的一个值.</span> </p>
@@ -1981,12 +1984,12 @@ aussage = False</code></pre>
 </div>
 <div class="zh">
   <p><b>Implizite Typkonvertierung 隐式类型转换</b>: 数值类型之间有一个「兼容」顺序 bool → int → float → complex, 箭头右边的类型<b>表达能力更强</b> (每个整数也是小数, 每个小数也是复数). 运算两边类型不同时, Python 自动把「弱」的那个转成「强」的, <span class="nb">再计算.</span> </p>
-<pre><code>&gt;&gt;&gt; 2 + 3.4
-5.4
-&gt;&gt;&gt; type(5.4 + (2 + 9j))
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">2 </span>+ <span class="tk-n">3.4
+</span>5.4
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">type</span>(<span class="tk-n">5.4 </span>+ (<span class="tk-n">2 </span>+ <span class="tk-n">9</span>j))
 &lt;class 'complex'&gt;
-&gt;&gt;&gt; True + 1.5
-2.5</code></pre>
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-n">True </span>+ <span class="tk-n">1.5
+</span>2.5</code></pre>
   <p>不会反过来: Python 不会自动把 float 转成 int, 也不会自动把数转成字符串 (<code>"Kapitel " + 3</code> 是 <span class="nb">TypeError).</span> </p>
 </div>
 <div class="warn"><p><b>原文笔误: </b>「2 ist vom <b>Type</b> int」应为「vom <b>Typ</b> int」 (德语, <span class="nb">和下面两行一致).</span> </p></div>
@@ -2027,12 +2030,12 @@ aussage = False</code></pre>
 <div class="zh">
   <p><b>Explizite Typumwandlung 显式类型转换</b>: 程序员自己调用和类型同名的内置函数, 这里 <code>typ()</code> 代表 <code>int()</code>、<code>float()</code>、<code>str()</code>、<span class="nb"><code>complex()</code> 等.</span> </p>
   <p>转换可能<b>丢失信息</b>: <code>int()</code> 把小数部分<b>直接截掉</b> (朝 0 方向), 不是四舍五入. 所以 int(5.6) = 5, int(−5.6) = −5. 对比 Folie 22: <code>-5.6 // 1</code> 是向下取整, <span class="nb">得 −6.0.</span> </p>
-<pre><code>&gt;&gt;&gt; int(-5.6)
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">int</span>(-<span class="tk-n">5.6</span>)
 -5
-&gt;&gt;&gt; round(5.6)
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">round</span>(<span class="tk-n">5.6</span>)
 6
-&gt;&gt;&gt; int("42") + 1
-43</code></pre>
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-b">int</span>(<span class="tk-s">"42"</span>) + <span class="tk-n">1
+</span>43</code></pre>
   <p><code>int("42")</code> 把字符串转成整数, 处理用户输入时最常用 (见 <span class="nb"><a href="#io">Folie 50</a>).</span> </p>
 </div>
 
@@ -2090,13 +2093,13 @@ aussage = False</code></pre>
 <div class="card de">
   <span class="folie">Folie 45</span>
   <p><b>Beispiel: Syntax-Fehler</b></p>
-<pre><code>print("Hallo)</code></pre>
+<pre data-lang="python"><code><span class="tk-b">print</span>(<span class="tk-s">"Hallo)</span></code></pre>
   <p>Python-Interpreter erkennt <span class="nb">Syntax-Fehler:</span></p>
-<pre>&gt;&gt;&gt; %Run -c $EDITOR_CONTENT
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>%Run -c $EDITOR_CONTENT
 Traceback (most recent call last):
-  File "&lt;string&gt;", line 1
-    print("Hallo)
-          ^
+  File <span class="tk-b">"&lt;string&gt;"</span>, line <span class="tk-n">1
+    </span><span class="tk-b">print</span>(<span class="tk-s">"Hallo)
+          </span>^
 SyntaxError: unterminated string literal (detected at line 1)</pre>
 </div>
 <div class="zh">
@@ -2107,11 +2110,11 @@ SyntaxError: unterminated string literal (detected at line 1)</pre>
 <div class="card de">
   <span class="folie">Folie 46</span>
   <p><b>Beispiel: Typ-Fehler</b></p>
-<pre><code>print("Hallo" - 20)</code></pre>
+<pre data-lang="python"><code><span class="tk-b">print</span>(<span class="tk-s">"Hallo" </span>- <span class="tk-n">20</span>)</code></pre>
   <p>Python-Interpreter erkennt <span class="nb">Typ-Fehler:</span></p>
-<pre>&gt;&gt;&gt; %Run -c $EDITOR_CONTENT
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>%Run -c $EDITOR_CONTENT
 Traceback (most recent call last):
-  File "&lt;string&gt;", line 1, in &lt;module&gt;
+  File <span class="tk-b">"&lt;string&gt;"</span>, line <span class="tk-n">1</span>, in &lt;module&gt;
 TypeError: unsupported operand type(s) for -: 'str' and 'int'</pre>
 </div>
 <div class="zh">
@@ -2121,10 +2124,10 @@ TypeError: unsupported operand type(s) for -: 'str' and 'int'</pre>
 <div class="card de">
   <span class="folie">Folie 47</span>
   <p><b>Beispiel: Semantischer Fehler</b></p>
-<pre><code>print("7 zum Quadrat ergibt:")
-print(2+7)</code></pre>
+<pre data-lang="python"><code><span class="tk-b">print</span>(<span class="tk-s">"7 zum Quadrat ergibt:"</span>)
+<span class="tk-b">print</span>(<span class="tk-n">2</span>+<span class="tk-n">7</span>)</code></pre>
   <p>Python-Interpreter erkennt keine <span class="nb">Logik-Fehler:</span></p>
-<pre>&gt;&gt;&gt; %Run -c $EDITOR_CONTENT
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>%Run -c $EDITOR_CONTENT
 7 zum Quadrat ergibt:
 9</pre>
   <p>Beachte: Logik-Fehler findet der Interpreter i.A. <span class="nb">nicht.</span></p>
@@ -2136,18 +2139,18 @@ print(2+7)</code></pre>
 <div class="card de">
   <span class="folie">Folie 48</span>
   <p><b>Weitere Laufzeitfehler</b></p>
-<pre><code>print(3/0)</code></pre>
-<pre>&gt;&gt;&gt; %Run ZeroDivisionError.py
+<pre data-lang="python"><code><span class="tk-b">print</span>(<span class="tk-n">3</span>/<span class="tk-n">0</span>)</code></pre>
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>%Run ZeroDivisionError.py
 Traceback (most recent call last):
-  File "/home/oliver/Desktop/ZeroDivisionError.py", line 1, in &lt;module&gt;
-    print(3/0)
+  File <span class="tk-b">"/home/oliver/Desktop/ZeroDivisionError.py"</span>, line <span class="tk-n">1</span>, in &lt;module&gt;
+    <span class="tk-b">print</span>(<span class="tk-n">3</span>/<span class="tk-n">0</span>)
 ZeroDivisionError: division by zero</pre>
-<pre><code>string1 = "hallo"
-print(string2)</code></pre>
-<pre>&gt;&gt;&gt; %Run NameError.py
+<pre data-lang="python"><code>string1 = <span class="tk-s">"hallo"
+</span><span class="tk-b">print</span>(string2)</code></pre>
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>%Run NameError.py
 Traceback (most recent call last):
-  File "/home/oliver/Desktop/NameError.py", line 2, in &lt;module&gt;
-    print(string2)
+  File <span class="tk-b">"/home/oliver/Desktop/NameError.py"</span>, line <span class="tk-n">2</span>, in &lt;module&gt;
+    <span class="tk-b">print</span>(string2)
 NameError: name 'string2' is not defined</pre>
 </div>
 <div class="zh">
@@ -2178,18 +2181,18 @@ NameError: name 'string2' is not defined</pre>
         <li>Gibt den übergebenen Wert auf dem <span class="nb">Terminal aus</span></li>
         <li>Jede Ausgabe startet in einer neuen <span class="nb">Zeile</span></li>
         <li>Beispiele
-<pre><code>print(1)
-print("Hallo" + " world\n")
-print("Kapitel " + str(x))</code></pre></li>
+<pre data-lang="python"><code><span class="tk-b">print</span>(<span class="tk-n">1</span>)
+<span class="tk-b">print</span>(<span class="tk-s">"Hallo" </span>+ <span class="tk-s">" world\n"</span>)
+<span class="tk-b">print</span>(<span class="tk-s">"Kapitel " </span>+ <span class="tk-b">str</span>(x))</code></pre></li>
       </ul></li>
     <li>Eingabe mittels Built-In Funktion <b>input</b>
       <ul>
         <li>Liest eine Zeichenkette vom <span class="nb">Terminal</span></li>
         <li>Beenden der Eingabe durch Enter <span class="nb">Taste</span></li>
         <li>Beispiele
-<pre><code>x=input()
-name=input("Bitte geben Sie Ihren Namen an")
-z=int(input("Bitte geben Sie eine Zahl ein \n"))</code></pre></li>
+<pre data-lang="python"><code>x=<span class="tk-b">input</span>()
+name=<span class="tk-b">input</span>(<span class="tk-s">"Bitte geben Sie Ihren Namen an"</span>)
+z=<span class="tk-b">int</span>(<span class="tk-b">input</span>(<span class="tk-s">"Bitte geben Sie eine Zahl ein \n"</span>))</code></pre></li>
       </ul></li>
   </ul>
 </div>
@@ -2209,10 +2212,10 @@ z=int(input("Bitte geben Sie eine Zahl ein \n"))</code></pre></li>
   <ul>
     <li>Die Python-Standardbibliothek stellt eine Reihe von mathematischen Funktionen zur <span class="nb">Verfügung</span></li>
     <li>Zum Beispiel:
-<pre><code><span class="k">import</span> math
+<pre data-lang="python"><code><span class="tk-k">import </span>math
 y = math.sqrt(x)     // Wurzel von x
 i = math.round(y)    // gerundeter Wert
-u = math.max(z,10.0) // Maximum von z und 10.0</code></pre></li>
+u = math.max(z,<span class="tk-n">10.0</span>) // Maximum von z und <span class="tk-n">10.0</span></code></pre></li>
     <li>Siehe Python Dokumentation von Math Modul für weitere Funktionen: https://docs.python.org/3/library/math.<span class="nb">html</span></li>
   </ul>
 </div>
@@ -2226,13 +2229,13 @@ u = math.max(z,10.0) // Maximum von z und 10.0</code></pre></li>
     <li><code>math</code> 模块里<b>没有</b> <code>round</code> 和 <code>max</code>. 它们是<b>内置函数</b>, 直接写 <code>round(y)</code>、<code>max(z, 10.0)</code>. 写 <code>math.round(y)</code> 会报 <code class="lc">AttributeError: module 'math' has no attribute 'round'</code>. </li>
   </ol>
   <p>正确写法 <span class="nb">(实际运行):</span> </p>
-<pre><code>&gt;&gt;&gt; import math
-&gt;&gt;&gt; x = 2.0
-&gt;&gt;&gt; z = 7.5
-&gt;&gt;&gt; y = math.sqrt(x)     # Wurzel von x
-&gt;&gt;&gt; i = round(y)         # gerundeter Wert
-&gt;&gt;&gt; u = max(z, 10.0)     # Maximum von z und 10.0
-&gt;&gt;&gt; y, i, u
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">import </span>math
+<span class="tk-p">&gt;&gt;&gt; </span>x = <span class="tk-n">2.0
+</span><span class="tk-p">&gt;&gt;&gt; </span>z = <span class="tk-n">7.5
+</span><span class="tk-p">&gt;&gt;&gt; </span>y = math.sqrt(x)     <span class="tk-c"># Wurzel von x
+</span><span class="tk-p">&gt;&gt;&gt; </span>i = <span class="tk-b">round</span>(y)         <span class="tk-c"># gerundeter Wert
+</span><span class="tk-p">&gt;&gt;&gt; </span>u = <span class="tk-b">max</span>(z, <span class="tk-n">10.0</span>)     <span class="tk-c"># Maximum von z und 10.0
+</span><span class="tk-p">&gt;&gt;&gt; </span>y, i, u
 (1.4142135623730951, 1, 10.0)</code></pre>
 </div>
 
@@ -2247,12 +2250,12 @@ u = math.max(z,10.0) // Maximum von z und 10.0</code></pre></li>
 </div>
 <div class="zh">
   <p>回到开头的例子, 用这一章的知识写出来 (只处理判别式 ≥ 0 的情况, <span class="nb">判断要等下一章的 if):</span> </p>
-<pre><code>&gt;&gt;&gt; import math
-&gt;&gt;&gt; a, b, c = 1.0, -3.0, 2.0
-&gt;&gt;&gt; d = b ** 2 - 4 * a * c
-&gt;&gt;&gt; x1 = (-b + math.sqrt(d)) / (2 * a)
-&gt;&gt;&gt; x2 = (-b - math.sqrt(d)) / (2 * a)
-&gt;&gt;&gt; x1, x2
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">import </span>math
+<span class="tk-p">&gt;&gt;&gt; </span>a, b, c = <span class="tk-n">1.0</span>, -<span class="tk-n">3.0</span>, <span class="tk-n">2.0
+</span><span class="tk-p">&gt;&gt;&gt; </span>d = b ** <span class="tk-n">2 </span>- <span class="tk-n">4 </span>* a * c
+<span class="tk-p">&gt;&gt;&gt; </span>x1 = (-b + math.sqrt(d)) / (<span class="tk-n">2 </span>* a)
+<span class="tk-p">&gt;&gt;&gt; </span>x2 = (-b - math.sqrt(d)) / (<span class="tk-n">2 </span>* a)
+<span class="tk-p">&gt;&gt;&gt; </span>x1, x2
 (2.0, 1.0)</code></pre>
   <p>x² − 3x + 2 = (x − 1)(x − 2), 两个根是 1 和 2. 易错: 分母要写成 <code>(2 * a)</code> 带括号; 写成 <code>/ 2 * a</code> 会按从左到右先除以 2 再乘 a. 判别式为负时 <code>math.sqrt</code> 报 <code>ValueError</code> (Python 3.15 的信息是 <code class="lc">expected a nonnegative input, got -1.0</code> 这种形式, 旧版本是 <span class="nb"><code class="lc">math domain error</code>).</span> </p>
 </div>

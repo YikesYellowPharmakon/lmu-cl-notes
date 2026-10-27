@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1111,6 +1108,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 11.1; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #8e81e4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #b3abfe; --syn-f: #f8c9f6; --syn-s: #cfbf71; --syn-n: #75d7f2; --syn-b: #9aaad2; --syn-c: #8b8a9b; --syn-p: #8b8a9b; }
+  html[data-mode="day"] { --syn-k: #6150b2; --syn-f: #632c62; --syn-s: #736304; --syn-n: #0f6f84; --syn-b: #425179; --syn-c: #68677a; --syn-p: #68677a; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1612,12 +1615,12 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
   <p>用生成式语言模型生成文本, 要用它自带的 <code>generate()</code> 方法: 先把提示分词, 作为模型输入; 再设定超参数, 控制输出长度 (8.1 Slide 5–6) 并选择解码策略. 完整代码在 notebook decoding_examples.<span class="nb">ipynb 里.</span></p>
 </div>
 <div class="add"><p>下面各页的代码省略了加载模型和分词的步骤, <span class="nb">完整写法大致是:</span></p>
-<pre data-lang="python">from transformers import AutoTokenizer, AutoModelForCausalLM
-tok = AutoTokenizer.from_pretrained("gpt2")
-model = AutoModelForCausalLM.from_pretrained("gpt2")
-tokenized_prompt = tok("Once upon a time", return_tensors="pt").input_ids
-out = model.generate(tokenized_prompt, max_new_tokens=50)
-print(tok.decode(out[0], skip_special_tokens=True))</pre>
+<pre data-lang="python"><span class="tk-k">from </span>transformers <span class="tk-k">import </span>AutoTokenizer, AutoModelForCausalLM
+tok = AutoTokenizer.from_pretrained(<span class="tk-s">"gpt2"</span>)
+model = AutoModelForCausalLM.from_pretrained(<span class="tk-s">"gpt2"</span>)
+tokenized_prompt = tok(<span class="tk-s">"Once upon a time"</span>, return_tensors=<span class="tk-s">"pt"</span>).input_ids
+out = model.generate(tokenized_prompt, max_new_tokens=<span class="tk-n">50</span>)
+<span class="tk-b">print</span>(tok.decode(out[<span class="tk-n">0</span>], skip_special_tokens=<span class="tk-n">True</span>))</pre>
 <p>注意采样类方法每次运行结果不同, 幻灯片里的输出只是某一次的结果; 要复现可先 <span class="nb"><code>torch.manual_seed(…)</code>.</span></p></div>
 
 <div class="card de">
@@ -1637,7 +1640,7 @@ print(tok.decode(out[0], skip_special_tokens=True))</pre>
   <p>Beam <span class="nb">search</span></p>
   <p>In order to use beam search you simply have to add the <code>num_beams</code> argument to the <code>generate()</code> method and set it to a value <span class="nb">&gt; 1</span></p>
   <p>Prompt: "Once upon a <span class="nb">time"</span></p>
-  <pre data-lang="python">model.generate(tokenized_prompt, num_beams=5)</pre>
+  <pre data-lang="python">model.generate(tokenized_prompt, num_beams=<span class="tk-n">5</span>)</pre>
   <p>Once upon a time, it was said, there would be a time when the world would be a better place. It was a time when the world would be a better place. It was a time when the world would be a better place. It was a time when the world would be a better place. It was a time when the world would be a better <span class="nb">place.</span></p>
 </div>
 <div class="zh">
@@ -1649,8 +1652,8 @@ print(tok.decode(out[0], skip_special_tokens=True))</pre>
   <p>Sampling with <span class="nb">temperature (1)</span></p>
   <p>In order to activate sampling you have to set <code>do_sample=True</code>. To additionally use temperature you have to set the <code>temperature</code>. Also <code>top_k</code> has to be set to 0, as 50 is the default <span class="nb">value</span></p>
   <p>Prompt: "Once upon a <span class="nb">time"</span></p>
-  <pre data-lang="python">model.generate(tokenized_prompt, do_sample=True,
-               temperature=0.7, top_k=0)</pre>
+  <pre data-lang="python">model.generate(tokenized_prompt, do_sample=<span class="tk-n">True</span>,
+               temperature=<span class="tk-n">0.7</span>, top_k=<span class="tk-n">0</span>)</pre>
   <p>Output: Once upon a time, we could have seen ourselves as a modern day, modern version of ourselves. Ken, who was assembled with great courage and bravery to fight for the cause of women’s reproductive rights, has been doing so for more than 15 years, and his career is full of inspiring stories. He is a poet, a civil rights leader, a hard-nosed activist and a true American <span class="nb">hero.</span></p>
 </div>
 <div class="zh">
@@ -1662,8 +1665,8 @@ print(tok.decode(out[0], skip_special_tokens=True))</pre>
   <p>Sampling with <span class="nb">temperature (2)</span></p>
   <p>If we set temperature to a super high value, the output distribution will approximate a uniform distribution. For temperature → 0 the output distribution will have all the probability mass in the most probable token and <code>generate()</code> will be equivalent to greedy <span class="nb">search</span></p>
   <p>Prompt: "Once upon a <span class="nb">time"</span></p>
-  <pre data-lang="python">model.generate(tokenized_prompt, do_sample=True,
-               temperature=10000000.0, top_k=0)</pre>
+  <pre data-lang="python">model.generate(tokenized_prompt, do_sample=<span class="tk-n">True</span>,
+               temperature=<span class="tk-n">10000000.0</span>, top_k=<span class="tk-n">0</span>)</pre>
   <p>Output: Once upon a time indicators Gran slew extrater rockedIA moaningJohn Chin knocking transgender Button nin forgiving submarine traveller efforts Pascal despairaways Hem Melvin Toryunn Amb <span class="nb">velvet</span></p>
   <p>This output is as expected since with such a high temperature every token in the vocabulary will have the same <span class="nb">probability</span></p>
 </div>
@@ -1676,8 +1679,8 @@ print(tok.decode(out[0], skip_special_tokens=True))</pre>
   <p>Top-k <span class="nb">sampling</span></p>
   <p>In order to activate top-k sampling you have to set <code>do_sample=True</code> and set <code>top_k</code> to a integer &gt; 0. If you use <code>top_k=1</code> it will again be equivalent to greedy search as only the most probable token is <span class="nb">chosen</span></p>
   <p>Prompt: "Once upon a <span class="nb">time"</span></p>
-  <pre data-lang="python">model.generate(tokenized_prompt, do_sample=True,
-               top_k=10)</pre>
+  <pre data-lang="python">model.generate(tokenized_prompt, do_sample=<span class="tk-n">True</span>,
+               top_k=<span class="tk-n">10</span>)</pre>
   <p>Output: Once upon a time, he did not think he had a chance and turned to her and said:<br>"’My dear, what do you mean by that? I know your father, but he is dead.’<br>"So she said:<br>’I knew it. I know your father, but I do not know his whereabouts. You know my mother.’</p>
 </div>
 <div class="zh">
@@ -1690,8 +1693,8 @@ print(tok.decode(out[0], skip_special_tokens=True))</pre>
   <p>Top-p <span class="nb">sampling</span></p>
   <p>Set <code>top_p</code> to some float and <code>do_sample=True</code> to use top-p sampling. Using a very small value is equal to using greedy search. Using <code>top_p=1.0</code> will consider all <span class="nb">tokens</span></p>
   <p>Prompt: "Once upon a <span class="nb">time"</span></p>
-  <pre data-lang="python">model.generate(tokenized_prompt, do_sample=True,
-               top_p=0.7, top_k=0)</pre>
+  <pre data-lang="python">model.generate(tokenized_prompt, do_sample=<span class="tk-n">True</span>,
+               top_p=<span class="tk-n">0.7</span>, top_k=<span class="tk-n">0</span>)</pre>
   <p>Output: Once upon a time they arrived at the well of water, they saw that their creature was burning in flames. After they had brought their clothes back to the dry land, they were found that they had died in the burning <span class="nb">body.</span></p>
 </div>
 <div class="zh">
@@ -1703,8 +1706,8 @@ print(tok.decode(out[0], skip_special_tokens=True))</pre>
   <p>Contrastive <span class="nb">search</span></p>
   <p>For contrastive search you have to set <code>penalty_alpha</code> to a float and set <code>top_k</code> as previously mentioned. Remember we are not sampling here. For <code>penalty_alpha=0</code> we only maximize the model confidence term and it becomes greedy search again. Using <code>penalty_alpha=1</code> we only care about the degeneration penalty <span class="nb">term</span></p>
   <p>Prompt: "Once upon a <span class="nb">time"</span></p>
-  <pre data-lang="python">model.generate(tokenized_prompt, do_sample=True,
-               penalty_alpha=0.6, top_k=20)</pre>
+  <pre data-lang="python">model.generate(tokenized_prompt, do_sample=<span class="tk-n">True</span>,
+               penalty_alpha=<span class="tk-n">0.6</span>, top_k=<span class="tk-n">20</span>)</pre>
   <p>Output: Once upon a time, the man who had been the object of the most intense and most intense hatred, the most intense and most intense hatred, was the man who had been the object of the most intense and most intense hatred, and the man who had been the object of the most intense and most intense <span class="nb">hatred.</span></p>
 </div>
 <div class="zh">

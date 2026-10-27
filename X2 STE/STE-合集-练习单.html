@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1110,6 +1107,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 13.1; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #c7e481 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #aac46a; --syn-f: #abeccb; --syn-s: #a8baff; --syn-n: #72d9ee; --syn-b: #b2ad81; --syn-c: #898f7e; --syn-p: #898f7e; }
+  html[data-mode="day"] { --syn-k: #576d00; --syn-f: #065238; --syn-s: #4b5bac; --syn-n: #067080; --syn-b: #5a5422; --syn-c: #666c59; --syn-p: #666c59; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1791,26 +1794,26 @@
     <li>Once you and your teammate have finished programming, exchange your programs and compare them with those given on the following <span class="nb">pages.</span></li>
     <li>Discuss how effective the descriptions were at conveying the <span class="nb">algorithms.</span></li>
   </ol>
-<pre data-lang="java">static public void bubbleSort(int[] a) {
-    final int n = a.length;
-    for (int i = 0; i &lt; n; i++) {
-        for (int j = 0; j &lt; n - i - 1; j++) {
-            if (a[j] &gt; a[j + 1]) {
-                swap(a, j, j + 1);
+<pre data-lang="java"><span class="tk-k">static public void </span><span class="tk-f">bubbleSort</span>(<span class="tk-k">int</span>[] a) {
+    <span class="tk-k">final int </span>n = a.<span class="tk-f">length</span>;
+    <span class="tk-k">for </span>(<span class="tk-k">int </span>i = <span class="tk-n">0</span>; i &lt; n; i++) {
+        <span class="tk-k">for </span>(<span class="tk-k">int </span>j = <span class="tk-n">0</span>; j &lt; n - i - <span class="tk-n">1</span>; j++) {
+            <span class="tk-k">if </span>(a[j] &gt; a[j + <span class="tk-n">1</span>]) {
+                swap(a, j, j + <span class="tk-n">1</span>);
             }
         }
     }
 }</pre>
-<pre data-lang="java">static public void selectionSort(int[] a) {
-    final int n = a.length;
-    for (int i = 0; i &lt; n - 1; i++) {
-        int min = i;
-        for (int j = i + 1; j &lt; n; j++) {
-            if (a[j] &lt; a[min]) {
+<pre data-lang="java"><span class="tk-k">static public void </span><span class="tk-f">selectionSort</span>(<span class="tk-k">int</span>[] a) {
+    <span class="tk-k">final int </span>n = a.<span class="tk-f">length</span>;
+    <span class="tk-k">for </span>(<span class="tk-k">int </span>i = <span class="tk-n">0</span>; i &lt; n - <span class="tk-n">1</span>; i++) {
+        <span class="tk-k">int </span>min = i;
+        <span class="tk-k">for </span>(<span class="tk-k">int </span>j = i + <span class="tk-n">1</span>; j &lt; n; j++) {
+            <span class="tk-k">if </span>(a[j] &lt; a[min]) {
                 min = j;
             }
         }
-        if (min &gt; i) {
+        <span class="tk-k">if </span>(min &gt; i) {
             swap(a, i, min);
         }
     }
@@ -2384,38 +2387,38 @@ Output: A list L containing the vertices of CH(P) in clockwise order.
 <div class="card de">
   <span class="folie">Sheet 13 · In-class exercise 13-2</span>
   <p><b>Javadoc for a Number Queue Class.</b> The <code>WaitingList</code> class is a Java implementation of a number queue system that can be used to manage people who are waiting for their turn. Write appropriate Javadoc comments for all public methods of the class and for the class itself. Make sure to include relevant <code>@</code> <span class="nb">tags.</span></p>
-<pre data-lang="java">public class WaitingList {
-    private List&lt;Integer&gt; items;
-    private Random random;
+<pre data-lang="java"><span class="tk-k">public class </span><span class="tk-f">WaitingList </span>{
+    <span class="tk-k">private </span>List&lt;Integer&gt; items;
+    <span class="tk-k">private </span>Random random;
 
-    public WaitingList() {
-        items = new ArrayList&lt;&gt;();
-        random = new Random();
+    <span class="tk-k">public </span><span class="tk-f">WaitingList</span>() {
+        items = <span class="tk-k">new </span>ArrayList&lt;&gt;();
+        random = <span class="tk-k">new </span>Random();
     }
 
-    public void addNumber(int number) {
-        if (items.contains(number)) {
-            throw new IllegalArgumentException("Number "
-                + number + " is already in the waiting list");
+    <span class="tk-k">public void </span><span class="tk-f">addNumber</span>(<span class="tk-k">int </span>number) {
+        <span class="tk-k">if </span>(items.<span class="tk-f">contains</span>(number)) {
+            <span class="tk-k">throw new </span>IllegalArgumentException(<span class="tk-s">"Number "
+                </span>+ number + <span class="tk-s">" is already in the waiting list"</span>);
         }
-        items.add(number);
+        items.<span class="tk-f">add</span>(number);
     }
 
-    public int addRandomNumber() {
-        int number;
-        do {
-            number = random.nextInt(1000) + 1;
-        } while (items.contains(number));
+    <span class="tk-k">public int </span><span class="tk-f">addRandomNumber</span>() {
+        <span class="tk-k">int </span>number;
+        <span class="tk-k">do </span>{
+            number = random.<span class="tk-f">nextInt</span>(<span class="tk-n">1000</span>) + <span class="tk-n">1</span>;
+        } <span class="tk-k">while </span>(items.<span class="tk-f">contains</span>(number));
 
-        items.add(number);
-        return number;
+        items.<span class="tk-f">add</span>(number);
+        <span class="tk-k">return </span>number;
     }
 
-    public Integer drawNumber() {
-        if (items.isEmpty()) {
-            return null;
+    <span class="tk-k">public </span>Integer <span class="tk-f">drawNumber</span>() {
+        <span class="tk-k">if </span>(items.<span class="tk-f">isEmpty</span>()) {
+            <span class="tk-k">return </span><span class="tk-n">null</span>;
         }
-        return items.remove(0);
+        <span class="tk-k">return </span>items.<span class="tk-f">remove</span>(<span class="tk-n">0</span>);
     }
 }</pre>
 </div>
@@ -2424,28 +2427,28 @@ Output: A list L containing the vertices of CH(P) in clockwise order.
 </div>
 <details class="answer"><summary>答案 (先自己做再看)</summary>
 <div class="zh">
-<pre data-lang="java">/**
+<pre data-lang="java"><span class="tk-c">/**
  * A first-in, first-out queue of distinct ticket numbers for managing
  * people who wait for their turn.
  *
  * &lt;p&gt;Numbers are drawn in the order in which they were added. A number
  * can be in the list at most once. This class is not thread-safe.
  */
-public class WaitingList {
+</span><span class="tk-k">public class </span><span class="tk-f">WaitingList </span>{
 
-    /** Creates an empty waiting list. */
-    public WaitingList() { … }
+    <span class="tk-c">/** Creates an empty waiting list. */
+    </span><span class="tk-k">public </span><span class="tk-f">WaitingList</span>() { … }
 
-    /**
+    <span class="tk-c">/**
      * Appends the given number to the end of the waiting list.
      *
      * @param number the number to add
      * @throws IllegalArgumentException if {@code number} is already
      *         in the waiting list
      */
-    public void addNumber(int number) { … }
+    </span><span class="tk-k">public void </span><span class="tk-f">addNumber</span>(<span class="tk-k">int </span>number) { … }
 
-    /**
+    <span class="tk-c">/**
      * Appends a randomly chosen number between 1 and 1000 (inclusive)
      * that is not yet in the waiting list, and returns it.
      *
@@ -2454,15 +2457,15 @@ public class WaitingList {
      *
      * @return the number that was added
      */
-    public int addRandomNumber() { … }
+    </span><span class="tk-k">public int </span><span class="tk-f">addRandomNumber</span>() { … }
 
-    /**
+    <span class="tk-c">/**
      * Removes and returns the number at the front of the waiting list.
      *
      * @return the number that was added earliest, or {@code null} if the
      *         waiting list is empty
      */
-    public Integer drawNumber() { … }
+    </span><span class="tk-k">public </span>Integer <span class="tk-f">drawNumber</span>() { … }
 }</pre>
   <p>要点: 第一句是独立的摘要 (Javadoc 会把它放进方法总览); 写清楚边界情况: 号码范围是否包含 1000 (<code class="lc">nextInt(1000) + 1</code> 给出 1 到 1000)、空队列时返回 <code>null</code> 而不是抛异常; 写出读代码才能发现的陷阱: 1000 个号码都被占用时 <code>addRandomNumber</code> 会<b>死循环</b>. 文档如实写出这一点, 同时也该向维护者报告这个缺陷 (例如改为抛出 <code>IllegalStateException</code>). 构造器的注释可以很短, <span class="nb">但不能没有.</span></p>
 </div>

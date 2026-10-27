@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1105,6 +1102,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 16.6; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #c7e481 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #aac46a; --syn-f: #abeccb; --syn-s: #a8baff; --syn-n: #72d9ee; --syn-b: #b2ad81; --syn-c: #898f7e; --syn-p: #898f7e; }
+  html[data-mode="day"] { --syn-k: #576d00; --syn-f: #065238; --syn-s: #4b5bac; --syn-n: #067080; --syn-b: #5a5422; --syn-c: #666c59; --syn-p: #666c59; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1247,7 +1250,7 @@
 <div class="card de">
   <span class="folie">Slide 14</span>
   <p><b>Javadoc Example</b></p>
-<pre data-lang="java">/**
+<pre data-lang="java"><span class="tk-c">/**
  * Returns the Unicode code point at the specified index. The
  * index refers to {@code char} values and ranges from
  * {@code 0} to {@code length() - 1}.
@@ -1259,7 +1262,7 @@
  *         of this string
  * @since 1.5
  */
-public int codePointAt(int index) {</pre>
+</span><span class="tk-k">public int </span><span class="tk-f">codePointAt</span>(<span class="tk-k">int </span>index) {</pre>
   <p class="src"><sup>1</sup> Adapted from the Java 21 documentation at <code class="lc">https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#codePointAt(int)</code>.</p>
 </div>
 <div class="card de">
@@ -1298,18 +1301,18 @@ public int codePointAt(int index) {</pre>
   <span class="folie">Slide 17</span>
   <p><b>Code Examples</b></p>
   <p>Compare:</p>
-<pre data-lang="java" class="bad">JPanel p = new JPanel(new GridLayout(0, 1));
-p.add(cb);
-p.add(gb);
-p.add(hb);
-p.add(tb);
-add(p, BorderLayout.LINE_START);</pre>
-<pre data-lang="java" class="good">JPanel checkPanel = new JPanel(new GridLayout(0, 1));
-checkPanel.add(chinButton);
-checkPanel.add(glassesButton);
-checkPanel.add(hairButton);
-checkPanel.add(teethButton);
-add(checkPanel, BorderLayout.LINE_START);</pre>
+<pre class="bad" data-lang="java">JPanel p = <span class="tk-k">new </span>JPanel(<span class="tk-k">new </span>GridLayout(<span class="tk-n">0</span>, <span class="tk-n">1</span>));
+p.<span class="tk-f">add</span>(cb);
+p.<span class="tk-f">add</span>(gb);
+p.<span class="tk-f">add</span>(hb);
+p.<span class="tk-f">add</span>(tb);
+add(p, BorderLayout.<span class="tk-f">LINE_START</span>);</pre>
+<pre class="good" data-lang="java">JPanel checkPanel = <span class="tk-k">new </span>JPanel(<span class="tk-k">new </span>GridLayout(<span class="tk-n">0</span>, <span class="tk-n">1</span>));
+checkPanel.<span class="tk-f">add</span>(chinButton);
+checkPanel.<span class="tk-f">add</span>(glassesButton);
+checkPanel.<span class="tk-f">add</span>(hairButton);
+checkPanel.<span class="tk-f">add</span>(teethButton);
+add(checkPanel, BorderLayout.<span class="tk-f">LINE_START</span>);</pre>
 </div>
 <div class="zh">
   <p>两段代码做的事完全一样: 建一个单列网格布局的面板, 放进四个复选框, 再把面板放到窗口左侧 (LINE_START). 第一段用 p、cb、gb 这样的单字母或缩写名字, 读者猜不出它们是什么; 第二段用 checkPanel、chinButton、glassesButton 这样能说明含义的名字, 一读就懂 (例子来自 Java Swing 教程里的复选框演示: 给卡通脸选下巴、眼镜、头发、<span class="nb">牙齿).</span></p>

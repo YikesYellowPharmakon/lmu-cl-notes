@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1111,6 +1108,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 11.1; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81e48d 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #82cc89; --syn-f: #9cece3; --syn-s: #c4b0f7; --syn-n: #dfc679; --syn-b: #a1b289; --syn-c: #839183; --syn-p: #839183; }
+  html[data-mode="day"] { --syn-k: #09782a; --syn-f: #06504b; --syn-s: #6c50a3; --syn-n: #786001; --syn-b: #485a2e; --syn-c: #5e6e5f; --syn-p: #5e6e5f; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1262,32 +1265,32 @@
 </div>
 <details class="answer"><summary>答案 (先自己做再看)</summary>
   <p>建表顺序: Game, User, Review, 最后 OwnedGames <span class="nb">(它引用另外三张表).</span></p>
-<pre data-lang="sql">CREATE TABLE Game (
-  GameID            INTEGER PRIMARY KEY,
-  Name              VARCHAR(300) NOT NULL,
-  Publisher         VARCHAR(200),
-  Preis             DECIMAL(5,2) NOT NULL CHECK (Preis >= 0),
-  Erscheinungsdatum BIGINT
-);
+<pre data-lang="sql"><span class="tk-k">CREATE TABLE </span>Game (
+  GameID            <span class="tk-b">INTEGER </span><span class="tk-k">PRIMARY KEY</span>,
+  Name              <span class="tk-b">VARCHAR</span>(<span class="tk-n">300</span>) <span class="tk-k">NOT NULL</span>,
+  Publisher         <span class="tk-b">VARCHAR</span>(<span class="tk-n">200</span>),
+  Preis             <span class="tk-b">DECIMAL</span>(<span class="tk-n">5</span>,<span class="tk-n">2</span>) <span class="tk-k">NOT NULL CHECK </span>(Preis &gt;= <span class="tk-n">0</span>),
+  Erscheinungsdatum <span class="tk-b">BIGINT
+</span>);
 
-CREATE TABLE "User" (
-  UserID        INTEGER PRIMARY KEY,
-  Nutzerkennung VARCHAR(200) NOT NULL
-);
+<span class="tk-k">CREATE TABLE </span><span class="tk-s">"User" </span>(
+  UserID        <span class="tk-b">INTEGER </span><span class="tk-k">PRIMARY KEY</span>,
+  Nutzerkennung <span class="tk-b">VARCHAR</span>(<span class="tk-n">200</span>) <span class="tk-k">NOT NULL
+</span>);
 
-CREATE TABLE Review (
-  ReviewID   INTEGER PRIMARY KEY,
-  Rating     DECIMAL(3,1) NOT NULL CHECK (Rating >= 0 AND Rating <= 10),
-  ReviewText VARCHAR(2000),
-  Datum      DATE NOT NULL
-);
+<span class="tk-k">CREATE TABLE </span>Review (
+  ReviewID   <span class="tk-b">INTEGER </span><span class="tk-k">PRIMARY KEY</span>,
+  Rating     <span class="tk-b">DECIMAL</span>(<span class="tk-n">3</span>,<span class="tk-n">1</span>) <span class="tk-k">NOT NULL CHECK </span>(Rating &gt;= <span class="tk-n">0 </span><span class="tk-k">AND </span>Rating &lt;= <span class="tk-n">10</span>),
+  ReviewText <span class="tk-b">VARCHAR</span>(<span class="tk-n">2000</span>),
+  Datum      <span class="tk-b">DATE </span><span class="tk-k">NOT NULL
+</span>);
 
-CREATE TABLE OwnedGames (
-  PurchaseID INTEGER PRIMARY KEY,
-  GameID     INTEGER REFERENCES Game(GameID) ON DELETE CASCADE,
-  UserID     INTEGER REFERENCES "User"(UserID) ON DELETE CASCADE,
-  ReviewID   INTEGER REFERENCES Review(ReviewID) ON DELETE SET NULL,
-  Playtime   DOUBLE PRECISION DEFAULT 0.0 CHECK (Playtime >= 0)
+<span class="tk-k">CREATE TABLE </span>OwnedGames (
+  PurchaseID <span class="tk-b">INTEGER </span><span class="tk-k">PRIMARY KEY</span>,
+  GameID     <span class="tk-b">INTEGER </span><span class="tk-k">REFERENCES </span>Game(GameID) <span class="tk-k">ON DELETE CASCADE</span>,
+  UserID     <span class="tk-b">INTEGER </span><span class="tk-k">REFERENCES </span><span class="tk-s">"User"</span>(UserID) <span class="tk-k">ON DELETE CASCADE</span>,
+  ReviewID   <span class="tk-b">INTEGER </span><span class="tk-k">REFERENCES </span>Review(ReviewID) <span class="tk-k">ON DELETE SET NULL</span>,
+  Playtime   DOUBLE <span class="tk-k">PRECISION DEFAULT </span><span class="tk-n">0</span>.<span class="tk-n">0 </span><span class="tk-k">CHECK </span>(Playtime &gt;= <span class="tk-n">0</span>)
 );</pre>
   <ul>
     <li><b>Preis DECIMAL(5,2)</b>: 两位小数, 整数部分最多三位 (到 999), 一共 5 位, 最大能存 999.99. 钱用精确小数, 不用浮点. 实测 PostgreSQL: 插入 1000.00 报 <code class="lc">numeric field overflow</code>, 插入 −1.00 报 <code class="lc">violates check constraint "game_preis_check"</code>.</li>
@@ -1348,13 +1351,13 @@ CREATE TABLE OwnedGames (
 </div>
 <details class="answer"><summary>答案 (先自己做再看)</summary>
   <p><b>a)</b> 现有的 ID 是 0 到 2, <span class="nb">新行取 3 和 4:</span></p>
-<pre data-lang="sql">INSERT INTO CompatibilityType (CompatTypeID, CompatName)
-VALUES (3, 'Vapor-Deck'), (4, 'Gabe-Cube');</pre>
+<pre data-lang="sql"><span class="tk-k">INSERT INTO </span>CompatibilityType (CompatTypeID, CompatName)
+<span class="tk-k">VALUES </span>(<span class="tk-n">3</span>, <span class="tk-s">'Vapor-Deck'</span>), (<span class="tk-n">4</span>, <span class="tk-s">'Gabe-Cube'</span>);</pre>
   <p><b>b)</b> 两个新值分别是 28 和 27 个字符, 超过了 17, 所以把这一列放宽到至少 <span class="nb">28:</span></p>
-<pre data-lang="sql">ALTER TABLE CompatibilityType ALTER COLUMN CompatName TYPE VARCHAR(28);</pre>
+<pre data-lang="sql"><span class="tk-k">ALTER TABLE </span>CompatibilityType <span class="tk-k">ALTER COLUMN </span>CompatName <span class="tk-k">TYPE </span><span class="tk-b">VARCHAR</span>(<span class="tk-n">28</span>);</pre>
   <p>标准 SQL 的写法是 <code class="lc">ALTER COLUMN CompatName SET DATA TYPE VARCHAR(28)</code>, PostgreSQL 两种都接受; 课件 Folie 32 的 <code>MODIFY</code> 是 Oracle 的写法, 在 PostgreSQL 里报语法错误. 实测 PostgreSQL: 改之前 <code class="lc">UPDATE CompatibilityType SET CompatName = 'Vapor-Deck-Linux-SteamOS-x86' WHERE CompatTypeID = 3</code> 报 <code class="lc">value too long for type character varying(17)</code>; 改之后同一条 UPDATE 成功. 题目只要求改表定义; 真要换成新名字, 再对 3 和 4 各执行一次这样的 <span class="nb">UPDATE.</span></p>
   <p><b>c)</b> 按主键删:</p>
-<pre data-lang="sql">DELETE FROM CompatibilityType WHERE CompatTypeID IN (3, 4);</pre>
+<pre data-lang="sql"><span class="tk-k">DELETE FROM </span>CompatibilityType <span class="tk-k">WHERE </span>CompatTypeID <span class="tk-k">IN </span>(<span class="tk-n">3</span>, <span class="tk-n">4</span>);</pre>
   <p>按主键删最稳. 写成 <code class="lc">WHERE CompatName IN ('Vapor-Deck', 'Gabe-Cube')</code> 也对, 但如果之前已经用 UPDATE 改了名, 这个条件就选不中任何行了. 如果 GameCompat 里已经有行引用 3 或 4, DELETE 会被外键拒绝 (实测 PostgreSQL 和 DuckDB 都报错, 因为 GameCompat 的外键没写 ON DELETE CASCADE), 要先删 GameCompat <span class="nb">里的那些行.</span></p>
   <p><b>易错:</b> ① DELETE 删行, 表还在; DROP TABLE 连表一起删, 这里不能用. ② a) 不能省略 CompatTypeID: 它是主键, 没有自增, 省略就是 NULL, 违反主键约束. ③ b) 只改长度就够了, <span class="nb">不需要先删表再重建.</span></p>
 </details>

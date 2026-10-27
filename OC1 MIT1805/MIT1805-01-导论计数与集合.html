@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1101,6 +1098,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 23.7; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81e4a4 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #75ce94; --syn-f: #9aecea; --syn-s: #ccaef2; --syn-n: #e6c27a; --syn-b: #9bb48d; --syn-c: #819185; --syn-p: #819185; }
+  html[data-mode="day"] { --syn-k: #0b7742; --syn-f: #02504f; --syn-s: #744d9e; --syn-n: #7e5d02; --syn-b: #425b32; --syn-c: #5c6e61; --syn-p: #5c6e61; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1463,7 +1466,7 @@
   <p>We also talk about the permutations of <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span></span></span></span> things out of a set of <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> things. We show what this means with an <span class="nb">example.</span></p>
   <p><b>Example 7.</b> List all the permutations of 3 elements out of the set <span class="nb"><span class="mt"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">b</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">c</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">d</span><span class="mclose">}</span></span></span></span>.</span><!--/mt--></span></p>
   <p><b>Solution:</b> This is a longer <span class="nb">list,</span></p>
-  <pre>abc  acb  bac  bca  cab  cba
+  <pre data-lang="text">abc  acb  bac  bca  cab  cba
 abd  adb  bad  bda  dab  dba
 acd  adc  cad  cda  dac  dca
 bcd  bdc  cbd  cdb  dbc  dcb</pre>

@@ -103,9 +103,6 @@
     background: var(--chip); padding: 1px 5px; border-radius: 5px;
   }
   pre code { background: none; padding: 0; }
-  .c { color: #8fbf98; }
-  .s { color: #f2a27f; }
-  .k { color: #8ab4f8; font-weight: 600; }
   a { color: var(--accent); }
   .src { color: var(--muted); font-size: 14px; }
   blockquote { margin: 8px 0; padding: 4px 14px; border-left: 3px solid var(--line); font-style: italic; }
@@ -1095,6 +1092,12 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 8; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #81e4ba 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #63d0a4; --syn-f: #99ebf4; --syn-s: #d6aaeb; --syn-n: #dcc77a; --syn-b: #94b594; --syn-c: #7f9188; --syn-p: #7f9188; }
+  html[data-mode="day"] { --syn-k: #0d7554; --syn-f: #024f56; --syn-s: #7e4996; --syn-n: #766202; --syn-b: #395d3a; --syn-c: #596f64; --syn-p: #596f64; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
@@ -1264,16 +1267,16 @@
     <li>语言之间的 <b>transduction 转换</b> → <b>变换任务</b>: 把输入字符串转换成输出字符串. 例: 「3 + 5 等于几?」= 输入串 "3+5", <span class="nb">输出串 "8".</span> </li>
   </ol>
   <p>用 Python 写出这两种任务 <span class="nb">(实测):</span> </p>
-<pre><code>&gt;&gt;&gt; <span class="k">import</span> re
-&gt;&gt;&gt; <span class="k">def</span> gerade(s):                 <span class="c"># 分类: s 属于「偶数」这个语言吗?</span>
-...     <span class="k">return</span> re.fullmatch(<span class="s">r"-?[0-9]*[02468]"</span>, s) <span class="k">is not</span> None
-...
-&gt;&gt;&gt; <span class="k">def</span> addiere(s):                <span class="c"># 变换: 输入串 → 输出串</span>
-...     <span class="k">return</span> str(sum(int(x) <span class="k">for</span> x <span class="k">in</span> s.split(<span class="s">"+"</span>)))
-...
-&gt;&gt;&gt; [gerade(s) <span class="k">for</span> s <span class="k">in</span> [<span class="s">"4"</span>, <span class="s">"17"</span>, <span class="s">"-30"</span>, <span class="s">"abc"</span>]]
+<pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">import </span>re
+<span class="tk-p">&gt;&gt;&gt; </span><span class="tk-k">def </span><span class="tk-f">gerade</span>(s):                 <span class="tk-c"># 分类: s 属于「偶数」这个语言吗?
+</span><span class="tk-p">...     </span><span class="tk-k">return </span>re.fullmatch(<span class="tk-s">r"-?[0-9]*[02468]"</span>, s) <span class="tk-k">is not </span><span class="tk-n">None
+</span><span class="tk-p">...
+&gt;&gt;&gt; </span><span class="tk-k">def </span><span class="tk-f">addiere</span>(s):                <span class="tk-c"># 变换: 输入串 → 输出串
+</span><span class="tk-p">...     </span><span class="tk-k">return </span><span class="tk-b">str</span>(<span class="tk-b">sum</span>(<span class="tk-b">int</span>(x) <span class="tk-k">for </span>x <span class="tk-k">in </span>s.split(<span class="tk-s">"+"</span>)))
+<span class="tk-p">...
+&gt;&gt;&gt; </span>[gerade(s) <span class="tk-k">for </span>s <span class="tk-k">in </span>[<span class="tk-s">"4"</span>, <span class="tk-s">"17"</span>, <span class="tk-s">"-30"</span>, <span class="tk-s">"abc"</span>]]
 [True, False, True, False]
-&gt;&gt;&gt; addiere(<span class="s">"3+5"</span>)
+<span class="tk-p">&gt;&gt;&gt; </span>addiere(<span class="tk-s">"3+5"</span>)
 '8'</code></pre>
   <p>注意「偶数」这个问题只需看<b>最后一位</b>, 一个正则表达式就能判断. 这门课后面会研究: 哪些语言能用正则表达式 / 有限自动机判断, <span class="nb">哪些需要更强的工具.</span> </p>
 </div>
