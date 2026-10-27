@@ -267,7 +267,6 @@
   }
   html { background: var(--bg); }
   body { background: var(--bg); }
-  ::selection { background: color-mix(in srgb, var(--glow) 32%, transparent); color: #fff; }
   main, header { position: relative; z-index: 1; }
   #bg { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
   #trail { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 60; pointer-events: none; }
@@ -397,7 +396,6 @@
       radial-gradient(700px 520px at 92% 18%, color-mix(in srgb, var(--glow) 7%, transparent), transparent 70%),
       linear-gradient(162deg, var(--bg-a) 0%, var(--bg-b) 46%, var(--bg-c) 100%) !important; background-attachment: fixed !important; }
   body { background: transparent !important; }
-  ::selection { background: color-mix(in srgb, var(--k-warn) 45%, transparent); color: #fff; }
 
   /* ---------- 正文里的颜色 ---------- */
   /* ---------- 进度条: 一条细线, 像印在纸上的刻度尺. 底轨极淡; 读过的部分是偏灰的主色; 前端一根 1×5 的小刻针; 每个小节下面一道短刻痕 ---------- */
@@ -609,7 +607,8 @@
      没滚动时胶囊收成右上角的一颗小圆 (只有这个开关), 滚过目录后再展开成完整的胶囊. */
   html[data-mode="day"] { color-scheme: light; }
   html[data-mode="day"] body::before { opacity: .05; filter: invert(1); }
-  html[data-mode="day"] ::selection { color: var(--ink); }
+  /* 选中文字 (2026-10-27): 白天和夜晚同一逻辑 = 本课主色 --glow 的 28% 淡底; 字色夜晚白、白天正文墨色. 纠错红只给纠错框 */
+  html[data-mode="day"] ::selection { background: color-mix(in srgb, var(--glow) 28%, transparent); color: var(--ink); }
   html[data-mode="day"] main pre, html[data-mode="day"] main pre code { color: var(--ink); }
   #toc-pill .ring { width: 18px !important; height: 18px !important; cursor: pointer; }
   #toc-pill .ring::after { inset: 1.5px !important; }

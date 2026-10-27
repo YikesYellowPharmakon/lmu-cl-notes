@@ -261,6 +261,12 @@
   .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; text-align: center; }
   .math-block .katex-display { margin: 0.4em 0; }
 </style>
+<style id="syn-pal">
+  /* 代码语法高亮 (syn.py): 从本课主色 #c7e481 按 OKLCH 推出, 夜晚 / 白天各一套 */
+  :root { --syn-k: #aac46a; --syn-f: #abeccb; --syn-s: #a8baff; --syn-n: #72d9ee; --syn-b: #b2ad81; --syn-c: #898f7e; --syn-p: #898f7e; }
+  html[data-mode="day"] { --syn-k: #576d00; --syn-f: #065238; --syn-s: #4b5bac; --syn-n: #067080; --syn-b: #5a5422; --syn-c: #666c59; --syn-p: #666c59; }
+  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
+</style>
 <style id="glass">
   /* ===== 视觉层 v7 (= 样例 v21) =====
      点阵背景与渐变底色; 模块: 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.
@@ -277,7 +283,6 @@
   }
   html { background: var(--bg); }
   body { background: var(--bg); }
-  ::selection { background: color-mix(in srgb, var(--glow) 32%, transparent); color: #fff; }
   main, header { position: relative; z-index: 1; }
   #bg { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
   #trail { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 60; pointer-events: none; }
@@ -407,7 +412,6 @@
       radial-gradient(700px 520px at 92% 18%, color-mix(in srgb, var(--glow) 7%, transparent), transparent 70%),
       linear-gradient(162deg, var(--bg-a) 0%, var(--bg-b) 46%, var(--bg-c) 100%) !important; background-attachment: fixed !important; }
   body { background: transparent !important; }
-  ::selection { background: color-mix(in srgb, var(--k-warn) 45%, transparent); color: #fff; }
 
   /* ---------- 正文里的颜色 ---------- */
   /* ---------- 进度条: 一条细线, 像印在纸上的刻度尺. 底轨极淡; 读过的部分是偏灰的主色; 前端一根 1×5 的小刻针; 每个小节下面一道短刻痕 ---------- */
@@ -619,7 +623,8 @@
      没滚动时胶囊收成右上角的一颗小圆 (只有这个开关), 滚过目录后再展开成完整的胶囊. */
   html[data-mode="day"] { color-scheme: light; }
   html[data-mode="day"] body::before { opacity: .05; filter: invert(1); }
-  html[data-mode="day"] ::selection { color: var(--ink); }
+  /* 选中文字 (2026-10-27): 白天和夜晚同一逻辑 = 本课主色 --glow 的 28% 淡底; 字色夜晚白、白天正文墨色. 纠错红只给纠错框 */
+  html[data-mode="day"] ::selection { background: color-mix(in srgb, var(--glow) 28%, transparent); color: var(--ink); }
   html[data-mode="day"] main pre, html[data-mode="day"] main pre code { color: var(--ink); }
   #toc-pill .ring { width: 18px !important; height: 18px !important; cursor: pointer; }
   #toc-pill .ring::after { inset: 1.5px !important; }
@@ -1107,12 +1112,6 @@
 </style>
 <style id="glass-fit">h1 { --h1n: 13.1; }</style>
 <script id="glass-mode">try{if(localStorage.getItem("lmu-notes-mode")==="day")document.documentElement.setAttribute("data-mode","day")}catch(e){}try{if(matchMedia("(max-width: 640px) and (hover: none) and (pointer: coarse)").matches)document.documentElement.classList.add("lite")}catch(e){}</script>
-<style id="syn-pal">
-  /* 代码语法高亮 (syn.py): 从本课主色 #c7e481 按 OKLCH 推出, 夜晚 / 白天各一套 */
-  :root { --syn-k: #aac46a; --syn-f: #abeccb; --syn-s: #a8baff; --syn-n: #72d9ee; --syn-b: #b2ad81; --syn-c: #898f7e; --syn-p: #898f7e; }
-  html[data-mode="day"] { --syn-k: #576d00; --syn-f: #065238; --syn-s: #4b5bac; --syn-n: #067080; --syn-b: #5a5422; --syn-c: #666c59; --syn-p: #666c59; }
-  main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
-</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
