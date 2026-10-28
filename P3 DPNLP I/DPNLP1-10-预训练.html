@@ -1045,6 +1045,21 @@
   html:not([data-mode="day"]) .codebox::before { background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--glow) 20%, transparent), transparent) !important; }
   html:not([data-mode="day"]) .cb-head { background: color-mix(in srgb, var(--bg-b) 92%, #000) !important; border-bottom-color: rgba(255,255,255,.028) !important; }
   html:not([data-mode="day"]) main .codebox { box-shadow: inset 0 1px 0 rgba(255,255,255,.03), 0 0 0 1px rgba(255,255,255,.012), 0 2px 3px -2px var(--ao), 0 16px 34px -26px var(--ao) !important; }
+  /* ================= v7.8: 正文里的 h4 (2026-10-28) =================
+     正文 h4 (小节下的再分节, 如 MGTN 的 0.3.1、EICL 文献合集的 4.3.1、练习单的 a) b) 小题) 原来还是正文衬线体、没有解密, 和 h2 / h3 不像一套.
+     现在和 h3 同一种字体、颜色、刻痕阴影和解密 (glass7.js 的标题选择器加了 main h4), 字号小一档; 原文卡片里的 h4 是原文的一部分, 不动. */
+  main h4:not(.card *) { font-family: var(--hfont) !important; font-synthesis: none; font-weight: 500 !important; font-size: 15px !important; letter-spacing: .01em !important;
+    font-kerning: none !important; font-variant-ligatures: none !important; font-feature-settings: "kern" 0, "liga" 0, "calt" 0 !important; overflow: visible; }
+  html:not([data-mode="day"]) main h4:not(.card *) { color: color-mix(in srgb, color-mix(in srgb, var(--glow) 12%, var(--ink)) 80%, var(--bg-b)) !important; text-shadow: 0 1px 0 rgba(0,0,0,.6); }
+  html[data-mode="day"] main h4:not(.card *) { color: color-mix(in srgb, var(--glow) 12%, var(--ink)) !important; text-shadow: 0 1px 0 rgba(255,255,255,.75); }
+  main h4:not(.card *) .de-title { font-family: var(--mono) !important; font-weight: 400 !important; font-size: 9.5px !important; text-transform: uppercase; letter-spacing: .12em !important; line-height: 1.6 !important;
+    display: block; margin-top: 3px !important; font-synthesis: none; font-kerning: none !important; font-variant-ligatures: none !important; text-shadow: none; }
+  html:not([data-mode="day"]) main h4:not(.card *) .de-title { color: color-mix(in srgb, var(--muted) 82%, var(--glow)) !important; opacity: .9; }
+  html[data-mode="day"] main h4:not(.card *) .de-title { color: color-mix(in srgb, var(--muted) 82%, var(--glow)) !important; }
+  main h4 .ch, main h4 .ht .seg, main h4 .de-title .seg { font: inherit !important; letter-spacing: inherit !important; line-height: inherit !important; text-transform: inherit !important; margin: 0 !important; padding: 0 !important; vertical-align: baseline !important; }
+  main h4 .ch { display: inline !important; }
+  @media (max-width: 560px) { main h4:not(.card *) { font-size: 14.5px !important; } }
+  @media print { main h4 { text-shadow: none !important; } }
 </style>
 <style id="glass-pal">
   :root {
@@ -1645,7 +1660,7 @@
     var rgba = function (c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + (+a).toFixed(3) + ')'; };
 
     /* ================= 结构整理 (运行时, 文件不变) ================= */
-    $$('h1, main h2, main h3').forEach(function (h) {   /* v7.1e: 大标题也拆出 .ht, 和小节标题一样解密 */
+    $$('h1, main h2, main h3, main h4:not(.card *)').forEach(function (h) {   /* v7.1e: 大标题也拆出 .ht, 和小节标题一样解密 */
       if (h.querySelector(':scope > .ht')) return;
       var ht = document.createElement('span'), n = h.firstChild; ht.className = 'ht';
       while (n && !(n.nodeType === 1 && (n.tagName === 'BR' || n.tagName === 'SMALL' || n.classList.contains('de-title')))) { var nx = n.nextSibling; ht.appendChild(n); n = nx; }
@@ -1708,7 +1723,7 @@
     var setX = function (sp, on) { if (on) { sp.setAttribute('data-g', rndG(sp.textContent)); sp.classList.add('x'); } else sp.classList.remove('x'); };
     /* 解密时把字拆成一个个 span, 字距和换行可能和原来差一点点 (曾经让「起步: 登录 CIP 的 Linux 服务器」的副标题多折一行, 把下面的内容往下推).
        所以动画期间锁住所在标题的高度, 并把每个分段 (.seg) 固定在原来的宽度、不许折行; 结束后放开. 任何改写标题文字的效果都走这里 */
-    var lockBox = function (el) { var h = el.closest && el.closest('h1, h2, h3'); if (!h) return null; if (h._lkn) { h._lkn++; return h; } h._lkn = 1;
+    var lockBox = function (el) { var h = el.closest && el.closest('h1, h2, h3, h4'); if (!h) return null; if (h._lkn) { h._lkn++; return h; } h._lkn = 1;
       h.style.height = getComputedStyle(h).height; h._segs = $$('.seg', h).map(function (s) { s.style.width = s.getBoundingClientRect().width + 'px'; s.style.whiteSpace = 'nowrap'; return s; }); return h; };
     var unlockBox = function (h) { if (!h || --h._lkn > 0) return; h._lkn = 0; h.style.height = ''; (h._segs || []).forEach(function (s) { s.style.width = ''; s.style.whiteSpace = ''; }); h._segs = null; };
     var decrypt = function (h, DUR) { DUR = DUR || 800; if (h._dtok) return; var lk = lockBox(h), gs = splitChars(h); if (!gs.length) { unlockBox(lk); return; }
@@ -1755,12 +1770,12 @@
 
     /* ================= 小节标题: 描边编号画出 → 解密; 悬停再解密; 当前节信号干扰 ================= */
     if (fx) {
-      var enter = function (h) { h.classList.add('seen'); decrypt(h.querySelector(':scope > .ht'), h.tagName === 'H3' ? 600 : h.tagName === 'H1' ? 1000 : 800); var dtl = h.querySelector(':scope > .de-title'); if (dtl) setTimeout(function () { decrypt(dtl, 760); }, 260); };
+      var enter = function (h) { h.classList.add('seen'); decrypt(h.querySelector(':scope > .ht'), /^H[34]$/.test(h.tagName) ? 600 : h.tagName === 'H1' ? 1000 : 800); var dtl = h.querySelector(':scope > .de-title'); if (dtl) setTimeout(function () { decrypt(dtl, 760); }, 260); };
       var hio = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { enter(e.target); hio.unobserve(e.target); } }); }, { rootMargin: '0px 0px -12% 0px' });
-      $$('h1, main h2, main h3').filter(function (h) { return h.querySelector(':scope > .ht'); }).forEach(function (h) {
+      $$('h1, main h2, main h3, main h4:not(.card *)').filter(function (h) { return h.querySelector(':scope > .ht'); }).forEach(function (h) {
         var ht = h.querySelector(':scope > .ht'), lastHover = 0;
         if (h.getBoundingClientRect().top < innerHeight * .88) enter(h); else hio.observe(h);
-        h.addEventListener('pointerenter', function (e) { var now = performance.now(); if (e.pointerType === 'mouse' && now - lastHover > 1200) { lastHover = now; decrypt(ht, h.tagName === 'H3' ? 520 : 650); var dtl = h.querySelector(':scope > .de-title'); if (dtl) setTimeout(function () { decrypt(dtl, 600); }, 160); } });
+        h.addEventListener('pointerenter', function (e) { var now = performance.now(); if (e.pointerType === 'mouse' && now - lastHover > 1200) { lastHover = now; decrypt(ht, /^H[34]$/.test(h.tagName) ? 520 : 650); var dtl = h.querySelector(':scope > .de-title'); if (dtl) setTimeout(function () { decrypt(dtl, 600); }, 160); } });
       });
       var glitch = function () { var h = h2s.filter(function (x) { return x.classList.contains('live'); })[0], ht = h && h.querySelector(':scope > .ht');
         if (ht && !document.hidden) { var r = ht.getBoundingClientRect(); if (r.bottom > 0 && r.top < innerHeight) glitchOnce(ht); } setTimeout(glitch, 6000 + Math.random() * 4000); };

@@ -330,7 +330,7 @@ Anderes Bsp., mit $\mathbb{N} = \{1, 2, 3, \ldots \}$: $M = \{x \mid x \in \math
 
 ### 0.3 集合之间的关系与集合运算 (Beziehungen zwischen Mengen · Operationen mit Mengen)
 
-#### 集合之间的关系 (Beziehungen zwischen Mengen)
+#### 0.3.1 集合之间的关系 (Beziehungen zwischen Mengen)
 
 Für Mengen A, B sagen wir, dass A eine **Teilmenge** von B ist, falls alle Elemente von A auch Elemente von B sind, d. h., falls gilt: $\forall x\colon x \in A \Rightarrow x \in B$. In diesem Fall schreiben wir $A \subseteq B$.
 
@@ -373,7 +373,7 @@ Falls $A \subseteq B$ ist, aber $A \ne B$, dann schreiben wir auch $A \subsetneq
 
 **原文小错:** 第二种写法少了括号, 写成 $\forall x\colon x \in A \Rightarrow x \in B \land x \in B \Rightarrow x \in A$. $\land$ 比 $\Rightarrow$ 结合得紧, 按惯例它会被读成 $x \in A \Rightarrow (x \in B \land x \in B) \Rightarrow x \in A$, 意思就不对了. 应写成 $\forall x\colon (x \in A \Rightarrow x \in B) \land (x \in B \Rightarrow x \in A)$.
 
-#### 集合运算 (Operationen mit Mengen)
+#### 0.3.2 集合运算 (Operationen mit Mengen)
 
 Die **Potenzmenge** einer Menge M ist die Menge aller Teilmengen von M.
 
@@ -691,7 +691,7 @@ Der **Rang** ist die maximale Anzahl linear unabhängiger Spalten und ebenso der
 
 $2\times 2$ 的情形有现成公式: $A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}$, 若 $ad - bc \ne 0$, 则 $A^{-1} = \frac{1}{ad - bc} \cdot \begin{bmatrix} d & -b \\ -c & a \end{bmatrix}$. $ad - bc = 0$ 时网格被压扁, 不可逆.
 
-#### 线性方程组 (Lineare Gleichungssysteme)
+#### 1.5.1 线性方程组 (Lineare Gleichungssysteme)
 
 Ein lineares Gleichungssystem schreibt man als $Ax = b$. Gesucht sind alle Vektoren x, die von A auf b geschickt werden.
 
@@ -945,7 +945,7 @@ Ein **Wendepunkt** verlangt einen Vorzeichenwechsel von f''. $f''(x_{0}) = 0$ al
 
 一条曲线按这个顺序看完: 定义域, 尤其分母何时为 0; 零点和 f(0); 对称性, $f(-x) = f(x)$ 关于 y 轴, $f(-x) = -f(x)$ 关于原点; 渐近线; 用 f' 划分单调区间; 用临界点、导数不存在的点和端点找极值, 再区分必要条件和充分条件; 用 f'' 看凹凸和拐点; 最后画图.
 
-#### 例子: f(x) = x³ − 3x (Ein Beispiel)
+#### 2.6.1 例子: f(x) = x³ − 3x (Ein Beispiel)
 
 f ist auf ganz $\mathbb{R}$ definiert und ungerade, denn $f(-x) = -f(x)$. Die Nullstellen sind 0 und $\pm \sqrt{3}$.
 
