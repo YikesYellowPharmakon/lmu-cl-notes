@@ -50,7 +50,7 @@ $\{1, \{2\}, 3\} \ne \{1, 2, 3\}$. Dagegen $\{1, 2, 3\} = \{3, 1, 2\}$. Ebenso g
 
 $\{a, a, b\}$ ist im strengen Sinne keine Menge. $\{a, b, c\}$ mit $a = b$ ist im strengen Sinne auch keine Menge. **Vereinbarung:** $\{a, a, b\} := \{a, b\}$.
 
-元素可以是任何能分清的对象: 水果和桌子放在一起 (M) 可以, 函数、数字、π 混在一起 (N) 也可以. **集合本身也能当元素**: P 只有两个元素, 一个是集合 O (全班同学), 一个是集合 $\mathbb{R}$. P 不是「全班同学加上所有实数」. 所以某位同学 $s \in O$, 但 $s \notin P$; $O \in P$, 但 $O \not\subset P$.
+元素可以是任何能分清的对象: 水果和桌子放在一起 (M) 可以, 函数、数字、π 混在一起 (N) 也可以. **集合本身也能当元素**: P 只有两个元素, 一个是集合 O (全班同学), 一个是集合 $\mathbb{R}$. P 不是「全班同学加上所有实数」. 所以某位同学 $s \in O$, 但 $s \notin P$; $O \in P$, 但 $O \nsubseteq P$.
 
 $\{1, \{2\}, 3\}$ 的三个元素是 1、集合 $\{2\}$、3. $\{2\}$ 是装着 2 的盒子, 不是 2 本身: $\{2\} \in \{1, \{2\}, 3\}$, 而 $2 \notin \{1, \{2\}, 3\}$. 两个集合相等要求元素完全相同, 所以它和 $\{1, 2, 3\}$ 不相等.
 
@@ -64,13 +64,82 @@ $\{1, \{2\}, 3\}$ 的三个元素是 1、集合 $\{2\}$、3. $\{2\}$ 是装着 2
 
 **Intensionale Darstellung.** Beschreibung der Elemente durch eine (oder mehrere) charakterisierende Eigenschaft(en). Bsp.: $\{x \mid x \text{ ist natürliche Zahl und } x \text{ ist gerade}\}$ (= {2, 4, 6, 8, …} in extensionaler Darstellung). Ebenso $M = \{ x \in \mathbb{R} \mid x^{2} < 4 \}$, gelesen „die Menge aller x in $\mathbb{R}$ mit $x^{2} < 4$“.
 
-**Zahlenbereiche.** $\mathbb{N} = \{1, 2, 3, \ldots \}$ (manchmal mit 0), ℤ die ganzen, $\mathbb{Q}$ die rationalen, $\mathbb{R}$ die reellen Zahlen; es gilt $\mathbb{N} \subseteq \mathbb{Z} \subseteq \mathbb{Q} \subseteq \mathbb{R}$.
-
 集合有两种写法. **Extensionale Darstellung 外延式** (列举法) 把元素一个个写在花括号里; 元素无穷多时用「…」, 前提是规律一眼看得出: $\{1, 2, 3, 4, \ldots \}$ 是全体正整数, $\{2, 3, \ldots \}$ 是从 2 起的整数. **Intensionale Darstellung 内涵式** (描述法) 写成「$\{\ \text{元素} \mid \text{要满足的性质}\ \}$」, 竖线读作「使得」. $\{x \mid x\ \text{是自然数且}\ x\ \text{是偶数}\}$ 用外延式写出来是 $\{2, 4, 6, 8, \ldots \}$. $\{ x \in \mathbb{R} \mid x^{2} < 4 \}$ 是开区间 (−2, 2), 这种集合没法一个个列出来, 只能用内涵式.
 
 集合只关心「谁在里面」, 不关心顺序; 重复写的元素按上面的约定只算一次. 这一点和后面的有序对 (a, b)、数列 $(a_{n})$ 正好相反.
 
-数集一层套一层: 自然数 $\subseteq$ 整数 $\subseteq$ 有理数 $\subseteq$ 实数. 德国教材里 $\mathbb{N}$ 有时含 0, 有时不含; 含 0 时常写 $\mathbb{N}_{0}$. 这份笔记里 $\mathbb{N} = \{1, 2, 3, \ldots \}$, 所以偶数的自然数是 $\{2, 4, 6, 8, \ldots \}$, 不含 0.
+**Spezielle Zahlenmengen.**
+
+$\mathbb{N} = \{1, 2, 3, 4, \ldots\}$ … Menge der natürlichen Zahlen
+
+$\mathbb{N}_0 = \{0, 1, 2, 3, 4, \ldots\} = \mathbb{N} \cup \{0\}$ ($\cup$: ↳ später)
+
+$\mathbb{Z} = \{\ldots, -4, -3, -2, -1, 0, 1, 2, 3, \ldots\} = \mathbb{N} \cup \{-x \mid x \in \mathbb{N}\} \cup \{0\}$ … Menge der ganzen Zahlen
+
+[vgl. Kronecker: „Die ganzen Zahlen hat der liebe Gott gemacht, alles andere ist Menschenwerk“]
+
+**natürliche Zahlen 自然数** $\mathbb{N}$ 从 1 开始; 带上 0 的写成 $\mathbb{N}_0$. 这门课一直按这个约定, 所以 0.2 里「不大于任何自然数的数」是 1, 不是 0. 别的教材里 $\mathbb{N}$ 可能含 0, 看书时先查它的约定.
+
+$\cup$ 是并集: 两个集合的元素合在一起. 这里先借用, 正式定义在 0.3. $\mathbb{N} \cup \{0\}$ 就是在 $\{1, 2, 3, \ldots\}$ 里再放进 0.
+
+**ganze Zahlen 整数** $\mathbb{Z}$ 由三块拼成: 正整数 $\mathbb{N}$, 负整数 $\{-x \mid x \in \mathbb{N}\} = \{-1, -2, -3, \ldots\}$, 还有 0. 中间那一块是内涵式的另一种用法: 竖线左边不是单个字母, 而是一个式子 $-x$, 意思是让 x 取遍 $\mathbb{N}$, 把所有 $-x$ 收集起来. 0 必须单独补上, 因为它既不在 $\mathbb{N}$ 里, 也不是某个自然数的相反数.
+
+Kronecker 的话: 「整数是亲爱的上帝造的, 其余一切都是人的作品.」Leopold Kronecker (1823–1891) 认为整数是最基本的, 其他数都应该从整数一步步构造出来. 下面的 $\mathbb{Q}$ 正是这样: 只用 $\mathbb{Z}$ 和 $\mathbb{N}$ 来定义.
+
+$\mathbb{Q} = \{m \mid \exists p \in \mathbb{Z}\ \exists q \in \mathbb{N}\colon m = \tfrac{p}{q}\} = \{\tfrac{p}{q} \mid p \in \mathbb{Z}, q \in \mathbb{N}\}$
+
+$\mathbb{Q}^+$ … Menge der positiven rationalen Zahlen
+
+$\mathbb{Q}^+_0 = \mathbb{Q}^+ \cup \{0\}$
+
+$\mathbb{R}$ … Menge der reellen Zahlen
+
+$\mathbb{R}^+$ … Menge der positiven reellen Zahlen
+
+$\mathbb{R}^+_0$ … Menge der positiven reellen Zahlen plus 0.
+
+**rationale Zahlen 有理数** $\mathbb{Q}$ 是能写成分数的数: 分子是整数, 分母是自然数. 第一种写法按 0.2 的量词读: m 属于 $\mathbb{Q}$, 当且仅当存在整数 p 和自然数 q, 使 $m = \tfrac{p}{q}$. 第二种写法把「怎样造出来」直接写在竖线左边, 竖线右边的逗号就是 $\land$: p 取遍 $\mathbb{Z}$, 同时 q 取遍 $\mathbb{N}$, 收集所有 $\tfrac{p}{q}$. 两种写法说的是同一个集合.
+
+**为什么分母取 $\mathbb{N}$**: 分母不能是 0, 而负号总可以挪到分子上 ($\tfrac{3}{-4} = \tfrac{-3}{4}$), 所以只要正的分母就够了. 同一个数有很多种写法, $\tfrac{1}{2} = \tfrac{2}{4} = \tfrac{-3}{-6}$ (最后这种分母不在 $\mathbb{N}$ 里, 但前两种已经表示了它). 按 0.1 的约定, 同一个对象在集合里只算一次.
+
+例子: $-3 = \tfrac{-3}{1} \in \mathbb{Q}$, $0.75 = \tfrac{3}{4} \in \mathbb{Q}$, $0 = \tfrac{0}{1} \in \mathbb{Q}$. 每个整数 z 都是 $\tfrac{z}{1}$, 所以 $\mathbb{Z} \subseteq \mathbb{Q}$.
+
+**reelle Zahlen 实数** $\mathbb{R}$ 是数轴上所有的点. 这里没有像 $\mathbb{Q}$ 那样给出构造, 只给了名字. 除了有理数, 它还包含 $\sqrt{2}$、$\pi$ 这类不能写成分数的数.
+
+上标 $^+$ 表示「正的」, 不含 0: 0 既不是正数也不是负数. 下标 $_0$ 表示再补上 0. 所以 $\mathbb{R}^+_0 = \{x \in \mathbb{R} \mid x \ge 0\}$, 也就是非负实数; $\mathbb{Q}^+_0$ 同理.
+
+这些数集一层套一层: $\mathbb{N} \subseteq \mathbb{N}_0 \subseteq \mathbb{Z} \subseteq \mathbb{Q} \subseteq \mathbb{R}$. 每一步其实都多出了元素 (0, 负整数, 真分数, $\sqrt{2}$), 用 0.3 的记号可以写成 $\subsetneq$.
+
+> **补充 · $\sqrt{2}$ 不是有理数**
+>
+> 假设 $\sqrt{2} = \tfrac{p}{q}$, 并且这个分数已经约到最简 (p 和 q 没有公因数). 两边平方得 $p^2 = 2q^2$, 所以 $p^2$ 是偶数, 于是 p 是偶数 (奇数的平方是奇数). 写 $p = 2r$, 代回去得 $4r^2 = 2q^2$, 即 $q^2 = 2r^2$, 所以 q 也是偶数. p 和 q 都能被 2 整除, 和「已经约到最简」矛盾 ↯. 所以 $\sqrt{2} \notin \mathbb{Q}$, 而 $\sqrt{2} \in \mathbb{R}$: $\mathbb{Q} \subsetneq \mathbb{R}$.
+
+$[a, b] := \{x \in \mathbb{R} \mid x \ge a \land x \le b\}$
+
+(a und b sind hier reelle Zahlen oder „$-\infty$“ oder „$+\infty$“)
+
+$]a, b] := \{x \in \mathbb{R} \mid x > a \land x \le b\}$ (andere Notation: $(a, b]$)
+
+$[a, b[\ = \{x \in \mathbb{R} \mid x \ge a \land x < b\}$ (anderen Symbol: $[a, b)$)
+
+$]a, b[\ := \{x \in \mathbb{R} \mid x > a \land x < b\}$ (anderen Symbol: $(a, b)$)
+
+**Intervall 区间**是数轴上连成一段的实数. 方括号的开口朝里, 端点属于区间 (闭); 开口朝外, 端点不属于区间 (开). 定义里的 $\land$ 是 0.2 的「且」: 两个不等式要同时成立.
+
+| 德国写法 | 英美写法 | 条件 | 名称 |
+|---|---|---|---|
+| $[a, b]$ | $[a, b]$ | $a \le x \le b$ | abgeschlossen 闭区间 |
+| $]a, b]$ | $(a, b]$ | $a < x \le b$ | halboffen 半开 |
+| $[a, b[$ | $[a, b)$ | $a \le x < b$ | halboffen 半开 |
+| $]a, b[$ | $(a, b)$ | $a < x < b$ | offen 开区间 |
+
+例子: $0 \in [0, 1]$, 但 $0 \notin\ ]0, 1]$. $[2, 2] = \{2\}$, 而 $]2, 2[\ = \emptyset$. a 比 b 大时, 比如 $[3, 1]$, 没有 x 能同时满足 $x \ge 3$ 和 $x \le 1$, 区间是空集. 0.1 的 $\{x \in \mathbb{R} \mid x^2 < 4\}$ 用区间写就是 $]-2, 2[$.
+
+**端点是无穷时**: $-\infty$ 和 $+\infty$ 不是实数, 只是「往左 / 往右没有尽头」的记号. 所以无穷那一端一律写成开的: $]-\infty, b]$、$[a, +\infty[$、$]-\infty, +\infty[\ = \mathbb{R}$. 上面的数集也能这样写: $\mathbb{R}^+ = \ ]0, +\infty[$, $\mathbb{R}^+_0 = [0, +\infty[$.
+
+**易错**: 英美写法的 $(a, b)$ 和 0.3 的有序对 (a, b) 长得一样, 要看上下文. 德国写法 $]a, b[$ 没有这个歧义, 这是德国教材偏爱它的原因之一.
+
+**原文笔误:** 「anderen Symbol」应为 **anderes Symbol** (das Symbol 是中性名词, 不带冠词时形容词用强变化 -es). 后面幂集的定义里写的就是正确的「anderes Symbol」.
 
 **Spezielle Mengen.** Die **leere Menge** ist die Menge, die kein Element enthält. Symbol: $\emptyset$, anderes Symbol: $\{ \}$.
 
@@ -109,7 +178,6 @@ M 是被理发师刮胡子的人. 问理发师 b 自己在不在 M 里, 两种�
 
 #### 以后写入
 
-- 幂集
 - 练习里关于 $\in$ 和 $\subseteq$ 的题
 
 ### 0.2 命题逻辑与量词 (Aussagenlogik und Quantoren)
@@ -260,11 +328,151 @@ Anderes Bsp., mit $\mathbb{N} = \{1, 2, 3, \ldots \}$: $M = \{x \mid x \in \math
 
 - 练习
 
-### 0.3 集合运算 (Mengenoperationen)
+### 0.3 集合之间的关系与集合运算 (Beziehungen zwischen Mengen · Operationen mit Mengen)
+
+#### 集合之间的关系 (Beziehungen zwischen Mengen)
+
+Für Mengen A, B sagen wir, dass A eine **Teilmenge** von B ist, falls alle Elemente von A auch Elemente von B sind, d. h., falls gilt: $\forall x\colon x \in A \Rightarrow x \in B$. In diesem Fall schreiben wir $A \subseteq B$.
+
+(andere Notation: $A \subset B$ (vermeide ich hier))
+
+Ist A keine Teilmenge von B, so schreiben wir $A \nsubseteq B$.
+
+A 是 B 的 **Teilmenge 子集**, 是说 A 的元素全都是 B 的元素. 0.1 已经用过这个说法, 这里用 0.2 的量词和蕴含把它写成公式: 对所有 x, 若 $x \in A$, 则 $x \in B$.
+
+蕴含只在「前提真、结论假」时为假. 所以这个公式只检查 A 里的元素; x 不在 A 里时前提为假, 那一行自动为真. 空集是任何集合的子集, 正是这个原因: $x \in \emptyset$ 永远为假, 每一行都自动为真. 0.1 里「空集拿不出反例」说的是同一件事.
+
+**怎样证明 $A \nsubseteq B$**: 按 0.2 否定量词, $\neg \forall x\colon (x \in A \Rightarrow x \in B)$ 等价于 $\exists x\colon \neg(x \in A \Rightarrow x \in B)$; 再用「蕴含不成立, 恰好是前提真而结论假」, 得到 $\exists x\colon x \in A \land x \notin B$. 所以只要找出一个在 A 里、不在 B 里的元素. 例: $\{1, 4\} \nsubseteq \{1, 2, 3\}$, 证据是 4.
+
+**为什么不用 $\subset$**: 有的书用 $\subset$ 表示 $\subseteq$, 有的书用它表示下面的真子集 $\subsetneq$, 读者没法确定. 这门课只用 $\subseteq$ 和 $\subsetneq$; 读别的材料时遇到 $\subset$, 先查作者的约定.
+
+**易错**: $\in$ 和 $\subseteq$ 的两边类型不同. $\in$ 左边是元素, $\subseteq$ 左边是集合. $2 \in \{1, 2, 3\}$, $\{2\} \subseteq \{1, 2, 3\}$; 反过来写 $\{2\} \in \{1, 2, 3\}$ 是错的 ($\{2\}$ 不是这个集合的元素).
+
+Zwei Mengen A und B heißen **gleich**, falls sie genau die gleichen Elemente enthalten, d. h., falls gilt:
+
+$\forall x\colon x \in A \Leftrightarrow x \in B$
+
+bzw. falls gilt: $\forall x\colon x \in A \Rightarrow x \in B \land x \in B \Rightarrow x \in A$
+
+bzw. falls gilt: $A \subseteq B \land B \subseteq A$.
+
+In diesem Fall schreiben wir $A = B$.
+
+Falls $A \subseteq B$ ist, aber $A \ne B$, dann schreiben wir auch $A \subsetneq B$.
+
+两个集合**相等**, 当且仅当它们的元素完全相同. 三种写法一步步推过来: 第一种用 0.2 的 $\Leftrightarrow$; $\Leftrightarrow$ 的定义是两个方向的 $\Rightarrow$ 同时成立, 得到第二种; 第二种里两个方向分别正好是 $A \subseteq B$ 和 $B \subseteq A$, 得到第三种.
+
+**证明两个集合相等的标准方法**就是第三种写法: 分别证 $A \subseteq B$ 和 $B \subseteq A$ (两次包含). 例: 证 $\{x \in \mathbb{R} \mid x^2 < 4\} = \ ]-2, 2[$.
+
+- $\subseteq$: 取 x 满足 $x^2 < 4$. 如果 $|x| \ge 2$, 就有 $x^2 = |x|^2 \ge 4$, 矛盾. 所以 $|x| < 2$, 即 $-2 < x < 2$.
+- $\supseteq$: 取 $-2 < x < 2$, 则 $|x| < 2$, 于是 $x^2 = |x|^2 < 4$.
+
+**echte Teilmenge 真子集** $A \subsetneq B$: A 是 B 的子集, 但不等于 B, 也就是 B 至少还有一个 A 没有的元素. 例: $\{1, 2\} \subsetneq \{1, 2, 3\}$; $\mathbb{N} \subsetneq \mathbb{N}_0$ (多出 0). $\{1, 2\} \subseteq \{1, 2\}$ 成立, 但 $\{1, 2\} \subsetneq \{1, 2\}$ 不成立.
+
+**易错**: $\subsetneq$ 和 $\nsubseteq$ 长得像, 意思相反. $A \subsetneq B$ 是「是子集, 但不相等」; $A \nsubseteq B$ 是「根本不是子集」.
+
+**原文小错:** 第二种写法少了括号, 写成 $\forall x\colon x \in A \Rightarrow x \in B \land x \in B \Rightarrow x \in A$. $\land$ 比 $\Rightarrow$ 结合得紧, 按惯例它会被读成 $x \in A \Rightarrow (x \in B \land x \in B) \Rightarrow x \in A$, 意思就不对了. 应写成 $\forall x\colon (x \in A \Rightarrow x \in B) \land (x \in B \Rightarrow x \in A)$.
+
+#### 集合运算 (Operationen mit Mengen)
+
+Die **Potenzmenge** einer Menge M ist die Menge aller Teilmengen von M.
+
+Formal: $2^M := \{B \mid B \subseteq M\}$ (↑ Symbol für die Potenzmenge von M.)
+
+(anderes Symbol: $\mathcal{P}(M)$)
+
+Bsp.: $M = \{a, b, c\}$ (mit a, b, c paarweise verschieden)
+
+$2^M = \{\emptyset, \{a\}, \{b\}, \{c\}, \{a, b\}, \{a, c\}, \{b, c\}, \{a, b, c\}\}$
+
+Beobachtung: Die 3-elementige Menge M hat hier eine Potenzmenge, die aus $8 = 2^3$ Mengen besteht.
+
+Allgemein gilt: Eine k-elementige Menge M hat $2^k$ verschiedene Teilmengen.
+
+**Potenzmenge 幂集**是 M 的所有子集组成的集合. 它的元素本身都是集合 (0.1: 集合也能当元素). 例子按子集的大小排: 0 个元素的 1 个 ($\emptyset$), 1 个元素的 3 个, 2 个元素的 3 个, 3 个元素的 1 个 (M 自己), 共 $1 + 3 + 3 + 1 = 8$ 个. $\emptyset$ 和 M 本身总在幂集里.
+
+「paarweise verschieden」是两两不同. 如果 $a = b$, 按 0.1 的约定 M 只有两个元素, 子集也就只有 4 个.
+
+**为什么是 $2^k$**: 造一个子集, 就是对 M 的每个元素回答一次「要不要」. k 个元素, k 次二选一, 共 $2 \cdot 2 \cdots 2 = 2^k$ 种回答, 每种回答对应一个子集. 记号 $2^M$ 就从这里来: M 有 k 个元素时, $2^M$ 有 $2^k$ 个元素. 0.2 里「两个命题有 $2^4 = 16$ 种联结词」用的是同一种计数.
+
+**易错**: $\{a\} \in 2^M$, 但 $a \notin 2^M$ (幂集的元素是集合, 不是 a). $\emptyset \in 2^M$, 同时 $\emptyset \subseteq 2^M$. 空集的幂集是 $2^\emptyset = \{\emptyset\}$, 有 $2^0 = 1$ 个元素, 不是空集 (0.1: $\{\emptyset\} \ne \emptyset$).
+
+Menge aller k-elementigen Teilmengen einer Menge M: Symbol: $\binom{M}{k}$
+
+$\binom{M}{k}$ 只收 M 中恰好有 k 个元素的子集. 仍用 $M = \{a, b, c\}$:
+
+$$\binom{M}{0} = \{\emptyset\},\quad \binom{M}{1} = \{\{a\}, \{b\}, \{c\}\},\quad \binom{M}{2} = \{\{a, b\}, \{a, c\}, \{b, c\}\},\quad \binom{M}{3} = \{M\}$$
+
+k 比 M 的元素多时没有这样的子集: $\binom{M}{4} = \emptyset$. 把 k = 0, 1, 2, 3 这几块并起来, 正好是整个幂集 $2^M$.
+
+**易错**: 括号上面是集合时 ($\binom{M}{k}$), 结果是一个集合; 上面是数时 ($\binom{3}{2}$, 见下面的补充), 结果是一个数. $\binom{M}{k}$ 的元素个数正好是 $\binom{n}{k}$, n 是 M 的元素个数.
+
+> **补充 · 二项式系数**
+>
+> n 个元素的集合有 $\binom{n}{k} = \dfrac{n!}{k!\,(n-k)!}$ 个 k 元子集, 读作「n über k」(中文: n 选 k), $n! = 1 \cdot 2 \cdots n$, $0! = 1$. n = 3 时依次是 $\binom{3}{0}, \binom{3}{1}, \binom{3}{2}, \binom{3}{3} = 1, 3, 3, 1$, 正是上面幂集按大小分的四组. 把所有 k 加起来就是全部子集: $\sum_{k=0}^{n} \binom{n}{k} = 2^n$.
+
+Für Mengen A, B definieren wir den **Schnitt** von A und B als $A \cap B := \{m \mid m \in A \land m \in B\}$
+
+Sei $(C_i)_{i \in I}$ eine Familie von Mengen, wobei I eine Indexmenge ist.
+
+Dann ist der **Schnitt** der Mengen $C_i$ definiert als $\bigcap_{i \in I} C_i := \{m \mid \forall i \in I\colon m \in C_i\}$
+
+**Schnitt 交集** (也叫 Durchschnitt): 同时属于 A 和 B 的元素. 定义里用的是 0.2 的 $\land$.
+
+**Familie von Mengen 集合族** $(C_i)_{i \in I}$: 给 **Indexmenge 指标集** I 里的每个 i 配一个集合 $C_i$, 像一张编了号的清单. I 可以是 $\{1, 2\}$, 可以是 $\mathbb{N}$ (无穷多个集合), 也可以是空集. 清单里同一个集合可以出现两次 ($C_1 = C_2$ 也允许), 这一点和集合不同, 所以叫 Familie.
+
+族的交集 $\bigcap_{i \in I} C_i$ 收集的是**每一个** $C_i$ 里都有的元素, 条件是 $\forall i \in I$. 0.2 说过, 量词范围有限时 $\forall$ 就是一串 $\land$; 所以 $I = \{1, \ldots, k\}$ 时, $\bigcap_{i \in I} C_i = C_1 \cap C_2 \cap \ldots \cap C_k$. 两个集合的交集是 $I = \{1, 2\}$ 的特例.
+
+Beispiele:
+
+$I = \{1, 2\}$, $C_1 = \{0, 1, 2, 3, 4, \ldots\}$, $C_2 = \{0, -1, -2, -3, -4, \ldots\}$
+
+$\bigcap_{i \in I} C_i = C_1 \cap C_2 = \{0\}$
+
+$I = \mathbb{N} = \{1, 2, 3, \ldots\}$, $C_i = \{i, i+1, i+2, \ldots\} = \{x \in \mathbb{N} \mid x \ge i\}$
+
+$\bigcap_{i \in I} C_i = C_1 \cap C_2 \cap \ldots = \{1, 2, 3, \ldots\} \cap \{2, 3, 4, \ldots\} \cap \{3, 4, 5, \ldots\} \cap \ldots = \emptyset$
+
+第一个例子: $C_1 = \mathbb{N}_0$, $C_2$ 是 0 和所有负整数. 两边都有的只有 0.
+
+第二个例子: m 要在交集里, 就必须在每一个 $C_i$ 里, 也就是对每个 i 都有 $m \ge i$. 任取 $m \in \mathbb{N}$, 看 $i = m + 1$: $m < m + 1$, 所以 $m \notin C_{m+1}$. 没有一个自然数能通过所有检查, 交集是空集. 这和 0.2「不存在最大的自然数」是同一个论证.
+
+**易错**: 前有限个的交集 $C_1 \cap \ldots \cap C_n = C_n$ 永远不空, 里面有无穷多个元素; 可是无穷多个一起交, 结果是空集. 不能从「每一步都不空」推出「全部交起来也不空」.
+
+Die **Vereinigung** von zwei Mengen A, B ist definiert als $A \cup B := \{m \mid m \in A \lor m \in B\}$
+
+Für eine Familie $(C_i)_{i \in I}$ von Mengen ist die Vereinigung definiert als $\bigcup_{i \in I} C_i := \{m \mid \exists i \in I\colon m \in C_i\}$
+
+**Vereinigung 并集**: 至少属于一个集合的元素. $\lor$ 是包含的或, 两边都属于的元素当然也在并集里. 族的并集收集**至少一个** $C_i$ 里有的元素, 条件是 $\exists i \in I$; I 有限时 $\exists$ 就是一串 $\lor$, 结果是 $C_1 \cup \ldots \cup C_k$.
+
+|  | 两个集合 | 集合族 | m 要满足 |
+|---|---|---|---|
+| 交集 | $A \cap B$ | $\bigcap_{i \in I} C_i$ | $\forall i$: 在每一个里 ($\land$) |
+| 并集 | $A \cup B$ | $\bigcup_{i \in I} C_i$ | $\exists i$: 至少在一个里 ($\lor$) |
+
+Beispiele:
+
+$I = \mathbb{N}$, $C_i = [i, i+2]$
+
+$\bigcup_{i \in I} C_i = \{x \in \mathbb{R} \mid x \ge 1\} = [1, \infty]$
+
+$I = \emptyset$, $C_i = [i, i+2]$
+
+$\bigcup_{i \in I} C_i = \bigcup_{i \in \emptyset} C_i = \{m \mid \exists i \in I\colon m \in C_i\} = \{m \mid \exists i \in \emptyset\colon m \in C_i\} = \emptyset$
+
+($\exists i \in \emptyset\colon m \in C_i$ … immer falsch)
+
+第一个例子: $C_1 = [1, 3]$, $C_2 = [2, 4]$, $C_3 = [3, 5]$, …. 每段长 2, 每次往右挪 1, 相邻两段有重叠, 所以连成从 1 开始、向右没有尽头的一整段. 两个方向都要看: 每个 $x \ge 1$ 都在某个 $C_i$ 里 (取 i 为 x 的整数部分, 则 $i \le x < i + 1 \le i + 2$); 小于 1 的数不在任何 $C_i$ 里, 因为每个 $C_i$ 的左端点 $i \ge 1$.
+
+第二个例子: I 是空集, 清单上一个集合也没有. 条件 $\exists i \in \emptyset\colon \ldots$ 要求先找出一个 $i \in \emptyset$, 而这样的 i 不存在, 所以对每个 m 都为假 (0.2: 空集上的 $\exists$ 总为假). 没有元素满足条件, 并集是 $\emptyset$. $C_i = [i, i+2]$ 在这里根本用不上.
+
+**原文小错:** 结果写成 $[1, \infty]$, 右端应是开的: $[1, \infty[$ (英美写法 $[1, \infty)$). $\infty$ 不是实数, 不可能属于这个集合, 所以无穷那一端按惯例总写开括号. 按上面区间定义里「b 可以是 $+\infty$」的说法, $[1, +\infty]$ 展开成 $\{x \in \mathbb{R} \mid x \ge 1 \land x \le +\infty\}$, 集合本身还是对的, 只是记法不合惯例; 前一行的 $\{x \in \mathbb{R} \mid x \ge 1\}$ 没有问题.
+
+> **补充 · 空指标集上的交集**
+>
+> 同样的方法用在交集上: $\bigcap_{i \in \emptyset} C_i = \{m \mid \forall i \in \emptyset\colon m \in C_i\}$. 空集上的 $\forall$ 总为真 (0.2), 所以任何东西都满足条件, 结果是「所有东西的集合」. 这正是 0.1 理发师 / 罗素悖论里不允许造的那种集合. 所以空指标集的交集一般不定义; 或者先固定一个大集合 X, 规定所有 $C_i \subseteq X$, 只在 X 里取元素, 这时结果是 X.
 
 **Vereinigung, Durchschnitt, Differenz.** x liegt in $A \cup B$, wenn x in A oder in B liegt. x liegt in $A \cap B$, wenn x in beiden liegt. x liegt in A \ B, wenn x in A und nicht in B liegt. Mit den Junktoren aus 0.2: $A \cup B = \{ x \mid x \in A \lor x \in B \}, A \cap B = \{ x \mid x \in A \land x \in B \}, A \setminus B = \{ x \mid x \in A \land \neg (x \in B) \}$.
-
-**Teilmenge, logisch formuliert.** $A \subseteq B$ bedeutet: für alle x gilt $x \in A \Rightarrow x \in B$.
 
 **Kartesisches Produkt.** $A \times B$ ist die Menge aller geordneten Paare (a, b) mit $a \in A$ und $b \in B$. Im Allgemeinen ist (a, b) von (b, a) verschieden. $\mathbb{R}^{2} = \mathbb{R} \times \mathbb{R}$ ist die Ebene der späteren Vektoren.
 
@@ -272,13 +480,11 @@ Anderes Bsp., mit $\mathbb{N} = \{1, 2, 3, \ldots \}$: $M = \{x \mid x \in \math
 
 定义里用的正是 0.2 的联结词, 只是用在「x 属于……」上: $\cup$ 用 $\lor$, $\cap$ 用 $\land$, \ 用 $\land$ 加 $\neg$. 所以并集里「或」也包括「两个都属于」, 因为 $\lor$ 是包含的或.
 
-子集也一样: $A \subseteq B$ 是「对所有 x: $x \in A \Rightarrow x \in B$」. 空集是任何集合的子集, 正是蕴含的规则: $x \in \emptyset$ 永远为假, 前提为假, 蕴含就为真. 0.1 里「空集拿不出反例」说的是同一件事.
-
 笛卡尔积的元素是有序对, 顺序算数. `(1, 2)` 和 `(2, 1)` 一般是不同的元素. 平面 $\mathbb{R}^{2}$ 就是两个实数轴的笛卡尔积, 后面的向量住在这里.
 
 #### 以后写入
 
-- 德摩根定律 (集合版), 怎样证明两个集合相等
+- 德摩根定律 (集合版)
 - 练习
 
 ### 0.4 映射 (Abbildungen)
