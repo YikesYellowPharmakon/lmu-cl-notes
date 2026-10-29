@@ -252,6 +252,12 @@
   html[data-mode="day"] { --syn-k: #0f6f84; --syn-f: #1a447f; --syn-s: #7b5f01; --syn-n: #1d7635; --syn-b: #105e60; --syn-c: #566d75; --syn-p: #566d75; }
   main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
 </style>
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+  .katex { font-size: 1.08em; }
+  .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; }
+  .math-block .katex-display { margin: 0.4em 0; }
+</style>
 <style id="glass">
   /* ===== 视觉层 v7 (= 样例 v21) =====
      点阵背景与渐变底色; 模块: 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.
@@ -1236,7 +1242,7 @@
   </ul>
 </div>
 <div class="zh">
-  <p>阶乘 (第 12 章) 只对 n ≥ 0 有定义. 传入 −1: −1 → −2 → −3 …… 永远到不了 n == 0, 递归不会结束 (<b>Nichtterminierung 不终止</b>). 函数本身没有<b>识别</b>出「参数为负」这种<span class="nb">异常情况.</span> </p>
+  <p>阶乘 (第 12 章) 只对 <span class="katex" data-o="n ≥ 0"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> 有定义. 传入 −1: −1 → −2 → −3 …… 永远到不了 n == 0, 递归不会结束 (<b>Nichtterminierung 不终止</b>). 函数本身没有<b>识别</b>出「参数为负」这种<span class="nb">异常情况.</span> </p>
   <p>实际在 Python 里不会真的无限运行: 递归深度到上限 (默认约 1000 层) 时抛出 <code class="lc">RecursionError: maximum recursion depth exceeded</code>. </p>
 </div>
 <div class="warn"><p><b>幻灯片代码错误: </b>最后一行 <code>print(...)</code> 少了右括号, 照抄运行在执行前就报 <code class="lc">SyntaxError: '(' was never closed</code>, 根本看不到递归的问题. Folie 7 <span class="nb">的同一行补上了括号.</span> </p></div>

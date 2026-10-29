@@ -253,6 +253,12 @@
   }
   /* ===== /排版统一层 ===== */
 </style>
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+  .katex { font-size: 1.08em; }
+  .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; }
+  .math-block .katex-display { margin: 0.4em 0; }
+</style>
 <style id="glass">
   /* ===== 视觉层 v7 (= 样例 v21) =====
      点阵背景与渐变底色; 模块: 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.
@@ -1935,7 +1941,7 @@
   <p><b>Dependenz-Parser 依存分析器</b>自动画依存树 (要谨慎使用). 课件给了 Stanford Parser 和 CoreNLP <span class="nb">两个链接.</span> </p>
   <ul>
     <li>分析器大多基于<b>统计模型</b>: 在所有可能的树里选<b>概率最大</b>的那棵. 可能的树随句长爆炸式增长, 所以这是一个<b>组合问题</b> (想想 Folie 12–16 一个短句就有<span class="nb">五种结构).</span> </li>
-    <li><b>容易出错</b>: 按每条边计, 准确率通常在 90% 或以下. 一个 20 个词的句子有 19 条边, 每条 90% 正确, 整句全对的概率只有约 0.<span class="nb">9<sup>19</sup> ≈ 13%.</span> </li>
+    <li><b>容易出错</b>: 按每条边计, 准确率通常在 90% 或以下. 一个 20 个词的句子有 19 条边, 每条 90% 正确, 整句全对的概率只有约 0.<span class="nb"><span class="katex" data-o="919 ≈ 13"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">9</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">19</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">13</span></span></span></span>%.</span> </li>
     <li>自动依存分析常常是后续规则方法或统计方法 (如上面的信息抽取) <span class="nb">的<b>起点</b>.</span> </li>
   </ul>
 </div>

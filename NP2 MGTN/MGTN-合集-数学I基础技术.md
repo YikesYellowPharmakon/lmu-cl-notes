@@ -403,13 +403,13 @@ $\binom{M}{k}$ 只收 M 中恰好有 k 个元素的子集. 仍用 $M = \{a, b, c
 
 $$\binom{M}{0} = \{\emptyset\},\quad \binom{M}{1} = \{\{a\}, \{b\}, \{c\}\},\quad \binom{M}{2} = \{\{a, b\}, \{a, c\}, \{b, c\}\},\quad \binom{M}{3} = \{M\}$$
 
-k 比 M 的元素多时没有这样的子集: $\binom{M}{4} = \emptyset$. 把 k = 0, 1, 2, 3 这几块并起来, 正好是整个幂集 $2^M$.
+k 比 M 的元素多时没有这样的子集: $\binom{M}{4} = \emptyset$. 把 $k = 0, 1, 2, 3$ 这几块并起来, 正好是整个幂集 $2^M$.
 
 **易错**: 括号上面是集合时 ($\binom{M}{k}$), 结果是一个集合; 上面是数时 ($\binom{3}{2}$, 见下面的补充), 结果是一个数. $\binom{M}{k}$ 的元素个数正好是 $\binom{n}{k}$, n 是 M 的元素个数.
 
 > **补充 · 二项式系数**
 >
-> n 个元素的集合有 $\binom{n}{k} = \dfrac{n!}{k!\,(n-k)!}$ 个 k 元子集, 读作「n über k」(中文: n 选 k), $n! = 1 \cdot 2 \cdots n$, $0! = 1$. n = 3 时依次是 $\binom{3}{0}, \binom{3}{1}, \binom{3}{2}, \binom{3}{3} = 1, 3, 3, 1$, 正是上面幂集按大小分的四组. 把所有 k 加起来就是全部子集: $\sum_{k=0}^{n} \binom{n}{k} = 2^n$.
+> n 个元素的集合有 $\binom{n}{k} = \dfrac{n!}{k!\,(n-k)!}$ 个 k 元子集, 读作「n über k」(中文: n 选 k), $n! = 1 \cdot 2 \cdots n$, $0! = 1$. $n = 3$ 时依次是 $\binom{3}{0}, \binom{3}{1}, \binom{3}{2}, \binom{3}{3} = 1, 3, 3, 1$, 正是上面幂集按大小分的四组. 把所有 k 加起来就是全部子集: $\sum_{k=0}^{n} \binom{n}{k} = 2^n$.
 
 Für Mengen A, B definieren wir den **Schnitt** von A und B als $A \cap B := \{m \mid m \in A \land m \in B\}$
 

@@ -252,6 +252,12 @@
   html[data-mode="day"] { --syn-k: #0f6f84; --syn-f: #1a447f; --syn-s: #7b5f01; --syn-n: #1d7635; --syn-b: #105e60; --syn-c: #566d75; --syn-p: #566d75; }
   main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
 </style>
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+  .katex { font-size: 1.08em; }
+  .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; }
+  .math-block .katex-display { margin: 0.4em 0; }
+</style>
 <style id="glass">
   /* ===== 视觉层 v7 (= 样例 v21) =====
      点阵背景与渐变底色; 模块: 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.
@@ -1292,7 +1298,7 @@ quad_gleichung(<span class="tk-n">4</span>, <span class="tk-n">12</span>, <span 
   <p><b>调用函数</b>: <code class="lc">quad_gleichung(4, 12, 7)</code>, 这时 a、b、c 分别得到 4、12、7, 然后执行函数体. <span class="nb">输出:</span> </p>
 <pre data-lang="output">1. Nullstelle: -0.7928932188134524
 2. Nullstelle: -2.2071067811865475</pre>
-  <p>Nullstelle = 零点 (使函数值为 0 的 x). <code>**</code>: 左操作数的右操作数次方, <span class="nb"><code>b**2</code> = b².</span> </p>
+  <p>Nullstelle = 零点 (使函数值为 0 的 x). <code>**</code>: 左操作数的右操作数次方, <span class="nb"><code>b**2</code> = <span class="katex" data-o="b²"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>.</span> </p>
 </div>
 
 <h3 id="bsp">函数的例子<br><span class="de-title">Beispiele</span></h3>
@@ -1322,7 +1328,7 @@ int_sortierung(<span class="tk-n">3</span>,<span class="tk-n">5</span>,<span cla
 <div class="zh">
   <p>把三个数从小到大排序. 每个 if 是一次「如果顺序反了就<b>交换</b>」: 交换两个变量要借一个临时变量 tmp (先把 x 存起来, 再 x = y, <span class="nb">再 y = 旧的 x).</span> </p>
   <ol>
-    <li>比较 x, y: <span class="nb">保证 x ≤ y;</span> </li>
+    <li>比较 x, y: <span class="nb">保证 <span class="katex" data-o="x ≤ y"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span>;</span> </li>
     <li>比较 y, z: 把最大的数换到 z (之后 z <span class="nb">就是最大值);</span> </li>
     <li>再比较 x, y: 第 2 步可能把一个小数换到了 y, <span class="nb">所以再排一次.</span> </li>
   </ol>
@@ -1504,7 +1510,18 @@ None</code></pre></div>
 <div class="zh">
   <p>判断 n 是不是<b>Primzahl 素数</b>: 从 k = 2 开始试除, 只要找到一个能整除 n 的 k, <span class="nb">n 就不是素数.</span> </p>
   <ul>
-    <li>为什么只试到 <code>k * k &lt;= n</code>: 如果 n = a·b 且 a ≤ b, 那么 a ≤ √n. 所以没有 ≤ √n 的因数, <span class="nb">就不会有别的因数.</span> </li>
+    <li>为什么只试到 <code>k * k &lt;= n</code>: 如果 n = a·b 且 <span class="katex" data-o="a ≤ b"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">b</span></span></span></span>, 那么 <span class="katex" data-o="a ≤ √n"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.04em;vertical-align:-0.2397em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8003em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal">n</span></span></span><span style="top:-2.7603em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2397em;"><span></span></span></span></span></span></span></span></span>. 所以没有 ≤ √n 的因数, <span class="nb">就不会有别的因数.</span> </li>
     <li><code>and prim</code>: 一旦发现因数 (prim 变 False), 循环立刻停, <span class="nb">不用继续试.</span> </li>
   </ul>
   <p>13: k = 2, 3 都不整除 13, k = 4 时 16 &gt; 13 停止, <span class="nb">返回 <b>True</b>.</span> </p>
@@ -1551,8 +1568,30 @@ None</code></pre></div>
   </ul>
 </div>
 <div class="zh">
-  <p>同样的算法, 用 for 和 return 写: i 从 2 试到 ⌊√n⌋; 一找到因数就 <code>return False</code>, 立即离开函数 (同时结束循环); 循环全部走完都没找到, 才执行最后的 <span class="nb"><code>return True</code>.</span> </p>
-  <p>15: √15 ≈ 3.87, int 截断为 3, range(2, 4) = 2, 3. i = 2 不整除; i = 3 整除 → 返回 False. 注意最后一行 <code>return True</code> 在 for <b>外面</b> (和 for 对齐): 如果缩进到 for 里面, 第一次试除不成功就会直接返回 <span class="nb">True.</span> </p>
+  <p>同样的算法, 用 for 和 return 写: i 从 2 试到 ⌊<span class="katex" data-o="√n"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.04em;vertical-align:-0.2397em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8003em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal">n</span></span></span><span style="top:-2.7603em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2397em;"><span></span></span></span></span></span></span></span></span>⌋; 一找到因数就 <code>return False</code>, 立即离开函数 (同时结束循环); 循环全部走完都没找到, 才执行最后的 <span class="nb"><code>return True</code>.</span> </p>
+  <p>15: <span class="katex" data-o="√15 ≈ 3.87"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.04em;vertical-align:-0.1328em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">15</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">3.87</span></span></span></span>, int 截断为 3, range(2, 4) = 2, 3. i = 2 不整除; i = 3 整除 → 返回 False. 注意最后一行 <code>return True</code> 在 for <b>外面</b> (和 for 对齐): 如果缩进到 for 里面, 第一次试除不成功就会直接返回 <span class="nb">True.</span> </p>
 </div>
 
 <div class="card de">
@@ -1590,7 +1629,7 @@ None</code></pre></div>
     <li><code>pi</code> 定义在最外层, 作用域是整个程序, 包括函数体里面: <span class="nb">所以函数里可以读 pi.</span> </li>
     <li><code>n</code> (参数) 和 <code>radius</code> 定义在函数体里, 只在函数体里有效. 在函数外写 <code>print(radius)</code> 会得到 <span class="nb">NameError.</span> </li>
   </ul>
-  <p>fläche_kreis(5) = 3.14 × 5² <span class="nb">= 78.5.</span> </p>
+  <p>fläche_kreis<span class="katex" data-o="(5) = 3.14 × 5²"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">5</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3.14</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">5</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span> <span class="nb">= 78.5.</span> </p>
 </div>
 <div class="warn"><p><b>幻灯片的说法对 Python 不成立: </b>「übergeordnete Variablen dürfen nicht noch einmal definiert werden 不允许重新定义」是 Java 等语言里局部变量的规则. 在 Python 里, 函数体中给一个和外层同名的变量赋值是<b>允许的</b>: 这会创建一个新的局部变量, 在函数里<b>遮住</b>外层的同名变量, 外层变量本身不变. <span class="nb">实际运行:</span> </p>
 <pre data-lang="python repl"><code><span class="tk-p">&gt;&gt;&gt; </span>pi = <span class="tk-n">3.14
@@ -1866,7 +1905,7 @@ class Point(builtins.object)
   <p>Line 的属性 start 和 end 本身是 <b>Point 对象</b>: 对象的属性可以是<span class="nb">别的对象.</span> </p>
   <ul>
     <li><code>move</code>: 线段平移 = 两个端点各自平移. 这里 Line 的方法调用了 Point 的方法 (Folie 24: 对象在执行方法时调用别的对<span class="nb">象的方法).</span> </li>
-    <li><code>length</code>: 两点距离公式 √(Δx² + Δy²). <code>self.start.x</code> 是「当前线段的起点的 x 坐标」, 点号可以连续使用. abs 是绝对值 (这里其实可以省, <span class="nb">因为平方后符号无所谓).</span> </li>
+    <li><code>length</code>: 两点距离公式 √(Δ<span class="katex" data-o="x²"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span> + Δy²). <code>self.start.x</code> 是「当前线段的起点的 x 坐标」, 点号可以连续使用. abs 是绝对值 (这里其实可以省, <span class="nb">因为平方后符号无所谓).</span> </li>
   </ul>
 </div>
 
@@ -1892,7 +1931,28 @@ Koordinaten von l1.end = {'x': 4, 'y': 6}
 Die Länge von l1 = 3.605551275463989</pre>
 </div>
 <div class="zh">
-  <p><code>__dict__</code> 是每个对象都有的特殊属性: 一个字典, 列出这个对象的所有属性和值. 长度 = √((4−2)² + (6−3)²) = √13 ≈ 3.<span class="nb">6056.</span> </p>
+  <p><code>__dict__</code> 是每个对象都有的特殊属性: 一个字典, 列出这个对象的所有属性和值. 长度 = <span class="katex" data-o="√((4−2)² + (6−3)²) = √13 ≈ 3"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.24em;vertical-align:-0.305em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.935em;"><span class="svg-align" style="top:-3.2em;"><span class="pstrut" style="height:3.2em;"></span><span class="mord" style="padding-left:1em;"><span class="mopen">(</span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">2</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mopen">(</span><span class="mord">6</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">3</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-2.895em;"><span class="pstrut" style="height:3.2em;"></span><span class="hide-tail" style="min-width:1.02em;height:1.28em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.28em" viewBox="0 0 400000 1296" preserveAspectRatio="xMinYMin slice"><path d="M263,681c0.7,0,18,39.7,52,119
+c34,79.3,68.167,158.7,102.5,238c34.3,79.3,51.8,119.3,52.5,120
+c340,-704.7,510.7,-1060.3,512,-1067
+l0 -0
+c4.7,-7.3,11,-11,19,-11
+H40000v40H1012.3
+s-271.3,567,-271.3,567c-38.7,80.7,-84,175,-136,283c-52,108,-89.167,185.3,-111.5,232
+c-22.3,46.7,-33.8,70.3,-34.5,71c-4.7,4.7,-12.3,7,-23,7s-12,-1,-12,-1
+s-109,-253,-109,-253c-72.7,-168,-109.3,-252,-110,-252c-10.7,8,-22,16.7,-34,26
+c-22,17.3,-33.3,26,-34,26s-26,-26,-26,-26s76,-59,76,-59s76,-60,76,-60z
+M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.305em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.04em;vertical-align:-0.1328em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">13</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span>.<span class="nb">6056.</span> </p>
   <p>实际运行 Folie 34 的代码, <span class="nb">输出是:</span> </p>
 <pre data-lang="output">x-Koordinate von start.x = 2
 y-Koordinate von start.y = 3
@@ -2202,7 +2262,7 @@ ActualParameters = Expression { "," Expression }</code></pre>
   <p>Ein Methodenaufruf-Ausdruck hat also die Form e.m(a<sub>1</sub>,...,<span class="nb">a<sub>n</sub>)</span></p>
   <ul>
     <li>Der Ausdruck e muss einen Klassentyp C haben und der Identifier m muss eine in der Klasse C (oder einer Oberklasse von C, vgl. später) deklarierte Methode mit bezeichnen:<br><span class="math">m(x<sub>1</sub>,..., x<sub>n</sub>) body</span></li>
-    <li>Die aktuellen Parameter a<sub>1</sub>,...,a<sub>n</sub> sind Ausdrücke, die in Anzahl zu den formalen Parametern der Methodendeklaration passen <span class="nb">müssen.</span></li>
+    <li>Die aktuellen Parameter <span class="katex" data-o="a1"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,...,<span class="katex" data-o="an"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> sind Ausdrücke, die in Anzahl zu den formalen Parametern der Methodendeklaration passen <span class="nb">müssen.</span></li>
   </ul>
 </div>
 <div class="zh">
@@ -2225,7 +2285,28 @@ ActualParameters = Expression { "," Expression }</code></pre>
 </div>
 <div class="zh">
   <p>ln.start 指向 Point (x=1, y=2), 所以 ln.start.y = 2. 方法调用的值同样是通过执行方法体算出来的 (第 6 章细讲); 方法调用还可能改变状态, 例如 move <span class="nb">改了对象的属性.</span> </p>
-  <p>补一个真正的方法调用例子: 在 Folie 45 的状态下, <code>ln.length()</code> 的类型是 float, 值是 √((1−2)² + (2−1)²) = √2 ≈ 1.<span class="nb">414.</span> </p>
+  <p>补一个真正的方法调用例子: 在 Folie 45 的状态下, <code>ln.length()</code> 的类型是 float, 值是 <span class="katex" data-o="√((1−2)² + (2−1)²) = √2 ≈ 1"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.24em;vertical-align:-0.305em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.935em;"><span class="svg-align" style="top:-3.2em;"><span class="pstrut" style="height:3.2em;"></span><span class="mord" style="padding-left:1em;"><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">2</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mopen">(</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-2.895em;"><span class="pstrut" style="height:3.2em;"></span><span class="hide-tail" style="min-width:1.02em;height:1.28em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.28em" viewBox="0 0 400000 1296" preserveAspectRatio="xMinYMin slice"><path d="M263,681c0.7,0,18,39.7,52,119
+c34,79.3,68.167,158.7,102.5,238c34.3,79.3,51.8,119.3,52.5,120
+c340,-704.7,510.7,-1060.3,512,-1067
+l0 -0
+c4.7,-7.3,11,-11,19,-11
+H40000v40H1012.3
+s-271.3,567,-271.3,567c-38.7,80.7,-84,175,-136,283c-52,108,-89.167,185.3,-111.5,232
+c-22.3,46.7,-33.8,70.3,-34.5,71c-4.7,4.7,-12.3,7,-23,7s-12,-1,-12,-1
+s-109,-253,-109,-253c-72.7,-168,-109.3,-252,-110,-252c-10.7,8,-22,16.7,-34,26
+c-22,17.3,-33.3,26,-34,26s-26,-26,-26,-26s76,-59,76,-59s76,-60,76,-60z
+M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.305em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.04em;vertical-align:-0.1328em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">2</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>.<span class="nb">414.</span> </p>
 </div>
 <div class="warn"><p><b>幻灯片小错: </b>标题是「Methodenaufruf-Ausdruck: Beispiele」, 但给出的例子 <code>p.x</code>、<code>ln.start.y</code> 都是<b>属性访问</b>, 没有一个方法调用 (Folie 51 <span class="nb">已经讲过这两个例子).</span> </p></div>
 
@@ -2237,7 +2318,7 @@ ActualParameters = Expression { "," Expression }</code></pre>
   <ul>
     <li>C muss eine deklarierte Klasse <span class="nb">sein.</span></li>
     <li>Wenn die aktuelle Parameterliste nicht leer ist, muss in der Klasse C ein Konstruktor definiert sein mit n formalen Parametern<br><span class="math">C(x<sub>1</sub>,..., x<sub>n</sub>) body</span></li>
-    <li>Die aktuellen Parameter a<sub>1</sub>,…,a<sub>n</sub> sind <span class="nb">Ausdrücke.</span></li>
+    <li>Die aktuellen Parameter <span class="katex" data-o="a1,…,an"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> sind <span class="nb">Ausdrücke.</span></li>
     <li>Der Ausdruck C(a<sub>1</sub>,...,a<sub>n</sub>) hat dann den <span class="nb">Typ C</span></li>
   </ul>
 </div>

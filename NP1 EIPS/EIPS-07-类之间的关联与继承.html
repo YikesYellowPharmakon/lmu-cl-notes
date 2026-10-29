@@ -252,6 +252,12 @@
   html[data-mode="day"] { --syn-k: #0f6f84; --syn-f: #1a447f; --syn-s: #7b5f01; --syn-n: #1d7635; --syn-b: #105e60; --syn-c: #566d75; --syn-p: #566d75; }
   main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
 </style>
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+  .katex { font-size: 1.08em; }
+  .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; }
+  .math-block .katex-display { margin: 0.4em 0; }
+</style>
 <style id="glass">
   /* ===== 视觉层 v7 (= 样例 v21) =====
      点阵背景与渐变底色; 模块: 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.
@@ -1951,7 +1957,7 @@ True   # Seitenzahl wird nicht mit __eq__ verglichen</pre>
     <li><code>print(buch1)</code> 自动调用 __str__ → <code class="lc">Mark Lutz: Python - kurz &amp; gut</code>. </li>
     <li><code>len(buch1)</code> 调用 __len__ <span class="nb">→ 955.</span> </li>
     <li><code>buch1 == buch2</code>: <span class="nb">书名不同 → False.</span> </li>
-    <li><code>buch2 == buch3</code>: 书名和作者相同, 页数 123 ≠ 124 但 __eq__ 不看页数 → True. 「# !!<span class="nb">」就是提醒这一点.</span> </li>
+    <li><code>buch2 == buch3</code>: 书名和作者相同, 页数 <span class="katex" data-o="123 ≠ 124"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">123</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mord katex-vbox"><span class="katex-thinbox"><span class="rlap"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="katex-inner"><span class="mord"><span class="mrel"></span></span></span><span class="katex-fix"></span></span></span></span></span><span class="mspace nobreak"></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">124</span></span></span></span> 但 __eq__ 不看页数 → True. 「# !!<span class="nb">」就是提醒这一点.</span> </li>
   </ul>
   <p>上面的输出已按实际运行结果改正 <span class="nb">(见红框).</span> </p>
 </div>

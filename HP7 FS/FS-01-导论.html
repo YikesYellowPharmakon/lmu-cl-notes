@@ -252,6 +252,12 @@
   html[data-mode="day"] { --syn-k: #0d7554; --syn-f: #024f56; --syn-s: #7e4996; --syn-n: #766202; --syn-b: #395d3a; --syn-c: #596f64; --syn-p: #596f64; }
   main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
 </style>
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+  .katex { font-size: 1.08em; }
+  .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; }
+  .math-block .katex-display { margin: 0.4em 0; }
+</style>
 <style id="glass">
   /* ===== 视觉层 v7 (= 样例 v21) =====
      点阵背景与渐变底色; 模块: 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.
@@ -1167,7 +1173,7 @@
     <li><b>Formal Languages 形式语言</b>: 用来把复杂的想法<b>形式化</b>, 有明确目的; 应用: 编程 (Python)、逻辑 (<b>predicate calculus 谓词演算</b>)、数学记号; <span class="nb">为特定用途<b>人为</b>创造.</span> </li>
   </ul>
 </div>
-<div class="add"><p>这门课后面会用到形式语言更窄、更精确的定义: 先固定一个有限的符号集合, 叫<b>字母表</b> Σ (例如 {0, 1} 或 {a, b}); 由 Σ 中符号组成的有限序列叫<b>字符串</b> (词); 一个<b>形式语言</b>就是字符串的一个<b>集合</b>, 例如「所有偶数个 a 组成的串」. 这正是 Slide 7 说的「languages (i.e., sets of strings)」. EIPS 第 2 章、EICL 里讲过的正则表达式、自动机、文法, 都是描述这种集<span class="nb">合的工具.</span> </p></div>
+<div class="add"><p>这门课后面会用到形式语言更窄、更精确的定义: 先固定一个有限的符号集合, 叫<b>字母表</b> <span class="katex" data-o="Σ"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">Σ</span></span></span></span> (例如 {0, 1} 或 {a, b}); 由 <span class="katex" data-o="Σ"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord">Σ</span></span></span></span> 中符号组成的有限序列叫<b>字符串</b> (词); 一个<b>形式语言</b>就是字符串的一个<b>集合</b>, 例如「所有偶数个 a 组成的串」. 这正是 Slide 7 说的「languages (i.e., sets of strings)」. EIPS 第 2 章、EICL 里讲过的正则表达式、自动机、文法, 都是描述这种集<span class="nb">合的工具.</span> </p></div>
 
 <div class="card de">
   <span class="folie">Slide 3</span>
@@ -1313,7 +1319,7 @@
 </div>
 <div class="zh">
   <p>所有计算过程都可以归结为两种: 判定一个字符串是否属于某个集合 (<b>membership 成员关系</b>), 或在字符串集合之间做<b>映射</b> <span class="nb">(mapping).</span> </p>
-  <p>两者密切相关、可以互相代替. 例: 不直接计算 3 + 5, 而是定义语言 L = {所有正确的等式 "a+b=c"}, 然后依次问: "3+5=0" ∈ L 吗? "3+5=1" ∈ L 吗? …… 直到 "3+5=8" ∈ L 为真, 就知道答案是 8. 用 Python 模拟, 第 9 次成员测试才找到 8 <span class="nb">(实测).</span> </p>
+  <p>两者密切相关、可以互相代替. 例: 不直接计算 3 + 5, 而是定义语言 L = {所有正确的等式 "<span class="katex" data-o="a+b=c"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal">c</span></span></span></span>"}, 然后依次问: "3+5=0" ∈ L 吗? "3+5=1" ∈ L 吗? …… 直到 "3+5=8" ∈ L 为真, 就知道答案是 8. 用 Python 模拟, 第 9 次成员测试才找到 8 <span class="nb">(实测).</span> </p>
   <p>这说明: 两种方法虽然等价, 速度可能差很多. 直接相加一步完成; 逐个试候选答案, 答案越大试得越多. 反过来, 有些问题检查一个答案容易, 直接算出答案却难 (例如数独: 验证一个填好的格子很快, <span class="nb">从头解却慢).</span> </p>
 </div>
 <div class="warn"><p><b>原文笔误: </b>「test the correctness <b>of</b> all the possible input-output pairs」少了 <span class="nb">of.</span> </p></div>
@@ -1429,7 +1435,7 @@
   <ul>
     <li><b>音系学和形态学</b> → <b>自动机理论</b>. 例: 有限状态转换器 (FST) 把 Wortform 映射到 Lemma + 形态特征 (EICL 第 3 <span class="nb">章的形态分析).</span> </li>
     <li><b>句法结构</b> → <b>context-free grammar 上下文无关文法</b>. 例: S → NP VP <span class="nb">这样的规则生成句法树.</span> </li>
-    <li><b>形式语义学</b> → <b>形式表示</b> (例如用谓词逻辑表示句义: 「Every student reads」→ ∀x (student(x) → <span class="nb">reads(x))).</span> </li>
+    <li><b>形式语义学</b> → <b>形式表示</b> (例如用谓词逻辑表示句义: 「Every student reads」→ <span class="katex" data-o="∀x"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord">∀</span><span class="mord mathnormal">x</span></span></span></span> (student(x) → <span class="nb">reads(x))).</span> </li>
     <li>帮助建立和查询数据库、词典、词汇表 → <b>基于规则</b>的方法 (例如用正则表达式从语料<span class="nb">里抽词条).</span> </li>
   </ul>
 </div>
@@ -1481,7 +1487,7 @@
 <div class="card de">
   <span class="folie">Slide 17</span>
   <ul>
-    <li>J&amp;M-2<sup>1</sup>: Sections <span class="nb">1.4–1.6</span></li>
+    <li>J&amp;<span class="katex" data-o="M-21"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">M</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span>: Sections <span class="nb">1.4–1.6</span></li>
     <li>Eliza implementation (example): <code class="lc">https://github.com/iagoleal/eliza/blob/master/scripts/doctor.json</code></li>
     <li>Lego Turing Machine simulation: <code class="lc">https://www.youtube.com/watch?v=cYw2ewoO6c4</code></li>
   </ul>

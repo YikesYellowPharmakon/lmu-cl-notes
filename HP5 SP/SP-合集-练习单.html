@@ -1122,6 +1122,7 @@
     <h1>符号程序设计语言 · 练习单合集<br><span class="de-title"><span class="seg">Symbolische Programmiersprache ·</span> <span class="seg">Exercises and Homework</span></span></h1>
     <nav>
       <a href="#u1">练习 1</a>
+      <a href="#u2">练习 2</a>
     </nav>
   </div>
 </header>
@@ -1466,7 +1467,7 @@ True</pre>
 42 tests in 17 items.
 42 passed.
 Test passed.
-<span class="tk-p">$ </span><span class="tk-b">cd </span>..
+<span class="tk-p">$ </span>cd..
 <span class="tk-p">$ </span>python3 -m unittest -v src.hw01_basics.test_basics
 ...
 test_word_multiplier (src.hw01_basics.test_basics.TestBasics.test_word_multiplier)
@@ -1882,6 +1883,423 @@ False</pre>
 <div class="warn"><p><b>原文笔误:</b> 菜单名写成「View &gt; Tool<b>s</b> Windows &gt; Learn」, PyCharm 里的菜单项叫 <b>Tool Windows</b> (没有 <span class="nb">s).</span></p></div>
 </article>
 </section>
+
+<!-- ======================= U2 ======================= -->
+<section class="part" id="u2">
+<h2>练习 2: 面向对象编程与正则表达式<br><span class="de-title">Exercise Session 2: Object oriented programming &amp; Regular expressions</span><small><span class="rl">对应 <a href="SP-03-可变性作用域与面向对象.html">SP 03 · 可变性、作用域与面向对象</a>、<a href="SP-01-Python基础与测试.html">SP 01 · Python 基础与测试</a>;</span><span class="rl">源文件 Symprog Exercise 2 Slides.pdf;</span><span class="rl">练习课幻灯片, 没有单独的作业.</span></small></h2>
+
+<article id="u2-1">
+<h3>过程式编程与面向对象编程<br><span class="de-title">Imperative/Procedural Programming vs. Object Oriented Programming</span></h3>
+<div class="card orig">
+  <span class="slide">Exercise Session 2 · Slide 3–8</span>
+  <p><b>Object Oriented Programming I</b></p>
+  <ul>
+    <li>Imperative/Procedural programming vs. object oriented <span class="nb">programming</span></li>
+    <li>Important terms of object oriented programming (object, class, instance, attribute, <span class="nb">method)</span></li>
+  </ul>
+  <p><b>Object Oriented Programming II</b></p>
+  <ul><li>Composition vs. <span class="nb">Aggregation</span></li><li>Inheritance</li><li>Polymorphism</li><li>Class <span class="nb">Methods</span></li></ul>
+  <p><b>Regular Expressions</b></p>
+  <ul><li>Recap</li><li>Python <span class="nb">Examples</span></li><li>Grouping and <span class="nb">Capturing</span></li></ul>
+  <p><b>Imperative/Procedural Programming vs. Object Oriented Programming</b></p>
+  <p>Procedural programming and object oriented programming (OOP) are two programming <span class="nb">paradigms.</span></p>
+  <p>Programming paradigm: programming style, basic approach and design in <span class="nb">programming.</span></p>
+  <p><b>Procedural Programming</b></p>
+  <p>Imperative/Procedural programming aims to solve a problem by organizing the necessary steps and their <span class="nb">sequence.</span></p>
+  <p>The sequence of steps is determined by control structures (if, else, for, <span class="nb">while...).</span></p>
+  <p>Individual steps and commands can be combined in procedures <span class="nb">(functions).</span></p>
+  <p>Procedure: ordered sequence of <span class="nb">instructions.</span></p>
+  <p>Top-down approach: The problem is decomposed into smaller subproblems until it is so simple that it can be solved by a <span class="nb">(sub)procedure.</span></p>
+  <p><b>Object Oriented Programming</b></p>
+  <p>OOP → Abstraction in the form of classes and <span class="nb">objects.</span></p>
+  <p>Approach: Modeling of objects in the <span class="nb">"real"world.</span></p>
+  <p>Goal: Higher flexibility and <span class="nb">maintainability.</span></p>
+  <p>Advantages <span class="nb">of OOP:</span></p>
+  <ul>
+    <li>Modularity: code for one class can be written independently from other <span class="nb">classes.</span></li>
+    <li>Maintainability: easier to modify individual code <span class="nb">blocks.</span></li>
+    <li>Reusability: classes can be reused <span class="nb">arbitrarily.</span></li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 这次练习课分两块: 面向对象 (过程式与面向对象的对比、对象 / 类 / 实例 / 属性 / 方法这些术语; 组合与聚合、继承、多态、类方法) 和正则表达式 (复习、Python 例子、分组与捕获). 过程式编程和面向对象编程 (OOP) 是两种 <b>Programmierparadigma 编程范式</b>, 也就是编程的风格、基本做法和设计思路. 过程式编程把解决问题需要的步骤和顺序组织起来, 顺序由控制结构 (if、else、for、while) 决定; 若干步骤可以合成一个过程 (函数), 过程就是一串有序的指令. 自顶向下: 把问题拆成更小的子问题, 直到每个子问题简单到一个 (子) 过程就能解决. OOP 用类和对象做抽象, 按「现实」世界里的对象来建模, 目标是更灵活、更好维护. 优点: 模块化 (一个类的代码可以独立于其他类来写)、可维护 (单独改某块代码更容易)、可重用 (类可以随意<span class="nb">重复使用).</span></p>
+  <p><b>思路:</b> 两种范式的区别在于代码按什么组织: 过程式按「做什么步骤」组织, 数据和处理它的函数是分开的; OOP 按「有哪些东西」组织, 每个类把数据 (属性) 和操作它的代码 (方法) 放在一起. Python 两种都支持, <span class="nb">同一个程序里经常混用.</span></p>
+</div>
+<div class="warn"><p><b>原文笔误:</b> Slide 8 的「"real"world」引号后面少一个空格, 应为「"real" <span class="nb">world」.</span></p></div>
+</article>
+
+<article id="u2-2">
+<h3>面向对象的重要术语: 类与实例<br><span class="de-title"><span class="seg">Important terms in OOP: Classes ·</span> <span class="seg">Instance / Object</span></span></h3>
+<div class="card orig">
+  <span class="slide">Exercise Session 2 · Slide 9–10</span>
+  <p><b>Classes</b></p>
+  <ul>
+    <li>Describe concepts, act as blueprints or prototypes for <span class="nb">objects.</span></li>
+    <li>Properties, operations and behavior of objects of a certain type are defined in the <span class="nb">class.</span></li>
+    <li>Properties are described in the form of attributes (e.g. attribute “size” or “age” for the class <span class="nb">Person).</span></li>
+    <li>Behaviors are described in the form of methods (e.g. method “walk” or “talk” for the class <span class="nb">Person).</span></li>
+  </ul>
+  <p><b>Instance / Object</b></p>
+  <ul>
+    <li>Concrete realizations of <span class="nb">classes.</span></li>
+    <li>An object is created by the concrete realization of a class <span class="nb">(instance).</span></li>
+    <li>Each object is an instance of its <span class="nb">class.</span></li>
+    <li>Example of the class Person:
+      <ul><li>Instance / concrete object in this <span class="nb">class:</span></li><li>Person with name Anna, age 26, height 1.<span class="nb">60 etc...</span></li></ul></li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> <b>class 类</b>描述一个概念, 是对象的蓝图或原型; 某一类对象的特性、操作和行为都在类里定义. 特性写成 <b>attribute 属性</b> (如 Person 类的 size、age), 行为写成 <b>method 方法</b> (如 walk、talk). <b>instance 实例</b> / <b>object 对象</b>是类的具体实现: 把类具体化就得到一个对象, 每个对象都是它那个类的实例. 例: Person 类的一个实例是「名叫 Anna、26 岁、身高 1.<span class="nb">60 …」的那个人.</span></p>
+  <p><b>思路:</b> 类只有一个, 实例可以有很多个; 每个实例有自己的一套属性值, 方法则所有实例共用类里那一份. 下一题的 Cat <span class="nb">类正好演示这一点.</span></p>
+</div>
+</article>
+
+<article id="u2-3">
+<h3>Python 例子: Cat 类<br><span class="de-title"><span class="seg">Example in Python: Cat Class ·</span> <span class="seg">Creating Cat Objects</span></span></h3>
+<div class="card orig">
+  <span class="slide">Exercise Session 2 · Slide 11–13</span>
+  <p>We want to define a class "cat". <span class="nb">For this:</span></p>
+  <ul>
+    <li>What attributes does a cat have? (Attributes):
+      <ul><li>name</li><li>age</li><li>breed</li><li>color</li></ul></li>
+    <li>What kind of behavior does a cat have? (Methods):
+      <ul><li>meow</li><li>sleep</li><li>eat</li></ul></li>
+    <li>What does this class look like in <span class="nb">Python?</span></li>
+  </ul>
+<pre data-lang="python"><span class="tk-k">class </span><span class="tk-f">Cat</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, name, age, breed, color):
+        <span class="tk-b">self</span>.name = name
+        <span class="tk-b">self</span>.age = age
+        <span class="tk-b">self</span>.breed = breed
+        <span class="tk-b">self</span>.color = color
+
+    <span class="tk-k">def </span><span class="tk-f">meow</span>(<span class="tk-b">self</span>):
+        <span class="tk-b">print</span>(<span class="tk-s">"Meow!"</span>)
+
+    <span class="tk-k">def </span><span class="tk-f">sleep</span>(<span class="tk-b">self</span>):
+        <span class="tk-b">print</span>(<span class="tk-s">f"{</span><span class="tk-b">self</span>.name<span class="tk-s">} is sleeping."</span>)
+
+    <span class="tk-k">def </span><span class="tk-f">eat</span>(<span class="tk-b">self</span>):
+        <span class="tk-b">print</span>(<span class="tk-s">f"{</span><span class="tk-b">self</span>.name<span class="tk-s">} is eating."</span>)</pre>
+  <p>We can create multiple objects (instances) from the same <span class="nb">class.</span></p>
+  <p>Each object has its own attribute values, but uses the methods defined in the <span class="nb">class.</span></p>
+<pre data-lang="python"><span class="tk-k">if </span>__name__ == <span class="tk-s">"__main__"</span>:
+
+    <span class="tk-c"># Create two cat objects
+    </span>cat1 = Cat(<span class="tk-s">"Luna"</span>, <span class="tk-n">3</span>, <span class="tk-s">"Siamese"</span>, <span class="tk-s">"white"</span>)
+    cat2 = Cat(<span class="tk-s">"Milo"</span>, <span class="tk-n">5</span>, <span class="tk-s">"Persian"</span>, <span class="tk-s">"orange"</span>)
+
+    <span class="tk-c"># Access attributes
+    </span><span class="tk-b">print</span>(cat1.name)    <span class="tk-c"># Luna
+    </span><span class="tk-b">print</span>(cat2.name)    <span class="tk-c"># Milo
+
+    # Call methods
+    </span>cat1.meow()               <span class="tk-c"># Meow!
+    </span>cat2.sleep()              <span class="tk-c"># Milo is sleeping.
+    </span>cat1.eat()                <span class="tk-c"># Luna is eating.</span></pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 我们要定义一个「猫」类. 猫有哪些属性? 名字、年龄、品种、颜色. 猫有哪些行为 (方法)? 喵喵叫、睡觉、吃东西. 这个类在 Python 里怎么写? 同一个类可以创建多个对象 (实例): 每个对象有自己的属性值, 但用的是类里定<span class="nb">义的方法.</span></p>
+  <p><b>思路:</b> 先自己写出 Cat 类, 再对照幻灯片. 要点: <code>__init__</code> 是构造方法, 创建对象时自动调用; 第一个参数 <code>self</code> 指正在创建的那个对象, <code class="lc">self.name = name</code> 把参数存成这个对象的属性. 方法里要用属性, 也要通过 <code>self</code> 取. 然后预测主程序每一<span class="nb">行的输出.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>类的写法就是幻灯片上那样. <span class="nb">主程序实际运行的输出:</span></p>
+<pre data-lang="output">Luna
+Milo
+Meow!
+Milo is sleeping.
+Luna is eating.</pre>
+  <p>和幻灯片注释里写的一致. <code>cat1.meow()</code> 其实是 <code>Cat.meow(cat1)</code> 的简写: Python 自动把点前面的对象作为 <code>self</code> 传进去, 所以 <code>sleep</code> 里的 <code>self.name</code> 对 cat2 取到的是 <span class="nb">Milo.</span></p>
+  <p><b>易错:</b> 方法定义里忘写 <code>self</code> (<code>def meow():</code>), 调用 <code>cat1.meow()</code> 时报 <code class="lc">TypeError: Cat.meow() takes 0 positional arguments but 1 was given</code>; 在方法里写 <code>name</code> 而不是 <code>self.name</code>, 报 <code>NameError</code>. <code class="lc">if __name__ == "__main__":</code> 保证这段只在直接运行文件时执行, 被别的文件 import <span class="nb">时不执行.</span></p>
+</details>
+</article>
+
+<article id="u2-4">
+<h3>组合与聚合<br><span class="de-title">Composition vs. Aggregation</span></h3>
+<div class="card orig">
+  <span class="slide">Exercise Session 2 · Slide 14</span>
+  <p><b>Composition</b>: Complex objects are composed of several objects, whereby the individual subobjects depend on the existence of the complex <span class="nb">object.</span></p>
+  <ul><li>Example: Document – Table of Contents. A table of contents belongs to a specific document and does not meaningfully exist <span class="nb">without it.</span></li></ul>
+  <p><b>Aggregation</b>: Complex objects are also composed of several parts, but there is no existence dependency, i.e. the subobjects can continue to exist independently of the complex <span class="nb">object.</span></p>
+  <ul><li>Example: Library – Book. Books can exist independently of a library and can be transferred to another <span class="nb">library.</span></li></ul>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> <b>Composition 组合</b>: 复杂对象由几个对象组成, 各个子对象的存在依赖于这个复杂对象. 例: 文档与目录, 目录属于某一份文档, 离开文档就没有意义. <b>Aggregation 聚合</b>: 复杂对象同样由几部分组成, 但没有存在依赖, 子对象可以脱离复杂对象继续存在. 例: 图书馆与书, 书可以独立于图书馆存在, 也可以转到另一<span class="nb">个图书馆.</span></p>
+  <p><b>思路:</b> 判断标准只有一个: 整体没了, 部分还在不在? 不在 = 组合, 在 = 聚合. 两者都是「有一个 (has-a)」关系, 和下一题继承的「是一个 (is-a)」<span class="nb">关系不同.</span></p>
+</div>
+<div class="add">
+  <p>在 Python 里, 区别体现在子对象是谁创建的: 组合通常在整体的 <code>__init__</code> 里创建部分, 外面没有别的引用; 聚合则是把外面已经存在的对<span class="nb">象传进来.</span></p>
+<pre data-lang="python"><span class="tk-k">class </span><span class="tk-f">TableOfContents</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, entries):
+        <span class="tk-b">self</span>.entries = entries
+
+<span class="tk-k">class </span><span class="tk-f">Document</span>:                      <span class="tk-c"># 组合: 目录在文档内部创建
+    </span><span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, title, headings):
+        <span class="tk-b">self</span>.title = title
+        <span class="tk-b">self</span>.toc = TableOfContents(headings)
+
+<span class="tk-k">class </span><span class="tk-f">Library</span>:                       <span class="tk-c"># 聚合: 书从外面传进来
+    </span><span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, books):
+        <span class="tk-b">self</span>.books = books
+
+book = <span class="tk-s">"Faust"
+</span>lib1 = Library([book])
+<span class="tk-k">del </span>lib1                             <span class="tk-c"># 图书馆没了
+</span>lib2 = Library([book])               <span class="tk-c"># 书还在, 可以放进另一个图书馆</span></pre>
+  <p>Python 有垃圾回收, 「部分随整体一起消失」指的是没有别的引用时一起被回收; 语言本身不强制这种依赖, 它是建模层面的区分 (UML 里组合画实心菱形, <span class="nb">聚合画空心菱形).</span></p>
+</div>
+</article>
+
+<article id="u2-5">
+<h3>继承<br><span class="de-title"><span class="seg">Inheritance ·</span> <span class="seg">Example in Python ·</span> <span class="seg">Using the Classes</span></span></h3>
+<div class="card orig">
+  <span class="slide">Exercise Session 2 · Slide 15–18</span>
+  <p>Inheritance is a concept for extending classes. Inheritance can be used to create subclasses of a class that define additional properties or <span class="nb">behaviours.</span></p>
+  <p>Inheritance expresses an ”is-a-relationship”. Hierarchical structure Parent - <span class="nb">Child.</span></p>
+  <p>Parent class (also superclass) contains common <span class="nb">features.</span></p>
+  <p>Child class (also subclass) contains special <span class="nb">cases.</span></p>
+  <p><b>Advantages</b></p>
+  <ul>
+    <li>Common features of different subclasses are defined centrally and thus only need to be defined <span class="nb">once.</span></li>
+    <li>The code becomes clearer and easier to <span class="nb">understand.</span></li>
+    <li>Less programming effort (code only needs to be written <span class="nb">once).</span></li>
+    <li>Better <span class="nb">maintainability.</span></li>
+  </ul>
+  <p><b>Example</b></p>
+  <ul><li>Class ”cat” could be a subclass of the class <span class="nb">”Animal”.</span></li><li>What does inheritance look like in <span class="nb">Python?</span></li></ul>
+<pre data-lang="python"><span class="tk-k">class </span><span class="tk-f">Animal</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, name, age):
+        <span class="tk-b">self</span>.name = name
+        <span class="tk-b">self</span>.age = age
+
+    <span class="tk-k">def </span><span class="tk-f">sleep</span>(<span class="tk-b">self</span>):
+        <span class="tk-b">print</span>(<span class="tk-s">f"{</span><span class="tk-b">self</span>.name<span class="tk-s">} is sleeping."</span>)
+
+
+<span class="tk-k">class </span><span class="tk-f">Cat</span>(Animal):
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, name, age, breed, color):
+        <span class="tk-b">super</span>().<span class="tk-f">__init__</span>(name, age)
+        <span class="tk-b">self</span>.breed = breed
+        <span class="tk-b">self</span>.color = color
+
+    <span class="tk-k">def </span><span class="tk-f">meow</span>(<span class="tk-b">self</span>):
+        <span class="tk-b">print</span>(<span class="tk-s">"Meow!"</span>)</pre>
+  <p>A Cat object can use methods defined in both Animal <span class="nb">and Cat.</span></p>
+<pre data-lang="python"><span class="tk-k">if </span>__name__ == <span class="tk-s">"__main__"</span>:
+    cat1 = Cat(<span class="tk-s">"Luna"</span>, <span class="tk-n">3</span>, <span class="tk-s">"Siamese"</span>, <span class="tk-s">"white"</span>)
+
+    <span class="tk-b">print</span>(cat1.name)          <span class="tk-c"># Luna
+    </span><span class="tk-b">print</span>(cat1.breed)         <span class="tk-c"># Siamese
+
+    </span>cat1.sleep()              <span class="tk-c"># Luna is sleeping.
+    </span>cat1.meow()               <span class="tk-c"># Meow!</span></pre>
+  <p>sleep() is inherited from <span class="nb">Animal.</span></p>
+  <p>meow() is defined directly <span class="nb">in Cat.</span></p>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> <b>Vererbung / inheritance 继承</b>是扩展类的一种机制: 可以从一个类派生出子类, 子类再定义额外的属性或行为. 继承表达「是一个 (is-a)」关系, 形成父–子的层级结构. 父类 (也叫超类) 放共同的特征, 子类 (也叫派生类) 放特殊情况. 优点: 各子类的共同特征集中定义一次; 代码更清楚易懂; 编程量更少 (代码只写一次); 更好维护. 例: Cat 类可以是 Animal 类的子类. Cat 对象既能用 Animal 里定义的方法, 也能用 Cat 里定义的方法: <code>sleep()</code> 继承自 Animal, <code>meow()</code> 直接定义在 <span class="nb">Cat 里.</span></p>
+  <p><b>思路:</b> 看清 <code>Cat.__init__</code> 的两步: <code class="lc">super().__init__(name, age)</code> 先让父类设好 name 和 age, 再设自己特有的 breed 和 color. 调用 <code>cat1.sleep()</code> 时, Python 先在 Cat 里找 sleep, 找不到再到父类 Animal <span class="nb">里找.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>实际运<span class="nb">行的输出:</span></p>
+<pre data-lang="output">Luna
+Siamese
+Luna is sleeping.
+Meow!</pre>
+  <p>查找顺序可以用 <code>Cat.__mro__</code> 看到: <code class="lc">(Cat, Animal, object)</code>. <code class="lc">isinstance(cat1, Animal)</code> 也是 <code>True</code>, 这就是 is-a 的含义: <span class="nb">每只猫都是动物.</span></p>
+  <p><b>易错:</b> 子类写了自己的 <code>__init__</code> 却忘了调用 <code class="lc">super().__init__(name, age)</code>, 对象就没有 <code>name</code> 属性, <code>cat1.sleep()</code> 报 <code class="lc">AttributeError: 'Cat' object has no attribute 'name'</code>.</p>
+</details>
+<div class="warn"><p><b>原文笔误:</b> Slide 15–16 的「”is-a-relationship”」「”cat”」「”Animal”」左引号都印成了右引号 ” (LaTeX 里直接敲了 <code>"</code>), 应为 “…”. <span class="nb">不影响理解.</span></p></div>
+</article>
+
+<article id="u2-6">
+<h3>多态<br><span class="de-title">Polymorphism</span></h3>
+<div class="card orig">
+  <span class="slide">Exercise Session 2 · Slide 19</span>
+  <p>Parent and child classes can have methods with the same name. This overrides the method of the parent class. Thanks to the concept of polymorphism, the class hierarchy is automatically used to determine which method should be <span class="nb">called.</span></p>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 父类和子类可以有同名的方法, 子类的方法会 <b>override 覆盖 (重写)</b> 父类的方法. 借助 <b>Polymorphismus / polymorphism 多态</b>, Python 会自动按类的层级决定调用<span class="nb">哪个方法.</span></p>
+  <p><b>思路:</b> 同一句 <code>a.sleep()</code>, 对不同类的对象执行不同的代码: 先在对象自己的类里找, 找到就用; 找不到才顺着继承层级往上找. 调用的人不需要知道对象具体<span class="nb">是哪个类.</span></p>
+</div>
+<div class="add">
+  <p>幻灯片没有给代码, 补一个例子 (接上一题的 Animal 和 Cat), <span class="nb">实际运行:</span></p>
+<pre data-lang="python"><span class="tk-k">class </span><span class="tk-f">Dog</span>(Animal):
+    <span class="tk-k">def </span><span class="tk-f">sleep</span>(<span class="tk-b">self</span>):                       <span class="tk-c"># 覆盖 Animal.sleep
+        </span><span class="tk-b">print</span>(<span class="tk-s">f"{</span><span class="tk-b">self</span>.name<span class="tk-s">} sleeps in its basket."</span>)
+
+<span class="tk-k">for </span>a <span class="tk-k">in </span>[Cat(<span class="tk-s">"Luna"</span>, <span class="tk-n">3</span>, <span class="tk-s">"Siamese"</span>, <span class="tk-s">"white"</span>), Dog(<span class="tk-s">"Rex"</span>, <span class="tk-n">4</span>), Animal(<span class="tk-s">"Generic"</span>, <span class="tk-n">1</span>)]:
+    a.sleep()</pre>
+<pre data-lang="output">Luna is sleeping.
+Rex sleeps in its basket.
+Generic is sleeping.</pre>
+  <p>Cat 没有自己的 sleep, 用的是继承来的; Dog 覆盖了 sleep, 用自己的. 循环里的代码完全一样, 这就是多态. 覆盖的方法里还想先执行父类那一份, 就写 <span class="nb"><code>super().sleep()</code>.</span></p>
+</div>
+</article>
+
+<article id="u2-7">
+<h3>类方法<br><span class="de-title"><span class="seg">Class Methods ·</span> <span class="seg">Example in Python ·</span> <span class="seg">Creating Objects</span></span></h3>
+<div class="card orig">
+  <span class="slide">Exercise Session 2 · Slide 20–23</span>
+  <p>In Python, only one constructor can be defined per <span class="nb">class.</span></p>
+  <p>Problem: What to do if we need multiple ways to instantiate an object? → Class <span class="nb">Methods</span></p>
+  <p>In terms of functionality it is similar to multiple <span class="nb">constructors.</span></p>
+  <p>The first argument refers to the class itself and not to a concrete object (therefore <code>cls</code> instead of <span class="nb"><code>self</code>).</span></p>
+  <p>Class methods operate on the passed arguments and then call the underlying constructor of the class (also with the <span class="nb">keyword <code>cls</code>).</span></p>
+<pre data-lang="python"><span class="tk-k">class </span><span class="tk-f">Person</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, name, age):
+        <span class="tk-b">self</span>.name = name
+        <span class="tk-b">self</span>.age = age
+
+    <span class="tk-f">@classmethod
+    </span><span class="tk-k">def </span><span class="tk-f">from_birth_year</span>(<span class="tk-b">cls</span>, name, birth_year, current_year):
+        age = current_year - birth_year
+        <span class="tk-k">return </span><span class="tk-b">cls</span>(name, age)</pre>
+  <ul>
+    <li><code>@classmethod</code> marks the method as a class <span class="nb">method.</span></li>
+    <li><code>cls</code> refers to the class (Person <span class="nb">here).</span></li>
+    <li><code>cls(name, age)</code> creates a new instance using the regular <span class="nb">constructor.</span></li>
+  </ul>
+  <p>We can create Person objects in two <span class="nb">ways:</span></p>
+<pre data-lang="python"><span class="tk-k">if </span>__name__ == <span class="tk-s">"__main__"</span>:
+
+    <span class="tk-c"># Regular constructor
+    </span>person1 = Person(<span class="tk-s">"Alice"</span>, <span class="tk-n">25</span>)
+
+    <span class="tk-c"># Alternative constructor
+    </span>person2 = Person.from_birth_year(<span class="tk-s">"Bob"</span>, <span class="tk-n">2000</span>, <span class="tk-n">2026</span>)
+
+    <span class="tk-b">print</span>(person1.age)        <span class="tk-c"># 25
+    </span><span class="tk-b">print</span>(person2.age)        <span class="tk-c"># 26</span></pre>
+  <ul>
+    <li>Both approaches create Person <span class="nb">objects.</span></li>
+    <li>The class method calculates the approximate age before calling the regular <span class="nb">constructor.</span></li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> Python 里一个类只能定义一个构造方法. 问题: 想用好几种方式创建对象怎么办? → <b>class method 类方法</b>, 功能上相当于多个构造方法. 类方法的第一个参数指类本身, 不指某个具体对象, 所以写 <code>cls</code> 而不是 <code>self</code>. 类方法先处理传进来的参数, 再调用这个类本来的构造方法 (同样通过 <code>cls</code>). <code>@classmethod</code> 把方法标成类方法; <code>cls</code> 在这里就是 Person; <code>cls(name, age)</code> 用普通构造方法创建一个新实例. 两种方式都得到 Person 对象, 类方法先算出大致年龄, <span class="nb">再调用普通构造方法.</span></p>
+  <p><b>思路:</b> 跟着 <code class="lc">Person.from_birth_year("Bob", 2000, 2026)</code> 走一遍: 通过类调用, Python 自动把 Person 作为 <code>cls</code> 传入; 算出 age, 然后 <code>cls(name, age)</code> 等于 <span class="nb"><code class="lc">Person("Bob", age)</code>.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>实际运行: <code>person1.age</code> 是 <code>25</code>, <code>person2.age</code> 是 2026 − 2000 = <code>26</code>, <span class="nb">和幻灯片注释一致.</span></p>
+  <p>为什么写 <code>cls(...)</code> 而不是直接写 <code>Person(...)</code>: 子类继承这个类方法时, <code>cls</code> 就是子类, 返回的也是子类对象; 写死 <code>Person</code> 的话子类调用它也只能得到 <span class="nb">Person.</span></p>
+  <p>「只能有一个构造方法」的意思是: 在类里写两个 <code>__init__</code>, 后一个会把前一个覆盖掉 (Python 没有按参数个数区分的重载), 所以要另找办法, 类方法就是标准做法. 「approximate age」是因为没考虑今年生<span class="nb">日过没过.</span></p>
+</details>
+</article>
+
+<article id="u2-8">
+<h3>正则表达式复习<br><span class="de-title"><span class="seg">Regular Expressions (Regex) ·</span> <span class="seg">Regex syntax</span></span></h3>
+<div class="card orig">
+  <span class="slide">Exercise Session 2 · Slide 24–25</span>
+  <div class="tablewrap"><table>
+    <tr><th>Symbols</th><th>Meaning</th></tr>
+    <tr><td><code>.</code></td><td class="wide">Matches any single character except newline</td></tr>
+    <tr><td><code>*</code></td><td class="wide">Matches 0 or more repetitions of preceding regex</td></tr>
+    <tr><td><code>+</code></td><td class="wide">Matches 1 or more repetitions of preceding regex</td></tr>
+    <tr><td><code>?</code></td><td class="wide">Matches 0 or 1 repetition of preceding regex</td></tr>
+  </table></div>
+  <p><b>Regular Expressions</b></p>
+  <ul><li>Powerful tool for string matching and <span class="nb">manipulation.</span></li><li>Supported by many programming <span class="nb">languages.</span></li><li>Crucial for text processing <span class="nb">tasks.</span></li></ul>
+  <p><b>Regex syntax</b></p>
+  <ul>
+    <li>String patterns: <code>H[ae]llo</code>, with <code>[ ]</code> set of possible <span class="nb">characters</span></li>
+    <li>Meta characters: <code>.</code> (matches any single <span class="nb">character)</span></li>
+    <li>Escaping: <code>\.</code></li>
+    <li>Digits: <span class="nb"><code>\d</code></span></li>
+    <li>Character sets: <span class="nb"><code>[aeiou]</code></span></li>
+    <li>Ranges: <code>[A-Z]</code>, <span class="nb"><code>[0-9]</code></span></li>
+    <li>Disjunction: <span class="nb"><code>cat|dog</code></span></li>
+    <li>Anchors: <code>ˆ</code> (caret = start), <span class="nb"><code>$</code> (= end)</span></li>
+    <li>Quantifiers &amp; Wildcards: <code>*</code>, <code>+</code>, <code>?</code>, <code>{n}</code>, <span class="nb"><code>{n, m}</code></span></li>
+    <li>Capture groups: <code>(abc)</code>, <span class="nb"><code>(a|b)</code></span></li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> <code>.</code> 匹配除换行以外的任意一个字符; <code>*</code> 匹配前面的式子重复 0 次或多次; <code>+</code> 1 次或多次; <code>?</code> 0 次或 1 次. <b>regulärer Ausdruck / regular expression 正则表达式</b>是做字符串匹配和处理的强大工具, 很多编程语言都支持, 文本处理离不开它. 语法: 方括号是可选字符的集合 (<code>H[ae]llo</code> 匹配 Hallo 和 Hello); 元字符 <code>.</code> 匹配任意单个字符, 要匹配真正的点就转义写 <code>\.</code>; <code>\d</code> 是数字; 字符集 <code>[aeiou]</code>; 范围 <code>[A-Z]</code>、<code>[0-9]</code>; 析取 <code>cat|dog</code>; 锚点 <code>^</code> 是开头、<code>$</code> 是结尾; 量词 <code>*</code>、<code>+</code>、<code>?</code>、<code>{n}</code> (正好 n 次)、<code>{n,m}</code> (n 到 m 次); 捕获组 <code>(abc)</code>、<span class="nb"><code>(a|b)</code>.</span></p>
+  <p><b>思路:</b> 量词只作用于紧挨在它前面的那一个单位: <code>ab*</code> 是 a 后面跟任意个 b, 要重复 ab 整体得写 <code>(ab)*</code>. <code>^</code> 在方括号开头时意思变成「取反」: <span class="nb"><code>[^0-9]</code> 是非数字.</span></p>
+</div>
+<div class="warn"><p><b>幻灯片错误:</b> Slide 25 把区间量词写成 <code>{n, m}</code>, 逗号后带空格. Python 的 <code>re</code> 不把带空格的写法当量词, 而是当普通字符: 实际运行 <code class="lc">re.findall('a{1, 2}', 'aaa')</code> 得到 <code>[]</code>, <code class="lc">re.findall('a{1, 2}', 'a{1, 2}')</code> 反而得到 <code>['a{1, 2}']</code>. 正确写法是 <code>{n,m}</code>, 中间不能有空格 (<code class="lc">re.findall('a{1,2}', 'aaa')</code> 得到 <span class="nb"><code>['aa', 'a']</code>).</span></p></div>
+<div class="warn"><p><b>幻灯片小错:</b> Slide 25 的锚点印成了 <code>ˆ</code> (U+02C6 修饰字母, LaTeX 排版的产物), 正则里要写的是 ASCII 的 <code>^</code>; 从幻灯片复制粘贴会<span class="nb">匹配失败.</span></p></div>
+</article>
+
+<article id="u2-9">
+<h3>Python 例子: match、search、findall<br><span class="de-title"><span class="seg">Regular Expressions ·</span> <span class="seg">Python Examples</span></span></h3>
+<div class="card orig">
+  <span class="slide">Exercise Session 2 · Slide 26–28</span>
+<pre data-lang="python"><span class="tk-k">import </span>re
+
+<span class="tk-c"># Match words starting with 'g' and ending with 'house'
+</span>wordlist = [<span class="tk-s">'farmhouse'</span>, <span class="tk-s">'greenhouse'</span>, <span class="tk-s">'guesthouse'</span>, <span class="tk-s">'gymhouse'</span>]
+<span class="tk-k">for </span>w <span class="tk-k">in </span>wordlist:
+    <span class="tk-k">if </span>re.match(<span class="tk-s">'^g.*house$'</span>, w):
+        <span class="tk-b">print</span>(w)</pre>
+  <p><code>re.match()</code> checks whether the pattern matches at the beginning of the <span class="nb">string.</span></p>
+<pre data-lang="python"><span class="tk-k">import </span>re
+
+<span class="tk-c"># Match words that have 'ee' followed by 'oo'
+</span>wordlist = [<span class="tk-s">'beefood'</span>, <span class="tk-s">'beetroot'</span>, <span class="tk-s">'freedom'</span>]
+pattern = <span class="tk-s">r'ee.*oo'
+</span><span class="tk-k">for </span>w <span class="tk-k">in </span>wordlist:
+    <span class="tk-k">if </span>re.search(pattern, w):
+        <span class="tk-b">print</span>(w)</pre>
+  <p><code>re.search()</code> searches for the pattern anywhere in the <span class="nb">string.</span></p>
+<pre data-lang="python"><span class="tk-k">import </span>re
+
+<span class="tk-c"># Extract all the email addresses from a string
+</span>text = <span class="tk-s">"Contact us at support@example.com or at helpdesk@mywebsite.org"
+</span>pattern = <span class="tk-s">r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+</span>matches = re.findall(pattern, text)
+<span class="tk-k">for </span>email <span class="tk-k">in </span>matches:
+    <span class="tk-b">print</span>(email)</pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 第一段找以 g 开头、以 house 结尾的词; <code>re.match()</code> 只检查模式能不能在字符串<b>开头</b>匹配上. 第二段找含有 ee、后面 (隔任意字符) 跟着 oo 的词; <code>re.search()</code> 在字符串<b>任意位置</b>找模式. 第三段从字符串里提取所有电子<span class="nb">邮件地址.</span></p>
+  <p><b>思路:</b> 逐个词判断, 预测每段打印什么. 第二段注意 <code>.*</code> 可以是空的, 也可以跨过很多字符, 但 oo 必须真的出现在 ee 之后. 第三段把模式拆开读: <code>\b</code> 词边界, 用户名部分 <code>[A-Za-z0-9._%+-]+</code>, <code>@</code>, 域名 <code>[A-Za-z0-9.-]+</code>, 一个真正的点 <code>\.</code>, 顶级域 2–7 个字母. <code>findall</code> 没有分组时返回所有完整匹<span class="nb">配的列表.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>三段实际运行的输<span class="nb">出依次是:</span></p>
+<pre data-lang="output">greenhouse
+guesthouse
+gymhouse</pre>
+<pre data-lang="output">beefood
+beetroot</pre>
+<pre data-lang="output">support@example.com
+helpdesk@mywebsite.org</pre>
+  <p>第一段: farmhouse 不以 g 开头. 因为 <code>re.match</code> 本来就只在开头匹配, 模式里的 <code>^</code> 是多余的 (写上也没错); 结尾的 <code>$</code> 不能省, 否则 greenhouses <span class="nb">也会算.</span></p>
+  <p>第二段: beefood 里 ee 后面有 oo; beetroot 里 ee … r-oo-t 也有; freedom 里 ee 后面是 dom, 没有 oo. 这里换成 <code>re.match</code> 结果为空, 因为三个词都不以 ee <span class="nb">开头.</span></p>
+  <p>第三段: <code>findall</code> 返回 <code class="lc">['support@example.com', 'helpdesk@mywebsite.org']</code>, <span class="nb">循环逐个打印.</span></p>
+</details>
+<div class="warn"><p><b>幻灯片错误:</b> Slide 28 的顶级域部分写成 <code>[A-Z|a-z]{2,7}</code>. 方括号里的 <code>|</code> 不是「或」, 而是普通字符, 所以这个字符集也接受竖线: 实际运行时 <code>x@y.c|m</code> 也被当成邮件地址提取出来. 本意应写 <code>[A-Za-z]{2,7}</code>. 这个模式在网上流传很广, 错误也一起流传; 幻灯片的例子文本里碰巧没有竖线, <span class="nb">所以输出没受影响.</span></p></div>
+</article>
+
+<article id="u2-10">
+<h3>分组与捕获<br><span class="de-title">Regular Expressions: Grouping and Capturing</span></h3>
+<div class="card orig">
+  <span class="slide">Exercise Session 2 · Slide 29</span>
+<pre data-lang="python"><span class="tk-k">import </span>re
+
+<span class="tk-c"># Using named groups
+</span>text = <span class="tk-s">"The price of the item is $15."
+</span>pattern = <span class="tk-s">r'(?P&lt;currency&gt;\$)(?P&lt;amount&gt;\d+)'
+</span>match = re.search(pattern, text)
+<span class="tk-k">if </span>match:
+    <span class="tk-b">print</span>(<span class="tk-s">"Currency:"</span>, match.group(<span class="tk-s">"currency"</span>))
+    <span class="tk-b">print</span>(<span class="tk-s">"Amount:"</span>, match.group(<span class="tk-s">"amount"</span>)) <span class="tk-c"># Outputs: Amount: 15</span></pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 用命名分组: 在价格句子里同时取出货币符<span class="nb">号和金额.</span></p>
+  <p><b>思路:</b> <code>(?P&lt;名字&gt;…)</code> 是带名字的捕获组, 匹配后用 <code>match.group("名字")</code> 取出这一组匹配到的文字. <code>\$</code> 要转义, 因为 <code>$</code> 本身是结尾锚点. <code>re.search</code> 没找到时返回 <code>None</code>, 所以先 <code>if match:</code> <span class="nb">再取组.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>实际运<span class="nb">行的输出:</span></p>
+<pre data-lang="output">Currency: $
+Amount: 15</pre>
+  <p><code>\d+</code> 是贪婪的, 但遇到点就停, 所以金额是 <code>15</code> 而不是 <code>15.</code>. 同样的组也能按编号取: <code>match.group(1)</code> 是 <code>'$'</code>, <code>match.group(2)</code> 是 <code>'15'</code>; <code>match.groupdict()</code> 一次返回 <code class="lc">{'currency': '$', 'amount': '15'}</code>. 组里取到的永远是字符串, <span class="nb">要计算得先 <code>int(...)</code>.</span></p>
+  <p><b>易错:</b> 模式里有分组时, <code>re.findall</code> 返回的是各组的内容 (多个组就是元组列表), 不再是整个匹配: <code class="lc">re.findall(pattern, text)</code> 得到 <span class="nb"><code>[('$', '15')]</code>.</span></p>
+</details>
+</article>
+</section>
+
 
 </main>
 <script id="glass-js">

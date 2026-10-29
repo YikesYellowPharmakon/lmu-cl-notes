@@ -262,6 +262,12 @@
   html[data-mode="day"] { --syn-k: #8c3f92; --syn-f: #72263e; --syn-s: #626a08; --syn-n: #2664ab; --syn-b: #5b4872; --syn-c: #726373; --syn-p: #726373; }
   main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
 </style>
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+  .katex { font-size: 1.08em; }
+  .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; }
+  .math-block .katex-display { margin: 0.4em 0; }
+</style>
 <style id="glass">
   /* ===== 视觉层 v7 (= 样例 v21) =====
      点阵背景与渐变底色; 模块: 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.
@@ -1956,7 +1962,7 @@ Offices:        Sunnyvale, Minneapolis, New York, Washington DC, London, Munich,
     <li><b>Near-duplicate 近似重复</b>: 内容基本相同, <span class="nb">排版和设计不同.</span></li>
     <li><b>部分重复</b>: 引文、从别的网页复制粘贴的段落、<b>mashup 混搭页</b> (把几个来源的内容<span class="nb">拼成一页).</span></li>
   </ul>
-  <p>关键难点: 在网络规模下<b>不可能两两比较所有文档</b>. n 篇文档要比较 n(n−1)/2 对, 十亿篇就是约 5 × 1<span class="nb">0<sup>17</sup> 对.</span></p>
+  <p>关键难点: 在网络规模下<b>不可能两两比较所有文档</b>. n 篇文档要比较 n(n−1)/2 对, 十亿篇就是约 5 × 1<span class="nb"><span class="katex" data-o="017"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">17</span></span></span></span></span></span></span></span></span></span></span></span> 对.</span></p>
 </div>
 
 <div class="card de">
@@ -1987,7 +1993,7 @@ Offices:        Sunnyvale, Minneapolis, New York, Washington DC, London, Munich,
   <ul><li>information extraction methods <span class="nb">→ 84</span></li><li>extraction methods are <span class="nb">→ 99</span></li><li>methods are crucial → <span class="nb">→ 91</span></li></ul>
   <p><b>Document B</b>: information extraction methods are <span class="nb">important</span></p>
   <ul><li>information extraction methods <span class="nb">→ 84</span></li><li>extraction methods are <span class="nb">→ 99</span></li><li>methods are important <span class="nb">→ 34</span></li></ul>
-  <p>The proportion of shared shingles can be measured using <b>Jaccard similarity</b>: J(A, B) = | A ∩ B | / | A ∪ <span class="nb">B |</span></p>
+  <p>The proportion of shared shingles can be measured using <b>Jaccard similarity</b>: <span class="katex" data-o="J(A, B) = | A ∩ B | / | A ∪"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0962em;">J</span><span class="mopen">(</span><span class="mord mathnormal">A</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∩</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="mord">∣/∣</span><span class="mord mathnormal">A</span><span class="mord">∪</span></span></span></span> <span class="nb">B |</span></p>
   <p><b>Create Super-Shingles (toy example)</b></p>
   <p>fingerprints of <span class="nb">fingerprints</span></p>
   <ul><li>84, 99,<span class="nb">→ hash → A12</span></li><li>12, 34) → hash <span class="nb">→ B57</span></li></ul>
@@ -2219,7 +2225,7 @@ Interiors r very attractive.</pre>
   <p><b>Char Encoding: Code Pages</b></p>
   <ul>
     <li>For each script, develop a different mapping (<b>a code-page</b>)
-      <ul><li>Hebrew code page: ...., <span class="nb">226=...,א</span></li><li>Western code page: ...., <span class="nb">226=à,...</span></li><li>Greek code page: ...., <span class="nb">226=α, ...</span></li></ul></li>
+      <ul><li>Hebrew code page: ...., <span class="nb">226=...,א</span></li><li>Western code page: ...., <span class="nb">226=à,...</span></li><li>Greek code page: ...., <span class="nb"><span class="katex" data-o="226=α"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">226</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span>, ...</span></li></ul></li>
     <li>Most code pages map characters 0-127 like <span class="nb">ASCII</span></li>
   </ul>
   <p>Disadvantages:</p>
@@ -2230,7 +2236,7 @@ Interiors r very attractive.</pre>
   <p>Disadvantage: Very clumsy for non-English <span class="nb">documents</span></p>
   <p><b>Char Encoding: Unicode</b></p>
   <ul><li>Use 4 bytes (24 bits) per character <span class="nb">(<b>Unicode</b>)</span></li></ul>
-  <p>...65=A, 66=B, ..., <span class="nb">1001=α, ...,</span></p>
+  <p>...65=A, 66=B, ..., <span class="nb"><span class="katex" data-o="1001=α"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">1001</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span>, ...,</span></p>
   <p>Disadvantage: Takes 4 times as much space as <span class="nb">ASCII</span></p>
   <p class="src">Slide from <span class="nb">Suchanek</span></p>
 </div>

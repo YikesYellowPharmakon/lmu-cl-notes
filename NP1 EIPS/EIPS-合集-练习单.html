@@ -1153,6 +1153,16 @@
       <a href="#b2">Blatt 2</a>
       <a href="#b2-1">2-1 玩具箱</a>
       <a href="#b2-2">2-2 配方</a>
+      <a href="#z2">ZÜ 2</a>
+      <a href="#z2-3">类型转换</a>
+      <a href="#z2-4">优先级</a>
+      <a href="#z2-6">正确性</a>
+      <a href="#z2-9">求值</a>
+      <a href="#b3">Blatt 3</a>
+      <a href="#b3-1">3-1 检查</a>
+      <a href="#b3-2">3-2 检查</a>
+      <a href="#b3-3">3-3 求值</a>
+      <a href="#b3-4">3-4 生日</a>
     </nav>
   </div>
 </header>
@@ -1877,6 +1887,476 @@ Regel ZifferOhne0 (2×), Op | (2×)       → "1" "TL" "Zucker" "3" "EL" "Mehl"<
 </article>
 
 </section>
+
+<!-- ======================= Z2 ======================= -->
+<section class="part" id="z2">
+<h2>Zentralübung 2<br><span class="de-title">Grunddatentypen, Ausdrücke und Variablen · Typkonversion, Überprüfen und Auswerten von Ausdrücken</span><small><span class="rl">对应 <a href="EIPS-03-基本数据类型表达式与变量.html#typen">EIPS 03 · 基本数据类型</a>、<a href="EIPS-03-基本数据类型表达式与变量.html#praez">运算符优先级</a>、<a href="EIPS-03-基本数据类型表达式与变量.html#auswert">表达式求值</a>、<a href="EIPS-03-基本数据类型表达式与变量.html#konv">类型转换</a>;</span><span class="rl">源文件 Zentraluebung03.pdf;</span><span class="rl">中心练习课 (Zentralübung) 的讲义, 文件名的 03 对应讲义第 3 章.</span></small></h2>
+
+<article id="z2-1">
+<h3>1. Python 的基本数据类型<br><span class="de-title">Grundatentypen in Python</span></h3>
+<div class="card de">
+  <span class="folie">Zentralübung 2 · Folie 2</span>
+  <ul>
+    <li>Ganze Zahlen: <code>int</code><br>z. B. 165 mit +,-,*,/,//, %,&lt;,&lt;=,&gt;,&gt;=,==,!=</li>
+    <li>Gleitpunktzahlen: <code>float</code><br>z. B. 1.65 mit +,-,*,/,//, %,&lt;,&lt;=,&gt;,&gt;=,==,!=</li>
+    <li>Zeichen und Zeichenketten: <code>str</code><br>z. B. "Annabelle" mit +</li>
+    <li>Wahrheitswerte: <code>bool</code><br>z. B. True und False mit not, and, or</li>
+  </ul>
+  <p>Beachte: mit der Funktion <code>type()</code> kann der Typ eines Ausdrucks ermittelt <span class="nb">werden.</span></p>
+<pre data-lang="text">type("Annabelle") = &lt;class 'str'&gt;
+type(3.0 + 4.2) = &lt;class 'float'&gt;</pre>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 四种基本数据类型: 整数 <code>int</code> (如 165) 和浮点数 <code>float</code> (如 1.65) 都支持算术运算 + − * / // % 和比较运算; 字符和字符串 <code>str</code> (如 "Annabelle") 支持 + (拼接); 真值 <code>bool</code> (True、False) 支持 not、and、or. 用函数 <code>type()</code> 可以查出一个表达<span class="nb">式的类型.</span></p>
+  <p><b>思路</b>: 这一页是复习, 后面三道题都要用: 判断一个运算的两边是什么类型、这种类型支不支持这个运算. 注意 <code>type(...)</code> 在交互模式下显示成 <code class="lc">&lt;class 'str'&gt;</code>, <span class="nb">幻灯片把它写成了等式.</span></p>
+</div>
+<div class="add"><p>幻灯片只列了每种类型最常用的运算, 并不完整: str 也支持比较 (<code>"a" &lt; "b"</code> 按字典序) 和与整数相乘 (<code>"ab" * 3</code> 得 <code>'ababab'</code>); bool 也能参加算术, 因为它会被自动转成 int (见本节第 3 题第 6 <span class="nb">小题).</span></p></div>
+<div class="warn"><p><b>原文笔误:</b> 标题「<b>Grundatentypen</b>」少了一个 d, 应为 Grunddatentypen (Folie 2–4 <span class="nb">都是这样).</span></p></div>
+</article>
+
+<article id="z2-2">
+<h3>2. 类型转换: 隐式与显式<br><span class="de-title"><span class="seg">Grundatentypen: Typkonversion (I) ·</span> <span class="seg">(II)</span></span></h3>
+<div class="card de">
+  <span class="folie">Zentralübung 2 · Folie 3–4</span>
+  <p>Typkonversion: Werte eines Datentyps in einen anderen Datentyp <span class="nb">umwandeln</span></p>
+  <p><b>1. Implizite oder automatische Typkonversion wenn notwendig</b></p>
+  <p>int → float → <span class="nb">complex</span></p>
+  <p>z. B. 165 - 1.5 ist automatisch vom Typ <span class="nb">float</span></p>
+  <p>Achtung:</p>
+  <ul>
+    <li>Division mit / liefert immer einen <span class="nb">float</span></li>
+    <li>Division mit // rundet ab und liefert immer eine ganze Zahl, aber der Typ hängt von der Eingabe ab (wie bei *, +, <span class="nb">etc.)</span></li>
+  </ul>
+  <p><b>2. Explizite Typkonversion oder Type Casting:</b><br>Erzwingen der Typkonversion durch die Funktion mit dem Namen des Typs</p>
+  <p>z. B. <code>int(1.65)</code> erhält explizit den Typ int — Nachkommaanteil passt nicht in den Wertebereich des Datentyps int<br>→ Nachkommastellen werden abgeschnitten: Informationsverlust</p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 类型转换就是把一种类型的值变成另一种类型. ① <b>隐式 (自动) 转换</b>: 需要时自动进行, 方向是 int → float → complex; 例如 165 − 1.5 自动得到 float. 注意: 用 / 除法<b>永远</b>得到 float; 用 // 除法向下取整, 结果的值总是整数, 但类型取决于输入 (和 *、+ 一样: 两个 int 得 int, 有 float 就得 float). ② <b>显式转换</b> (type casting): 调用和类型同名的函数强制转换, 如 <code>int(1.65)</code>. 小数部分放不进 int 的取值范围 → 小数位被截掉, <span class="nb">信息丢失.</span></p>
+  <p><b>思路</b>: 记住两个例子: <code>7 // 2</code> 是 <code>3</code> (int), <code>7.0 // 2</code> 是 <code>3.0</code> (float); <code>int(1.65)</code> 是 <code>1</code>, <span class="nb">截断而不是四舍五入.</span></p>
+</div>
+<div class="warn"><p><b>幻灯片前后不一致:</b> 隐式转换的顺序写成 int → float → complex, 漏了最前面的 bool; 讲义 (EIPS 03 Folie 39) 写的是 bool → int → float → complex. 本节第 3 题第 6 小题 <code>True + 4</code> 用的正是 bool → int 这一步 (幻灯片自己也写「impliziter Typecast von bool <span class="nb">zu int」).</span></p></div>
+</article>
+
+<article id="z2-3">
+<h3>3. 类型与类型转换<br><span class="de-title">Aufgabe 1: Typen und Typkonversion</span></h3>
+<div class="card de">
+  <span class="folie">Zentralübung 2 · Folie 5</span>
+  <p><b>Was sind die Typen der folgenden Ausdrücke und wieso ergeben sich diese?</b></p>
+<pre data-lang="python"><span class="tk-b">int</span>(<span class="tk-n">4.5</span>)
+<span class="tk-n">2 </span>+ <span class="tk-n">4.5
+3 </span>+ <span class="tk-s">"Kuchen"
+</span><span class="tk-b">str</span>(<span class="tk-n">3</span>) + <span class="tk-s">"Kuchen"
+</span><span class="tk-b">bool</span>(<span class="tk-n">5</span>)
+<span class="tk-n">True </span>+ <span class="tk-n">4</span></pre>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 下面这些表达式的类型是什么? <span class="nb">为什么?</span></p>
+  <p><b>思路</b>: 每一个先判断是哪种情况: 显式转换 (调用了 int()、str()、bool())、隐式转换 (两边类型不同, 弱的自动转成强的), 还是根本不支持 (报 TypeError). bool(数) 的规则: 0 是 False, <span class="nb">其他都是 True.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <div class="tablewrap"><table>
+    <tr><th>表达式</th><th>类型 (实际运行的值)</th><th>为什么</th></tr>
+    <tr><td><code>int(4.5)</code></td><td>int (<code>4</code>)</td><td class="wide">显式转换 float → int, 小数部分截掉</td></tr>
+    <tr><td><code>2 + 4.5</code></td><td>float (<code>6.5</code>)</td><td class="wide">隐式转换: 2 转成更「高」的类型 float</td></tr>
+    <tr><td><code>3 + "Kuchen"</code></td><td>TypeError</td><td class="wide">int 和 str 之间没有 +, 也不会自动转换</td></tr>
+    <tr><td class="wide"><code class="lc">str(3) + "Kuchen"</code></td><td class="wide">str (<code>'3Kuchen'</code>)</td><td class="wide">显式转换 int → str, 然后字符串拼接</td></tr>
+    <tr><td><code>bool(5)</code></td><td>bool (<code>True</code>)</td><td class="wide">显式转换 int → bool, 非 0 即 True</td></tr>
+    <tr><td><code>True + 4</code></td><td>int (<code>5</code>)</td><td class="wide">隐式转换 bool → int, True 当作 1</td></tr>
+  </table></div>
+  <p>第 3 个的实际报错是 <code class="lc">TypeError: unsupported operand type(s) for +: 'int' and 'str'</code>.</p>
+  <p><b>易错</b>: 隐式转换只在数值类型之间、只往「强」的方向走; 数字和字符串之间永远要自己写 <code>str()</code> 或 <code>int()</code>. <code>True + 4</code> 不报错, 很多人会以为是<span class="nb">类型错误.</span></p>
+</details>
+<div class="warn"><p><b>原文笔误:</b> 第 3 小题的讲解「Nicht <b>unterstützer</b> Operator + für int, str」少了字母, 应为 <span class="nb">unterstützter.</span></p></div>
+</article>
+
+<article id="z2-4">
+<h3>4. 运算符优先级<br><span class="de-title"><span class="seg">Ausdrücke: Präzedenzen (I) ·</span> <span class="seg">(II)</span></span></h3>
+<div class="card de">
+  <span class="folie">Zentralübung 2 · Folie 6–7</span>
+  <p>Woher wissen wir, wie man 2 ∗ 5 + 10 <span class="nb">berechnet?</span></p>
+  <ul><li>Gilt 2 ∗ 5 + 10 = 2 ∗ (5 + 10) <span class="nb">oder</span></li><li>Gilt 2 ∗ 5 + 10 = (2 ∗ 5) + <span class="nb">10 ?</span></li></ul>
+  <p>Die mathematischen Operatoren haben eine feste Reihenfolge, in der sie ausgewertet <span class="nb">werden:</span></p>
+  <ul><li>Potenzrechnung vor <span class="nb">Punktrechnung</span></li><li>Punktrechnung vor Strichrechnung (“Punkt vor <span class="nb">Strich”) ...</span></li></ul>
+  <p>Auch in Programmiersprachen gibt es eine solche Reihenfolge, besser bekannt als <b>Präzedenz</b> (=Bindungsstärke) eines <span class="nb">Operators.</span></p>
+  <p>Der Operator mit der höchsten Präzedenz wird zuerst <span class="nb">ausgewertet.</span></p>
+  <div class="tablewrap"><table>
+    <tr><th>Operation</th><th>Präzedenz</th></tr>
+    <tr><td>unäres +, -</td><td>14</td></tr>
+    <tr><td>*, /, //, %</td><td>13</td></tr>
+    <tr><td>binäres +, -</td><td>12</td></tr>
+    <tr><td class="wide">&gt;,&gt;=,&lt;,&lt;=, ==, !=</td><td>7</td></tr>
+    <tr><td>not</td><td>6</td></tr>
+    <tr><td>and</td><td>5</td></tr>
+    <tr><td>or</td><td>4</td></tr>
+  </table></div>
+  <p class="src">(Auswahl, <span class="nb">volle Liste)</span></p>
+  <p><code class="lc">5-4 * 3 == False</code> ist <span class="nb"><code class="lc">(5-(4 * 3)) == False</code></span></p>
+  <p><b>Was ist der Wert von <code class="lc">not False and False</code>?</b></p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 怎么知道 2 * 5 + 10 是 2 * (5 + 10) 还是 (2 * 5) + 10? 数学运算有固定的计算顺序: 先乘方, 再乘除, 后加减 (「先乘除后加减」). 编程语言里也有这样的顺序, 叫运算符的<b>Präzedenz 优先级</b> (= 结合强度). 优先级最高的运算符最先计算. 表里是 Python 的一部分优先级 (数字越大越先算). 例: <code class="lc">5-4 * 3 == False</code> 等于 <code class="lc">(5-(4 * 3)) == False</code>. 问题: <code class="lc">not False and False</code> <span class="nb">的值是什么?</span></p>
+  <p><b>思路</b>: 查表: not 的优先级 (6) 比 and (5) 高, 所以 not 先和紧挨着的 False 结合. 先补全括号, <span class="nb">再算.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p><code class="lc">not False and False</code> 是 <code class="lc">(not False) and False</code> = <code>True and False</code> = <b><code>False</code></b>, 而不是 <code class="lc">not (False and False)</code> = <code>not False</code> = <code>True</code>. 实际运行两个写法分别得到 <code>False</code> 和 <span class="nb"><code>True</code>.</span></p>
+  <p>幻灯片的例子 <code class="lc">5-4 * 3 == False</code>: 乘法 (13) 先于减法 (12), 减法先于比较 (7), 所以是 <code class="lc">(5 - 12) == False</code> = <code>-7 == False</code> = <code>False</code> (False 被当作 0 <span class="nb">比较).</span></p>
+  <p><b>易错</b>: not 的优先级比比较运算<b>低</b>: <code>not 3 &lt; 5</code> 是 <code>not (3 &lt; 5)</code>, 不是 <code>(not 3) &lt; 5</code>. Blatt 3 的 3-2 第 2 <span class="nb">小题考的就是这一点.</span></p>
+</details>
+</article>
+
+<article id="z2-5">
+<h3>5. 检查表达式是否正确: 步骤<br><span class="de-title">Ausdrücke: Überprüfen von Korrektheit</span></h3>
+<div class="card de">
+  <span class="folie">Zentralübung 2 · Folie 8</span>
+  <p><b>Vorgehensweise</b></p>
+  <ol>
+    <li>Den Ausdruck von links nach rechts durchgehen und vollständig klammern unter Berücksichtigung von <span class="nb">Präzedenzen.</span></li>
+    <li>Den Ausdruck nochmals von links nach rechts durchgehen und unter Berücksichtigung der Klammern überprüfen, ob
+      <ol type="a">
+        <li>der Ausdruck gemäß der Regel für Expression gebildet ist (syntaktische <span class="nb">Korrektheit).</span></li>
+        <li>die Argumenttypen von Operationen zu den Typen der Ausdrücke, auf die die Operationen angewendet werden, passen <span class="nb">(Typkorrektheit).</span></li>
+      </ol></li>
+  </ol>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 做法: ① 从左往右过一遍表达式, 按优先级把括号补全. ② 再从左往右过一遍, 结合括号检查: a) 表达式是不是按 Expression 的规则构成的 (<b>语法正确</b>); b) 每个运算要求的参数类型, 和它实际作用的表达式的类型是否相符 <span class="nb">(<b>类型正确</b>).</span></p>
+  <p><b>思路</b>: 先语法后类型: 语法错了就谈不上类型 (下一题表里语法错的那一行, 类型一栏是「–」). 类型检查时用讲义的规则: 算术运算要数值, not / and / or 要 bool, 比较两边要能比较, 数值之间可以自动转换 (bool → int → <span class="nb">float).</span></p>
+</div>
+</article>
+
+<article id="z2-6">
+<h3>6. 检查表达式的正确性<br><span class="de-title">Aufgabe 2: Überprüfen von Korrektheit</span></h3>
+<div class="card de">
+  <span class="folie">Zentralübung 2 · Folie 9</span>
+<pre data-lang="grammar">Expression = Variable | Value |
+             Expression BinOp Expression|
+             UnOp Expression |
+             "(" Expression ")"
+BinOp = "and" | "or" | "+" | "-" | "*" | "/" |
+        "//" | "%" | "==" | "!=" | "&gt;" | "&gt;=" | "&lt;" | "&lt;="
+UnOp = "not" | "-" | "+"</pre>
+  <div class="tablewrap"><table>
+    <tr><th>Ausdruck</th><th class="wide">Vollständig geklammert</th><th>Syn. K.</th><th>Typ K.</th></tr>
+    <tr><td class="wide"><code class="lc">False == 5-4-3 * 3</code></td><td></td><td></td><td></td></tr>
+    <tr><td><code>7 &lt; False</code></td><td></td><td></td><td></td></tr>
+    <tr><td><code>3 &lt;&gt; 6</code></td><td></td><td></td><td></td></tr>
+    <tr><td class="wide"><code class="lc">4 &lt; "5" or False</code></td><td></td><td></td><td></td></tr>
+  </table></div>
+  <p><b>Ist der Ausdruck <code>(not 3) == 6</code> korrekt?</b></p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 按给定的文法, 给每个表达式补全括号, 判断它是否语法正确 (Syn. K. = syntaktisch korrekt)、是否类型正确 (Typ K. = typkorrekt). 附加问题: 表达式 <code>(not 3) == 6</code> <span class="nb">正确吗?</span></p>
+  <p><b>思路</b>: 按上一页的两步走. 语法: 每个运算符都要在 BinOp 或 UnOp 里出现, 二元运算符两边都要有表达式. 类型: 比较运算两边是数 (bool 可以自动转成 int) 就行, 数和字符串比大小不行; <span class="nb">not 要求 bool.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <div class="tablewrap"><table>
+    <tr><th>Ausdruck</th><th class="wide">Vollständig geklammert</th><th>Syn. K.</th><th>Typ K.</th></tr>
+    <tr><td class="wide"><code class="lc">False == 5-4-3 * 3</code></td><td class="wide"><code class="lc">False == ((5-4)-(3*3))</code></td><td>ja</td><td>ja</td></tr>
+    <tr><td><code>7 &lt; False</code></td><td><code>7 &lt; False</code></td><td>ja</td><td>ja</td></tr>
+    <tr><td><code>3 &lt;&gt; 6</code></td><td>–</td><td>nein</td><td>–</td></tr>
+    <tr><td class="wide"><code class="lc">4 &lt; "5" or False</code></td><td class="wide"><code class="lc">(4 &lt; "5") or False</code></td><td>ja</td><td>nein</td></tr>
+  </table></div>
+  <ul>
+    <li><code class="lc">False == 5-4-3 * 3</code>: 先乘 <code>3*3</code>, 再从左往右减 <code>(5-4)-9 = -8</code>, 最后比较; bool 和 int 比较时 False 当作 0, 类型正确. <span class="nb">实际值 <code>False</code>.</span></li>
+    <li><code>7 &lt; False</code>: 同理, False 转成 0, <code>7 &lt; 0</code> 为 <code>False</code>, <span class="nb">类型正确.</span></li>
+    <li><code>3 &lt;&gt; 6</code>: <code>&lt;&gt;</code> 不在 BinOp 里 (它是 Python 2 的「不等于」), 语法错误. Python 3.15 实际报 <code class="lc">SyntaxError: invalid syntax. Maybe you meant '!=' instead of '&lt;&gt;'?</code></li>
+    <li><code class="lc">4 &lt; "5" or False</code>: 比较优先于 or. 语法没问题, 但 int 和 str 不能比大小: <code class="lc">TypeError: '&lt;' not supported between instances of 'int' and 'str'</code>.</li>
+  </ul>
+  <p><b><code>(not 3) == 6</code></b>: 语法正确 (UnOp Expression 加括号, 再 BinOp). 按讲义的类型规则 (EIPS 03 Folie 25: not 的参数必须是 bool), 它<b>类型不正确</b>, 因为 3 是 int, 而 int 不会自动转成 bool. Python 本身不报错: 它把任何值都当真值用, <code>not 3</code> 得 <code>False</code>, 再 <code>False == 6</code> 得 <code>False</code>. 考试按讲义的规则答「<span class="nb">类型错误」.</span></p>
+</details>
+</article>
+
+<article id="z2-7">
+<h3>7. 变量与求值步骤<br><span class="de-title"><span class="seg">Variablen in Python ·</span> <span class="seg">Ausdrücke &amp; Variablen: Auswertung</span></span></h3>
+<div class="card de">
+  <span class="folie">Zentralübung 2 · Folie 10–11</span>
+  <p>Eine Variable ist ein “Behälter”, der zu jedem Zeitpunkt (während eines Programmlaufs) einen Wert eines bestimmten Datentyps <span class="nb">enthält.</span></p>
+  <p><code>groesse = 165</code> (Behälter: groesse — Wert: <span class="nb">165)</span></p>
+  <p>Zustand σ nach obiger Deklaration — textuell: σ=[(groesse, 165, int)] — grafisch: groesse | 165, <span class="nb">int</span></p>
+  <p><b>Vorgehensweise gegeben ein Ausdruck und ein Zustand σ</b></p>
+  <ol>
+    <li>Den Ausdruck von links nach rechts durchgehen und vollständig klammern unter Berücksichtigung von <span class="nb">Präzedenzen.</span></li>
+    <li>Den Ausdruck nochmals von links nach rechts durchgehen und unter Berücksichtigung der Klammern auswerten. Der Wert der Variablen ist dabei durch den Zustand σ <span class="nb">bestimmt.</span></li>
+  </ol>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 变量是一个「容器」, 在程序运行的每个时刻都装着某个类型的一个值. <code>groesse = 165</code> 之后的<b>Zustand σ 状态</b>: 文字写法 σ = [(groesse, 165, int)], 即 (变量名, 值, 类型) 的列表; 图示写法是一个格子, 左边变量名, 右边「值, 类型」. 给定表达式和状态 σ 求值的做法: ① 从左往右、按优先级补全括号; ② 再从左往右、按括号计算, <span class="nb">变量的值从 σ 里查.</span></p>
+  <p><b>思路</b>: 状态的三元组里类型不能漏写; 求值时每一步都写 <code>=σ</code>, 一步只做一件事 (代入一个变量, 或算一个运算), 讲义 EIPS 03 Folie 38 <span class="nb">的格式.</span></p>
+</div>
+</article>
+
+<article id="z2-8">
+<h3>8. 声明描述的状态<br><span class="de-title">Aufgabe 3a: Auswertung</span></h3>
+<div class="card de">
+  <span class="folie">Zentralübung 2 · Folie 12</span>
+  <p>Gegeben seien folgende <span class="nb">Variablendeklarationen:</span></p>
+<pre data-lang="python">fahrenheit = <span class="tk-n">40
+</span>celsius = <span class="tk-n">4.44</span></pre>
+  <p><b>Welcher Zustand σ wird durch diese Deklarationen beschrieben?</b></p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 给定上面两个变量声明, 它们描述的状态 σ <span class="nb">是什么?</span></p>
+  <p><b>思路</b>: 每个变量一个三元组 (名字, 值, 类型); 40 没有小数点是 int, 4.<span class="nb">44 是 float.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>文字写法: <b>σ = [(fahrenheit, 40, int), (celsius, 4.44, float)]</b>.</p>
+  <p>图示写法: 变量<b>从下往上</b>画, 先声明的在下面: 下面一格 fahrenheit | 40, int, 上面一格 celsius | 4.44, float <span class="nb">(像栈一样往上堆).</span></p>
+</details>
+</article>
+
+<article id="z2-9">
+<h3>9. 在状态 σ 下求值<br><span class="de-title"><span class="seg">Aufgabe 3b ·</span> <span class="seg">3c: Auswertung</span></span></h3>
+<div class="card de">
+  <span class="folie">Zentralübung 2 · Folie 13–14</span>
+  <p>b) Werten Sie den Ausdruck <code class="lc">fahrenheit - 32 * 5 / 9</code> bezüglich des Zustands σ = [(fahrenheit, 40, int), (celsius, 4.44, <span class="nb">float)] aus.</span></p>
+  <p>c) Werten Sie den Ausdruck <code class="lc">(fahrenheit - 32) * 5 / 9</code> bezüglich des Zustands σ = [(fahrenheit, 40, int), (celsius, 4.44, <span class="nb">float)] aus:</span></p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 在状态 σ 下分别计算 b) <code class="lc">fahrenheit - 32 * 5 / 9</code> 和 c) <span class="nb"><code class="lc">(fahrenheit - 32) * 5 / 9</code>.</span></p>
+  <p><b>思路</b>: 两个表达式只差一对括号. b) 里 * 和 / 先算 (同级从左往右), 减法最后; c) 括号先算. 记住 / 一定得 float, int 和 float 运算时 int 自动转成 float. 这是华氏转摄氏的公式, <span class="nb">正确的是哪一个?</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p><b>b)</b> 补全括号: <span class="nb"><code class="lc">fahrenheit - ((32 * 5) / 9)</code></span></p>
+<pre data-lang="text">fahrenheit - ((32 * 5) / 9)  =σ
+40 - ((32 * 5) / 9)          =σ
+40 - (160 / 9)               =σ
+40 - 17.77777777777778       =σ   (160 / 9 是 float)
+22.22222222222222                 (40 自动转成 40.0)</pre>
+  <p><b>c)</b> 补全括号: <span class="nb"><code class="lc">((fahrenheit - 32) * 5) / 9</code></span></p>
+<pre data-lang="text">((fahrenheit - 32) * 5) / 9  =σ
+((40 - 32) * 5) / 9          =σ
+(8 * 5) / 9                  =σ
+40 / 9                       =σ
+4.444444444444445                 (/ 得 float)</pre>
+  <p>两个值都由 Python 实际运行得到. 华氏转摄氏是 (F − 32) · 5/9, 所以 c) 才是对的: 40 °F ≈ 4.44 °C, 正好等于状态里的 celsius. b) 少了括号, 先算了 32 · 5/9, 结果 22.22 没有物理意义. 这正是「优先级会改变结果<span class="nb">」的例子.</span></p>
+  <p><b>易错</b>: 中间结果的类型: <code>32 * 5</code> 是 int 160, <code>160 / 9</code> 才变成 float; 写求值过程时要在类型变化的那<span class="nb">一步说明.</span></p>
+</details>
+<div class="warn"><p><b>幻灯片小错:</b> Folie 13 把 160 / 9 写成「= 17.78」、结果写成「22.22」, 都是四舍五入后的近似值, 却和每一步一样用了 =σ. 精确地说 160 / 9 = 17.777…, Python 输出 <code>17.77777777777778</code>, 最终结果是 <code>22.22222222222222</code>; Folie 14 的「4.4444...」就用省略号表示了这一点, <span class="nb">两页写法不一致.</span></p></div>
+</article>
+</section>
+
+<!-- ======================= B3 ======================= -->
+<section class="part" id="b3">
+<h2>Übungsblatt 3<br><span class="de-title"><span class="seg">Aufgabe 3-1 bis 3-4 ·</span> <span class="seg">Überprüfen und Auswertung von Ausdrücken</span></span><small><span class="rl">对应 <a href="EIPS-03-基本数据类型表达式与变量.html#ausdruck">EIPS 03 · 表达式</a>、<a href="EIPS-03-基本数据类型表达式与变量.html#praez">运算符优先级</a>、<a href="EIPS-03-基本数据类型表达式与变量.html#auswert">表达式求值</a>、<a href="EIPS-03-基本数据类型表达式与变量.html#fehler">错误的类型</a>, 以及上面的 <a href="#z2">Zentralübung 2</a> (同一套方法);</span><span class="rl">源文件 angabe03.pdf;</span><span class="rl">3-1、3-3 是课堂题 (Präsenz, 在 30.10. 和 02.11.2026 的练习课上做), 3-2、3-4 是家庭作业 (Hausaufgabe, 11.11.2026 14:00 前通过 GATE 提交).</span></small></h2>
+
+<article id="b3-0">
+<h3>总说明<br><span class="de-title">Allgemeine Hinweise</span></h3>
+<div class="card de">
+  <span class="folie">Übungsblatt 3 · Allgemeine Hinweise</span>
+  <ul>
+    <li>Dieses Übungsblatt bezieht sich auf Kapitel 3 der Vorlesung und die dazugehörige <span class="nb">Zentralübung.</span></li>
+    <li>Die Präsenzaufgaben werden in den Übungen am 30.10./02.11.2026 <span class="nb">bearbeitet.</span></li>
+    <li>Die Hausaufgaben können bis zum 11.11.2026 um 14:00 Uhr über GATE abgegeben <span class="nb">werden.</span></li>
+    <li>Der Python-Code in ihrer Abgabe muss als separate .py-Datei abgegeben werden, nicht als Screenshot, handschriftliche Notizen oder Teil einer anderen <span class="nb">Datei.</span></li>
+    <li>Mehrere Dateien können Sie nacheinander hochladen oder als ZIP-Archiv. Für ein ZIP-Archiv erstellen Sie alle nötigen Dateien in einem eigenen Ordner (für jedes Übungsblatt ein eigener Ordner) und erstellen das Archiv wie folgt:
+      <ul><li>Unter Windows: rechter Mausklick auf den Ordner, Auswahl von <i>Senden an</i>, dann <span class="nb"><i>ZIP-komprimierter Ordner</i>.</span></li><li>Unter Mac OS: rechter Mausklick auf den Ordner, Auswahl von <span class="nb"><i>Komprimieren/Compress</i>.</span></li></ul></li>
+    <li>Sie können auch Abgaben für die Präsenzaufgaben in GATE erstellen und erhalten teilweise (je nach Aufgabe) eine automatische Korrektur vom System, aber kein weiteres Feedback von den Tutor:<span class="nb">innen.</span></li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 本练习单对应讲义第 3 章和配套的中心练习课. 课堂题在 2026 年 10 月 30 日和 11 月 2 日的练习课上做. 家庭作业在 2026 年 11 月 11 日 14:00 前通过 GATE 提交. 提交的 Python 代码必须是单独的 .py 文件, 不能是截图、手写笔记或别的文件的一部分. 多个文件可以逐个上传, 也可以打成 ZIP: 每张练习单建一个文件夹, 把文件放进去再压缩 (Windows: 右键 → 发送到 → 压缩文件夹; Mac: 右键 → 压缩). 课堂题也可以在 GATE 里提交, 部分题目会自动批改, <span class="nb">但助教不再另给反馈.</span></p>
+</div>
+<div class="warn"><p><b>原文笔误:</b>「Der Python-Code in <b>ihrer</b> Abgabe」里的敬称物主代词应大写: <span class="nb">Ihrer.</span></p></div>
+</article>
+
+<article id="b3-1">
+<h3>Aufgabe 3-1: 检查表达式 (课堂题)<br><span class="de-title"><span class="seg">Überprüfen von Ausdrücken ·</span> <span class="seg">Präsenz</span></span></h3>
+<div class="card de">
+  <span class="folie">Übungsblatt 3 · Aufgabe 3-1</span>
+  <p>In dieser Aufgabe sollen Sie Ausdrücke auf Korrektheit untersuchen. Als Grundlage für Ausdrücke in Python verwenden wir folgende vereinfachte EBNF-Grammatik. Die Nichtterminale <code>Variable</code> und <code>Value</code> sind wie in der Vorlesung <span class="nb">definiert.</span></p>
+<pre data-lang="grammar">Expression = Variable |
+             Value |
+             Expression BinOp Expression |
+             UnOp Expression |
+             "(" Expression ")"
+
+BinOp = "and" | "or" | "+" | "-" | "*" | "/" | "//" | "%" |
+        "==" | "!=" | "&gt;" | "&gt;=" | "&lt;" | "&lt;="
+UnOp = "not" | "-" | "+"</pre>
+  <p>Gegeben seien folgende <span class="nb">Ausdrücke:</span></p>
+  <ol>
+    <li><code>1 + 2</code></li>
+    <li><code>1 and</code></li>
+    <li><code class="lc">(3 == 7) and (0 &lt; 1)</code></li>
+    <li><code class="lc">3 == 7 and 0 &lt; 1</code></li>
+    <li><code class="lc">float("50") - 6.7</code></li>
+    <li><code class="lc">3 != 3 or not False</code></li>
+    <li><code>* 1 == 0</code></li>
+    <li><code>-1 == 0</code></li>
+    <li><code class="lc">(1 &lt; 2) &lt; 3</code></li>
+    <li><code>True + "Hallo"</code></li>
+  </ol>
+  <p>Geben Sie für jeden dieser Ausdrücke an, ob er syntaktisch korrekt ist oder nicht (mit Begründung) und ob er typkorrekt ist oder nicht (mit Begründung). Für typkorrekte Ausdrücke ist außerdem deren Typ anzugeben. Berechnen Sie den Typ erst von Hand und überprüfen Sie dann das Ergebnis in Python mit <span class="nb"><code>type()</code>.</span></p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 检查表达式是否正确, 依据是上面这个简化的 EBNF 文法 (Variable 和 Value 按讲义定义). 对下面每个表达式, 说明它是否语法正确 (附理由)、是否类型正确 (附理由); 类型正确的还要给出它的类型. 先手算类型, 再在 Python 里用 <code>type()</code> <span class="nb">核对.</span></p>
+  <p><b>思路</b>: 用 Zentralübung 2 第 5 题的两步: 先按优先级补全括号, 再查语法、查类型. 语法: 二元运算符两边都要有表达式, * 不是一元运算符. 类型: 比较的结果是 bool; and / or / not 要 bool; bool 可以自动转成 int 参加算术和比较; 数和字符串之间不能运算. 第 9 题注意: 括号写出来了, <span class="nb">就不是比较链.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <div class="tablewrap"><table>
+    <tr><th>Nr.</th><th>补全括号</th><th>语法</th><th>类型</th><th class="wide">理由 / Python 实际结果</th></tr>
+    <tr><td>1</td><td><code>1 + 2</code></td><td>ja</td><td>ja, int</td><td>两个 int 相加. 值 <code>3</code></td></tr>
+    <tr><td>2</td><td>–</td><td>nein</td><td>–</td><td class="wide">and 右边缺表达式, 不符合 Expression BinOp Expression. <code>SyntaxError</code></td></tr>
+    <tr><td>3</td><td class="wide"><code class="lc">(3 == 7) and (0 &lt; 1)</code></td><td>ja</td><td>ja, bool</td><td class="wide">两个比较都得 bool, and 两边是 bool. 值 <code>False</code></td></tr>
+    <tr><td>4</td><td class="wide"><code class="lc">(3 == 7) and (0 &lt; 1)</code></td><td>ja</td><td>ja, bool</td><td class="wide">比较 (7) 优先于 and (5), 补完括号和第 3 题一样. 值 <code>False</code></td></tr>
+    <tr><td>5</td><td class="wide"><code class="lc">float("50") - 6.7</code></td><td>ja (见下)</td><td>ja, float</td><td class="wide"><code>float("50")</code> 显式转换得 50.0, 再减 float. 值 <code>43.3</code></td></tr>
+    <tr><td>6</td><td class="wide"><code class="lc">(3 != 3) or (not False)</code></td><td>ja</td><td>ja, bool</td><td class="wide">!= (7) 和 not (6) 都优先于 or (4); False or True. 值 <code>True</code></td></tr>
+    <tr><td>7</td><td>–</td><td>nein</td><td>–</td><td class="wide">* 不在 UnOp 里, 不能放在开头. <code>SyntaxError</code></td></tr>
+    <tr><td>8</td><td><code>(-1) == 0</code></td><td>ja</td><td>ja, bool</td><td class="wide">一元负号 (14) 优先于 ==. 值 <code>False</code></td></tr>
+    <tr><td>9</td><td class="wide"><code class="lc">(1 &lt; 2) &lt; 3</code></td><td>ja</td><td>ja, bool</td><td class="wide">括号里得 True (bool), True 自动转成 int 1 和 3 比较. 值 <code>True</code></td></tr>
+    <tr><td>10</td><td><code>True + "Hallo"</code></td><td>ja</td><td>nein</td><td class="wide">bool (或转成 int) 和 str 之间没有 +. <code class="lc">TypeError: unsupported operand type(s) for +: 'bool' and 'str'</code></td></tr>
+  </table></div>
+  <p>表里的值和 <code>type()</code> 都已在 Python 3.<span class="nb">15 上逐个运行核对.</span></p>
+  <p><b>第 5 题的语法:</b> 严格按题目给的简化文法, <code>float("50")</code> 这种<b>函数调用</b>不在 Expression 的任何一个选项里 (Value 只有整数、浮点数、字符串、真值字面量), 所以推不出来. 但 Python 里它当然是正确的表达式, Zentralübung 2 第 3 题也把 <code>int(4.5)</code> 当表达式来判断类型; 讲义说 Expression「werden später erweitert」(以后会扩充). 答题时写「按 Python 语法正确, 类型 float」, 并可以注明简化文法里没有<span class="nb">函数调用.</span></p>
+  <p><b>第 9 题的易错:</b> 如果写成 <code class="lc">1 &lt; 2 &lt; 3</code> (不加括号), Python 会把它当作比较链 <code class="lc">(1 &lt; 2) and (2 &lt; 3)</code> (EIPS 03 Folie 33 的红框); 这里括号明确写出了, 所以是先算 <code>1 &lt; 2</code> 得 True, <span class="nb">再拿 True 和 3 比.</span></p>
+</details>
+</article>
+
+<article id="b3-2">
+<h3>Aufgabe 3-2: 检查表达式 (家庭作业)<br><span class="de-title"><span class="seg">Überprüfen von Ausdrücken ·</span> <span class="seg">Hausaufgabe</span></span></h3>
+<div class="card de">
+  <span class="folie">Übungsblatt 3 · Aufgabe 3-2</span>
+  <p>In dieser Aufgabe sollen Sie Ausdrücke auf Korrektheit untersuchen. Als Grundlage für Ausdrücke in Python verwenden wir die in Aufgabe 3-1 gegebene <span class="nb">EBNF-Grammatik.</span></p>
+  <p>Gegeben seien folgende <span class="nb">Ausdrücke:</span></p>
+  <ol>
+    <li><code>6 / 3</code></li>
+    <li><code>not 3 &lt; 5</code></li>
+    <li><code>5 not &lt;= 5</code></li>
+    <li><code class="lc">14 &lt; 3 or 1/5 == 4567</code></li>
+    <li><code class="lc">False and (False or True)</code></li>
+    <li><code>-5 // "2"</code></li>
+    <li><code class="lc">5 &lt; 7 == not</code></li>
+  </ol>
+  <p>Geben Sie für jeden dieser Ausdrücke an, ob er syntaktisch korrekt ist oder nicht (mit Begründung) und ob er typkorrekt ist oder nicht (mit Begründung). Für typkorrekte Ausdrücke ist außerdem deren Typ anzugeben. Berechnen Sie den Typ erst von Hand und überprüfen Sie dann das Ergebnis in Python mit <span class="nb"><code>type()</code>.</span></p>
+  <p>Bitte tragen Sie Ihre Lösung für diese Aufgabe direkt in GATE in die <span class="nb">Eingabefelder ein.</span></p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 与 3-1 相同, 用同一个文法检查下面 7 个表达式的语法和类型, 类型正确的给出类型; 先手算再用 <code>type()</code> 核对. 答案直接填进 GATE <span class="nb">的输入框.</span></p>
+  <p><b>思路</b>: 和 3-1 同样的两步. 第 2 题看 not 和 &lt; 谁的优先级高; 第 3、7 题看 not 能不能出现在那个位置 (not 只能放在一个表达式<b>前面</b>, 是一元运算符); 第 4 题看 / 的结果类型; 第 6 题看 // <span class="nb">两边的类型.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <div class="tablewrap"><table>
+    <tr><th>Nr.</th><th>补全括号</th><th>语法</th><th>类型</th><th class="wide">理由 / Python 实际结果</th></tr>
+    <tr><td>1</td><td><code>6 / 3</code></td><td>ja</td><td>ja, float</td><td class="wide">/ 永远得 float, 即使能整除. 值 <code>2.0</code></td></tr>
+    <tr><td>2</td><td><code>not (3 &lt; 5)</code></td><td>ja</td><td>ja, bool</td><td class="wide">&lt; (7) 优先于 not (6), not 作用在 bool 上. 值 <code>False</code></td></tr>
+    <tr><td>3</td><td>–</td><td>nein</td><td>–</td><td class="wide">not 是一元运算符, 不能夹在 5 和 &lt;= 之间; 「5 not」不是 Expression. <code>SyntaxError</code></td></tr>
+    <tr><td>4</td><td class="wide"><code class="lc">(14 &lt; 3) or ((1 / 5) == 4567)</code></td><td>ja</td><td>ja, bool</td><td class="wide">/ 先算得 float 0.2, 和 int 比较 (自动转 float), or 两边是 bool. 值 <code>False</code></td></tr>
+    <tr><td>5</td><td class="wide"><code class="lc">False and (False or True)</code></td><td>ja</td><td>ja, bool</td><td class="wide">全是 bool 运算. 值 <code>False</code> (and 左边已是 False, 右边不再计算)</td></tr>
+    <tr><td>6</td><td><code>(-5) // "2"</code></td><td>ja</td><td>nein</td><td class="wide">// 要求两个数, "2" 是 str. <code class="lc">TypeError: unsupported operand type(s) for //: 'int' and 'str'</code></td></tr>
+    <tr><td>7</td><td>–</td><td>nein</td><td>–</td><td class="wide">not 后面缺表达式, == 右边也就没有完整的表达式. <code>SyntaxError</code></td></tr>
+  </table></div>
+  <p>所有结果都已用 Python 3.<span class="nb">15 实际运行核对.</span></p>
+  <p><b>易错:</b> 第 2 题容易错读成 <code>(not 3) &lt; 5</code>; 那样 not 作用在 int 上, 按讲义规则是类型错误 (同 Zentralübung 2 的 <code>(not 3) == 6</code>). 正确的括号是 <code>not (3 &lt; 5)</code>, 类型正确. 第 6 题的一元负号先作用在 5 上, <span class="nb">不影响结论.</span></p>
+</details>
+</article>
+
+<article id="b3-3">
+<h3>Aufgabe 3-3: 在 Python 里求值 (课堂题)<br><span class="de-title"><span class="seg">Auswertung von Ausdrücken in Python ·</span> <span class="seg">Präsenz</span></span></h3>
+<div class="card de">
+  <span class="folie">Übungsblatt 3 · Aufgabe 3-3</span>
+  <p>In dieser Aufgabe sollen Sie sich mit der Auswertung von Ausdrücken in Python vertraut <span class="nb">machen.</span></p>
+  <p><b>a)</b> Gegeben seien folgende <span class="nb">Variablendeklarationen:</span></p>
+<pre data-lang="python">zahl = <span class="tk-n">17
+</span>teiler = <span class="tk-n">0</span></pre>
+  <p>Welcher Zustand σ wird durch diese Deklarationen <span class="nb">beschrieben?</span></p>
+  <p><b>b)</b> Werten Sie folgende Ausdrücke bezüglich des Zustands σ aus Teilaufgabe <span class="nb">a) aus:</span></p>
+<pre data-lang="python"><span class="tk-n">1 </span>-<span class="tk-n">1 </span>-<span class="tk-n">1 </span>-<span class="tk-n">1 </span>- zahl
+<span class="tk-n">1 </span>-<span class="tk-n">1 </span>-<span class="tk-n">1 </span>-<span class="tk-n">1</span>* zahl
+zahl == teiler
+( teiler != <span class="tk-n">0</span>) == ( zahl / teiler &gt; <span class="tk-n">1</span>)
+( teiler != <span class="tk-n">0</span>) <span class="tk-k">and </span>zahl / teiler &gt; <span class="tk-n">1</span></pre>
+  <p><b>c)</b> Schreiben Sie ein Python-Programm, das die Ausdrücke aus Teilaufgabe b) auswertet und das Ergebnis am Bildschirm <span class="nb">zeigt.</span></p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: 熟悉 Python 里表达式的求值. a) 上面两个声明描述的状态 σ 是什么? b) 在 a) 的状态下计算这 5 个表达式. c) 写一个 Python 程序计算 b) 的表达式并把结果显示<span class="nb">在屏幕上.</span></p>
+  <p><b>思路</b>: 前两个表达式故意把空格放得很乱, 空格不影响计算, 只看运算符: 第 2 个的 <code>*</code> 先算. 后两个的区别是 <code>==</code> 和 <code>and</code>: <code>==</code> 两边都要算出来, 而 <code>and</code> 左边是 False 时右边就不算了 (短路求值, EIPS 03 Folie 28). <span class="nb">注意 teiler 是 0.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p><b>a)</b> σ = [(zahl, 17, int), (teiler, 0, <span class="nb">int)]</span></p>
+  <p><b>b)</b></p>
+<pre data-lang="text">1.  ((((1 - 1) - 1) - 1) - zahl)  =σ  ((((1 - 1) - 1) - 1) - 17)  =σ  -19
+2.  (((1 - 1) - 1) - (1 * zahl))  =σ  (((1 - 1) - 1) - 17)        =σ  -18
+3.  zahl == teiler                =σ  17 == 0                     =σ  False
+4.  (teiler != 0) == (zahl / teiler &gt; 1)
+                                  =σ  (0 != 0) == ((17 / 0) &gt; 1)
+                                  =σ  False == ((17 / 0) &gt; 1)     → ZeroDivisionError
+5.  (teiler != 0) and ((zahl / teiler) &gt; 1)
+                                  =σ  (0 != 0) and …
+                                  =σ  False and …                 =σ  False</pre>
+  <p>第 4 个: <code>==</code> 必须算出两边才能比较, 右边的 <code>17 / 0</code> 除以零, 程序在这里报 <code class="lc">ZeroDivisionError: division by zero</code>, 没有值. 第 5 个: and 的左边已经是 False, 整个结果一定是 False, Python 不再计算右边, 所以不会除以零. 这就是「先检查除数不为 0, <span class="nb">再除」的标准写法.</span></p>
+  <p><b>c)</b> 参考程序 (第 4 个会报错, 放在最后, <span class="nb">否则后面的行不会执行):</span></p>
+<pre data-lang="python">zahl = <span class="tk-n">17
+</span>teiler = <span class="tk-n">0
+
+</span><span class="tk-b">print</span>(<span class="tk-n">1 </span>-<span class="tk-n">1 </span>-<span class="tk-n">1 </span>-<span class="tk-n">1 </span>- zahl)
+<span class="tk-b">print</span>(<span class="tk-n">1 </span>-<span class="tk-n">1 </span>-<span class="tk-n">1 </span>-<span class="tk-n">1</span>* zahl)
+<span class="tk-b">print</span>(zahl == teiler)
+<span class="tk-b">print</span>(( teiler != <span class="tk-n">0</span>) <span class="tk-k">and </span>zahl / teiler &gt; <span class="tk-n">1</span>)
+<span class="tk-b">print</span>(( teiler != <span class="tk-n">0</span>) == ( zahl / teiler &gt; <span class="tk-n">1</span>))</pre>
+  <p>实际运行输出:</p>
+<pre data-lang="output">-19
+-18
+False
+False
+Traceback (most recent call last):
+  File "ausdruecke.py", line 8, in &lt;module&gt;
+    print(( teiler != 0) == ( zahl / teiler &gt; 1))
+                              ~~~~~^~~~~~~~
+ZeroDivisionError: division by zero</pre>
+  <p><b>易错:</b> 如果按题目顺序写, 第 4 个 print 报错后程序立即停止, 第 5 个的结果就看不到了. 也可以把第 4 个注释掉, 或者以后学了异常处理 (第 14 章) 再用 try <span class="nb">捕获.</span></p>
+</details>
+</article>
+
+<article id="b3-4">
+<h3>Aufgabe 3-4: 在 Python 里求值 (家庭作业)<br><span class="de-title"><span class="seg">Auswertung von Ausdrücken in Python ·</span> <span class="seg">Hausaufgabe</span></span></h3>
+<div class="card de">
+  <span class="folie">Übungsblatt 3 · Aufgabe 3-4</span>
+  <p>In dieser Aufgabe sollen Sie sich mit der Auswertung von Ausdrücken in Python vertraut <span class="nb">machen.</span></p>
+  <p><b>a)</b> Gegeben seien folgende <span class="nb">Variablendeklarationen:</span></p>
+<pre data-lang="python">tday =    <span class="tk-n">26     </span><span class="tk-c">#   today
+</span>tmonth    = <span class="tk-n">10   </span><span class="tk-c">#   this month
+</span>bday =    <span class="tk-n">27     </span><span class="tk-c">#   my Grandma's birthday is on the 27th
+</span>bmonth    = <span class="tk-n">10   </span><span class="tk-c">#   my Grandma's birthday is in October</span></pre>
+  <p>Welcher Zustand σ wird durch diese Deklarationen <span class="nb">beschrieben?</span></p>
+  <p><b>b)</b> Werten Sie folgende Ausdrücke bezüglich des Zustands σ aus Teilaufgabe <span class="nb">a) aus:</span></p>
+<pre data-lang="python">bday - tday
+bday - tday / <span class="tk-n">30
+</span>tday == bday <span class="tk-k">and </span>tmonth == bmonth</pre>
+  <p><b>c)</b> Schreiben Sie ein Python-Programm, das die Ausdrücke aus Teilaufgabe b) auswertet und das Ergebnis am Bildschirm <span class="nb">zeigt.</span></p>
+  <p>Nennen Sie Ihr Python-Programm zur Abgabe <code>birthday.py</code> und laden Sie es in GATE <span class="nb">hoch.</span></p>
+</div>
+<div class="zh">
+  <p><b>翻译</b>: a) 四个声明 (今天是 26 号、这个月是 10 月; 奶奶的生日是 27 号、在 10 月) 描述的状态 σ 是什么? b) 在这个状态下计算三个表达式. c) 写程序计算并输出它们, 文件命名为 <code>birthday.py</code>, <span class="nb">上传到 GATE.</span></p>
+  <p><b>思路</b>: 声明里多余的空格和 # 后面的注释都不影响值. 第 2 个表达式里 / 优先于 −, 而且 / 一定得 float. 第 3 个: <span class="nb">== 优先于 and.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p><b>a)</b> σ = [(tday, 26, int), (tmonth, 10, int), (bday, 27, int), (bmonth, 10, <span class="nb">int)]</span></p>
+  <p><b>b)</b></p>
+<pre data-lang="text">1.  bday - tday                       =σ  27 - 26                    =σ  1
+2.  bday - (tday / 30)                =σ  27 - (26 / 30)
+                                      =σ  27 - 0.8666666666666667    =σ  26.133333333333333
+3.  (tday == bday) and (tmonth == bmonth)
+                                      =σ  (26 == 27) and (10 == 10)
+                                      =σ  False and (10 == 10)       =σ  False</pre>
+  <p>类型: 1 是 int, 2 是 float (/ 得 float, 27 自动转成 27.0), 3 是 bool. 第 3 个和 3-3 一样短路: 左边 False, <span class="nb">右边不再计算.</span></p>
+  <p><b>c)</b> <span class="nb"><code>birthday.py</code>:</span></p>
+<pre data-lang="python">tday = <span class="tk-n">26     </span><span class="tk-c"># today
+</span>tmonth = <span class="tk-n">10   </span><span class="tk-c"># this month
+</span>bday = <span class="tk-n">27     </span><span class="tk-c"># my Grandma's birthday is on the 27th
+</span>bmonth = <span class="tk-n">10   </span><span class="tk-c"># my Grandma's birthday is in October
+
+</span><span class="tk-b">print</span>(bday - tday)
+<span class="tk-b">print</span>(bday - tday / <span class="tk-n">30</span>)
+<span class="tk-b">print</span>(tday == bday <span class="tk-k">and </span>tmonth == bmonth)</pre>
+  <p>实际运行输出:</p>
+<pre data-lang="output">1
+26.133333333333333
+False</pre>
+  <p>第 2 个的意思大概是想算「还差几个月」, 那要写 <code class="lc">(bday - tday) / 30</code> (得 0.0333…); 题目考的正是优先级: 不加括号时先算 26 / 30. 第 3 个表达式判断「今天是不是奶奶的生日」: 日和月都相等才是, 今天是 26 号, 所以 False, <span class="nb">明天才是.</span></p>
+</details>
+</article>
+</section>
+
 
 
 </main>

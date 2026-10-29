@@ -243,6 +243,12 @@
   }
   /* ===== /排版统一层 ===== */
 </style>
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+  .katex { font-size: 1.08em; }
+  .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; }
+  .math-block .katex-display { margin: 0.4em 0; }
+</style>
 <style id="glass">
   /* ===== 视觉层 v7 (= 样例 v21) =====
      点阵背景与渐变底色; 模块: 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.
@@ -1420,8 +1426,8 @@
   </ul>
   <p><b>例 2: Some student likes every course.</b></p>
   <ul>
-    <li>读法 A (some 在外): 存在<b>某一个</b>学生, 他喜欢<b>所有</b>课程. 逻辑式: ∃x (student(x) ∧ ∀y (course(y) → <span class="nb">likes(x,y)))</span></li>
-    <li>读法 B (every 在外): <b>每门</b>课都有<b>某个</b>学生喜欢它, 不一定是同一个人. 逻辑式: ∀y (course(y) → ∃x (student(x) ∧ <span class="nb">likes(x,y)))</span></li>
+    <li>读法 A (some 在外): 存在<b>某一个</b>学生, 他喜欢<b>所有</b>课程. 逻辑式: <span class="katex" data-o="∃x"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord">∃</span><span class="mord mathnormal">x</span></span></span></span> (student<span class="katex" data-o="(x) ∧ ∀y"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∧</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">∀</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span> (course(y) → <span class="nb">likes(x,y)))</span></li>
+    <li>读法 B (every 在外): <b>每门</b>课都有<b>某个</b>学生喜欢它, 不一定是同一个人. 逻辑式: <span class="katex" data-o="∀y"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">∀</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span> (course<span class="katex" data-o="(y) → ∃x"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6944em;"></span><span class="mord">∃</span><span class="mord mathnormal">x</span></span></span></span> (student<span class="katex" data-o="(x) ∧"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mord">∧</span></span></span></span> <span class="nb">likes(x,y)))</span></li>
   </ul>
   <p>读法 A 成立时读法 B 一定成立, <span class="nb">反过来不行.</span> </p>
   <p><b>例 3: Alle Politiker sind nicht korrupt.</b></p>

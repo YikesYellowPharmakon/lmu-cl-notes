@@ -1143,6 +1143,7 @@
     <h1>NLP 深度学习 II · 练习单合集<br><span class="de-title"><span class="seg">Deep Learning for NLP II ·</span> <span class="seg">Exercise Notebooks</span></span></h1>
     <nav>
       <a href="#n1">练习 1 · 分词</a>
+      <a href="#n2">练习 2 · RAG</a>
     </nav>
   </div>
 </header>
@@ -1568,7 +1569,7 @@ ids = b.encode(<span class="tk-s">"lowest newer"</span>)
 bpe_tokenizer.build_vocab([en_corpus])
 bpe_tokenizer.decode([<span class="tk-n">198</span>, <span class="tk-n">7026</span>, <span class="tk-n">106</span>, <span class="tk-n">652</span>, <span class="tk-n">968</span>, <span class="tk-n">574</span>])</pre>
 <pre data-lang="text">'you got it right well done'</pre>
-  <p>前 30 次合并 (真实运行结果): (e, &lt;/w&gt;)、(t, h)、(d, &lt;/w&gt;)、(a, n)、(t, &lt;/w&gt;)、(s, &lt;/w&gt;)、(th, e&lt;/w&gt;)、(an, d&lt;/w&gt;)……最先合成的是词尾 e/d/t/s 和 th, 然后很快得到整词「the&lt;/w&gt;」「and&lt;/w&gt;」. 一共做了 9 972 次合并, 词表正好 10 000 (27 个基本符号 + [UNK] + 9 972 个新符号; 每次合并都产生新符号, <span class="nb">所以没有重复).</span></p>
+  <p>前 30 次合并 (真实运行结果): (e, &lt;/w&gt;)、(t, h)、(d, &lt;/w&gt;)、(a, n)、(t, &lt;/w&gt;)、(s, &lt;/w&gt;)、(th, e&lt;/w&gt;)、(an, d&lt;/w&gt;)……最先合成的是词尾 <span class="katex" data-o="e/d/t/s"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">e</span><span class="mord">/</span><span class="mord mathnormal">d</span><span class="mord">/</span><span class="mord mathnormal">t</span><span class="mord">/</span><span class="mord mathnormal">s</span></span></span></span> 和 th, 然后很快得到整词「the&lt;/w&gt;」「and&lt;/w&gt;」. 一共做了 9 972 次合并, 词表正好 10 000 (27 个基本符号 + [UNK] + 9 972 个新符号; 每次合并都产生新符号, <span class="nb">所以没有重复).</span></p>
   <p><b>速度:</b> 上面按伪代码的写法每次合并都重新统计全部符号对. 按伪代码的版本在英语语料上实测 618 秒. 我另写了一个增量版本 (只更新被合并影响到的那些词的符号对计数), 只要 99 秒; 两个版本得到的合并列表和词表逐项相同 (已实际比较, 两个都解码出同一条秘密消息). 第 4 部分 22 MB 的多语语料用的是<span class="nb">增量版本.</span></p>
 </details>
 
@@ -1808,6 +1809,472 @@ Typos 332 UNK% 0.6 ['i', '??n', 'm', '??a', '??t', '??h', '??e', '??m', '??a', '
 
 </article>
 </section>
+
+<!-- ======================= N2 ======================= -->
+<section class="part" id="n2">
+<h2>练习 2: 通过 RAPTOR 做检索增强生成<br><span class="de-title">Notebook 2: RAG via RAPTOR</span><small><span class="rl">对应 <a href="DPNLP2-01-Transformer复习.html">DPNLP II 01 · Transformer 复习</a> 和 RAG 一讲 (课件 slides-03-rag.pdf);</span><span class="rl">源文件 notebook02_RAG.ipynb (另有 raptor_utils.py、paper_RAPTOR.pdf);</span><span class="rl">notebook 用到的 NarrativeQA 数据文件 (三本书和问题的 json) 不在文件夹里, 答案的运行部分用 Gutenberg 上公开的《The Emerald City of Oz》前三章和 7 个自拟问题代替.</span></small></h2>
+
+<article id="n2-0">
+<h3>概览与学习目标<br><span class="de-title"><span class="seg">RAG via RAPTOR ·</span> <span class="seg">Overview ·</span> <span class="seg">Learning Goals</span></span></h3>
+<div class="card de">
+  <span class="folie">Notebook 2 · Cell 0–1</span>
+  <p class="nbh"><b>RAG via RAPTOR</b></p>
+  <p>Meet <b>Rexford</b>, a young dinosaur with a very human problem: the English Literature test is tomorrow, and the assigned novels are still sitting unread on his desk. Reading three books overnight is out of the question. Could an AI assistant help him answer questions about the stories <span class="nb">instead?</span></p>
+  <p>Rexford decides to build a <b>Retrieval-Augmented Generation (RAG) system</b> — and, inspired by a research paper, attempts to recreate <b>RAPTOR</b>, a pipeline that organizes text into a tree of chunks and summaries. The hope is that the system can find the right details, connect the bigger picture, and answer questions <span class="nb">accurately.</span></p>
+  <p>But there’s a catch: building a clever pipeline is one thing; getting it to answer correctly is another. Will Rexford pass the literature test, or discover that a confident AI answer is no substitute for understanding the <span class="nb">book?</span></p>
+  <p><b>Your mission</b>: help Rexford build the pipeline, investigate its performance, and see if you can do <span class="nb">better.</span></p>
+  <p class="nbh"><b>Overview</b></p>
+  <div class="tablewrap"><table>
+    <tr><th>Part</th><th>Task</th></tr>
+    <tr><td><b>Part 1</b></td><td class="wide">Load and Prepare the Data</td></tr>
+    <tr><td><b>Part 2</b></td><td class="wide">Implement Clustering based on RAPTOR</td></tr>
+    <tr><td><b>Part 3</b></td><td class="wide">Build the Pipeline</td></tr>
+    <tr><td><b>Part 4</b></td><td class="wide">Investigation RAG Performance</td></tr>
+    <tr><td><b>Part 5</b></td><td class="wide">CAN YOU DO BETTER?</td></tr>
+  </table></div>
+  <p class="nbh"><b>Learning Goals</b></p>
+  <p>This notebook asks <span class="nb">you to:</span></p>
+  <ul><li>Implement algorithms from scientific <span class="nb">papers.</span></li><li>Work with unfamiliar tools and <span class="nb">libraries.</span></li><li>Think critically about RAG <span class="nb">performance.</span></li></ul>
+  <p class="nbh"><b>⚠️ A note on using AI for these exercises</b></p>
+  <p>This notebook can obviously be solved by an AI assistant. We know this, and you know <span class="nb">this.</span></p>
+  <p>But the exam will ask you to use the skills you aquire by working through these exercises <span class="nb">yourself.</span></p>
+  <p>If you use AI to complete the tasks, you will have correct-looking code and less learning achievements. That is a bad <span class="nb">trade.</span></p>
+  <p><b>What to do instead when you are stuck:</b></p>
+  <ol>
+    <li>Re-read the relevant section of the slides or assigned <span class="nb">reading</span></li>
+    <li>Ask a classmate — the course Forum on Moodle and the Discord channel are there for exactly <span class="nb">this</span></li>
+    <li>Search stackoverflow.com or the HuggingFace <span class="nb">docs</span></li>
+  </ol>
+  <p>Turn to AI only after you have genuinely worked through a problem yourself as a way to check your understanding or explore a follow-up <span class="nb">question.</span></p>
+<pre data-lang="python"><span class="tk-c">#@title imports
+</span>!pip install faiss-gpu --quiet
+!pip install psutil --quiet
+!pip -q install rouge-score nltk
+<span class="tk-k">import </span>json
+<span class="tk-k">import </span>umap
+<span class="tk-k">import </span>numpy <span class="tk-k">as </span>np
+<span class="tk-k">from </span>sklearn.mixture <span class="tk-k">import </span>GaussianMixture
+<span class="tk-k">from </span>typing <span class="tk-k">import </span>Dict, List, Tuple
+<span class="tk-k">from </span>raptor_utils <span class="tk-k">import </span>(
+    Node, Tree, EmbeddingModel, InstructModel,
+    SummarisationModel, Reader, TreeBuilder,
+    Retriever, split_text, evaluate, evaluate_both
+)</pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 小恐龙 Rexford 明天要考英国文学, 指定的小说还一本没读. 一晚读完三本书不可能, AI 助手能不能替他回答关于故事的问题? 他决定搭一个<b>检索增强生成 (RAG)</b> 系统, 照着一篇论文复现 <b>RAPTOR</b>: 把文本组织成一棵由文本块和摘要组成的树, 希望系统既能找到细节、又能把握整体. 但搭出精巧的流程是一回事, 让它答对是另一回事. 任务: 帮他搭好流程、考察它的表现、看看能不能做得更好. 五个部分: 载入数据; 按 RAPTOR 实现聚类; 搭建流程; 分析 RAG 的表现; 改进. 学习目标: 根据论文实现算法; 使用不熟悉的工具和库; 批判地思考 RAG 的表现. 关于用 AI 做练习: 考试要用到亲手做练习练出的能力, 用 AI 得到的是看起来正确的代码和更少的收获; 卡住时先回看课件和阅读材料、问同学、查 stackoverflow 和 HuggingFace 文档, 自己认真做过以后才用 AI <span class="nb">检查理解.</span></p>
+  <p><b>思路:</b> 第一个单元格装依赖并导入. 注意 <code>faiss-gpu</code> 只能在有 CUDA 的机器 (Colab) 上装, 本机 CPU 环境用 <code>faiss-cpu</code>; <code>umap</code> 包的安装名是 <code>umap-learn</code>, 没有写在 pip 那几行里. <code>raptor_utils.py</code> 要和 notebook <span class="nb">在同一个文件夹.</span></p>
+</div>
+</article>
+
+<article id="n2-1">
+<h3>第 1 部分: 载入书和问题<br><span class="de-title">Check the books</span></h3>
+<div class="card de">
+  <span class="folie">Notebook 2 · Part 1</span>
+  <p>Before Rexford can build his RAPTOR pipeline, he needs the source texts and questions to work with. Let’s load the books and test questions so we can see whether his pipeline can find the right information and answer accurately. Change the path to point to your data file <span class="nb">locations.</span></p>
+  <p><b>Note</b>: The texts and queries are a part of the NarrativeQA dataset, which RAPTOR was <span class="nb">evaluated on!</span></p>
+<pre data-lang="python"><span class="tk-k">def </span><span class="tk-f">load_splits</span>(data_dir=<span class="tk-s">"/content"</span>):
+    <span class="tk-k">def </span><span class="tk-f">txt</span>(name):
+        <span class="tk-k">with </span><span class="tk-b">open</span>(<span class="tk-s">f"{</span>data_dir<span class="tk-s">}/{</span>name<span class="tk-s">}"</span>) <span class="tk-k">as </span>f:
+            <span class="tk-k">return </span>f.read()
+
+    <span class="tk-k">def </span><span class="tk-f">qas</span>(name):
+        <span class="tk-k">with </span><span class="tk-b">open</span>(<span class="tk-s">f"{</span>data_dir<span class="tk-s">}/{</span>name<span class="tk-s">}"</span>) <span class="tk-k">as </span>f:
+            <span class="tk-k">return </span>json.load(f)
+
+    text1 = txt(<span class="tk-s">"book1_TheEmeraldCityOfOz_by_Baum.txt"</span>)
+    text2 = txt(<span class="tk-s">"film2_transformers.txt"</span>)
+    text3 = txt(<span class="tk-s">"book3_TheClaverings_by_Trollope.txt"</span>)
+
+    texts    = [text1, text2, text3]
+    queries  = qas(<span class="tk-s">"query_book1.json"</span>) + qas(<span class="tk-s">"query_film2.json"</span>) + qas(<span class="tk-s">"query_book3.json"</span>)
+
+
+    <span class="tk-k">return </span>texts, queries</pre>
+<pre data-lang="python"><span class="tk-c">#load the texts and queries here:</span></pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 搭流程之前先载入原文和问题, 才能检验流程能不能找到正确信息、答对问题. 把路径改成你的数据文件所在位置. 这些文本和问题来自 RAPTOR 论文评测用过的 NarrativeQA 数据集: 两本小说 (Baum 的《The Emerald City of Oz》、Trollope 的《The Claverings》) 和一个电影剧本 <span class="nb">(《Transformers》).</span></p>
+  <p><b>思路:</b> 只要调用函数, 把 <code>data_dir</code> 指向数据文件夹. 看一眼返回值: <code>texts</code> 是三个长字符串, <code>queries</code> 是字典列表, <code>evaluate_both</code> 从每个字典里读 <code>"question"</code> 和 <code>"answers"</code> (或 <span class="nb"><code>"reference_answers"</code>).</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+<pre data-lang="python">texts, queries = load_splits(<span class="tk-s">"data"</span>)      <span class="tk-c"># 数据文件所在的文件夹
+</span><span class="tk-b">print</span>(<span class="tk-b">len</span>(texts), [<span class="tk-b">len</span>(t.split()) <span class="tk-k">for </span>t <span class="tk-k">in </span>texts], <span class="tk-b">len</span>(queries))
+<span class="tk-b">print</span>(queries[<span class="tk-n">0</span>])</pre>
+  <p>课程给的三份文本和问题文件这次没有放进练习文件夹, 下面的实测改用 Gutenberg 上公开的《The Emerald City of Oz》(也就是 book1) 的前三章 (5 358 个词) 和 7 个自拟问题, 格式与 NarrativeQA 相同, <span class="nb">例如:</span></p>
+<pre data-lang="json">{<span class="tk-k">"question"</span>: <span class="tk-s">"What is the name of the Nome King?"</span>, <span class="tk-k">"answers"</span>: [<span class="tk-s">"Roquat the Red"</span>, <span class="tk-s">"Roquat"</span>]}</pre>
+</details>
+</article>
+
+<article id="n2-2">
+<h3>先读懂 RAPTOR<br><span class="de-title">Meet RAPTOR: Read Before You Build</span></h3>
+<div class="card de">
+  <span class="folie">Notebook 2 · Read Before You Build</span>
+  <p>Rexford has found a research paper that describes <b>RAPTOR (Recursive Abstractive Processing for Tree-Organized Retrieval)</b>, a RAG approach that organizes text into a tree of chunks and summaries. Before implementing the missing components, take some time to understand the original approach and how the existing code fits <span class="nb">together.</span></p>
+  <p>📄 <b>Read the paper:</b> RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval (https://arxiv.org/abs/2401.18059). You can also find a PDF version in the notebook's accompanying <span class="nb">folder.</span></p>
+  <p class="nbh"><b>Before You Start Coding</b></p>
+  <ul>
+    <li><b>Explore <code>raptor_utils</code>.</b> Inspect the existing classes and methods to understand which components are available and how they work <span class="nb">together.</span></li>
+    <li><b>Trace the pipeline in the paper.</b> Follow the journey from document chunks to clustering, summaries, the tree structure, retrieval, and answer <span class="nb">generation.</span></li>
+    <li><b>Investigate the parameters and prompts.</b> Check which values and prompts are defined in the existing code, which are specified in the paper, and which choices you may need to make <span class="nb">yourself.</span></li>
+    <li><b>Understand each class's responsibility.</b> Be able to explain what each existing class does, what information it receives, and what it <span class="nb">produces.</span></li>
+    <li><b>Draw a diagram if it helps.</b> Sketch the classes in <code>raptor_utils</code> and the relationships between them. A simple diagram can make the overall architecture much easier to <span class="nb">understand.</span></li>
+  </ul>
+  <p><b>Your goal:</b> understand the design before filling in the gaps. Rexford needs a working mental model of RAPTOR before he can hope to build a reliable <span class="nb">implementation.</span></p>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> RAPTOR (Recursive Abstractive Processing for Tree-Organized Retrieval, 递归抽象处理、树状组织的检索) 把文本组织成由块和摘要构成的树. 动手前先弄懂原方法和现有代码. 读论文 (文件夹里有 PDF). 写代码前: 浏览 <code>raptor_utils</code> 里的类和方法; 在论文里追踪整个流程 (块 → 聚类 → 摘要 → 树 → 检索 → 生成答案); 查清哪些参数和提示词代码里已经定了、哪些论文里规定了、哪些要自己选; 能说出每个类做什么、输入什么、输出什么; 需要的话画一张类之间关系的图. 目标: 先理解设计, <span class="nb">再补空缺.</span></p>
+  <p><b>思路:</b> 边读 <code>raptor_utils.py</code> 边列一张「类 → 输入 → 输出」的表, 再对照论文第 3 节和附录 (提示词在附录 D, <span class="nb">检索的伪代码在附录 F).</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p><code>raptor_utils.py</code> 里各部分的职责:</p>
+  <div class="tablewrap"><table>
+    <tr><th>组件</th><th>输入 → 输出</th><th>作用</th></tr>
+    <tr><td><code>Node</code> / <code>Tree</code></td><td>数据类</td><td class="wide">节点: 文本、编号、子节点编号集合、向量、所在层; 树: 全部节点、根节点、叶节点、层数、按层分组的节点</td></tr>
+    <tr><td><code>split_text</code></td><td>长文本 → 块的迭代器</td><td class="wide">按空格切词, 每块至少 chunk_size 个词, 再延长到句末 (最多 2 倍长度); 相邻块重叠 chunk_overlap 个词</td></tr>
+    <tr><td><code>EmbeddingModel</code></td><td>文本列表 → 归一化向量矩阵</td><td class="wide">SBERT (sentence-transformers) 编码, 向量长度为 1, 内积就是余弦相似度</td></tr>
+    <tr><td><code>InstructModel</code></td><td class="wide">系统提示 + 用户提示 → 文本</td><td class="wide">加载指令微调的小模型 (SmolLM2-1.7B-Instruct), 用聊天模板贪心解码</td></tr>
+    <tr><td class="wide"><code>SummarisationModel</code></td><td>一组文本 → 摘要</td><td class="wide">把簇里的文本拼起来 (最多 3000 词), 填进摘要提示词, 系统提示是论文附录里的「You are a Summarizing Text Portal」</td></tr>
+    <tr><td><code>Reader</code></td><td class="wide">问题 + 上下文 → 简短答案</td><td class="wide">只依据上下文回答, 找不到时答「Not found in context.」</td></tr>
+    <tr><td><code>TreeBuilder</code></td><td>文本列表 → <code>Tree</code></td><td class="wide">切块并嵌入得到叶节点 (第 0 层); 然后逐层: 聚类 → 每个簇摘要 → 嵌入摘要 → 新的一层, 直到只剩 1 个节点或到 max_layers; 把块和摘要写进 jsonl 文件</td></tr>
+    <tr><td><code>Retriever</code></td><td class="wide">问题 → 上下文 (+ 元数据)</td><td class="wide">collapsed: 所有层的节点一起按相似度排序, 依次加入直到 max_context_tokens; traversal: 从根开始每层取 top_k, 再看它们的子节点</td></tr>
+    <tr><td><code>evaluate_both</code></td><td>问题列表 → 指标</td><td class="wide">对每个问题跑 RAPTOR 检索 + Reader 和/或不检索的基线, 算 EM、token F1、ROUGE-L、BLEU-1…4、METEOR, 结果写进 artifact 文件夹</td></tr>
+  </table></div>
+  <p>缺的只有 <code>ClusteringModule</code> (TreeBuilder 只要求它有 <code>get_clusters(nodes)</code> 方法, 返回节点列表的列表) <span class="nb">和参数.</span></p>
+</details>
+<div class="warn"><p><b>代码漏洞 (raptor_utils.py):</b> <code>SummarisationModel</code> 的默认提示词以 <code>{}</code> 结尾, 而 <code>summarise()</code> 调用的是 <code class="lc">self.prompt.format(context=context)</code> (关键字参数). 位置占位符 <code>{}</code> 拿不到关键字参数, 实际运行报 <code class="lc">IndexError: Replacement index 0 out of range for positional args tuple</code>. 所以不传 <code>prompt</code> 就用不了这个类; 自己的提示词必须写成 <code>{context}</code> (论文附录的原文正好是 <code>{context}</code>). 这可能就是 notebook 让学生填 SUMMARISATION_PROMPT <span class="nb">的原因.</span></p></div>
+</article>
+
+<article id="n2-3">
+<h3>第 2 部分: 实现聚类模块<br><span class="de-title">Implement the Clustering Module</span></h3>
+<div class="card de">
+  <span class="folie">Notebook 2 · Part 2</span>
+  <p>Rexford has reached the point where his text chunks need to be organized into meaningful groups. In RAPTOR, this involves reducing the dimensionality of embeddings with <b>UMAP</b> and using <b>Gaussian Mixture Models (GMMs)</b> to identify clusters — including overlapping clusters that can capture different aspects of the same <span class="nb">text.</span></p>
+  <p>Your task is to complete the three missing methods in <code>ClusteringModule</code>, using the RAPTOR paper and the existing code as your <span class="nb">guides.</span></p>
+  <p><b>Your Tasks</b></p>
+  <p><code>reduce_embeddings()</code> — Implement dimensionality reduction with <span class="nb">UMAP.</span></p>
+  <p><code>cluster_embeddings()</code> — Implement GMM clustering and determine the number of clusters using the appropriate model-selection <span class="nb">criterion.</span></p>
+  <p><code>get_clusters()</code> — Combine the previous methods to identify global and local clusters, using the configured probability threshold to decide which nodes belong to each <span class="nb">cluster.</span></p>
+<pre data-lang="python"><span class="tk-k">class </span><span class="tk-f">ClusteringModule</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, n_components: <span class="tk-b">int</span>, n_neighbors: <span class="tk-b">int</span>, umap_metric: <span class="tk-b">str</span>, gmm_threshold: <span class="tk-b">float</span>):
+        <span class="tk-b">self</span>.n_components  = n_components
+        <span class="tk-b">self</span>.n_neighbors = n_neighbors
+        <span class="tk-b">self</span>.umap_metric   = umap_metric
+        <span class="tk-b">self</span>.gmm_threshold = gmm_threshold
+
+    <span class="tk-k">def </span><span class="tk-f">reduce_embeddings</span>(<span class="tk-b">self</span>, embeddings: np.ndarray, n_neighbors: <span class="tk-b">int</span>) -&gt; np.ndarray:
+
+        <span class="tk-c">#TODO: Implement dimensionality reduction with UMAP.
+
+        </span><span class="tk-k">pass
+
+    def </span><span class="tk-f">cluster_embeddings</span>(<span class="tk-b">self</span>, reduced: np.ndarray) -&gt; Tuple[np.ndarray, np.ndarray]:
+
+        <span class="tk-c">#TODO: Implement GMM clustering and determine the number of clusters using the appropriate model-selection criterion.
+
+        </span><span class="tk-k">pass
+    def </span><span class="tk-f">get_clusters</span>(<span class="tk-b">self</span>, nodes: Dict[<span class="tk-b">int</span>, Node]) -&gt; List[List[Node]]:
+
+        <span class="tk-c">#TODO: Combine the previous methods to identify global and local clusters, using the configured probability threshold to decide which nodes belong to each cluster.
+
+        </span>all_clusters: List[List[Node]] = []
+        <span class="tk-k">pass</span></pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 文本块要分成有意义的组. RAPTOR 先用 <b>UMAP</b> 给向量降维, 再用<b>高斯混合模型 (GMM)</b> 找簇, 而且簇可以重叠, 同一段文本可以属于多个簇 (反映它的不同方面). 补全 <code>ClusteringModule</code> 的三个方法: <code>reduce_embeddings()</code> 用 UMAP 降维; <code>cluster_embeddings()</code> 做 GMM 聚类, 并用合适的模型选择准则确定簇的个数; <code>get_clusters()</code> 把前两步组合起来, 先找全局簇再找局部簇, 用设定的概率阈值决定哪些节点属<span class="nb">于哪个簇.</span></p>
+  <p><b>思路:</b> 对照论文第 3 节「Clustering Algorithm」: ① 768 维的 SBERT 向量直接做 GMM 效果差 (高维距离失效), 先用 UMAP 降到低维; ② 簇的个数用 <b>BIC</b> (贝叶斯信息准则) 选: 试 1 到上限个簇, 取 BIC 最小的; ③ 软聚类: 对每个节点看它属于各簇的后验概率 <code>predict_proba</code>, 大于阈值 (0.1) 就算属于这个簇; ④ 两级聚类: UMAP 的 <code>n_neighbors</code> 大时保留全局结构, 小时保留局部结构, 所以先用大的 n_neighbors 找全局簇, 再在每个全局簇内部用小的 n_neighbors 找局部簇. 注意边界情况: 节点很少时 UMAP 和 GMM <span class="nb">都会出错.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>按论文和官方 RAPTOR 代码 (cluster_utils.py) 的做法实现; 全局 n_neighbors 取 <span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.04em;vertical-align:-0.155em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.885em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">1</span></span></span><span style="top:-2.845em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.155em;"><span></span></span></span></span></span></span></span></span> (官方代码的取法), 局部用构造参数里的 n_neighbors:</p>
+<pre data-lang="python"><span class="tk-k">import </span>numpy <span class="tk-k">as </span>np
+<span class="tk-k">import </span>umap
+<span class="tk-k">from </span>sklearn.mixture <span class="tk-k">import </span>GaussianMixture
+<span class="tk-k">from </span>typing <span class="tk-k">import </span>Dict, List, Tuple
+<span class="tk-k">from </span>raptor_utils <span class="tk-k">import </span>Node
+
+RANDOM_STATE = <span class="tk-n">224          </span><span class="tk-c"># wie im offiziellen RAPTOR-Code
+</span>MAX_CLUSTERS = <span class="tk-n">50
+
+
+</span><span class="tk-k">class </span><span class="tk-f">ClusteringModule</span>:
+    <span class="tk-k">def </span><span class="tk-f">__init__</span>(<span class="tk-b">self</span>, n_components: <span class="tk-b">int</span>, n_neighbors: <span class="tk-b">int</span>, umap_metric: <span class="tk-b">str</span>, gmm_threshold: <span class="tk-b">float</span>):
+        <span class="tk-b">self</span>.n_components  = n_components
+        <span class="tk-b">self</span>.n_neighbors = n_neighbors
+        <span class="tk-b">self</span>.umap_metric   = umap_metric
+        <span class="tk-b">self</span>.gmm_threshold = gmm_threshold
+
+    <span class="tk-k">def </span><span class="tk-f">reduce_embeddings</span>(<span class="tk-b">self</span>, embeddings: np.ndarray, n_neighbors: <span class="tk-b">int</span>) -&gt; np.ndarray:
+        <span class="tk-c"># UMAP braucht n_components &lt; Anzahl Punkte und n_neighbors &gt;= 2
+        </span>n_components = <span class="tk-b">min</span>(<span class="tk-b">self</span>.n_components, <span class="tk-b">len</span>(embeddings) - <span class="tk-n">2</span>)
+        n_neighbors = <span class="tk-b">max</span>(<span class="tk-n">2</span>, <span class="tk-b">min</span>(n_neighbors, <span class="tk-b">len</span>(embeddings) - <span class="tk-n">1</span>))
+        reducer = umap.UMAP(n_neighbors=n_neighbors, n_components=n_components,
+                            metric=<span class="tk-b">self</span>.umap_metric, random_state=RANDOM_STATE)
+        <span class="tk-k">return </span>reducer.fit_transform(embeddings)
+
+    <span class="tk-k">def </span><span class="tk-f">cluster_embeddings</span>(<span class="tk-b">self</span>, reduced: np.ndarray) -&gt; Tuple[np.ndarray, np.ndarray]:
+        <span class="tk-c"># Anzahl der Cluster per BIC wählen (kleinster BIC gewinnt)
+        </span>candidates = <span class="tk-b">range</span>(<span class="tk-n">1</span>, <span class="tk-b">min</span>(MAX_CLUSTERS, <span class="tk-b">len</span>(reduced)) + <span class="tk-n">1</span>)
+        bics = [GaussianMixture(n_components=k, random_state=RANDOM_STATE).fit(reduced).bic(reduced)
+                <span class="tk-k">for </span>k <span class="tk-k">in </span>candidates]
+        best_k = <span class="tk-b">list</span>(candidates)[<span class="tk-b">int</span>(np.argmin(bics))]
+        gmm = GaussianMixture(n_components=best_k, random_state=RANDOM_STATE).fit(reduced)
+        probs = gmm.predict_proba(reduced)                 <span class="tk-c"># (n_points, best_k)
+        </span>membership = probs &gt; <span class="tk-b">self</span>.gmm_threshold            <span class="tk-c"># weiches Clustering: mehrere True pro Zeile möglich
+        </span><span class="tk-k">return </span>membership, probs
+
+    <span class="tk-k">def </span><span class="tk-f">get_clusters</span>(<span class="tk-b">self</span>, nodes: Dict[<span class="tk-b">int</span>, Node]) -&gt; List[List[Node]]:
+        node_list = <span class="tk-b">list</span>(nodes.values())
+        embeddings = np.stack([n.embeddings <span class="tk-k">for </span>n <span class="tk-k">in </span>node_list])
+        all_clusters: List[List[Node]] = []
+
+        <span class="tk-c"># zu wenige Knoten für UMAP/GMM: alles in einen Cluster
+        </span><span class="tk-k">if </span><span class="tk-b">len</span>(node_list) &lt;= <span class="tk-b">self</span>.n_components + <span class="tk-n">1</span>:
+            <span class="tk-k">return </span>[node_list]
+
+        <span class="tk-c"># 1) globale Cluster: n_neighbors = sqrt(N - 1)
+        </span>global_nn = <span class="tk-b">int</span>((<span class="tk-b">len</span>(node_list) - <span class="tk-n">1</span>) ** <span class="tk-n">0.5</span>)
+        reduced_global = <span class="tk-b">self</span>.reduce_embeddings(embeddings, global_nn)
+        global_membership, _ = <span class="tk-b">self</span>.cluster_embeddings(reduced_global)
+
+        <span class="tk-c"># 2) lokale Cluster innerhalb jedes globalen Clusters: n_neighbors = self.n_neighbors
+        </span><span class="tk-k">for </span>g <span class="tk-k">in </span><span class="tk-b">range</span>(global_membership.shape[<span class="tk-n">1</span>]):
+            idx = np.where(global_membership[:, g])[<span class="tk-n">0</span>]
+            <span class="tk-k">if </span><span class="tk-b">len</span>(idx) == <span class="tk-n">0</span>:
+                <span class="tk-k">continue
+            if </span><span class="tk-b">len</span>(idx) &lt;= <span class="tk-b">self</span>.n_components + <span class="tk-n">1</span>:        <span class="tk-c"># zu klein, um weiter zu teilen
+                </span>all_clusters.append([node_list[i] <span class="tk-k">for </span>i <span class="tk-k">in </span>idx])
+                <span class="tk-k">continue
+            </span>reduced_local = <span class="tk-b">self</span>.reduce_embeddings(embeddings[idx], <span class="tk-b">self</span>.n_neighbors)
+            local_membership, _ = <span class="tk-b">self</span>.cluster_embeddings(reduced_local)
+            <span class="tk-k">for </span>l <span class="tk-k">in </span><span class="tk-b">range</span>(local_membership.shape[<span class="tk-n">1</span>]):
+                members = idx[local_membership[:, l]]
+                <span class="tk-k">if </span><span class="tk-b">len</span>(members):
+                    all_clusters.append([node_list[i] <span class="tk-k">for </span>i <span class="tk-k">in </span>members])
+        <span class="tk-k">return </span>all_clusters
+</pre>
+  <p>要点:</p>
+  <ul>
+    <li><b>BIC</b> = <span class="mt"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">ln</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.9468em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">ln</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord katex-accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9468em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">L</span></span><span style="top:-3.2523em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2222em;"><span class="mord">^</span></span></span></span></span></span></span></span></span></span>:</span><!--/mt--> 拟合越好 (似然越大) BIC 越小, 参数越多 (簇越多) 惩罚越大, 取最小值就是在拟合和复杂度之间折中. sklearn 的 <code>GaussianMixture.bic()</code> 直接给出.</li>
+    <li><b>软聚类</b>: <code class="lc">probs &gt; threshold</code> 得到一个布尔矩阵, 一行可以有多个 True, 所以同一个块可以出现在多个簇里, 被写进多份摘要; GMM 的后验概率每行加起来是 1, 所以簇数 <span class="katex" data-o="k ≤ 10"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8304em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">10</span></span></span></span> 时每行至少有一个 ≥ 0.1; <span class="katex" data-o="k &gt; 10"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.0315em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.6444em;"></span><span class="mord">10</span></span></span></span> 时一行可能全是 False, 这个节点就不进任何簇, 也不会出现在上一层<span class="nb">的摘要里.</span></li>
+    <li><b>边界</b>: UMAP 要求 n_components &lt; 点数, 所以降维维数取 <code>min(10, N − 2)</code>; 一个全局簇的点数 ≤ n_components + 1 时不再细分, 直接作为一个簇; 整层节点太少时整层就是一个簇 (TreeBuilder 的下一层只剩 1 个节点, <span class="nb">建树结束).</span></li>
+    <li><code>random_state</code> 固定, 结果可复现 (UMAP 会提示设了 random_state 后不能并行, raptor_utils 已经把这条警<span class="nb">告屏蔽了).</span></li>
+  </ul>
+</details>
+<div class="add"><p>论文还提到: 如果一个局部簇的文本总长度超过摘要模型的上限, 就在这个簇里递归地再聚类 (官方代码里上限是 3500 个 token). 这里没有实现这一步: <code>SummarisationModel</code> 会把超过 3000 词的部分直接截掉 (<code>max_input_tokens</code>), 对这次的小文本没有影响, <span class="nb">但对整本书可能丢信息.</span></p></div>
+</article>
+
+<article id="n2-4">
+<h3>第 3 部分: 组装流程并建树<br><span class="de-title">Assemble and Build the RAPTOR Tree</span></h3>
+<div class="card de">
+  <span class="folie">Notebook 2 · Part 3</span>
+  <p>Rexford has implemented the clustering methods — now it’s time to bring everything together! Use the RAPTOR paper and the existing code to fill in the missing parameter values, initialise the required components, and run the pipeline to build the <span class="nb">tree.</span></p>
+  <ul>
+    <li><b>Find the parameters:</b> Identify the appropriate values in the paper and configure the <span class="nb">components.</span></li>
+    <li><b>Initialise the pipeline:</b> Connect the embedder, clustering module, summarisation model, and tree <span class="nb">builder.</span></li>
+    <li><b>Build the tree:</b> Run the pipeline on the loaded texts and inspect the resulting <span class="nb">structure.</span></li>
+  </ul>
+  <p><b>Before moving on:</b> Check how many layers and nodes your tree contains. Does the structure look reasonable, and can you explain how it was <span class="nb">created?</span></p>
+<pre data-lang="python"><span class="tk-c">#Parameters
+</span>CHUNK_SIZE           = <span class="tk-c">#???
+</span>CHUNK_OVERLAP        = <span class="tk-c">#???
+</span>EMBEDDING_MODEL      = <span class="tk-s">"sentence-transformers/multi-qa-mpnet-base-cos-v1"
+</span>UMAP_N_COMPONENTS    = <span class="tk-c">#???
+</span>UMAP_METRIC          = <span class="tk-s">"cosine"
+</span>UMAP_N_NEIGHBORS     = <span class="tk-c">#???
+</span>GMM_THRESHOLD        = <span class="tk-n">0.1
+</span>MAX_CONTEXT_TOKENS   = <span class="tk-c">#???
+</span>SUMMARISATION_PROMPT = <span class="tk-s">"???" </span><span class="tk-c">#without system prompt
+</span>INSTRUCT_MODEL       = <span class="tk-s">"HuggingFaceTB/SmolLM2-1.7B-Instruct"
+
+</span><span class="tk-c">#initialise the pipeline &amp; build the tree</span></pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 聚类写好了, 把所有部分组装起来: 根据论文和现有代码填上缺的参数值, 初始化各组件 (嵌入模型、聚类模块、摘要模型、建树器), 在载入的文本上运行流程建树. 继续之前: 看看树有几层、多少个节点; 结构合理吗? <span class="nb">能解释它是怎么来的吗?</span></p>
+  <p><b>思路:</b> 论文第 3 节: 文本切成长度为 100 的块, 句子超出时整句移到下一块 (没提重叠); 检索用 collapsed tree, 上限 2000 个 token (约 20 个节点); 摘要提示词在附录 D. UMAP 的降维维数和局部 n_neighbors 论文里没写数, 要去看官方代码或自己定. 组装顺序: <code>EmbeddingModel</code> → <code>ClusteringModule</code> → <code>InstructModel</code> → <code class="lc">SummarisationModel(llm, prompt=…)</code> → <code>TreeBuilder(...)</code> → <code>build</code> (或 <code>build_or_load</code>, 建一次存成 <span class="nb">pickle).</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+<pre data-lang="python">CHUNK_SIZE           = <span class="tk-n">100
+</span>CHUNK_OVERLAP        = <span class="tk-n">0
+</span>EMBEDDING_MODEL      = <span class="tk-s">"sentence-transformers/multi-qa-mpnet-base-cos-v1"
+</span>UMAP_N_COMPONENTS    = <span class="tk-n">10
+</span>UMAP_METRIC          = <span class="tk-s">"cosine"
+</span>UMAP_N_NEIGHBORS     = <span class="tk-n">10
+</span>GMM_THRESHOLD        = <span class="tk-n">0.1
+</span>MAX_CONTEXT_TOKENS   = <span class="tk-n">2000
+</span>SUMMARISATION_PROMPT = <span class="tk-s">"Write a summary of the following, including as many key details as possible: {context}:"
+</span>INSTRUCT_MODEL       = <span class="tk-s">"HuggingFaceTB/SmolLM2-1.7B-Instruct"
+
+</span>embedder   = EmbeddingModel(EMBEDDING_MODEL)
+clusterer  = ClusteringModule(UMAP_N_COMPONENTS, UMAP_N_NEIGHBORS, UMAP_METRIC, GMM_THRESHOLD)
+llm        = InstructModel(INSTRUCT_MODEL)
+summariser = SummarisationModel(llm, prompt=SUMMARISATION_PROMPT)
+builder    = TreeBuilder(embedder, clusterer, summariser, CHUNK_SIZE, CHUNK_OVERLAP)
+tree = build_or_load(texts, builder, <span class="tk-s">"raptor_tree.pkl"</span>)
+<span class="tk-b">print</span>(<span class="tk-s">"layers:"</span>, tree.num_layers, {l: <span class="tk-b">len</span>(n) <span class="tk-k">for </span>l, n <span class="tk-k">in </span>tree.layer_to_nodes.items()})</pre>
+  <div class="tablewrap"><table>
+    <tr><th>参数</th><th>值</th><th>依据</th></tr>
+    <tr><td>CHUNK_SIZE</td><td>100</td><td class="wide">论文: 「short, contiguous texts of length 100」</td></tr>
+    <tr><td>CHUNK_OVERLAP</td><td>0</td><td class="wide">论文没有重叠; split_text 已经保证不在句子中间切开</td></tr>
+    <tr><td class="wide">UMAP_N_COMPONENTS</td><td>10</td><td class="wide">论文没写; 官方代码 <code>reduction_dimension=10</code></td></tr>
+    <tr><td class="wide">UMAP_N_NEIGHBORS</td><td>10</td><td class="wide">局部聚类用; 官方代码 <code>num_neighbors=10</code> (全局用 <span class="mt"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.04em;vertical-align:-0.155em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.885em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal" style="margin-right:0.109em;">N</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">1</span></span></span><span style="top:-2.845em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.155em;"><span></span></span></span></span></span></span></span></span>)</span><!--/mt--></td></tr>
+    <tr><td class="wide">MAX_CONTEXT_TOKENS</td><td>2000</td><td class="wide">论文: collapsed tree 取 2000 个 token 效果最好</td></tr>
+    <tr><td class="wide">SUMMARISATION_PROMPT</td><td>附录 D 原文</td><td class="wide">「Write a summary of the following, including as many key details as possible: {context}:」, 系统提示已在 SummarisationModel 里</td></tr>
+  </table></div>
+  <p>在本机 (CPU, 无 GPU) 实际运行, 文本是《The Emerald City of <span class="nb">Oz》前三章:</span></p>
+<pre data-lang="output">Building RAPTOR tree...
+Clustering 48 nodes (layer 1)...
+Found 9 clusters.
+Layer 1: created 9 summary nodes.
+Clustering 9 nodes (layer 2)...
+Found 1 clusters.
+Layer 2: created 1 summary nodes.
+Stopping tree build: only 1 node(s) remain.
+Tree complete: 58 total nodes.
+layers: 2 {0: 48, 1: 9, 2: 1}</pre>
+  <p>5 358 个词切成 48 个叶节点 (每块 100 词左右, 延长到句末). 第 1 层聚类得到 9 个簇, 每簇 4–8 个节点; 9 个簇的成员数加起来正好 48: 这次软聚类没有产生重叠, 每个块只进了一份摘要. 第 2 层只有 9 个节点, 不超过 n_components + 1 = 11, 按 get_clusters 的边界规则整层并成 1 个簇, 得到 1 个根节点, 建树结束. 共 2 层、58 个节点, 合理: 三章书的内容 (Nome King 的盘算、Henry 叔叔的农场危机、Dorothy 向 Ozma 求助) 正好对应几个摘要. 第 1 层的摘要质量不错, 例如有一份写道「The Nome King, Roquat the Red, is a powerful and vengeful ruler who seeks revenge against Princess Ozma and Dorothy, the latter of whom stole his Magic Belt.」; 但根节点的摘要开头几乎逐字照抄了第一个子节点 (「Dorothy, a young girl from Kansas, lives with her uncle and aunt on a small farm…」), Nome King 的线索在最上层几乎没有. 在本机 Apple GPU (MPS, float16) 上建树用了 1052 秒 (raptor_utils 只认 CUDA, 这里给 InstructModel 打了个只改设备的补丁; <span class="nb">纯 CPU 要慢 3–5 倍).</span></p>
+  <p><b>易错:</b> raptor_utils 的「token」其实是按空格切的<b>词</b> (<code>len(text.split())</code>), 不是模型的子词 token; 2000「token」的上下文实际比 2000 个模型 token 少. 另外 split_text 让块延长到句末, 所以块的实际长度是 100 到 200 <span class="nb">词之间.</span></p>
+</details>
+</article>
+
+<article id="n2-5">
+<h3>第 4 部分: 分析结果<br><span class="de-title">Investigate the Results</span></h3>
+<div class="card de">
+  <span class="folie">Notebook 2 · Part 4</span>
+  <p>Use the existing evaluation functions to compare <b>collapsed retrieval, traversal retrieval, and the base model without retrieval</b>.</p>
+  <ul>
+    <li><b>Compare the scores:</b> Which approach performs <span class="nb">best?</span></li>
+    <li><b>Inspect the saved files:</b> Look at the questions, predictions, retrieved contexts, and <span class="nb">summaries.</span></li>
+    <li><b>Trace the errors:</b> Where did things go wrong? Is the problem with retrieval, summarisation, or answer <span class="nb">generation?</span></li>
+  </ul>
+  <p><b>Your task:</b> Find concrete examples of failures and use the saved artifacts to explain their likely cause. Does retrieval actually help <span class="nb">Rexford?</span></p>
+<pre data-lang="python"><span class="tk-c">#use existing methods from raptor_utils.py to perform evaluation</span></pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 用现有的评估函数比较三种做法: collapsed 检索、traversal 检索、不检索的基础模型. 比较分数, 哪种最好? 查看保存的文件: 问题、预测、检索到的上下文、摘要. 追踪错误: 出在检索、摘要还是答案生成上? 找出具体的失败例子, 用保存的文件解释可能的原因. 检索到底有没有帮上 <span class="nb">Rexford?</span></p>
+  <p><b>思路:</b> 用 <code>evaluate_both</code>: 第一次传 collapsed 的 Retriever 并开 <code>run_no_retrieval=True</code> (顺便得到基线), 第二次传 traversal 的 Retriever. 每个问题的结果写在 <code>evaluation_results.jsonl</code>, 摘要在 <code>tree_summaries.jsonl</code>. 定位错误的顺序: 检索到的上下文里有没有答案? 有 → 问题在生成 (Reader); 没有 → 再看这句话所在的块有没有进树、<span class="nb">相关摘要有没有写对.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+<pre data-lang="python">reader = Reader(llm)
+<span class="tk-k">for </span>strategy <span class="tk-k">in </span>[<span class="tk-s">"collapsed"</span>, <span class="tk-s">"traversal"</span>]:
+    retriever = Retriever(embedder, MAX_CONTEXT_TOKENS, strategy=strategy)
+    retriever.index_tree(tree)
+    res = evaluate_both(queries, reader, retriever=retriever, llm=llm, desc=strategy,
+                        artifact_dir=<span class="tk-s">f"artifacts_{</span>strategy<span class="tk-s">}"</span>,
+                        run_no_retrieval=(strategy == <span class="tk-s">"collapsed"</span>))</pre>
+  <p>实际运行的指标 (7 个自拟问题, 数量很少, <span class="nb">只能看大致趋势):</span></p>
+<div class="tablewrap"><table>
+<tr><th>做法</th><th>EM</th><th>token F1</th><th>ROUGE-L</th><th>METEOR</th><th>BLEU-1</th></tr>
+<tr><td class="wide">collapsed 检索 (2000 词)</td><td>0.00</td><td>0.426</td><td>0.403</td><td>0.323</td><td>0.215</td></tr>
+<tr><td>traversal 检索</td><td>0.00</td><td>0.471</td><td>0.457</td><td>0.399</td><td>0.309</td></tr>
+<tr><td>不检索 (基础模型)</td><td>0.00</td><td>0.260</td><td>0.255</td><td>0.161</td><td>0.194</td></tr>
+</table></div>
+  <p>逐题的预测 (RAPTOR 检索到的上下文所在的层也<span class="nb">列出来了):</span></p>
+<pre data-lang="output">[collapsed]  What did Dorothy take from the Nome King?          → "Dorothy took the Nome King's Magic Belt."            F1=0.60
+[collapsed]  What is the name of the Nome King?                  → "The Nome King's name is Roquat the Red."             F1=0.55
+[collapsed]  Who commands the armies of the Nome King?           → 'The Nome King commands the armies of the Nome King.' F1=0.00
+[collapsed]  How does the Nome King plan to reach the Land of Oz? → 'The Nome King plans to tunnel under the desert to the Land of Oz.' F1=0.40
+[collapsed]  Why is Uncle Henry going to lose his farm?          → 'Uncle Henry is going to lose his farm because the farm is not doing well financially, and he is too feeble to work.' F1=0.24
+[collapsed]  Where does Dorothy live?                            → 'Dorothy lives in Kansas.'                            F1=0.67
+[collapsed]  What does Ozma decide to do with Uncle Henry and Aunt Em? → 'Ozma decides to transport Uncle Henry and Aunt Em to the Emerald City.' F1=0.53
+[traversal]  What is the name of the Nome King?                  → 'The Nome King'                                       F1=0.33
+[traversal]  Who commands the armies of the Nome King?           → "The General of the Nome King's armies."              F1=0.22
+[traversal]  Why is Uncle Henry going to lose his farm?          → "Uncle Henry is going to lose his farm because he can't pay the mortgage on it." F1=0.38
+[no retrieval] What did Dorothy take from the Nome King?         → "Dorothy took the Nome King's magic boots."           F1=0.40
+[no retrieval] How does the Nome King plan to reach the Land of Oz? → "I don't know."                                   F1=0.00
+[no retrieval] Why is Uncle Henry going to lose his farm?        → "I don't know."                                      F1=0.00
+(traversal 的其余 4 题与 collapsed 意思相同; 每题检索到的上下文都有 14–17 个节点, 来自第 0、1、2 层)</pre>
+<p><b>检索有没有帮上忙:</b> 有. 不检索时模型要么说「I don't know」, 要么编造 (Dorothy 拿走的是「magic boots」, 实际是 Magic Belt); 有检索时 F1 从 0.26 提到 0.43 / 0.47. 但三种做法的 EM 全是 0, 原因不在检索, 在生成: SmolLM2 总是用完整的句子回答 (「Dorothy lives in Kansas.」), 尽管 Reader 的系统提示要求「Return only the shortest answer」; token F1 因为多出的词被拉低, <span class="nb">EM 则一个都对不上.</span></p>
+<p><b>具体的失败和原因</b> (逐个查了 <code>evaluation_results.jsonl</code> 里的上下文和 <span class="nb"><code>tree_summaries.jsonl</code>):</span></p>
+<ul>
+  <li><b>Who commands the armies</b> (collapsed, F1 0): 检索到的上下文里有「General Blug」, 答案却是「The Nome King commands the armies…」. 信息已经在上下文里, 是<b>生成</b>出错: 小模型被问题里的「Nome <span class="nb">King」带偏了.</span></li>
+  <li><b>What is the name of the Nome King</b> (traversal, F1 0.33): 上下文同样含「Roquat the Red」, 模型却只复述了「The Nome King」. 仍是生成问题; 同一题 collapsed 答对了, 说明结果对上下文的排<span class="nb">列很敏感.</span></li>
+  <li><b>Why is Uncle Henry going to lose his farm</b> (collapsed, F1 0.24): 上下文里有 mortgage, 但排在前面的是第 1 层的摘要「the farm is not doing well financially, and he is too feeble to work」, 模型照着摘要的说法回答, 原文的关键原因「还不起抵押贷款」反而没说出来. 这是<b>摘要</b>把细节抽象掉以后误导了答案; traversal 这题反而答到了 <span class="nb">mortgage.</span></li>
+  <li><b>上下文总被填满</b>: 每题的上下文都是 1 900–2 000 词. 原因见下面红框: collapsed 不管 top_k, 一直往里塞到上限, 与问题关系不大的节点 (余弦相似度低到 0.32, 而最相关的是 0.6–0.7) 也进来了, <span class="nb">小模型容易被干扰.</span></li>
+  <li><b>根节点几乎没用</b>: 第 2 层唯一的摘要基本照抄了第一个子摘要, 关于 Nome King 的内容在最上层丢了. 对这么短的文本, 两层树的好处有限; 对整本书, 摘要质量 (1.7B 的小模型) <span class="nb">会更成问题.</span></li>
+</ul>
+<p>结论: 这次的瓶颈依次是阅读 (答案太长、被问题带偏)、上下文太杂、摘要失真; 检索本身大多找到了<span class="nb">相关的块.</span></p>
+</details>
+<div class="warn"><p><b>代码漏洞 (raptor_utils.py):</b> <code>Retriever</code> 的 collapsed 策略忽略了 <code>top_k</code> 参数, 直接把<b>所有</b>节点按相似度排好, 依次装进上下文直到词数上限; 而且装不下的节点用 <code>continue</code> 跳过, 会继续往后找更短的节点填空, 于是上下文里可能混进相似度很低的短节点. 论文的伪代码是先取 top-k 再按 token 上限截断. 另外 traversal 策略把所有层选中的节点按「根 → 叶」的顺序拼起来, 摘要永远排在原文块前面; 上下文超过上限时, 被截掉的往往正是包含细节<span class="nb">的叶子块.</span></p></div>
+</article>
+
+<article id="n2-6">
+<h3>第 5 部分: 能做得更好吗<br><span class="de-title">CAN YOU DO BETTER?</span></h3>
+<div class="card de">
+  <span class="folie">Notebook 2 · Part 5</span>
+  <p>Now it’s your time to shine! Think about what you would change to improve Rexford’s RAPTOR pipeline. You can modify any component or even replace parts of the pipeline. Then evaluate the new approach on this subset of <span class="nb">NarrativeQA.</span></p>
+  <p>🏆 <b>Share your results!</b> Submit your scores anonymously using the Google Form below and check out the leaderboard to see how your approach compares with everyone <span class="nb">else’s.</span></p>
+  <ul><li><b>Submit your scores:</b> <span class="nb">Google Form</span></li><li><b>View the leaderboard:</b> <span class="nb">Leaderboard</span></li></ul>
+  <p>There is no single right answer. The goal is to experiment, learn from your results, and see how much you can improve the <span class="nb">system.</span></p>
+<pre data-lang="python"><span class="tk-c">#your approach and the evaluation</span></pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 想想怎样改进 Rexford 的 RAPTOR 流程, 可以改任何组件, 甚至替换整段流程, 然后在这个 NarrativeQA 子集上评估. 可以通过 Google 表单匿名提交分数, 在排行榜上和别人比较. 没有唯一的正确答案, 目的是做实验、<span class="nb">从结果里学习.</span></p>
+  <p><b>思路:</b> 从第 4 部分找到的失败原因出发, 一次只改一处, 改完重新评估, 才知道是哪一处起了作用. 可改的地方按流程排: 切块 (大小、重叠)、嵌入模型、聚类 (阈值、维数)、摘要 (模型、提示词、长度)、检索 (策略、top-k、上下文长度、重排序)、阅读 (提示词、<span class="nb">模型).</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>根据第 4 部分的诊断, 先改瓶颈最大的两处: 阅读 (答案太长) 和上下文 (太杂). 树不变 (直接 <code>load_tree</code> 读第 3 部分存下的 pickle), 只换 Reader <span class="nb">和上下文长度:</span></p>
+<pre data-lang="python"><span class="tk-k">class </span><span class="tk-f">ShortReader</span>(Reader):
+    <span class="tk-s">"""少样本示例让模型只输出短语; 只取第一行、去掉句号."""
+    </span><span class="tk-k">def </span><span class="tk-f">answer</span>(<span class="tk-b">self</span>, question, context):
+        out = <span class="tk-b">self</span>.llm.generate(
+            system=(<span class="tk-s">"Answer with a short phrase copied from the context (at most 8 words). "
+                    "No full sentence, no repetition of the question."</span>),
+            user=(<span class="tk-s">"Example\nQuestion: Who wrote the letter?\nShort answer: her cousin Tom\n\n"
+                  "Example\nQuestion: Why did the bridge collapse?\nShort answer: because of the flood\n\n"
+                  f"Context:\n{</span>context<span class="tk-s">}\n\nQuestion: {</span>question<span class="tk-s">}\nShort answer:"</span>),
+            max_new_tokens=<span class="tk-n">20</span>)
+        <span class="tk-k">return </span>out.split(<span class="tk-s">"\n"</span>)[<span class="tk-n">0</span>].strip().rstrip(<span class="tk-s">"."</span>)
+
+retriever = Retriever(embedder, <span class="tk-n">1000</span>, strategy=<span class="tk-s">"collapsed"</span>)   <span class="tk-c"># 上下文从 2000 词减到 1000 词
+</span>retriever.index_tree(tree)
+res = evaluate_both(queries, ShortReader(llm), retriever=retriever, llm=llm,
+                    artifact_dir=<span class="tk-s">"artifacts_better"</span>, run_no_retrieval=<span class="tk-n">False</span>)</pre>
+  <p>实际运行, 和第 4 部分的 collapsed <span class="nb">比较:</span></p>
+  <div class="tablewrap"><table>
+    <tr><th>做法</th><th>EM</th><th>token F1</th><th>ROUGE-L</th><th>METEOR</th><th>BLEU-1</th></tr>
+    <tr><td class="wide">collapsed, 原 Reader, 2000 词</td><td>0.00</td><td>0.426</td><td>0.403</td><td>0.323</td><td>0.215</td></tr>
+    <tr><td class="wide">collapsed, ShortReader, 1000 词</td><td>0.00</td><td>0.461</td><td>0.450</td><td>0.484</td><td>0.361</td></tr>
+  </table></div>
+<pre data-lang="output">Where does Dorothy live?                    → 'Kansas'
+Why is Uncle Henry going to lose his farm?  → 'Uncle Henry is going to lose his farm because he cannot pay the mortgage on it'   (F1 0.24 → 0.48)
+Who commands the armies of the Nome King?   → "The General of the Nome King's armies"                                          (F1 0.00 → 0.22)
+What is the name of the Nome King?          → 'The Nome King'                                                                  (F1 0.55 → 0.33)</pre>
+  <p>所有指标都有提高, METEOR 和 BLEU 提高最明显 (答案更接近参考答案的措辞); 上下文减半后 mortgage 那一题答到了点子上. 但 EM 仍然是 0: 1.7B 的小模型对少样本示例的服从有限, 七个答案里只有「Kansas」是短语, 其余仍是整句; 名字那一题反而变差了. 7 个问题太少, 0.03 的 F1 差别不足以下结论, 在完整的 NarrativeQA <span class="nb">子集上要重新评估.</span></p>
+  <p>进一步可以试 <span class="nb">(按预期收益排序):</span></p>
+  <ul>
+    <li><b>换更大的阅读模型</b> (如 Qwen2.5-7B-Instruct 或 API 模型), 只换 Reader, 摘要仍用小模型: 第 4 部分的失败大多出在生成, <span class="nb">这一步收益最大.</span></li>
+    <li><b>重排序 (reranking)</b>: 先 collapsed 取 top-30, 再用 cross-encoder (如 <code class="lc">cross-encoder/ms-marco-MiniLM-L-6-v2</code>) 重新打分, 只留前 5–8 个节点; 同时修掉红框里说的「装不下就跳过、<span class="nb">继续往后填」.</span></li>
+    <li><b>后处理答案</b>: 用规则删掉复述问题的部分 (「Uncle Henry is going to lose his farm because」→「he cannot pay the mortgage」), 对 EM 和 F1 都直接有效, 但属于对指标的「优化」, <span class="nb">报告时要写明.</span></li>
+    <li><b>改摘要</b>: 换一个更强的摘要模型, 或在提示词里要求保留人名、地名; 根节点照抄子摘要的问题可以通过减少每层的输入、或者改成「先列要点再成<span class="nb">文」缓解.</span></li>
+    <li><b>切块</b>: 小说里对话多, 100 词的块常把一段对话切开; 可以试 200 词 + 50 词重叠, <span class="nb">再比较.</span></li>
+  </ul>
+  <p>每次只改一处, 记下对应的分数, 才能知道哪一处起作用. 提交到排行榜前, 要在 notebook <span class="nb">给的同一批问题上评估.</span></p>
+</details>
+</article>
+</section>
+
 </main>
 <script id="glass-js">
 /* 视觉层 v7 (= 样例 v21): 点阵背景 + 渐变底色; 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.

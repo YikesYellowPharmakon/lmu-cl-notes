@@ -262,6 +262,12 @@
   html[data-mode="day"] { --syn-k: #576d00; --syn-f: #065238; --syn-s: #4b5bac; --syn-n: #067080; --syn-b: #5a5422; --syn-c: #666c59; --syn-p: #666c59; }
   main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
 </style>
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+  .katex { font-size: 1.08em; }
+  .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; }
+  .math-block .katex-display { margin: 0.4em 0; }
+</style>
 <style id="glass">
   /* ===== 视觉层 v7 (= 样例 v21) =====
      点阵背景与渐变底色; 模块: 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.
@@ -1397,7 +1403,7 @@ void prime_the_change_buffer()
   <p class="cweb"><b>void</b> <i>prime_the_change_buffer</i>()<br>{<br>&nbsp;&nbsp;<i>change_limit</i> = <i>change_buffer</i>;&nbsp;&nbsp;&nbsp;/* this value is used if the change file ends */<br>&nbsp;&nbsp;⟨Skip over comment lines in the change file; <b>return</b> if end of file 13⟩;<br>&nbsp;&nbsp;⟨Skip to the next nonblank line; <b>return</b> if end of file 14⟩;<br>&nbsp;&nbsp;⟨Move <i>buffer</i> and <i>limit</i> to <i>change_buffer</i> and <i>change_limit</i> 15⟩;<br>}</p>
 </div>
 <div class="zh">
-  <p>CWEB 源文件由一个个小节组成. <code>@</code> 开始一节的讲解文字, 用 <code>|…|</code> 括起来的部分按代码排版; <code>@c</code> 开始这一节的 C 代码. <code>@&lt;…@&gt;</code> 是一个命名的代码块 (宏): 这里只写名字, 具体代码在后面的第 13、14、15 节里. 第 23 张是 cweave 排版后的结果: 讲解文字成了正文, 变量名排成斜体, <code>==</code> 和 <code>&amp;&amp;</code> 变成了 ≡ 和 ∧, 命名代码块变成 ⟨…⟩ 并标出它所在的节号. 讲解用的正是上一张说的 we (「we have …」). 读者读到的是一篇讲解程序的文章, 而编译器拿到的仍是普通的 C <span class="nb">代码.</span></p>
+  <p>CWEB 源文件由一个个小节组成. <code>@</code> 开始一节的讲解文字, 用 <code>|…|</code> 括起来的部分按代码排版; <code>@c</code> 开始这一节的 C 代码. <code>@&lt;…@&gt;</code> 是一个命名的代码块 (宏): 这里只写名字, 具体代码在后面的第 13、14、15 节里. 第 23 张是 cweave 排版后的结果: 讲解文字成了正文, 变量名排成斜体, <code>==</code> 和 <code>&amp;&amp;</code> 变成了 ≡ 和 <span class="katex" data-o="∧"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.5556em;"></span><span class="mord">∧</span></span></span></span>, 命名代码块变成 ⟨…⟩ 并标出它所在的节号. 讲解用的正是上一张说的 we (「we have …」). 读者读到的是一篇讲解程序的文章, 而编译器拿到的仍是普通的 C <span class="nb">代码.</span></p>
 </div>
 
 </main>

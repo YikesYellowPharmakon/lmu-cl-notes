@@ -1136,6 +1136,8 @@
     <nav>
       <a href="#a1">作业单 1</a>
       <a href="#u1">练习 1</a>
+      <a href="#a2">作业单 2</a>
+      <a href="#u2">练习 2</a>
     </nav>
   </div>
 </header>
@@ -1658,6 +1660,678 @@ sentence[<span class="tk-n">0</span>] + <span class="tk-s">" " </span>+ sentence
 <div class="warn"><p><b>原文笔误:</b> 题干「dem <b>Elimierungstest</b>」应为 <span class="nb">Eliminierungstest.</span></p></div>
 </article>
 </section>
+
+<!-- ======================= A2 ======================= -->
+<section class="part" id="a2">
+<h2>作业单 2<br><span class="de-title">Aufgabenblatt 2</span><small><span class="rl">对应 <a href="SNS-02-短语结构文法.html">SNS 02 · 短语结构文法</a> (第 2.3 节短语结构、第 3 节 CFG、第 5 节德语的短语范畴);</span><span class="rl">源文件 02-aufgaben-solution.ipynb (「02 - Aufgabenblatt (Lösung)」).</span></small></h2>
+
+<article id="a2-1">
+<h3>题 1: 补上短语范畴<br><span class="de-title">Aufgabe 1: Ergänzung um Phrasenkategorien</span></h3>
+<div class="card de">
+  <span class="folie">Aufgabenblatt 2 · Aufgabe 1</span>
+  <p><b>Ergänzen Sie in folgendem Klammerausdruck (aus dem vorherigen Aufgabenblatt) die Phrasenkategorie-Label und generieren Sie den entsprechenden Syntaxbaum, indem Sie die Codezelle anschließend ausführen.</b></p>
+<pre data-lang="python"><span class="tk-k">import </span>nltk
+<span class="tk-k">from </span>nltk.tree <span class="tk-k">import </span>Tree</pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 在下面的括号表达式 (来自上一张作业单) 里补上短语范畴的标签, 然后运行代码单元格, <span class="nb">生成对应的句法树.</span></p>
+  <p><b>思路:</b> 起点是 <a href="#a1-2">作业单 1 题 2</a> 里那个没有标签的括号式 (<i>Die Kunst des Ausruhens ist ein Teil der Kunst des Arbeitens</i>). 每对括号前面写上它的范畴: 整句是 S; 主语和表语都是名词短语 NP, 里面的二格定语也是 NP; ist 和它的表语组成 VP. 词组仍用下划线连成一个叶子, 只给短语加标签, <span class="nb">不用标词性.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+<pre data-lang="python"><span class="tk-c">#Lösung
+</span>tree = Tree.fromstring(<span class="tk-s">"""
+(S
+    (NP
+        (NP Die_Kunst)
+        (NP des_Ausruhens)
+    )
+    (VP
+        ist
+        (NP
+            (NP ein_Teil)
+            (NP
+                (NP der_Kunst)
+                (NP des_Arbeitens)
+            )
+        )
+    )
+)
+"""</span>)
+
+tree.pretty_print(unicodelines=<span class="tk-n">True</span>)</pre>
+  <p>实际运行输出:</p>
+<pre data-lang="text">                             S
+           ┌─────────────────┴────────────┐
+           │                              VP
+           │                 ┌────────────┴──────┐
+           │                 │                   NP
+           │                 │     ┌─────────────┴──────┐
+           NP                │     │                    NP
+    ┌──────┴────────┐        │     │             ┌──────┴────────┐
+    NP              NP       │     NP            NP              NP
+    │               │        │     │             │               │
+Die_Kunst     des_Ausruhens ist ein_Teil     der_Kunst     des_Arbeitens</pre>
+  <p>Die Kunst des Ausruhens 是 NP, 由中心 NP (Die Kunst) 和二格定语 NP (des Ausruhens) 组成; 表语 ein Teil der Kunst des Arbeitens 也是 NP, 它的二格定语 der Kunst des Arbeitens 本身又是一个带二格定语的 NP, 所以 NP 里套 NP 套了两层 (SNS 03 讲的直接递归 NP → DET N NP). ist 没有加标签, <span class="nb">直接作为 VP 的叶子.</span></p>
+  <p><b>易错:</b> NLTK 括号式里左括号后的第一个词是标签, 所以写成 <code>(Die_Kunst)</code> 会把词当成标签 (作业单 1 的问题); 要写 <span class="nb"><code>(NP Die_Kunst)</code>.</span></p>
+</details>
+</article>
+
+<article id="a2-2">
+<h3>题 2: 短语结构树<br><span class="de-title">Aufgabe 2: Phrasenstrukturbaum</span></h3>
+<div class="card de">
+  <span class="folie">Aufgabenblatt 2 · Aufgabe 2</span>
+  <p><b>Geben Sie für den folgenden Satz einen vollständigen Phrasenstrukturbaum an.</b></p>
+  <p><i>Die Studierende schenkte ihnen ein Buch von Chomsky.</i></p>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 给下面的句子画一棵完整的短语结构树. 句子: 「那位 (女) 学生送给他们一本乔姆斯<span class="nb">基写的书.」</span></p>
+  <p><b>思路:</b> 「完整」指一直画到词性: 每个词上面都有词性标签 (DET、N、V、PRON、P、PROPN), 词性上面是短语. schenken 是双及物动词: 三格宾语 ihnen + 四格宾语 ein Buch von Chomsky, 两个都是动词的补足语, 按扁平规则挂在 VP 下 (VP → V NP NP, SNS 02 dt · Folie 17、23). von Chomsky 是 Buch 的介词定语, 要先和 ein Buch 组成 <span class="nb">NP.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+<pre data-lang="python"><span class="tk-c">#Lösung
+</span>tree = Tree.fromstring(<span class="tk-s">"""
+(S
+    (NP (DET Die) (N Studierende))
+    (VP
+        (V schenkte)
+        (NP (PRON ihnen))
+        (NP 
+            (NP (DET ein) (N Buch))
+            (PP (P von) (NP (PROPN Chomsky)))
+        )
+    )
+)
+"""</span>)
+
+tree.pretty_print(unicodelines=<span class="tk-n">True</span>)</pre>
+  <p>实际运行输出:</p>
+<pre data-lang="text">                               S
+     ┌─────────────────────────┴────┐
+     │                              VP
+     │                 ┌───────┬────┴────────────┐
+     │                 │       │                 NP
+     │                 │       │        ┌────────┴───────┐
+     │                 │       │        │                PP
+     │                 │       │        │            ┌───┴─────┐
+     NP                │       NP       NP           │         NP
+ ┌───┴───────┐         │       │    ┌───┴───┐        │         │
+DET          N         V      PRON DET      N        P       PROPN
+ │           │         │       │    │       │        │         │
+Die     Studierende schenkte ihnen ein     Buch     von     Chomsky</pre>
+  <p>代词 ihnen 自己构成 NP (NP → PRON, 代词替代整个 NP); 专有名词 Chomsky 同样单独构成 NP. ein Buch von Chomsky 用 NP → NP PP: PP 挂在 NP 上 (修饰 Buch), 不挂在 VP 上, 因为「乔姆斯基的书」是一个整体, <span class="nb">送书的人不是乔姆斯基.</span></p>
+  <p>也可以按 X-bar 分析 (SNS 03) 把 von Chomsky 挂在 N′ 上; 这里的参考答案用的是第 2 <span class="nb">讲的扁平规则.</span></p>
+</details>
+</article>
+
+<article id="a2-3">
+<h3>题 3: 短语结构文法<br><span class="de-title">Aufgabe 3: Phrasenstrukturgrammatik</span></h3>
+<div class="card de">
+  <span class="folie">Aufgabenblatt 2 · Aufgabe 3</span>
+  <p><b>Schreiben Sie eine kontextfreie Grammatik, die den (um die PP gekürzten) Satz aus der vorherigen Aufgabe erkennt:</b></p>
+  <p><i>Die Studierende schenkte ihnen ein Buch.</i></p>
+<pre data-lang="python">sent = <span class="tk-s">"die Studierende schenkte ihnen ein Buch"</span></pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 写一个上下文无关文法, 能识别上一题去掉 PP 之后的句子: 「那位学生送给他<span class="nb">们一本书.」</span></p>
+  <p><b>思路:</b> 从上一题的树往下读规则: 每个节点和它的子节点就是一条规则. 分成句法规则 (S → NP VP 之类) 和词汇规则 (DET → "die" 之类). 注意 <code>sent</code> 里 die 是小写, 词汇规则里的终端符号要和它一模一样. 写好后用 <code>nltk.ChartParser</code> 解析, 能得到一棵树就说明文法识别了<span class="nb">这个句子.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+<pre data-lang="python"><span class="tk-c">#Lösung
+</span>grammar = nltk.CFG.fromstring(<span class="tk-s">"""
+    S -&gt; NP VP
+    NP -&gt; DET N | PRON
+    VP -&gt; V NP NP
+    DET -&gt; "die" | "ein"
+    N -&gt; "Studierende" | "Buch"
+    PRON -&gt; "ihnen"
+    V -&gt; "schenkte"
+"""</span>)
+
+parser = nltk.ChartParser(grammar)
+<span class="tk-k">for </span>tree <span class="tk-k">in </span>parser.parse(sent.split()):
+    tree.pretty_print(unicodelines=<span class="tk-n">True</span>)</pre>
+  <p>实际运行输出:</p>
+<pre data-lang="text">                       S
+     ┌─────────────────┴───────┐
+     │                         VP
+     │                 ┌───────┼────────┐
+     NP                │       NP       NP
+ ┌───┴───────┐         │       │    ┌───┴───┐
+DET          N         V      PRON DET      N
+ │           │         │       │    │       │
+die     Studierende schenkte ihnen ein     Buch</pre>
+  <p>NP → DET N | PRON 用析取符 <code>|</code> 把两条 NP 规则写在一行 (SNS 02 的「析取运算符」). 只有一棵树, 说明这个文法对这句话<span class="nb">没有歧义.</span></p>
+  <p><b>易错:</b> 终端符号区分大小写: 句子写 <code>die</code>, 规则写成 <code class="lc">DET -&gt; "Die"</code> 就解析不出来, NLTK 直接报错 <code class="lc">ValueError: Grammar does not cover some of the input words: "'die'".</code> <span class="nb">(实测).</span></p>
+</details>
+</article>
+
+<article id="a2-4">
+<h3>题 4: 扩展短语结构文法<br><span class="de-title">Aufgabe 4: Erweiterung Phrasenstrukturgrammatik</span></h3>
+<div class="card de">
+  <span class="folie">Aufgabenblatt 2 · Aufgabe 4</span>
+  <p><b>(a) Erweitern Sie die Grammatikregeln aus der vorherigen Aufgabe um lexikalische sowie syntaktische Regeln für:</b></p>
+  <ol>
+    <li>Eigennamen (können ohne Artikel eine Nominalphrase <span class="nb">bilden)</span></li>
+    <li>PPs als Attribute <span class="nb">von NPs</span></li>
+  </ol>
+  <p>Folgende Sätze sollten nun korrekt analysiert <span class="nb">werden:</span></p>
+<pre data-lang="python">sents = [
+    <span class="tk-s">"die Studierende schenkte ihnen ein Buch"</span>,
+<span class="tk-c"># neu:
+    </span><span class="tk-s">"Maria schenkte ihnen ein Buch von Noam Chomsky"
+</span>]</pre>
+  <p><b>(b) Stellen Sie außerdem sicher, dass folgende Sätze KEINE Analyse liefern! Passen Sie die Grammatik in (a) ggf. an.</b></p>
+<pre data-lang="python">neg_sents = [
+    <span class="tk-s">"Studierende schenkte ihnen ein Buch"</span>,
+    <span class="tk-s">"die Maria schenkte ihnen ein Buch"
+</span>]
+
+parser = nltk.ChartParser(grammar)
+<span class="tk-k">for </span>sent <span class="tk-k">in </span>neg_sents:
+    trees = <span class="tk-b">list</span>(parser.parse(sent.split()))
+    <span class="tk-k">if </span>trees: [tree.pretty_print(unicodelines=<span class="tk-n">True</span>) <span class="tk-k">for </span>tree <span class="tk-k">in </span>trees]
+    <span class="tk-k">else</span>: <span class="tk-b">print</span>(<span class="tk-s">f"no parse found for: {</span>sent<span class="tk-s">}"</span>)</pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> (a) 给上一题的文法加上词汇规则和句法规则, 覆盖: ① 专有名词 (不带冠词就能构成名词短语); ② 介词短语作名词短语的定语. 下面两句都要能正确分析. (b) 同时要保证下面两句<b>没有</b>分析结果 (必要时修改 (a) 的文法): 不带冠词的 <i>*Studierende schenkte …</i> 和带冠词的专有名词 <span class="nb"><i>*die Maria schenkte …</i>.</span></p>
+  <p><b>思路:</b> 关键是给专有名词单独一个词性 PROPN, 不要放进 N: 只有 PROPN 能单独成 NP (NP → PROPN), 普通名词 N 必须带冠词 (只有 NP → DET N). 这样 (b) 的两句自动失败: Studierende 是 N, 没有冠词不能成 NP; Maria 是 PROPN, 没有 DET PROPN 这样的规则. Noam Chomsky 是两个专有名词, 需要 NP → PROPN PROPN. 介词定语: PP → P NP 加上 NP → <span class="nb">NP PP.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+<pre data-lang="python"><span class="tk-c">#Lösung
+</span>grammar = nltk.CFG.fromstring(<span class="tk-s">"""
+    S -&gt; NP VP
+    NP -&gt; DET N | PRON
+    VP -&gt; V NP NP
+    DET -&gt; "die" | "ein"
+    N -&gt; "Studierende" | "Buch"
+    PRON -&gt; "ihnen"
+    V -&gt; "schenkte"
+
+    NP -&gt; PROPN | PROPN PROPN
+    PROPN -&gt; "Chomsky" | "Noam" | "Maria" | "Moritz"
+
+    PP -&gt; P NP
+    P -&gt; "von"
+    NP -&gt; NP PP
+"""</span>)
+
+parser = nltk.ChartParser(grammar)
+<span class="tk-k">for </span>sent <span class="tk-k">in </span>sents:
+    trees = <span class="tk-b">list</span>(parser.parse(sent.split()))
+    <span class="tk-k">if </span>trees: [tree.pretty_print(unicodelines=<span class="tk-n">True</span>) <span class="tk-k">for </span>tree <span class="tk-k">in </span>trees]
+    <span class="tk-k">else</span>: <span class="tk-b">print</span>(<span class="tk-s">f"no parse found for: {</span>sent<span class="tk-s">}"</span>)</pre>
+  <p>实际运行输出 (先跑 (a) <span class="nb">的两个句子):</span></p>
+<pre data-lang="text">                       S
+     ┌─────────────────┴───────┐
+     │                         VP
+     │                 ┌───────┼────────┐
+     NP                │       NP       NP
+ ┌───┴───────┐         │       │    ┌───┴───┐
+DET          N         V      PRON DET      N
+ │           │         │       │    │       │
+die     Studierende schenkte ihnen ein     Buch
+
+                      S
+  ┌───────────────────┴───────┐
+  │                           VP
+  │      ┌───────┬────────────┴────┐
+  │      │       │                 NP
+  │      │       │        ┌────────┴────┐
+  │      │       │        │             PP
+  │      │       │        │        ┌────┴────┐
+  NP     │       NP       NP       │         NP
+  │      │       │    ┌───┴───┐    │    ┌────┴─────┐
+PROPN    V      PRON DET      N    P  PROPN      PROPN
+  │      │       │    │       │    │    │          │
+Maria schenkte ihnen ein     Buch von  Noam     Chomsky</pre>
+  <p>再用同一个文法跑 (b) <span class="nb">的两个反例:</span></p>
+<pre data-lang="output">no parse found for: Studierende schenkte ihnen ein Buch
+no parse found for: die Maria schenkte ihnen ein Buch</pre>
+  <p>(a) 的文法不用改就满足 (b), 原因就是 PROPN 和 N 分开了. 反过来, 如果把人名也归入 N (<code class="lc">NP -&gt; N | N N</code>, <code class="lc">N -&gt; "Chomsky" | … | "Maria"</code>), 那么 NP → N 让任何普通名词也能不带冠词成 NP, NP → DET N 又让人名能带冠词, 两个反例都会被<span class="nb">分析出来:</span></p>
+<pre data-lang="python"><span class="tk-c"># Hinweis: Analyse möglich wenn statt PROPN N:
+</span>grammar = nltk.CFG.fromstring(<span class="tk-s">"""
+    S -&gt; NP VP
+    NP -&gt; DET N | PRON
+    VP -&gt; V NP NP
+    DET -&gt; "die" | "ein"
+    N -&gt; "Studierende" | "Buch"
+    PRON -&gt; "ihnen"
+    V -&gt; "schenkte"
+
+    NP -&gt; N | N N
+    N -&gt; "Chomsky" | "Noam" | "Maria" | "Moritz"
+
+    PP -&gt; P NP
+    P -&gt; "von"
+    NP -&gt; NP PP
+"""</span>)
+
+parser = nltk.ChartParser(grammar)
+<span class="tk-k">for </span>sent <span class="tk-k">in </span>neg_sents:
+    <span class="tk-k">for </span>tree <span class="tk-k">in </span>parser.parse(sent.split()):
+        tree.pretty_print(unicodelines=<span class="tk-n">True</span>)</pre>
+<pre data-lang="text">               S
+     ┌─────────┴───────┐
+     │                 VP
+     │         ┌───────┼────────┐
+     NP        │       NP       NP
+     │         │       │    ┌───┴───┐
+     N         V      PRON DET      N
+     │         │       │    │       │
+Studierende schenkte ihnen ein     Buch
+
+                 S
+     ┌───────────┴───────┐
+     │                   VP
+     │           ┌───────┼────────┐
+     NP          │       NP       NP
+ ┌───┴────┐      │       │    ┌───┴───┐
+DET       N      V      PRON DET      N
+ │        │      │       │    │       │
+die     Maria schenkte ihnen ein     Buch</pre>
+  <p>这说明了 SNS 02 讲词类时强调的一点: 词类要按<b>句法分布</b>划分. 专有名词和普通名词在语义上都是「名词」, 但能不能不带冠词出现在主语位置, 分布不同, 所以句法上要分成<span class="nb">两个范畴.</span></p>
+</details>
+<div class="add"><p>(b) 的第二句在标准书面德语里不合语法, 但在德国南部 (包括慕尼黑) 和奥地利的口语里, 人名前加冠词非常普遍 (<i>Die Maria kommt heute.</i>). 题目以标准语为准. 第一句 <i>Studierende schenkte …</i> 也有一种合语法的读法: 复数的 Studierende 不带冠词可以作主语 (<i>Studierende schenkten ihnen ein Buch</i>), 但这里动词 schenkte 是单数, 所以只能理解为单数名<span class="nb">词缺冠词.</span></p></div>
+</article>
+</section>
+
+<!-- ======================= U2 ======================= -->
+<section class="part" id="u2">
+<h2>练习 2<br><span class="de-title">Übung 2</span><small><span class="rl">对应 <a href="SNS-02-短语结构文法.html">SNS 02 · 短语结构文法</a> (第 1 节词汇范畴、第 3 节 CFG、第 4 节标注集、第 5 节德语的词汇范畴);</span><span class="rl">源文件 02-uebung-solution.ipynb (「02 - Übung (Lösung)」);</span><span class="rl">题 2 和题 5 用到 spaCy (3.8.18, 德语模型 de_core_news_sm 3.8.0) 和 NLTK 的 Brown 语料库.</span></small></h2>
+
+<article id="u2-1">
+<h3>题 1: 补上短语范畴<br><span class="de-title">Aufgabe 1: Ergänzung um Phrasenkategorien</span></h3>
+<div class="card de">
+  <span class="folie">Übung 2 · Aufgabe 1</span>
+  <p><b>Ergänzen Sie in folgendem Klammerausdruck (aus der vorherigen Übung) die Phrasenkategorie-Label und generieren Sie den entsprechenden Syntaxbaum, indem Sie die Codezelle anschließend ausführen.</b></p>
+<pre data-lang="python"><span class="tk-k">import </span>nltk
+<span class="tk-k">from </span>nltk.tree <span class="tk-k">import </span>Tree
+<span class="tk-k">from </span>nltk.parse.generate <span class="tk-k">import </span>generate</pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 在下面的括号表达式 (来自上一次练习) 里补上短语范畴标签, 然后运行代码单元格, <span class="nb">生成对应的句法树.</span></p>
+  <p><b>思路:</b> 起点是 <a href="#u1-2">练习 1 题 2</a> 的 <i>Fischers Fritz fischt die frischen Fische aus dem Fluss</i>. aus dem Fluss 是附加语 (可以删、可以替换成 dort), 按 SNS 00 的递归附加写法: 先由 fischt 和宾语组成 VP, 再用 VP → VP PP <span class="nb">把附加语加在外面.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+<pre data-lang="python"><span class="tk-c">#Lösung
+</span>tree = Tree.fromstring(<span class="tk-s">"""
+(S
+    (NP Fischers_Fritz)
+    (VP
+        (VP
+            fischt
+            (NP die_frischen_Fische)
+        )
+        (PP
+            aus
+            (NP dem_Fluss)
+        )
+    )
+)
+"""</span>)
+
+tree.pretty_print(unicodelines=<span class="tk-n">True</span>)</pre>
+  <p>实际运行输出 (叶子 die_frischen_Fische 太长, pretty_print <span class="nb">把它折成了两行):</span></p>
+<pre data-lang="text">                                 S
+      ┌──────────────────────────┴──────────┐
+      │                                     VP
+      │                ┌────────────────────┴───────┐
+      │                VP                           PP
+      │          ┌─────┴─────────┐              ┌───┴──────┐
+      NP         │               NP             │          NP
+      │          │               │              │          │
+Fischers_Fritz fischt     die_frischen_Fis     aus     dem_Fluss
+                                che</pre>
+  <p>内层 VP fischt die frischen Fische 是动词加补足语, 外层 VP 再加附加语 PP, 正好体现了补足语在里、附加语在外 (SNS 03 的 X-bar 分析用 V′ <span class="nb">表达同样的层级).</span></p>
+</details>
+</article>
+
+<article id="u2-2">
+<h3>题 2: 词类<br><span class="de-title">Aufgabe 2: Wortarten</span></h3>
+<div class="card de">
+  <span class="folie">Übung 2 · Aufgabe 2</span>
+  <p><b>(a) Bestimmen Sie die Wortarten des folgenden Satzes. Geben Sie jeweils das entsprechende Tag aus dem Universal Dependency (http://universaldependencies.org/u/pos/) Tagset an. Sie können für einen Vergleich auch weitere Tagsets verwenden.</b></p>
+  <p><i>Sie gab ihm das neue Buch von Chomsky, aber er zeigte kein Interesse daran.</i></p>
+  <p><b>(b) Vergleichen Sie ihre Tabelle anschließend mit dem Output des Spacy-Taggers.</b></p>
+<pre data-lang="python"><span class="tk-k">import </span>spacy
+
+nlp = spacy.load(<span class="tk-s">"de_core_news_sm"</span>)
+doc = nlp(<span class="tk-s">'Sie gab ihm das neue Buch von Chomsky, aber er zeigte kein Interesse daran.'</span>)</pre>
+<pre data-lang="python">format_string = <span class="tk-s">'{:10s} {:10s} {:10s}'
+</span><span class="tk-b">print</span>(format_string.format(<span class="tk-s">'Text'</span>, <span class="tk-s">'UD Tag'</span>, <span class="tk-s">'TIGER Tag'</span>))
+<span class="tk-b">print</span>(format_string.format(*([<span class="tk-s">'=========='</span>]*<span class="tk-n">3</span>)))
+<span class="tk-k">for </span>token <span class="tk-k">in </span>doc:
+    <span class="tk-b">print</span>(format_string.format(token.text, token.pos_, token.tag_))</pre>
+  <p><b>(c) Verwenden Sie Spacy zur Auflösung unklarer Tagnamen.</b></p>
+  <ul>
+    <li><code>spacy.explain()</code> ist eine Funktion in der Spacy-Bibliothek, die eine textuelle Erklärung für eine gegebene Spacy-Token-ID oder POS-Tag <span class="nb">liefert.</span></li>
+    <li>Sie können auch <code>nltk.help.upenn_tagset()</code> für zusätzliche Beispiele für die POS-Tags der Penn Treebank <span class="nb">verwenden.</span></li>
+  </ul>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> (a) 确定下面句子里每个词的词类, 写出 Universal Dependencies 标注集里对应的标签; 也可以用别的标注集对比. 句子: 「她把乔姆斯基的那本新书给了他, 但他对此毫无兴趣.」(b) 然后把你的表和 spaCy 词性标注器的输出对比. (c) 用 spaCy 查不清楚的标签名: <code>spacy.explain()</code> 给出一个 spaCy 标签或词性标签的文字解释; Penn Treebank 的标签还可以用 <code>nltk.help.upenn_tagset()</code> <span class="nb">查例子.</span></p>
+  <p><b>思路:</b> 逐词用 SNS 02 的分类: 人称代词 (Sie、ihm、er)、动词、限定词 (das、kein)、形容词、名词、介词、专有名词、连词. 两个难点: kein 后面跟着名词, 是作定语用的 (限定词位置, 但传统上叫不定代词); daran 是 da + an 合成的<b>代副词 (Pronominaladverb)</b>, 替代「an + 代词」(an dem Buch → <span class="nb">daran).</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>(a) 参考答案的表 (UD 简化版 = <span class="nb">课上树里用的标签):</span></p>
+  <div class="tablewrap"><table class="nowrap">
+    <tr><th>Tagset</th><th>Sie</th><th>gab</th><th>ihm</th><th>das</th><th>neue</th><th>Buch</th><th>von</th><th>Chomsky</th><th>aber</th><th>er</th><th>zeigte</th><th>kein</th><th>Interesse</th><th>daran</th></tr>
+    <tr><th>UD 简化</th><td>PRON</td><td>V</td><td>PRON</td><td>DET</td><td>ADJ</td><td>N</td><td>P</td><td>PROPN</td><td>CONJ</td><td>PRON</td><td>V</td><td>PRON/DET</td><td>N</td><td>PRON/ADV</td></tr>
+    <tr><th>UD</th><td>PRON</td><td>VERB</td><td>PRON</td><td>DET</td><td>ADJ</td><td>NOUN</td><td>ADP</td><td>PROPN</td><td>CCONJ</td><td>PRON</td><td>VERB</td><td>PRON/DET</td><td>NOUN</td><td>PRON/ADV</td></tr>
+    <tr><th>TIGER</th><td>PPER</td><td>VVFIN</td><td>PPER</td><td>ART</td><td>ADJA</td><td>NN</td><td>APPR</td><td>NE</td><td>KON</td><td>PPER</td><td>VVFIN</td><td>PIAT</td><td>NN</td><td>PROAV</td></tr>
+    <tr><th>Penn Treebank</th><td>PRP</td><td>VBD</td><td>PRP</td><td>DT</td><td>JJ</td><td>NN</td><td>IN</td><td>NNP</td><td>CC</td><td>PRP</td><td>VBD</td><td>DT</td><td>NN</td><td>RB</td></tr>
+  </table></div>
+  <p>kein 和 daran 写了两个候选: kein 在功能上是限定词 (只能有一个, 占冠词的位置), 传统语法叫不定代词; daran 形式上含代词 (da 指代前面的书), <span class="nb">句法上像副词.</span></p>
+  <p>(b) spaCy <span class="nb">的实际输出:</span></p>
+<pre data-lang="output">Text       UD Tag     TIGER Tag
+========== ========== ==========
+Sie        PRON       PPER
+gab        VERB       VVFIN
+ihm        PRON       PPER
+das        DET        ART
+neue       ADJ        ADJA
+Buch       NOUN       NN
+von        ADP        APPR
+Chomsky    PROPN      NE
+,          PUNCT      $,
+aber       CCONJ      KON
+er         PRON       PPER
+zeigte     VERB       VVFIN
+kein       DET        PIAT
+Interesse  NOUN       NN
+daran      ADV        PROAV
+.          PUNCT      $.</pre>
+  <p>和表格逐词一致. 两处候选里 spaCy 的选择是: kein → <code>DET</code> (UD) / <code>PIAT</code> (TIGER); daran → <code>ADV</code> / <code>PROAV</code>. spaCy 另外给逗号和句号标了 PUNCT ($, <span class="nb">和 $.).</span></p>
+  <p>(c) 实际运行 <code>spacy.explain</code> 和 NLTK <span class="nb">的帮助:</span></p>
+<pre data-lang="python repl"><span class="tk-p">&gt;&gt;&gt; </span>spacy.explain(<span class="tk-s">'PIAT'</span>)    <span class="tk-c"># TIGER
+</span>'attributive indefinite pronoun without determiner'
+<span class="tk-p">&gt;&gt;&gt; </span>spacy.explain(<span class="tk-s">'PRON'</span>)    <span class="tk-c"># UD
+</span>'pronoun'
+<span class="tk-p">&gt;&gt;&gt; </span>spacy.explain(<span class="tk-s">'PROAV'</span>)   <span class="tk-c"># TIGER
+</span>'pronominal adverb'
+<span class="tk-p">&gt;&gt;&gt; </span>spacy.explain(<span class="tk-s">'RB'</span>)      <span class="tk-c"># Penn Treebank
+</span>'adverb'
+<span class="tk-p">&gt;&gt;&gt; </span>spacy.explain(<span class="tk-s">'ADP'</span>)     <span class="tk-c"># UD
+</span>'adposition'
+<span class="tk-p">&gt;&gt;&gt; </span>spacy.explain(<span class="tk-s">'APPR'</span>)    <span class="tk-c"># TIGER
+</span>'preposition; circumposition left'
+<span class="tk-p">&gt;&gt;&gt; </span>spacy.explain(<span class="tk-s">'IN'</span>)      <span class="tk-c"># Penn Treebank
+</span>'conjunction, subordinating or preposition'</pre>
+<pre data-lang="output">RB: adverb
+    occasionally unabatingly maddeningly adventurously professedly
+    stirringly prominently technologically magisterially predominately
+    swiftly fiscally pitilessly ...</pre>
+  <p>PIAT = 不带限定词的定语不定代词 (attributive indefinite pronoun without determiner), 就是 kein、viele、einige 这一类放在名词前的词. 同一个「介词」概念在三个标注集里分别是 ADP、APPR、IN; Penn 的 IN 还兼管从属连词 (because、if), 这就是为什么换标注集时要逐个核对标<span class="nb">签的含义.</span></p>
+</details>
+<div class="warn"><p><b>原题笔误:</b> (a)「Universal Dependency … Tagset」应为 Universal <b>Dependencies</b> (项目名是复数, 链接里也是); (b)「Vergleichen Sie <b>ihre</b> Tabelle」里的物主代词是敬称, <span class="nb">应大写为 Ihre.</span></p></div>
+</article>
+
+<article id="u2-3">
+<h3>题 3: 短语结构树<br><span class="de-title">Aufgabe 3: Phrasenstrukturbaum</span></h3>
+<div class="card de">
+  <span class="folie">Übung 2 · Aufgabe 3</span>
+  <p><b>(a) Geben Sie nun für den Satz aus Aufgabe 1 einen vollständigen Phrasenstrukturbaum inklusive Wortart-Label an:</b></p>
+  <p><i>Fischers Fritz fischt die frischen Fische aus dem Fluss.</i></p>
+  <p><b>(b) Geben Sie die entsprechenden Regeln einer kontextfreien Grammatik (CFG) an und überprüfen Sie anschließend, ob der Satz vom CFG-Parser abgeleitet werden kann.</b></p>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> (a) 现在给题 1 的句子画一棵完整的短语结构树, 包括词性标签. (b) 写出对应的上下文无关文法规则, 然后检查 CFG 分析器能否推导出<span class="nb">这个句子.</span></p>
+  <p><b>思路:</b> 在题 1 的树上把每个词组拆成词并加上词性. Fischers Fritz 是一个整体人名 (绕口令里的「渔夫 Fritz」), 两个词都标 PROPN. (b) 从树上逐个节点读出规则, 再分成句法规则和<span class="nb">词汇规则.</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>(a)</p>
+<pre data-lang="python">tree = Tree.fromstring(<span class="tk-s">"""
+(S
+    (NP (PROPN Fischers) (PROPN Fritz))
+    (VP
+        (VP
+            (V fischt)
+            (NP (DET die) (ADJ frischen) (N Fische))
+        )
+        (PP 
+            (P aus)
+            (NP (DET dem) (N Fluss))
+        )
+    )
+)
+"""</span>)
+
+tree.pretty_print(unicodelines=<span class="tk-n">True</span>)</pre>
+<pre data-lang="text">                                     S
+          ┌──────────────────────────┴───────┐
+          │                                  VP
+          │                    ┌─────────────┴─────────┐
+          │                    VP                      PP
+          │          ┌─────────┴─────┐             ┌───┴───┐
+          NP         │               NP            │       NP
+   ┌──────┴────┐     │     ┌─────────┼───────┐     │   ┌───┴────┐
+ PROPN       PROPN   V    DET       ADJ      N     P  DET       N
+   │           │     │     │         │       │     │   │        │
+Fischers     Fritz fischt die     frischen Fische aus dem     Fluss</pre>
+  <p>(b)</p>
+<pre data-lang="python">grammar = nltk.CFG.fromstring(<span class="tk-s">"""
+ # Syntaktische Regeln:
+    S -&gt; NP VP
+    NP -&gt; PROPN PROPN
+    VP -&gt; V NP | VP PP
+    NP -&gt; DET ADJ N | DET N
+    PP -&gt; P NP
+
+# Lexikalische Regeln:
+    PROPN -&gt; "Fischers" | "Fritz"
+    V -&gt; "fischt"
+    DET -&gt; "die" | "dem"
+    N -&gt; "Fische" |"Fluss"
+    ADJ -&gt; "frischen"
+    P -&gt; "aus"
+    """</span>)
+
+sent = <span class="tk-s">"Fischers Fritz fischt die frischen Fische aus dem Fluss"
+
+</span>parser = nltk.ChartParser(grammar)
+
+<span class="tk-k">for </span>tree <span class="tk-k">in </span>parser.parse(sent.split()):
+    tree.pretty_print(unicodelines=<span class="tk-n">True</span>)</pre>
+  <p>实际运行输出:</p>
+<pre data-lang="text">                                     S
+          ┌──────────────────────────┴───────┐
+          │                                  VP
+          │                    ┌─────────────┴─────────┐
+          │                    VP                      PP
+          │          ┌─────────┴─────┐             ┌───┴───┐
+          NP         │               NP            │       NP
+   ┌──────┴────┐     │     ┌─────────┼───────┐     │   ┌───┴────┐
+ PROPN       PROPN   V    DET       ADJ      N     P  DET       N
+   │           │     │     │         │       │     │   │        │
+Fischers     Fritz fischt die     frischen Fische aus dem     Fluss</pre>
+  <p>分析器得到的树和 (a) 手画的树完全相同, 说明规则读对了. 文法里的 VP → VP PP 是左递归; ChartParser 能处理, 换成递归下降分析器就会无限循环 (SNS 03 <span class="nb">Folie 6).</span></p>
+  <p>NLTK 的文法字符串里以 <code>#</code> 开头的行是注释, <span class="nb">可以用来给规则分组.</span></p>
+</details>
+</article>
+
+<article id="u2-4">
+<h3>题 4: 扩展短语结构文法<br><span class="de-title">Aufgabe 4: Erweiterung Phrasenstrukturgrammatik</span></h3>
+<div class="card de">
+  <span class="folie">Übung 2 · Aufgabe 4</span>
+  <p><b>Gegeben sei folgende einfache kontextfreie Grammatik (CFG):</b></p>
+<pre data-lang="python">grammar = nltk.CFG.fromstring(<span class="tk-s">"""
+    S -&gt; NP VP
+    NP -&gt; PROPN
+    VP -&gt; V NP
+    PROPN -&gt; "Maria" | "Moritz"
+    V -&gt; "kennt"
+"""</span>)</pre>
+  <p><b>(a) Parsen Sie den unten gegebenen Satz mit Hilfe der Grammatik, indem Sie das folgende Python-Skript ausführen. Erläutern Sie die Funktionsweise des Codes durch Kommentare.</b></p>
+<pre data-lang="python">sent = <span class="tk-s">"Maria kennt Moritz"
+
+</span>parser = nltk.ChartParser(grammar)
+
+<span class="tk-k">for </span>tree <span class="tk-k">in </span>parser.parse(sent.split()):
+    <span class="tk-b">print</span>(tree)
+    tree.pretty_print(unicodelines=<span class="tk-n">True</span>)</pre>
+  <p><b>(b) Überlegen Sie zunächst, wie viele Sätze von dieser Grammatik generiert werden können, bevor Sie den folgenden Codeblock ausführen:</b></p>
+<pre data-lang="python"><span class="tk-k">for </span>sentence <span class="tk-k">in </span>generate(grammar, depth=<span class="tk-n">5</span>):
+    <span class="tk-b">print</span>(<span class="tk-s">' '</span>.join(sentence))</pre>
+  <p><b>(c) Erweitern Sie die Grammatik um syntaktische sowie lexikalische Regeln für eine adverbiale Ergänzung mit <i>(sehr) gut</i>.</b></p>
+  <p>Testen Sie dazu mit untenstehenden Beispielsätzen, ob Ihre Grammatik den Satz <span class="nb">ableitet:</span></p>
+<pre data-lang="python">sents = [
+    <span class="tk-s">"Maria kennt Moritz gut"</span>,
+    <span class="tk-s">"Maria kennt Moritz sehr gut"</span>,
+]</pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 给定上面这个简单的上下文无关文法. (a) 运行下面的 Python 脚本, 用这个文法分析句子 <i>Maria kennt Moritz</i> (Maria 认识 Moritz), 并用注释解释代码怎么工作. (b) 运行代码之前先想一想: 这个文法一共能生成多少个句子? (c) 给文法加上句法规则和词汇规则, 覆盖状语成分 <i>(sehr) gut</i> (「(很) 好」), 用下面两个例句测试文法能否推<span class="nb">导出它们.</span></p>
+  <p><b>思路:</b> (a) 逐行说清楚: 句子按空格切成词表; ChartParser 用文法建分析器; <code>parse</code> 返回的是<b>可迭代</b>的若干棵树, 因为句子可能有歧义. (b) 数组合: S → NP VP, VP → V NP, 两个 NP 位置各有 2 个人名, 动词只有 1 个, 而且没有递归规则, 所以是有限的. (c) gut 是形容词作状语 (SNS 02 dt · Folie 5), sehr 是程度小品词, 组成 ADJP → PRT ADJ (dt · <span class="nb">Folie 21).</span></p>
+</details>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>(a) <span class="nb">加上注释的代码:</span></p>
+<pre data-lang="python"><span class="tk-c"># Der zu parsende Satz:
+</span>sent = <span class="tk-s">"Maria kennt Moritz"
+
+</span><span class="tk-c"># Erzeugen eines Chart-Parsers mit der definierten Grammatik:
+</span>parser = nltk.ChartParser(grammar)
+
+<span class="tk-c"># Durchlaufen und Parsen des Satzes:
+</span><span class="tk-k">for </span>tree <span class="tk-k">in </span>parser.parse(sent.split()): <span class="tk-c">#Parser liefert Sequenz zurück, da potentiell mehr als ein Parsebaum möglich (Ambiguität)
+    </span><span class="tk-b">print</span>(tree) <span class="tk-c"># unformatierten Syntaxbaum ausgeben (Klammerausdruck)
+    </span>tree.pretty_print(unicodelines=<span class="tk-n">True</span>) <span class="tk-c"># formatierten Syntaxbaum ausgeben</span></pre>
+  <p>实际运行输出:</p>
+<pre data-lang="text">(S (NP (PROPN Maria)) (VP (V kennt) (NP (PROPN Moritz))))
+        S
+  ┌─────┴────┐
+  │          VP
+  │     ┌────┴────┐
+  NP    │         NP
+  │     │         │
+PROPN   V       PROPN
+  │     │         │
+Maria kennt     Moritz</pre>
+  <p><code>print(tree)</code> 输出括号式, <code>pretty_print</code> 画成树. 这句话只有一棵树, <span class="nb">循环只执行一次.</span></p>
+  <p>(b) 2 (主语) × 1 (动词) × 2 (宾语) = 4 句. <span class="nb">实际运行:</span></p>
+<pre data-lang="output">Maria kennt Maria
+Maria kennt Moritz
+Moritz kennt Maria
+Moritz kennt Moritz</pre>
+  <p>文法没有递归, 所以是有限的; depth=5 正好够: NLTK 把词本身也算一层, 最深的路径 S – VP – NP – PROPN – 词共 5 层; 实测 depth=4 时一个句子也生成不出来. 生成器不管语义, 所以也有 Maria kennt <span class="nb">Maria.</span></p>
+  <p>(c) <span class="nb">加的规则和测试:</span></p>
+<pre data-lang="python">grammar = nltk.CFG.fromstring(<span class="tk-s">"""
+    S -&gt; NP VP
+    NP -&gt; PROPN
+    VP -&gt; V NP
+    PROPN -&gt; "Maria" | "Moritz"
+    V -&gt; "kennt"
+
+# HINZUGEFÜGTE REGELN:
+    VP -&gt; V NP ADJP
+    ADJP -&gt; ADJ | PRT ADJ
+    ADJ -&gt; "gut"
+    PRT -&gt; "sehr"
+"""</span>)
+
+parser = nltk.ChartParser(grammar)
+<span class="tk-k">for </span>sent <span class="tk-k">in </span>sents:
+    trees = <span class="tk-b">list</span>(parser.parse(sent.split()))
+    <span class="tk-k">if </span>trees: [tree.pretty_print(unicodelines=<span class="tk-n">True</span>) <span class="tk-k">for </span>tree <span class="tk-k">in </span>trees]
+    <span class="tk-k">else</span>: <span class="tk-b">print</span>(<span class="tk-s">f"no parse found for: {</span>sent<span class="tk-s">}"</span>)</pre>
+  <p>实际运行输出:</p>
+<pre data-lang="text">             S
+  ┌──────────┴────┐
+  │               VP
+  │     ┌─────────┼─────┐
+  NP    │         NP   ADJP
+  │     │         │     │
+PROPN   V       PROPN  ADJ
+  │     │         │     │
+Maria kennt     Moritz gut
+
+        S
+  ┌─────┴─────┐
+  │           VP
+  │     ┌─────┼──────────┐
+  NP    │     NP        ADJP
+  │     │     │     ┌────┴────┐
+PROPN   V   PROPN  PRT       ADJ
+  │     │     │     │         │
+Maria kennt Moritz sehr      gut</pre>
+  <p>参考答案把状语放进 VP 的扁平规则 VP → V NP ADJP. 也可以按附加语的思路写成 VP → VP ADJP (和题 3 的 VP → VP PP 一样), 那样以后加多个状语 (<i>Maria kennt Moritz seit Jahren sehr gut</i>) 不用每次改 VP <span class="nb">规则.</span></p>
+</details>
+</article>
+
+<article id="u2-5">
+<h3>题 5: 分布分析<br><span class="de-title">Aufgabe 5: Distributionsanalysen</span></h3>
+<div class="card de">
+  <span class="folie">Übung 2 · Aufgabe 5</span>
+  <p><b>Erläutern Sie die beiden folgenden Programmaufrufe im Hinblick auf das linguistische Prinzip der Distributionsäquivalenz.</b></p>
+  <p><b>(a)</b> Mit Hilfe der <code>similar</code>-Methode von NLTK können distributionsäquivalente Wörter gesucht werden, also solche, die in gleichen Kontexten auftreten (vgl. https://www.nltk.org/book/ch05.html#using-a-tagger).</p>
+<pre data-lang="python"><span class="tk-k">from </span>nltk.corpus <span class="tk-k">import </span>brown
+text = nltk.Text(word.lower() <span class="tk-k">for </span>word <span class="tk-k">in </span>brown.words())
+text.similar(<span class="tk-s">'big'</span>)</pre>
+  <p><b>(b)</b> Mit <code>common_contexts</code> können wir die exakten syntaktischen Umgebungen ermitteln, die zwei - zuvor mit ihren Wortart-Labels (wort/TAG) kombinierten - Wörter im Korpus miteinander <span class="nb">teilen.</span></p>
+<pre data-lang="python">tagged_text = nltk.Text(<span class="tk-s">f"{</span>word.lower()<span class="tk-s">}/{</span>tag<span class="tk-s">}" </span><span class="tk-k">for </span>word, tag <span class="tk-k">in </span>brown.tagged_words(tagset=<span class="tk-s">'universal'</span>))
+tagged_text.common_contexts([<span class="tk-s">"big/ADJ"</span>, <span class="tk-s">"little/ADJ"</span>])</pre>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 结合<b>Distributionsäquivalenz 分布等价</b>这一语言学原则, 解释下面两个程序调用. (a) NLTK 的 <code>similar</code> 方法可以找分布等价的词, 也就是出现在相同上下文里的词. (b) <code>common_contexts</code> 可以找出两个词 (事先和词性标签拼成「词/标签」) 在语料里共有的确切<span class="nb">句法环境.</span></p>
+  <p><b>思路:</b> 分布等价 (SNS 02 第 1 节的句法标准): 两个词如果能出现在同样的上下文里、互相替换后句子仍然合语法, 就属于同一个词类. <code>similar('big')</code> 找和 big 共享上下文 (左边一个词 + 右边一个词) 最多的词; <code>common_contexts</code> 把共享的上下文本身列出来. 先预测: 和 big 分布相同的词应该是<span class="nb">什么词类?</span></p>
+</div>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>(a) 实际运行 (Brown 语料库, <span class="nb">全部转成小写):</span></p>
+<pre data-lang="output">little new first good small large great the old other strong young
+major white second short beautiful a best long</pre>
+  <p>找出来的几乎全是形容词 (little、new、good、small、large …), 这就是分布分析的结果: 只看「左右各一个词」的上下文, 不用任何语义或形态信息, 就把形容词聚成了一类, 为词类划分提供了经验依据. 也混进了 the、a、first、second: 它们也常出现在 a ___ man、the ___ of 这类环境里, 说明只看一个词的窗口<span class="nb">不够精确.</span></p>
+  <p>(b) 实际运行 (Brown 的标签换成 universal <span class="nb">标注集):</span></p>
+<pre data-lang="output">a/det_man/noun the/det_man/noun the/det_,/. a/det_,/. as/adv_as/adp
+the/det_newt/noun the/det_car/noun a/det_car/noun a/det_group/noun
+a/det_machine/noun a/det_red/adj a/det_newt/noun a/det_eye/noun
+the/det_eye/noun the/det_pink/adj a/det_joke/noun a/det_room/noun
+a/det_stone/noun</pre>
+  <p>每一项是「左邻_右邻」, 例如 <code>a/det_man/noun</code> 表示 big 和 little 都出现在 a ___ man 里. 这些上下文清楚地显示了形容词的典型位置: 限定词和名词之间 (DET ___ NOUN), 也有 DET ___ ADJ (a big red …) 和 as ___ as. 和 (a) 相比, (b) 把词和词性绑在一起, 只比较作形容词用的 big 和 little, 并且把共享的结构环境明<span class="nb">确列出来.</span></p>
+  <p><b>易错:</b> 用 <code>similar</code> 找到的是「分布相似」, 不是「意思相近」: little 是 big 的反义词, 却排在第一, 因为反义词出现的上下文<span class="nb">几乎一样.</span></p>
+</details>
+</article>
+
+<article id="u2-6">
+<h3>题 6: 语境中的词类<br><span class="de-title">Aufgabe 6: Wortarten im Kontext</span></h3>
+<div class="card de">
+  <span class="folie">Übung 2 · Aufgabe 6</span>
+  <p><b>Betrachten sie folgende Sätze:</b></p>
+  <ol><li><i>Er spielt gerne Schach.</i></li><li><i>Er spielt gut Schach.</i></li></ol>
+  <p><b>Diskutieren Sie, ob es sich bei dem Wort <i>gerne</i> in Satz 1 um ein Adverb oder ein Adjektiv handelt.</b></p>
+  <p><b>Um welche Wortart handelt es sich bei dem Lexem <i>gut</i> in Satz 2? Diskutieren Sie die Probleme, die hier bei der Wortartenbestimmung auftreten.</b></p>
+  <p><b>Welche Wortart könnte man für das Wort gut in Satz 2 vermuten, wenn man Adverbien nicht morphologisch, sondern semantisch charakterisiert (als Wortart, die der Modifizierung des Verbalgeschehens dient)?</b></p>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 看下面两句: ①「他喜欢下象棋.」②「他象棋下得好.」讨论第 1 句的 gerne 是副词还是形容词. 第 2 句的词位 gut 是什么词类? 讨论这里确定词类时遇到的问题. 如果不按形态、而按语义给副词下定义 (副词 = 修饰动词所表达的事件的词类), 第 2 句的 gut <span class="nb">可以认为是什么词类?</span></p>
+  <p><b>思路:</b> 三个标准逐个试 (SNS 02 第 1 节和 dt · Folie 5–6): 语义 (表示什么)、句法功能 (在句中作什么成分)、形态 (能不能屈折变化). 关键测试: 能不能作定语并变格? <i>der gute Spieler</i> 可以, <i>*der gerne Spieler</i> <span class="nb">不行.</span></p>
+</details>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p><b>gerne:</b> 语义上表示动作的具体情况 (怎样下棋: 乐意地); 句法上作状语; 形态上不能变格, 不能作定语 (<i>*ein gerner Spieler</i>). <span class="nb">三条都指向<b>副词</b>.</span></p>
+  <p><b>gut:</b> 语义和句法功能与 gerne 完全一样 (修饰「下棋」, 作状语), 但形态上能变格: <i>ein guter Spieler</i>、<i>das gute Spiel</i>. 按形态标准 (德语语法的传统做法) 它是<b>形容词</b>, 在这里作状语用 (SNS 02 dt · Folie 5 的「adverbialer Gebrauch」). 问题在于: 不同的标准给出不同的结论, 同一个词在句子里的功能和它的词<span class="nb">类不一致.</span></p>
+  <p><b>按语义定义副词时:</b> 如果副词就是「修饰动词事件的词」, 那么第 2 句的 gut 应归为<b>副词</b>. 英语就是这样: good 作状语时要变成 well, 两者被看作不同的词类 (形容词 / <span class="nb">副词).</span></p>
+  <p>这道题的要点: 词类判断依赖所用的标准. 德语语法一般按形态分 (gut 永远是形容词, 只是用法不同); TIGER 用 ADJD 这个标签 (表语或状语用的形容词) 来同时记下「是形容词」和「不作定语」<span class="nb">两层信息.</span></p>
+</details>
+<div class="add"><p>gern 其实也有比较级和最高级: gern – lieber – am liebsten (异根比较). 所以「不能屈折」要理解成「不能变格」(不能随名词的性数格变化); 比较级的存在不改变它是副词的判断, <span class="nb">因为它仍然不能作定语.</span></p></div>
+<div class="warn"><p><b>原题笔误:</b>「Betrachten <b>sie</b> folgende Sätze」里的敬称代词应大写: <span class="nb">Betrachten Sie.</span></p></div>
+</article>
+
+<article id="u2-7">
+<h3>题 7: 短语与成分<br><span class="de-title">Aufgabe 7: Phrasen und Konstituenten</span></h3>
+<div class="card de">
+  <span class="folie">Übung 2 · Aufgabe 7</span>
+  <p><b>Erläutern Sie am Beispiel des Wortes <i>Verloren</i> im folgenden Satz den Unterschied zwischen Konstituente und Phrase.</b></p>
+  <ul><li><i>Verloren hat er seinen Schlüsselbund zwar noch nie, aber oft genug verlegt.</i></li></ul>
+</div>
+<div class="zh">
+  <p><b>翻译:</b> 以下面句子里的 <i>Verloren</i> 为例, 说明成分 (Konstituente) 和短语 (Phrase) 的区别. 句子: 「弄丢, 他的钥匙串倒是从来没弄丢过, 不过放错地方是<span class="nb">常有的事.」</span></p>
+  <p><b>思路:</b> 回顾 SNS 02 第 2 节: 成分是句子结构里的一个单位 (能通过移位等测试); 短语是以某个中心语为核心、<b>完整</b>的成分, 包含中心语的全部补足语. 问自己: verloren 能被移到句首 (前场), 所以是什么? verloren 的宾语 seinen Schlüsselbund <span class="nb">跟它一起移了吗?</span></p>
+</details>
+<details class="answer"><summary>答案 (先自己做再看)</summary>
+  <p>verloren 是<b>成分</b>, 因为它能单独移位: 被放到了句首的<b>Vorfeld 前场</b> (限定动词 hat 前面的位置). 但它<b>不是短语</b>: 过去分词 verloren 是一个更大的复合 VP 的一部分, 正常语序是 <i>er hat seinen Schlüsselbund zwar noch nie verloren</i>; verloren 的宾语 seinen Schlüsselbund 留在原处, 只有分词本身被抽出来放进前场. 一个短语应当包括中心语和它的补足语, 这里只有光杆的中心语, 所以 verloren 不是完整的 <span class="nb">VP.</span></p>
+  <p>这个例子还说明: 前场里不一定只能放句子成分 (Satzglied, 如主语、宾语、状语). 复合谓语 hat … verloren 是一个句子成分, 它的一部分 (分词) 也可以单独进入由限定动词 hat 决定的前场. 后半句 <i>aber oft genug verlegt</i> 和前面共用 hat 和宾语, 形成对比: 不是「丢」, 而是「放错地方」, 这也是把 verloren 放到句首加以强<span class="nb">调的原因.</span></p>
+</details>
+</article>
+</section>
+
 
 </main>
 <script id="glass-js">

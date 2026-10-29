@@ -264,6 +264,12 @@
   html[data-mode="day"] { --syn-k: #0d7554; --syn-f: #024f56; --syn-s: #7e4996; --syn-n: #766202; --syn-b: #395d3a; --syn-c: #596f64; --syn-p: #596f64; }
   main pre .tk-k { color: var(--syn-k); } main pre .tk-f { color: var(--syn-f); } main pre .tk-s { color: var(--syn-s); } main pre .tk-n { color: var(--syn-n); } main pre .tk-b { color: var(--syn-b); } main pre .tk-c { color: var(--syn-c); } main pre .tk-p { color: var(--syn-p); }
 </style>
+<link rel="stylesheet" href="katex/katex.min.css">
+<style>
+  .katex { font-size: 1.08em; }
+  .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; }
+  .math-block .katex-display { margin: 0.4em 0; }
+</style>
 <style id="glass">
   /* ===== 视觉层 v7 (= 样例 v21) =====
      点阵背景与渐变底色; 模块: 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.
@@ -1154,7 +1160,7 @@
   <p>In today’s exercise session you will familiarise with Eliza. Eliza is a rule-based system developed by Joseph Weizenbaum in 1960s mimicking the behaviour of a Rogerian psychotherapist. For more details, you can have a quick look at the Wikipedia page about <span class="nb">Eliza.</span></p>
   <p><b>Formalities</b></p>
   <p>You should upload the solutions of this exercise sheet on Moodle by the deadline as a PDF file named MatricNumber-exerciseN.pdf. The header of the file should contain: the exercise title (e.g., “Formal Languages for Computational Linguistics - 1. Exercise: Eliza”), your name, surname, and matriculation number. We will only check for completeness and we will not give personal feedback to each submission. We will discuss the results of this exercise together next week. You can work with your colleagues, but the names of your partners must be stated at the beginning of the submission sheet and each student should submit their own <span class="nb">solutions.</span></p>
-  <p class="src">¹ Substitute MatricNumber with your matriculation number and N with the number of the exercise <span class="nb">session.</span></p>
+  <p class="src"><span class="katex" data-o="¹"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.8141em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span> Substitute MatricNumber with your matriculation number and N with the number of the exercise <span class="nb">session.</span></p>
 </div>
 <div class="zh">
   <p><b>翻译:</b> 这次练习认识 Eliza: 它是 Joseph Weizenbaum 在 1960 年代开发的<b>regelbasiert 基于规则</b>的系统, 模仿一位<b>罗杰斯派 (Rogerian) 心理治疗师</b>的说话方式. 形式要求: 答案做成 PDF, 文件名 <code>学号-exerciseN.pdf</code>, 截止前传到 Moodle; 文件开头写练习标题、姓名和学号. 只检查是否完成, 不逐份给反馈, 下周一起讨论. 可以和同学合作, 但要在开头写上合作者的名字, <span class="nb">每人各交一份.</span></p>
