@@ -2,7 +2,7 @@
 
 Mathematik I: Grundlegende Techniken für Nebenfachstudierende
 
-带颜色的阅读版是同目录的 [MGTN-合集-数学I基础技术.html](MGTN-%E5%90%88%E9%9B%86-%E6%95%B0%E5%AD%A6I%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF.html), 图 (11 张示意图) 只在 HTML 里, 本文件只有文字. 正文里说「图中」「左图」时, 对照 HTML 看. 下面「> 补充」是幻灯片之外的背景知识, 「以后写入」留给以后的课.
+带颜色的阅读版是同目录的 [MGTN-合集-数学I基础技术.html](MGTN-%E5%90%88%E9%9B%86-%E6%95%B0%E5%AD%A6I%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF.html), 图 (13 张示意图) 只在 HTML 里, 本文件只有文字. 正文里说「图中」「左图」时, 对照 HTML 看. 下面「> 补充」是幻灯片之外的背景知识, 「以后写入」留给以后的课.
 
 这不是写完的讲义. 现在每一节是导览: 德语定义、中文说明、需要时加一张图. 上课之后, 新的定义、证明、例题和作业写进该节的「以后写入」, 编号不再另起一套.
 
@@ -410,6 +410,8 @@ k 比 M 的元素多时没有这样的子集: $\binom{M}{4} = \emptyset$. 把 $k
 > **补充 · 二项式系数**
 >
 > n 个元素的集合有 $\binom{n}{k} = \dfrac{n!}{k!\,(n-k)!}$ 个 k 元子集, 读作「n über k」(中文: n 选 k), $n! = 1 \cdot 2 \cdots n$, $0! = 1$. $n = 3$ 时依次是 $\binom{3}{0}, \binom{3}{1}, \binom{3}{2}, \binom{3}{3} = 1, 3, 3, 1$, 正是上面幂集按大小分的四组. 把所有 k 加起来就是全部子集: $\sum_{k=0}^{n} \binom{n}{k} = 2^n$.
+>
+> 0.4 的定理把这条计数写成 $|\binom{M}{k}| = \binom{|M|}{k}$.
 
 Für Mengen A, B definieren wir den **Schnitt** von A und B als $A \cap B := \{m \mid m \in A \land m \in B\}$
 
@@ -472,22 +474,286 @@ $\bigcup_{i \in I} C_i = \bigcup_{i \in \emptyset} C_i = \{m \mid \exists i \in 
 >
 > 同样的方法用在交集上: $\bigcap_{i \in \emptyset} C_i = \{m \mid \forall i \in \emptyset\colon m \in C_i\}$. 空集上的 $\forall$ 总为真 (0.2), 所以任何东西都满足条件, 结果是「所有东西的集合」. 这正是 0.1 理发师 / 罗素悖论里不允许造的那种集合. 所以空指标集的交集一般不定义; 或者先固定一个大集合 X, 规定所有 $C_i \subseteq X$, 只在 X 里取元素, 这时结果是 X.
 
-**Vereinigung, Durchschnitt, Differenz.** x liegt in $A \cup B$, wenn x in A oder in B liegt. x liegt in $A \cap B$, wenn x in beiden liegt. x liegt in A \ B, wenn x in A und nicht in B liegt. Mit den Junktoren aus 0.2: $A \cup B = \{ x \mid x \in A \lor x \in B \}, A \cap B = \{ x \mid x \in A \land x \in B \}, A \setminus B = \{ x \mid x \in A \land \neg (x \in B) \}$.
+Das **kartesische Produkt** von zwei Mengen A, B ist definiert als:
 
-**Kartesisches Produkt.** $A \times B$ ist die Menge aller geordneten Paare (a, b) mit $a \in A$ und $b \in B$. Im Allgemeinen ist (a, b) von (b, a) verschieden. $\mathbb{R}^{2} = \mathbb{R} \times \mathbb{R}$ ist die Ebene der späteren Vektoren.
+$$A \times B := \{(m_1, m_2) \mid m_1 \in A \land m_2 \in B\}$$
 
-三个运算可以用 $A = \{1, 2\}$、$B = \{2, 3\}$ 一次看完. 并集 $A \cup B = \{1, 2, 3\}$, 至少属于一个. 交集 $A \cap B = \{2\}$, 两个都属于. 差集 $A \setminus B = \{1\}$, 留在 A 里、去掉也在 B 里的那些.
+$(m_1, m_2)$: sogenanntes **geordnetes Paar**, **Tupel**.
 
-定义里用的正是 0.2 的联结词, 只是用在「x 属于……」上: $\cup$ 用 $\lor$, $\cap$ 用 $\land$, \ 用 $\land$ 加 $\neg$. 所以并集里「或」也包括「两个都属于」, 因为 $\lor$ 是包含的或.
+**Achtung:** i. A.: $(m_1, m_2) \ne (m_2, m_1)$.
 
-笛卡尔积的元素是有序对, 顺序算数. `(1, 2)` 和 `(2, 1)` 一般是不同的元素. 平面 $\mathbb{R}^{2}$ 就是两个实数轴的笛卡尔积, 后面的向量住在这里.
+Für eine Familie $(C_i)_{i \in I}$ ist das kartesische Produkt der $C_i$ definiert als:
+
+$$\mathop{\Large\times}\limits_{i \in I} C_i := \{(m_i)_{i \in I} \mid \forall i \in I\colon m_i \in C_i\}$$
+
+**kartesisches Produkt 笛卡尔积** $A \times B$ 收集所有这样的对: 第一个位置来自 A, 第二个位置来自 B. 这种对叫 **geordnetes Paar 有序对**, 也叫 **Tupel 元组**. 「i. A.」是 im Allgemeinen, 一般情况下: 两个位置上的东西不同时, 换位就是另一个元素. $m_1 = m_2$ 时才相同.
+
+有序对和集合正好相反: $\{1, 2\} = \{2, 1\}$, 而 $(1, 2) \ne (2, 1)$. 两个有序对相等, 要求每个位置分别相等: $(a, b) = (c, d)$ 当且仅当 $a = c \land b = d$.
+
+族的笛卡尔积把位置推广到指标集: 给每个 $i \in I$ 配一个位置, 这个位置上的元素从 $C_i$ 里取. 大的 $\times$ 和 0.3.2 的大 $\bigcap$、$\bigcup$ 是同一种写法. $I = \{1, 2\}$ 时就是 $C_1 \times C_2$. 平面 $\mathbb{R}^2 = \mathbb{R} \times \mathbb{R}$ 就是两个实数轴的笛卡尔积, 后面的向量住在这里.
+
+**Beispiele**
+
+1) $A = \{1, 2, \ldots, 6\}$, $B = \{1, 2, \ldots, 6\}$
+
+$$A \times B = \{(1, 1), (1, 2), \ldots, (1, 6), (2, 1), (2, 2), \ldots, (6, 6)\}$$
+
+2) $A = \{1, 2, \ldots, 6\}$, $B = \{K, Z\}$
+
+$$A \times B = \{(1, K), (1, Z), (2, K), (2, Z), \ldots, (6, Z)\}$$
+
+$$B \times A = \{(K, 1), (K, 2), \ldots, (Z, 1), \ldots, (Z, 6)\}$$
+
+3) $I = \mathbb{N}$, $C_i = \{1, 2, 3, 4, 5, 6\}$
+
+$$\mathop{\Large\times}\limits_{i \in I} C_i = \{(m_i)_{i \in \mathbb{N}} \mid \forall i \in \mathbb{N}\colon m_i \in \{1, \ldots, 6\}\}$$
+
+**例子 1** 是掷两次骰子的所有结果: $(1, 2)$ 是第一次 1、第二次 2, $(2, 1)$ 是另一个结果. 一共 $6 \cdot 6 = 36$ 个. A 和 B 是同一个集合也没关系, 位置把它们分开了.
+
+**例子 2** 是掷一次骰子再抛一次硬币 (K = Kopf 正面, Z = Zahl 反面), 共 $6 \cdot 2 = 12$ 个结果. $A \times B$ 和 $B \times A$ 都有 12 个元素, 但不是同一个集合: $(1, K) \in A \times B$, 而 $(1, K) \notin B \times A$. 所以 $\times$ 一般不能交换.
+
+**例子 3** 是无穷次掷骰子. 每个元素是一整串结果 $(m_1, m_2, m_3, \ldots)$, 比如 $(6, 1, 3, 3, \ldots)$. 这种按 $\mathbb{N}$ 编号的一串, 就是 2.1 的数列的样子.
+
+Das **Komplement** einer Menge A ist definiert als
+
+$$A^c := \{m \mid m \notin A\}$$
+
+(Andere Notation: $\bar{A}$)
+
+Die **Differenz** zweier Mengen A, B ist definiert als:
+
+$$A \setminus B := \{m \mid m \in A \land m \notin B\}$$
+
+**Bemerkung:** In der Definition von $A^c$ ist zunächst nicht klar, welche Elemente man überhaupt betrachtet. Dies ergibt sich immer aus dem Kontext bzw. muss explizit angegeben werden. Die Menge der Elemente, die man überhaupt betrachtet, nennt man **Universum** (Symbol: $\mathcal{U}$ oder $\Omega$).
+
+**Komplement 补集** $A^c$ 是不属于 A 的元素, **Differenz 差集** $A \setminus B$ 是属于 A、不属于 B 的元素. 用 $A = \{1, 2\}$、$B = \{2, 3\}$ 看: $A \cup B = \{1, 2, 3\}$, $A \cap B = \{2\}$, $A \setminus B = \{1\}$. 定义里用的还是 0.2 的联结词: $\cup$ 用 $\lor$, $\cap$ 用 $\land$, $\setminus$ 用 $\land$ 加 $\neg$.
+
+补集只说「不在 A 里」, 没说在哪里找. **Universum 全集**就是事先定好的范围, 也就是讨论的全部元素. 同一个 A, 全集不同, 补集也不同: $A = \{1, 2\}$ 在 $\mathcal{U} = \{1, 2, 3\}$ 里的补集是 $\{3\}$, 在 $\mathcal{U} = \mathbb{N}$ 里的补集是 $\{3, 4, 5, \ldots\}$. 不定全集, $\{m \mid m \notin A\}$ 就成了「所有东西」, 这正是 0.1 的罗素悖论不允许造的那种集合.
+
+**易错:** 差集不需要全集, 只需要 A 和 B. 它也不能交换: $A \setminus B$ 和 $B \setminus A$ 一般不同.
+
+**Beispiele**
+
+$A = \{1, 2, \ldots, 10\} \subseteq \mathcal{U} = \mathbb{N}$ $\Rightarrow A^c = \{11, 12, 13, \ldots\}$
+
+$B = \{1, 3, 5, 7, 9\} \subseteq \mathcal{U} = \mathbb{N}$, $B^c = \{2, 4, 6, 8, 10, 11, \ldots\}$
+
+$A \setminus B = \{2, 4, 6, 8, 10\}$
+
+**Bemerkung:** Es gelten
+
+$$A^c = \mathcal{U} \setminus A, \qquad A \setminus B = A \cap B^c$$
+
+$B^c$ 里有 2 到 10 的偶数, 还有 11 起的**所有**自然数. 只写「偶数」就漏了 11、13 这些奇数. 反过来 $B \setminus A = \emptyset$, 因为 B 的元素全在 A 里.
+
+第一条就是补集的完整写法: 全集里去掉 A. 第二条逐步翻译: $m \in A \cap B^c$ 等价于 $m \in A \land m \in B^c$, 也就是 $m \in A \land m \notin B$, 这正是差集的定义. 所以差集总能改写成交集, 下面的运算律就能用在差集上.
+
+Seien A, B Mengen. Dann heißen A und B **disjunkt**, falls $A \cap B = \emptyset$ gilt.
+
+Eine Familie $(C_i)_{i \in I}$ von Mengen heißt **paarweise disjunkt** (p. d.), falls gilt:
+
+$$\forall i, j \in I\colon i \ne j \Rightarrow C_i \cap C_j = \emptyset$$
+
+**disjunkt 不相交**: 没有公共元素. **paarweise disjunkt 两两不相交**: 族里任取两个不同编号的集合, 它们都不相交. 条件 $i \ne j$ 不能少, 因为 $C_i \cap C_i = C_i$ 一般不是空集. 例: $C_i = \{i\}$ ($i \in \mathbb{N}$) 两两不相交.
+
+**易错:** 两两不相交比「全部交起来是空集」强得多. $\{1, 2\}$、$\{2, 3\}$、$\{3, 4\}$ 全部的交是 $\emptyset$, 但前两个有公共元素 2, 所以不是两两不相交.
+
+Es gelten folgende **Rechenregeln**: Für Mengen A, B, C und eine Familie $(D_i)_{i \in I}$ von Mengen gelten:
+
+i) **Kommutativgesetz:**
+
+- $A \cap B = B \cap A$
+- $A \cup B = B \cup A$
+
+ii) **Assoziativgesetz:**
+
+- $A \cap (B \cap C) = (A \cap B) \cap C$
+- $A \cup (B \cup C) = (A \cup B) \cup C$
+
+iii) **Distributivgesetz:**
+
+- $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+- $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$
+
+iv) **De Morgans Gesetze:**
+
+- $(A \cap B)^c = A^c \cup B^c$
+- $(A \cup B)^c = A^c \cap B^c$
+
+bzw.
+
+$$\Bigl(\bigcap_{i \in I} D_i\Bigr)^{c} = \bigcup_{i \in I} D_i^{c}, \qquad \Bigl(\bigcup_{i \in I} D_i\Bigr)^{c} = \bigcap_{i \in I} D_i^{c}$$
+
+这四组就是 0.2 命题运算律的集合版: 把 $\cap$ 换成 $\land$, $\cup$ 换成 $\lor$, 补集换成 $\neg$. 证明都走同一条路: 写出「m 属于左边」, 用 0.2 的运算律变形, 得到「m 属于右边」. 例如第一条德摩根律 ($\Leftrightarrow$ 的第二步是 0.2 的德摩根律):
+
+$$m \in (A \cap B)^c \Leftrightarrow \neg(m \in A \land m \in B) \Leftrightarrow m \notin A \lor m \notin B \Leftrightarrow m \in A^c \cup B^c$$
+
+族的版本同理, 用的是 0.2 的「否定穿过量词, $\forall$ 和 $\exists$ 互换」: 「m 不在每一个 $D_i$ 里」就是「存在一个 $D_i$, m 不在里面」. 德摩根律要用补集, 所以全程固定同一个全集.
+
+**例子:** $\mathcal{U} = \{1, \ldots, 6\}$, $A = \{1, 2, 3\}$, $B = \{2, 3, 4\}$, $C = \{3, 5\}$.
+
+- 分配律: $A \cap (B \cup C) = \{1, 2, 3\} \cap \{2, 3, 4, 5\} = \{2, 3\}$; $(A \cap B) \cup (A \cap C) = \{2, 3\} \cup \{3\} = \{2, 3\}$.
+- 德摩根律: $(A \cap B)^c = \{2, 3\}^c = \{1, 4, 5, 6\}$; $A^c \cup B^c = \{4, 5, 6\} \cup \{1, 5, 6\} = \{1, 4, 5, 6\}$.
+
+**无穷的族:** 用 0.3.2 例子里的那组集合, 这里记作 $D_i = \{i, i + 1, i + 2, \ldots\}$, $\mathcal{U} = \mathbb{N}$. 前面算过 $\bigcap_{i \in \mathbb{N}} D_i = \emptyset$, 补集是 $\mathbb{N}$. 另一边 $D_i^c = \{1, \ldots, i - 1\}$, 把它们全并起来也是 $\mathbb{N}$. 两边相等.
 
 #### 以后写入
 
-- 德摩根定律 (集合版)
 - 练习
 
-### 0.4 映射 (Abbildungen)
+### 0.4 有限集的势 (Die Mächtigkeit endlicher Mengen)
+
+#### 0.4.1 势的定义 (Mächtigkeit)
+
+„**Definition**“ Sei M eine endliche Menge. Die Anzahl der Elemente von M heißt **Mächtigkeit** von M. Besitzt M genau n Elemente, so notieren wir das mit $|M| = n$. (andere Notation für $|M|$ ist $\# M$)
+
+**Beispiele**
+
+1) $M = \{2, 7, 10^{27}\}$, $|M| = 3$
+
+2) $M = \{2, 7, 10^{27}\}$
+
+$$|2^M| = |\{\emptyset, \{2\}, \{7\}, \{10^{27}\}, \ldots, M\}| = 2^3 = 8 = 2^{|M|}$$
+
+**Mächtigkeit 势**就是有限集的元素个数. 定义加了引号, 因为「个数」本身还没有严格定义. 严格的说法要用 0.6 的双射: $|M| = n$ 表示存在一个双射 $\{1, \ldots, n\} \to M$, 也就是把元素从 1 到 n 不重不漏地编号. 空集没有元素, $|\emptyset| = 0$.
+
+势只数元素个数, 不看元素多大. $10^{27}$ 很大, 但只算 1 个元素. 例子 2 数的是幂集: 它的元素是 M 的子集, 按 0.3.2 共 $2^3 = 8$ 个.
+
+**易错:** 按 0.1 的约定, 先合并重复的写法再数. $|\{1, 1, 2\}| = 2$. 集合当元素时只算 1 个: $|\{1, \{2, 3\}\}| = 2$, $|\{\emptyset\}| = 1$.
+
+> **补充 · 无穷集**
+>
+> 这里只定义有限集的势. 无穷集也能比较大小: 两个集合之间存在双射, 就算一样大. 这样 $\mathbb{N}$ 和 $\mathbb{Z}$ 一样大, 而 $\mathbb{R}$ 严格更大.
+
+#### 0.4.2 插入: 求和号与求积号 (Einschub: Summen- und Produktzeichen)
+
+Sei $n \in \mathbb{N}$, $x_1, \ldots, x_n \in \mathbb{R}$. Dann definieren wir:
+
+$$\sum_{i=1}^{n} x_i := x_1 + x_2 + \ldots + x_n$$
+
+bzw.
+
+$$\sum_{i=3}^{n-4} x_i := x_3 + x_4 + \ldots + x_{n-4} \quad \text{für } n - 4 > 3$$
+
+**Andere Notation:** mit $I = \{1, \ldots, n\}$
+
+$$\sum_{i=1}^{n} x_i = \sum_{i \in I} x_i$$
+
+oder z. B.
+
+$$\sum_{i=3}^{n-1} x_i = \sum_{\substack{i \in I \\ i \ge 3, \\ i \le n-1}} x_i = \sum_{i \in \{3, 4, \ldots, n-1\}} x_i$$
+
+$\sum$ 是连加的简写: 下面写从哪个编号开始, 上面写到哪个编号结束, i 一个一个取过去. 例: $x_i = i^2$ 时, $\sum_{i=1}^{3} x_i = 1 + 4 + 9 = 14$. $n = 10$ 时, $\sum_{i=3}^{n-4} x_i = x_3 + x_4 + x_5 + x_6$. 一共有「上限 − 下限 + 1」项.
+
+i 只是占位的编号, 换个字母意思不变: $\sum_{i=1}^{n} x_i = \sum_{j=1}^{n} x_j$. 第二种写法把编号写成集合, 和 0.3 的 $\bigcap_{i \in I}$、$\bigcup_{i \in I}$ 一样. 下面叠着写的几个条件是「且」的关系, 所以 $i \in I$、$i \ge 3$、$i \le n - 1$ 合起来就是 $\{3, 4, \ldots, n - 1\}$. 编号集写法不规定相加的先后, 这没问题, 因为实数的加法可以交换.
+
+常用的三条算法都来自加法的运算律 (c 是不依赖 i 的常数):
+
+$$\sum_{i=1}^{n} (x_i + y_i) = \sum_{i=1}^{n} x_i + \sum_{i=1}^{n} y_i, \qquad \sum_{i=1}^{n} c\, x_i = c \sum_{i=1}^{n} x_i, \qquad \sum_{i=1}^{n} c = n\, c$$
+
+**易错:** 最后一条不是 c. 把 c 加 n 次, 结果是 $n c$.
+
+**Bem.:**
+
+$$\sum_{i \in \emptyset} x_i = 0$$
+
+Weiterhin definieren wir
+
+$$\prod_{i=1}^{n} x_i := x_1 \cdot x_2 \cdot \ldots \cdot x_n$$
+
+**Andere Notation:**
+
+$$\prod_{i \in \{1, \ldots, n\}} x_i$$
+
+**Bem.:**
+
+$$\prod_{i \in \emptyset} x_i = 1$$
+
+$\prod$ 是连乘的简写, 读法和 $\sum$ 一样. 例: $\prod_{i=1}^{4} i = 1 \cdot 2 \cdot 3 \cdot 4 = 24$, 也就是 $4!$. 一般地 $n! = \prod_{i=1}^{n} i$, 常数连乘 $\prod_{i=1}^{n} c = c^n$.
+
+**为什么空和是 0, 空积是 1:** 编号集 I、J 不相交时, 应当有 $\sum_{i \in I \cup J} x_i = \sum_{i \in I} x_i + \sum_{i \in J} x_i$. 取 $J = \emptyset$, 左边不变, 所以空和只能是 0. 连乘同理, 乘上空积不能改变结果, 所以空积只能是 1. 0 和 1 分别是加法和乘法的中性元. $0! = 1$ 就是空积.
+
+#### 0.4.3 势的定理 (Satz (Mächtigkeit von Mengen))
+
+**Satz (Mächtigkeit von Mengen).** Seien $A, B, A_1, A_2, \ldots, A_n$ endliche Mengen mit $|A| = m$, $|B| = l$, $|A_i| = k_i$ für $i = 1, \ldots, n$. Dann gilt:
+
+i) Sind die Mengen $(A_i)_{i \in \{1, \ldots, n\}}$ paarweise disjunkt, so gilt:
+
+$$\Bigl|\bigcup_{i \in \{1, \ldots, n\}} A_i\Bigr| = \sum_{i=1}^{n} |A_i| = \sum_{i=1}^{n} k_i$$
+
+ii) Sind die Mengen $(A_i)_{i \in \{1, \ldots, n\}}$ *nicht* paarweise disjunkt, so gilt:
+
+$$\Bigl|\bigcup_{i \in \{1, \ldots, n\}} A_i\Bigr| < \sum_{i=1}^{n} k_i$$
+
+iii) Für A, B beliebig gilt
+
+$$|A \cup B| = |A| + |B| - |A \cap B|$$
+
+bzw.:
+
+$$|A \cup B| + |A \cap B| = |A| + |B|$$
+
+(„**Modularitätsgleichung**“)
+
+iv)
+
+$$\Bigl|\mathop{\Large\times}\limits_{i \in \{1, \ldots, n\}} A_i\Bigr| = \prod_{i=1}^{n} |A_i| = \prod_{i=1}^{n} k_i$$
+
+v)
+
+$$|2^A| = 2^{|A|} = 2^m$$
+
+iv)
+
+$$\Bigl|\binom{A}{k}\Bigr| = \binom{|A|}{k} = \binom{m}{k} \quad (\text{für } k = 0, 1, \ldots, m)$$
+
+**原文笔误:** 最后一条的编号又写成了 iv). 前面已经有 iv) 和 v), 这里应为 **vi)**. 下面按 vi) 讲.
+
+六条都是在数数, 区别只在「怎样数才不重不漏」.
+
+- **i) 不相交时直接相加.** 并集的每个元素恰好在一个 $A_i$ 里, 所以恰好被数一次. 例: $|\{1, 2\} \cup \{3, 4, 5\}| = 2 + 3 = 5$.
+- **ii) 有重叠时严格变小.** 不是两两不相交, 就有 $i \ne j$ 和一个 $x \in A_i \cap A_j$. 右边的和里 x 至少数了两次, 并集里只算一次, 所以严格小于. 例: $|\{1, 2\} \cup \{2, 3\}| = 3 < 4$.
+- **iii) 多数的减回去.** $|A| + |B|$ 把 $A \cap B$ 里的元素数了两次, 减掉一次就对了. 例: $A = \{1, 2, 3\}$、$B = \{2, 3, 4\}$ 时, $|A \cup B| = 3 + 3 - 2 = 4$. 「beliebig」是说 A 和 B 可以相交, 也可以不相交. 不相交时 $|A \cap B| = 0$, 回到 i).
+- **iv) 每个位置独立选.** 第 1 个位置有 $k_1$ 种选法, 第 2 个位置有 $k_2$ 种, 依次相乘. 这就是前面骰子的 $6 \cdot 6 = 36$ 和骰子加硬币的 $6 \cdot 2 = 12$. 掷三次骰子是 $6^3 = 216$ 种. 某个 $A_i$ 是空集时 $k_i = 0$, 积为 0: 这个位置没得选, 一个元组也造不出来.
+- **v) 每个元素问一次「要不要」.** 这是 0.3.2 的 $2^k$. 用 iv) 看更清楚: 一个子集对应 m 个位置, 每个位置在 $\{\text{要}, \text{不要}\}$ 里选, 所以有 $2 \cdot 2 \cdots 2 = 2^m$ 种.
+- **vi) k 元子集的个数**是二项式系数, 见下面的例子. 左边的括号上面是集合, 结果先是一个集合, 再取势; 中间和右边的括号上面是数, 结果就是数 (0.3.2 的易错).
+
+**几条连起来用:** M 的子集按大小分成 $\binom{M}{0}, \ldots, \binom{M}{m}$, 这些组两两不相交, 并起来是整个 $2^M$. 用 i)、v)、vi) 就得到 $\sum_{k=0}^{m} \binom{m}{k} = 2^m$. 这正是 0.3.2 补充里的那个等式.
+
+**易错:** vi) 里的 k 和 i)、iv) 里的 $k_i$ 是两回事. k 是子集的大小, $k_i$ 是 $A_i$ 的元素个数.
+
+> **补充 · 为什么叫 Modularität**
+>
+> 满足 $\mu(A \cup B) + \mu(A \cap B) = \mu(A) + \mu(B)$ 的集合函数 $\mu$ 叫 modular (模函数). 势是最简单的例子. 概率也满足它: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$. 统计里常用的这条公式, 和这里的 iii) 结构相同.
+
+**Bsp.:** $A = \{1, 2, 3, \ldots, 10\}$, $k = 3$
+
+$\binom{A}{k}$ ≙ Menge aller 3-elementigen Mengen einer 10-elementigen Grundmenge
+
+**Zur Erinnerung:** Binomialkoeffizient:
+
+$$\binom{n}{k} = \frac{n!}{k!\,(n-k)!}$$
+
+In unserem Beispiel: $n = 10$, $k = 3$
+
+$$\binom{10}{3} = \frac{10!}{3!\,7!} = \frac{10 \cdot 9 \cdot 8 \cdot \ldots \cdot 1}{3 \cdot 2 \cdot 1 \cdot (7 \cdot 6 \cdot 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1)} = \frac{10 \cdot 9 \cdot 8}{3 \cdot 2 \cdot 1}$$
+
+= „Anzahl der Mögl., 3 verschiedene Zahlen aus A in einem Vektor zusammenzufassen“ / „Anzahl verschiedener Reihenfolgen, in denen man 3 verschiedene Zahlen anordnen kann“ = 120
+
+**原文小错:** 「3-elementigen Mengen」应为 **3-elementigen Teilmengen**: $\binom{A}{k}$ 收的是 A 的子集 (0.3.2).
+
+$\binom{A}{3}$ 是从 10 个数里取 3 个组成的所有集合, 例如 $\{1, 2, 3\}$、$\{2, 5, 9\}$. 公式里 $7!$ 约掉之后只剩 $\frac{10 \cdot 9 \cdot 8}{3 \cdot 2 \cdot 1}$, 分子分母各有清楚的含义:
+
+- **分子** $10 \cdot 9 \cdot 8 = 720$: 排成有序的三元组. 第一个位置 10 种选法, 第二个位置不能重复, 剩 9 种, 第三个 8 种. 「Vektor」在这里指有序的一组数, 顺序算数.
+- **分母** $3 \cdot 2 \cdot 1 = 6$: 同样三个数有 6 种排法. $(1, 2, 3)$、$(3, 1, 2)$ 等 6 个元组都对应同一个集合 $\{1, 2, 3\}$, 因为集合不看顺序 (0.1).
+
+所以每个集合被数了 6 次, $720 / 6 = 120$. 一般公式也是这样来的: 有序取 k 个有 $\frac{n!}{(n-k)!}$ 种, 再除以 k 个数的排法 $k!$.
+
+#### 以后写入
+
+- 练习
+
+### 0.5 映射 (Abbildungen)
 
 **Abbildung.** Eine Abbildung $f\colon A \to B$ ordnet jedem Element von A genau ein Element von B zu. A heißt **Definitionsbereich**, B heißt **Zielmenge**.
 
@@ -509,7 +775,7 @@ Das **Bild** ist die Menge der tatsächlich getroffenen Werte: $\operatorname{Bi
 
 复合要能接得上: $f\colon A \to B$, $g\colon B \to C$, f 的输出必须落在 g 的定义域里, $g \circ f$ 才是 $A \to C$ 的映射.
 
-### 0.5 单射、满射、双射 (Injektivität, Surjektivität, Bijektivität)
+### 0.6 单射、满射、双射 (Injektivität, Surjektivität, Bijektivität)
 
 **Injektiv.** f heißt injektiv, wenn aus $f(x) = f(y)$ stets $x = y$ folgt. Verschiedene Elemente von A landen auf verschiedenen Elementen von B.
 
@@ -719,7 +985,7 @@ Der **Kern** ist $\{ v \in V \mid f(v) = 0 \}$. Das **Bild** ist $\{ f(v) \mid v
 
 线性映射是保住线性组合的映射. 先加再送走, 和先送走再加, 结果相同. 先拉长再送走, 和先送走再拉长, 结果也相同. 把这两条用到零向量上, 得到 $f(0) = 0$: 原点一定被送到原点.
 
-核是被送到零向量的那些输入. 像是输出那边真正被取到的向量, 和 0.4 里「像」是同一个词, 只是现在两边都是向量空间. 核和像自己也是子空间.
+核是被送到零向量的那些输入. 像是输出那边真正被取到的向量, 和 0.5 里「像」是同一个词, 只是现在两边都是向量空间. 核和像自己也是子空间.
 
 **Dimensionsformel.** Ist V endlichdimensional, so gilt dim V = dim Kern(f) + dim Bild(f). Für eine Matrix mit n Spalten heißt das n = dim Kern(A) + Rang(A).
 
@@ -827,7 +1093,7 @@ Eine **Funktion** $f\colon D \to \mathbb{R}$ ist eine Abbildung mit reellen Wert
 
 Die **Verkettung** ist $(g \circ f)(x) = g(f(x))$. Eine **Umkehrfunktion** gibt es, wenn f auf sein Bild bijektiv ist. Eine stetige, streng monotone Funktion auf einem Intervall besitzt dort eine Umkehrfunktion.
 
-这里的函数就是 0.4 的映射, 输出规定为实数. 定义域 D 是允许输入的 x. 像是实际取到的函数值. 图像是平面上的点 (x, f(x)), 每个 x 只有一个高度.
+这里的函数就是 0.5 的映射, 输出规定为实数. 定义域 D 是允许输入的 x. 像是实际取到的函数值. 图像是平面上的点 (x, f(x)), 每个 x 只有一个高度.
 
 复合和映射的复合是同一个运算. 反函数要求这个对应在像上是双射, 每个函数值恰好来自一个 x. 区间上的连续严格单调函数满足这件事 (严格单调保证不撞车), 所以在它的像上可以反解. 例: $\exp \colon \mathbb{R} \to (0, \infty )$ 严格递增, 反函数是 ln.
 
