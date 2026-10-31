@@ -262,6 +262,46 @@
   .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; text-align: center; }
   .math-block .katex-display { margin: 0.4em 0; }
 </style>
+<style id="toc2">
+  /* 两级目录 (IML / SL / IDP 合集): 章一行, 下面是本章小节的网格; 悬顶胶囊里同样两级, 可滚动 */
+  header nav.toc2 { display: block !important; padding: 38px 18px 10px !important; }
+  header nav.toc2 a::before { content: none !important; }
+  header nav.toc2 .tc { padding: 7px 0 9px; border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); }
+  header nav.toc2 .tc:first-child { border-top: 0; }
+  header nav.toc2 a { display: flex !important; align-items: baseline; gap: 8px !important; }
+  header nav.toc2 a i { flex: none; min-width: 2.9em; font: 500 10.5px/1 var(--mono); font-style: normal; letter-spacing: .03em; color: var(--muted); }
+  header nav.toc2 a.ch { font-size: 14px !important; font-weight: 600; padding: 4px 4px 3px !important; }
+  header nav.toc2 .tc-s { columns: 2 260px; column-gap: 18px; margin-top: 1px; }
+  header nav.toc2 .tc-s a { break-inside: avoid; }
+  header nav.toc2 a.wide { grid-column: auto !important; }
+  header nav.toc2 .tc-s a { font-size: 12.5px !important; line-height: 1.4 !important; padding: 3px 4px !important; }
+  html header nav.toc2 .tc-s a { color: color-mix(in srgb, var(--ink) 68%, transparent) !important; }
+  html header nav.toc2 a.ch { color: var(--ink) !important; }
+  html header nav.toc2 a.active, html header nav.toc2 a:hover { color: var(--ink) !important; }
+  html header nav.toc2 a.active i { color: var(--glow); }
+  @media (max-width: 560px) {
+    header nav.toc2 { padding: 36px 12px 8px !important; }
+    header nav.toc2 .tc-s { columns: 2 140px; column-gap: 8px; }
+    header nav.toc2 .tc-s a { font-size: 12px !important; }
+    header nav.toc2 a i { min-width: 2em; }
+  }
+  #toc-pill .panel { max-height: min(72vh, 640px); overflow-y: auto; overscroll-behavior: contain; }
+  #toc-pill .panel a::before { content: none !important; }
+  #toc-pill .panel a i { flex: none; min-width: 2.9em; font: 500 10.5px/1 var(--mono); font-style: normal; color: var(--muted); }
+  #toc-pill .panel a.ch { font-weight: 600; margin-top: 4px; }
+  #toc-pill .panel a.sub { font-size: 12.5px; padding-top: 4px !important; padding-bottom: 4px !important; padding-left: 24px !important; }
+  /* 章默认折叠; 笔记自带全局 details 样式 (边框、底色、内边距), 这里要清掉 */
+  header nav.toc2 details.tc { background: none !important; border: 0 !important; border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent) !important; border-radius: 0 !important; box-shadow: none !important; margin: 0 !important; padding: 7px 0 9px !important; }
+  header nav.toc2 details.tc:first-child { border-top: 0 !important; }
+  header nav.toc2 details.tc > summary { display: flex; align-items: center; gap: 8px; margin: 0 !important; cursor: pointer; list-style: none; }
+  header nav.toc2 details.tc > summary::-webkit-details-marker { display: none; }
+  header nav.toc2 details.tc > summary::marker { content: ""; }
+  header nav.toc2 details.tc > summary a.ch { flex: 0 1 auto; }
+  header nav.toc2 .tc-n { margin-left: auto; padding: 4px; display: inline-flex; align-items: center; gap: 9px; font: 500 10.5px/1 var(--mono); color: var(--muted); user-select: none; transition: color .2s; }
+  header nav.toc2 .tc-n::after { content: "▸"; display: inline-block; width: 1em; text-align: center; font-size: 13px; }
+  header nav.toc2 details.tc[open] .tc-n::after { content: "▾"; }
+  header nav.toc2 details.tc > summary:hover .tc-n { color: var(--ink); }
+</style>
 <style id="glass">
   /* ===== 视觉层 v7 (= 样例 v21) =====
      点阵背景与渐变底色; 模块: 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.
@@ -1129,16 +1169,131 @@
 <header>
   <div class="wrap">
     <h1>监督学习<br><span class="de-title">Supervised Learning</span></h1>
-    <nav>
-      <a href="#c1">1 高级风险最小化</a>
-      <a href="#c2">2 多分类</a>
-      <a href="#c3">3 信息论</a>
-      <a href="#c4">4 维度诅咒</a>
-      <a href="#c5">5 正则化</a>
-      <a href="#c6">6 线性支持向量机</a>
-      <a href="#c7">7 非线性支持向量机</a>
-      <a href="#c8">8 Boosting</a>
-      <a href="#c9">9 高斯过程</a>
+    <nav class="toc2">
+      <details class="tc">
+        <summary><a href="#c1" class="ch"><i>1</i> 高级风险最小化</a><span class="tc-n">18</span></summary>
+        <div class="tc-s">
+          <a href="#c1-basics" class="sub"><i>1.1</i> 风险最小化基础</a>
+          <a href="#c1-lossprop" class="sub"><i>1.2</i> 损失函数的性质</a>
+          <a href="#c1-pr" class="sub"><i>1.3</i> 伪残差</a>
+          <a href="#c1-l2l1" class="sub"><i>1.4</i> 回归损失: L2 和 L1</a>
+          <a href="#c1-l1dd" class="sub"><i>1.5</i> L1 风险最小化器 (深入)</a>
+          <a href="#c1-advreg" class="sub"><i>1.6</i> 高级回归损失</a>
+          <a href="#c1-01" class="sub"><i>1.7</i> 分类与 0-1 损失</a>
+          <a href="#c1-bern" class="sub"><i>1.8</i> Bernoulli 损失</a>
+          <a href="#c1-logdd" class="sub"><i>1.9</i> 逻辑回归 (深入)</a>
+          <a href="#c1-psr" class="sub"><i>1.10</i> 适当评分规则</a>
+          <a href="#c1-brier" class="sub"><i>1.11</i> 概率上的 L2 / L1 损失</a>
+          <a href="#c1-advcls" class="sub"><i>1.12</i> 高级分类损失</a>
+          <a href="#c1-logconst" class="sub"><i>1.13</i> 经验对数损失的最优常数模型 (深入)</a>
+          <a href="#c1-trees" class="sub"><i>1.14</i> 损失函数与树的分裂</a>
+          <a href="#c1-mle" class="sub"><i>1.15</i> 最大似然与经验风险最小化</a>
+          <a href="#c1-bv1" class="sub"><i>1.16</i> 偏差–方差 (一): 偏差–方差分解</a>
+          <a href="#c1-bv2" class="sub"><i>1.17</i> 偏差–方差 (二): 近似误差与估计误差</a>
+          <a href="#c1-bvdd" class="sub"><i>1.18</i> 偏差–方差分解 (深入)</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c2" class="ch"><i>2</i> 多分类</a><span class="tc-n">4</span></summary>
+        <div class="tc-s">
+          <a href="#c2-loss" class="sub"><i>2.1</i> 多分类及其损失</a>
+          <a href="#c2-softmax" class="sub"><i>2.2</i> Softmax 回归</a>
+          <a href="#c2-ovr" class="sub"><i>2.3</i> 一对其余与一对一</a>
+          <a href="#c2-ecoc" class="sub"><i>2.4</i> 编码本设计与 ECOC</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c3" class="ch"><i>3</i> 信息论</a><span class="tc-n">11</span></summary>
+        <div class="tc-s">
+          <a href="#c3-ent1" class="sub"><i>3.1</i> 熵 (一)</a>
+          <a href="#c3-ent2" class="sub"><i>3.2</i> 熵 (二)</a>
+          <a href="#c3-diff" class="sub"><i>3.3</i> 微分熵</a>
+          <a href="#c3-kl" class="sub"><i>3.4</i> Kullback-Leibler 散度</a>
+          <a href="#c3-ce" class="sub"><i>3.5</i> 交叉熵与 KL</a>
+          <a href="#c3-ml" class="sub"><i>3.6</i> 机器学习中的信息论</a>
+          <a href="#c3-mi1" class="sub"><i>3.7</i> 联合熵与互信息 (一)</a>
+          <a href="#c3-mi2" class="sub"><i>3.8</i> 联合熵与互信息 (二)</a>
+          <a href="#c3-code1" class="sub"><i>3.9</i> 熵与最优编码长度</a>
+          <a href="#c3-code2" class="sub"><i>3.10</i> 信源编码与交叉熵</a>
+          <a href="#c3-midd" class="sub"><i>3.11</i> 重参数化下的互信息 (深入)</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c4" class="ch"><i>4</i> 维度诅咒</a><span class="tc-n">2</span></summary>
+        <div class="tc-s">
+          <a href="#c4-cod" class="sub"><i>4.1</i> 维度诅咒</a>
+          <a href="#c4-ex" class="sub"><i>4.2</i> 维度诅咒: 学习算法的例子</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c5" class="ch"><i>5</i> 正则化</a><span class="tc-n">14</span></summary>
+        <div class="tc-s">
+          <a href="#c5-intro" class="sub"><i>5.1</i> 正则化导论</a>
+          <a href="#c5-ridge" class="sub"><i>5.2</i> 岭回归</a>
+          <a href="#c5-lasso" class="sub"><i>5.3</i> Lasso 回归</a>
+          <a href="#c5-lvr" class="sub"><i>5.4</i> Lasso 与 Ridge 的比较</a>
+          <a href="#c5-enet" class="sub"><i>5.5</i> 弹性网与正则化 GLM</a>
+          <a href="#c5-other" class="sub"><i>5.6</i> 其他正则化项</a>
+          <a href="#c5-srm" class="sub"><i>5.7</i> 非线性模型与结构风险最小化</a>
+          <a href="#c5-bayes" class="sub"><i>5.8</i> Bayes 先验</a>
+          <a href="#c5-wd" class="sub"><i>5.9</i> 权重衰减与 L2</a>
+          <a href="#c5-geol2" class="sub"><i>5.10</i> L2 正则化的几何分析</a>
+          <a href="#c5-geol1" class="sub"><i>5.11</i> L1 正则化的几何分析</a>
+          <a href="#c5-es" class="sub"><i>5.12</i> 提前停止</a>
+          <a href="#c5-ridgedd" class="sub"><i>5.13</i> 岭回归的几种视角 (深入)</a>
+          <a href="#c5-softdd" class="sub"><i>5.14</i> 软阈值与 L1 正则化 (深入)</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c6" class="ch"><i>6</i> 线性支持向量机</a><span class="tc-n">5</span></summary>
+        <div class="tc-s">
+          <a href="#c6-hard" class="sub"><i>6.1</i> 线性硬间隔 SVM</a>
+          <a href="#c6-dual" class="sub"><i>6.2</i> 硬间隔 SVM 的对偶</a>
+          <a href="#c6-soft" class="sub"><i>6.3</i> 软间隔 SVM</a>
+          <a href="#c6-erm" class="sub"><i>6.4</i> SVM 与经验风险最小化</a>
+          <a href="#c6-train" class="sub"><i>6.5</i> SVM 的训练</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c7" class="ch"><i>7</i> 非线性支持向量机</a><span class="tc-n">7</span></summary>
+        <div class="tc-s">
+          <a href="#c7-feat" class="sub"><i>7.1</i> 用特征生成实现非线性分离</a>
+          <a href="#c7-trick" class="sub"><i>7.2</i> 核技巧</a>
+          <a href="#c7-poly" class="sub"><i>7.3</i> 多项式核</a>
+          <a href="#c7-rkhs" class="sub"><i>7.4</i> 再生核 Hilbert 空间与表示定理</a>
+          <a href="#c7-rbf" class="sub"><i>7.5</i> 高斯 RBF 核</a>
+          <a href="#c7-sel" class="sub"><i>7.6</i> SVM 的模型选择</a>
+          <a href="#c7-details" class="sub"><i>7.7</i> SVM 的更多细节</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c8" class="ch"><i>8</i> Boosting</a><span class="tc-n">12</span></summary>
+        <div class="tc-s">
+          <a href="#c8-ada" class="sub"><i>8.1</i> Boosting 导论与 AdaBoost</a>
+          <a href="#c8-gb" class="sub"><i>8.2</i> 梯度提升: 概念</a>
+          <a href="#c8-illu" class="sub"><i>8.3</i> 梯度提升: 图示</a>
+          <a href="#c8-reg" class="sub"><i>8.4</i> 梯度提升的正则化</a>
+          <a href="#c8-cls" class="sub"><i>8.5</i> 梯度提升用于分类</a>
+          <a href="#c8-trees1" class="sub"><i>8.6</i> 基于树的梯度提升 (一)</a>
+          <a href="#c8-trees2" class="sub"><i>8.7</i> 基于树的梯度提升 (二)</a>
+          <a href="#c8-xgb" class="sub"><i>8.8</i> XGBoost</a>
+          <a href="#c8-cwb1" class="sub"><i>8.9</i> 分量式提升基础 (一)</a>
+          <a href="#c8-cwb2" class="sub"><i>8.10</i> 分量式提升基础 (二)</a>
+          <a href="#c8-glm" class="sub"><i>8.11</i> CWB 与 GLM</a>
+          <a href="#c8-cwbadv" class="sub"><i>8.12</i> 高级 CWB</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c9" class="ch"><i>9</i> 高斯过程</a><span class="tc-n">6</span></summary>
+        <div class="tc-s">
+          <a href="#c9-blm" class="sub"><i>9.1</i> 回顾: 贝叶斯线性模型</a>
+          <a href="#c9-basics" class="sub"><i>9.2</i> 高斯过程基础</a>
+          <a href="#c9-cov" class="sub"><i>9.3</i> GP 的协方差函数</a>
+          <a href="#c9-pred" class="sub"><i>9.4</i> 高斯后验过程与预测</a>
+          <a href="#c9-train" class="sub"><i>9.5</i> GP 的训练</a>
+          <a href="#c9-mean" class="sub"><i>9.6</i> GP 的均值函数</a>
+        </div>
+      </details>
     </nav>
   </div>
 </header>

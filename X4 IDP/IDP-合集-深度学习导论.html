@@ -262,6 +262,46 @@
   .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; text-align: center; }
   .math-block .katex-display { margin: 0.4em 0; }
 </style>
+<style id="toc2">
+  /* 两级目录 (IML / SL / IDP 合集): 章一行, 下面是本章小节的网格; 悬顶胶囊里同样两级, 可滚动 */
+  header nav.toc2 { display: block !important; padding: 38px 18px 10px !important; }
+  header nav.toc2 a::before { content: none !important; }
+  header nav.toc2 .tc { padding: 7px 0 9px; border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); }
+  header nav.toc2 .tc:first-child { border-top: 0; }
+  header nav.toc2 a { display: flex !important; align-items: baseline; gap: 8px !important; }
+  header nav.toc2 a i { flex: none; min-width: 2.9em; font: 500 10.5px/1 var(--mono); font-style: normal; letter-spacing: .03em; color: var(--muted); }
+  header nav.toc2 a.ch { font-size: 14px !important; font-weight: 600; padding: 4px 4px 3px !important; }
+  header nav.toc2 .tc-s { columns: 2 260px; column-gap: 18px; margin-top: 1px; }
+  header nav.toc2 .tc-s a { break-inside: avoid; }
+  header nav.toc2 a.wide { grid-column: auto !important; }
+  header nav.toc2 .tc-s a { font-size: 12.5px !important; line-height: 1.4 !important; padding: 3px 4px !important; }
+  html header nav.toc2 .tc-s a { color: color-mix(in srgb, var(--ink) 68%, transparent) !important; }
+  html header nav.toc2 a.ch { color: var(--ink) !important; }
+  html header nav.toc2 a.active, html header nav.toc2 a:hover { color: var(--ink) !important; }
+  html header nav.toc2 a.active i { color: var(--glow); }
+  @media (max-width: 560px) {
+    header nav.toc2 { padding: 36px 12px 8px !important; }
+    header nav.toc2 .tc-s { columns: 2 140px; column-gap: 8px; }
+    header nav.toc2 .tc-s a { font-size: 12px !important; }
+    header nav.toc2 a i { min-width: 2em; }
+  }
+  #toc-pill .panel { max-height: min(72vh, 640px); overflow-y: auto; overscroll-behavior: contain; }
+  #toc-pill .panel a::before { content: none !important; }
+  #toc-pill .panel a i { flex: none; min-width: 2.9em; font: 500 10.5px/1 var(--mono); font-style: normal; color: var(--muted); }
+  #toc-pill .panel a.ch { font-weight: 600; margin-top: 4px; }
+  #toc-pill .panel a.sub { font-size: 12.5px; padding-top: 4px !important; padding-bottom: 4px !important; padding-left: 24px !important; }
+  /* 章默认折叠; 笔记自带全局 details 样式 (边框、底色、内边距), 这里要清掉 */
+  header nav.toc2 details.tc { background: none !important; border: 0 !important; border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent) !important; border-radius: 0 !important; box-shadow: none !important; margin: 0 !important; padding: 7px 0 9px !important; }
+  header nav.toc2 details.tc:first-child { border-top: 0 !important; }
+  header nav.toc2 details.tc > summary { display: flex; align-items: center; gap: 8px; margin: 0 !important; cursor: pointer; list-style: none; }
+  header nav.toc2 details.tc > summary::-webkit-details-marker { display: none; }
+  header nav.toc2 details.tc > summary::marker { content: ""; }
+  header nav.toc2 details.tc > summary a.ch { flex: 0 1 auto; }
+  header nav.toc2 .tc-n { margin-left: auto; padding: 4px; display: inline-flex; align-items: center; gap: 9px; font: 500 10.5px/1 var(--mono); color: var(--muted); user-select: none; transition: color .2s; }
+  header nav.toc2 .tc-n::after { content: "▸"; display: inline-block; width: 1em; text-align: center; font-size: 13px; }
+  header nav.toc2 details.tc[open] .tc-n::after { content: "▾"; }
+  header nav.toc2 details.tc > summary:hover .tc-n { color: var(--ink); }
+</style>
 <style id="glass">
   /* ===== 视觉层 v7 (= 样例 v21) =====
      点阵背景与渐变底色; 模块: 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.
@@ -1129,15 +1169,94 @@
 <header>
   <div class="wrap">
     <h1>深度学习导论<br><span class="de-title">Introduction to Deep Learning</span></h1>
-    <nav>
-      <a href="#c1">1 导论与多层感知机</a>
-      <a href="#c2">2 训练与反向传播</a>
-      <a href="#c3">3 正则化</a>
-      <a href="#c4">4 优化难点、进阶优化、激活与初始化</a>
-      <a href="#c5">5 卷积神经网络</a>
-      <a href="#c6">6 循环神经网络与注意力</a>
-      <a href="#c7">7 无监督学习与自编码器</a>
-      <a href="#c8">8 生成对抗网络</a>
+    <nav class="toc2">
+      <details class="tc">
+        <summary><a href="#c1" class="ch"><i>1</i> 导论与多层感知机</a><span class="tc-n">9</span></summary>
+        <div class="tc-s">
+          <a href="#c1-intro" class="sub"><i>1.1</i> 导论</a>
+          <a href="#c1-neuron" class="sub"><i>1.2</i> 单个神经元 / 感知机</a>
+          <a href="#c1-xor" class="sub"><i>1.3</i> XOR 问题</a>
+          <a href="#c1-shl" class="sub"><i>1.4</i> 单隐层神经网络</a>
+          <a href="#c1-multi" class="sub"><i>1.5</i> 用于多分类的单隐层网络</a>
+          <a href="#c1-mlp" class="sub"><i>1.6</i> 多层前馈神经网络 (MLP)</a>
+          <a href="#c1-matrix" class="sub"><i>1.7</i> MLP 的矩阵记号</a>
+          <a href="#c1-uat" class="sub"><i>1.8</i> 万能逼近定理</a>
+          <a href="#c1-hist" class="sub"><i>1.9</i> 简史</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c2" class="ch"><i>2</i> 训练与反向传播</a><span class="tc-n">5</span></summary>
+        <div class="tc-s">
+          <a href="#c2-train" class="sub"><i>2.1</i> 基本训练</a>
+          <a href="#c2-graph" class="sub"><i>2.2</i> 链式法则与计算图</a>
+          <a href="#c2-bp1" class="sub"><i>2.3</i> 反向传播基础 (一)</a>
+          <a href="#c2-bp2" class="sub"><i>2.4</i> 反向传播基础 (二)</a>
+          <a href="#c2-hw" class="sub"><i>2.5</i> 硬件与软件</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c3" class="ch"><i>3</i> 正则化</a><span class="tc-n">6</span></summary>
+        <div class="tc-s">
+          <a href="#c3-basic" class="sub"><i>3.1</i> 基本正则化</a>
+          <a href="#c3-ridge" class="sub"><i>3.2</i> 岭回归</a>
+          <a href="#c3-nonlin" class="sub"><i>3.3</i> 非线性模型与结构风险最小化</a>
+          <a href="#c3-geol2" class="sub"><i>3.4</i> L2 正则化的几何分析</a>
+          <a href="#c3-es" class="sub"><i>3.5</i> 提前停止</a>
+          <a href="#c3-dropout" class="sub"><i>3.6</i> Dropout 与数据增强</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c4" class="ch"><i>4</i> 优化难点、进阶优化、激活与初始化</a><span class="tc-n">4</span></summary>
+        <div class="tc-s">
+          <a href="#c4-chal" class="sub"><i>4.1</i> 优化中的难点</a>
+          <a href="#c4-adv" class="sub"><i>4.2</i> 进阶优化</a>
+          <a href="#c4-act" class="sub"><i>4.3</i> 现代激活函数</a>
+          <a href="#c4-init" class="sub"><i>4.4</i> 网络初始化</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c5" class="ch"><i>5</i> 卷积神经网络</a><span class="tc-n">10</span></summary>
+        <div class="tc-s">
+          <a href="#c5-intro" class="sub"><i>5.1</i> CNN 导论</a>
+          <a href="#c5-conv" class="sub"><i>5.2</i> 卷积运算</a>
+          <a href="#c5-prop" class="sub"><i>5.3</i> 卷积的性质</a>
+          <a href="#c5-comp" class="sub"><i>5.4</i> CNN 的组件</a>
+          <a href="#c5-app" class="sub"><i>5.5</i> CNN 的应用</a>
+          <a href="#c5-types" class="sub"><i>5.6</i> 一维、二维、三维卷积</a>
+          <a href="#c5-dil" class="sub"><i>5.7</i> 空洞卷积与转置卷积</a>
+          <a href="#c5-sep" class="sub"><i>5.8</i> 可分离卷积与展平</a>
+          <a href="#c5-mod1" class="sub"><i>5.9</i> 现代结构 (一)</a>
+          <a href="#c5-mod2" class="sub"><i>5.10</i> 现代结构 (二)</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c6" class="ch"><i>6</i> 循环神经网络与注意力</a><span class="tc-n">5</span></summary>
+        <div class="tc-s">
+          <a href="#c6-intro" class="sub"><i>6.1</i> RNN 导论</a>
+          <a href="#c6-bptt" class="sub"><i>6.2</i> RNN 的反向传播</a>
+          <a href="#c6-lstm" class="sub"><i>6.3</i> 现代 RNN: LSTM、GRU、双向 RNN</a>
+          <a href="#c6-app" class="sub"><i>6.4</i> RNN 的应用</a>
+          <a href="#c6-att" class="sub"><i>6.5</i> 注意力与 Transformer</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c7" class="ch"><i>7</i> 无监督学习与自编码器</a><span class="tc-n">5</span></summary>
+        <div class="tc-s">
+          <a href="#c7-unsup" class="sub"><i>7.1</i> 无监督学习</a>
+          <a href="#c7-ae" class="sub"><i>7.2</i> 自编码器的基本原理</a>
+          <a href="#c7-reg" class="sub"><i>7.3</i> 正则化自编码器</a>
+          <a href="#c7-spec" class="sub"><i>7.4</i> 特定的自编码器及其应用</a>
+          <a href="#c7-mani" class="sub"><i>7.5</i> 流形学习</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c8" class="ch"><i>8</i> 生成对抗网络</a><span class="tc-n">3</span></summary>
+        <div class="tc-s">
+          <a href="#c8-intro" class="sub"><i>8.1</i> GAN 导论</a>
+          <a href="#c8-var" class="sub"><i>8.2</i> GAN 的变体</a>
+          <a href="#c8-chal" class="sub"><i>8.3</i> GAN 优化的难点</a>
+        </div>
+      </details>
     </nav>
   </div>
 </header>

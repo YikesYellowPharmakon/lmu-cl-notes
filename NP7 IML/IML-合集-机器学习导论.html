@@ -266,6 +266,46 @@
   .math-block { overflow-x: auto; overflow-y: hidden; margin: 10px 0; text-align: center; }
   .math-block .katex-display { margin: 0.4em 0; }
 </style>
+<style id="toc2">
+  /* 两级目录 (IML / SL / IDP 合集): 章一行, 下面是本章小节的网格; 悬顶胶囊里同样两级, 可滚动 */
+  header nav.toc2 { display: block !important; padding: 38px 18px 10px !important; }
+  header nav.toc2 a::before { content: none !important; }
+  header nav.toc2 .tc { padding: 7px 0 9px; border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); }
+  header nav.toc2 .tc:first-child { border-top: 0; }
+  header nav.toc2 a { display: flex !important; align-items: baseline; gap: 8px !important; }
+  header nav.toc2 a i { flex: none; min-width: 2.9em; font: 500 10.5px/1 var(--mono); font-style: normal; letter-spacing: .03em; color: var(--muted); }
+  header nav.toc2 a.ch { font-size: 14px !important; font-weight: 600; padding: 4px 4px 3px !important; }
+  header nav.toc2 .tc-s { columns: 2 260px; column-gap: 18px; margin-top: 1px; }
+  header nav.toc2 .tc-s a { break-inside: avoid; }
+  header nav.toc2 a.wide { grid-column: auto !important; }
+  header nav.toc2 .tc-s a { font-size: 12.5px !important; line-height: 1.4 !important; padding: 3px 4px !important; }
+  html header nav.toc2 .tc-s a { color: color-mix(in srgb, var(--ink) 68%, transparent) !important; }
+  html header nav.toc2 a.ch { color: var(--ink) !important; }
+  html header nav.toc2 a.active, html header nav.toc2 a:hover { color: var(--ink) !important; }
+  html header nav.toc2 a.active i { color: var(--glow); }
+  @media (max-width: 560px) {
+    header nav.toc2 { padding: 36px 12px 8px !important; }
+    header nav.toc2 .tc-s { columns: 2 140px; column-gap: 8px; }
+    header nav.toc2 .tc-s a { font-size: 12px !important; }
+    header nav.toc2 a i { min-width: 2em; }
+  }
+  #toc-pill .panel { max-height: min(72vh, 640px); overflow-y: auto; overscroll-behavior: contain; }
+  #toc-pill .panel a::before { content: none !important; }
+  #toc-pill .panel a i { flex: none; min-width: 2.9em; font: 500 10.5px/1 var(--mono); font-style: normal; color: var(--muted); }
+  #toc-pill .panel a.ch { font-weight: 600; margin-top: 4px; }
+  #toc-pill .panel a.sub { font-size: 12.5px; padding-top: 4px !important; padding-bottom: 4px !important; padding-left: 24px !important; }
+  /* 章默认折叠; 笔记自带全局 details 样式 (边框、底色、内边距), 这里要清掉 */
+  header nav.toc2 details.tc { background: none !important; border: 0 !important; border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent) !important; border-radius: 0 !important; box-shadow: none !important; margin: 0 !important; padding: 7px 0 9px !important; }
+  header nav.toc2 details.tc:first-child { border-top: 0 !important; }
+  header nav.toc2 details.tc > summary { display: flex; align-items: center; gap: 8px; margin: 0 !important; cursor: pointer; list-style: none; }
+  header nav.toc2 details.tc > summary::-webkit-details-marker { display: none; }
+  header nav.toc2 details.tc > summary::marker { content: ""; }
+  header nav.toc2 details.tc > summary a.ch { flex: 0 1 auto; }
+  header nav.toc2 .tc-n { margin-left: auto; padding: 4px; display: inline-flex; align-items: center; gap: 9px; font: 500 10.5px/1 var(--mono); color: var(--muted); user-select: none; transition: color .2s; }
+  header nav.toc2 .tc-n::after { content: "▸"; display: inline-block; width: 1em; text-align: center; font-size: 13px; }
+  header nav.toc2 details.tc[open] .tc-n::after { content: "▾"; }
+  header nav.toc2 details.tc > summary:hover .tc-n { color: var(--ink); }
+</style>
 <style id="glass">
   /* ===== 视觉层 v7 (= 样例 v21) =====
      点阵背景与渐变底色; 模块: 讲解 = 打孔卡 + 字符边, 补充 = 信号包, 纠错 = LED 校对, 答案 = 钥匙 + 翻牌, 表格 = 准星, 公式 = 字符边.
@@ -1133,18 +1173,132 @@
 <header>
   <div class="wrap">
     <h1>机器学习导论<br><span class="de-title">Introduction to Machine Learning</span></h1>
-    <nav>
-      <a href="#l0">0 预备: 机器学习中的重要算法</a>
-      <a href="#c1">1 机器学习基础</a>
-      <a href="#c2">2 监督回归</a>
-      <a href="#c3">3 监督分类</a>
-      <a href="#c4">4 性能评估</a>
-      <a href="#c5">5 k 近邻</a>
-      <a href="#c6">6 分类与回归树 (CART)</a>
-      <a href="#c7">7 随机森林</a>
-      <a href="#c8">8 深度学习</a>
-      <a href="#c9">9 超参数调优</a>
-      <a href="#c10">10 嵌套重采样</a>
+    <nav class="toc2">
+      <details class="tc">
+        <summary><a href="#l0" class="ch"><i>0</i> 预备: 机器学习中的重要算法</a><span class="tc-n">11</span></summary>
+        <div class="tc-s">
+          <a href="#l0-goals" class="sub"><i>·</i> 学习目标与目录</a>
+          <a href="#l-knn" class="sub"><i>·</i> k 近邻 (k-NN)</a>
+          <a href="#l-glm" class="sub"><i>·</i> 广义线性模型 (GLM)</a>
+          <a href="#l-gam" class="sub"><i>·</i> 广义加性模型 (GAM)</a>
+          <a href="#l-cart" class="sub"><i>·</i> 分类与回归树 (CART)</a>
+          <a href="#l-rf" class="sub"><i>·</i> 随机森林</a>
+          <a href="#l-gb" class="sub"><i>·</i> 梯度提升</a>
+          <a href="#l-svm" class="sub"><i>·</i> 线性支持向量机 (SVM)</a>
+          <a href="#l-ksvm" class="sub"><i>·</i> 非线性 SVM</a>
+          <a href="#l-gp" class="sub"><i>·</i> 高斯过程 (GP)</a>
+          <a href="#l-nn" class="sub"><i>·</i> 神经网络 (NN)</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c1" class="ch"><i>1</i> 机器学习基础</a><span class="tc-n">8</span></summary>
+        <div class="tc-s">
+          <a href="#c1-what" class="sub"><i>1.1</i> 什么是机器学习</a>
+          <a href="#c1-data" class="sub"><i>1.2</i> 数据</a>
+          <a href="#c1-tasks" class="sub"><i>1.3</i> 监督学习任务</a>
+          <a href="#c1-model" class="sub"><i>1.4</i> 模型与参数</a>
+          <a href="#c1-learner" class="sub"><i>1.5</i> 学习器</a>
+          <a href="#c1-risk" class="sub"><i>1.6</i> 损失与风险最小化</a>
+          <a href="#c1-optim" class="sub"><i>1.7</i> 优化</a>
+          <a href="#c1-comp" class="sub"><i>1.8</i> 监督学习的组成部分</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c2" class="ch"><i>2</i> 监督回归</a><span class="tc-n">4</span></summary>
+        <div class="tc-s">
+          <a href="#c2-l2" class="sub"><i>2.1</i> 使用 L2 损失的线性模型</a>
+          <a href="#c2-proof" class="sub"><i>2.2</i> 深入: OLS 的推导</a>
+          <a href="#c2-l1" class="sub"><i>2.3</i> 使用 L1 损失的线性模型</a>
+          <a href="#c2-poly" class="sub"><i>2.4</i> 多项式回归模型</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c3" class="ch"><i>3</i> 监督分类</a><span class="tc-n">6</span></summary>
+        <div class="tc-s">
+          <a href="#c3-tasks" class="sub"><i>3.1</i> 分类任务</a>
+          <a href="#c3-def" class="sub"><i>3.2</i> 基本定义</a>
+          <a href="#c3-linear" class="sub"><i>3.3</i> 线性分类器</a>
+          <a href="#c3-logreg" class="sub"><i>3.4</i> 逻辑回归</a>
+          <a href="#c3-da" class="sub"><i>3.5</i> 判别分析</a>
+          <a href="#c3-nb" class="sub"><i>3.6</i> 朴素贝叶斯</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c4" class="ch"><i>4</i> 性能评估</a><span class="tc-n">14</span></summary>
+        <div class="tc-s">
+          <a href="#c4-ge" class="sub"><i>4.1</i> 泛化误差</a>
+          <a href="#c4-regm" class="sub"><i>4.2</i> 回归的评估指标</a>
+          <a href="#c4-train" class="sub"><i>4.3</i> 训练误差</a>
+          <a href="#c4-test" class="sub"><i>4.4</i> 测试误差</a>
+          <a href="#c4-of" class="sub"><i>4.5</i> 过拟合与欠拟合</a>
+          <a href="#c4-rs1" class="sub"><i>4.6</i> 重采样 (一)</a>
+          <a href="#c4-rs2" class="sub"><i>4.7</i> 重采样 (二)</a>
+          <a href="#c4-clsm" class="sub"><i>4.8</i> 简单的分类指标</a>
+          <a href="#c4-rocb" class="sub"><i>4.9</i> ROC 基础</a>
+          <a href="#c4-roc" class="sub"><i>4.10</i> 二分类指标: ROC 可视化</a>
+          <a href="#c4-pauc" class="sub"><i>4.11</i> 部分 AUC</a>
+          <a href="#c4-mcauc" class="sub"><i>4.12</i> 多分类 AUC</a>
+          <a href="#c4-pr" class="sub"><i>4.13</i> 精确率–召回率曲线</a>
+          <a href="#c4-mwu" class="sub"><i>4.14</i> AUC 与 Mann–Whitney U 检验</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c5" class="ch"><i>5</i> k 近邻</a><span class="tc-n">0</span></summary>
+        <div class="tc-s">
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c6" class="ch"><i>6</i> 分类与回归树 (CART)</a><span class="tc-n">7</span></summary>
+        <div class="tc-s">
+          <a href="#c6-pred" class="sub"><i>6.1</i> 用 CART 预测</a>
+          <a href="#c6-grow" class="sub"><i>6.2</i> 生长一棵树</a>
+          <a href="#c6-regcrit" class="sub"><i>6.3</i> 回归的分裂准则</a>
+          <a href="#c6-clscrit" class="sub"><i>6.4</i> 分类的分裂准则</a>
+          <a href="#c6-comp" class="sub"><i>6.5</i> 找分裂的计算问题</a>
+          <a href="#c6-prune" class="sub"><i>6.6</i> 停止准则与剪枝</a>
+          <a href="#c6-proscons" class="sub"><i>6.7</i> 优点与缺点</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c7" class="ch"><i>7</i> 随机森林</a><span class="tc-n">5</span></summary>
+        <div class="tc-s">
+          <a href="#c7-bag" class="sub"><i>7.1</i> Bagging 集成</a>
+          <a href="#c7-rf" class="sub"><i>7.2</i> 随机森林基础</a>
+          <a href="#c7-oob" class="sub"><i>7.3</i> 袋外误差估计</a>
+          <a href="#c7-fi" class="sub"><i>7.4</i> 特征重要性</a>
+          <a href="#c7-prox" class="sub"><i>7.5</i> 邻近度</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c8" class="ch"><i>8</i> 深度学习</a><span class="tc-n">7</span></summary>
+        <div class="tc-s">
+          <a href="#c8-intro" class="sub"><i>8.1</i> 引言</a>
+          <a href="#c8-neuron" class="sub"><i>8.2</i> 单个神经元 / 感知机</a>
+          <a href="#c8-shl" class="sub"><i>8.3</i> 单隐藏层神经网络</a>
+          <a href="#c8-mc" class="sub"><i>8.4</i> 用于多分类的单隐藏层网络</a>
+          <a href="#c8-mlp" class="sub"><i>8.5</i> 多层前馈神经网络 (MLP)</a>
+          <a href="#c8-hist" class="sub"><i>8.6</i> 简史</a>
+          <a href="#c8-bp" class="sub"><i>8.7</i> 反向传播基础</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c9" class="ch"><i>9</i> 超参数调优</a><span class="tc-n">5</span></summary>
+        <div class="tc-s">
+          <a href="#c9-intro" class="sub"><i>9.1</i> 引言</a>
+          <a href="#c9-def" class="sub"><i>9.2</i> 问题定义</a>
+          <a href="#c9-basic" class="sub"><i>9.3</i> 基本方法</a>
+          <a href="#c9-adv" class="sub"><i>9.4</i> 高级调优方法</a>
+          <a href="#c9-pipe" class="sub"><i>9.5</i> 流水线与 AutoML</a>
+        </div>
+      </details>
+      <details class="tc">
+        <summary><a href="#c10" class="ch"><i>10</i> 嵌套重采样</a><span class="tc-n">3</span></summary>
+        <div class="tc-s">
+          <a href="#c10-mot" class="sub"><i>10.1</i> 动机</a>
+          <a href="#c10-tvt" class="sub"><i>10.2</i> 训练–验证–测试</a>
+          <a href="#c10-nested" class="sub"><i>10.3</i> 嵌套重采样的过程</a>
+        </div>
+      </details>
     </nav>
   </div>
 </header>
